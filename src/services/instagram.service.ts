@@ -1,0 +1,420 @@
+import {CONFIG} from "../config/config.utils"
+import {ConfigInstagram} from "../config/config.instagram";
+import {Song} from "../models/multimedia.model";
+import {
+    Account,
+    AdsInformation,
+    CommentPosted,
+    CommentsPosted,
+    ContactSynced,
+    ContentInformation,
+    Followers,
+    Following,
+    Like,
+    LikedList,
+    PersonalInformation,
+    PersonalPosts,
+    Post,
+    Search,
+    Searches,
+    SyncedContracts, Topics
+} from "../models/instagram.model";
+import Logger from "../utils/logger";
+
+export class InstagramService {
+    private logger = new Logger("Instagram Service");
+    private readonly configInstagram;
+    private readonly prefix: string;
+
+    constructor(config: ConfigInstagram) {
+        this.configInstagram = config;
+        this.prefix = this.configInstagram.languageMode;
+    }
+
+    async fetchPersonalInformation(): Promise<PersonalInformation>{
+        let personalInfoModel : PersonalInformation;
+        try {
+            let document = require(`${CONFIG.get('PATH')}instagram_json/account_information/personal_information.json`);
+
+            personalInfoModel = {
+                username: document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value,
+                name: document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value,
+                email: document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-email`)].value,
+                private: document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-privateAccount`)].value
+            };
+
+            try {
+                personalInfoModel.birthdate = document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-birthdate`)].value;
+            } catch {
+                this.logger.log('error', 'fetchPersonalInformation - birthdate parameter is missing');
+            }
+            try {
+                personalInfoModel.phoneNumber = document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-phoneNumber`)].value;
+            } catch {
+                this.logger.log('error', 'fetchPersonalInformation - phoneNumber parameter is missing');
+            }
+            try {
+                personalInfoModel.biography = document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-biography`)].value;
+            } catch {
+                this.logger.log('error', 'fetchPersonalInformation - biography parameter is missing');
+            }
+            try {
+                personalInfoModel.gender = document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-gender`)].value;
+            } catch {
+                this.logger.log('error', 'fetchPersonalInformation - gender parameter is missing');
+            }
+            try{
+                document = require(`${CONFIG.get('PATH')}instagram_json/information_about_you/account_based_in.json`);
+                personalInfoModel.basedIn = document.inferred_data_primary_location[0].string_map_data[this.configInstagram.get(`${this.prefix}-cityName`)].value;
+            } catch {
+                this.logger.log('error', 'fetchPersonalInformation - basedIn parameter is missing');
+            }
+            return personalInfoModel;
+        } catch(e) {
+            throw new Error("fetchPersonalInformation error" + e);
+        }
+    }
+
+    async fetchAdsInformation(): Promise<AdsInformation>{
+        let document, length, array;
+        let adsInformationModel: AdsInformation = {};
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/ads_and_content/ads_clicked.json`);
+            length = document.impressions_history_ads_clicked.length;
+            array = new Array<string>(length);
+            for(let i = 0; i < length; i++){
+                array[i] = document.impressions_history_ads_clicked[i].title;
+            }
+            adsInformationModel.listAdsClicked = array;
+        } catch {
+            this.logger.log('error', "fetchAdsInformation - error in ads_clicked.json");
+        }
+
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/ads_and_content/ads_viewed.json`);
+            length = document.impressions_history_ads_seen.length;
+            array = new Array<string>(length);
+            for(let i = 0; i < length; i++){
+                array[i] = document.impressions_history_ads_seen[i].string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value;
+            }
+            adsInformationModel.listAdsViewed = array;
+        } catch {
+            this.logger.log('error', "fetchAdsInformation - error in ads_viewed.json");
+        }
+
+        try {
+            document = require(`${CONFIG.get('PATH')}instagram_json/information_about_you/ads_interests.json`);
+            length = document.inferred_data_ig_interest.length;
+            array = new Array<string>(length);
+            for (let i = 0; i < length; i++) {
+                array[i] = document.inferred_data_ig_interest[i].string_map_data[this.configInstagram.get(`${this.prefix}-interest`)].value;
+            }
+            adsInformationModel.listAdsInterests = array;
+        } catch {
+            this.logger.log('error', "fetchAdsInformation - error in ads_interests.json");
+        }
+
+        return adsInformationModel;
+    }
+
+    async fetchContentInformation(): Promise<ContentInformation>{
+        let document, length, array;
+        let contentInformationModel: ContentInformation = {};
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/ads_and_content/music_heard_in_stories.json`);
+            length = document.impressions_history_music_heard_in_stories.length;
+            array = new Array<Song>(length);
+            for(let i = 0; i < length; i++){
+                let title = document.impressions_history_music_heard_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-song`)].value;
+                let artist = document.impressions_history_music_heard_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-artist`)].value;
+                let time = document.impressions_history_music_heard_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-time`)].timestamp;
+                array[i] = {title:title, artist:artist, timestamp:time};
+            }
+            contentInformationModel.music_heard_in_stories = array;
+        } catch(e) {
+            this.logger.log('error', "fetchContentInformation - error in music_heard_in_stories.json");
+        }
+
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/ads_and_content/music_recently_used_in_stories.json`);
+            length = document.impressions_history_music_recently_used_in_stories.length;
+            array = new Array<Song>(length);
+            for(let i = 0; i < length; i++){
+                let title  = document.impressions_history_music_recently_used_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-song`)].value;
+                let artist = document.impressions_history_music_recently_used_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-artist`)].value;
+                let time = document.impressions_history_music_recently_used_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-time`)].timestamp;
+                array[i] = {title:title, artist:artist, timestamp:time};
+            }
+            contentInformationModel.music_recently_used_in_stories = array;
+        } catch(e) {
+            this.logger.log('error', "fetchContentInformation - error in music_recently_used_in_stories.json");
+        }
+
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/ads_and_content/posts_viewed.json`);
+            length = document.impressions_history_posts_seen.length;
+            array = new Array<string>(length);
+            for(let i = 0; i < length; i++){
+                array[i] = document.impressions_history_posts_seen[i].string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value;
+            }
+            contentInformationModel.posts_viewed = array;
+        } catch(e) {
+            this.logger.log('error', "fetchContentInformation - error in posts_viewed.json");
+        }
+
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/ads_and_content/videos_watched.json`);
+            length = document.impressions_history_videos_watched.length;
+            array = new Array<string>(length);
+            for(let i = 0; i < length; i++){
+                array[i] = document.impressions_history_videos_watched[i].string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value;
+            }
+            contentInformationModel.videos_watched = array;
+        } catch(e) {
+            this.logger.log('error', "fetchContentInformation - error in videos_watched.json");
+        }
+
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/ads_and_content/suggested_accounts_viewed.json`);
+            length = document.impressions_history_chaining_seen.length;
+            array = new Array<string>(length);
+            for(let i = 0; i < length; i++){
+                array[i] = document.impressions_history_chaining_seen[i].string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value;
+            }
+            contentInformationModel.suggested_accounts_viewed = array;
+        } catch(e) {
+            this.logger.log('error', "fetchContentInformation - error in suggested_accounts_viewed.json");
+        }
+
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/ads_and_content/accounts_you're_not_interested_in.json`);
+            length = document.impressions_history_recs_hidden_authors.length;
+            array = new Array<string>(length);
+            for(let i = 0; i < length; i++){
+                array[i] = document.impressions_history_recs_hidden_authors[i].string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value;
+            }
+            contentInformationModel.account_you_are_not_interested = array;
+        } catch(e) {
+            this.logger.log('error', "fetchContentInformation - error in accounts_you're_not_interested_in.json");
+        }
+        return contentInformationModel;
+    }
+
+    async fetchCommentsPosted(): Promise<CommentsPosted | undefined> {
+        let document, length, array;
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/comments/post_comments.json`);
+            length = document.comments_media_comments.length;
+            array = new Array<CommentPosted>(length);
+            for(let i = 0; i < length; i++){
+                let toUser = document.comments_media_comments[i].title;
+                let text = document.comments_media_comments[i].string_list_data[0].value;
+                let time = document.comments_media_comments[i].string_list_data[0].timestamp;
+                array[i] = {text:text, toUser: toUser, timestamp:time};
+            }
+            return {listCommentsPosted: array};
+        } catch(e) {
+            this.logger.log('error', "fetchContentInformation - error in post_comments.json");
+        }
+    }
+
+    async fetchSyncedContracts(): Promise<SyncedContracts | undefined> {
+        let document, length, array;
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/contacts/synced_contacts.json`);
+            length = document.contacts_contact_info.length;
+            array = new Array<ContactSynced>(length);
+            for(let i = 0; i < length; i++){
+                let firstName = document.comments_media_comments[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value;
+                let secondName = document.comments_media_comments[i].string_map_data[this.configInstagram.get(`${this.prefix}-secondName`)].value;
+                let contactInfo = document.comments_media_comments[i].string_map_data[this.configInstagram.get(`${this.prefix}-contactInfo`)].value;
+                array[i] = {firstName:firstName, secondName: secondName, contactInfo:contactInfo};
+            }
+            return {listContactSynced: array};
+        } catch(e) {
+            this.logger.log('error', "fetchContentInformation - error in synced_contacts.json");
+        }
+    }
+
+    async fetchPersonalPost(): Promise<PersonalPosts> {
+        let document, length, array;
+        let personalPostsModel: PersonalPosts = {};
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/content/archived_posts.json`);
+            length = document.ig_archived_post_media.length;
+            array = new Array<Post>(length);
+            for(let i = 0; i < length; i++){
+                let uri = document.ig_archived_post_media[i].media[0].uri;
+                let creation_timestamp = document.ig_archived_post_media[i].media[0].creation_timestamp;
+                let title = document.ig_archived_post_media[i].media[0].title;
+                array[i] = {uri:uri, creation_timestamp: creation_timestamp, title:title};
+            }
+            personalPostsModel.listArchivedPosts = array;
+        } catch(e) {
+            this.logger.log('error', "fetchPersonalPost - error in archived_posts.json");
+        }
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/content/posts_1.json`);
+            length = document.length;
+            array = new Array<Post>(length);
+            for(let i = 0; i < length; i++){
+                let uri = document[i].media[0].uri;
+                let creation_timestamp = document[i].media[0].creation_timestamp;
+                let title = document[i].media[0].title;
+                array[i] = {uri:uri, creation_timestamp: creation_timestamp, title:title};
+            }
+            personalPostsModel.listPost = array;
+        } catch(e) {
+            this.logger.log('error', "fetchPersonalPost - error in posts_1.json");
+        }
+        return personalPostsModel;
+    }
+
+    async fetchFollowers(): Promise<Followers | undefined> {
+        let document, length, array;
+        let followersModel: Followers = {};
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/followers_and_following/followers.json`);
+            length = document.relationships_followers.length;
+            array = new Array<Account>(length);
+            for(let i = 0; i < length; i++){
+                let href = document.relationships_followers[i].string_list_data[0].href;
+                let value = document.relationships_followers[i].string_list_data[0].value;
+                let timestamp = document.relationships_followers[i].string_list_data[0].timestamp;
+                array[i] = {href:href, value:value, timestamp: timestamp};
+            }
+            followersModel.listAccounts = array;
+            return followersModel;
+        } catch(e) {
+            this.logger.log('error', "fetchFollowers - error in followers.json");
+        }
+    }
+
+    async fetchFollowing(): Promise<Following> {
+        let document, length, array;
+        let followingModel: Following = {};
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/followers_and_following/following.json`);
+            length = document.relationships_following.length;
+            array = new Array<Account>(length);
+            for(let i = 0; i < length; i++){
+                let href = document.relationships_following[i].string_list_data[0].href;
+                let value = document.relationships_following[i].string_list_data[0].value;
+                let timestamp = document.relationships_following[i].string_list_data[0].timestamp;
+                array[i] = {href:href, value:value, timestamp: timestamp};
+            }
+            followingModel.listAccounts = array;
+        } catch(e) {
+            this.logger.log('error', "fetchFollowing - error in following.json");
+        }
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/followers_and_following/following_hashtags.json`);
+            length = document.relationships_following_hashtags.length;
+            array = new Array<Account>(length);
+            for(let i = 0; i < length; i++){
+                let href = document.relationships_following_hashtags[i].string_list_data[0].href;
+                let value = document.relationships_following_hashtags[i].string_list_data[0].value;
+                let timestamp = document.relationships_following_hashtags[i].string_list_data[0].timestamp;
+                array[i] = {href:href, value:value, timestamp: timestamp};
+            }
+            followingModel.listHashtags = array;
+        } catch(e) {
+            this.logger.log('error', "fetchFollowing - error in following_hashtags.json");
+        }
+        return followingModel;
+    }
+
+    async fetchLikes(): Promise<LikedList> {
+        let document, length, array;
+        let likedListModel: LikedList = {};
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/likes/liked_comments.json`);
+            length = document.likes_comment_likes.length;
+            array = new Array<Like>(length);
+            for(let i = 0; i < length; i++){
+                let title = document.likes_comment_likes[i].title;
+                let href = document.likes_comment_likes[i].string_list_data[0].href;
+                let timestamp = document.likes_comment_likes[i].string_list_data[0].timestamp;
+                array[i] = {title:title, href:href, timestamp: timestamp};
+            }
+            likedListModel.listLikedComments = array;
+        } catch(e) {
+            this.logger.log('error', "fetchLikes - error in liked_comments.json");
+        }
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/likes/liked_posts.json`);
+            length = document.likes_media_likes.length;
+            array = new Array<Like>(length);
+            for(let i = 0; i < length; i++){
+                let title = document.likes_media_likes[i].title;
+                let href = document.likes_media_likes[i].string_list_data[0].href;
+                let timestamp = document.likes_media_likes[i].string_list_data[0].timestamp;
+                array[i] = {title:title, href:href, timestamp: timestamp};
+            }
+            likedListModel.listLikedPosts = array;
+        } catch(e) {
+            this.logger.log('error', "fetchLikes - error in liked_posts.json");
+        }
+        return likedListModel;
+    }
+
+    async fetchSearches(): Promise<Searches | undefined>{
+        let document, length, array;
+        let searchesModel: Searches = {};
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/recent_search/account_searches.json`);
+            length = document.searches_user.length;
+            array = new Array<Search>(length);
+            for(let i = 0; i < length; i++){
+                let value = document.searches_user[i].string_map_data[this.configInstagram.get(`${this.prefix}-search`)].value;
+                let timestamp = document.searches_user[i].string_map_data[this.configInstagram.get(`${this.prefix}-time`)].timestamp;
+                array[i] = {value:value, timestamp: timestamp};
+            }
+            searchesModel.listSearches = array;
+            return searchesModel;
+        } catch(e) {
+            this.logger.log('error', "fetchSearches - error in account_searches.json");
+        }
+    }
+
+    async fetchTopics(): Promise<Topics>{
+        let document, length, array;
+        let topicsModel: Topics = {};
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/your_topics/your_reels_sentiments.json`);
+            length = document.topics_your_reels_emotions.length;
+            array = new Array<string>(length);
+            for(let i = 0; i < length; i++){
+                array[i] = document.topics_your_reels_emotions[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value;
+            }
+            topicsModel.listReelSentiments = array;
+        } catch(e) {
+            this.logger.log('error', "fetchTopics - error in your_reel_sentiments.json");
+        }
+
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/your_topics/your_reels_topics.json`);
+            length = document.topics_your_reels_topics.length;
+            array = new Array<string>(length);
+            for(let i = 0; i < length; i++){
+                array[i] = document.topics_your_reels_topics[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value;
+            }
+            topicsModel.listReelTopics = array;
+        } catch(e) {
+            this.logger.log('error', "fetchTopics - error in your_reel_topics.json");
+        }
+
+        try{
+            document = require(`${CONFIG.get('PATH')}instagram_json/your_topics/your_topics.json`);
+            length = document.topics_your_topics.length;
+            array = new Array<string>(length);
+            for(let i = 0; i < length; i++){
+                array[i] = document.topics_your_topics[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value;
+            }
+            topicsModel.listTopic = array;
+        } catch(e) {
+            this.logger.log('error', "fetchTopics - error in your_topics.json");
+        }
+        return topicsModel;
+    }
+}

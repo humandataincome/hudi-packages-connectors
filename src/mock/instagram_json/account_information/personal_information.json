@@ -1,0 +1,51 @@
+{
+  "profile_user": [
+    {
+      "title": "Informazioni sull'utente",
+      "media_map_data": {
+        "Immagine del profilo": {
+          "uri": "media/other/118734102_358115945364751_4927045746260067034_n_17887250392670492.jpg",
+          "creation_timestamp": 1599152792,
+          "title": ""
+        }
+      },
+      "string_map_data": {
+        "Indirizzo e-mail": {
+          "href": "",
+          "value": "fake.email@gmail.com",
+          "timestamp": 0
+        },
+        "Phone Confirmed": {
+          "href": "",
+          "value": "False",
+          "timestamp": 0
+        },
+        "Nome utente": {
+          "href": "",
+          "value": "fakeUsername",
+          "timestamp": 0
+        },
+        "Nome": {
+          "href": "",
+          "value": "FirstName SecondName",
+          "timestamp": 0
+        },
+        "Genere": {
+          "href": "",
+          "value": "male",
+          "timestamp": 0
+        },
+        "Data di nascita": {
+          "href": "",
+          "value": "1993-07-21",
+          "timestamp": 0
+        },
+        "Account privato": {
+          "href": "",
+          "value": "True",
+          "timestamp": 0
+        }
+      }
+    }
+  ]
+}
