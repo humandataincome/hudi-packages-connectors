@@ -20,7 +20,6 @@ import {
     SyncedContracts, Topics
 } from "../models/instagram.model";
 import Logger from "../utils/logger";
-import path from "path";
 
 export class InstagramService {
     private logger = new Logger("Instagram Service");
@@ -32,7 +31,7 @@ export class InstagramService {
         this.prefix = this.configInstagram.languageMode;
     }
 
-    async fetchPersonalInformation(): Promise<PersonalInformation> {
+    async fetchPersonalInformation(): Promise<PersonalInformation | undefined> {
         let personalInfoModel: PersonalInformation;
         try {
             let document = require(`${CONFIG.get('PATH')}instagram_json/account_information/personal_information.json`);
@@ -47,36 +46,36 @@ export class InstagramService {
             try {
                 personalInfoModel.birthdate = document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-birthdate`)].value;
             } catch {
-                this.logger.log('error', 'fetchPersonalInformation - birthdate parameter is missing');
+                this.logger.log('info', 'fetchPersonalInformation - birthdate parameter is missing');
             }
             try {
                 personalInfoModel.phoneNumber = document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-phoneNumber`)].value;
             } catch {
-                this.logger.log('error', 'fetchPersonalInformation - phoneNumber parameter is missing');
+                this.logger.log('info', 'fetchPersonalInformation - phoneNumber parameter is missing');
             }
             try {
                 personalInfoModel.biography = document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-biography`)].value;
             } catch {
-                this.logger.log('error', 'fetchPersonalInformation - biography parameter is missing');
+                this.logger.log('info', 'fetchPersonalInformation - biography parameter is missing');
             }
             try {
                 personalInfoModel.gender = document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-gender`)].value;
             } catch {
-                this.logger.log('error', 'fetchPersonalInformation - gender parameter is missing');
+                this.logger.log('info', 'fetchPersonalInformation - gender parameter is missing');
             }
             try {
                 document = require(`${CONFIG.get('PATH')}instagram_json/information_about_you/account_based_in.json`);
                 personalInfoModel.basedIn = document.inferred_data_primary_location[0].string_map_data[this.configInstagram.get(`${this.prefix}-cityName`)].value;
             } catch {
-                this.logger.log('error', 'fetchPersonalInformation - basedIn parameter is missing');
+                this.logger.log('info', 'fetchPersonalInformation - basedIn parameter is missing');
             }
             return personalInfoModel;
         } catch (e) {
-            throw new Error("fetchPersonalInformation error" + e);
+            this.logger.log('info', 'fetchPersonalInformation - personal_information.json');
         }
     }
 
-    async fetchAdsInformation(): Promise<AdsInformation> {
+    async fetchAdsInformation(): Promise<AdsInformation | undefined> {
         let document, length, array;
         let adsInformationModel: AdsInformation = {};
         try {
@@ -88,7 +87,7 @@ export class InstagramService {
             }
             adsInformationModel.listAdsClicked = array;
         } catch {
-            this.logger.log('error', "fetchAdsInformation - error in ads_clicked.json");
+            this.logger.log('info', "fetchAdsInformation - ads_clicked.json");
         }
 
         try {
@@ -100,7 +99,7 @@ export class InstagramService {
             }
             adsInformationModel.listAdsViewed = array;
         } catch {
-            this.logger.log('error', "fetchAdsInformation - error in ads_viewed.json");
+            this.logger.log('info', "fetchAdsInformation - ads_viewed.json");
         }
 
         try {
@@ -112,13 +111,13 @@ export class InstagramService {
             }
             adsInformationModel.listAdsInterests = array;
         } catch {
-            this.logger.log('error', "fetchAdsInformation - error in ads_interests.json");
+            this.logger.log('info', "fetchAdsInformation - ads_interests.json");
         }
 
-        return adsInformationModel;
+        return adsInformationModel != {} ? adsInformationModel : undefined;
     }
 
-    async fetchContentInformation(): Promise<ContentInformation> {
+    async fetchContentInformation(): Promise<ContentInformation | undefined> {
         let document, length, array;
         let contentInformationModel: ContentInformation = {};
         try {
@@ -132,8 +131,8 @@ export class InstagramService {
                 array[i] = {title: title, artist: artist, timestamp: time};
             }
             contentInformationModel.music_heard_in_stories = array;
-        } catch (e) {
-            this.logger.log('error', "fetchContentInformation - error in music_heard_in_stories.json");
+        } catch {
+            this.logger.log('info', "fetchContentInformation - music_heard_in_stories.json");
         }
 
         try {
@@ -147,8 +146,8 @@ export class InstagramService {
                 array[i] = {title: title, artist: artist, timestamp: time};
             }
             contentInformationModel.music_recently_used_in_stories = array;
-        } catch (e) {
-            this.logger.log('error', "fetchContentInformation - error in music_recently_used_in_stories.json");
+        } catch {
+            this.logger.log('info', "fetchContentInformation - music_recently_used_in_stories.json");
         }
 
         try {
@@ -159,8 +158,8 @@ export class InstagramService {
                 array[i] = document.impressions_history_posts_seen[i].string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value;
             }
             contentInformationModel.posts_viewed = array;
-        } catch (e) {
-            this.logger.log('error', "fetchContentInformation - error in posts_viewed.json");
+        } catch {
+            this.logger.log('info', "fetchContentInformation - posts_viewed.json");
         }
 
         try {
@@ -171,8 +170,8 @@ export class InstagramService {
                 array[i] = document.impressions_history_videos_watched[i].string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value;
             }
             contentInformationModel.videos_watched = array;
-        } catch (e) {
-            this.logger.log('error', "fetchContentInformation - error in videos_watched.json");
+        } catch {
+            this.logger.log('info', "fetchContentInformation - videos_watched.json");
         }
 
         try {
@@ -183,8 +182,8 @@ export class InstagramService {
                 array[i] = document.impressions_history_chaining_seen[i].string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value;
             }
             contentInformationModel.suggested_accounts_viewed = array;
-        } catch (e) {
-            this.logger.log('error', "fetchContentInformation - error in suggested_accounts_viewed.json");
+        } catch {
+            this.logger.log('info', "fetchContentInformation - suggested_accounts_viewed.json");
         }
 
         try {
@@ -195,10 +194,11 @@ export class InstagramService {
                 array[i] = document.impressions_history_recs_hidden_authors[i].string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value;
             }
             contentInformationModel.account_you_are_not_interested = array;
-        } catch (e) {
-            this.logger.log('error', "fetchContentInformation - error in accounts_you're_not_interested_in.json");
+        } catch {
+            this.logger.log('info', "fetchContentInformation - accounts_you're_not_interested_in.json");
         }
-        return contentInformationModel;
+
+        return contentInformationModel != {} ? contentInformationModel : undefined;
     }
 
     async fetchCommentsPosted(): Promise<CommentsPosted | undefined> {
@@ -214,8 +214,8 @@ export class InstagramService {
                 array[i] = {text: text, toUser: toUser, timestamp: time};
             }
             return {listCommentsPosted: array};
-        } catch (e) {
-            this.logger.log('error', "fetchContentInformation - error in post_comments.json");
+        } catch {
+            this.logger.log('info', "fetchCommentsPosted - post_comments.json");
         }
     }
 
@@ -226,18 +226,18 @@ export class InstagramService {
             length = document.contacts_contact_info.length;
             array = new Array<ContactSynced>(length);
             for (let i = 0; i < length; i++) {
-                let firstName = document.comments_media_comments[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value;
-                let secondName = document.comments_media_comments[i].string_map_data[this.configInstagram.get(`${this.prefix}-secondName`)].value;
-                let contactInfo = document.comments_media_comments[i].string_map_data[this.configInstagram.get(`${this.prefix}-contactInfo`)].value;
+                let firstName = document.contacts_contact_info[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value;
+                let secondName = document.contacts_contact_info[i].string_map_data[this.configInstagram.get(`${this.prefix}-secondName`)].value;
+                let contactInfo = document.contacts_contact_info[i].string_map_data[this.configInstagram.get(`${this.prefix}-contactInfo`)].value;
                 array[i] = {firstName: firstName, secondName: secondName, contactInfo: contactInfo};
             }
             return {listContactSynced: array};
-        } catch (e) {
-            this.logger.log('error', "fetchContentInformation - error in synced_contacts.json");
+        } catch {
+            this.logger.log('info', "fetchContentInformation - synced_contacts.json");
         }
     }
 
-    async fetchPersonalPost(): Promise<PersonalPosts> {
+    async fetchPersonalPost(): Promise<PersonalPosts | undefined> {
         let document, length, array;
         let personalPostsModel: PersonalPosts = {};
         try {
@@ -251,8 +251,8 @@ export class InstagramService {
                 array[i] = {uri: uri, creation_timestamp: creation_timestamp, title: title};
             }
             personalPostsModel.listArchivedPosts = array;
-        } catch (e) {
-            this.logger.log('error', "fetchPersonalPost - error in archived_posts.json");
+        } catch {
+            this.logger.log('info', "fetchPersonalPost - archived_posts.json");
         }
         try {
             document = require(`${CONFIG.get('PATH')}instagram_json/content/posts_1.json`);
@@ -265,10 +265,10 @@ export class InstagramService {
                 array[i] = {uri: uri, creation_timestamp: creation_timestamp, title: title};
             }
             personalPostsModel.listPost = array;
-        } catch (e) {
-            this.logger.log('error', "fetchPersonalPost - error in posts_1.json");
+        } catch {
+            this.logger.log('info', "fetchPersonalPost - posts_1.json");
         }
-        return personalPostsModel;
+        return personalPostsModel != {} ? personalPostsModel : undefined;
     }
 
     async fetchFollowers(): Promise<Followers | undefined> {
@@ -286,12 +286,12 @@ export class InstagramService {
             }
             followersModel.listAccounts = array;
             return followersModel;
-        } catch (e) {
-            this.logger.log('error', "fetchFollowers - error in followers.json");
+        } catch {
+            this.logger.log('info', "fetchFollowers - followers.json");
         }
     }
 
-    async fetchFollowing(): Promise<Following> {
+    async fetchFollowing(): Promise<Following | undefined> {
         let document, length, array;
         let followingModel: Following = {};
         try {
@@ -305,8 +305,8 @@ export class InstagramService {
                 array[i] = {href: href, value: value, timestamp: timestamp};
             }
             followingModel.listAccounts = array;
-        } catch (e) {
-            this.logger.log('error', "fetchFollowing - error in following.json");
+        } catch {
+            this.logger.log('info', "fetchFollowing - following.json");
         }
         try {
             document = require(`${CONFIG.get('PATH')}instagram_json/followers_and_following/following_hashtags.json`);
@@ -319,13 +319,13 @@ export class InstagramService {
                 array[i] = {href: href, value: value, timestamp: timestamp};
             }
             followingModel.listHashtags = array;
-        } catch (e) {
-            this.logger.log('error', "fetchFollowing - error in following_hashtags.json");
+        } catch {
+            this.logger.log('info', "fetchFollowing - following_hashtags.json");
         }
-        return followingModel;
+        return followingModel != {} ? followingModel : undefined;
     }
 
-    async fetchLikes(): Promise<LikedList> {
+    async fetchLikes(): Promise<LikedList | undefined> {
         let document, length, array;
         let likedListModel: LikedList = {};
         try {
@@ -339,8 +339,8 @@ export class InstagramService {
                 array[i] = {title: title, href: href, timestamp: timestamp};
             }
             likedListModel.listLikedComments = array;
-        } catch (e) {
-            this.logger.log('error', "fetchLikes - error in liked_comments.json");
+        } catch {
+            this.logger.log('info', "fetchLikes - liked_comments.json");
         }
         try {
             document = require(`${CONFIG.get('PATH')}instagram_json/likes/liked_posts.json`);
@@ -353,10 +353,11 @@ export class InstagramService {
                 array[i] = {title: title, href: href, timestamp: timestamp};
             }
             likedListModel.listLikedPosts = array;
-        } catch (e) {
-            this.logger.log('error', "fetchLikes - error in liked_posts.json");
+        } catch {
+            this.logger.log('info', "fetchLikes - liked_posts.json");
         }
-        return likedListModel;
+
+        return likedListModel != {} ? likedListModel : undefined;
     }
 
     async fetchSearches(): Promise<Searches | undefined> {
@@ -373,12 +374,12 @@ export class InstagramService {
             }
             searchesModel.listSearches = array;
             return searchesModel;
-        } catch (e) {
-            this.logger.log('error', "fetchSearches - error in account_searches.json");
+        } catch {
+            this.logger.log('info', "fetchSearches - account_searches.json");
         }
     }
 
-    async fetchTopics(): Promise<Topics> {
+    async fetchTopics(): Promise<Topics | undefined> {
         let document, length, array;
         let topicsModel: Topics = {};
         try {
@@ -389,8 +390,8 @@ export class InstagramService {
                 array[i] = document.topics_your_reels_emotions[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value;
             }
             topicsModel.listReelSentiments = array;
-        } catch (e) {
-            this.logger.log('error', "fetchTopics - error in your_reel_sentiments.json");
+        } catch {
+            this.logger.log('info', "fetchTopics - your_reel_sentiments.json");
         }
 
         try {
@@ -401,8 +402,8 @@ export class InstagramService {
                 array[i] = document.topics_your_reels_topics[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value;
             }
             topicsModel.listReelTopics = array;
-        } catch (e) {
-            this.logger.log('error', "fetchTopics - error in your_reel_topics.json");
+        } catch {
+            this.logger.log('info', "fetchTopics - your_reel_topics.json");
         }
 
         try {
@@ -413,13 +414,13 @@ export class InstagramService {
                 array[i] = document.topics_your_topics[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value;
             }
             topicsModel.listTopic = array;
-        } catch (e) {
-            this.logger.log('error', "fetchTopics - error in your_topics.json");
+        } catch {
+            this.logger.log('info', "fetchTopics - your_topics.json");
         }
-        return topicsModel;
+        return topicsModel != {} ? topicsModel : undefined;
     }
 
-    async fetchMessages(): Promise<Conversations> {
+    async fetchMessages(): Promise<Conversations | undefined> {
         try {
             const path = require('path');
             const fs = require('fs');
@@ -442,8 +443,8 @@ export class InstagramService {
                     }
                     try {
                         messages[j].link = document.messages[j].share.link;
-                    } catch (e) {
-                        this.logger.log('error', "fetchMessages - parameter link in message is missing");
+                    } catch {
+                        this.logger.log('info', "fetchMessages - parameter link in message is missing");
                     }
                 }
                 let participants = new Array<string>(document.participants.length);
@@ -459,8 +460,8 @@ export class InstagramService {
             }
             conversationsModel.listInbox = array;
             return conversationsModel;
-        } catch (e) {
-            throw new Error("fetchMessages, " + e);
+        } catch {
+            this.logger.log('info', "fetchMessages ");
         }
     }
 }

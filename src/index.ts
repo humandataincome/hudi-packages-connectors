@@ -2,22 +2,22 @@ import {InstagramService} from './services/instagram.service';
 import {LanguageMode} from "./utils/utils.enum"
 import {ConfigInstagram} from "./config/config.instagram";
 
-function main(){
+async function main(){
     let configIG = new ConfigInstagram(LanguageMode.ITALIAN);
     let instagramService = new InstagramService(configIG);
 
-    //let x0 = instagramService.fetchPersonalInformation();
-    //let x1 = instagramService.fetchAdsInformation();
-    //let x2 = instagramService.fetchContentInformation();
-    //let x3 = instagramService.fetchCommentsPosted();
-    //let x4 = instagramService.fetchSyncedContracts();
-    //let x5 = instagramService.fetchPersonalPost();
-    //let x6 = instagramService.fetchFollowers();
-    //let x7 = instagramService.fetchFollowing();
-    //let x8 = instagramService.fetchLikes();
-    //let x9 = instagramService.fetchSearches();
-    //let x10 = instagramService.fetchTopics();
-    let x11 = instagramService.fetchMessages();
+    //let x0 = await instagramService.fetchPersonalInformation();
+    //let x1 = await instagramService.fetchAdsInformation();
+    //let x2 = await instagramService.fetchContentInformation();
+    //let x3 = await instagramService.fetchCommentsPosted();
+    //let x4 = await instagramService.fetchSyncedContracts();
+    //let x5 = await instagramService.fetchPersonalPost();
+    //let x6 = await instagramService.fetchFollowers();
+    //let x7 = await instagramService.fetchFollowing();
+    //let x8 = await instagramService.fetchLikes();
+    //let x9 = await instagramService.fetchSearches();
+    //let x10 = await instagramService.fetchTopics();
+    let x11 = await instagramService.fetchMessages();
     console.log(x11);
 }
 main();
