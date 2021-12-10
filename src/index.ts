@@ -16,8 +16,9 @@ function main(){
     //let x7 = instagramService.fetchFollowing();
     //let x8 = instagramService.fetchLikes();
     //let x9 = instagramService.fetchSearches();
-    let x10 = instagramService.fetchTopics();
-    console.log(x10);
+    //let x10 = instagramService.fetchTopics();
+    let x11 = instagramService.fetchMessages();
+    console.log(x11);
 }
 main();
 

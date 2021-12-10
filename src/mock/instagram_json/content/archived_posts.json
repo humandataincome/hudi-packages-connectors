@@ -1,0 +1,35 @@
+{
+  "ig_archived_post_media": [
+    {
+      "media": [
+        {
+          "uri": "media/archived_posts/202106/199463360_560326975372815_66337227846546218690.jpg",
+          "creation_timestamp": 1623605869,
+          "media_metadata": {
+            "photo_metadata": {
+              "exif_data": [
+                {
+                  "scene_capture_type": "standard",
+                  "software": "ginkgo-user 10 QKQ1.200114.002 V12.0.5.0.QCOMIXM release-keys",
+                  "device_id": "android-4820dd391b6d45c3",
+                  "date_time_original": "2021:06:13 06:32:30",
+                  "source_type": "4"
+                }
+              ]
+            }
+          },
+          "title": ""
+        }
+      ]
+    },
+    {
+      "media": [
+        {
+          "uri": "media/archived_posts/201807/36695118_2161233837484256_n_17933546476189814.jpg",
+          "creation_timestamp": 1531618173,
+          "title": ""
+        }
+      ]
+    }
+  ]
+}

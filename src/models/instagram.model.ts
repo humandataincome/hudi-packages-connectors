@@ -63,6 +63,9 @@ export interface Topics {
     listReelTopics?: Array<string>;
     listTopic?: Array<string>;
 }
+ export interface Conversations {
+    listInbox?: Array<Conversation>;
+ }
 
 //---------------------------------------
 export interface Account {
@@ -98,4 +101,20 @@ export interface Like {
 export interface Search {
     value: string;
     timestamp: Date;
+}
+
+export interface Conversation {
+    title: string;
+    listMessages: Array<Message>;
+    participants: Array<string>;
+    is_still_participant: boolean;
+}
+
+export interface Message {
+    sender_name: string;
+    timestamp_ms: Date;
+    content: string;
+    link?: string;
+    type: string;
+    is_unsent: boolean;
 }

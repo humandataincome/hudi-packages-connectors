@@ -1,0 +1,81 @@
+{
+  "participants": [
+    {
+      "name": "Adina"
+    },
+    {
+      "name": "Maria"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "Adina",
+      "timestamp_ms": 1637933767934,
+      "content": "Mi spaventa troppo",
+      "type": "Generic",
+      "is_unsent": false
+    },
+    {
+      "sender_name": "Adina",
+      "timestamp_ms": 1637933760963,
+      "content": "\u00f0\u009f\u0098\u0082\u00f0\u009f\u0098\u0082\u00f0\u009f\u0098\u0082",
+      "type": "Generic",
+      "is_unsent": false
+    },
+    {
+      "sender_name": "Maria",
+      "timestamp_ms": 1637929462670,
+      "content": "\u00c3\u0088 bellissima \u00f0\u009f\u0098\u0082\u00f0\u009f\u0098\u0082\u00f0\u009f\u0098\u0082\u00f0\u009f\u0098\u0082",
+      "type": "Generic",
+      "is_unsent": false
+    },
+    {
+      "sender_name": "Adina",
+      "timestamp_ms": 1637925288656,
+      "content": "Inquietante \u00f0\u009f\u0098\u0096\u00f0\u009f\u0098\u0082",
+      "share": {
+        "link": "https://instagram.com/stories/maria55/2715344822199975641"
+      },
+      "type": "Share",
+      "is_unsent": false
+    },
+    {
+      "sender_name": "Adina",
+      "timestamp_ms": 1637873412940,
+      "content": "\u00f0\u009f\u0098\u0082",
+      "share": {
+        "link": "https://instagram.com/stories/maria55/2714979825254392335"
+      },
+      "type": "Share",
+      "is_unsent": false
+    },
+    {
+      "sender_name": "Adina",
+      "timestamp_ms": 1637690826900,
+      "content": "Tho notato che \u00c3\u00a8 un po\u00e2\u0080\u0099 difficile",
+      "type": "Generic",
+      "is_unsent": false
+    },
+    {
+      "sender_name": "Adina",
+      "timestamp_ms": 1637690806475,
+      "content": "Beh top allora ahah",
+      "type": "Generic",
+      "is_unsent": false
+    },
+    {
+      "sender_name": "Maria",
+      "timestamp_ms": 1637690794575,
+      "content": "30 minuti per fare il punto della situazione",
+      "type": "Generic",
+      "is_unsent": false
+    }
+  ],
+  "title": "Adina",
+  "is_still_participant": true,
+  "thread_type": "Regular",
+  "thread_path": "inbox/adina_ymai",
+  "magic_words": [
+    
+  ]
+}
