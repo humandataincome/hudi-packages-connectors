@@ -1,6 +1,5 @@
 import {CONFIG} from "../config/config.utils"
 import {ConfigInstagram} from "../config/config.instagram";
-import {Song} from "../models/multimedia.model";
 import {
     Account,
     AdsInformation,
@@ -11,15 +10,16 @@ import {
     Followers,
     Following,
     Like,
-    LikedList, Message,
+    LikedList, LocationInformation, Message,
     PersonalInformation,
     PersonalPosts,
     Post,
     Search,
-    Searches,
+    Searches, Song,
     SyncedContracts, Topics
 } from "../models/instagram.model";
 import Logger from "../utils/logger";
+import {Decoding} from "../utils/decoding";
 
 export class InstagramService {
     private logger = new Logger("Instagram Service");
@@ -32,46 +32,61 @@ export class InstagramService {
     }
 
     async fetchPersonalInformation(): Promise<PersonalInformation | undefined> {
-        let personalInfoModel: PersonalInformation;
+        let personalInfoModel: PersonalInformation = {};
         try {
             let document = require(`${CONFIG.get('PATH')}instagram_json/account_information/personal_information.json`);
-
-            personalInfoModel = {
-                username: document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value,
-                name: document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value,
-                email: document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-email`)].value,
-                private: document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-privateAccount`)].value
-            };
-
             try {
-                personalInfoModel.birthdate = document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-birthdate`)].value;
+                personalInfoModel.username = Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value);
+            } catch {
+                this.logger.log('info', 'fetchPersonalInformation - username parameter is missing');
+            }try {
+                personalInfoModel.name = Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value);
+            } catch {
+                this.logger.log('info', 'fetchPersonalInformation - name parameter is missing');
+            }try {
+                personalInfoModel.email = Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-email`)].value);
+            } catch {
+                this.logger.log('info', 'fetchPersonalInformation - email parameter is missing');
+            }
+            try {
+                personalInfoModel.private = document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-privateAccount`)].value;
+            } catch {
+                this.logger.log('info', 'fetchPersonalInformation - privateAccount parameter is missing');
+            }
+            try {
+                let regex = /(\d+)-(\d+)-(\d+)/;
+                let match: RegExpExecArray | null = regex.exec(Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-birthdate`)].value));
+                match && (personalInfoModel.birthdate = {year: parseInt(match[0]), month: parseInt(match[1]), day: parseInt(match[2])});
             } catch {
                 this.logger.log('info', 'fetchPersonalInformation - birthdate parameter is missing');
             }
             try {
-                personalInfoModel.phoneNumber = document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-phoneNumber`)].value;
+                personalInfoModel.phoneNumber = Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-phoneNumber`)].value);
             } catch {
                 this.logger.log('info', 'fetchPersonalInformation - phoneNumber parameter is missing');
             }
             try {
-                personalInfoModel.biography = document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-biography`)].value;
+                personalInfoModel.biography = Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-biography`)].value);
             } catch {
                 this.logger.log('info', 'fetchPersonalInformation - biography parameter is missing');
             }
             try {
-                personalInfoModel.gender = document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-gender`)].value;
+                personalInfoModel.gender = Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-gender`)].value);
             } catch {
                 this.logger.log('info', 'fetchPersonalInformation - gender parameter is missing');
             }
-            try {
-                document = require(`${CONFIG.get('PATH')}instagram_json/information_about_you/account_based_in.json`);
-                personalInfoModel.basedIn = document.inferred_data_primary_location[0].string_map_data[this.configInstagram.get(`${this.prefix}-cityName`)].value;
-            } catch {
-                this.logger.log('info', 'fetchPersonalInformation - basedIn parameter is missing');
-            }
-            return personalInfoModel;
-        } catch (e) {
-            this.logger.log('info', 'fetchPersonalInformation - personal_information.json');
+            return personalInfoModel != {} ? personalInfoModel : undefined;
+        } catch {
+            this.logger.log('error', 'fetchPersonalInformation - personal_information.json');
+        }
+    }
+
+    async fetchLocation(): Promise<LocationInformation | undefined>{
+        try {
+            let document = require(`${CONFIG.get('PATH')}instagram_json/information_about_you/account_based_in.json`);
+            return {basedIn: Decoding.decodeObject(document.inferred_data_primary_location[0].string_map_data[this.configInstagram.get(`${this.prefix}-cityName`)].value)};
+        } catch {
+            this.logger.log('error', 'fetchPersonalInformation - account_based_in.json');
         }
     }
 
@@ -83,11 +98,11 @@ export class InstagramService {
             length = document.impressions_history_ads_clicked.length;
             array = new Array<string>(length);
             for (let i = 0; i < length; i++) {
-                array[i] = document.impressions_history_ads_clicked[i].title;
+                array[i] = Decoding.decodeObject(document.impressions_history_ads_clicked[i].title);
             }
             adsInformationModel.listAdsClicked = array;
         } catch {
-            this.logger.log('info', "fetchAdsInformation - ads_clicked.json");
+            this.logger.log('error', "fetchAdsInformation - ads_clicked.json");
         }
 
         try {
@@ -95,11 +110,11 @@ export class InstagramService {
             length = document.impressions_history_ads_seen.length;
             array = new Array<string>(length);
             for (let i = 0; i < length; i++) {
-                array[i] = document.impressions_history_ads_seen[i].string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value;
+                array[i] = Decoding.decodeObject(document.impressions_history_ads_seen[i].string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value);
             }
             adsInformationModel.listAdsViewed = array;
         } catch {
-            this.logger.log('info', "fetchAdsInformation - ads_viewed.json");
+            this.logger.log('error', "fetchAdsInformation - ads_viewed.json");
         }
 
         try {
@@ -107,13 +122,12 @@ export class InstagramService {
             length = document.inferred_data_ig_interest.length;
             array = new Array<string>(length);
             for (let i = 0; i < length; i++) {
-                array[i] = document.inferred_data_ig_interest[i].string_map_data[this.configInstagram.get(`${this.prefix}-interest`)].value;
+                array[i] = Decoding.decodeObject(document.inferred_data_ig_interest[i].string_map_data[this.configInstagram.get(`${this.prefix}-interest`)].value);
             }
             adsInformationModel.listAdsInterests = array;
         } catch {
-            this.logger.log('info', "fetchAdsInformation - ads_interests.json");
+            this.logger.log('error', "fetchAdsInformation - ads_interests.json");
         }
-
         return adsInformationModel != {} ? adsInformationModel : undefined;
     }
 
@@ -125,14 +139,14 @@ export class InstagramService {
             length = document.impressions_history_music_heard_in_stories.length;
             array = new Array<Song>(length);
             for (let i = 0; i < length; i++) {
-                let title = document.impressions_history_music_heard_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-song`)].value;
-                let artist = document.impressions_history_music_heard_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-artist`)].value;
+                let title = Decoding.decodeObject(document.impressions_history_music_heard_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-song`)].value);
+                let artist = Decoding.decodeObject(document.impressions_history_music_heard_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-artist`)].value);
                 let time = document.impressions_history_music_heard_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-time`)].timestamp;
                 array[i] = {title: title, artist: artist, timestamp: time};
             }
             contentInformationModel.music_heard_in_stories = array;
         } catch {
-            this.logger.log('info', "fetchContentInformation - music_heard_in_stories.json");
+            this.logger.log('error', "fetchContentInformation - music_heard_in_stories.json");
         }
 
         try {
@@ -140,14 +154,14 @@ export class InstagramService {
             length = document.impressions_history_music_recently_used_in_stories.length;
             array = new Array<Song>(length);
             for (let i = 0; i < length; i++) {
-                let title = document.impressions_history_music_recently_used_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-song`)].value;
-                let artist = document.impressions_history_music_recently_used_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-artist`)].value;
+                let title = Decoding.decodeObject(document.impressions_history_music_recently_used_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-song`)].value);
+                let artist = Decoding.decodeObject(document.impressions_history_music_recently_used_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-artist`)].value);
                 let time = document.impressions_history_music_recently_used_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-time`)].timestamp;
                 array[i] = {title: title, artist: artist, timestamp: time};
             }
             contentInformationModel.music_recently_used_in_stories = array;
         } catch {
-            this.logger.log('info', "fetchContentInformation - music_recently_used_in_stories.json");
+            this.logger.log('error', "fetchContentInformation - music_recently_used_in_stories.json");
         }
 
         try {
@@ -155,11 +169,11 @@ export class InstagramService {
             length = document.impressions_history_posts_seen.length;
             array = new Array<string>(length);
             for (let i = 0; i < length; i++) {
-                array[i] = document.impressions_history_posts_seen[i].string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value;
+                array[i] = Decoding.decodeObject(document.impressions_history_posts_seen[i].string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value);
             }
             contentInformationModel.posts_viewed = array;
         } catch {
-            this.logger.log('info', "fetchContentInformation - posts_viewed.json");
+            this.logger.log('error', "fetchContentInformation - posts_viewed.json");
         }
 
         try {
@@ -167,11 +181,11 @@ export class InstagramService {
             length = document.impressions_history_videos_watched.length;
             array = new Array<string>(length);
             for (let i = 0; i < length; i++) {
-                array[i] = document.impressions_history_videos_watched[i].string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value;
+                array[i] = Decoding.decodeObject(document.impressions_history_videos_watched[i].string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value);
             }
             contentInformationModel.videos_watched = array;
         } catch {
-            this.logger.log('info', "fetchContentInformation - videos_watched.json");
+            this.logger.log('error', "fetchContentInformation - videos_watched.json");
         }
 
         try {
@@ -179,11 +193,11 @@ export class InstagramService {
             length = document.impressions_history_chaining_seen.length;
             array = new Array<string>(length);
             for (let i = 0; i < length; i++) {
-                array[i] = document.impressions_history_chaining_seen[i].string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value;
+                array[i] = Decoding.decodeObject(document.impressions_history_chaining_seen[i].string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value);
             }
             contentInformationModel.suggested_accounts_viewed = array;
         } catch {
-            this.logger.log('info', "fetchContentInformation - suggested_accounts_viewed.json");
+            this.logger.log('error', "fetchContentInformation - suggested_accounts_viewed.json");
         }
 
         try {
@@ -191,11 +205,11 @@ export class InstagramService {
             length = document.impressions_history_recs_hidden_authors.length;
             array = new Array<string>(length);
             for (let i = 0; i < length; i++) {
-                array[i] = document.impressions_history_recs_hidden_authors[i].string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value;
+                array[i] = Decoding.decodeObject(document.impressions_history_recs_hidden_authors[i].string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value);
             }
             contentInformationModel.account_you_are_not_interested = array;
         } catch {
-            this.logger.log('info', "fetchContentInformation - accounts_you're_not_interested_in.json");
+            this.logger.log('error', "fetchContentInformation - accounts_you're_not_interested_in.json");
         }
 
         return contentInformationModel != {} ? contentInformationModel : undefined;
@@ -208,14 +222,14 @@ export class InstagramService {
             length = document.comments_media_comments.length;
             array = new Array<CommentPosted>(length);
             for (let i = 0; i < length; i++) {
-                let toUser = document.comments_media_comments[i].title;
-                let text = document.comments_media_comments[i].string_list_data[0].value;
+                let toUser = Decoding.decodeObject(document.comments_media_comments[i].title);
+                let text = Decoding.decodeObject(document.comments_media_comments[i].string_list_data[0].value);
                 let time = document.comments_media_comments[i].string_list_data[0].timestamp;
                 array[i] = {text: text, toUser: toUser, timestamp: time};
             }
             return {listCommentsPosted: array};
         } catch {
-            this.logger.log('info', "fetchCommentsPosted - post_comments.json");
+            this.logger.log('error', "fetchCommentsPosted - post_comments.json");
         }
     }
 
@@ -226,14 +240,14 @@ export class InstagramService {
             length = document.contacts_contact_info.length;
             array = new Array<ContactSynced>(length);
             for (let i = 0; i < length; i++) {
-                let firstName = document.contacts_contact_info[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value;
-                let secondName = document.contacts_contact_info[i].string_map_data[this.configInstagram.get(`${this.prefix}-secondName`)].value;
-                let contactInfo = document.contacts_contact_info[i].string_map_data[this.configInstagram.get(`${this.prefix}-contactInfo`)].value;
+                let firstName = Decoding.decodeObject(document.contacts_contact_info[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value);
+                let secondName = Decoding.decodeObject(document.contacts_contact_info[i].string_map_data[this.configInstagram.get(`${this.prefix}-secondName`)].value);
+                let contactInfo = Decoding.decodeObject(document.contacts_contact_info[i].string_map_data[this.configInstagram.get(`${this.prefix}-contactInfo`)].value);
                 array[i] = {firstName: firstName, secondName: secondName, contactInfo: contactInfo};
             }
             return {listContactSynced: array};
         } catch {
-            this.logger.log('info', "fetchContentInformation - synced_contacts.json");
+            this.logger.log('error', "fetchContentInformation - synced_contacts.json");
         }
     }
 
@@ -245,28 +259,28 @@ export class InstagramService {
             length = document.ig_archived_post_media.length;
             array = new Array<Post>(length);
             for (let i = 0; i < length; i++) {
-                let uri = document.ig_archived_post_media[i].media[0].uri;
+                let uri = Decoding.decodeObject(document.ig_archived_post_media[i].media[0].uri);
                 let creation_timestamp = document.ig_archived_post_media[i].media[0].creation_timestamp;
-                let title = document.ig_archived_post_media[i].media[0].title;
+                let title = Decoding.decodeObject(document.ig_archived_post_media[i].media[0].title);
                 array[i] = {uri: uri, creation_timestamp: creation_timestamp, title: title};
             }
             personalPostsModel.listArchivedPosts = array;
         } catch {
-            this.logger.log('info', "fetchPersonalPost - archived_posts.json");
+            this.logger.log('error', "fetchPersonalPost - archived_posts.json");
         }
         try {
             document = require(`${CONFIG.get('PATH')}instagram_json/content/posts_1.json`);
             length = document.length;
             array = new Array<Post>(length);
             for (let i = 0; i < length; i++) {
-                let uri = document[i].media[0].uri;
+                let uri = Decoding.decodeObject(document[i].media[0].uri);
                 let creation_timestamp = document[i].media[0].creation_timestamp;
-                let title = document[i].media[0].title;
+                let title = Decoding.decodeObject(document[i].media[0].title);
                 array[i] = {uri: uri, creation_timestamp: creation_timestamp, title: title};
             }
             personalPostsModel.listPost = array;
         } catch {
-            this.logger.log('info', "fetchPersonalPost - posts_1.json");
+            this.logger.log('error', "fetchPersonalPost - posts_1.json");
         }
         return personalPostsModel != {} ? personalPostsModel : undefined;
     }
@@ -279,15 +293,15 @@ export class InstagramService {
             length = document.relationships_followers.length;
             array = new Array<Account>(length);
             for (let i = 0; i < length; i++) {
-                let href = document.relationships_followers[i].string_list_data[0].href;
-                let value = document.relationships_followers[i].string_list_data[0].value;
+                let href = Decoding.decodeObject(document.relationships_followers[i].string_list_data[0].href);
+                let value = Decoding.decodeObject(document.relationships_followers[i].string_list_data[0].value);
                 let timestamp = document.relationships_followers[i].string_list_data[0].timestamp;
                 array[i] = {href: href, value: value, timestamp: timestamp};
             }
             followersModel.listAccounts = array;
             return followersModel;
         } catch {
-            this.logger.log('info', "fetchFollowers - followers.json");
+            this.logger.log('error', "fetchFollowers - followers.json");
         }
     }
 
@@ -299,28 +313,28 @@ export class InstagramService {
             length = document.relationships_following.length;
             array = new Array<Account>(length);
             for (let i = 0; i < length; i++) {
-                let href = document.relationships_following[i].string_list_data[0].href;
-                let value = document.relationships_following[i].string_list_data[0].value;
+                let href = Decoding.decodeObject(document.relationships_following[i].string_list_data[0].href);
+                let value = Decoding.decodeObject(document.relationships_following[i].string_list_data[0].value);
                 let timestamp = document.relationships_following[i].string_list_data[0].timestamp;
                 array[i] = {href: href, value: value, timestamp: timestamp};
             }
             followingModel.listAccounts = array;
         } catch {
-            this.logger.log('info', "fetchFollowing - following.json");
+            this.logger.log('error', "fetchFollowing - following.json");
         }
         try {
             document = require(`${CONFIG.get('PATH')}instagram_json/followers_and_following/following_hashtags.json`);
             length = document.relationships_following_hashtags.length;
             array = new Array<Account>(length);
             for (let i = 0; i < length; i++) {
-                let href = document.relationships_following_hashtags[i].string_list_data[0].href;
-                let value = document.relationships_following_hashtags[i].string_list_data[0].value;
+                let href = Decoding.decodeObject(document.relationships_following_hashtags[i].string_list_data[0].href);
+                let value = Decoding.decodeObject(document.relationships_following_hashtags[i].string_list_data[0].value);
                 let timestamp = document.relationships_following_hashtags[i].string_list_data[0].timestamp;
                 array[i] = {href: href, value: value, timestamp: timestamp};
             }
             followingModel.listHashtags = array;
         } catch {
-            this.logger.log('info', "fetchFollowing - following_hashtags.json");
+            this.logger.log('error', "fetchFollowing - following_hashtags.json");
         }
         return followingModel != {} ? followingModel : undefined;
     }
@@ -333,28 +347,28 @@ export class InstagramService {
             length = document.likes_comment_likes.length;
             array = new Array<Like>(length);
             for (let i = 0; i < length; i++) {
-                let title = document.likes_comment_likes[i].title;
-                let href = document.likes_comment_likes[i].string_list_data[0].href;
+                let title = Decoding.decodeObject(document.likes_comment_likes[i].title);
+                let href = Decoding.decodeObject(document.likes_comment_likes[i].string_list_data[0].href);
                 let timestamp = document.likes_comment_likes[i].string_list_data[0].timestamp;
                 array[i] = {title: title, href: href, timestamp: timestamp};
             }
             likedListModel.listLikedComments = array;
         } catch {
-            this.logger.log('info', "fetchLikes - liked_comments.json");
+            this.logger.log('error', "fetchLikes - liked_comments.json");
         }
         try {
             document = require(`${CONFIG.get('PATH')}instagram_json/likes/liked_posts.json`);
             length = document.likes_media_likes.length;
             array = new Array<Like>(length);
             for (let i = 0; i < length; i++) {
-                let title = document.likes_media_likes[i].title;
-                let href = document.likes_media_likes[i].string_list_data[0].href;
+                let title = Decoding.decodeObject(document.likes_media_likes[i].title);
+                let href = Decoding.decodeObject(document.likes_media_likes[i].string_list_data[0].href);
                 let timestamp = document.likes_media_likes[i].string_list_data[0].timestamp;
                 array[i] = {title: title, href: href, timestamp: timestamp};
             }
             likedListModel.listLikedPosts = array;
         } catch {
-            this.logger.log('info', "fetchLikes - liked_posts.json");
+            this.logger.log('error', "fetchLikes - liked_posts.json");
         }
 
         return likedListModel != {} ? likedListModel : undefined;
@@ -368,14 +382,14 @@ export class InstagramService {
             length = document.searches_user.length;
             array = new Array<Search>(length);
             for (let i = 0; i < length; i++) {
-                let value = document.searches_user[i].string_map_data[this.configInstagram.get(`${this.prefix}-search`)].value;
+                let value = Decoding.decodeObject(document.searches_user[i].string_map_data[this.configInstagram.get(`${this.prefix}-search`)].value);
                 let timestamp = document.searches_user[i].string_map_data[this.configInstagram.get(`${this.prefix}-time`)].timestamp;
                 array[i] = {value: value, timestamp: timestamp};
             }
             searchesModel.listSearches = array;
             return searchesModel;
         } catch {
-            this.logger.log('info', "fetchSearches - account_searches.json");
+            this.logger.log('error', "fetchSearches - account_searches.json");
         }
     }
 
@@ -387,11 +401,11 @@ export class InstagramService {
             length = document.topics_your_reels_emotions.length;
             array = new Array<string>(length);
             for (let i = 0; i < length; i++) {
-                array[i] = document.topics_your_reels_emotions[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value;
+                array[i] = Decoding.decodeObject(document.topics_your_reels_emotions[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value);
             }
             topicsModel.listReelSentiments = array;
         } catch {
-            this.logger.log('info', "fetchTopics - your_reel_sentiments.json");
+            this.logger.log('error', "fetchTopics - your_reel_sentiments.json");
         }
 
         try {
@@ -399,11 +413,11 @@ export class InstagramService {
             length = document.topics_your_reels_topics.length;
             array = new Array<string>(length);
             for (let i = 0; i < length; i++) {
-                array[i] = document.topics_your_reels_topics[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value;
+                array[i] = Decoding.decodeObject(document.topics_your_reels_topics[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value);
             }
             topicsModel.listReelTopics = array;
         } catch {
-            this.logger.log('info', "fetchTopics - your_reel_topics.json");
+            this.logger.log('error', "fetchTopics - your_reel_topics.json");
         }
 
         try {
@@ -411,11 +425,11 @@ export class InstagramService {
             length = document.topics_your_topics.length;
             array = new Array<string>(length);
             for (let i = 0; i < length; i++) {
-                array[i] = document.topics_your_topics[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value;
+                array[i] = Decoding.decodeObject(document.topics_your_topics[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value);
             }
             topicsModel.listTopic = array;
         } catch {
-            this.logger.log('info', "fetchTopics - your_topics.json");
+            this.logger.log('error', "fetchTopics - your_topics.json");
         }
         return topicsModel != {} ? topicsModel : undefined;
     }
@@ -429,30 +443,31 @@ export class InstagramService {
 
             let conversationsModel: Conversations = {};
             let array = new Array<Conversation>(directories.length);
+
             for (let i = 0; i < directories.length; i++) {
                 let document = require(`${CONFIG.get('PATH')}instagram_json/messages/inbox/${directories[i]}/message_1.json`);
 
                 let messages = new Array<Message>(document.messages.length);
                 for (let j = 0; j < document.messages.length; j++) {
                     messages[j] = {
-                        sender_name: document.messages[j].sender_name,
+                        sender_name: Decoding.decodeObject(document.messages[j].sender_name),
                         timestamp_ms: document.messages[j].timestamp_ms,
-                        content: document.messages[j].content,
-                        type: document.messages[j].type,
+                        content: Decoding.decodeObject(document.messages[j].content),
+                        type: Decoding.decodeObject(document.messages[j].type),
                         is_unsent: document.messages[j].is_unsent
                     }
                     try {
-                        messages[j].link = document.messages[j].share.link;
+                        messages[j].link = Decoding.decodeObject(document.messages[j].share.link);
                     } catch {
                         this.logger.log('info', "fetchMessages - parameter link in message is missing");
                     }
                 }
                 let participants = new Array<string>(document.participants.length);
                 for(let k = 0; k < document.participants.length; k++){
-                    participants[k] = document.participants[k].name;
+                    participants[k] = Decoding.decodeObject(document.participants[k].name);
                 }
                 array[i] = {
-                    title: document.title,
+                    title: Decoding.decodeObject(document.title),
                     listMessages: messages,
                     participants: participants,
                     is_still_participant: document.is_still_participant
@@ -461,7 +476,7 @@ export class InstagramService {
             conversationsModel.listInbox = array;
             return conversationsModel;
         } catch {
-            this.logger.log('info', "fetchMessages ");
+            this.logger.log('error', "fetchMessages ");
         }
     }
 }

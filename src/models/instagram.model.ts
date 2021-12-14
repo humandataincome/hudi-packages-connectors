@@ -1,14 +1,16 @@
-import {Song} from "./multimedia.model";
 
 export interface PersonalInformation {
-    username: string;
-    name: string;
-    email: string;
-    private: boolean;
-    birthdate?: string;
+    username?: string;
+    name?: string;
+    email?: string;
+    private?: boolean;
+    birthdate?: DateLongFormat;
     phoneNumber?: string;
     biography? :string;
     gender?: string;
+}
+
+export interface LocationInformation {
     basedIn?:string;
 }
 
@@ -117,4 +119,16 @@ export interface Message {
     link?: string;
     type: string;
     is_unsent: boolean;
+}
+
+export interface DateLongFormat {
+    year: number;
+    month: number;
+    day: number;
+}
+
+export interface Song {
+    title: string;
+    artist: string;
+    timestamp: Date;
 }

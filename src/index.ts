@@ -1,12 +1,13 @@
 import {InstagramService} from './services/instagram.service';
 import {LanguageMode} from "./utils/utils.enum"
 import {ConfigInstagram} from "./config/config.instagram";
+import {FacebookService} from "./services/facebook.service";
 
 async function main(){
     let configIG = new ConfigInstagram(LanguageMode.ITALIAN);
     let instagramService = new InstagramService(configIG);
 
-    //let x0 = await instagramService.fetchPersonalInformation();
+    let x0 = await instagramService.fetchPersonalInformation();
     //let x1 = await instagramService.fetchAdsInformation();
     //let x2 = await instagramService.fetchContentInformation();
     //let x3 = await instagramService.fetchCommentsPosted();
@@ -17,8 +18,10 @@ async function main(){
     //let x8 = await instagramService.fetchLikes();
     //let x9 = await instagramService.fetchSearches();
     //let x10 = await instagramService.fetchTopics();
-    let x11 = await instagramService.fetchMessages();
-    console.log(x11);
+    //let x11 = await instagramService.fetchMessages();
+    let facebookService = new FacebookService();
+    let x12 = await facebookService.fetchPersonalInformation();
+    console.log(x0);
 }
 main();
 
