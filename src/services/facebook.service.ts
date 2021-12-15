@@ -13,11 +13,11 @@ import {
     PagesLiked,
     PersonalInformation,
     PlaceLived,
-    SearchHistory
+    SearchHistory,
+    Conversation, Conversations, Message
 } from "../models/facebook.model";
 import {CONFIG} from "../config/config.utils";
 import {Decoding} from "../utils/decoding";
-import {Conversation, Conversations, Message} from "../models/instagram.model";
 
 export class FacebookService{
     private logger = new Logger("Facebook Service");
