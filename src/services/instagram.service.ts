@@ -441,40 +441,44 @@ export class InstagramService {
             let source = path.join(__dirname, `${CONFIG.get('PATH')}instagram_json/messages/inbox/`);
             const directories = fs.readdirSync(source);
 
-            let conversationsModel: Conversations = {};
-            let array = new Array<Conversation>(directories.length);
+            if(directories.length > 0) {
+                let conversationsModel: Conversations = {};
+                let array = new Array<Conversation>(directories.length);
 
-            for (let i = 0; i < directories.length; i++) {
-                let document = require(`${CONFIG.get('PATH')}instagram_json/messages/inbox/${directories[i]}/message_1.json`);
+                for (let i = 0; i < directories.length; i++) {
+                    let document = require(`${CONFIG.get('PATH')}instagram_json/messages/inbox/${directories[i]}/message_1.json`);
 
-                let messages = new Array<Message>(document.messages.length);
-                for (let j = 0; j < document.messages.length; j++) {
-                    messages[j] = {
-                        sender_name: Decoding.decodeObject(document.messages[j].sender_name),
-                        timestamp_ms: document.messages[j].timestamp_ms,
-                        content: Decoding.decodeObject(document.messages[j].content),
-                        type: Decoding.decodeObject(document.messages[j].type),
-                        is_unsent: document.messages[j].is_unsent
+                    let messages = new Array<Message>(document.messages.length);
+                    for (let j = 0; j < document.messages.length; j++) {
+                        messages[j] = {
+                            sender_name: Decoding.decodeObject(document.messages[j].sender_name),
+                            timestamp_ms: document.messages[j].timestamp_ms,
+                            content: Decoding.decodeObject(document.messages[j].content),
+                            type: Decoding.decodeObject(document.messages[j].type),
+                            is_unsent: document.messages[j].is_unsent
+                        }
+                        try {
+                            messages[j].link = Decoding.decodeObject(document.messages[j].share.link);
+                        } catch {
+                            this.logger.log('info', "fetchMessages - parameter link in message is missing");
+                        }
                     }
-                    try {
-                        messages[j].link = Decoding.decodeObject(document.messages[j].share.link);
-                    } catch {
-                        this.logger.log('info', "fetchMessages - parameter link in message is missing");
+                    let participants = new Array<string>(document.participants.length);
+                    for (let k = 0; k < document.participants.length; k++) {
+                        participants[k] = Decoding.decodeObject(document.participants[k].name);
+                    }
+                    array[i] = {
+                        title: Decoding.decodeObject(document.title),
+                        listMessages: messages,
+                        participants: participants,
+                        is_still_participant: document.is_still_participant
                     }
                 }
-                let participants = new Array<string>(document.participants.length);
-                for(let k = 0; k < document.participants.length; k++){
-                    participants[k] = Decoding.decodeObject(document.participants[k].name);
-                }
-                array[i] = {
-                    title: Decoding.decodeObject(document.title),
-                    listMessages: messages,
-                    participants: participants,
-                    is_still_participant: document.is_still_participant
-                }
+                conversationsModel.listInbox = array;
+                return conversationsModel;
+            } else {
+                return undefined;
             }
-            conversationsModel.listInbox = array;
-            return conversationsModel;
         } catch {
             this.logger.log('error', "fetchMessages ");
         }
