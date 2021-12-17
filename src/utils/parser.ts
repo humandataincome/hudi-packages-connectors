@@ -3,14 +3,23 @@ import fs from "fs";
 
 export class Parser {
 
-    static parseCSV(source: string) {
+    static parseCSV(source: string, options: object) {
         return new Promise((resolve, reject) => {
             let result: any[] = [];
-            const parser = parse({delimiter: ',', columns: true}, function (err, csvLine) {
-                for (let l = 0; l < csvLine.length; l++) {
-                    result.push(csvLine[l]);
+            const parser = parse(options, function (error, csvLine) {
+                try {
+                    for (let l = 0; l < csvLine.length; l++) {
+                        result.push(csvLine[l]);
+                    }
+                    resolve(result);
+                } catch {
+                    if (error) {
+                        console.error("Error "+error?.code+" parsing file: "+ source);
+                    } else {
+                        console.error("Error parsing file: "+ source);
+                    }
+                    reject(error);
                 }
-                resolve(result);
             });
             fs.createReadStream(source, {encoding: 'utf8'}).pipe(parser);
         });
