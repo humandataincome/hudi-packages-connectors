@@ -2,10 +2,14 @@ import {InstagramService} from './services/instagram.service';
 import {LanguageMode} from "./utils/utils.enum"
 import {ConfigInstagram} from "./config/config.instagram";
 import {FacebookService} from "./services/facebook.service";
+import {NetflixService} from "./services/netflix.service";
 
 async function main(){
     let configIG = new ConfigInstagram(LanguageMode.ITALIAN);
-    let instagramService = new InstagramService(configIG);
+    const instagramService = new InstagramService(configIG);
+    const facebookService = new FacebookService();
+    const netflixService = new NetflixService();
+
     //let x0 = await instagramService.fetchPersonalInformation();
     //let x1 = await instagramService.fetchAdsInformation();
     //let x2 = await instagramService.fetchContentInformation();
@@ -19,7 +23,6 @@ async function main(){
     //let x10 = await instagramService.fetchTopics();
     //let x11 = await instagramService.fetchMessages();
 
-    let facebookService = new FacebookService();
     //let x12 = await facebookService.fetchPersonalInformation();
     //let x13 = await facebookService.fetchAdsInformation();
     //let x14 = await facebookService.fetchSearchHistory();
@@ -27,8 +30,18 @@ async function main(){
     //let x16 = await facebookService.fetchPageLiked();
     //let x17 = await facebookService.fetchPageFollowed();
     //let x18 = await facebookService.fetchAppsConnected();
-    let x19 = await facebookService.fetchMessages();
-    console.log(x19);
+    //let x19 = await facebookService.fetchMessages();
+
+    //let x20 = await netflixService.fetchPersonalInformation();
+    //let x21 = await netflixService.fetchPreferences();
+    //let x22 = await netflixService.fetchMyList();
+    //let x23 = await netflixService.fetchSearchHistory();
+    //let x24 = await netflixService.fetchViewingActivity();
+    //let x25 = await netflixService.fetchPlaybackEvents();
+    let x26 = await netflixService.fetchProfiles();
+    console.log(x26);
+
+
 }
 main();
 
