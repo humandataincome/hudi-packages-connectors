@@ -73,6 +73,14 @@ export interface Search {
     LKCI?:string;
 }
 
+export interface AdvertiserAudiences {
+    list: Array<string>;
+}
+
+export interface AdvertiserClicked {
+    list: Array<string>;
+}
+
 //AUDIBLE MODELS
 export interface AudibleLibrary {
     listAudioBooks?: Array<AudioBook>;
@@ -131,4 +139,5 @@ export interface ViewingActivity {
     'Audio Language'?: string;
     'Title'?: string;
 }
+
 

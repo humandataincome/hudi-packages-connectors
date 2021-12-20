@@ -16,8 +16,10 @@ async function amazonServiceRun() {
     //return await amazonService.fetchPrimeVideoWatchlist();
     //return await amazonService.fetchPrimeVideoWatchlistHistory();
     //return await amazonService.fetchPrimeVideoViewingHistory();
-    return await amazonService.fetchSearchDataCustomerEngagement();
+    //return await amazonService.fetchSearchDataCustomerEngagement();
     //return await amazonService.fetchAudibleLibrary();
+    return await amazonService.fetchAdvertiserAudiences();
+    //return await amazonService.fetchAdvertiserClicked();
 }
 
 async function netflixServiceRun() {

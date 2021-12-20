@@ -3,14 +3,11 @@ import fs from "fs";
 
 export class Parser {
 
-    static parseCSV(source: string, options: object) {
+    static parseCSV(source: string, options: object, filter: Function = (x: any) => (x)) {
         return new Promise((resolve, reject) => {
-            let result: any[] = [];
             const parser = parse(options, function (error, csvLine) {
                 try {
-                    for (let l = 0; l < csvLine.length; l++) {
-                        result.push(csvLine[l]);
-                    }
+                    let result = csvLine.map(filter);
                     resolve(result);
                 } catch {
                     if (error) {
