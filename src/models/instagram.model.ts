@@ -14,27 +14,46 @@ export interface LocationInformation {
     basedIn?:string;
 }
 
-export interface AdsInformation {
-    listAdsClicked?: Array<string>;
-    listAdsViewed?: Array<string>;
-    listAdsInterests?: Array<string>;
+export interface AdsClicked {
+    list?: Array<string>;
+}
+export interface AdsViewed {
+    list?: Array<string>;
+}
+export interface AdsInterests {
+    list?: Array<string>;
 }
 
-export interface ContentInformation {
-    music_heard_in_stories?: Array<Song>;
-    music_recently_used_in_stories?: Array<Song>;
-    posts_viewed?: Array<string>;
-    videos_watched?: Array<string>;
-    suggested_accounts_viewed?: Array<string>;
-    account_you_are_not_interested?: Array<string>;
+export interface MusicHeardInStories {
+    list?: Array<Song>;
+}
+
+export interface MusicRecentlyUsedInStories {
+    list?: Array<Song>;
+}
+
+export interface PostViewed {
+    list?: Array<string>;
+}
+
+export interface VideoWatched {
+    list?: Array<string>;
+}
+
+export interface SuggestedAccountViewed {
+    list?: Array<string>;
+}
+
+export interface AccountYouAreNotInterested {
+    list?: Array<string>;
 }
 
 export interface CommentsPosted {
-    listCommentsPosted: Array<CommentPosted>;
+    list: Array<CommentPosted>;
 }
 
 export interface SyncedContracts {
-    listContactSynced: Array<ContactSynced>;
+    list: Array<ContactSynced>;
 }
 
 export interface PersonalPosts {
@@ -57,7 +76,7 @@ export interface LikedList {
 }
 
 export interface Searches {
-    listSearches?: Array<Search>;
+    list?: Array<Search>;
 }
 
 export interface Topics {
