@@ -19,7 +19,6 @@ export default class Logger {
             ],
         });
     }
-
     public log(level: LogLevel, message: string): void {
         this.logger.log(level, message);
     }

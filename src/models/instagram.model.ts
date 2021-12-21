@@ -4,7 +4,7 @@ export interface PersonalInformation {
     name?: string;
     email?: string;
     private?: boolean;
-    birthdate?: DateLongFormat;
+    birthdate?: Date;
     phoneNumber?: string;
     biography? :string;
     gender?: string;
@@ -138,12 +138,6 @@ export interface Message {
     link?: string;
     type: string;
     is_unsent: boolean;
-}
-
-export interface DateLongFormat {
-    year: number;
-    month: number;
-    day: number;
 }
 
 export interface Song {

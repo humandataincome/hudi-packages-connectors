@@ -52,9 +52,9 @@ export class InstagramService {
                 this.logger.log('info', 'fetchPersonalInformation - privateAccount parameter is missing');
             }
             try {
-                let regex = /(\d+)-(\d+)-(\d+)/;
-                let match: RegExpExecArray | null = regex.exec(Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-birthdate`)].value));
-                match && (personalInfoModel.birthdate = {year: parseInt(match[0]), month: parseInt(match[1]), day: parseInt(match[2])});
+                let date = Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-birthdate`)].value);
+                let match = date.split('-');
+                match && (personalInfoModel.birthdate = new Date(Date.UTC(match[0], match[1]-1, match[2], 0, 0, 0)));
             } catch {
                 this.logger.log('info', 'fetchPersonalInformation - birthdate parameter is missing');
             }
@@ -74,8 +74,12 @@ export class InstagramService {
                 this.logger.log('info', 'fetchPersonalInformation - gender parameter is missing');
             }
             return personalInfoModel != {} ? personalInfoModel : undefined;
-        } catch {
-            this.logger.log('error', 'fetchPersonalInformation - personal_information.json');
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND'){
+                this.logger.log('error', 'fetchPersonalInformation - module instagram_json/account_information/personal_information.json not found');
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -83,8 +87,12 @@ export class InstagramService {
         try {
             let document = require(`${CONFIG.get('PATH')}instagram_json/information_about_you/account_based_in.json`);
             return {basedIn: Decoding.decodeObject(document.inferred_data_primary_location[0].string_map_data[this.configInstagram.get(`${this.prefix}-cityName`)].value)};
-        } catch {
-            this.logger.log('error', 'fetchPersonalInformation - account_based_in.json');
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND'){
+                this.logger.log('error', 'fetchLocation - module instagram_json/information_about_you/account_based_in.json not found');
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -97,8 +105,12 @@ export class InstagramService {
                 array[i] = Decoding.decodeObject(document.impressions_history_ads_clicked[i].title);
             }
             return {list: array};
-        } catch {
-            this.logger.log('error', "fetchAdsInformation - ads_clicked.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchAdsClicked - module instagram_json/ads_and_content/ads_clicked.json not found");
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -111,8 +123,12 @@ export class InstagramService {
                 array[i] = Decoding.decodeObject(document.impressions_history_ads_seen[i].string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value);
             }
             return {list: array};
-        } catch {
-            this.logger.log('error', "fetchViewed - ads_viewed.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchAdsViewed - module instagram_json/ads_and_content/ads_viewed.json not found");
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -125,8 +141,12 @@ export class InstagramService {
                 array[i] = Decoding.decodeObject(document.inferred_data_ig_interest[i].string_map_data[this.configInstagram.get(`${this.prefix}-interest`)].value);
             }
             return {list: array};
-        } catch {
-            this.logger.log('error', "fetchAdsInformation - ads_interests.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchAdsInterests - instagram_json/information_about_you/ads_interests.json");
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -138,12 +158,16 @@ export class InstagramService {
             for (let i = 0; i < length; i++) {
                 let title = Decoding.decodeObject(document.impressions_history_music_heard_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-song`)].value);
                 let artist = Decoding.decodeObject(document.impressions_history_music_heard_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-artist`)].value);
-                let time = document.impressions_history_music_heard_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-time`)].timestamp;
+                let time = new Date(1000*document.impressions_history_music_heard_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-time`)].timestamp);
                 array[i] = {title: title, artist: artist, timestamp: time};
             }
             return {list: array};
-        } catch {
-            this.logger.log('error', "fetchContentInformation - music_heard_in_stories.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchMusicHeardInStories - module instagram_json/ads_and_content/music_heard_in_stories.json not found");
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -155,12 +179,16 @@ export class InstagramService {
             for (let i = 0; i < length; i++) {
                 let title = Decoding.decodeObject(document.impressions_history_music_recently_used_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-song`)].value);
                 let artist = Decoding.decodeObject(document.impressions_history_music_recently_used_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-artist`)].value);
-                let time = document.impressions_history_music_recently_used_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-time`)].timestamp;
+                let time = new Date(1000*document.impressions_history_music_recently_used_in_stories[i].string_map_data[this.configInstagram.get(`${this.prefix}-time`)].timestamp);
                 array[i] = {title: title, artist: artist, timestamp: time};
             }
             return {list: array};
-        } catch {
-            this.logger.log('error', "fetchContentInformation - music_recently_used_in_stories.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchMusicRecentlyUsedInStories - module instagram_json/ads_and_content/music_recently_used_in_stories.json not found");
+            } else {
+                throw e;
+            }
         }
     }
     async fetchPostViewed(): Promise<PostViewed | undefined> {
@@ -172,8 +200,12 @@ export class InstagramService {
                 array[i] = Decoding.decodeObject(document.impressions_history_posts_seen[i].string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value);
             }
             return {list: array};
-        } catch {
-            this.logger.log('error', "fetchContentInformation - posts_viewed.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchPostViewed - module instagram_json/ads_and_content/posts_viewed.json not found");
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -186,8 +218,12 @@ export class InstagramService {
                 array[i] = Decoding.decodeObject(document.impressions_history_videos_watched[i].string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value);
             }
             return {list: array};
-        } catch {
-            this.logger.log('error', "fetchContentInformation - videos_watched.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchVideoWatched - module instagram_json/ads_and_content/videos_watched.json not found");
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -200,8 +236,12 @@ export class InstagramService {
                 array[i] = Decoding.decodeObject(document.impressions_history_chaining_seen[i].string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value);
             }
             return {list: array};
-        } catch {
-            this.logger.log('error', "fetchContentInformation - suggested_accounts_viewed.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchSuggestedAccountViewed - module instagram_json/ads_and_content/suggested_accounts_viewed.json not found");
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -214,8 +254,12 @@ export class InstagramService {
                 array[i] = Decoding.decodeObject(document.impressions_history_recs_hidden_authors[i].string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value);
             }
             return {list: array};
-        } catch {
-            this.logger.log('error', "fetchContentInformation - accounts_you're_not_interested_in.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchAccountYouAreNotInterested - module instagram_json/ads_and_content/accounts_you're_not_interested_in.json not found");
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -227,12 +271,16 @@ export class InstagramService {
             for (let i = 0; i < length; i++) {
                 let toUser = Decoding.decodeObject(document.comments_media_comments[i].title);
                 let text = Decoding.decodeObject(document.comments_media_comments[i].string_list_data[0].value);
-                let time = document.comments_media_comments[i].string_list_data[0].timestamp;
+                let time = new Date(1000*document.comments_media_comments[i].string_list_data[0].timestamp);
                 array[i] = {text: text, toUser: toUser, timestamp: time};
             }
             return {list: array};
-        } catch {
-            this.logger.log('error', "fetchCommentsPosted - post_comments.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchCommentsPosted - module instagram_json/comments/post_comments.json not found");
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -248,8 +296,12 @@ export class InstagramService {
                 array[i] = {firstName: firstName, secondName: secondName, contactInfo: contactInfo};
             }
             return {list: array};
-        } catch {
-            this.logger.log('error', "fetchContentInformation - synced_contacts.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchSyncedContracts - module instagram_json/contacts/synced_contacts.json not found");
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -262,13 +314,17 @@ export class InstagramService {
             array = new Array<Post>(length);
             for (let i = 0; i < length; i++) {
                 let uri = Decoding.decodeObject(document.ig_archived_post_media[i].media[0].uri);
-                let creation_timestamp = document.ig_archived_post_media[i].media[0].creation_timestamp;
+                let creation_timestamp = new Date(1000*document.ig_archived_post_media[i].media[0].creation_timestamp);
                 let title = Decoding.decodeObject(document.ig_archived_post_media[i].media[0].title);
                 array[i] = {uri: uri, creation_timestamp: creation_timestamp, title: title};
             }
             personalPostsModel.listArchivedPosts = array;
-        } catch {
-            this.logger.log('error', "fetchPersonalPost - archived_posts.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchPersonalPost - module instagram_json/content/archived_posts.json not found");
+            } else {
+                throw e;
+            }
         }
         try {
             document = require(`${CONFIG.get('PATH')}instagram_json/content/posts_1.json`);
@@ -276,13 +332,17 @@ export class InstagramService {
             array = new Array<Post>(length);
             for (let i = 0; i < length; i++) {
                 let uri = Decoding.decodeObject(document[i].media[0].uri);
-                let creation_timestamp = document[i].media[0].creation_timestamp;
+                let creation_timestamp = new Date(1000*document[i].media[0].creation_timestamp);
                 let title = Decoding.decodeObject(document[i].media[0].title);
                 array[i] = {uri: uri, creation_timestamp: creation_timestamp, title: title};
             }
             personalPostsModel.listPost = array;
-        } catch {
-            this.logger.log('error', "fetchPersonalPost - posts_1.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchPersonalPost - module instagram_json/content/posts_1.json not found");
+            } else {
+                throw e;
+            }
         }
         return personalPostsModel != {} ? personalPostsModel : undefined;
     }
@@ -297,13 +357,17 @@ export class InstagramService {
             for (let i = 0; i < length; i++) {
                 let href = Decoding.decodeObject(document.relationships_followers[i].string_list_data[0].href);
                 let value = Decoding.decodeObject(document.relationships_followers[i].string_list_data[0].value);
-                let timestamp = document.relationships_followers[i].string_list_data[0].timestamp;
+                let timestamp = new Date(1000*document.relationships_followers[i].string_list_data[0].timestamp);
                 array[i] = {href: href, value: value, timestamp: timestamp};
             }
             followersModel.listAccounts = array;
             return followersModel;
-        } catch {
-            this.logger.log('error', "fetchFollowers - followers.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchFollowers - module instagram_json/followers_and_following/following_hashtags.json not found");
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -317,12 +381,16 @@ export class InstagramService {
             for (let i = 0; i < length; i++) {
                 let href = Decoding.decodeObject(document.relationships_following[i].string_list_data[0].href);
                 let value = Decoding.decodeObject(document.relationships_following[i].string_list_data[0].value);
-                let timestamp = document.relationships_following[i].string_list_data[0].timestamp;
+                let timestamp = new Date(1000*document.relationships_following[i].string_list_data[0].timestamp);
                 array[i] = {href: href, value: value, timestamp: timestamp};
             }
             followingModel.listAccounts = array;
-        } catch {
-            this.logger.log('error', "fetchFollowing - following.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchFollowing - module instagram_json/followers_and_following/following.json not found");
+            } else {
+                throw e;
+            }
         }
         try {
             document = require(`${CONFIG.get('PATH')}instagram_json/followers_and_following/following_hashtags.json`);
@@ -331,12 +399,16 @@ export class InstagramService {
             for (let i = 0; i < length; i++) {
                 let href = Decoding.decodeObject(document.relationships_following_hashtags[i].string_list_data[0].href);
                 let value = Decoding.decodeObject(document.relationships_following_hashtags[i].string_list_data[0].value);
-                let timestamp = document.relationships_following_hashtags[i].string_list_data[0].timestamp;
+                let timestamp = new Date(1000*document.relationships_following_hashtags[i].string_list_data[0].timestamp);
                 array[i] = {href: href, value: value, timestamp: timestamp};
             }
             followingModel.listHashtags = array;
-        } catch {
-            this.logger.log('error', "fetchFollowing - following_hashtags.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchFollowing - module instagram_json/followers_and_following/following_hashtags.json not found");
+            } else {
+                throw e;
+            }
         }
         return followingModel != {} ? followingModel : undefined;
     }
@@ -351,12 +423,16 @@ export class InstagramService {
             for (let i = 0; i < length; i++) {
                 let title = Decoding.decodeObject(document.likes_comment_likes[i].title);
                 let href = Decoding.decodeObject(document.likes_comment_likes[i].string_list_data[0].href);
-                let timestamp = document.likes_comment_likes[i].string_list_data[0].timestamp;
+                let timestamp = new Date(1000*document.likes_comment_likes[i].string_list_data[0].timestamp);
                 array[i] = {title: title, href: href, timestamp: timestamp};
             }
             likedListModel.listLikedComments = array;
-        } catch {
-            this.logger.log('error', "fetchLikes - liked_comments.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchLikes - module instagram_json/likes/liked_comments.json not found");
+            } else {
+                throw e;
+            }
         }
         try {
             document = require(`${CONFIG.get('PATH')}instagram_json/likes/liked_posts.json`);
@@ -365,12 +441,16 @@ export class InstagramService {
             for (let i = 0; i < length; i++) {
                 let title = Decoding.decodeObject(document.likes_media_likes[i].title);
                 let href = Decoding.decodeObject(document.likes_media_likes[i].string_list_data[0].href);
-                let timestamp = document.likes_media_likes[i].string_list_data[0].timestamp;
+                let timestamp = new Date(1000*document.likes_media_likes[i].string_list_data[0].timestamp);
                 array[i] = {title: title, href: href, timestamp: timestamp};
             }
             likedListModel.listLikedPosts = array;
-        } catch {
-            this.logger.log('error', "fetchLikes - liked_posts.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchLikes - module instagram_json/likes/liked_posts.json not found");
+            } else {
+                throw e;
+            }
         }
 
         return likedListModel != {} ? likedListModel : undefined;
@@ -385,13 +465,17 @@ export class InstagramService {
             array = new Array<Search>(length);
             for (let i = 0; i < length; i++) {
                 let value = Decoding.decodeObject(document.searches_user[i].string_map_data[this.configInstagram.get(`${this.prefix}-search`)].value);
-                let timestamp = document.searches_user[i].string_map_data[this.configInstagram.get(`${this.prefix}-time`)].timestamp;
+                let timestamp = new Date(1000*document.searches_user[i].string_map_data[this.configInstagram.get(`${this.prefix}-time`)].timestamp);
                 array[i] = {value: value, timestamp: timestamp};
             }
             searchesModel.list = array;
             return searchesModel;
-        } catch {
-            this.logger.log('error', "fetchSearches - account_searches.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchSearches - module instagram_json/recent_search/account_searches.json not found");
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -406,8 +490,12 @@ export class InstagramService {
                 array[i] = Decoding.decodeObject(document.topics_your_reels_emotions[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value);
             }
             topicsModel.listReelSentiments = array;
-        } catch {
-            this.logger.log('error', "fetchTopics - your_reel_sentiments.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchTopics - module instagram_json/your_topics/your_reels_sentiments.json not found");
+            } else {
+                throw e;
+            }
         }
 
         try {
@@ -418,8 +506,12 @@ export class InstagramService {
                 array[i] = Decoding.decodeObject(document.topics_your_reels_topics[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value);
             }
             topicsModel.listReelTopics = array;
-        } catch {
-            this.logger.log('error', "fetchTopics - your_reel_topics.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchTopics - module instagram_json/your_topics/your_reels_topics.json not found");
+            } else {
+                throw e;
+            }
         }
 
         try {
@@ -430,8 +522,12 @@ export class InstagramService {
                 array[i] = Decoding.decodeObject(document.topics_your_topics[i].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value);
             }
             topicsModel.listTopic = array;
-        } catch {
-            this.logger.log('error', "fetchTopics - your_topics.json");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchTopics - module instagram_json/your_topics/your_topics.json not found");
+            } else {
+                throw e;
+            }
         }
         return topicsModel != {} ? topicsModel : undefined;
     }
@@ -454,15 +550,19 @@ export class InstagramService {
                     for (let j = 0; j < document.messages.length; j++) {
                         messages[j] = {
                             sender_name: Decoding.decodeObject(document.messages[j].sender_name),
-                            timestamp_ms: document.messages[j].timestamp_ms,
+                            timestamp_ms: new Date(1000 * document.messages[j].timestamp_ms),
                             content: Decoding.decodeObject(document.messages[j].content),
                             type: Decoding.decodeObject(document.messages[j].type),
                             is_unsent: document.messages[j].is_unsent
                         }
                         try {
                             messages[j].link = Decoding.decodeObject(document.messages[j].share.link);
-                        } catch {
-                            this.logger.log('info', "fetchMessages - parameter link in message is missing");
+                        } catch (e: any) {
+                            if (e.code == 'MODULE_NOT_FOUND') {
+                                this.logger.log('error', `fetchMessages - module instagram_json/messages/inbox/${directories[i]}/message_1.json not found`);
+                            } else {
+                                throw e;
+                            }
                         }
                     }
                     let participants = new Array<string>(document.participants.length);
@@ -481,8 +581,12 @@ export class InstagramService {
             } else {
                 return undefined;
             }
-        } catch {
-            this.logger.log('error', "fetchMessages ");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchMessages - directory instagram_json/messages/inbox/ not found");
+            } else {
+                throw e;
+            }
         }
     }
 }

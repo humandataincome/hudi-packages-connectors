@@ -4,7 +4,7 @@ export interface PersonalInformation {
     middleName?: string;
     lastName?: string;
     emails?: Array<string>;
-    birthdate?: DateLongFormat;
+    birthdate?: Date;
     gender?: string;
     currentCity?: string;
     homeTown?: string;
@@ -94,7 +94,7 @@ export interface AdvUsingYourInfo{
 
 export interface Relationship {
     status: string,
-    anniversary: DateLongFormat,
+    anniversary: Date,
     timestamp: Date
 }
 export interface Location {
@@ -138,12 +138,6 @@ export interface PlaceLived {
 export interface Pages {
     category?: string;
     pages?: Array<string>;
-}
-
-export interface DateLongFormat {
-    year: number;
-    month: number;
-    day: number;
 }
 
 export interface View {
