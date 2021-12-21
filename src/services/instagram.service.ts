@@ -557,12 +557,8 @@ export class InstagramService {
                         }
                         try {
                             messages[j].link = Decoding.decodeObject(document.messages[j].share.link);
-                        } catch (e: any) {
-                            if (e.code == 'MODULE_NOT_FOUND') {
-                                this.logger.log('error', `fetchMessages - module instagram_json/messages/inbox/${directories[i]}/message_1.json not found`);
-                            } else {
-                                throw e;
-                            }
+                        } catch  {
+                            //do nothing: link parameter might be present or not, in both cases it's not an error
                         }
                     }
                     let participants = new Array<string>(document.participants.length);
