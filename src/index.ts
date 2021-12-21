@@ -6,10 +6,10 @@ import {NetflixService} from "./services/netflix.service";
 import {AmazonService} from "./services/amazon.service";
 
 async function main(){
-    //console.log(await netflixServiceRun());
+    console.log(await netflixServiceRun());
     //console.log(await amazonServiceRun());
     //console.log(await facebookServiceRun());
-    console.log(await instagramServiceRun());
+    //console.log(await instagramServiceRun());
 }
 
 async function amazonServiceRun() {
@@ -20,7 +20,7 @@ async function amazonServiceRun() {
     //return await amazonService.fetchSearchDataCustomerEngagement();
     //return await amazonService.fetchAudibleLibrary();
     //return await amazonService.fetchAdvertiserAudiences();
-    //return await amazonService.fetchAdvertiserClicked();
+    return await amazonService.fetchAdvertiserClicked();
 }
 
 async function netflixServiceRun() {
@@ -31,12 +31,12 @@ async function netflixServiceRun() {
     //return await netflixService.fetchSearchHistory();
     //return await netflixService.fetchViewingActivity();
     //return await netflixService.fetchPlaybackEvents();
-    //return await netflixService.fetchProfiles();
+    return await netflixService.fetchProfiles();
 }
 
 async function facebookServiceRun() {
     const facebookService = new FacebookService();
-    //return await facebookService.fetchPersonalInformation();
+    return await facebookService.fetchPersonalInformation();
     //return await facebookService.fetchAdsInformation();
     //return await facebookService.fetchSearchHistory();
     //return await facebookService.fetchComments();
@@ -50,11 +50,10 @@ async function instagramServiceRun() {
     let configIG = new ConfigInstagram(LanguageMode.ITALIAN);
     const instagramService = new InstagramService(configIG);
     //return await instagramService.fetchPersonalInformation();
-    //return await instagramService.fetchAdsInformation();
     //return await instagramService.fetchAdsViewed();
     //return await instagramService.fetchAdsClicked();
     //return await instagramService.fetchAdsInterests();
-    return await instagramService.fetchMusicHeardInStories();
+    //return await instagramService.fetchMusicHeardInStories();
     //return await instagramService.fetchMusicRecentlyUsedInStories();
     //return await instagramService.fetchPostViewed();
     //return await instagramService.fetchVideoWatched();
@@ -68,9 +67,7 @@ async function instagramServiceRun() {
     //return await instagramService.fetchLikes();
     //return await instagramService.fetchSearches();
     //return await instagramService.fetchTopics();
-    //return await instagramService.fetchMessages();
+    return await instagramService.fetchMessages();
 }
-
-
 main();
 

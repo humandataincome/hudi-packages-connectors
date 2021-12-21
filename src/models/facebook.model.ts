@@ -21,7 +21,7 @@ export interface PersonalInformation {
     phoneNumbers?: Array<string>;
     placesLived?: Array<PlaceLived>;
     pagesInterests?: Array<Pages>;
-    registrationTimestamp?: Date;
+    registrationTimestamp?: number;
     profileUri?: string;
 }
 
@@ -57,10 +57,10 @@ export interface Conversations {
 //-----------------------------------
 export interface AppConnected {
     name?: string;
-    added_timestamp?: Date;
-    user_app_scoped_id?: number;
+    addedTimestamp?: number;
+    userAppScopedId?: number;
     category?: Status;
-    removed_timestamp?: Date;
+    removedTimestamp?: number;
 }
 
 export enum Status {
@@ -69,19 +69,19 @@ export enum Status {
 
 export interface Page {
     name?: string;
-    timestamp?: Date;
+    timestamp?: number;
 }
 
 export interface AdvInteraction{
     title?: string;
     action?: string;
-    timestamp?: Date;
+    timestamp?: number;
 }
 
 export interface CommentPosted {
     text?: string;
     author?: string;
-    timestamp?: Date;
+    timestamp?: number;
     title?: string;
 }
 
@@ -93,9 +93,9 @@ export interface AdvUsingYourInfo{
 }
 
 export interface Relationship {
-    status: string,
-    anniversary: Date,
-    timestamp: Date
+    status?: string,
+    anniversary?: DateAlternative,
+    timestamp?: number
 }
 export interface Location {
     street?: string;
@@ -109,14 +109,14 @@ export interface Location {
 
 export interface EducationExperience {
     name?: string;
-    start_timestamp?: Date;
-    end_timestamp?: Date;
+    start_timestamp?: number;
+    end_timestamp?: number;
     graduated?: boolean;
     description?: string;
     concentrations?: Array<string>;
     degree?: string;
     school_type?: string;
-    timestamp?: Date;
+    timestamp?: number;
 }
 
 export interface WorkExperience {
@@ -124,15 +124,15 @@ export interface WorkExperience {
     title?: string;
     location?: string;
     description?: string;
-    start_timestamp?: Date;
-    end_timestamp?: Date;
-    timestamp?: Date;
+    start_timestamp?: number;
+    end_timestamp?: number;
+    timestamp?: number;
 }
 
 export interface PlaceLived {
     place?: string;
-    start_timestamp?: Date;
-    timestamp?: Date;
+    start_timestamp?: number;
+    timestamp?: number;
 }
 
 export interface Pages {
@@ -143,7 +143,7 @@ export interface Pages {
 export interface View {
     name?: string;
     description?: string;
-    timestamp?: Date;
+    timestamp?: number;
 }
 
 export interface Conversation {
@@ -155,9 +155,15 @@ export interface Conversation {
 
 export interface Message {
     sender_name: string;
-    timestamp_ms: Date;
+    timestamp_ms: number;
     content: string;
     link?: string;
     type: string;
     is_unsent: boolean;
+}
+
+export interface DateAlternative {
+    year?:number,
+    month?:number,
+    day?:number
 }

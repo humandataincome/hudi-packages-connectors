@@ -22,8 +22,8 @@ export class AmazonService {
             let watchlistModel: PrimeVideoWatchlist = {};
             watchlistModel.listTitles = <Array<Title>>await Parser.parseCSV(source, this.parserOptions);
             return watchlistModel.listTitles ? watchlistModel : undefined;
-        } catch {
-            this.logger.log('error', 'fetchPrimeVideoWatchlist - Digital.PrimeVideo.Watchlist.csv');
+        } catch (e: any){
+            throw e;
         }
     }
 
@@ -33,8 +33,8 @@ export class AmazonService {
             let watchlistHistoryModel: PrimeVideoWatchlistHistory = {};
             watchlistHistoryModel.listTitles = <Array<Title>>await Parser.parseCSV(source, this.parserOptions);
             return watchlistHistoryModel.listTitles ? watchlistHistoryModel : undefined;
-        } catch {
-            this.logger.log('error', 'fetchPrimeVideoWatchlistHistory - Digital.PrimeVideo.WatchlistHistory.csv');
+        } catch (e: any){
+            throw e;
         }
     }
 
@@ -45,8 +45,8 @@ export class AmazonService {
             let viewingHistoryModel: PrimeVideoViewingHistory = {};
             viewingHistoryModel.listActivities = <Array<ViewingActivity>>await Parser.parseCSV(source, options);
             return viewingHistoryModel.listActivities ? viewingHistoryModel : undefined;
-        } catch {
-            this.logger.log('error', 'fetchPrimeVideoViewingHistory - Digital.PrimeVideo.Viewinghistory.csv');
+        } catch (e: any){
+            throw e;
         }
     }
 
@@ -56,8 +56,8 @@ export class AmazonService {
             let searchDataModel: SearchDataCustomerEngagement = {};
             searchDataModel.listSearches = <Array<Search>>await Parser.parseCSV(source, this.parserOptions);
             return searchDataModel.listSearches ? searchDataModel : undefined;
-        } catch {
-            this.logger.log('error', 'fetchSearchDataCustomerEngagement - Search-Data.Customer-Engagement.csv');
+        } catch (e: any){
+            throw e;
         }
     }
 
@@ -67,8 +67,8 @@ export class AmazonService {
             let libraryModel: AudibleLibrary = {};
             libraryModel.listAudioBooks = <Array<AudioBook>>await Parser.parseCSV(source, this.parserOptions);
             return libraryModel.listAudioBooks ? libraryModel : undefined;
-        } catch {
-            this.logger.log('error', 'fetchAudibleLibrary - Audible.Library.csv');
+        } catch (e: any){
+            throw e;
         }
     }
 
@@ -83,17 +83,13 @@ export class AmazonService {
             let directoriesADV = directories.filter((directory: string) => /Advertising/.test(directory));
 
             for (let i = 1; i < directoriesADV.length + 1; i++) {
-                try {
-                    source = path.join(__dirname, `${CONFIG.get('PATH')}amazon/Advertising.${i}/Advertising.AdvertiserAudiences.csv`);
-                    clickedModel.list = clickedModel.list.concat(<Array<string>>await Parser.parseCSV(source, options, (x: any) => (x[0])));
-                } catch {
-                    this.logger.log('error', `fetchAdvertiserClicked - Advertising.${i}/Advertising.AdvertiserAudiences.csv`);
-                }
+                source = path.join(__dirname, `${CONFIG.get('PATH')}amazon/Advertising.${i}/Advertising.AdvertiserAudiences.csv`);
+                clickedModel.list = clickedModel.list.concat(<Array<string>>await Parser.parseCSV(source, options, (x: any) => (x[0])));
             }
             clickedModel.list.sort();
             return clickedModel.list != [] ? clickedModel : undefined;
-        } catch {
-            this.logger.log('error', 'fetchAdvertiserAudiences');
+        } catch (e: any){
+            throw e;
         }
     }
 
@@ -107,17 +103,13 @@ export class AmazonService {
             let directoriesADV = directories.filter((directory: string) => /Advertising/.test(directory));
 
             for (let i = 1; i < directoriesADV.length + 1; i++) {
-                try {
-                    source = path.join(__dirname, `${CONFIG.get('PATH')}amazon/Advertising.${i}/Advertising.AdvertiserClicks.csv`);
-                    clickedModel.list = clickedModel.list.concat(<Array<string>>await Parser.parseCSV(source, options, (x: any) => (x[0])));
-                } catch {
-                    this.logger.log('error', `fetchAdvertiserClicked - Advertising.${i}/Advertising.AdvertiserClicks.csv`);
-                }
+                source = path.join(__dirname, `${CONFIG.get('PATH')}amazon/Advertising.${i}/Advertising.AdvertiserClicks.csv`);
+                clickedModel.list = clickedModel.list.concat(<Array<string>>await Parser.parseCSV(source, options, (x: any) => (x[0])));
             }
             clickedModel.list.sort();
             return clickedModel.list != [] ? clickedModel : undefined;
-        } catch {
-            this.logger.log('error', 'fetchAdvertiserClicked');
+        } catch (e: any){
+            throw e;
         }
     }
 }

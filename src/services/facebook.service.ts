@@ -14,7 +14,7 @@ import {
     PersonalInformation,
     PlaceLived,
     SearchHistory,
-    Conversation, Conversations, Message
+    Conversation, Conversations, Message,
 } from "../models/facebook.model";
 import {CONFIG} from "../config/config.utils";
 import {Decoding} from "../utils/decoding";
@@ -47,7 +47,7 @@ export class FacebookService{
                 this.logger.log('info', 'fetchPersonalInformation - emails parameter is missing');
             }
             try {
-                personalInfoModel.birthdate = document.profile_v2.birthday;
+                personalInfoModel.birthdate = new Date(Date.UTC(document.profile_v2.birthday.year, document.profile_v2.birthday.month-1, document.profile_v2.birthday.day, 0, 0, 0));
             } catch {
                 this.logger.log('info', 'fetchPersonalInformation - birthdate parameter is missing');
             }
@@ -80,9 +80,7 @@ export class FacebookService{
             } catch {
                 this.logger.log('info', 'fetchPersonalInformation - education_experiences parameter is missing');
             }
-
             try {
-
                 personalInfoModel.workExperience = Decoding.decodeObject(document.profile_v2.work_experiences);
             } catch {
                 this.logger.log('info', 'fetchPersonalInformation - work_experiences parameter is missing');
@@ -129,7 +127,7 @@ export class FacebookService{
                 this.logger.log('info', 'fetchPersonalInformation - address parameter is missing');
             }
             try {
-                //to fill
+                personalInfoModel.phoneNumbers = document.profile_v2.phone_numbers;
             } catch {
                 this.logger.log('info', 'fetchPersonalInformation - phone_numbers parameter is missing');
             }
@@ -163,8 +161,12 @@ export class FacebookService{
                 this.logger.log('info', 'fetchPersonalInformation - profile_uri parameter is missing');
             }
             return personalInfoModel != {} ? personalInfoModel : undefined;
-        } catch {
-            this.logger.log('info', 'fetchPersonalInformation - profile_information.json ');
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND'){
+                this.logger.log('error', 'fetchPersonalInformation - module facebook_json/profile_information/profile_information.json not found');
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -176,8 +178,12 @@ export class FacebookService{
             for(let i = 0; i < document.history_v2.length; i++){
                 adsInformationModel.listAdsInteractedWith[i] = Decoding.decodeObject(document.history_v2[i]);
             }
-        } catch {
-            this.logger.log('error', 'fetchAdsInformation - advertisers_you\'ve_interacted_with.json');
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND'){
+                this.logger.log('error', 'fetchAdsInformation - module facebook_json/ads_information/advertisers_you\'ve_interacted_with.json not found');
+            } else {
+                throw e;
+            }
         }
         try {
             let document = require(`${CONFIG.get('PATH')}facebook_json/ads_information/advertisers_using_your_activity_or_information.json`);
@@ -185,8 +191,12 @@ export class FacebookService{
             for(let i = 0; i < document.custom_audiences_all_types_v2.length; i++){
                 adsInformationModel.listAdsUsingYourInfo[i] = Decoding.decodeObject(document.custom_audiences_all_types_v2[i]);
             }
-        } catch {
-            this.logger.log('error', 'fetchAdsInformation - advertisers_using_your_activity_or_information.json');
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND'){
+                this.logger.log('error', 'fetchAdsInformation - module facebook_json/ads_information/advertisers_using_your_activity_or_information.json not found');
+            } else {
+                throw e;
+            }
         }
         return adsInformationModel != {} ? adsInformationModel : undefined;
     }
@@ -200,8 +210,12 @@ export class FacebookService{
                 searchHistoryModel.searches[i] = Decoding.decodeObject(document.searches_v2[i].data[0].text);
             }
             return searchHistoryModel != {} ? searchHistoryModel : undefined;
-        } catch {
-            this.logger.log('error', 'fetchSearchHistory - your_search_history.json');
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND'){
+                this.logger.log('error', 'fetchSearchHistory - module facebook_json/search/your_search_history.json not found');
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -234,8 +248,12 @@ export class FacebookService{
                 }
             }
             return commentsPostedModel != {} ? commentsPostedModel : undefined;
-        } catch {
-            this.logger.log('error', 'fetchComments - comments.json');
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND'){
+                this.logger.log('error', 'fetchComments - module facebook_json/comments_and_reactions/comments.json not found');
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -251,8 +269,12 @@ export class FacebookService{
                 };
             }
             return modelPagesLiked != {} ? modelPagesLiked : undefined;
-        } catch {
-            this.logger.log('error', 'fetchPageLiked - pages_you\'ve_liked.json');
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND'){
+                this.logger.log('error', 'fetchPageLiked - module facebook_json/pages/pages_you\'ve_liked.json not found');
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -268,8 +290,12 @@ export class FacebookService{
                 };
             }
             return modelPagesFollow!= {} ? modelPagesFollow : undefined;
-        } catch {
-            this.logger.log('error', 'fetchPageFollow - pages_you_follow.json');
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND'){
+                this.logger.log('error', 'fetchPageFollowed - module facebook_json/pages/pages_you_follow.json not found');
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -279,11 +305,24 @@ export class FacebookService{
             let document = require(`${CONFIG.get('PATH')}facebook_json/apps_and_websites_off_of_facebook/apps_and_websites.json`);
             modelAppsConnected.listApps = Array<AppConnected>(document.installed_apps_v2.length);
             for(let i = 0; i < document.installed_apps_v2.length; i++) {
-                modelAppsConnected.listApps[i] = document.installed_apps_v2[i];
+                modelAppsConnected.listApps[i] = {
+                    name: Decoding.decodeObject(document.installed_apps_v2[i].name),
+                    userAppScopedId: document.installed_apps_v2[i].user_app_scoped_id,
+                    category: Decoding.decodeObject(document.installed_apps_v2[i].category),
+                };
+                if(document.installed_apps_v2[i].added_timestamp != 0) {
+                    modelAppsConnected.listApps[i].addedTimestamp = document.installed_apps_v2[i].added_timestamp;
+                } else {
+                    modelAppsConnected.listApps[i].removedTimestamp = document.installed_apps_v2[i].removed_timestamp;
+                }
             }
             return modelAppsConnected != {} ? modelAppsConnected : undefined;
-        } catch {
-            this.logger.log('error', 'fetchAppsConnected - app_and_websites.json');
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND'){
+                this.logger.log('error', 'fetchAppsConnected - module facebook_json/apps_and_websites_off_of_facebook/apps_and_websites.json not found');
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -313,7 +352,7 @@ export class FacebookService{
                         try {
                             messages[j].link = Decoding.decodeObject(document.messages[j].share.link);
                         } catch {
-                            this.logger.log('info', "fetchMessages - parameter link in message is missing");
+                            //do nothing: link parameter might be present or not, in both cases it's not an error
                         }
                     }
                     let participants = new Array<string>(document.participants.length);
@@ -332,8 +371,12 @@ export class FacebookService{
             } else {
                 return undefined;
             }
-        } catch {
-            this.logger.log('error', "fetchMessages ");
+        } catch (e: any) {
+            if(e.code == 'MODULE_NOT_FOUND') {
+                this.logger.log('error', "fetchMessages - directory facebook_json/messages/inbox/ not found");
+            } else {
+                throw e;
+            }
         }
     }
 }
