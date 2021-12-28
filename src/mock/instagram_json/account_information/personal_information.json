@@ -22,7 +22,7 @@
         },
         "Nome utente": {
           "href": "",
-          "value": "fakeUsername",
+          "value": "fakeUsername\u00f0\u009f\u0098\u0082",
           "timestamp": 0
         },
         "Nome": {

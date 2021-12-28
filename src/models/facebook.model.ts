@@ -25,9 +25,12 @@ export interface PersonalInformation {
     profileUri?: string;
 }
 
-export interface AdsInformation {
-    listAdsInteractedWith?: Array<AdvInteraction>;
-    listAdsUsingYourInfo?: Array<AdvUsingYourInfo>;
+export interface AdsInteractedWith {
+    list?: Array<AdvInteraction>;
+}
+
+export interface AdsUsingYourInfo {
+    list?: Array<AdvUsingYourInfo>;
 }
 
 export interface SearchHistory {
@@ -35,7 +38,7 @@ export interface SearchHistory {
 }
 
 export interface CommentsPosted {
-    listCommentsPosted?: Array<CommentPosted>;
+    list?: Array<CommentPosted | undefined>;
 }
 
 export interface PagesLiked{

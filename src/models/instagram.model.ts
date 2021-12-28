@@ -56,8 +56,11 @@ export interface SyncedContracts {
     list: Array<ContactSynced>;
 }
 
-export interface PersonalPosts {
+export interface ArchivedPosts {
     listArchivedPosts?: Array<Post>;
+}
+
+export interface PersonalPosts {
     listPost?: Array<Post>;
 }
 
@@ -65,25 +68,37 @@ export interface Followers {
     listAccounts?: Array<Account>;
 }
 
-export interface Following {
-    listAccounts?: Array<Account>;
-    listHashtags?: Array<Account>;
+export interface FollowingAccounts {
+    list?: Array<Account>;
 }
 
-export interface LikedList {
-    listLikedPosts?: Array<Like>;
-    listLikedComments?: Array<Like>;
+export interface FollowingHashtags {
+    list?: Array<Account>;
+}
+
+export interface LikedPosts {
+    list?: Array<Like>;
+}
+
+export interface LikedComments {
+    list?: Array<Like>;
 }
 
 export interface Searches {
     list?: Array<Search>;
 }
 
-export interface Topics {
-    listReelSentiments?: Array<string>;
-    listReelTopics?: Array<string>;
-    listTopic?: Array<string>;
+export interface ReelSentiments {
+    list?: Array<string>;
 }
+export interface ReelTopics {
+    list?: Array<string>;
+}
+
+export interface Topics {
+    list?: Array<string>;
+}
+
  export interface Conversations {
     listInbox?: Array<Conversation>;
  }

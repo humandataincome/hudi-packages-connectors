@@ -1,5 +1,5 @@
-import {parse} from "csv-parse";
 import fs from "fs";
+import {parse} from "csv-parse";
 import Logger from "./logger";
 
 export class Parser {

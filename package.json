@@ -4,7 +4,8 @@
   "description": "A set of connectors for data source",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=local ts-node src/index.ts"
+    "start": "NODE_ENV=local ts-node src/index.ts",
+    "test": "NODE_ENV=local ts-node test/test.ts"
   },
   "repository": {
     "type": "git",
@@ -21,8 +22,6 @@
   },
   "dependencies": {
     "csv-parse": "^5.0.3",
-    "dotenv": "^10.0.0",
-    "fs": "0.0.1-security",
-    "winston": "^3.3.3"
+    "dotenv": "^10.0.0"
   }
 }
