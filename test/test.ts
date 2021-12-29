@@ -8,10 +8,12 @@ import {ConfigInstagram} from "../src/config/config.instagram";
 import {CONFIG} from "../src/config/config.utils";
 import {Conversation as ConversationIG, Conversations as ConversationsIG} from "../src/models/instagram.model";
 import {Conversation as ConversationFB, Conversations as ConversationsFB} from "../src/models/facebook.model";
+import path from "path";
+import {Parser} from "../src/utils/parser";
 
 async function test(){
-    //await netflixServiceTest();
-    await amazonServiceTest();
+    await netflixServiceTest();
+    //await amazonServiceTest();
     //await facebookServiceTest();
     //await instagramServiceTest();
 }
@@ -28,14 +30,16 @@ async function amazonServiceTest() {
 }
 
 async function netflixServiceTest() {
-    const netflixService = new NetflixService();
-    //return await netflixService.fetchPersonalInformation();
-    //return await netflixService.fetchPreferences();
-    //return await netflixService.fetchMyList();
-    //return await netflixService.fetchSearchHistory();
-    //return await netflixService.fetchViewingActivity();
-    //return await netflixService.fetchPlaybackEvents();
-    //return await netflixService.fetchProfiles();
+    try {
+        const netflixService = new NetflixService();
+        console.log(await netflixService.parsePersonalInformation(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/ACCOUNT/AccountDetails.csv`))));
+        console.log(await netflixService.parsePreferences(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/IndicatedPreferences.csv`))));
+        //return await netflixService.fetchMyList();
+        //return await netflixService.fetchSearchHistory();
+        //return await netflixService.fetchViewingActivity();
+        //return await netflixService.fetchPlaybackEvents();
+        //return await netflixService.fetchProfiles();
+    } catch (e: any) {}
 }
 
 async function facebookServiceTest() {

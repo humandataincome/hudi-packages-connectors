@@ -25,7 +25,7 @@ export interface PersonalInformation {
 }
 
 export interface PreferencesAccount {
-    listPreferences?: Array<Preference>;
+    list?: Array<Preference>;
 }
 
 export interface MyListAccount {
