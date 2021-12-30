@@ -1,109 +1,108 @@
 
 export interface PersonalInformation {
-    'First Name'?: string;
-    'Last Name'?: string;
-    'Email Address'?: string;
-    'Phone Number'?: string;
-    'Country Of Registration'?: string;
-    'Country Of Signup'?: string;
-    'Primary Lang'?: string;
-    'Cookie Disclosure'?: boolean;
-    'Membership Status'?: string; //there should be an enum (CURRENT_MEMBER,)
-    'Customer Creation Timestamp'?: Date;
-    'Has Rejoined'?: boolean;
-    //all below parameters are YES or NO values
-    'Netflix Updates'?: string;
-    'Now On Netflix'?: string;
-    'Netflix Offers'?: string;
-    'Netflix Surveys'?: string;
-    'Netflix Kids And Family'?: string;
-    'Sms Account Related'?: string;
-    'Sms Content Updates And Special Offers'?: string;
-    'Test Participation'?: string;
-    'Whats App'?: string;
-    'Marketing Communications Matched Identifiers'?: string;
+    firstName?: string;
+    lastName?: string;
+    emailAddress?: string;
+    phoneNumber?: string;
+    countryRegistration?: string;
+    countrySignup?: string;
+    primaryLang?: string;
+    cookieDisclosure?: boolean;
+    membershipStatus?: string;
+    creationTime?: Date;
+    hasRejoined?: boolean;
+    netflixUpdates?: boolean;
+    nowOnNetflix?: boolean;
+    netflixOffers?: boolean;
+    netflixSurveys?: boolean;
+    netflixKidsFamily?: boolean;
+    smsAccountRelated?: boolean;
+    smsContentUpdates?: boolean;
+    testParticipation?: boolean;
+    whatsApp?: boolean;
+    marketingCommunications?: boolean;
 }
 
 export interface PreferencesAccount {
-    list?: Array<Preference>;
+    list: Array<Preference>;
 }
 
 export interface MyListAccount {
-    list?: Array<Title>;
+    list: Array<Title>;
 }
 
 export interface SearchHistory {
-    listSearches?: Array<Search>;
+    list: Array<Search>;
 }
 
 export interface ViewingActivity {
-    listActivities?: Array<Activity>;
+    list: Array<Activity>;
 }
 
 export interface PlaybackEvents {
-    listEvents?: Array<Event>;
+    list: Array<Event>;
 }
 
 export interface Profiles {
-    list?: Array<Profile>;
+    list: Array<Profile>;
 }
 //----------------------------------
 export interface Preference {
-    'Profile Name'?: string;
-    'Show'?: string;
-    'Has Watched'?: boolean;
-    'Is Interested'?: boolean;
-    'Event Date'?: Date;
+    profileName?: string;
+    show?: string;
+    hasWatched?: boolean;
+    isInterested?: boolean;
+    eventDate?: Date;
 }
 
 export interface Title {
-    'Profile Name'?: string;
-    'Title Name'?: string;
-    'Country'?: string;
-    'Utc Title Add Date'?: Date;
+    profileName?: string;
+    titleName?: string;
+    country?: string;
+    titleAddDate?: Date;
 }
 
 export interface Search {
-    'Profile Name'?: string;
-    'Country Iso Code'?: string;
-    'Device'?: string;
-    'Is Kids'?: string;
-    'Query Typed'?: string;
-    'Displayed Name'?: string;
-    'Action'?: string;
-    'Section'?: string;
-    'Utc Timestamp'?: string;
+    profileName?: string;
+    countryIsoCode?: string;
+    device?: string;
+    isKids?: boolean;
+    queryTyped?: string;
+    displayedName?: string;
+    action?: string;
+    section?: string;
+    time?: Date;
 }
 
 export interface Activity{
-    'Profile Name'?: string;
-    'Start Time'?: string;
-    'Duration'?: string;
-    'Attributes'?: string;
-    'Title'?: string;
-    'Supplemental Video Type'?: string;
-    'Device Type'?: string;
-    'Bookmark'?: string;
-    'Latest Bookmark'?: string;
-    'Country'?: string;
+    profileName?: string;
+    startTime?: Date;
+    duration?: string;
+    attributes?: string;
+    title?: string;
+    videoType?: string;
+    deviceType?: string;
+    bookmark?: string;
+    latestBookmark?: string;
+    country?: string;
 }
 
 export interface Event {
-    'Profile Name'?: string;
-    'Title Description'?: string;
-    'Device'?: string;
-    'Playback Start Utc Ts'?: string;
-    'Country'?: string;
-    'Playtraces'?: string;
+    profileName?: string;
+    titleDescription?: string;
+    device?: string;
+    playbackStartTime?: Date;
+    country?: string;
+    playtraces?: string;
 }
 
 export interface Profile {
-    'Profile Name'?: string;
-    'Email Address'?: string;
-    'Profile Creation Time'?: string;
-    'Maturity Level'?: string;
-    'Primary Lang'?: string;
-    'Has Auto Playback'?: string;
-    'Max Stream Quality'?: string;
-    'Profile Lock Enabled'?: string;
+    profileName?: string;
+    emailAddress?: string;
+    profileCreationTime?: Date;
+    maturityLevel?: string;
+    primaryLanguage?: string;
+    hasAutoPlayback?: boolean;
+    maxStreamQuality?: string;
+    profileLockEnabled?: boolean;
 }

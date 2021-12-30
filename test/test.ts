@@ -12,34 +12,32 @@ import path from "path";
 import {Parser} from "../src/utils/parser";
 
 async function test(){
-    await netflixServiceTest();
-    //await amazonServiceTest();
+    //await netflixServiceTest();
+    await amazonServiceTest();
     //await facebookServiceTest();
     //await instagramServiceTest();
 }
 
 async function amazonServiceTest() {
     const amazonService = new AmazonService();
-    //return await amazonService.fetchPrimeVideoWatchlist();
-    //return await amazonService.fetchPrimeVideoWatchlistHistory();
-    //return await amazonService.fetchPrimeVideoViewingHistory();
-    //return await amazonService.fetchSearchDataCustomerEngagement();
+    //console.log(await amazonService.parsePrimeVideoWatchlist(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv`))));
+    //console.log(await amazonService.parsePrimeVideoWatchlistHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv`))));
+    //console.log(await amazonService.parsePrimeVideoViewingHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv`))));
+    console.log(await amazonService.parseSearchDataCustomerEngagement(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Search-Data/Search-Data.Customer-Engagement.csv`))));
     //return await amazonService.fetchAudibleLibrary();
     //return await amazonService.fetchAdvertiserAudiences();
     //return await amazonService.fetchAdvertiserClicked();
 }
 
 async function netflixServiceTest() {
-    try {
-        const netflixService = new NetflixService();
-        console.log(await netflixService.parsePersonalInformation(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/ACCOUNT/AccountDetails.csv`))));
-        console.log(await netflixService.parsePreferences(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/IndicatedPreferences.csv`))));
-        //return await netflixService.fetchMyList();
-        //return await netflixService.fetchSearchHistory();
-        //return await netflixService.fetchViewingActivity();
-        //return await netflixService.fetchPlaybackEvents();
-        //return await netflixService.fetchProfiles();
-    } catch (e: any) {}
+    const netflixService = new NetflixService();
+    //console.log(await netflixService.parsePersonalInformation(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/ACCOUNT/AccountDetails.csv`))));
+    //console.log(await netflixService.parsePreferences(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/IndicatedPreferences.csv`))));
+    //console.log(await netflixService.parseMyList(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/MyList.csv`))));
+    console.log(await netflixService.parseSearchHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/SearchHistory.csv`))));
+    console.log(await netflixService.parseViewingActivity(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/ViewingActivity.csv`))));
+    console.log(await netflixService.parsePlaybackEvents(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/PlaybackRelatedEvents.csv`))));
+    console.log(await netflixService.parseProfiles(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/PROFILES/Profiles.csv`))));
 }
 
 async function facebookServiceTest() {

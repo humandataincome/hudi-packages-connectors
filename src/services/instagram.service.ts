@@ -72,7 +72,7 @@ export class InstagramService {
             }
             return personalInfoModel != {} ? personalInfoModel : undefined;
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parsePersonalInformation');
+            this.logger.log('error', `${e}`,'parsePersonalInformation');
         }
     }
 
@@ -81,7 +81,7 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             return {basedIn: Decoding.decodeObject(document.inferred_data_primary_location[0].string_map_data[this.configInstagram.get(`${this.prefix}-cityName`)].value)};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseLocation');
+            this.logger.log('error', `${e}`,'parseLocation');
         }
     }
 
@@ -90,7 +90,7 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             return {list: document.impressions_history_ads_clicked.map((value: any) => Decoding.decodeObject(value.title))};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseAdsClicked');
+            this.logger.log('error', `${e}`,'parseAdsClicked');
         }
     }
 
@@ -99,7 +99,7 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             return {list: document.impressions_history_ads_seen.map((value:any) => Decoding.decodeObject(value.string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value))};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseAdsViewed');
+            this.logger.log('error', `${e}`,'parseAdsViewed');
         }
     }
 
@@ -108,7 +108,7 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             return {list: document.inferred_data_ig_interest.map((value: any) => Decoding.decodeObject(value.string_map_data[this.configInstagram.get(`${this.prefix}-interest`)].value))};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseAdsInterests');
+            this.logger.log('error', `${e}`,'parseAdsInterests');
         }
     }
 
@@ -123,7 +123,7 @@ export class InstagramService {
                 }
             })};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseMusicHeardInStories');
+            this.logger.log('error', `${e}`,'parseMusicHeardInStories');
         }
     }
 
@@ -138,7 +138,7 @@ export class InstagramService {
                 }
             })};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseMusicRecentlyUsedInStories');
+            this.logger.log('error', `${e}`,'parseMusicRecentlyUsedInStories');
         }
     }
 
@@ -147,7 +147,7 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             return {list: document.impressions_history_posts_seen.map((value: any) => Decoding.decodeObject(value.string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value))};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parsePostViewed');
+            this.logger.log('error', `${e}`,'parsePostViewed');
         }
     }
 
@@ -156,7 +156,7 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             return {list: document.impressions_history_videos_watched.map((value: any) => Decoding.decodeObject(value.string_map_data[this.configInstagram.get(`${this.prefix}-author`)].value))};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseVideoWatched');
+            this.logger.log('error', `${e}`,'parseVideoWatched');
         }
     }
 
@@ -165,7 +165,7 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             return {list: document.impressions_history_chaining_seen.map((value: any) => Decoding.decodeObject(value.string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value))};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseSuggestedAccountViewed');
+            this.logger.log('error', `${e}`,'parseSuggestedAccountViewed');
         }
     }
 
@@ -174,7 +174,7 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             return {list: document.impressions_history_recs_hidden_authors.map((value: any) => Decoding.decodeObject(value.string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value))};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseAccountYouAreNotInterested');
+            this.logger.log('error', `${e}`,'parseAccountYouAreNotInterested');
         }
     }
 
@@ -189,7 +189,7 @@ export class InstagramService {
                 }
             })};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseCommentsPosted');
+            this.logger.log('error', `${e}`,'parseCommentsPosted');
         }
     }
 
@@ -204,7 +204,7 @@ export class InstagramService {
                 }
             })};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseSyncedContracts');
+            this.logger.log('error', `${e}`,'parseSyncedContracts');
         }
     }
 
@@ -219,7 +219,7 @@ export class InstagramService {
                 }
             })};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseArchivedPost');
+            this.logger.log('error', `${e}`,'parseArchivedPost');
         }
     }
 
@@ -234,7 +234,7 @@ export class InstagramService {
                 }
             })};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parsePersonalPost');
+            this.logger.log('error', `${e}`,'parsePersonalPost');
         }
     }
 
@@ -249,7 +249,7 @@ export class InstagramService {
                     }
                 })};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseFollowers');
+            this.logger.log('error', `${e}`,'parseFollowers');
         }
     }
 
@@ -264,7 +264,7 @@ export class InstagramService {
                 }
             })};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseFollowingAccounts');
+            this.logger.log('error', `${e}`,'parseFollowingAccounts');
         }
     }
 
@@ -279,7 +279,7 @@ export class InstagramService {
                     }
                 })};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseFollowingHashtags');
+            this.logger.log('error', `${e}`,'parseFollowingHashtags');
         }
     }
 
@@ -294,7 +294,7 @@ export class InstagramService {
                 }
             })};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseLikedPosts');
+            this.logger.log('error', `${e}`,'parseLikedPosts');
         }
     }
 
@@ -309,7 +309,7 @@ export class InstagramService {
                 }
             })};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseLikedComments');
+            this.logger.log('error', `${e}`,'parseLikedComments');
         }
     }
 
@@ -323,7 +323,7 @@ export class InstagramService {
                 }
             })};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseSearches');
+            this.logger.log('error', `${e}`,'parseSearches');
         }
     }
 
@@ -332,7 +332,7 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             return {list: document.topics_your_reels_emotions.map((value: any) => Decoding.decodeObject(value.string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value))};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseReelSentiments');
+            this.logger.log('error', `${e}`,'parseReelSentiments');
         }
     }
 
@@ -341,7 +341,7 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             return {list: document.topics_your_reels_topics.map((value: any) => Decoding.decodeObject(value.string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value))};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseReelTopics');
+            this.logger.log('error', `${e}`,'parseReelTopics');
         }
     }
 
@@ -350,7 +350,7 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             return {list: document.topics_your_topics.map((value: any) => Decoding.decodeObject(value.string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value))};
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseTopics');
+            this.logger.log('error', `${e}`,'parseTopics');
         }
     }
 
@@ -382,7 +382,7 @@ export class InstagramService {
                 is_still_participant: document.is_still_participant
             }
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseMessages');
+            this.logger.log('error', `${e}`,'parseMessages');
         }
     }
 }

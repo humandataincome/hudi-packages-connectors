@@ -1,31 +1,8 @@
-import fs, {write} from "fs";
-import {parse} from "csv-parse";
+import fs from "fs";
 import Logger from "./logger";
 
 export class Parser {
     private static logger = new Logger("Parser");
-
-    static parseCSV(source: string, options: object, filter: Function = (x: any) => (x)) {
-        return new Promise((resolve, reject) => {
-            const parser = parse(options, function (error, csvLine) {
-                try {
-                    let result = csvLine.map(filter);
-                    resolve(result);
-                } catch {
-                    reject(error);
-                }
-            });
-            const stream = fs.createReadStream(source, {encoding: 'utf8'});
-            stream.on('error', (error: any) => {
-                if (error.code == 'ENOENT') {
-                    this.logger.log('error', 'module '+source+' not found');
-                } else {
-                    throw error;
-                }
-            });
-            stream.pipe(parser);
-        });
-    }
 
     static CSVToBuffer(source: string): Promise<Buffer>{
         let buffer: Buffer[] = [];
@@ -50,6 +27,40 @@ export class Parser {
         });
     }
 
+    static parseFromBufferToJson<Type>(data: Buffer, checkBrackets: boolean): Array<Type> | undefined {
+        try {
+            let matrix = this.clearDataBuffer(data, checkBrackets);
+            if (matrix && matrix.length > 2) {
+                matrix.pop();
+                let keys = matrix.shift();
+                let values: any[] = [];
+                matrix.map(array => {
+                    let result: any = {};
+                    array.map((value, i) => {
+                        keys && (result[keys[i]] = value);
+                    });
+                    values.push(result);
+                });
+                return values;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e.code}`,'parseFromBufferToJson');
+        }
+    }
+    /** casi da gestire: "[{},{},...,{}]" oppure "425917031,518109031"**/
+    /**portare fuori s.replace(/"/g, '') **/
+
+    private static clearDataBuffer(data: Buffer, checkBrackets: boolean): string[][] | undefined{
+        try {
+            if(checkBrackets){
+                return data.toString().split(/\r?\n/).map((s: string) => s.replace(/"/g, '')).map((row: string) => row.split(/,(?![^\(\[]*[\]\)])/));
+            } else {
+                return data.toString().split(/\r?\n/).map((row: string) => row.split(/,(?![^\(\[]*[\]\)])/));
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e.code}`,'clearDataBuffer');
+        }
+    }
     /**NOT WORKING: write function doesn't start from the last buffer position that has already had been written**/
     /*
     static CSVToBuffer2(source: string): Promise<Buffer>{
@@ -88,7 +99,29 @@ export class Parser {
             });
         });
     }
-
+     */
+    /*
+    static parseCSV(source: string, options: object, filter: Function = (x: any) => (x)) {
+        return new Promise((resolve, reject) => {
+            const parser = parse(options, function (error, csvLine) {
+                try {
+                    let result = csvLine.map(filter);
+                    resolve(result);
+                } catch {
+                    reject(error);
+                }
+            });
+            const stream = fs.createReadStream(source, {encoding: 'utf8'});
+            stream.on('error', (error: any) => {
+                if (error.code == 'ENOENT') {
+                    this.logger.log('error', 'module '+source+' not found');
+                } else {
+                    throw error;
+                }
+            });
+            stream.pipe(parser);
+        });
+    }
      */
 }
 

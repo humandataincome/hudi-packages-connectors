@@ -145,7 +145,7 @@ export class FacebookService{
             }
             return personalInfoModel != {} ? personalInfoModel : undefined;
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parsePersonalInformation');
+            this.logger.log('error', `${e}`,'parsePersonalInformation');
         }
     }
 
@@ -156,7 +156,7 @@ export class FacebookService{
             adsModel.list = Decoding.decodeObject(document.history_v2);
             return adsModel != {} ? adsModel : undefined;
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseAdsInteractedWith');
+            this.logger.log('error', `${e}`,'parseAdsInteractedWith');
         }
     }
 
@@ -167,7 +167,7 @@ export class FacebookService{
             adsModel.list = Decoding.decodeObject(document.custom_audiences_all_types_v2);
             return adsModel != {} ? adsModel : undefined;
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseAdsUsingYourInfo');
+            this.logger.log('error', `${e}`,'parseAdsUsingYourInfo');
         }
     }
 
@@ -178,7 +178,7 @@ export class FacebookService{
             searchHistoryModel.searches = document.searches_v2.map((value: any) => Decoding.decodeObject(value.data[0].text));
             return searchHistoryModel != {} ? searchHistoryModel : undefined;
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseSearchHistory');
+            this.logger.log('error', `${e}`,'parseSearchHistory');
         }
     }
 
@@ -201,7 +201,7 @@ export class FacebookService{
             });
             return commentsPostedModel != {} ? commentsPostedModel : undefined;
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseComments');
+            this.logger.log('error', `${e}`,'parseComments');
         }
     }
 
@@ -217,7 +217,7 @@ export class FacebookService{
             });
             return modelPagesLiked != {} ? modelPagesLiked : undefined;
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parsePageLiked');
+            this.logger.log('error', `${e}`,'parsePageLiked');
         }
     }
 
@@ -233,7 +233,7 @@ export class FacebookService{
             });
             return modelPagesFollow != {} ? modelPagesFollow : undefined;
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parsePageFollowed');
+            this.logger.log('error', `${e}`,'parsePageFollowed');
         }
     }
 
@@ -257,7 +257,7 @@ export class FacebookService{
             });
             return modelAppsConnected != {} ? modelAppsConnected : undefined;
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseAppsConnected');
+            this.logger.log('error', `${e}`,'parseAppsConnected');
         }
     }
 
@@ -288,7 +288,7 @@ export class FacebookService{
                 is_still_participant: document.is_still_participant
             }
         } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'parseMessages');
+            this.logger.log('error', `${e}`,'parseMessages');
         }
     }
 }
