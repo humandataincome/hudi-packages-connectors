@@ -57,7 +57,7 @@ export class AmazonService {
 
     async parsePrimeVideoViewingHistory(data: Buffer): Promise<PrimeVideoViewingHistory | undefined> {
         try {
-            let result = <Array<any>>Parser.parseFromBufferToJson(data, true);
+            let result = <Array<any>>Parser.parseFromBufferToJson(data, false);
             if(result) {
                 let model: PrimeVideoViewingHistory = {list: []}
                 result.map((listItem) => {
@@ -87,8 +87,8 @@ export class AmazonService {
 
     async parseSearchDataCustomerEngagement(data: Buffer): Promise<SearchDataCustomerEngagement | undefined> {
         try {
-            let result = <Array<any>>Parser.parseFromBufferToJson(data, true);
-            console.log(result)
+            let result = <Array<any>>Parser.parseFromBufferToJson(data, false);
+            //console.log(result)
             if(result) {
                 let model: SearchDataCustomerEngagement = {list: []}
                 result.map((listItem) => {
@@ -100,7 +100,7 @@ export class AmazonService {
                     (listItem['Site Variant'] != '') && (newItem.siteVariant = listItem['Site Variant']);
                     (listItem['Application / Browser Name'] != '') && (newItem.appOrBrowser = listItem['Application / Browser Name']);
                     (listItem['Device Model'] != '') && (newItem.deviceModel = listItem['Device Model']);
-                    (listItem['Search Type (Keyword,Visual,Browse)'] != '') && (newItem.searchType = listItem['Search Type (Keyword,Visual,Browse)']);
+                    (listItem['"Search Type (Keyword,Visual,Browse)"'] != '') && (newItem.searchType = listItem['"Search Type (Keyword,Visual,Browse)"']);
                     (listItem['Session ID'] != '') && (newItem.sessionID = listItem['Session ID']);
                     (listItem['Query ID'] != '') && (newItem.queryID = listItem['Query ID']);
                     (listItem['Prime Customer (Y/N)'] != '') && (newItem.primeCustomer = listItem['Prime Customer (Y/N)'] == '1');
@@ -121,7 +121,7 @@ export class AmazonService {
                     (listItem['Server'] != '') && (newItem.server = listItem['Server']);
                     (listItem['Amazon Fresh Customer (Y/N)'] != '') && (newItem.isFreshCustomer = listItem['Amazon Fresh Customer (Y/N)'] == '1');
                     (listItem['Music Subscriber (Y/N)'] != '') && (newItem.isMusicSubscriber = listItem['Music Subscriber (Y/N)'] == '1');
-                    (listItem['First Browser Node'] != '') && (newItem.firstBrowserNode = listItem['First Browser Node']);
+                    (listItem['First Browse Node'] != '') && (newItem.firstBrowseNode = listItem['First Browse Node']);
                     (listItem['Last search Time (GMT)'] != '') && (match = listItem['Last search Time (GMT)'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+).0/));
                     (listItem['Last search Time (GMT)'] != '') && (newItem.lastSearchTime = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
                     (listItem['Last Department'] != '') && (newItem.lastDepartment = listItem['Last Department']);
@@ -159,9 +159,9 @@ export class AmazonService {
                     (listItem['Department'] != '') && (newItem.department = listItem['Department']);
                     (listItem['Browse Node'] != '') && (newItem.browserNode = listItem['Browse Node']);
                     (listItem['First Search Domain'] != '') && (newItem.firstSearchDomain = listItem['First Search Domain']);
-                    (listItem['Is First Search From External Ad'] != '') && (newItem.isFirstSearchFromExternalAd = listItem['Is First Search From External Ad'] == 'true');
+                    (listItem['Is First Search From External Ad'] != '') && (newItem.isFirstSearchFromExternalAd = listItem['Is First Search From External Ad'].toLowerCase() == 'yes');
                     (listItem['User Agent Info Family'] != '') && (newItem.userAgentInfoFamily = listItem['User Agent Info Family']);
-                    (listItem['LKCI'] != '') && (newItem.LKCI = listItem['LKCI]']);
+                    (listItem.LKCI != '') && (newItem.LKCI = listItem['LKCI']);
                     model.list.push(newItem);
                 });
                 return model;
@@ -170,58 +170,74 @@ export class AmazonService {
             this.logger.log('error', `${e}`,'parseSearchDataCustomerEngagement');
         }
     }
-    /*
-    async fetchAudibleLibrary(): Promise<AudibleLibrary | undefined> {
+
+    async parseAudibleLibrary(data: Buffer): Promise<AudibleLibrary | undefined> {
         try {
-            const source = path.join(__dirname, `${CONFIG.get('PATH')}amazon/Audible.Library.csv`);
-            let libraryModel: AudibleLibrary = {};
-            libraryModel.listAudioBooks = <Array<AudioBook>>await Parser.parseCSV(source, this.parserOptions);
-            return libraryModel.listAudioBooks ? libraryModel : undefined;
+            let result = <Array<any>>Parser.parseFromBufferToJson(data, true);
+            if(result) {
+                let model: AudibleLibrary = {list: []}
+                result.map((listItem) => {
+                    let newItem: AudioBook = {}, match, month;
+                    (listItem['﻿DateAdded'] != '') && (match = listItem['﻿DateAdded'].match(/(\d+)-(\w+)-(\d+)/));
+                    (listItem['﻿DateAdded'] != '') && (month = Parser.parseAudibleDate(match[2]));
+                    (month && month != -1) && (newItem.dateAdded = new Date(Date.UTC(parseInt(match[3]), month - 1, parseInt(match[1]), 0, 0, 0)));
+                    (listItem.Title != '') && (newItem.title = listItem.Title);
+                    (listItem.Asin != '') && (newItem.asin = listItem.Asin);
+                    (listItem.IsDownloaded != '') && (newItem.isDownloaded = listItem.IsDownloaded.toLowerCase() == 'y');
+                    (listItem.IsDeleted != '') && (newItem.isDeleted = listItem.IsDeleted.toLowerCase() == 'y');
+                    (listItem.DeleteBy != '') && (newItem.deleteBy = listItem.DeleteBy);
+                    (listItem.DateDeleted != '') && (match = listItem.DateDeleted.match(/(\d+)-(\w+)-(\d+)/));
+                    (listItem.DateDeleted != '') && (month = Parser.parseAudibleDate(match[2]));
+                    (month && month != -1) && (newItem.dateDeleted = new Date(Date.UTC(parseInt(match[3]), month - 1, parseInt(match[1]), 0, 0, 0)));
+                    (listItem.IsPublic != '') && (newItem.isPublic = listItem.IsPublic.toLowerCase() == 'y');
+                    (listItem.IsStreamed != '') && (newItem.isStreamed = listItem.IsStreamed.toLowerCase() == 'y');
+                    (listItem.IsPreorder != '') && (newItem.isPreorder = listItem.IsPreorder.toLowerCase() == 'y');
+                    (listItem.Downloads != '') && (newItem.downloads = listItem.Downloads);
+                    (listItem.DateFirstDownloaded != '') && (match = listItem.DateFirstDownloaded.match(/(\d+)-(\w+)-(\d+)/));
+                    (listItem.DateFirstDownloaded != '') && (month = Parser.parseAudibleDate(match[2]));
+                    (month && month != -1) && (newItem.dateFirstDownloaded = new Date(Date.UTC(parseInt(match[3]), month - 1, parseInt(match[1]), 0, 0, 0)));
+                    (listItem.OrderNumber != '') && (newItem.orderNumber = listItem.OrderNumber);
+                    (listItem.OriginType != '') && (newItem.originType = listItem.OriginType);
+                    model.list.push(newItem);
+                });
+                return model;
+            }
         } catch (e: any){
-            throw e;
+            this.logger.log('error', `${e}`,'parseAudibleLibrary');
         }
     }
 
     //advertising files are generated with a limit of 100 entries for each files, when the limit is reached another file is created
-    async fetchAdvertiserAudiences(): Promise<AdvertiserAudiences | undefined> {
-        let clickedModel: AdvertiserClicked = {list: []};
-        let options = {delimiter: ',', columns: false, from_line: 3};
+    //then this function must be called multiple times on different files
+    async parseAdvertiserAudiences(data: Buffer): Promise<AdvertiserAudiences | undefined> {
         try {
-            const fs = require('fs');
-            let source = path.join(__dirname, `${CONFIG.get('PATH')}amazon/`);
-            const directories = fs.readdirSync(source);
-            let directoriesADV = directories.filter((directory: string) => /Advertising/.test(directory));
-
-            for (let i = 1; i < directoriesADV.length + 1; i++) {
-                source = path.join(__dirname, `${CONFIG.get('PATH')}amazon/Advertising.${i}/Advertising.AdvertiserAudiences.csv`);
-                clickedModel.list = clickedModel.list.concat(<Array<string>>await Parser.parseCSV(source, options, (x: any) => (x[0])));
+            let result = <Array<any>>Parser.parseFromBufferToJson(data, true);
+            if(result) {
+                let model: AdvertiserAudiences = {list: []}
+                result.map((listItem) => {
+                    let parameter = '﻿Advertisers who brought audiences in which you are included';
+                    (listItem[parameter] != '') && (model.list.push(listItem[parameter]));
+                });
+                return model;
             }
-            clickedModel.list.sort();
-            return clickedModel.list != [] ? clickedModel : undefined;
         } catch (e: any){
-            throw e;
+            this.logger.log('error', `${e}`,'parseAdvertiserAudiences');
         }
     }
 
-    async fetchAdvertiserClicked(): Promise<AdvertiserClicked | undefined> {
-        let clickedModel: AdvertiserClicked = {list: []};
-        let options = {delimiter: ',', columns: false, from_line: 3};
+    async parseAdvertiserClicked(data: Buffer): Promise<AdvertiserClicked | undefined> {
         try {
-            const fs = require('fs');
-            let source = path.join(__dirname, `${CONFIG.get('PATH')}amazon/`);
-            const directories = fs.readdirSync(source);
-            let directoriesADV = directories.filter((directory: string) => /Advertising/.test(directory));
-
-            for (let i = 1; i < directoriesADV.length + 1; i++) {
-                source = path.join(__dirname, `${CONFIG.get('PATH')}amazon/Advertising.${i}/Advertising.AdvertiserClicks.csv`);
-                clickedModel.list = clickedModel.list.concat(<Array<string>>await Parser.parseCSV(source, options, (x: any) => (x[0])));
+            let result = <Array<any>>Parser.parseFromBufferToJson(data, true);
+            if(result) {
+                let model: AdvertiserClicked = {list: []}
+                result.map((listItem) => {
+                    let parameter = '﻿Advertisers whose ads you clicked';
+                    (listItem[parameter] != '') && (model.list.push(listItem[parameter]));
+                });
+                return model;
             }
-            clickedModel.list.sort();
-            return clickedModel.list != [] ? clickedModel : undefined;
         } catch (e: any){
-            throw e;
+            this.logger.log('error', `${e}`,'parseAdvertiserClicked');
         }
     }
-
- */
 }

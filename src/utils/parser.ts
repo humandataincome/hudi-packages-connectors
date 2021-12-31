@@ -7,7 +7,6 @@ export class Parser {
     static CSVToBuffer(source: string): Promise<Buffer>{
         let buffer: Buffer[] = [];
         const readStream = fs.createReadStream(source, {encoding: 'utf8'});
-
         return new Promise((resolve, reject) => {
             readStream.on('error', (error: any) => {
                 if (error.code == 'ENOENT') {
@@ -27,10 +26,14 @@ export class Parser {
         });
     }
 
-    static parseFromBufferToJson<Type>(data: Buffer, checkBrackets: boolean): Array<Type> | undefined {
+    static parseFromBufferToJson(data: Buffer, checkReplace: boolean): Array<any> | undefined {
         try {
-            let matrix = this.clearDataBuffer(data, checkBrackets);
+            // /,(?![^\(\[]*[\]\)])/
+            let matrix = data.toString().split(/\r?\n/).map((row: string) => row.split( /,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
+            (checkReplace) && (matrix = this.replaceCharacters('"','',matrix));
+            //console.log(matrix);
             if (matrix && matrix.length > 2) {
+                //matrix = matrix.map((s: string) => s.replace(/"/g, ''));
                 matrix.pop();
                 let keys = matrix.shift();
                 let values: any[] = [];
@@ -47,20 +50,55 @@ export class Parser {
             this.logger.log('error', `${e.code}`,'parseFromBufferToJson');
         }
     }
+
+    static replaceCharacters(toChange: string, replaceValue: string, input: string[][]): string[][] {
+        input = input.map((array: string[]) => {
+            array = array.map((value: string) => {
+                let regex = new RegExp(toChange, 'g');
+                value = value.replace(regex, replaceValue);
+                return value;
+            });
+            return array;
+        });
+        return input;
+    }
+
     /** casi da gestire: "[{},{},...,{}]" oppure "425917031,518109031"**/
     /**portare fuori s.replace(/"/g, '') **/
 
-    private static clearDataBuffer(data: Buffer, checkBrackets: boolean): string[][] | undefined{
-        try {
-            if(checkBrackets){
-                return data.toString().split(/\r?\n/).map((s: string) => s.replace(/"/g, '')).map((row: string) => row.split(/,(?![^\(\[]*[\]\)])/));
-            } else {
-                return data.toString().split(/\r?\n/).map((row: string) => row.split(/,(?![^\(\[]*[\]\)])/));
-            }
-        } catch (e: any) {
-            this.logger.log('error', `${e.code}`,'clearDataBuffer');
+    static parseAudibleDate(s: string): number{
+        switch(s) {
+            //sure values
+            case 'JAN':
+                return 1;
+            case 'FEB':
+                return 2;
+            //not sure from here: MAR,APR may be not the true values representing that particular month
+            case 'MAR':
+                return 3;
+            case 'APR':
+                return 4;
+            case 'MAY':
+                return 5;
+            case 'JUN':
+                return 6;
+            case 'JUL':
+                return 7;
+            case 'AUG':
+                return 8;
+            case 'SEP':
+                return 9;
+            case 'OCT':
+                return 10;
+            case 'NOV':
+                return 11;
+            case 'DEC':
+                return 12;
+            default:
+                return -1;
         }
     }
+
     /**NOT WORKING: write function doesn't start from the last buffer position that has already had been written**/
     /*
     static CSVToBuffer2(source: string): Promise<Buffer>{

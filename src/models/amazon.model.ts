@@ -5,7 +5,7 @@ export interface SearchDataCustomerEngagement {
 
 export interface Search {
     firstSearchTime?: Date;
-    countryID?: number;
+    countryID?: string;
     APSorCategory?:string;
     siteVariant?:string;
     appOrBrowser?:string;
@@ -31,7 +31,7 @@ export interface Search {
     server?:string;
     isFreshCustomer?:boolean;
     isMusicSubscriber?:boolean;
-    firstBrowserNode?:string;
+    firstBrowseNode?:string;
     lastSearchTime?:Date;
     lastDepartment?:string;
     lastBrowseNode?:string;
@@ -83,24 +83,24 @@ export interface AdvertiserClicked {
 
 //AUDIBLE MODELS
 export interface AudibleLibrary {
-    listAudioBooks?: Array<AudioBook>;
+    list: Array<AudioBook>;
 }
 
 export interface AudioBook {
-    DateAdded?:string;
-    Title?:string;
-    Asin?:string;
-    IsDownloaded?:string;
-    IsDeleted?:string;
-    DeleteBy?:string;
-    DateDeleted?:string;
-    IsPublic?:string;
-    IsStreamed?:string;
-    IsPreorder?:string;
-    Downloads?:string;
-    DateFirstDownloaded?:string;
-    OrderNumber?:string;
-    OriginType?:string;
+    dateAdded?:Date;
+    title?:string;
+    asin?:string;
+    isDownloaded?:boolean;
+    isDeleted?:boolean;
+    deleteBy?:string;
+    dateDeleted?:Date;
+    isPublic?:boolean;
+    isStreamed?:boolean;
+    isPreorder?:boolean
+    downloads?:number;
+    dateFirstDownloaded?:Date;
+    orderNumber?:number;
+    originType?:string;
  }
 
 //PRIME VIDEO MODELS

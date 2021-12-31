@@ -10,23 +10,51 @@ import {Conversation as ConversationIG, Conversations as ConversationsIG} from "
 import {Conversation as ConversationFB, Conversations as ConversationsFB} from "../src/models/facebook.model";
 import path from "path";
 import {Parser} from "../src/utils/parser";
+import fs from "fs";
 
 async function test(){
     //await netflixServiceTest();
-    await amazonServiceTest();
+    //await amazonServiceTest();
     //await facebookServiceTest();
     //await instagramServiceTest();
 }
 
 async function amazonServiceTest() {
-    const amazonService = new AmazonService();
-    //console.log(await amazonService.parsePrimeVideoWatchlist(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv`))));
-    //console.log(await amazonService.parsePrimeVideoWatchlistHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv`))));
-    //console.log(await amazonService.parsePrimeVideoViewingHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv`))));
-    console.log(await amazonService.parseSearchDataCustomerEngagement(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Search-Data/Search-Data.Customer-Engagement.csv`))));
-    //return await amazonService.fetchAudibleLibrary();
-    //return await amazonService.fetchAdvertiserAudiences();
-    //return await amazonService.fetchAdvertiserClicked();
+    try {
+        const amazonService = new AmazonService();
+        //console.log(await amazonService.parsePrimeVideoWatchlist(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv`))));
+        //console.log(await amazonService.parsePrimeVideoWatchlistHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv`))));
+        //console.log(await amazonService.parsePrimeVideoViewingHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv`))));
+        //console.log(await amazonService.parseSearchDataCustomerEngagement(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Search-Data/Search-Data.Customer-Engagement.csv`))));
+        //console.log(await amazonService.parseAudibleLibrary(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Audible.Library.csv`))));
+
+        const fs = require('fs');
+        let source = path.join(__dirname, `../src/mock/amazon/`);
+        const directories = fs.readdirSync(source);
+        let directoriesADV = directories.filter((directory: string) => /Advertising/.test(directory));
+
+        let resultAudience: string[] = [];
+        let resultClicked: string[] = [];
+        let array;
+        for (let i = 1; i < directoriesADV.length + 1; i++) {
+            source = path.join(__dirname, `../src/mock/amazon/Advertising.${i}/Advertising.AdvertiserAudiences.csv`);
+            array = await amazonService.parseAdvertiserAudiences(await Parser.CSVToBuffer(source));
+            array && (resultAudience = resultAudience.concat(array.list));
+
+            source = path.join(__dirname, `../src/mock/amazon/Advertising.${i}/Advertising.AdvertiserClicks.csv`);
+            array = await amazonService.parseAdvertiserClicked(await Parser.CSVToBuffer(source));
+            array && (resultClicked = resultClicked.concat(array.list));
+        }
+        console.log(resultAudience.sort());
+        //console.log(resultClicked.sort());
+
+    } catch (e: any) {
+        if(e.code == 'MODULE_NOT_FOUND'){
+            console.log('[Error not founding module] '+ e);
+        } else {
+            console.log(e);
+        }
+    }
 }
 
 async function netflixServiceTest() {
@@ -34,9 +62,9 @@ async function netflixServiceTest() {
     //console.log(await netflixService.parsePersonalInformation(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/ACCOUNT/AccountDetails.csv`))));
     //console.log(await netflixService.parsePreferences(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/IndicatedPreferences.csv`))));
     //console.log(await netflixService.parseMyList(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/MyList.csv`))));
-    console.log(await netflixService.parseSearchHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/SearchHistory.csv`))));
-    console.log(await netflixService.parseViewingActivity(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/ViewingActivity.csv`))));
-    console.log(await netflixService.parsePlaybackEvents(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/PlaybackRelatedEvents.csv`))));
+    //console.log(await netflixService.parseSearchHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/SearchHistory.csv`))));
+    //console.log(await netflixService.parseViewingActivity(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/ViewingActivity.csv`))));
+    //console.log(await netflixService.parsePlaybackEvents(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/PlaybackRelatedEvents.csv`))));
     console.log(await netflixService.parseProfiles(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/PROFILES/Profiles.csv`))));
 }
 
@@ -56,8 +84,7 @@ async function facebookServiceTest() {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);
         } else {
-            console.log(e.code);
-            throw e;
+            console.log(e);
         }
     }
 }
@@ -94,8 +121,7 @@ async function instagramServiceTest() {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);
         } else {
-            console.log(e.code);
-            throw e;
+            console.log(e);
         }
     }
 }
@@ -125,8 +151,6 @@ async function testMessagesIGFB(service: InstagramService | FacebookService, pat
                 conversationsModel.listInbox = array;
                 return conversationsModel;
             }
-        } else {
-            return undefined;
         }
     } catch (e: any) {
         console.log('[testMessagesIGFB] '+e);
