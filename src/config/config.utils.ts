@@ -1,11 +1,3 @@
-/*
-    getNumber(key: string): number {
-        return +this.envConfig[key];
-    }
-}
-export const CONFIG = new ConfigUtils(`process.${process.env.NODE_ENV || 'dev'}.env`);
- */
-
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 

@@ -1,9 +1,10 @@
 
 export class Decoding {
-    static decodeUTF8(s: string) {
-        return decodeURIComponent(escape(s));
-    }
-
+    /**
+     * Decode input recursively in all their parameters.
+     * @param obj - string, array or object.
+     * @return the same object in input, but decoded
+     */
     static decodeObject(obj: any): any{
         if(typeof(obj) === 'string') {
             return this.decodeUTF8(obj);
@@ -11,7 +12,8 @@ export class Decoding {
             return this.decodeObjectSupport(obj);
         }
     }
-    static decodeObjectSupport(obj: any): any{
+
+    private static decodeObjectSupport(obj: any): any{
         let keys = Object.keys(obj);
         for (let i = 0; i < keys.length; i++) {
             if (typeof (obj[keys[i]]) === 'string') {
@@ -22,5 +24,10 @@ export class Decoding {
         }
         return obj;
     }
+
+    static decodeUTF8(s: string) {
+        return decodeURIComponent(escape(s));
+    }
+
 }
 

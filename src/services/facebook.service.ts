@@ -12,9 +12,18 @@ import {
 } from "../models/facebook.model";
 import {Decoding} from "../utils/decoding";
 
+/**
+ * Class used to parse most important files into the directory returned by Facebook in JSON format.
+ * All the files are given in input as Buffer, parsed back to JSON and then mapped into a specific interface model.
+ * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
+ */
 export class FacebookService{
     private logger = new Logger("Facebook Service");
 
+    /**
+     * @param data - file 'profile_information/profile_information.json' in input as Buffer
+     * @return {Promise<PersonalInformation | undefined>}
+     */
     async parsePersonalInformation(data: Buffer): Promise<PersonalInformation | undefined> {
         let personalInfoModel: PersonalInformation = {};
         try {
@@ -149,6 +158,10 @@ export class FacebookService{
         }
     }
 
+    /**
+     * @param data - file 'ads_information/advertisers_you've_interacted_with.json' in input as Buffer
+     * @return {Promise<AdsInteractedWith | undefined>}
+     */
     async parseAdsInteractedWith(data: Buffer): Promise<AdsInteractedWith | undefined> {
         let adsModel: AdsInteractedWith = {};
         try {
@@ -160,6 +173,10 @@ export class FacebookService{
         }
     }
 
+    /**
+     * @param data - file 'ads_information/advertisers_using_your_activity_or_information.json' in input as Buffer
+     * @return {Promise<AdsUsingYourInfo | undefined>}
+     */
     async parseAdsUsingYourInfo(data: Buffer): Promise<AdsUsingYourInfo | undefined> {
         let adsModel: AdsUsingYourInfo = {};
         try {
@@ -171,6 +188,10 @@ export class FacebookService{
         }
     }
 
+    /**
+     * @param data - file 'search/your_search_history.json' in input as Buffer
+     * @return {Promise<SearchHistory | undefined>}
+     */
     async parseSearchHistory(data: Buffer): Promise<SearchHistory | undefined> {
         let searchHistoryModel: SearchHistory = {};
         try {
@@ -182,6 +203,10 @@ export class FacebookService{
         }
     }
 
+    /**
+     * @param data - file 'comments_and_reactions/comments.json' in input as Buffer
+     * @return {Promise<CommentsPosted | undefined>}
+     */
     async parseComments(data: Buffer): Promise<CommentsPosted | undefined> {
         let commentsPostedModel: CommentsPosted = {};
         try {
@@ -205,6 +230,10 @@ export class FacebookService{
         }
     }
 
+    /**
+     * @param data - file 'pages/pages_you've_liked.json' in input as Buffer
+     * @return {Promise<PagesLiked | undefined>}
+     */
     async parsePageLiked(data: Buffer): Promise<PagesLiked | undefined> {
         let modelPagesLiked: PagesLiked = {};
         try {
@@ -221,6 +250,10 @@ export class FacebookService{
         }
     }
 
+    /**
+     * @param data - file 'pages/pages_you_follow.json' in input as Buffer
+     * @return {Promise<PagesFollow | undefined>}
+     */
     async parsePageFollowed(data: Buffer): Promise<PagesFollow | undefined> {
         let modelPagesFollow: PagesFollow = {};
         try {
@@ -237,6 +270,10 @@ export class FacebookService{
         }
     }
 
+    /**
+     * @param data - file 'apps_and_websites_off_of_facebook/apps_and_websites.json' in input as Buffer
+     * @return {Promise<AppsConnected | undefined>}
+     */
     async parseAppsConnected(data: Buffer): Promise<AppsConnected | undefined> {
         let modelAppsConnected: AppsConnected = {};
         try {
@@ -261,6 +298,10 @@ export class FacebookService{
         }
     }
 
+    /**
+     * @param data - file 'messages/inbox/{chat_directory_name}/message_1.json' in input as Buffer
+     * @return {Promise<Topics | undefined>}
+     */
     async parseMessages(data: Buffer): Promise<Conversation | undefined> {
         try {
             let document = JSON.parse(data.toString());

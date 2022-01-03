@@ -10,9 +10,18 @@ import {
 } from "../models/amazon.model";
 import {Parser} from "../utils/parser";
 
+/**
+ * Class used to parse most important files into the directory returned by Amazon in CSV format.
+ * All the files are given in input as Buffer, parsed to JSON and then mapped into a specific interface model.
+ * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
+ */
 export class AmazonService {
     private logger = new Logger("Amazon Service");
 
+    /**
+     * @param data - file 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv' in input as Buffer
+     * @return {Promise<PrimeVideoWatchlist | undefined>}
+     */
     async parsePrimeVideoWatchlist(data: Buffer): Promise<PrimeVideoWatchlist | undefined> {
         try {
             let result = <Array<any>>Parser.parseFromBufferToJson(data, true);
@@ -33,6 +42,10 @@ export class AmazonService {
         }
     }
 
+    /**
+     * @param data - file 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv' in input as Buffer
+     * @return {Promise<PrimeVideoWatchlistHistory | undefined>}
+     */
     async parsePrimeVideoWatchlistHistory(data: Buffer): Promise<PrimeVideoWatchlistHistory | undefined> {
         try {
             let result = <Array<any>>Parser.parseFromBufferToJson(data, true);
@@ -55,6 +68,10 @@ export class AmazonService {
         }
     }
 
+    /**
+     * @param data - file 'Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv' in input as Buffer
+     * @return {Promise<PrimeVideoViewingHistory | undefined>}
+     */
     async parsePrimeVideoViewingHistory(data: Buffer): Promise<PrimeVideoViewingHistory | undefined> {
         try {
             let result = <Array<any>>Parser.parseFromBufferToJson(data, false);
@@ -85,6 +102,10 @@ export class AmazonService {
         }
     }
 
+    /**
+     * @param data - file 'Search-Data/Search-Data.Customer-Engagement.csv' in input as Buffer
+     * @return {Promise<SearchDataCustomerEngagement | undefined>}
+     */
     async parseSearchDataCustomerEngagement(data: Buffer): Promise<SearchDataCustomerEngagement | undefined> {
         try {
             let result = <Array<any>>Parser.parseFromBufferToJson(data, false);
@@ -171,6 +192,10 @@ export class AmazonService {
         }
     }
 
+    /**
+     * @param data - file 'Audible.Library.csv' in input as Buffer
+     * @return {Promise<AudibleLibrary | undefined>}
+     */
     async parseAudibleLibrary(data: Buffer): Promise<AudibleLibrary | undefined> {
         try {
             let result = <Array<any>>Parser.parseFromBufferToJson(data, true);
@@ -207,8 +232,10 @@ export class AmazonService {
         }
     }
 
-    //advertising files are generated with a limit of 100 entries for each files, when the limit is reached another file is created
-    //then this function must be called multiple times on different files
+    /**
+     * @param data - file 'Advertising.{X}/Advertising.AdvertiserAudiences.csv' in input as Buffer
+     * @return {Promise<AdvertiserAudiences | undefined>}
+     */
     async parseAdvertiserAudiences(data: Buffer): Promise<AdvertiserAudiences | undefined> {
         try {
             let result = <Array<any>>Parser.parseFromBufferToJson(data, true);
@@ -225,6 +252,10 @@ export class AmazonService {
         }
     }
 
+    /**
+     * @param data - file 'Advertising.{X}/Advertising.AdvertiserClicks.csv' in input as Buffer
+     * @return {Promise<AdvertiserClicked | undefined>}
+     */
     async parseAdvertiserClicked(data: Buffer): Promise<AdvertiserClicked | undefined> {
         try {
             let result = <Array<any>>Parser.parseFromBufferToJson(data, true);

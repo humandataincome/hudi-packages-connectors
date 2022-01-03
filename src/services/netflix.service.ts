@@ -10,9 +10,18 @@ import {
 import Logger from "../utils/logger";
 import {Parser} from "../utils/parser";
 
+/**
+ * Class used to parse most important files into the directory returned by Netflix in CSV format.
+ * All the files are given in input as Buffer, parsed to JSON and then mapped into a specific interface model.
+ * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
+ */
 export class NetflixService {
     private logger = new Logger("Netflix Service");
 
+    /**
+     * @param data - file 'ACCOUNT/AccountDetails.csv' in input as Buffer
+     * @return {Promise<PersonalInformation | undefined>}
+     */
     async parsePersonalInformation(data: Buffer): Promise<PersonalInformation | undefined> {
         try {
             let result = <Array<any>>Parser.parseFromBufferToJson(data, true);
@@ -45,6 +54,10 @@ export class NetflixService {
         }
     }
 
+    /**
+     * @param data - file 'CONTENT_INTERACTION/IndicatedPreferences.csv' in input as Buffer
+     * @return {Promise<PreferencesAccount | undefined>}
+     */
     async parsePreferences(data: Buffer): Promise<PreferencesAccount | undefined> {
         try {
             let result = <Array<any>>Parser.parseFromBufferToJson(data, false);
@@ -67,6 +80,10 @@ export class NetflixService {
         }
     }
 
+    /**
+     * @param data - file 'CONTENT_INTERACTION/MyList.csv' in input as Buffer
+     * @return {Promise<MyListAccount | undefined>}
+     */
     async parseMyList(data: Buffer): Promise<MyListAccount | undefined> {
         try {
             let result = <Array<any>>Parser.parseFromBufferToJson(data, false);
@@ -88,6 +105,10 @@ export class NetflixService {
         }
     }
 
+    /**
+     * @param data - file 'CONTENT_INTERACTION/SearchHistory.csv' in input as Buffer
+     * @return {Promise<SearchHistory | undefined>}
+     */
     async parseSearchHistory(data: Buffer): Promise<SearchHistory | undefined> {
         try {
             let result = <Array<any>>Parser.parseFromBufferToJson(data, false);
@@ -114,6 +135,10 @@ export class NetflixService {
         }
     }
 
+    /**
+     * @param data - file 'CONTENT_INTERACTION/ViewingActivity.csv' in input as Buffer
+     * @return {Promise<ViewingActivity | undefined>}
+     */
     async parseViewingActivity(data: Buffer): Promise<ViewingActivity | undefined> {
         try {
             let result = <Array<any>>Parser.parseFromBufferToJson(data, false);
@@ -141,6 +166,10 @@ export class NetflixService {
         }
     }
 
+    /**
+     * @param data - file 'CONTENT_INTERACTION/PlaybackRelatedEvents.csv' in input as Buffer
+     * @return {Promise<PlaybackEvents | undefined>}
+     */
     async parsePlaybackEvents(data: Buffer): Promise<PlaybackEvents | undefined> {
         try {
             let result = <Array<any>>Parser.parseFromBufferToJson(data, false);
@@ -164,6 +193,10 @@ export class NetflixService {
         }
     }
 
+    /**
+     * @param data - file 'PROFILES/Profiles.csv' in input as Buffer
+     * @return {Promise<Profiles | undefined>}
+     */
     async parseProfiles(data: Buffer): Promise<Profiles | undefined> {
         try {
             let result = <Array<any>>Parser.parseFromBufferToJson(data, true);
