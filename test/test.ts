@@ -9,14 +9,18 @@ import {CONFIG} from "../src/config/config.utils";
 import {Conversation as ConversationIG, Conversations as ConversationsIG} from "../src/models/instagram.model";
 import {Conversation as ConversationFB, Conversations as ConversationsFB} from "../src/models/facebook.model";
 import path from "path";
-import {Parser} from "../src/utils/parser";
+import {Parser} from "./utils/parser";
 import fs from "fs";
+import {GoogleService} from "../src/services/google.service";
+
+
 
 async function test(){
-    await netflixServiceTest();
-    await amazonServiceTest();
+    //await netflixServiceTest();
+    //await amazonServiceTest();
     await facebookServiceTest();
-    await instagramServiceTest();
+    //await instagramServiceTest();
+    //await googleServiceTest();
 }
 
 async function amazonServiceTest() {
@@ -49,8 +53,8 @@ async function amazonServiceTest() {
             array = await amazonService.parseAdvertiserClicked(await Parser.CSVToBuffer(source));
             array && (resultClicked = resultClicked.concat(array.list));
         }
-        //console.log(resultAudience.sort());
-        //console.log(resultClicked.sort());
+        console.log(resultAudience.sort());
+        console.log(resultClicked.sort());
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);
@@ -69,7 +73,7 @@ async function netflixServiceTest() {
         //console.log(await netflixService.parseSearchHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/SearchHistory.csv`))));
         //console.log(await netflixService.parseViewingActivity(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/ViewingActivity.csv`))));
         //console.log(await netflixService.parsePlaybackEvents(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/PlaybackRelatedEvents.csv`))));
-        //console.log(await netflixService.parseProfiles(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/PROFILES/Profiles.csv`))));
+        console.log(await netflixService.parseProfiles(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/PROFILES/Profiles.csv`))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
@@ -82,7 +86,7 @@ async function netflixServiceTest() {
 async function facebookServiceTest() {
     const facebookService = new FacebookService();
     try {
-        //console.log(await facebookService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/profile_information/profile_information.json`)))));
+        console.log(await facebookService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/profile_information/profile_information.json`)))));
         //console.log(await facebookService.parseAdsInteractedWith(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/ads_information/advertisers_you've_interacted_with.json`)))));
         //console.log(await facebookService.parseAdsUsingYourInfo(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/ads_information/advertisers_using_your_activity_or_information.json`)))));
         //console.log(await facebookService.parseSearchHistory(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/search/your_search_history.json`)))));
@@ -127,10 +131,25 @@ async function instagramServiceTest() {
         //console.log(await instagramService.parseReelSentiments(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/your_topics/your_reels_sentiments.json`)))));
         //console.log(await instagramService.parseReelTopics(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/your_topics/your_reels_topics.json`)))));
         //console.log(await instagramService.parseTopics(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/your_topics/your_topics.json`)))));
-        console.log(await testMessagesIGFB(instagramService, 'instagram_json/messages/inbox/'))
+        //console.log(await testMessagesIGFB(instagramService, 'instagram_json/messages/inbox/'))
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);
+        } else {
+            console.log(e);
+        }
+    }
+}
+
+async function googleServiceTest() {
+    const googleService = new GoogleService();
+    try {
+        //console.log(await googleService.parseProfile(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/Profilo/Profilo.json`)))));
+        console.log(await googleService.parseBrowseHistory(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/Chrome/BrowserHistory.json`)))));
+
+    } catch (e: any) {
+        if (e.code == 'MODULE_NOT_FOUND') {
+            console.log('[Error not founding module] ' + e);
         } else {
             console.log(e);
         }
@@ -167,5 +186,6 @@ async function testMessagesIGFB(service: InstagramService | FacebookService, pat
         console.log('[testMessagesIGFB] '+e);
     }
 }
+
 
 test();

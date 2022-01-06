@@ -1,29 +1,34 @@
-# README #
+# HUDI-PACKAGE-CONNECTORS #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## What is this repository for? ##
+A set of connectors to the most important Data Sources. 
 
-### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+## How do I retrieve my personal data source? ##
 
-### How do I get set up? ###
+### Instagram Data Source ###
+You can find the guide at this link: https://help.instagram.com/181231772500920 under the section **Downloading a copy of your data on Instagram**.
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+Alternately, from Android and iPhone, you can find the **Request Download under your Settings** -> **Security** -> **Download data. From Computer you can find it under Settings** -> **Privacy and security**
+-> **Data download** -> **Request download**.
 
-### Contribution guidelines ###
+Always select the **JSON** format.
 
-* Writing tests
-* Code review
-* Other guidelines
 
-### Who do I talk to? ###
+### Facebook Data Source ###
+Go to https://www.facebook.com/dyi, select Format **JSON** and Media Quality **High**, select a **Data Range** (**All time** has more information). Scroll at the end of the page and click on the blue button **Request a download**. 
 
-* Repo owner or admin
-* Other community or team contact
+### Amazon Data Source ###
+Go to https://www.amazon.com/hz/privacy-central/data-requests/preview.html, select **Request All Your Data** from the drop down menu and then **Submit Request**.
+
+### Netflix Data Source ###
+Go into one of your account' profiles, click on your account's icon in the top-right corner of the window, click on **Account**, then click **Download your personal data** under Settings paragraph and finish clicking the red button **Send request**.
+
+### Google Data Source ###
+You can find the guide at this link: https://support.google.com/accounts/answer/162744?hl=en.
+
+
+## Contribution guidelines ##
+
+
+## Who do I talk to? ##

@@ -24,7 +24,7 @@ export class NetflixService {
      */
     async parsePersonalInformation(data: Buffer): Promise<PersonalInformation | undefined> {
         try {
-            let result = <Array<any>>Parser.parseFromBufferToJson(data, true);
+            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
             if (result) {
                 let modelInfo: PersonalInformation = {};
                 (result[0]['First Name'] != '') && (modelInfo.firstName = result[0]['First Name']);
@@ -60,7 +60,7 @@ export class NetflixService {
      */
     async parsePreferences(data: Buffer): Promise<PreferencesAccount | undefined> {
         try {
-            let result = <Array<any>>Parser.parseFromBufferToJson(data, false);
+            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: PreferencesAccount = {list: []}
                 result.map((listItem) => {
@@ -73,7 +73,7 @@ export class NetflixService {
                     (listItem['Event Date'] != '') && (newItem.eventDate = new Date(Date.UTC(parseInt(match[0]), parseInt(match[1]) - 1, parseInt(match[2]), 0, 0, 0)));
                     model.list.push(newItem);
                 });
-                return model;
+                return model.list.length > 0 ? model : undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parsePreferences');
@@ -86,7 +86,7 @@ export class NetflixService {
      */
     async parseMyList(data: Buffer): Promise<MyListAccount | undefined> {
         try {
-            let result = <Array<any>>Parser.parseFromBufferToJson(data, false);
+            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: MyListAccount = {list: []}
                 result.map((listItem) => {
@@ -98,7 +98,7 @@ export class NetflixService {
                     (listItem['Utc Title Add Date'] != '') && (newItem.titleAddDate = new Date(Date.UTC(parseInt(match[0]), parseInt(match[1]) - 1, parseInt(match[2]), 0, 0, 0)));
                     model.list.push(newItem);
                 });
-                return model;
+                return model.list.length > 0 ? model : undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseMyList');
@@ -111,7 +111,7 @@ export class NetflixService {
      */
     async parseSearchHistory(data: Buffer): Promise<SearchHistory | undefined> {
         try {
-            let result = <Array<any>>Parser.parseFromBufferToJson(data, false);
+            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: SearchHistory = {list: []}
                 result.map((listItem) => {
@@ -128,7 +128,7 @@ export class NetflixService {
                     (listItem['Utc Timestamp'] != '') && (newItem.time = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
                     model.list.push(newItem);
                 });
-                return model;
+                return model.list.length > 0 ? model : undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseSearchHistory');
@@ -141,7 +141,7 @@ export class NetflixService {
      */
     async parseViewingActivity(data: Buffer): Promise<ViewingActivity | undefined> {
         try {
-            let result = <Array<any>>Parser.parseFromBufferToJson(data, false);
+            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: ViewingActivity = {list: []}
                 result.map((listItem) => {
@@ -159,7 +159,7 @@ export class NetflixService {
                     (listItem['Country'] != '') && (newItem.country = listItem['Country']);
                     model.list.push(newItem);
                 });
-                return model;
+                return model.list.length > 0 ? model : undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseViewingActivity');
@@ -172,7 +172,7 @@ export class NetflixService {
      */
     async parsePlaybackEvents(data: Buffer): Promise<PlaybackEvents | undefined> {
         try {
-            let result = <Array<any>>Parser.parseFromBufferToJson(data, false);
+            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: PlaybackEvents = {list: []};
                 result.map((listItem) => {
@@ -186,7 +186,7 @@ export class NetflixService {
                     (listItem['Playtraces'] != '') && (newItem.playtraces = listItem['Playtraces']);
                     model.list.push(newItem);
                 });
-                return model;
+                return model.list.length > 0 ? model : undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parsePlaybackEvents');
@@ -199,7 +199,7 @@ export class NetflixService {
      */
     async parseProfiles(data: Buffer): Promise<Profiles | undefined> {
         try {
-            let result = <Array<any>>Parser.parseFromBufferToJson(data, true);
+            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: Profiles = {list: []}
                 result.map((listItem) => {
@@ -214,7 +214,7 @@ export class NetflixService {
                     (listItem['Profile Lock Enabled'] != '') && (newItem.profileLockEnabled = listItem['Profile Lock Enabled'].toLowerCase() == 'true');
                     model.list.push(newItem);
                 });
-                return model;
+                return model.list.length > 0 ? model : undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseProfiles');
