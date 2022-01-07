@@ -8,9 +8,18 @@ import {
     PagesLiked,
     PersonalInformation,
     SearchHistory,
-    Conversation, Message, AdsInteractedWith, AdsUsingYourInfo,
+    Conversation,
+    Message,
+    AdsInteractedWith,
+    AdsUsingYourInfo,
+    EducationExperience,
+    Relationship,
+    WorkExperience,
+    View,
+    AddressLocation, PlaceLived, Pages, AdvInteraction, AdvUsingYourInfo, Search, Page,
 } from "../models/facebook.model";
 import {Decoding} from "../utils/decoding";
+import {Validating} from "../utils/validating";
 
 /**
  * Class used to parse most important files into the directory returned by Facebook in JSON format.
@@ -28,131 +37,93 @@ export class FacebookService{
         let personalInfoModel: PersonalInformation = {};
         try {
             let document = JSON.parse(data.toString());
-            try {
-                personalInfoModel.firstName = Decoding.decodeObject(document.profile_v2.name.first_name);
-            } catch {
-                this.logger.log('info', 'first_name parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.middleName = Decoding.decodeObject(document.profile_v2.name.middle_name);
-            } catch {
-                this.logger.log('info', 'last_name parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.lastName = Decoding.decodeObject(document.profile_v2.name.last_name);
-            } catch {
-                this.logger.log('info', 'last_name parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.emails = Decoding.decodeObject(document.profile_v2.emails.emails);
-            } catch {
-                this.logger.log('info', 'emails parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.birthdate = new Date(Date.UTC(document.profile_v2.birthday.year, document.profile_v2.birthday.month-1, document.profile_v2.birthday.day, 0, 0, 0));
-            } catch {
-                this.logger.log('info', 'birthdate parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.gender = Decoding.decodeObject(document.profile_v2.gender.gender_option);
-            } catch {
-                this.logger.log('info', 'gender parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.currentCity = Decoding.decodeObject(document.profile_v2.current_city.name);
-            } catch {
-                this.logger.log('info', 'current_city parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.homeTown = Decoding.decodeObject(document.profile_v2.hometown.name);
-            } catch {
-                this.logger.log('info', 'hometown parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.relationship = {
-                    status: Decoding.decodeObject(document.profile_v2.relationship.status),
-                    anniversary: document.profile_v2.relationship.anniversary,
-                    timestamp: document.profile_v2.relationship.timestamp
-                };
-            } catch {
-                this.logger.log('info', 'relationship parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.educationExperiences = Decoding.decodeObject(document.profile_v2.education_experiences);
-            } catch {
-                this.logger.log('info', 'education_experiences parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.workExperience = Decoding.decodeObject(document.profile_v2.work_experiences);
-            } catch {
-                this.logger.log('info', 'work_experiences parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.languages = document.profile_v2.languages.map((value: any) => Decoding.decodeObject(value.name));
-            } catch {
-                this.logger.log('info', 'languages parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.interestedInGenders = Decoding.decodeObject(document.profile_v2.interested_in);
-            } catch {
-                this.logger.log('info', 'interested_in parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.politicalView = Decoding.decodeObject(document.profile_v2.political_view);
-            } catch {
-                this.logger.log('info', 'political_view parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.religiousView = Decoding.decodeObject(document.profile_v2.religious_view);
-            } catch {
-                this.logger.log('info', 'religious_view parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.bloodInfo = Decoding.decodeObject(document.profile_v2.blood_info.blood_donor_status);
-            } catch {
-                this.logger.log('info', 'blood_info parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.websites = document.profile_v2.websites.map((value: any) => Decoding.decodeObject(value.address));
-            } catch {
-                this.logger.log('info', 'websites parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.address = document.profile_v2.address;
-            } catch {
-                this.logger.log('info', 'address parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.phoneNumbers = document.profile_v2.phone_numbers;
-            } catch {
-                this.logger.log('info', 'phone_numbers parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.placesLived = Decoding.decodeObject(document.profile_v2.places_lived);
-            } catch {
-                this.logger.log('info', 'places_lived parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.pagesInterests = document.profile_v2.pages.map((value: any) => {
-                    return {
-                        category: Decoding.decodeObject(value.name),
-                        pages: Decoding.decodeObject(value.pages)
-                    }
-                });
-            } catch {
-                this.logger.log('info', 'pages parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.registrationTimestamp = document.profile_v2.registration_timestamp;
-            } catch {
-                this.logger.log('info', 'registration_timestamp parameter is missing', 'parsePersonalInformation');
-            }
-            try {
-                personalInfoModel.profileUri = Decoding.decodeObject(document.profile_v2.profile_uri);
-            } catch {
-                this.logger.log('info', 'profile_uri parameter is missing', 'parsePersonalInformation');
-            }
-            return personalInfoModel != {} ? personalInfoModel : undefined;
+            (document.profile_v2.name.first_name) && (personalInfoModel.firstName = Decoding.decodeObject(document.profile_v2.name.first_name));
+            (document.profile_v2.name.middle_name) && (personalInfoModel.middleName = Decoding.decodeObject(document.profile_v2.name.middle_name));
+            (document.profile_v2.name.last_name) && (personalInfoModel.lastName = Decoding.decodeObject(document.profile_v2.name.last_name));
+            (document.profile_v2.emails.emails) && (personalInfoModel.emails = Decoding.decodeObject(document.profile_v2.emails.emails));
+            (document.profile_v2.birthday) && (personalInfoModel.birthdate = new Date(Date.UTC(document.profile_v2.birthday.year, document.profile_v2.birthday.month-1, document.profile_v2.birthday.day, 0, 0, 0)));
+            (document.profile_v2.gender.gender_option) && (personalInfoModel.gender = Decoding.decodeObject(document.profile_v2.gender.gender_option));
+            (document.profile_v2.current_city.name) && (personalInfoModel.currentCity = Decoding.decodeObject(document.profile_v2.current_city.name));
+            (document.profile_v2.hometown.name) && (personalInfoModel.homeTown = Decoding.decodeObject(document.profile_v2.hometown.name));
+
+            let relationshipModel: Relationship = {};
+            (document.profile_v2.relationship.status) && (relationshipModel.status = Decoding.decodeObject(document.profile_v2.relationship.status));
+            (document.profile_v2.relationship.anniversary) && (relationshipModel.anniversary = document.profile_v2.relationship.anniversary);
+            (document.profile_v2.relationship.timestamp) && (relationshipModel.dateAdded = new Date(1000 * document.profile_v2.relationship.timestamp));
+            (!Validating.objectIsEmpty(relationshipModel)) && (personalInfoModel.relationship = relationshipModel);
+
+            (document.profile_v2.education_experiences && document.profile_v2.education_experiences.length > 0) && (personalInfoModel.educationExperiences =
+                document.profile_v2.education_experiences.map((value: any) => {
+                    let educationModel: EducationExperience = {};
+                    (value.name) && (educationModel.name = Decoding.decodeObject(value.name));
+                    (value.start_timestamp) && (educationModel.startDate = new Date(1000 * value.start_timestamp));
+                    (value.end_timestamp) && (educationModel.endDate = new Date(1000 * value.end_timestamp));
+                    (value.graduated) && (educationModel.graduated = value.graduated);
+                    (value.description) && (educationModel.description = Decoding.decodeObject(value.description));
+                    (value.concentrations && value.concentrations.length > 0) && (educationModel.educationTopics = Decoding.decodeObject(value.concentrations));
+                    (value.degree) && (educationModel.degree = Decoding.decodeObject(value.degree));
+                    (value.school_type) && (educationModel.schoolType = Decoding.decodeObject(value.school_type));
+                    return educationModel;
+                }));
+
+            (document.profile_v2.work_experiences && document.profile_v2.work_experiences.length > 0) && (personalInfoModel.workExperience =
+                document.profile_v2.work_experiences.map((value: any) => {
+                    let workModel: WorkExperience = {};
+                    (value.employer) && (workModel.employer = Decoding.decodeObject(value.employer));
+                    (value.title) && (workModel.title = Decoding.decodeObject(value.title));
+                    (value.location) && (workModel.location = Decoding.decodeObject(value.location));
+                    (value.description) && (workModel.description = Decoding.decodeObject(value.description));
+                    (value.start_timestamp) && (workModel.startDate = new Date(1000 * value.start_timestamp));
+                    (value.end_timestamp) && (workModel.endDate = new Date(1000 * value.end_timestamp));
+                    return workModel;
+                }));
+
+            (document.profile_v2.languages && document.profile_v2.languages.length > 0) && (personalInfoModel.languages = document.profile_v2.languages.map((value: any) => Decoding.decodeObject(value.name)));
+            (document.profile_v2.interested_in && document.profile_v2.interested_in.length > 0) && (personalInfoModel.gendersInterests = Decoding.decodeObject(document.profile_v2.interested_in));
+            (document.profile_v2.political_view && document.profile_v2.political_view.length > 0) && (personalInfoModel.politicalView = document.profile_v2.political_view.map((value: any) => {
+                let viewModel: View = {};
+                (value.name) && (viewModel.name = Decoding.decodeObject(value.name));
+                (value.description) && (viewModel.description = Decoding.decodeObject(value.description));
+                return viewModel;
+            }));
+            (document.profile_v2.religious_view && document.profile_v2.political_view.length > 0) && (personalInfoModel.religiousView = document.profile_v2.religious_view.map((value: any) => {
+                let viewModel: View = {};
+                (value.name) && (viewModel.name = Decoding.decodeObject(value.name));
+                (value.description) && (viewModel.description = Decoding.decodeObject(value.description));
+                return viewModel;
+            }));
+            (document.profile_v2.blood_donor_status) && (personalInfoModel.bloodInfo = Decoding.decodeObject(document.profile_v2.blood_info.blood_donor_status));
+            (document.profile_v2.websites && document.profile_v2.websites.length > 0) && (personalInfoModel.websites = document.profile_v2.websites.map((value: any) => Decoding.decodeObject(value.address)));
+
+            let addressModel: AddressLocation = {};
+            (document.profile_v2.address.street) && (addressModel.street = Decoding.decodeObject(document.profile_v2.address.street));
+            (document.profile_v2.address.city) && (addressModel.city = Decoding.decodeObject(document.profile_v2.address.city));
+            (document.profile_v2.address.zipcode) && (addressModel.zipcode = Decoding.decodeObject(document.profile_v2.address.zipcode));
+            (document.profile_v2.address.neighborhood) && (addressModel.neighborhood = Decoding.decodeObject(document.profile_v2.address.neighborhood));
+            (document.profile_v2.address.country) && (addressModel.country = Decoding.decodeObject(document.profile_v2.address.country));
+            (document.profile_v2.address.country_code) && (addressModel.countryCode = Decoding.decodeObject(document.profile_v2.address.country_code));
+            (document.profile_v2.address.region) && (addressModel.region = Decoding.decodeObject(document.profile_v2.address.region));
+            (!Validating.objectIsEmpty(addressModel)) && (personalInfoModel.address = addressModel);
+
+            (document.profile_v2.phone_numbers && document.profile_v2.phone_numbers.length > 0) && (personalInfoModel.phoneNumbers = document.profile_v2.phone_numbers);
+            (document.profile_v2.places_lived && document.profile_v2.places_lived.length > 0) && (personalInfoModel.placesLived = document.profile_v2.places_lived.map((value: any) => {
+                let placeModel: PlaceLived = {};
+                (value.place) && (placeModel.place = Decoding.decodeObject(value.place));
+                (value.start_timestamp) && (placeModel.startDate = new Date(1000 * value.start_timestamp));
+                return placeModel;
+            }));
+
+
+            (document.profile_v2.pages && document.profile_v2.pages.length > 0) && (personalInfoModel.pagesInterests =
+                document.profile_v2.pages.map((value: any) => {
+                    let pagesModel: Pages = {};
+                    (value.name) && (pagesModel.category = Decoding.decodeObject(value.name));
+                    (value.pages && value.pages.length > 0) && (pagesModel.pages = Decoding.decodeObject(value.pages));
+                    return pagesModel;
+                }));
+            (document.profile_v2.registration_timestamp) && (personalInfoModel.registrationDate = new Date(1000*document.profile_v2.registration_timestamp));
+            (document.profile_v2.profile_uri) && (personalInfoModel.profileUri = Decoding.decodeObject(document.profile_v2.profile_uri));
+            return !Validating.objectIsEmpty(personalInfoModel) ? personalInfoModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parsePersonalInformation');
         }
@@ -163,11 +134,17 @@ export class FacebookService{
      * @return {Promise<AdsInteractedWith | undefined>}
      */
     async parseAdsInteractedWith(data: Buffer): Promise<AdsInteractedWith | undefined> {
-        let adsModel: AdsInteractedWith = {};
+        let adsModel: AdsInteractedWith = {list: []};
         try {
             let document = JSON.parse(data.toString());
-            adsModel.list = Decoding.decodeObject(document.history_v2);
-            return adsModel != {} ? adsModel : undefined;
+            (document.history_v2 && document.history_v2.length > 0) && (adsModel.list = document.history_v2.map((value: any) => {
+                let model: AdvInteraction = {};
+                (value.title) && (model.title = Decoding.decodeObject(value.title));
+                (value.action) && (model.action = Decoding.decodeObject(value.action));
+                (value.timestamp) && (model.date = new Date(1000*value.timestamp));
+                return model;
+            }));
+            return adsModel.list.length > 0 ? adsModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseAdsInteractedWith');
         }
@@ -178,11 +155,18 @@ export class FacebookService{
      * @return {Promise<AdsUsingYourInfo | undefined>}
      */
     async parseAdsUsingYourInfo(data: Buffer): Promise<AdsUsingYourInfo | undefined> {
-        let adsModel: AdsUsingYourInfo = {};
+        let adsModel: AdsUsingYourInfo = {list:[]};
         try {
             let document = JSON.parse(data.toString());
-            adsModel.list = Decoding.decodeObject(document.custom_audiences_all_types_v2);
-            return adsModel != {} ? adsModel : undefined;
+            (document.custom_audiences_all_types_v2 && document.custom_audiences_all_types_v2.length > 0) && (adsModel.list = document.custom_audiences_all_types_v2.map((value: any) => {
+                let model: AdvUsingYourInfo = {};
+                (value.advertiser_name) && (model.advertiserName = Decoding.decodeObject(value.advertiser_name));
+                (value.has_data_file_custom_audience) && (model.hasDataFileCustomAudience = value.has_data_file_custom_audience);
+                (value.has_remarketing_custom_audience) && (model.hasRemarketingCustomAudience = value.has_remarketing_custom_audience);
+                (value.has_in_person_store_visit) && (model.hasInPersonStoreVisit = value.has_in_person_store_visit);
+                return model;
+            }));
+            return adsModel.list.length > 0 ? adsModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseAdsUsingYourInfo');
         }
@@ -193,11 +177,16 @@ export class FacebookService{
      * @return {Promise<SearchHistory | undefined>}
      */
     async parseSearchHistory(data: Buffer): Promise<SearchHistory | undefined> {
-        let searchHistoryModel: SearchHistory = {};
+        let searchHistoryModel: SearchHistory = {listSearches: []};
         try {
             let document = JSON.parse(data.toString());
-            searchHistoryModel.searches = document.searches_v2.map((value: any) => Decoding.decodeObject(value.data[0].text));
-            return searchHistoryModel != {} ? searchHistoryModel : undefined;
+            (document.searches_v2 && document.searches_v2.length > 0) && (searchHistoryModel.listSearches = document.searches_v2.map((value: any) => {
+                let model: Search = {};
+                (value.data && value.data[0].text) && (model.text = Decoding.decodeObject(value.data[0].text));
+                (value.timestamp) && (model.date = new Date(1000*value.timestamp));
+                return model;
+            }));
+            return searchHistoryModel.listSearches.length > 0 ? searchHistoryModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseSearchHistory');
         }
@@ -208,23 +197,18 @@ export class FacebookService{
      * @return {Promise<CommentsPosted | undefined>}
      */
     async parseComments(data: Buffer): Promise<CommentsPosted | undefined> {
-        let commentsPostedModel: CommentsPosted = {};
+        let commentsPostedModel: CommentsPosted = {list: []};
         try {
             let document = JSON.parse(data.toString());
-            commentsPostedModel.list = document.comments_v2.map((value: any) => {
-                let newValue: CommentPosted = {};
-                try{
-                    newValue.text = Decoding.decodeObject(value.data[0].comment.comment);
-                    newValue.author = Decoding.decodeObject(value.data[0].comment.author);
-                    newValue.timestamp = value.timestamp;
-                    newValue.title = Decoding.decodeObject(value.title);
-                    return newValue;
-                } catch {
-                    //return undefined if the text parameter isn't present (empty message)
-                    return undefined;
-                }
-            });
-            return commentsPostedModel != {} ? commentsPostedModel : undefined;
+            (document.comments_v2 && document.comments_v2.length > 0) && (commentsPostedModel.list = document.comments_v2.map((value: any) => {
+                let model: CommentPosted = {};
+                (value.data && value.data[0].comment.comment) && (model.text = Decoding.decodeObject(value.data[0].comment.comment));
+                (value.data && value.data[0].comment.author) && (model.author = Decoding.decodeObject(value.data[0].comment.author));
+                (value.timestamp) && (model.date = new Date(1000 * value.timestamp));
+                (value.title) && (model.title = Decoding.decodeObject(value.title));
+                return model;
+            }));
+            return commentsPostedModel.list.length > 0 ? commentsPostedModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseComments');
         }
@@ -235,16 +219,16 @@ export class FacebookService{
      * @return {Promise<PagesLiked | undefined>}
      */
     async parsePageLiked(data: Buffer): Promise<PagesLiked | undefined> {
-        let modelPagesLiked: PagesLiked = {};
+        let modelPagesLiked: PagesLiked = {list: []};
         try {
             let document = JSON.parse(data.toString());
-            modelPagesLiked.listPages = document.page_likes_v2.map((value: any) => {
-                return {
-                    name: Decoding.decodeObject(value.name),
-                    timestamp: value.timestamp
-                };
-            });
-            return modelPagesLiked != {} ? modelPagesLiked : undefined;
+            (document.page_likes_v2 && document.page_likes_v2.length > 0) && (modelPagesLiked.list = document.page_likes_v2.map((value: any) => {
+                let model: Page = {};
+                (value.name) && (model.name = Decoding.decodeObject(value.name));
+                (value.timestamp) && (model.date = new Date(1000 * value.timestamp));
+                return model;
+            }));
+            return modelPagesLiked.list.length > 0 ? modelPagesLiked : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parsePageLiked');
         }
@@ -255,16 +239,16 @@ export class FacebookService{
      * @return {Promise<PagesFollow | undefined>}
      */
     async parsePageFollowed(data: Buffer): Promise<PagesFollow | undefined> {
-        let modelPagesFollow: PagesFollow = {};
+        let modelPagesFollow: PagesFollow = {list: []};
         try {
             let document = JSON.parse(data.toString());
-            modelPagesFollow.listPages = document.pages_followed_v2.map((value: any) => {
-                return {
-                    name: Decoding.decodeObject(value.title),
-                    timestamp: value.timestamp
-                };
-            });
-            return modelPagesFollow != {} ? modelPagesFollow : undefined;
+            (document.pages_followed_v2 && document.pages_followed_v2.length > 0) && (modelPagesFollow.list = document.pages_followed_v2.map((value: any) => {
+                let model: Page = {};
+                (value.title) && (model.name = Decoding.decodeObject(value.title));
+                (value.timestamp) && (model.date = new Date(1000 * value.timestamp));
+                return model;
+            }));
+            return modelPagesFollow.list.length > 0 ? modelPagesFollow : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parsePageFollowed');
         }
@@ -275,24 +259,20 @@ export class FacebookService{
      * @return {Promise<AppsConnected | undefined>}
      */
     async parseAppsConnected(data: Buffer): Promise<AppsConnected | undefined> {
-        let modelAppsConnected: AppsConnected = {};
+        let modelAppsConnected: AppsConnected = {list: []};
         try {
             let document = JSON.parse(data.toString());
-            modelAppsConnected.listApps = document.installed_apps_v2.map((value: any) => {
-                let newValue: AppConnected = {
-                    name: Decoding.decodeObject(value.name),
-                    userAppScopedId: value.user_app_scoped_id,
-                    category: Decoding.decodeObject(value.category),
-                };
+            modelAppsConnected.list = document.installed_apps_v2.map((value: any) => {
+                let model: AppConnected = {};
+                (value.name) && (model.name = Decoding.decodeObject(value.name));
+                (value.user_app_scoped_id) && (model.userAppScopedId = value.user_app_scoped_id);
+                (value.category) && (model.category = Decoding.decodeObject(value.category));
                 //addedTimestamp and removedTimestamp parameters are mutual exclusive
-                if(value.added_timestamp != 0) {
-                    newValue.addedTimestamp = value.added_timestamp;
-                } else {
-                    newValue.removedTimestamp = value.removed_timestamp;
-                }
-                return newValue;
+                (value.added_timestamp) && (model.addedTimestamp = new Date(1000 * value.added_timestamp));
+                (value.removed_timestamp) && (model.removedTimestamp = new Date(1000 * value.removed_timestamp));
+                return model;
             });
-            return modelAppsConnected != {} ? modelAppsConnected : undefined;
+            return modelAppsConnected.list.length > 0 ? modelAppsConnected : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseAppsConnected');
         }
@@ -300,34 +280,32 @@ export class FacebookService{
 
     /**
      * @param data - file 'messages/inbox/{chat_directory_name}/message_1.json' in input as Buffer
-     * @return {Promise<Topics | undefined>}
+     * @return {Promise<Conversation | undefined>}
      */
     async parseMessages(data: Buffer): Promise<Conversation | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let messages = document.messages.map((value: any) => {
-                let newValue: Message = {
-                    sender_name: Decoding.decodeObject(value.sender_name),
-                    timestamp_ms: value.timestamp_ms,
-                    content: Decoding.decodeObject(value.content),
-                    type: Decoding.decodeObject(value.type),
-                    is_unsent: value.is_unsent
-                }
-                try {
-                    newValue.link = Decoding.decodeObject(value.share.link);
-                } catch {
-                    //do nothing: link parameter might be present or not, in both cases it's not an error
-                }
-                return newValue;
-            });
-            let participants = document.participants.map((value: any) => Decoding.decodeObject(value.name));
+            let messages: Message[] = [];
+            (document.messages) && (messages = document.messages.map((value: any) => {
+                let model: Message = {};
+                (value.sender_name) && (model.senderName = Decoding.decodeObject(value.sender_name));
+                (value.content) && (model.content = Decoding.decodeObject(value.content));
+                (value.type) && (model.type = Decoding.decodeObject(value.type));
+                (value.is_unsent) && (model.isUnsent = value.is_unsent);
+                (value.share && value.share.link) && (model.link = Decoding.decodeObject(value.share.link));
+                (value.timestamp_ms) && (model.date = new Date (value.timestamp_ms));
+                return model;
+            }));
+            let participants: string[] = [];
+            (document.participants) && (participants = document.participants.map((value: any) => Decoding.decodeObject(value.name)));
 
-            return {
-                title: Decoding.decodeObject(document.title),
-                listMessages: messages,
-                participants: participants,
-                is_still_participant: document.is_still_participant
-            }
+            let conversationModel: Conversation = {};
+            (document.title) && (conversationModel.title = Decoding.decodeObject(document.title));
+            (messages) && (conversationModel.listMessages = messages);
+            (participants) && (conversationModel.participants = participants);
+            (document.is_still_participant) && (conversationModel.isStillParticipant = document.is_still_participant);
+
+            return !Validating.objectIsEmpty(conversationModel) ? conversationModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseMessages');
         }

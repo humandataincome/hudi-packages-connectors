@@ -86,7 +86,7 @@ async function netflixServiceTest() {
 async function facebookServiceTest() {
     const facebookService = new FacebookService();
     try {
-        console.log(await facebookService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/profile_information/profile_information.json`)))));
+        //console.log(await facebookService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/profile_information/profile_information.json`)))));
         //console.log(await facebookService.parseAdsInteractedWith(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/ads_information/advertisers_you've_interacted_with.json`)))));
         //console.log(await facebookService.parseAdsUsingYourInfo(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/ads_information/advertisers_using_your_activity_or_information.json`)))));
         //console.log(await facebookService.parseSearchHistory(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/search/your_search_history.json`)))));
@@ -94,7 +94,7 @@ async function facebookServiceTest() {
         //console.log(await facebookService.parsePageLiked(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/pages/pages_you've_liked.json`)))));
         //console.log(await facebookService.parsePageFollowed(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/pages/pages_you_follow.json`)))));
         //console.log(await facebookService.parseAppsConnected(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/apps_and_websites_off_of_facebook/apps_and_websites.json`)))));
-        //console.log(await testMessagesIGFB(facebookService, 'facebook_json/messages/inbox/'))
+        console.log(await testMessagesIGFB(facebookService, 'facebook_json/messages/inbox/'))
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);

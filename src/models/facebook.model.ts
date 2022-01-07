@@ -12,44 +12,44 @@ export interface PersonalInformation {
     educationExperiences?: Array<EducationExperience>;
     workExperience?: Array<WorkExperience>;
     languages?: Array<string>;
-    interestedInGenders?: Array<string>;
+    gendersInterests?: Array<string>;
     politicalView?: View;
     religiousView?: View;
     bloodInfo?: string;
     websites?: Array<string>;
-    address?: Location;
+    address?: AddressLocation;
     phoneNumbers?: Array<string>;
     placesLived?: Array<PlaceLived>;
     pagesInterests?: Array<Pages>;
-    registrationTimestamp?: number;
+    registrationDate?: Date;
     profileUri?: string;
 }
 
 export interface AdsInteractedWith {
-    list?: Array<AdvInteraction>;
+    list: Array<AdvInteraction>;
 }
 
 export interface AdsUsingYourInfo {
-    list?: Array<AdvUsingYourInfo>;
+    list: Array<AdvUsingYourInfo>;
 }
 
 export interface SearchHistory {
-    searches?: Array<string>;
+    listSearches: Array<Search>;
 }
 
 export interface CommentsPosted {
-    list?: Array<CommentPosted | undefined>;
+    list: Array<CommentPosted>;
 }
 
-export interface PagesLiked{
-    listPages?: Array<Page>;
+export interface PagesLiked {
+    list: Array<Page>;
 }
 
-export interface PagesFollow{
-    listPages?: Array<Page>;
+export interface PagesFollow {
+    list: Array<Page>;
 }
  export interface AppsConnected {
-    listApps?: Array<AppConnected>;
+    list: Array<AppConnected>;
  }
 
 export interface Conversations {
@@ -60,66 +60,61 @@ export interface Conversations {
 //-----------------------------------
 export interface AppConnected {
     name?: string;
-    addedTimestamp?: number;
     userAppScopedId?: number;
-    category?: Status;
-    removedTimestamp?: number;
-}
-
-export enum Status {
-    active, inactive, removed
+    category?: string;
+    addedTimestamp?: Date;
+    removedTimestamp?: Date;
 }
 
 export interface Page {
     name?: string;
-    timestamp?: number;
+    date?: Date;
 }
 
 export interface AdvInteraction{
     title?: string;
     action?: string;
-    timestamp?: number;
+    date?: Date;
 }
 
 export interface CommentPosted {
     text?: string;
     author?: string;
-    timestamp?: number;
     title?: string;
+    date?: Date;
 }
 
 export interface AdvUsingYourInfo{
-    advertiser_name?: string;
-    has_data_file_custom_audience?: boolean;
-    has_remarketing_custom_audience?: boolean;
-    has_in_person_store_visit?: boolean;
+    advertiserName?: string;
+    hasDataFileCustomAudience?: boolean;
+    hasRemarketingCustomAudience?: boolean;
+    hasInPersonStoreVisit?: boolean;
 }
 
 export interface Relationship {
     status?: string,
     anniversary?: DateAlternative,
-    timestamp?: number
+    dateAdded?: Date
 }
-export interface Location {
+export interface AddressLocation {
     street?: string;
     city?: string;
     zipcode?: number;
     neighborhood?: string;
     country?: string;
-    country_code?: string;
+    countryCode?: string;
     region?: string;
 }
 
 export interface EducationExperience {
     name?: string;
-    start_timestamp?: number;
-    end_timestamp?: number;
+    startDate?: Date;
+    endDate?: Date;
     graduated?: boolean;
     description?: string;
-    concentrations?: Array<string>;
+    educationTopics?: Array<string>;
     degree?: string;
-    school_type?: string;
-    timestamp?: number;
+    schoolType?: string;
 }
 
 export interface WorkExperience {
@@ -127,15 +122,13 @@ export interface WorkExperience {
     title?: string;
     location?: string;
     description?: string;
-    start_timestamp?: number;
-    end_timestamp?: number;
-    timestamp?: number;
+    startDate?: Date;
+    endDate?: Date;
 }
 
 export interface PlaceLived {
     place?: string;
-    start_timestamp?: number;
-    timestamp?: number;
+    startDate?: Date;
 }
 
 export interface Pages {
@@ -146,27 +139,31 @@ export interface Pages {
 export interface View {
     name?: string;
     description?: string;
-    timestamp?: number;
 }
 
 export interface Conversation {
-    title: string;
-    listMessages: Array<Message>;
-    participants: Array<string>;
-    is_still_participant: boolean;
+    title?: string;
+    listMessages?: Array<Message>;
+    participants?: Array<string>;
+    isStillParticipant?: boolean;
 }
 
 export interface Message {
-    sender_name: string;
-    timestamp_ms: number;
-    content: string;
+    senderName?: string;
+    content?: string;
     link?: string;
-    type: string;
-    is_unsent: boolean;
+    type?: string;
+    isUnsent?: boolean;
+    date?: Date;
 }
 
 export interface DateAlternative {
     year?:number,
     month?:number,
     day?:number
+}
+
+export interface Search {
+    text?: string;
+    date?: Date;
 }

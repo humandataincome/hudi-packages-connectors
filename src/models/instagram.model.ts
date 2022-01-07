@@ -100,7 +100,7 @@ export interface Topics {
 }
 
  export interface Conversations {
-    listInbox?: Array<Conversation>;
+    listInbox: Array<Conversation>;
  }
 
 //---------------------------------------
@@ -140,19 +140,19 @@ export interface Search {
 }
 
 export interface Conversation {
-    title: string;
-    listMessages: Array<Message>;
-    participants: Array<string>;
-    is_still_participant: boolean;
+    title?: string;
+    listMessages?: Array<Message>;
+    participants?: Array<string>;
+    isStillParticipant?: boolean;
 }
 
 export interface Message {
-    sender_name: string;
-    timestamp_ms: Date;
-    content: string;
+    senderName?: string;
+    date?: Date;
+    content?: string;
     link?: string;
-    type: string;
-    is_unsent: boolean;
+    type?: string;
+    isUnsent?: boolean;
 }
 
 export interface Song {

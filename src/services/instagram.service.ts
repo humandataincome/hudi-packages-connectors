@@ -15,6 +15,7 @@ import {
 } from "../models/instagram.model";
 import Logger from "../utils/logger";
 import {Decoding} from "../utils/decoding";
+import {Validating} from "../utils/validating";
 
 /**
  * Class used to parse most important files into the directory returned by Instagram in JSON format.
@@ -44,46 +45,33 @@ export class InstagramService {
         try {
             let document = JSON.parse(data.toString());
             try {
-                personalInfoModel.username = Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-username`)].value);
-            } catch {
-                this.logger.log('info', 'username parameter is missing','parsePersonalInformation');
-            }try {
+                let parameterName = this.configInstagram.get(`${this.prefix}-username`);
+                personalInfoModel.username = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value);
+            } catch {}
+            try {
                 personalInfoModel.name = Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-name`)].value);
-            } catch {
-                this.logger.log('info', 'name parameter is missing', 'parsePersonalInformation');
-            }try {
+            } catch {}
+            try {
                 personalInfoModel.email = Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-email`)].value);
-            } catch {
-                this.logger.log('info', 'email parameter is missing','parsePersonalInformation');
-            }
+            } catch {}
             try {
                 personalInfoModel.private = document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-privateAccount`)].value;
-            } catch {
-                this.logger.log('info', 'privateAccount parameter is missing','parsePersonalInformation');
-            }
+            } catch {}
             try {
                 let date = Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-birthdate`)].value);
                 let match = date.split('-');
                 match && (personalInfoModel.birthdate = new Date(Date.UTC(match[0], match[1]-1, match[2], 0, 0, 0)));
-            } catch {
-                this.logger.log('info', 'birthdate parameter is missing','parsePersonalInformation');
-            }
+            } catch {}
             try {
                 personalInfoModel.phoneNumber = Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-phoneNumber`)].value);
-            } catch {
-                this.logger.log('info', 'phoneNumber parameter is missing','parsePersonalInformation');
-            }
+            } catch {}
             try {
                 personalInfoModel.biography = Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-biography`)].value);
-            } catch {
-                this.logger.log('info', 'biography parameter is missing', 'parsePersonalInformation');
-            }
+            } catch {}
             try {
                 personalInfoModel.gender = Decoding.decodeObject(document.profile_user[0].string_map_data[this.configInstagram.get(`${this.prefix}-gender`)].value);
-            } catch {
-                this.logger.log('info', 'gender parameter is missing','parsePersonalInformation');
-            }
-            return personalInfoModel != {} ? personalInfoModel : undefined;
+            } catch {}
+            return !Validating.objectIsEmpty(personalInfoModel) ? personalInfoModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parsePersonalInformation');
         }
@@ -461,35 +449,32 @@ export class InstagramService {
 
     /**
      * @param data - file 'messages/inbox/{chat_directory_name}/message_1.json' in input as Buffer
-     * @return {Promise<Topics | undefined>}
+     * @return {Promise<Conversation | undefined>}
      */
     async parseMessages(data: Buffer): Promise<Conversation | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            //console.log(document)
-            let messages = document.messages.map((value: any) => {
-                let newValue: Message = {
-                    sender_name: Decoding.decodeObject(value.sender_name),
-                    timestamp_ms: value.timestamp_ms,
-                    content: Decoding.decodeObject(value.content),
-                    type: Decoding.decodeObject(value.type),
-                    is_unsent: value.is_unsent
-                }
-                try {
-                    newValue.link = Decoding.decodeObject(value.share.link);
-                } catch {
-                    //do nothing: link parameter might be present or not, in both cases it's not an error
-                }
-                return newValue;
-            });
-            let participants = document.participants.map((value: any) => Decoding.decodeObject(value.name));
+            let messages: Message[] = [];
+            (document.messages) && (messages = document.messages.map((value: any) => {
+                let model: Message = {};
+                (value.sender_name) && (model.senderName = Decoding.decodeObject(value.sender_name));
+                (value.content) && (model.content = Decoding.decodeObject(value.content));
+                (value.type) && (model.type = Decoding.decodeObject(value.type));
+                (value.is_unsent) && (model.isUnsent = value.is_unsent);
+                (value.share && value.share.link) && (model.link = Decoding.decodeObject(value.share.link));
+                (value.timestamp_ms) && (model.date = new Date (value.timestamp_ms));
+                return model;
+            }));
+            let participants: string[] = [];
+            (document.participants) && (participants = document.participants.map((value: any) => Decoding.decodeObject(value.name)));
 
-             return {
-                title: Decoding.decodeObject(document.title),
-                listMessages: messages,
-                participants: participants,
-                is_still_participant: document.is_still_participant
-            }
+            let conversationModel: Conversation = {};
+            (document.title) && (conversationModel.title = Decoding.decodeObject(document.title));
+            (messages) && (conversationModel.listMessages = messages);
+            (participants) && (conversationModel.participants = participants);
+            (document.is_still_participant) && (conversationModel.isStillParticipant = document.is_still_participant);
+
+            return !Validating.objectIsEmpty(conversationModel) ? conversationModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseMessages');
         }
