@@ -140,4 +140,21 @@ export interface ViewingActivity {
     title?: string;
 }
 
+//twitch prime subscription
+export interface TwitchPrimeSubscriptions {
+    list: Array<TwitchPrimeSubscription>;
+}
 
+export interface TwitchPrimeSubscription {
+    date?: Date;
+    balanceTrackerOperation?: string;
+    subscriptionCreditOperation?: string;
+    subscriptionCreditsSpent?: number;
+    processedSubscriptionCreditsSpent?: number;
+    subscriptionCreditBalanceChange?: number;
+    remainingSubscriptionCreditBalance?: number;
+    streamerName?: string;
+    streamerLinkedChannels?: string;
+    spenderTwitchUserID?: number;
+    customerServiceNote?: string;
+}

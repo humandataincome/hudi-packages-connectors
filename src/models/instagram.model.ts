@@ -15,37 +15,37 @@ export interface LocationInformation {
 }
 
 export interface AdsClicked {
-    list?: Array<string>;
+    list: Array<Adv>;
 }
 export interface AdsViewed {
-    list?: Array<string>;
+    list: Array<Adv>;
 }
 export interface AdsInterests {
-    list?: Array<string>;
+    list: Array<Adv>;
 }
 
 export interface MusicHeardInStories {
-    list?: Array<Song>;
+    list: Array<Media>;
 }
 
 export interface MusicRecentlyUsedInStories {
-    list?: Array<Song>;
+    list: Array<Media>;
 }
 
 export interface PostViewed {
-    list?: Array<string>;
+    list: Array<Post>;
 }
 
 export interface VideoWatched {
-    list?: Array<string>;
+    list: Array<Media>;
 }
 
 export interface SuggestedAccountViewed {
-    list?: Array<string>;
+    list: Array<Account>;
 }
 
 export interface AccountYouAreNotInterested {
-    list?: Array<string>;
+    list: Array<Account>;
 }
 
 export interface CommentsPosted {
@@ -57,27 +57,27 @@ export interface SyncedContracts {
 }
 
 export interface ArchivedPosts {
-    listArchivedPosts?: Array<Post>;
+    list: Array<Post>;
 }
 
 export interface PersonalPosts {
-    listPost?: Array<Post>;
+    list: Array<Post>;
 }
 
 export interface Followers {
-    listAccounts?: Array<Account>;
+    list: Array<Account>;
 }
 
 export interface FollowingAccounts {
-    list?: Array<Account>;
+    list: Array<Account>;
 }
 
 export interface FollowingHashtags {
-    list?: Array<Account>;
+    list: Array<Account>;
 }
 
 export interface LikedPosts {
-    list?: Array<Like>;
+    list: Array<Like>;
 }
 
 export interface LikedComments {
@@ -85,35 +85,39 @@ export interface LikedComments {
 }
 
 export interface Searches {
-    list?: Array<Search>;
+    list: Array<Search>;
 }
 
 export interface ReelSentiments {
-    list?: Array<string>;
+    list: Array<Sentiment>;
 }
 export interface ReelTopics {
-    list?: Array<string>;
+    list: Array<Topic>;
 }
 
 export interface Topics {
-    list?: Array<string>;
+    list: Array<Topic>;
 }
 
  export interface Conversations {
-    listInbox: Array<Conversation>;
+    listInbox?: Array<Conversation>;
  }
 
 //---------------------------------------
 export interface Account {
-    href: string;
-    value: string;
-    timestamp?: Date;
+    href?: string;
+    name?: string;
+    date?: Date;
 }
 
+/*
+ *  if it's a post crated then date is the creation date
+ *  if it's other people's post then date is the viewing date and uri doesn't exist
+ */
 export interface Post {
-    uri: string;
-    title: string;
-    creation_timestamp: Date;
+    uri?: string;
+    title?: string;
+    date?: Date;
 }
 
 export interface ContactSynced {
@@ -123,20 +127,21 @@ export interface ContactSynced {
 }
 
 export interface CommentPosted {
-    text: string;
-    toUser: string;
-    timestamp: Date;
+    text?: string;
+    toUser?: string;
+    date?: Date;
 }
 
 export interface Like {
-    title: string;
-    href: string;
-    timestamp: Date;
+    title?: string;
+    href?: string;
+    emoticon?: string;
+    date?: Date;
 }
 
 export interface Search {
-    value: string;
-    timestamp: Date;
+    text?: string;
+    date?: Date;
 }
 
 export interface Conversation {
@@ -155,8 +160,22 @@ export interface Message {
     isUnsent?: boolean;
 }
 
-export interface Song {
-    title: string;
-    artist: string;
-    timestamp: Date;
+//Song or Video
+export interface Media {
+    title?: string;
+    artist?: string;
+    date?: Date;
+}
+
+export interface Adv {
+    title?: string;
+    date?: Date;
+}
+
+export interface Topic {
+    value?: string;
+}
+
+export interface Sentiment {
+    value?: string;
 }

@@ -18,8 +18,8 @@ import {GoogleService} from "../src/services/google.service";
 async function test(){
     //await netflixServiceTest();
     //await amazonServiceTest();
-    await facebookServiceTest();
-    //await instagramServiceTest();
+    //await facebookServiceTest();
+    await instagramServiceTest();
     //await googleServiceTest();
 }
 
@@ -31,6 +31,7 @@ async function amazonServiceTest() {
         //console.log(await amazonService.parsePrimeVideoViewingHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv`))));
         //console.log(await amazonService.parseSearchDataCustomerEngagement(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Search-Data/Search-Data.Customer-Engagement.csv`))));
         //console.log(await amazonService.parseAudibleLibrary(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Audible.Library.csv`))));
+        console.log(await amazonService.parseTwitchPrimeSubscription(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv`))));
         /**
          * advertising files are generated with a limit of 100 entries for each files,
          * when the limit is reached another directory with files is created.
@@ -53,8 +54,8 @@ async function amazonServiceTest() {
             array = await amazonService.parseAdvertiserClicked(await Parser.CSVToBuffer(source));
             array && (resultClicked = resultClicked.concat(array.list));
         }
-        console.log(resultAudience.sort());
-        console.log(resultClicked.sort());
+        //console.log(resultAudience.sort());
+        //console.log(resultClicked.sort());
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);
@@ -94,7 +95,7 @@ async function facebookServiceTest() {
         //console.log(await facebookService.parsePageLiked(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/pages/pages_you've_liked.json`)))));
         //console.log(await facebookService.parsePageFollowed(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/pages/pages_you_follow.json`)))));
         //console.log(await facebookService.parseAppsConnected(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}facebook_json/apps_and_websites_off_of_facebook/apps_and_websites.json`)))));
-        console.log(await testMessagesIGFB(facebookService, 'facebook_json/messages/inbox/'))
+        //console.log(await testMessagesIGFB(facebookService, 'facebook_json/messages/inbox/'))
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);
@@ -109,7 +110,7 @@ async function instagramServiceTest() {
     const instagramService = new InstagramService(configIG);
     try {
         //console.log(await instagramService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/account_information/personal_information.json`)))));
-        //console.log(await instagramService.parseLocation(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/account_information/personal_information.json`)))));
+        //console.log(await instagramService.parseLocation(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/information_about_you/account_based_in.json`)))));
         //console.log(await instagramService.parseAdsClicked(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/ads_and_content/ads_clicked.json`)))));
         //console.log(await instagramService.parseAdsViewed(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/ads_and_content/ads_viewed.json`)))));
         //console.log(await instagramService.parseAdsInterests(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/information_about_you/ads_interests.json`)))));
@@ -125,13 +126,13 @@ async function instagramServiceTest() {
         //console.log(await instagramService.parsePersonalPost(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/content/posts_1.json`)))));
         //console.log(await instagramService.parseFollowers(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/followers_and_following/followers.json`)))));
         //console.log(await instagramService.parseFollowingHashtags(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/followers_and_following/following_hashtags.json`)))));
-        //console.log(await instagramService.parseLikedPosts(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/likes/liked_comments.json`)))));
-        //console.log(await instagramService.parseLikedComments(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/likes/liked_posts.json`)))));
+        //console.log(await instagramService.parseLikedPosts(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/likes/liked_posts.json`)))));
+        //console.log(await instagramService.parseLikedComments(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/likes/liked_comments.json`)))));
         //console.log(await instagramService.parseSearches(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/recent_search/account_searches.json`)))));
         //console.log(await instagramService.parseReelSentiments(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/your_topics/your_reels_sentiments.json`)))));
         //console.log(await instagramService.parseReelTopics(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/your_topics/your_reels_topics.json`)))));
         //console.log(await instagramService.parseTopics(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/your_topics/your_topics.json`)))));
-        //console.log(await testMessagesIGFB(instagramService, 'instagram_json/messages/inbox/'))
+        console.log(await testMessagesIGFB(instagramService, 'instagram_json/messages/inbox/'))
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);

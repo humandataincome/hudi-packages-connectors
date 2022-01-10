@@ -5,7 +5,7 @@ import {
     PrimeVideoViewingHistory,
     PrimeVideoWatchlist,
     PrimeVideoWatchlistHistory, Search, SearchDataCustomerEngagement,
-    Title,
+    Title, TwitchPrimeSubscription, TwitchPrimeSubscriptions,
     ViewingActivity
 } from "../models/amazon.model";
 import {Parser} from "../utils/parser";
@@ -270,4 +270,37 @@ export class AmazonService {
             this.logger.log('error', `${e}`,'parseAdvertiserClicked');
         }
     }
+
+    /**
+     * @param data - file 'AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv' in input as Buffer
+     * @return {Promise<TwitchPrimeSubscriptions | undefined>}
+     */
+    async parseTwitchPrimeSubscription(data: Buffer): Promise<TwitchPrimeSubscriptions | undefined> {
+        try {
+            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            if(result) {
+                let model: TwitchPrimeSubscriptions = {list: []}
+                result.map((listItem) => {
+                    let newItem: TwitchPrimeSubscription = {}, match;
+                    (listItem['﻿Timestamp'] != '') && (match = listItem['﻿Timestamp'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/));
+                    (match) && (newItem.date = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), 0)));
+                    (listItem.BalanceTrackerOperation != '') && (newItem.balanceTrackerOperation = listItem.BalanceTrackerOperation);
+                    (listItem.SubscriptionCreditOperation != '') && (newItem.subscriptionCreditOperation = listItem.SubscriptionCreditOperation);
+                    (listItem.SubscriptionCreditsSpent != '') && (newItem.subscriptionCreditsSpent = listItem.SubscriptionCreditsSpent);
+                    (listItem.ProcessedSubscriptionCreditsSpent != '') && (newItem.processedSubscriptionCreditsSpent = listItem.ProcessedSubscriptionCreditsSpent);
+                    (listItem.SubscriptionCreditBalanceChange != '') && (newItem.subscriptionCreditBalanceChange = listItem.SubscriptionCreditBalanceChange);
+                    (listItem.RemainingSubscriptionCreditBalance != '') && (newItem.remainingSubscriptionCreditBalance = listItem.RemainingSubscriptionCreditBalance);
+                    (listItem.StreamerName != '') && (newItem.streamerName = listItem.StreamerName);
+                    (listItem.StreamerLinkedChannels != '') && (newItem.streamerLinkedChannels = listItem.StreamerLinkedChannels);
+                    (listItem.SpenderTwitchUserID != '') && (newItem.spenderTwitchUserID = listItem.SpenderTwitchUserID);
+                    (listItem.CustomerServiceNote != '') && (newItem.customerServiceNote = listItem.CustomerServiceNote);
+                    model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any){
+            this.logger.log('error', `${e}`,'parseTwitchPrimeSubscription');
+        }
+    }
 }
+

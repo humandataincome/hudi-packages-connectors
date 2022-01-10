@@ -23,6 +23,7 @@ export class ConfigInstagram {
             'IT-artist':'Artista',
             'IT-song':'Canzone',
             'IT-time':'Orario',
+            'IT-dateAndTime':'Data e ora',
             'IT-secondName':'Cognome',
             'IT-contactInfo':'Informazioni di contatto',
             'IT-cityName':'Nome della citt\u00c3\u00a0',
