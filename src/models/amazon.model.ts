@@ -74,11 +74,49 @@ export interface Search {
 }
 
 export interface AdvertiserAudiences {
-    list: Array<string>;
+    list: Array<ADV>;
 }
 
 export interface AdvertiserClicked {
-    list: Array<string>;
+    list: Array<ADV>;
+}
+
+export interface ThirdPartyAudiences {
+    list: Array<ADV>;
+}
+
+export interface AmazonAudiences {
+    list: Array<ADV>;
+}
+
+export interface ADV {
+    value?: string;
+}
+
+export interface AmazonWishlists {
+    lists: Array<WishList>;
+}
+
+export interface WishList {
+    itemList: Array<Item>;
+    privacy?: string;
+    nodeFlags?: Array<string>;
+    listName?: string;
+    view?: string;
+    recentActivityDate?: Date;
+    emailAddress?: string;
+    roleName?: string;
+}
+
+export interface Item {
+    asin?: string;
+    quantity?: number;
+    privacy?: string;
+    value?: number;
+    currencyUnit?: string;
+    deleted?: boolean;
+    fullyPurchasedWithoutSpoilingSurprise?: boolean;
+    fullyPurchased?: boolean;
 }
 
 //AUDIBLE MODELS

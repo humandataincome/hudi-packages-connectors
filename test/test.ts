@@ -10,16 +10,16 @@ import {Conversation as ConversationIG, Conversations as ConversationsIG} from "
 import {Conversation as ConversationFB, Conversations as ConversationsFB} from "../src/models/facebook.model";
 import path from "path";
 import {Parser} from "./utils/parser";
-import fs from "fs";
 import {GoogleService} from "../src/services/google.service";
+import {ADV} from "../src/models/amazon.model";
 
 
 
 async function test(){
     //await netflixServiceTest();
-    //await amazonServiceTest();
+    await amazonServiceTest();
     //await facebookServiceTest();
-    await instagramServiceTest();
+    //await instagramServiceTest();
     //await googleServiceTest();
 }
 
@@ -31,7 +31,8 @@ async function amazonServiceTest() {
         //console.log(await amazonService.parsePrimeVideoViewingHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv`))));
         //console.log(await amazonService.parseSearchDataCustomerEngagement(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Search-Data/Search-Data.Customer-Engagement.csv`))));
         //console.log(await amazonService.parseAudibleLibrary(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Audible.Library.csv`))));
-        console.log(await amazonService.parseTwitchPrimeSubscription(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv`))));
+        //console.log(await amazonService.parseTwitchPrimeSubscription(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv`))));
+        console.log(await amazonService.parseAmazonWishlists(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json`))));
         /**
          * advertising files are generated with a limit of 100 entries for each files,
          * when the limit is reached another directory with files is created.
@@ -42,8 +43,8 @@ async function amazonServiceTest() {
         const directories = fs.readdirSync(source);
         let directoriesADV = directories.filter((directory: string) => /Advertising/.test(directory));
 
-        let resultAudience: string[] = [];
-        let resultClicked: string[] = [];
+        let resultAudience: ADV[] = [];
+        let resultClicked: ADV[] = [];
         let array;
         for (let i = 1; i < directoriesADV.length + 1; i++) {
             source = path.join(__dirname, `../src/mock/amazon/Advertising.${i}/Advertising.AdvertiserAudiences.csv`);

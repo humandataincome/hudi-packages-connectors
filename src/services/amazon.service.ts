@@ -1,17 +1,17 @@
 import Logger from "../utils/logger";
 import {
-    AdvertiserAudiences, AdvertiserClicked,
-    AudibleLibrary, AudioBook,
+    AdvertiserAudiences, AdvertiserClicked, AmazonAudiences, AmazonWishlists,
+    AudibleLibrary, AudioBook, Item,
     PrimeVideoViewingHistory,
     PrimeVideoWatchlist,
-    PrimeVideoWatchlistHistory, Search, SearchDataCustomerEngagement,
+    PrimeVideoWatchlistHistory, Search, SearchDataCustomerEngagement, ThirdPartyAudiences,
     Title, TwitchPrimeSubscription, TwitchPrimeSubscriptions,
-    ViewingActivity
+    ViewingActivity, WishList
 } from "../models/amazon.model";
 import {Parser} from "../utils/parser";
 
 /**
- * Class used to parse most important files into the directory returned by Amazon in CSV format.
+ * Class used to parse most important files into the directory returned by Amazon in CSV and JSON format.
  * All the files are given in input as Buffer, parsed to JSON and then mapped into a specific interface model.
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
@@ -192,6 +192,64 @@ export class AmazonService {
     }
 
     /**
+     * @param data - file 'Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json' in input as Buffer
+     * @return {Promise<AmazonWishlists | undefined>}
+     */
+    async parseAmazonWishlists(data: Buffer): Promise<AmazonWishlists | undefined> {
+        try {
+            let document = JSON.parse(data.toString());
+            if(document) {
+                let regex = /(.*) \[(.*)]/;
+                let model: AmazonWishlists = {lists: []};
+                let wishList: WishList = {itemList: []};
+                document.forEach((value: any) => {
+                    let keys = Object.keys(value);
+                    let match = keys[0].match(regex);
+                    if(match) {
+                        if(match[2] == 'List') {
+                            value[keys[0]].map((parameter: any) => {
+                                let parameterKeys = Object.keys(parameter);
+                                (parameterKeys[0] == 'listName') && (wishList.listName = parameter.listName);
+                                (parameterKeys[0] == 'privacy') && (wishList.privacy = parameter.privacy);
+                                (parameterKeys[0] == 'view') && (wishList.view = parameter.view);
+                                (parameterKeys[0] == 'recentActivityDate') && (wishList.recentActivityDate = new Date(parameter.recentActivityDate));
+                            });
+                        } else if(match[1] && match[2] == 'Item 1') {
+                            let item: Item = {};
+                            value[keys[0]].map((parameter: any) => {
+                                let parameterKeys = Object.keys(parameter);
+                                (parameterKeys[0] == 'asin') && (item.asin = parameter.asin);
+                                (parameterKeys[0] == 'quantity') && (item.quantity = parameter.quantity);
+                                (parameterKeys[0] == 'privacy') && (item.privacy = parameter.privacy);
+                                (parameterKeys[0] == 'deleted') && (item.deleted = parameter.deleted.toLowerCase() == 'true');
+                                (parameterKeys[0] == 'fullyPurchasedWithoutSpoilingSurprise') && (item.fullyPurchasedWithoutSpoilingSurprise = parameter.fullyPurchasedWithoutSpoilingSurprise.toLowerCase() == 'true');
+                                (parameterKeys[0] == 'fullyPurchased') && (item.fullyPurchased = parameter.fullyPurchased.toLowerCase() == 'true');
+                                (parameterKeys[0] == 'amount' && parameter.amount.value) && (item.value = parameter.amount.value);
+                                (parameterKeys[0] == 'amount' && parameter.amount.currencyUnit) && (item.currencyUnit = parameter.amount.currencyUnit);
+                                wishList.itemList.push(item);
+                            });
+                        } else if(match[2] == 'User') {
+                            value[keys[0]].map((parameter: any) => {
+                                let parameterKeys = Object.keys(parameter);
+                                (parameterKeys[0] == 'emailAddress') && (wishList.emailAddress = parameter.emailAddress);
+                                (parameterKeys[0] == 'roleName') && (wishList.roleName = parameter.roleName);
+                                (parameterKeys[0] == 'nodeFlags') && (wishList.nodeFlags = parameter.nodeFlags);
+                            });
+                            model.lists.push(wishList);
+                            console.log(wishList.itemList);
+                            wishList = {itemList: []};
+                        }
+                    }
+                });
+                return model.lists.length > 0 ? model : undefined;
+            }
+        } catch (e: any){
+            this.logger.log('error', `${e}`,'parseAmazonWishlists');
+        }
+    }
+
+
+    /**
      * @param data - file 'Audible.Library.csv' in input as Buffer
      * @return {Promise<AudibleLibrary | undefined>}
      */
@@ -242,7 +300,7 @@ export class AmazonService {
                 let model: AdvertiserAudiences = {list: []}
                 result.map((listItem) => {
                     let parameter = '﻿Advertisers who brought audiences in which you are included';
-                    (listItem[parameter] != '') && (model.list.push(listItem[parameter]));
+                    (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -262,12 +320,52 @@ export class AmazonService {
                 let model: AdvertiserClicked = {list: []}
                 result.map((listItem) => {
                     let parameter = '﻿Advertisers whose ads you clicked';
-                    (listItem[parameter] != '') && (model.list.push(listItem[parameter]));
+                    (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseAdvertiserClicked');
+        }
+    }
+
+    /**
+     * @param data - file 'Advertising.{X}/Advertising.3PAudiences.csv' in input as Buffer
+     * @return {Promise<ThirdPartyAudiences | undefined>}
+     */
+    async parseThirdPartyAudiences(data: Buffer): Promise<ThirdPartyAudiences | undefined> {
+        try {
+            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            if(result) {
+                let model: ThirdPartyAudiences = {list: []}
+                result.map((listItem) => {
+                    let parameter = '﻿Audiences in which you are included via 3rd Parties';
+                    (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any){
+            this.logger.log('error', `${e}`,'parseThirdPartyAudiences');
+        }
+    }
+
+    /**
+     * @param data - file 'Advertising.{X}/Advertising.AmazonAudiences.csv' in input as Buffer
+     * @return {Promise<AmazonAudiences | undefined>}
+     */
+    async parseAmazonAudiences(data: Buffer): Promise<AmazonAudiences | undefined> {
+        try {
+            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            if(result) {
+                let model: AmazonAudiences = {list: []}
+                result.map((listItem) => {
+                    let parameter = '﻿Amazon Audiences in which you are included';
+                    (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any){
+            this.logger.log('error', `${e}`,'parseAmazonAudiences');
         }
     }
 
