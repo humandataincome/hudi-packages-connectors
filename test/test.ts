@@ -32,7 +32,9 @@ async function amazonServiceTest() {
         //console.log(await amazonService.parseSearchDataCustomerEngagement(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Search-Data/Search-Data.Customer-Engagement.csv`))));
         //console.log(await amazonService.parseAudibleLibrary(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Audible.Library.csv`))));
         //console.log(await amazonService.parseTwitchPrimeSubscription(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv`))));
-        console.log(await amazonService.parseAmazonWishlists(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json`))));
+        //console.log(await amazonService.parseAmazonWishlists(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json`))));
+        console.log(await amazonService.parseRetailOrderHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Retail.OrderHistory.2.csv`))));
+
         /**
          * advertising files are generated with a limit of 100 entries for each files,
          * when the limit is reached another directory with files is created.

@@ -424,7 +424,7 @@ export class AmazonService {
                 let model: RetailOrderHistory = {list: []}
                 result.map((listItem) => {
                     let newItem: RetailOrder = {}, match;
-                    (listItem['Website'] != '') && (newItem.website = listItem['Website']);
+                    (listItem['﻿"Website"'] != '') && (newItem.website = listItem['﻿"Website"']);
                     (listItem['Order ID'] != '') && (newItem.orderID = listItem['Order ID']);
                     (listItem['Order Date']  != '') && (match = listItem['Order Date'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/));
                     (listItem['Order Date']  != '') && (newItem.orderDate = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
