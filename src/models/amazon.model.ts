@@ -196,3 +196,38 @@ export interface TwitchPrimeSubscription {
     spenderTwitchUserID?: number;
     customerServiceNote?: string;
 }
+
+//RETAIL
+export interface RetailOrderHistory {
+    list: Array<RetailOrder>;
+}
+
+export interface RetailOrder {
+    website?: string;
+    orderID?: string;
+    orderDate?: Date;
+    purchaseOrderNumber?: string;
+    currency?: string;
+    unitPrice?: number;
+    unitPriceTax?: number;
+    shippingCharge?: number;
+    totalDiscounts?: number;
+    totalOwed?: number;
+    shipmentItemSubtotal?: number;
+    shipmentItemSubtotalTax?: number;
+    ASIN?: string;
+    productCondition?: string;
+    quantity?: number;
+    paymentInstrumentType?: string;
+    orderStatus?: string;
+    shipmentStatus?: string;
+    shipDate?: Date;
+    shippingOption?: string;
+    shippingAddress?: string;
+    billingAddress?: string;
+    carrierNameAndTrackingNumber?: string;
+    productName?: string;
+    giftMessage?: string;
+    giftSenderName?: string;
+    giftRecipientContactDetails?: string;
+}

@@ -1,12 +1,25 @@
 import Logger from "../utils/logger";
 import {
-    AdvertiserAudiences, AdvertiserClicked, AmazonAudiences, AmazonWishlists,
-    AudibleLibrary, AudioBook, Item,
+    AdvertiserAudiences,
+    AdvertiserClicked,
+    AmazonAudiences,
+    AmazonWishlists,
+    AudibleLibrary,
+    AudioBook,
+    Item,
     PrimeVideoViewingHistory,
     PrimeVideoWatchlist,
-    PrimeVideoWatchlistHistory, Search, SearchDataCustomerEngagement, ThirdPartyAudiences,
-    Title, TwitchPrimeSubscription, TwitchPrimeSubscriptions,
-    ViewingActivity, WishList
+    PrimeVideoWatchlistHistory,
+    RetailOrder,
+    RetailOrderHistory,
+    Search,
+    SearchDataCustomerEngagement,
+    ThirdPartyAudiences,
+    Title,
+    TwitchPrimeSubscription,
+    TwitchPrimeSubscriptions,
+    ViewingActivity,
+    WishList
 } from "../models/amazon.model";
 import {Parser} from "../utils/parser";
 
@@ -17,7 +30,6 @@ import {Parser} from "../utils/parser";
  */
 export class AmazonService {
     private logger = new Logger("Amazon Service");
-    private parserOptions = {delimiter: ',', columns: true, escape: '"', bom: true, ignore_last_delimiters: true};
     /**
      * @param data - file 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv' in input as Buffer
      * @return {Promise<PrimeVideoWatchlist | undefined>}
@@ -398,6 +410,55 @@ export class AmazonService {
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseTwitchPrimeSubscription');
+        }
+    }
+
+    /**
+     * @param data - file 'Retail.OrderHistory.2.csv' in input as Buffer
+     * @return {Promise<RetailOrderHistory | undefined>}
+     */
+    async parseRetailOrderHistory(data: Buffer): Promise<RetailOrderHistory | undefined> {
+        try {
+            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            if(result) {
+                let model: RetailOrderHistory = {list: []}
+                result.map((listItem) => {
+                    let newItem: RetailOrder = {}, match;
+                    (listItem['Website'] != '') && (newItem.website = listItem['Website']);
+                    (listItem['Order ID'] != '') && (newItem.orderID = listItem['Order ID']);
+                    (listItem['Order Date']  != '') && (match = listItem['Order Date'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/));
+                    (listItem['Order Date']  != '') && (newItem.orderDate = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
+                    (listItem['Purchase Order Number'] != '') && (newItem.purchaseOrderNumber = listItem['Purchase Order Number']);
+                    (listItem['Currency'] != '') && (newItem.currency = listItem['Currency']);
+                    (listItem['Unit Price'] != '') && (newItem.unitPrice = parseInt(listItem['Unit Price']));
+                    (listItem['Unit Price Tax'] != '') && (newItem.unitPriceTax = parseInt(listItem['Unit Price Tax']));
+                    (listItem['Shipping Charge'] != '') && (newItem.shippingCharge = parseInt(listItem['Shipping Charge']));
+                    (listItem['Total Discounts'] != '') && (newItem.totalDiscounts = parseInt(listItem['Total Discounts']));
+                    (listItem['Total Owed'] != '') && (newItem.totalOwed = parseInt(listItem['Total Owed']));
+                    (listItem['Shipment Item Subtotal'] != '') && (newItem.shipmentItemSubtotal = parseInt(listItem['Shipment Item Subtotal']));
+                    (listItem['Shipment Item Subtotal Tax'] != '') && (newItem.shipmentItemSubtotalTax = parseInt(listItem['Shipment Item Subtotal Tax']));
+                    (listItem['ASIN'] != '') && (newItem.ASIN = listItem['ASIN']);
+                    (listItem['Product Condition'] != '') && (newItem.productCondition = listItem['Product Condition']);
+                    (listItem['Quantity'] != '') && (newItem.quantity = parseInt(listItem['Quantity']));
+                    (listItem['Payment Instrument Type'] != '') && (newItem.paymentInstrumentType = listItem['Payment Instrument Type']);
+                    (listItem['Order Status'] != '') && (newItem.orderStatus = listItem['Order Status']);
+                    (listItem['Shipment Status'] != '') && (newItem.shipmentStatus = listItem['Shipment Status']);
+                    (listItem['Ship Date']  != '') && (match = listItem['Ship Date'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/));
+                    (listItem['Ship Date']  != '') && (newItem.orderDate = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
+                    (listItem['Shipping Option'] != '') && (newItem.shippingOption = listItem['Shipping Option']);
+                    (listItem['Shipping Address'] != '') && (newItem.shippingAddress = listItem['Shipping Address']);
+                    (listItem['Billing Address'] != '') && (newItem.billingAddress = listItem['Billing Address']);
+                    (listItem['Carrier Name & Tracking Number'] != '') && (newItem.carrierNameAndTrackingNumber = listItem['Carrier Name & Tracking Number']);
+                    (listItem['Product Name'] != '') && (newItem.productName = listItem['Product Name']);
+                    (listItem['Gift Message'] != '') && (newItem.giftMessage = listItem['Gift Message']);
+                    (listItem['Gift Sender Name'] != '') && (newItem.giftSenderName = listItem['Gift Sender Name']);
+                    (listItem['Gift Recipient Contact Details'] != '') && (newItem.giftRecipientContactDetails = listItem['Gift Recipient Contact Details']);
+                    model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any){
+            this.logger.log('error', `${e}`,'parseRetailOrderHistory');
         }
     }
 }
