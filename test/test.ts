@@ -17,10 +17,10 @@ import {ADV} from "../src/models/amazon.model";
 
 async function test(){
     //await netflixServiceTest();
-    await amazonServiceTest();
+    //await amazonServiceTest();
     //await facebookServiceTest();
     //await instagramServiceTest();
-    //await googleServiceTest();
+    await googleServiceTest();
 }
 
 async function amazonServiceTest() {
@@ -149,7 +149,8 @@ async function googleServiceTest() {
     const googleService = new GoogleService();
     try {
         //console.log(await googleService.parseProfile(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/Profilo/Profilo.json`)))));
-        console.log(await googleService.parseBrowseHistory(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/Chrome/BrowserHistory.json`)))));
+        //console.log(await googleService.parseBrowseHistory(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/Chrome/BrowserHistory.json`)))));
+        console.log(await googleService.parseSearchEngines(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/Chrome/SearchEngines.json`)))));
 
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {

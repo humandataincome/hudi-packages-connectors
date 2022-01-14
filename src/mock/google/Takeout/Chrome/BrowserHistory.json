@@ -1,0 +1,75 @@
+{
+    "Browser History": [
+        {
+            "favicon_url": "https://ssl.gstatic.com/finance/favicon/favicon.png",
+            "page_transition": "LINK",
+            "title": "Google Finanza: prezzi del mercato azionario, quotazioni in tempo reale e notizie di economia",
+            "url": "https://www.google.com/finance/?tab=re",
+            "client_id": "yRM8OX1io/bB6+osYThoaQ==",
+            "time_usec": 1637655714080976
+},
+        {
+            "page_transition": "TYPED",
+            "title": "Nuova scheda",
+            "url": "chrome://newtab/",
+            "client_id": "yRM8OX1io/bB6+osYThoaQ==",
+            "time_usec": 1637655710011798
+},
+        {
+            "favicon_url": "https://www.google.com/favicon.ico",
+            "page_transition": "LINK",
+            "title": "Google Takeout",
+            "url": "https://takeout.google.com/?pli=1",
+            "client_id": "yRM8OX1io/bB6+osYThoaQ==",
+            "time_usec": 1637655707995667
+},
+        {
+            "favicon_url": "https://support.google.com/favicon.ico",
+            "page_transition": "LINK",
+            "title": "Come scaricare i dati di Google - Guida di Account Google",
+            "url": "https://support.google.com/accounts/answer/3024190?hl=it",
+            "client_id": "yRM8OX1io/bB6+osYThoaQ==",
+            "time_usec": 1637655699903235
+},
+        {
+            "favicon_url": "https://www.google.it/favicon.ico",
+            "page_transition": "FORM_SUBMIT",
+            "title": "scaricare dati google - Google Search",
+            "url": "https://www.google.it/search?q=scaricare+dati+google&sxsrf=AOaemvLaeloD_VF9b81Ltd5dFl9wLsmNWQ%3A1637655692557&source=hp&ei=jKScYdbKH6yZwbkP_Iu58A4&iflsig=ALs-wAMAAAAAYZyynG6PiDh-cQG42IX9HOd7KHwxh8Ik&ved=0ahUKEwjWwMTuhq70AhWsTDABHfxFDu4Q4dUDCAc&uact=5&oq=scaricare+dati+google&gs_lcp=Cgdnd3Mtd2l6EAMyBQgAEMsBMgYIABAWEB4yBggAEBYQHjIGCAAQFhAeMgYIABAWEB46BAgjECc6BQguEIAEOgsILhCABBDHARDRAzoFCAAQgAQ6BAguEEM6BAgAEEM6CwguEIAEEMcBEK8BOgoIABCABBCHAhAUOgUILhDLAVAAWKUZYJMbaABwAHgAgAGTAYgBrw2SAQQyMC4xmAEAoAEB&sclient=gws-wiz",
+            "client_id": "yRM8OX1io/bB6+osYThoaQ==",
+            "time_usec": 1637655697356622
+},
+        {
+            "page_transition": "FORM_SUBMIT",
+            "title": "scaricare dati google - Google Search",
+            "url": "https://www.google.it/search?q=scaricare+dati+google&sxsrf=AOaemvLaeloD_VF9b81Ltd5dFl9wLsmNWQ%3A1637655692557&source=hp&ei=jKScYdbKH6yZwbkP_Iu58A4&iflsig=ALs-wAMAAAAAYZyynG6PiDh-cQG42IX9HOd7KHwxh8Ik&ved=0ahUKEwjWwMTuhq70AhWsTDABHfxFDu4Q4dUDCAc&uact=5&oq=scaricare+dati+google&gs_lcp=Cgdnd3Mtd2l6EAMyBQgAEMsBMgYIABAWEB4yBggAEBYQHjIGCAAQFhAeMgYIABAWEB46BAgjECc6BQguEIAEOgsILhCABBDHARDRAzoFCAAQgAQ6BAguEEM6BAgAEEM6CwguEIAEEMcBEK8BOgoIABCABBCHAhAUOgUILhDLAVAAWKUZYJMbaABwAHgAgAGTAYgBrw2SAQQyMC4xmAEAoAEB&sclient=gws-wiz",
+            "client_id": "yRM8OX1io/bB6+osYThoaQ==",
+            "time_usec": 1637655696776163
+},
+        {
+            "favicon_url": "https://www.google.it/favicon.ico",
+            "page_transition": "AUTO_BOOKMARK",
+            "title": "Google",
+            "url": "https://www.google.it/",
+            "client_id": "yRM8OX1io/bB6+osYThoaQ==",
+            "time_usec": 1637655692868030
+},
+      {
+        "favicon_url": "https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w32",
+        "page_transition": "LINK",
+        "title": "Google News",
+        "url": "https://news.google.com/topstories?hl=it&gl=IT&ceid=IT:it",
+        "client_id": "yRM8OX1io/bB6+osYThoaQ==",
+        "time_usec": 1636807725971672
+      },
+      {
+        "favicon_url": "https://www.google.it/favicon.ico",
+        "page_transition": "LINK",
+        "title": "Google",
+        "url": "https://www.google.it/",
+        "client_id": "yRM8OX1io/bB6+osYThoaQ==",
+        "time_usec": 1636807723730281
+      }
+
+    ]
+}
