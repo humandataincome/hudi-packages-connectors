@@ -43,6 +43,26 @@ export interface SearchEngine {
     lastModified?: Date;
 }
 
+export interface ImageData {
+    title?: string;
+    description?: string;
+    imageViews?: number;
+    creationTime?: Date;
+    photoTakenTime?: Date;
+    geoData?: GeoData;
+    geoDataExif?: GeoData;
+    url?: string;
+    deviceType?: string;
+    photoLastModifiedTime?: Date;
+}
+
+export interface GeoData {
+    latitude?: number;
+    longitude?: number;
+    altitude?: number;
+    latitudeSpan?: number;
+    longitudeSpan?: number;
+}
 
 //POSITION HISTORY
 export interface SemanticLocations {

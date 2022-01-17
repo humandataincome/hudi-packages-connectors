@@ -151,7 +151,8 @@ async function googleServiceTest() {
         //console.log(await googleService.parseProfile(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/Profile/Profile.json`)))));
         //console.log(await googleService.parseBrowseHistory(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/Chrome/BrowserHistory.json`)))));
         //console.log(await googleService.parseSearchEngines(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/Chrome/SearchEngines.json`)))));
-        console.log(await googleService.parseSemanticLocations(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/LocationHistory/SemanticLocationHistory/2017/2017_APRIL.json`)))));
+        //console.log(await googleService.parseSemanticLocations(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/LocationHistory/SemanticLocationHistory/2017/2017_APRIL.json`)))));
+        console.log(await googleService.parseImageData(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/GooglePhoto/PhotosFrom2019/photo.mp4.json`)))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);

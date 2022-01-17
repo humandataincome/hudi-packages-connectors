@@ -2,7 +2,7 @@ import Logger from "../utils/logger";
 import {
     ActivitySegment,
     BrowserHistory,
-    BrowserSearch, PlaceVisited, Point, ProbableActivity, ProbableLocation,
+    BrowserSearch, GeoData, ImageData, PlaceVisited, Point, ProbableActivity, ProbableLocation,
     Profile,
     SearchEngine,
     SearchEngines,
@@ -226,4 +226,44 @@ export class GoogleService {
         return (!Validating.objectIsEmpty(newValue)) ? newValue : undefined;
     }
 
+    /**
+     * @param data - file 'Takeout/Chrome/SearchEngines.json' in input as Buffer
+     * @return {Promise<SearchEngines | undefined>}
+     */
+    async parseImageData(data: Buffer): Promise<ImageData | undefined> {
+        let model: ImageData = {};
+        try {
+            let document = JSON.parse(data.toString());
+            (document.suggestions_url) && (model.title = document.suggestions_url);
+            (document.description) && (model.description = document.description);
+            (document.creationTime && document.creationTime.timestamp) && (model.creationTime = new Date(1000*document.creationTime.timestamp));
+            (document.photoTakenTime && document.photoTakenTime.timestamp) && (model.photoTakenTime = new Date(1000*document.photoTakenTime.timestamp));
+
+            const parseGeoData = (value: any) => {
+                let newGeo: GeoData = {};
+                (value.latitude) && (newGeo.latitude = value.latitude);
+                (value.longitude) && (newGeo.longitude = value.longitude);
+                (value.altitude) && (newGeo.altitude = value.altitude);
+                (value.latitudeSpan) && (newGeo.latitudeSpan = value.latitudeSpan);
+                (value.longitudeSpan) && (newGeo.longitudeSpan = value.longitudeSpan);
+                return model.geoData = newGeo;
+            }
+            if (document.geoData) {
+                let newGeo = parseGeoData(document.geoData);
+                !Validating.objectIsEmpty(newGeo) && (model.geoData = parseGeoData(document.geoData));
+            }
+            if (document.geoDataExif) {
+                let newGeo = parseGeoData(document.geoDataExif);
+                !Validating.objectIsEmpty(newGeo) && (model.geoDataExif = parseGeoData(document.geoDataExif));
+            }
+            (document.url) && (model.url = document.url);
+            (document.googlePhotosOrigin && document.googlePhotosOrigin.mobileUpload && document.googlePhotosOrigin.mobileUpload.deviceType)
+                && (model.deviceType = document.googlePhotosOrigin.mobileUpload.deviceType);
+            (document.photoLastModifiedTime && document.photoLastModifiedTime.timestamp) && (model.photoLastModifiedTime = new Date(1000*document.photoLastModifiedTime.timestamp));
+
+            return !Validating.objectIsEmpty(model) ? model : undefined;
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseSearchEngines');
+        }
+    }
 }
