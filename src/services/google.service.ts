@@ -1,6 +1,13 @@
 import Logger from "../utils/logger";
-import {BrowserHistory, BrowserSearch, Profile, SearchEngine, SearchEngines} from "../models/google.model";
-import {Decoding} from "../utils/decoding";
+import {
+    ActivitySegment,
+    BrowserHistory,
+    BrowserSearch, PlaceVisited, Point, ProbableActivity, ProbableLocation,
+    Profile,
+    SearchEngine,
+    SearchEngines,
+    SemanticLocations, TransitPath
+} from "../models/google.model";
 import {Validating} from "../utils/validating";
 
 /**
@@ -12,21 +19,21 @@ export class GoogleService {
     private logger = new Logger("Google Service");
 
     /**
-     * @param data - file 'Takeout/Profilo/Profilo.json' in input as Buffer
+     * @param data - file 'Takeout/Profile/Profile.json' in input as Buffer
      * @return {Promise<Profile | undefined>}
      */
     async parseProfile(data: Buffer): Promise<Profile | undefined> {
         let model: Profile = {}, match;
         try {
             let document = JSON.parse(data.toString());
-            (document.name.givenName) && (model.givenName = Decoding.decodeObject(document.name.givenName));
-            (document.name.familyName) && (model.familyName = Decoding.decodeObject(document.name.familyName));
-            (document.name.formattedName) && (model.formattedName = Decoding.decodeObject(document.name.formattedName));
-            (document.displayName) && (model.displayName = Decoding.decodeObject(document.displayName));
-            (document.emails) && (model.emails = document.emails.map((object: any) => Decoding.decodeObject(object.value)));
+            (document.name.givenName) && (model.givenName = document.name.givenName);
+            (document.name.familyName) && (model.familyName = document.name.familyName);
+            (document.name.formattedName) && (model.formattedName = document.name.formattedName);
+            (document.displayName) && (model.displayName = document.displayName);
+            (document.emails) && (model.emails = document.emails.map((object: any) => object.value));
             (document.birthday) && (match = document.birthday.match(/(\d+)-(\d+)-(\d+)/));
             model.birthdate = new Date(Date.UTC(match[1], match[2]-1, match[3], 0, 0, 0));
-            (document.gender.type) && (model.gender = Decoding.decodeObject(document.gender.type));
+            (document.gender.type) && (model.gender = document.gender.type);
             return !Validating.objectIsEmpty(model) ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseProfile');
@@ -71,7 +78,7 @@ export class GoogleService {
                 (value.favicon_url) && (newValue.faviconUrl = value.favicon_url);
                 (value.safe_for_autoreplace != undefined) && (newValue.safeForAutoreplace = value.safe_for_autoreplace);
                 (value.is_active) && (newValue.isActive = value.is_active);
-                (value.date_created) && (newValue.dateCreated = new Date(parseInt(value.date_created)/10000));
+                (value.date_created) && (newValue.dateCreated = Validating.converWebkitTimestamp(parseInt(value.date_created)));
                 (value.url) && (newValue.url = value.url);
                 (value.new_tab_url) && (newValue.newTabUrl = value.new_tab_url);
                 (value.originating_url) && (newValue.originatingUrl = value.originating_url);
@@ -79,14 +86,144 @@ export class GoogleService {
                 (value.short_name) && (newValue.shortName = value.short_name);
                 (value.keyword) && (newValue.keyword = value.keyword);
                 (value.input_encodings) && (newValue.inputEncodings = value.input_encodings);
-                (value.prepopulate_id >= 0) && (newValue.prepopulateId = value.prepopulate_id);
-                (value.last_modified) && (newValue.lastModified = new Date(parseInt(value.last_modified)/10000));
+                (value.prepopulate_id != undefined) && (newValue.prepopulateId = value.prepopulate_id);
+                (value.last_modified) && (newValue.lastModified = Validating.converWebkitTimestamp(parseInt(value.last_modified)));
                 return newValue;
             });
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseSearchEngines');
         }
+    }
+
+    /**
+     * @param data - file 'Takeout/Chrome/SearchEngines.json' in input as Buffer
+     * @return {Promise<SearchEngines | undefined>}
+     */
+    async parseSemanticLocations(data: Buffer): Promise<SemanticLocations | undefined> {
+        let model: SemanticLocations = {listVisitedPlaces: [], listActivities: []};
+        try {
+            let document = JSON.parse(data.toString());
+            document.timelineObjects.map((value: any) => {
+                if(value.placeVisit) {
+                    value = value.placeVisit;
+                    let newValue: PlaceVisited | undefined = this.parsePlaceVisitedRecursive(value);
+                    (newValue) && (model.listVisitedPlaces.push(newValue));
+                }
+                if(value.activitySegment) {
+                    let newValue: ActivitySegment = {};
+                    if (value.activitySegment.startLocation) {
+                        let location: ProbableLocation = {};
+                        (value.activitySegment.startLocation.latitudeE7) && (location.latitudeE7 = value.activitySegment.startLocation.latitudeE7);
+                        (value.activitySegment.startLocation.longitudeE7) && (location.longitudeE7 = value.activitySegment.startLocation.longitudeE7);
+                        (!Validating.objectIsEmpty(location)) && (newValue.startLocation = location);
+                    }
+                    if (value.activitySegment.endLocation) {
+                        let location: ProbableLocation = {};
+                        (value.activitySegment.endLocation.latitudeE7) && (location.latitudeE7 = value.activitySegment.endLocation.latitudeE7);
+                        (value.activitySegment.endLocation.longitudeE7) && (location.longitudeE7 = value.activitySegment.endLocation.longitudeE7);
+                        (!Validating.objectIsEmpty(location)) && (newValue.endLocation = location);
+                    }
+                    if (value.activitySegment.duration) {
+                        (value.activitySegment.duration.startTimestampMs) && (newValue.startDate = new Date(parseInt(value.activitySegment.duration.startTimestampMs)));
+                        (value.activitySegment.duration.endTimestampMs) && (newValue.endDate = new Date(parseInt(value.activitySegment.duration.endTimestampMs)));
+                    }
+                    (value.activitySegment.distance) && (newValue.distance = value.activitySegment.distance);
+                    (value.activitySegment.activityType) && (newValue.activityType = value.activitySegment.activityType);
+                    (value.activitySegment.confidence) && (newValue.confidence = value.activitySegment.confidence);
+
+                    if (value.activitySegment.activities) {
+                        newValue.allActivitiesProbabilities = [];
+                        value.activitySegment.activities.map((activity: any) => {
+                            let newActivity: ProbableActivity = {};
+                            (activity.activityType) && (newActivity.activityType = activity.activityType);
+                            (activity.probability) && (newActivity.probability = activity.probability);
+                            (!Validating.objectIsEmpty(newActivity) && newValue.allActivitiesProbabilities) && (newValue.allActivitiesProbabilities.push(newActivity));
+                        });
+                    }
+
+                    if(value.activitySegment.transitPath){
+                        let newPath: TransitPath = {};
+                        if (value.activitySegment.transitPath.transitStops) {
+                            newPath.transitStops = [];
+                            value.activitySegment.transitPath.transitStops.map((transitStop: any) => {
+                                let newLocation: ProbableLocation = {};
+                                (transitStop.latitudeE7) && (newLocation.latitudeE7 = transitStop.latitudeE7);
+                                (transitStop.longitudeE7) && (newLocation.longitudeE7 = transitStop.longitudeE7);
+                                (transitStop.placeId) && (newLocation.placeId = transitStop.placeId);
+                                (transitStop.name) && (newLocation.name = transitStop.name);
+                                (transitStop.address) && (newLocation.address = transitStop.address);
+                                (!Validating.objectIsEmpty(newLocation) && newPath.transitStops) && (newPath.transitStops.push(newLocation));
+                            });
+                        }
+                        (value.activitySegment.transitPath.name) && (newPath.name = value.activitySegment.transitPath.name);
+                        (value.activitySegment.transitPath.hexRgbColor) && (newPath.hexRgbColor = value.activitySegment.transitPath.hexRgbColor);
+                        (!Validating.objectIsEmpty(newPath)) && (newValue.transitPath = newPath);
+                    }
+
+                    if(value.activitySegment.simplifiedRawPath) {
+                        if(value.activitySegment.simplifiedRawPath.points) {
+                            newValue.simplifiedRawPath = [];
+                            value.activitySegment.simplifiedRawPath.points.map((point: any) => {
+                                let newPoint: Point = {};
+                                (point.latE7) && (newPoint.latitudeE7 = point.latE7);
+                                (point.lngE7) && (newPoint.longitudeE7 = point.lngE7);
+                                (point.timestampMs) && (newPoint.date = new Date(parseInt(point.timestampMs)));
+                                (point.accuracyMeters) && (newPoint.accuracyMeters = point.accuracyMeters);
+                                (!Validating.objectIsEmpty(newPoint) && newValue.simplifiedRawPath) && (newValue.simplifiedRawPath.push(newPoint));
+                            });
+                        }
+                    }
+                    (value.activitySegment.editConfirmationStatus) && (newValue.editConfirmationStatus = value.activitySegment.editConfirmationStatus);
+                    model.listActivities.push(newValue);
+                }
+            });
+            return (model.listVisitedPlaces.length > 0 || model.listActivities.length > 0) ? model : undefined;
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseSemanticLocations');
+        }
+    }
+
+    private parsePlaceVisitedRecursive(value: any): PlaceVisited | undefined{
+        let newValue: PlaceVisited = {};
+        if (value.location) {
+            let newLocation: ProbableLocation = {};
+            (value.location.latitudeE7) && (newLocation.latitudeE7 = value.location.latitudeE7);
+            (value.location.longitudeE7) && (newLocation.longitudeE7 = value.location.longitudeE7);
+            (value.location.placeId) && (newLocation.placeId = value.location.placeId);
+            (value.location.address) && (newLocation.address = value.location.address);
+            (value.location.name) && (newLocation.name = value.location.name);
+            (value.location.locationConfidence) && (newLocation.locationConfidence = value.location.locationConfidence);
+            (value.location.sourceInfo && value.location.sourceInfo.deviceTag) && (newLocation.deviceTag = value.location.sourceInfo.deviceTag);
+            !Validating.objectIsEmpty(newLocation) && (newValue.location = newLocation);
+        }
+        if (value.duration) {
+            (value.duration.startTimestampMs) && (newValue.startDate = new Date(parseInt(value.duration.startTimestampMs)));
+            (value.duration.endTimestampMs) && (newValue.endDate = new Date(parseInt(value.duration.endTimestampMs)));
+        }
+        (value.placeConfidence) && (newValue.placeConfidence = value.placeConfidence);
+        (value.centerLatE7) && (newValue.centerLatE7 = value.centerLatE7);
+        (value.centerLngE7) && (newValue.centerLngE7 = value.centerLngE7);
+        (value.visitConfidence != undefined) && (newValue.visitConfidence = value.visitConfidence);
+
+        if (value.otherCandidateLocations){
+            newValue.otherProbableLocations = [];
+            value.otherCandidateLocations.map((location: any) => {
+                let otherLocation: ProbableLocation = {};
+                (location.latitudeE7) && (otherLocation.latitudeE7 = location.latitudeE7);
+                (location.longitudeE7) && (otherLocation.longitudeE7 = location.longitudeE7);
+                (location.placeId) && (otherLocation.placeId = location.placeId);
+                (location.locationConfidence != undefined) && (otherLocation.locationConfidence = location.locationConfidence);
+                (location.name) && (otherLocation.name = location.name);
+                (location.address) && (otherLocation.address = location.address);
+                (!Validating.objectIsEmpty(otherLocation) && newValue.otherProbableLocations) && (newValue.otherProbableLocations.push(otherLocation));
+            });
+        }
+        if (value.childVisits) {
+            newValue.childVisits = value.childVisits.map((childValue: any) => this.parsePlaceVisitedRecursive(childValue));
+        }
+
+        return (!Validating.objectIsEmpty(newValue)) ? newValue : undefined;
     }
 
 }

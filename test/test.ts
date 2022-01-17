@@ -30,10 +30,10 @@ async function amazonServiceTest() {
         //console.log(await amazonService.parsePrimeVideoWatchlistHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv`))));
         //console.log(await amazonService.parsePrimeVideoViewingHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv`))));
         //console.log(await amazonService.parseSearchDataCustomerEngagement(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Search-Data/Search-Data.Customer-Engagement.csv`))));
-        //console.log(await amazonService.parseAudibleLibrary(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Audible.Library.csv`))));
+        //console.log(await amazonService.parseAudibleLibrary(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Audible.Library/Audible.Library.csv`))));
         //console.log(await amazonService.parseTwitchPrimeSubscription(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv`))));
         //console.log(await amazonService.parseAmazonWishlists(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json`))));
-        console.log(await amazonService.parseRetailOrderHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Retail.OrderHistory.2.csv`))));
+        console.log(await amazonService.parseRetailOrderHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Retail.OrderHistory.2/Retail.OrderHistory.2.csv`))));
 
         /**
          * advertising files are generated with a limit of 100 entries for each files,
@@ -148,10 +148,10 @@ async function instagramServiceTest() {
 async function googleServiceTest() {
     const googleService = new GoogleService();
     try {
-        //console.log(await googleService.parseProfile(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/Profilo/Profilo.json`)))));
+        //console.log(await googleService.parseProfile(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/Profile/Profile.json`)))));
         //console.log(await googleService.parseBrowseHistory(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/Chrome/BrowserHistory.json`)))));
-        console.log(await googleService.parseSearchEngines(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/Chrome/SearchEngines.json`)))));
-
+        //console.log(await googleService.parseSearchEngines(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/Chrome/SearchEngines.json`)))));
+        console.log(await googleService.parseSemanticLocations(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/LocationHistory/SemanticLocationHistory/2017/2017_APRIL.json`)))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);

@@ -262,7 +262,7 @@ export class AmazonService {
 
 
     /**
-     * @param data - file 'Audible.Library.csv' in input as Buffer
+     * @param data - file 'Audible.Library/Audible.Library.csv' in input as Buffer
      * @return {Promise<AudibleLibrary | undefined>}
      */
     async parseAudibleLibrary(data: Buffer): Promise<AudibleLibrary | undefined> {
@@ -414,7 +414,7 @@ export class AmazonService {
     }
 
     /**
-     * @param data - file 'Retail.OrderHistory.2.csv' in input as Buffer
+     * @param data - file 'Retail.OrderHistory.2/Retail.OrderHistory.2.csv' in input as Buffer
      * @return {Promise<RetailOrderHistory | undefined>}
      */
     async parseRetailOrderHistory(data: Buffer): Promise<RetailOrderHistory | undefined> {
