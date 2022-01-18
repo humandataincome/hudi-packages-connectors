@@ -2,7 +2,7 @@ import Logger from "../utils/logger";
 import {
     ActivitySegment,
     BrowserHistory,
-    BrowserSearch, GeoData, ImageData, PlaceVisited, Point, ProbableActivity, ProbableLocation,
+    BrowserSearch, Doc, DocLibrary, GeoData, ImageData, PlaceVisited, Point, ProbableActivity, ProbableLocation,
     Profile,
     SearchEngine,
     SearchEngines,
@@ -321,6 +321,30 @@ export class GoogleService {
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseTransactions');
+        }
+    }
+
+
+    /**
+     * @param data - file 'Takeout/GooglePlayStore/Library.json' in input as Buffer
+     * @return {Promise<DocLibrary | undefined>}
+     */
+    async parseDocLibrary(data: Buffer): Promise<DocLibrary | undefined> {
+        try {
+            let document = JSON.parse(data.toString());
+            let model: DocLibrary = {list: []};
+            document.map((value: any) => {
+                let newDoc: Doc = {};
+                if (value.libraryDoc.doc) {
+                    (value.libraryDoc.doc.documentType) && (newDoc.type = value.libraryDoc.doc.documentType);
+                    (value.libraryDoc.doc.title) && (newDoc.title = value.libraryDoc.doc.title);
+                }
+                (value.libraryDoc.acquisitionTime) && (newDoc.acquisitionDate = new Date (value.libraryDoc.acquisitionTime));
+                !Validating.objectIsEmpty(newDoc) && (model.list.push(newDoc));
+            });
+            return model.list.length > 0 ? model : undefined;
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseDocLibrary');
         }
     }
 }

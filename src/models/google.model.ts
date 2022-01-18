@@ -137,3 +137,14 @@ export interface Point {
     date?: Date;
     accuracyMeters?: number;
 }
+
+//PLAY STORE
+export interface DocLibrary {
+    list: Array<Doc>;
+}
+
+export interface Doc {
+    type?: string;
+    title?: string;
+    acquisitionDate?: Date;
+}
