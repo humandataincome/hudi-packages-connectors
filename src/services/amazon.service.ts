@@ -22,6 +22,7 @@ import {
     WishList
 } from "../models/amazon.model";
 import {Parser} from "../utils/parser";
+import {Months} from "../utils/utils.enum";
 
 /**
  * Class used to parse most important files into the directory returned by Amazon in CSV and JSON format.
@@ -271,25 +272,31 @@ export class AmazonService {
             if(result) {
                 let model: AudibleLibrary = {list: []}
                 result.map((listItem) => {
-                    let newItem: AudioBook = {}, match, month;
-                    (listItem['﻿"DateAdded"'] != '') && (match = listItem['﻿"DateAdded"'].match(/(\d+)-(\w+)-(\d+)/));
-                    (listItem['﻿"DateAdded"'] != '') && (month = Parser.parseAudibleDate(match[2]));
-                    (month && month != -1) && (newItem.dateAdded = new Date(Date.UTC(parseInt(match[3]), month - 1, parseInt(match[1]), 0, 0, 0)));
+                    let newItem: AudioBook = {};
+                    if(listItem['﻿"DateAdded"'] != '') {
+                        let match = listItem['﻿"DateAdded"'].match(/(\d+)-(\w+)-(\d+)/);
+                        let monthIndex = Months[match[2]];
+                        (monthIndex) && (newItem.dateAdded = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
+                    }
                     (listItem.Title != '') && (newItem.title = listItem.Title);
                     (listItem.Asin != '') && (newItem.asin = listItem.Asin);
                     (listItem.IsDownloaded != '') && (newItem.isDownloaded = listItem.IsDownloaded.toLowerCase() == 'y');
                     (listItem.IsDeleted != '') && (newItem.isDeleted = listItem.IsDeleted.toLowerCase() == 'y');
                     (listItem.DeleteBy != '') && (newItem.deleteBy = listItem.DeleteBy);
-                    (listItem.DateDeleted != '') && (match = listItem.DateDeleted.match(/(\d+)-(\w+)-(\d+)/));
-                    (listItem.DateDeleted != '') && (month = Parser.parseAudibleDate(match[2]));
-                    (month && month != -1) && (newItem.dateDeleted = new Date(Date.UTC(parseInt(match[3]), month - 1, parseInt(match[1]), 0, 0, 0)));
+                    if(listItem.DateDeleted != '') {
+                        let match = listItem.DateDeleted.match(/(\d+)-(\w+)-(\d+)/);
+                        let monthIndex = Months[match[2]];
+                        (monthIndex) && (newItem.dateDeleted = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
+                    }
                     (listItem.IsPublic != '') && (newItem.isPublic = listItem.IsPublic.toLowerCase() == 'y');
                     (listItem.IsStreamed != '') && (newItem.isStreamed = listItem.IsStreamed.toLowerCase() == 'y');
                     (listItem.IsPreorder != '') && (newItem.isPreorder = listItem.IsPreorder.toLowerCase() == 'y');
                     (listItem.Downloads != '') && (newItem.downloads = listItem.Downloads);
-                    (listItem.DateFirstDownloaded != '') && (match = listItem.DateFirstDownloaded.match(/(\d+)-(\w+)-(\d+)/));
-                    (listItem.DateFirstDownloaded != '') && (month = Parser.parseAudibleDate(match[2]));
-                    (month && month != -1) && (newItem.dateFirstDownloaded = new Date(Date.UTC(parseInt(match[3]), month - 1, parseInt(match[1]), 0, 0, 0)));
+                    if (listItem.DateFirstDownloaded != '') {
+                        let match = listItem.DateFirstDownloaded.match(/(\d+)-(\w+)-(\d+)/);
+                        let monthIndex = Months[match[2]];
+                        (monthIndex) && (newItem.dateFirstDownloaded = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
+                    }
                     (listItem.OrderNumber != '') && (newItem.orderNumber = listItem.OrderNumber);
                     (listItem.OriginType != '') && (newItem.originType = listItem.OriginType);
                     model.list.push(newItem);

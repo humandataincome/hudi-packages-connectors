@@ -30,7 +30,7 @@ export class InstagramService {
 
     /**
      * @param config - the service needs a language configuration since the json files have unique fields for any country
-     *                  (i.e 'Nome utente' for italian instead of 'Username')
+     *                  (E.g. 'Nome utente' for italian instead of 'Username')
      */
     constructor(config: ConfigInstagram) {
         this.configInstagram = config;

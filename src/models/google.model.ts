@@ -63,6 +63,20 @@ export interface GeoData {
     latitudeSpan?: number;
     longitudeSpan?: number;
 }
+export interface Transactions {
+    list: Array<Transaction>;
+}
+
+export interface Transaction {
+    date?: Date;
+    IDtransaction?: string;
+    description?: string;
+    productName?: string;
+    paymentMethod?: string;
+    state?: string;
+    amount?: number;
+    currency?: string;
+}
 
 //POSITION HISTORY
 export interface SemanticLocations {

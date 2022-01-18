@@ -6,9 +6,12 @@ import {
     Profile,
     SearchEngine,
     SearchEngines,
-    SemanticLocations, TransitPath
+    SemanticLocations, Transaction, Transactions, TransitPath
 } from "../models/google.model";
 import {Validating} from "../utils/validating";
+import {ConfigGoogle} from "../config/config.google";
+import {Parser} from "../utils/parser";
+import {Months} from "../utils/utils.enum";
 
 /**
  * Class used to parse most important files into the directory returned by Google in CSV and JSON formats.
@@ -17,6 +20,17 @@ import {Validating} from "../utils/validating";
  */
 export class GoogleService {
     private logger = new Logger("Google Service");
+    private readonly configGoogle;
+    private readonly prefix: string;
+
+    /**
+     * @param config - the service needs a language configuration since the json files have unique fields for any country
+     *                  (E.g. 'Descrizione' for italian instead of 'Description')
+     */
+    constructor(config: ConfigGoogle) {
+        this.configGoogle = config;
+        this.prefix = this.configGoogle.languageMode;
+    }
 
     /**
      * @param data - file 'Takeout/Profile/Profile.json' in input as Buffer
@@ -97,8 +111,8 @@ export class GoogleService {
     }
 
     /**
-     * @param data - file 'Takeout/Chrome/SearchEngines.json' in input as Buffer
-     * @return {Promise<SearchEngines | undefined>}
+     * @param data - file 'Takeout/LocationHistory/SemanticLocationHistory/2017/2017_APRIL.json' in input as Buffer
+     * @return {Promise<SemanticLocations | undefined>}
      */
     async parseSemanticLocations(data: Buffer): Promise<SemanticLocations | undefined> {
         let model: SemanticLocations = {listVisitedPlaces: [], listActivities: []};
@@ -227,8 +241,8 @@ export class GoogleService {
     }
 
     /**
-     * @param data - file 'Takeout/Chrome/SearchEngines.json' in input as Buffer
-     * @return {Promise<SearchEngines | undefined>}
+     * @param data - file 'Takeout/GooglePhoto/PhotosFrom2019/photo.mp4.json' in input as Buffer
+     * @return {Promise<ImageData | undefined>}
      */
     async parseImageData(data: Buffer): Promise<ImageData | undefined> {
         let model: ImageData = {};
@@ -241,12 +255,12 @@ export class GoogleService {
 
             const parseGeoData = (value: any) => {
                 let newGeo: GeoData = {};
-                (value.latitude) && (newGeo.latitude = value.latitude);
-                (value.longitude) && (newGeo.longitude = value.longitude);
-                (value.altitude) && (newGeo.altitude = value.altitude);
-                (value.latitudeSpan) && (newGeo.latitudeSpan = value.latitudeSpan);
-                (value.longitudeSpan) && (newGeo.longitudeSpan = value.longitudeSpan);
-                return model.geoData = newGeo;
+                (value.latitude != undefined) && (newGeo.latitude = value.latitude);
+                (value.longitude != undefined) && (newGeo.longitude = value.longitude);
+                (value.altitude != undefined) && (newGeo.altitude = value.altitude);
+                (value.latitudeSpan != undefined) && (newGeo.latitudeSpan = value.latitudeSpan);
+                (value.longitudeSpan != undefined) && (newGeo.longitudeSpan = value.longitudeSpan);
+                return newGeo;
             }
             if (document.geoData) {
                 let newGeo = parseGeoData(document.geoData);
@@ -263,7 +277,50 @@ export class GoogleService {
 
             return !Validating.objectIsEmpty(model) ? model : undefined;
         } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseSearchEngines');
+            this.logger.log('error', `${e}`, 'parseImageData');
+        }
+    }
+
+    /**
+     * @param data - file 'Takeout/GooglePay/GoogleTransactions/transactions_123456.csv' in input as Buffer
+     * @return {Promise<Transactions | undefined>}
+     */
+    async parseTransactions(data: Buffer): Promise<Transactions | undefined> {
+        try {
+            let document: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            if(document) {
+                let model: Transactions = {list: []};
+                document.map((value: any) => {
+                    let newTs: Transaction = {}, match, parameterName;
+                    parameterName = this.configGoogle.get(`${this.prefix}-DateAndHour`);
+                    if (value[parameterName]) {
+                        match = value[parameterName].match(/(\d+) (\w+) (\d+), (\d+):(\d+)/);
+                        let monthENG: any = this.configGoogle.get(`${this.prefix}-${match[2]}`);
+                        let monthIndex: number = parseInt(Months[monthENG]);
+                        newTs.date = new Date(Date.UTC(parseInt(match[3]), monthIndex-1, parseInt(match[1]), parseInt(match[4]), parseInt(match[5]), 0));
+                    }
+                    parameterName = this.configGoogle.get(`${this.prefix}-IDtransaction`);
+                    (value[parameterName]) && (newTs.IDtransaction = value[parameterName]);
+                    parameterName = this.configGoogle.get(`${this.prefix}-description`);
+                    (value[parameterName]) && (newTs.description = value[parameterName]);
+                    parameterName = this.configGoogle.get(`${this.prefix}-product`);
+                    (value[parameterName]) && (newTs.productName = value[parameterName]);
+                    parameterName = this.configGoogle.get(`${this.prefix}-payment`);
+                    (value[parameterName]) && (newTs.paymentMethod = value[parameterName]);
+                    parameterName = this.configGoogle.get(`${this.prefix}-state`);
+                    (value[parameterName]) && (newTs.state = value[parameterName]);
+                    parameterName = this.configGoogle.get(`${this.prefix}-amount`);
+                    match = value[parameterName].match(/(.+) (\w+)/);
+                    if (match) {
+                        newTs.amount = match[1];
+                        newTs.currency = match[2];
+                    }
+                    !Validating.objectIsEmpty(newTs) && (model.list.push(newTs));
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseTransactions');
         }
     }
 }
