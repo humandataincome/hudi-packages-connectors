@@ -156,7 +156,9 @@ async function googleServiceTest() {
         //console.log(await googleService.parseSemanticLocations(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/LocationHistory/SemanticLocationHistory/2017/2017_APRIL.json`)))));
         //console.log(await googleService.parseImageData(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/GooglePhoto/PhotosFrom2019/photo.mp4.json`)))));
         //console.log(await googleService.parseTransactions(await Parser.CSVToBuffer(path.join(__dirname, `${CONFIG.get('PATH_PREFIX')}google/Takeout/GooglePay/GoogleTransactions/transactions_123456.csv`))));
-        console.log(await googleService.parseDocLibrary(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/GooglePlayStore/Library.json`)))));
+        //console.log(await googleService.parseDocLibrary(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/GooglePlayStore/Library.json`)))));
+        //console.log(await googleService.parsePurchaseHistory(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/GooglePlayStore/PurchaseHistory.json`)))));
+        console.log(await googleService.parseOrderHistory(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/GooglePlayStore/OrderHistory.json`)))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);

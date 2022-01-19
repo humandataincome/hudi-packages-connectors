@@ -1,12 +1,27 @@
 import Logger from "../utils/logger";
 import {
-    ActivitySegment,
+    ActivitySegment, BillingInstrument,
     BrowserHistory,
-    BrowserSearch, Doc, DocLibrary, GeoData, ImageData, PlaceVisited, Point, ProbableActivity, ProbableLocation,
+    BrowserSearch, Contact,
+    Doc,
+    DocLibrary,
+    GeoData,
+    ImageData, LineItem,
+    Order,
+    OrderHistory,
+    PlaceVisited,
+    Point,
+    ProbableActivity,
+    ProbableLocation,
     Profile,
+    Purchase,
+    PurchaseHistory,
     SearchEngine,
     SearchEngines,
-    SemanticLocations, Transaction, Transactions, TransitPath
+    SemanticLocations,
+    Transaction,
+    Transactions,
+    TransitPath
 } from "../models/google.model";
 import {Validating} from "../utils/validating";
 import {ConfigGoogle} from "../config/config.google";
@@ -324,7 +339,6 @@ export class GoogleService {
         }
     }
 
-
     /**
      * @param data - file 'Takeout/GooglePlayStore/Library.json' in input as Buffer
      * @return {Promise<DocLibrary | undefined>}
@@ -339,12 +353,119 @@ export class GoogleService {
                     (value.libraryDoc.doc.documentType) && (newDoc.type = value.libraryDoc.doc.documentType);
                     (value.libraryDoc.doc.title) && (newDoc.title = value.libraryDoc.doc.title);
                 }
-                (value.libraryDoc.acquisitionTime) && (newDoc.acquisitionDate = new Date (value.libraryDoc.acquisitionTime));
+                (value.libraryDoc.acquisitionTime) && (newDoc.acquisitionDate = new Date(value.libraryDoc.acquisitionTime));
                 !Validating.objectIsEmpty(newDoc) && (model.list.push(newDoc));
             });
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseDocLibrary');
         }
+    }
+
+
+    /**
+     * @param data - file 'Takeout/GooglePlayStore/PurchaseHistory.json' in input as Buffer
+     * @return {Promise<PurchaseHistory | undefined>}
+     */
+    async parsePurchaseHistory(data: Buffer): Promise<PurchaseHistory | undefined> {
+        try {
+            let document = JSON.parse(data.toString());
+            let model: PurchaseHistory = {list: []};
+            document.map((value: any) => {
+                let purchase: Purchase = {};
+                if (value.purchaseHistory) {
+                    (value.purchaseHistory.invoicePrice) && (purchase.invoicePrice = value.purchaseHistory.invoicePrice);
+                    (value.purchaseHistory.paymentMethodTitle) && (purchase.paymentMethod = value.purchaseHistory.paymentMethodTitle);
+                    (value.purchaseHistory.userLanguageCode) && (purchase.userLanguageCode = value.purchaseHistory.userLanguageCode);
+                    (value.purchaseHistory.userCountry) && (purchase.userCountry = value.purchaseHistory.userCountry);
+                    let newDoc: Doc = {};
+                    if (value.purchaseHistory.doc) {
+                        (value.purchaseHistory.doc.documentType) && (newDoc.type = value.purchaseHistory.doc.documentType);
+                        (value.purchaseHistory.doc.title) && (newDoc.title = value.purchaseHistory.doc.title);
+                    }
+                    (value.purchaseHistory.purchaseTime) && (newDoc.acquisitionDate = new Date(value.purchaseHistory.purchaseTime));
+                    !Validating.objectIsEmpty(newDoc) && (purchase.document = newDoc);
+                    !Validating.objectIsEmpty(newDoc) && (model.list.push(purchase));
+                }
+            });
+            return model.list.length > 0 ? model : undefined;
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parsePurchaseHistory');
+        }
+    }
+
+    /**
+     * @param data - file 'Takeout/GooglePlayStore/OrderHistory.json' in input as Buffer
+     * @return {Promise<OrderHistory | undefined>}
+     */
+    async parseOrderHistory(data: Buffer): Promise<OrderHistory | undefined> {
+        try {
+            let document = JSON.parse(data.toString());
+            let model: OrderHistory = {list: []};
+            document.map((value: any) => {
+                if (value.orderHistory) {
+                    let newOrder: Order = {};
+                    (value.orderHistory.orderId) && (newOrder.orderId = value.orderHistory.orderId);
+                    (value.orderHistory.creationTime) && (newOrder.creationTime = new Date(value.orderHistory.creationTime));
+                    if (value.orderHistory.billingInstrument) {
+                        let newBill: BillingInstrument = {};
+                        (value.orderHistory.billingInstrument.cardClass) && (newBill.cardClass = value.orderHistory.billingInstrument.cardClass);
+                        (value.orderHistory.billingInstrument.cardType) && (newBill.cardType = value.orderHistory.billingInstrument.cardType);
+                        (value.orderHistory.billingInstrument.expiration) && (newBill.expiration = value.orderHistory.billingInstrument.expiration);
+                        (value.orderHistory.billingInstrument.displayName) && (newBill.displayName = value.orderHistory.billingInstrument.displayName);
+                        !Validating.objectIsEmpty(newBill) && (newOrder.billingInstrument = newBill);
+                    }
+                    if (value.orderHistory.billingContact) {
+                        let newContact: Contact = this.parseContact(value.orderHistory.billingContact);
+                        !Validating.objectIsEmpty(newContact) && (newOrder.billingContacts = newContact);
+                    }
+                    if (value.orderHistory.associatedContact) {
+                        newOrder.associatedContacts = [];
+                        value.orderHistory.associatedContact.map((contact: any) => {
+                            let newContact: Contact = this.parseContact(contact);
+                            (!Validating.objectIsEmpty(newContact) && newOrder.associatedContacts) && (newOrder.associatedContacts.push(newContact));
+                        });
+                    }
+                    (value.orderHistory.ipAddress) && (newOrder.ipAddress = value.orderHistory.ipAddress);
+                    (value.orderHistory.ipCountry) && (newOrder.ipCountry = value.orderHistory.ipCountry);
+                    (value.orderHistory.totalPrice) && (newOrder.totalPrice = value.orderHistory.totalPrice);
+                    (value.orderHistory.tax) && (newOrder.tax = value.orderHistory.tax);
+                    (value.orderHistory.refundAmount) && (newOrder.refundAmount = value.orderHistory.refundAmount);
+                    (value.orderHistory.preorder != undefined) && (newOrder.preorder = value.orderHistory.preorder);
+
+                    if (value.orderHistory.lineItem) {
+                        newOrder.lineItems = [];
+                        value.orderHistory.lineItem.map((lineItem: any) => {
+                            let newLineItem: LineItem = {};
+                            if(lineItem.doc) {
+                                let newDoc: Doc = {};
+                                (lineItem.doc.documentType) && (newDoc.type = lineItem.doc.documentType);
+                                (lineItem.doc.title) && (newDoc.title = lineItem.doc.title);
+                                !Validating.objectIsEmpty(newDoc) && (newLineItem.doc = newDoc);
+                            }
+                            (lineItem.quantity) && (newLineItem.quantity = parseInt(lineItem.quantity));
+                            (!Validating.objectIsEmpty(newLineItem) && newOrder.lineItems) && (newOrder.lineItems.push(newLineItem));
+                        });
+                    }
+
+                    !Validating.objectIsEmpty(newOrder) && (model.list.push(newOrder));
+                }
+            });
+            return model.list.length > 0 ? model : undefined;
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseOrderHistory');
+        }
+    }
+
+    private parseContact(value: any): Contact {
+        let newContact: Contact = {};
+        (value.name) && (newContact.name = value.name);
+        (value.addressLine) && (newContact.addressLine = value.addressLine);
+        (value.countryCode) && (newContact.countryCode = value.countryCode);
+        (value.city) && (newContact.city = value.city);
+        (value.state) && (newContact.state = value.state);
+        (value.postalCode) && (newContact.postalCode = value.postalCode);
+        (value.phoneNumber) && (newContact.phoneNumber = parseInt(value.phoneNumber));
+        return newContact;
     }
 }

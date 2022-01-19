@@ -78,6 +78,70 @@ export interface Transaction {
     currency?: string;
 }
 
+export interface DocLibrary {
+    list: Array<Doc>;
+}
+
+export interface Doc {
+    type?: string;
+    title?: string;
+    acquisitionDate?: Date;
+}
+
+export interface PurchaseHistory {
+    list: Array<Purchase>;
+}
+
+export interface Purchase {
+    invoicePrice?: string;
+    paymentMethod?: string;
+    userLanguageCode?: string;
+    userCountry?: string;
+    document?: Doc;
+}
+
+export interface OrderHistory {
+    list: Array<Order>;
+}
+
+export interface Order {
+    orderId?: string;
+    creationTime?: Date;
+    billingInstrument?: BillingInstrument;
+    billingContacts?: Contact;
+    associatedContacts?: Array<Contact>;
+    ipAddress?: string;
+    ipCountry?: string;
+    totalPrice?: number;
+    tax?: number;
+    refundAmount?: number;
+    preorder?: boolean;
+    lineItems?: Array<LineItem>;
+}
+
+export interface LineItem {
+    doc?: Doc;
+    quantity?: number;
+}
+
+export interface Contact {
+    name?: string;
+    addressLine?: Array<string>;
+    countryCode?: string;
+    city?: string;
+    state?: string;
+    postalCode?: string;
+    phoneNumber?: number;
+}
+
+export interface BillingInstrument {
+    cardClass?: string;
+    cardType?: string;
+    expiration?: string;
+    displayName?: string;
+}
+
+
 //POSITION HISTORY
 export interface SemanticLocations {
     listVisitedPlaces: Array<PlaceVisited>;
@@ -138,13 +202,3 @@ export interface Point {
     accuracyMeters?: number;
 }
 
-//PLAY STORE
-export interface DocLibrary {
-    list: Array<Doc>;
-}
-
-export interface Doc {
-    type?: string;
-    title?: string;
-    acquisitionDate?: Date;
-}
