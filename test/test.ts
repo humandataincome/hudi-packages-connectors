@@ -74,9 +74,16 @@ async function amazonServiceTest() {
 async function linkedinServiceTest() {
     try {
         const linkedinService = new LinkedinService();
-        console.log(await linkedinService.parseAccountStatusHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Account Status History.csv`))));
+        // ERROR //console.log(await linkedinService.parseAccountStatusHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Account Status History.csv`))));
         //console.log(await linkedinService.parseAdsClicked(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Ads Clicked.csv`))));
         //console.log(await linkedinService.parseConnections(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Connections.csv`))));
+        //console.log(await linkedinService.parseCompaniesFollowed(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Company Follows.csv`))));
+        //console.log(await linkedinService.parseContacts(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Contacts.csv`))));
+        //console.log(await linkedinService.parseEducationHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Education.csv`))));
+        //console.log(await linkedinService.parseEmails(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Email Addresses.csv`))));
+        //console.log(await linkedinService.parseEndorsementsReceived(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Endorsement_Received_Info.csv`))));
+        //console.log(await linkedinService.parseInferencesAboutYou(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Inferences_about_you.csv`))));
+        console.log(await linkedinService.parseInvitations(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Invitations.csv`))));
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);
@@ -95,7 +102,7 @@ async function netflixServiceTest() {
         //console.log(await netflixService.parseSearchHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/SearchHistory.csv`))));
         //console.log(await netflixService.parseViewingActivity(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/ViewingActivity.csv`))));
         //console.log(await netflixService.parsePlaybackEvents(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/PlaybackRelatedEvents.csv`))));
-        console.log(await netflixService.parseProfiles(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/PROFILES/Profiles.csv`))));
+        //console.log(await netflixService.parseProfiles(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/PROFILES/Profiles.csv`))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);

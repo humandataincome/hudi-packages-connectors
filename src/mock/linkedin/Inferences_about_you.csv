@@ -1,0 +1,5 @@
+Category,Type of inference,Description,Inference
+Career inferences,People leader,People leader at your company. Based on your experience on your profile and other factors.,No
+Job search inferences,Interested in a new job,Based on whether you searched for a job or clicked on a posting in the past 30 days.,true
+LinkedIn Sales Solutions (LSS) inferences,Interested in Sales Navigator product in Asia-Pacific,"Likely to fill out a Contact me sheet to purchase Sales Navigator and living in Asia-Pacific region. Based on factors such as your location, experience, and industry on your profile.",true
+LinkedIn activity inferences,Active contributor who influences public opinion,"Active contributor on LinkedIn, such as in feed and in groups, who regularly influences public opinion and public policy. Based on factors such as your experience, industry, and activity in groups.",true

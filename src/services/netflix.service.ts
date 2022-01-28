@@ -24,7 +24,7 @@ export class NetflixService {
      */
     async parsePersonalInformation(data: Buffer): Promise<PersonalInformation | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result: any[]|undefined = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let modelInfo: PersonalInformation = {};
                 (result[0]['First Name'] != '') && (modelInfo.firstName = result[0]['First Name']);
@@ -60,10 +60,10 @@ export class NetflixService {
      */
     async parsePreferences(data: Buffer): Promise<PreferencesAccount | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: PreferencesAccount = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let newItem: Preference = {}, match;
                     (listItem['Profile Name'] != '') && (newItem.profileName = listItem['Profile Name']);
                     (listItem['Show'] != '') && (newItem.show = listItem['Show']);
@@ -86,10 +86,10 @@ export class NetflixService {
      */
     async parseMyList(data: Buffer): Promise<MyListAccount | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: MyListAccount = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let newItem: Title = {}, match;
                     (listItem['Profile Name'] != '') && (newItem.profileName = listItem['Profile Name']);
                     (listItem['Title Name'] != '') && (newItem.titleName = listItem['Title Name']);
@@ -111,10 +111,10 @@ export class NetflixService {
      */
     async parseSearchHistory(data: Buffer): Promise<SearchHistory | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: SearchHistory = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let newItem: Search = {}, match;
                     (listItem['Profile Name'] != '') && (newItem.profileName = listItem['Profile Name']);
                     (listItem['Country Iso Code'] != '') && (newItem.countryIsoCode = listItem['Country Iso Code']);
@@ -141,10 +141,10 @@ export class NetflixService {
      */
     async parseViewingActivity(data: Buffer): Promise<ViewingActivity | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: ViewingActivity = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let newItem: Activity = {}, match;
                     (listItem['Profile Name'] != '') && (newItem.profileName = listItem['Profile Name']);
                     (listItem['Start Time'] != '') && (match = listItem['Start Time'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/));
@@ -172,10 +172,10 @@ export class NetflixService {
      */
     async parsePlaybackEvents(data: Buffer): Promise<PlaybackEvents | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: PlaybackEvents = {list: []};
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let newItem: Event = {}, match;
                     (listItem['Profile Name'] != '') && (newItem.profileName = listItem['Profile Name']);
                     (listItem['Title Description'] != '') && (newItem.titleDescription = listItem['Title Description'].replace(/""/, '"').replace(/"""/, '""'));
@@ -199,10 +199,10 @@ export class NetflixService {
      */
     async parseProfiles(data: Buffer): Promise<Profiles | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: Profiles = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let newItem: Profile = {};
                     (listItem['Profile Name'] != '') && (newItem.profileName = listItem['Profile Name']);
                     (listItem['Email Address'] != '') && (newItem.emailAddress = listItem['Email Address']);

@@ -37,10 +37,10 @@ export class AmazonService {
      */
     async parsePrimeVideoWatchlist(data: Buffer): Promise<PrimeVideoWatchlist | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: PrimeVideoWatchlist = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let newItem: Title = {}, match;
                     (listItem.catalogTitle != '') && (newItem.catalogTitle = listItem.catalogTitle);
                     (listItem['﻿"itemAddedDate"'] != '') && (match = listItem['﻿"itemAddedDate"'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/));
@@ -60,10 +60,10 @@ export class AmazonService {
      */
     async parsePrimeVideoWatchlistHistory(data: Buffer): Promise<PrimeVideoWatchlistHistory | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: PrimeVideoWatchlistHistory = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let newItem: Title = {}, match;
                     (listItem['﻿"listId"'] != '') && (newItem.listId = listItem['﻿"listId"']);
                     (listItem.itemAddedDate != '') && (match = listItem.itemAddedDate.match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/));
@@ -86,10 +86,10 @@ export class AmazonService {
      */
     async parsePrimeVideoViewingHistory(data: Buffer): Promise<PrimeVideoViewingHistory | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: PrimeVideoViewingHistory = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let newItem: ViewingActivity = {}, match;
                     (listItem['﻿Playback Hour']  != '') && (match = listItem['﻿Playback Hour'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/));
                     (listItem['﻿Playback Hour']  != '') && (newItem.playbackHour = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
@@ -120,11 +120,10 @@ export class AmazonService {
      */
     async parseSearchDataCustomerEngagement(data: Buffer): Promise<SearchDataCustomerEngagement | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
-            //console.log(result)
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: SearchDataCustomerEngagement = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let newItem: Search = {}, match;
                     (listItem['﻿First Search Time (GMT)'] != '') && (match = listItem['﻿First Search Time (GMT)'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/));
                     (listItem['﻿First Search Time (GMT)'] != '') && (newItem.firstSearchTime = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
@@ -268,10 +267,10 @@ export class AmazonService {
      */
     async parseAudibleLibrary(data: Buffer): Promise<AudibleLibrary | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: AudibleLibrary = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let newItem: AudioBook = {};
                     if(listItem['﻿"DateAdded"'] != '') {
                         let match = listItem['﻿"DateAdded"'].match(/(\d+)-(\w+)-(\d+)/);
@@ -314,10 +313,10 @@ export class AmazonService {
      */
     async parseAdvertiserAudiences(data: Buffer): Promise<AdvertiserAudiences | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: AdvertiserAudiences = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let parameter = '﻿Advertisers who brought audiences in which you are included';
                     (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
                 });
@@ -334,10 +333,10 @@ export class AmazonService {
      */
     async parseAdvertiserClicked(data: Buffer): Promise<AdvertiserClicked | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: AdvertiserClicked = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let parameter = '﻿Advertisers whose ads you clicked';
                     (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
                 });
@@ -354,10 +353,10 @@ export class AmazonService {
      */
     async parseThirdPartyAudiences(data: Buffer): Promise<ThirdPartyAudiences | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: ThirdPartyAudiences = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let parameter = '﻿Audiences in which you are included via 3rd Parties';
                     (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
                 });
@@ -374,10 +373,10 @@ export class AmazonService {
      */
     async parseAmazonAudiences(data: Buffer): Promise<AmazonAudiences | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: AmazonAudiences = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let parameter = '﻿Amazon Audiences in which you are included';
                     (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
                 });
@@ -394,10 +393,10 @@ export class AmazonService {
      */
     async parseTwitchPrimeSubscription(data: Buffer): Promise<TwitchPrimeSubscriptions | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: TwitchPrimeSubscriptions = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let newItem: TwitchPrimeSubscription = {}, match;
                     (listItem['﻿Timestamp'] != '') && (match = listItem['﻿Timestamp'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/));
                     (match) && (newItem.date = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), 0)));
@@ -426,10 +425,10 @@ export class AmazonService {
      */
     async parseRetailOrderHistory(data: Buffer): Promise<RetailOrderHistory | undefined> {
         try {
-            let result: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: RetailOrderHistory = {list: []}
-                result.map((listItem) => {
+                result.map((listItem: any) => {
                     let newItem: RetailOrder = {}, match;
                     (listItem['﻿"Website"'] != '') && (newItem.website = listItem['﻿"Website"']);
                     (listItem['Order ID'] != '') && (newItem.orderID = listItem['Order ID']);
