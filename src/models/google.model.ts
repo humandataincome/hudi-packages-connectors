@@ -202,3 +202,55 @@ export interface Point {
     accuracyMeters?: number;
 }
 
+//ACTIVITIES
+export interface ShoppingActivities {
+    list: Array<ShoppingActivity>;
+}
+
+export interface ShoppingActivity {
+    product?: string;
+    link?: string;
+    date?: Date;
+}
+
+export interface DailyDiscoverActivities {
+    list: Array<DailyDiscoverActivity>;
+}
+
+export interface DailyDiscoverActivity {
+    searchKeys: Array<string>;
+    date?: Date;
+}
+
+export interface SearchActivities {
+    list: Array<SearchActivity>;
+}
+
+export interface SearchActivity {
+    searchKey?: string;
+    link?: string;
+    date?: Date;
+}
+
+export interface YoutubeActivities {
+    list: Array<YoutubeActivity>;
+}
+
+export interface YoutubeActivity {
+    activity?: string;
+    linkVideo?: string;
+    titleVideo?: string;
+    linkChannel?: string;
+    nameChannel?: string;
+    date?: Date;
+}
+
+export interface NewsActivities {
+    list: Array<NewsActivity>;
+}
+
+export interface NewsActivity {
+    titleArticle?: string;
+    linkArticle?: string;
+    date?: Date;
+}

@@ -6,28 +6,29 @@ export class Decoding {
      * @return the same object in input, but decoded
      */
     static decodeObject(obj: any): any{
-        if(typeof(obj) === 'string') {
-            return this.decodeUTF8(obj);
-        } else {
-            return this.decodeObjectSupport(obj);
+        try {
+            if (typeof (obj) === 'string') {
+                return decodeURIComponent(escape(obj));
+            } else {
+                return this.decodeObjectParameters(obj);
+            }
+        } catch(e: any){
+            if(e == 'URIError: URI malformed'){
+                return obj;
+            }
         }
     }
 
-    private static decodeObjectSupport(obj: any): any{
+    private static decodeObjectParameters(obj: any): any{
         let keys = Object.keys(obj);
         for (let i = 0; i < keys.length; i++) {
             if (typeof (obj[keys[i]]) === 'string') {
-                obj[keys[i]] = this.decodeUTF8(obj[keys[i]]);
+                obj[keys[i]] = decodeURIComponent(obj[keys[i]]);
             } else if (typeof (obj[keys[i]]) === 'object') {
-                obj[keys[i]] = this.decodeObjectSupport(obj[keys[i]]);
+                obj[keys[i]] = this.decodeObjectParameters(obj[keys[i]]);
             }
         }
         return obj;
     }
-
-    static decodeUTF8(s: string) {
-        return decodeURIComponent(escape(s));
-    }
-
 }
 

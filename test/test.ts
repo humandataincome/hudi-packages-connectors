@@ -13,6 +13,7 @@ import {Parser} from "./utils/parser";
 import {GoogleService} from "../src/services/google.service";
 import {ADV} from "../src/models/amazon.model";
 import {ConfigGoogle} from "../src/config/config.google";
+import {LinkedinService} from "../src/services/linkedin.service";
 
 
 
@@ -21,7 +22,8 @@ async function test(){
     //await amazonServiceTest();
     //await facebookServiceTest();
     //await instagramServiceTest();
-    await googleServiceTest();
+    //await googleServiceTest();
+    await linkedinServiceTest();
 }
 
 async function amazonServiceTest() {
@@ -60,6 +62,21 @@ async function amazonServiceTest() {
         }
         //console.log(resultAudience.sort());
         //console.log(resultClicked.sort());
+    } catch (e: any) {
+        if(e.code == 'MODULE_NOT_FOUND'){
+            console.log('[Error not founding module] '+ e);
+        } else {
+            console.log(e);
+        }
+    }
+}
+
+async function linkedinServiceTest() {
+    try {
+        const linkedinService = new LinkedinService();
+        console.log(await linkedinService.parseAccountStatusHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Account Status History.csv`))));
+        //console.log(await linkedinService.parseAdsClicked(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Ads Clicked.csv`))));
+        //console.log(await linkedinService.parseConnections(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Connections.csv`))));
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);
@@ -158,7 +175,14 @@ async function googleServiceTest() {
         //console.log(await googleService.parseTransactions(await Parser.CSVToBuffer(path.join(__dirname, `${CONFIG.get('PATH_PREFIX')}google/Takeout/GooglePay/GoogleTransactions/transactions_123456.csv`))));
         //console.log(await googleService.parseDocLibrary(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/GooglePlayStore/Library.json`)))));
         //console.log(await googleService.parsePurchaseHistory(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/GooglePlayStore/PurchaseHistory.json`)))));
-        console.log(await googleService.parseOrderHistory(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/GooglePlayStore/OrderHistory.json`)))));
+        //console.log(await googleService.parseOrderHistory(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}google/Takeout/GooglePlayStore/OrderHistory.json`)))));
+        const fs = require('fs');
+        const path = require('path');
+        //console.log(await googleService.parseActivitiesShopping(Buffer.from(fs.readFileSync(path.resolve(__dirname, `${CONFIG.get('PATH_PREFIX')}google/Takeout/YourActivities/Shopping/MyActivities.html`)))));
+        //console.log(await googleService.parseDailyDiscoverActivities(Buffer.from(fs.readFileSync(path.resolve(__dirname, `${CONFIG.get('PATH_PREFIX')}google/Takeout/YourActivities/Discover/MyActivities.html`)))));
+        //console.log(await googleService.parseSearchActivities(Buffer.from(fs.readFileSync(path.resolve(__dirname, `${CONFIG.get('PATH_PREFIX')}google/Takeout/YourActivities/Search/MyActivities.html`)))));
+        //console.log(await googleService.parseYoutubeActivities(Buffer.from(fs.readFileSync(path.resolve(__dirname, `${CONFIG.get('PATH_PREFIX')}google/Takeout/YourActivities/YouTube/MyActivities.html`)))));
+        console.log(await googleService.parseNewsActivities(Buffer.from(fs.readFileSync(path.resolve(__dirname, `${CONFIG.get('PATH_PREFIX')}google/Takeout/YourActivities/News/MyActivities.html`)))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);

@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "dotenv": "^10.0.0",
+    "jsdom": "^19.0.0",
     "papaparse": "^5.3.1"
   }
 }

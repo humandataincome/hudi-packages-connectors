@@ -2,11 +2,11 @@ import Logger from "../utils/logger";
 import {
     ActivitySegment, BillingInstrument,
     BrowserHistory,
-    BrowserSearch, Contact,
+    BrowserSearch, Contact, DailyDiscoverActivities, DailyDiscoverActivity,
     Doc,
     DocLibrary,
     GeoData,
-    ImageData, LineItem,
+    ImageData, LineItem, NewsActivities, NewsActivity,
     Order,
     OrderHistory,
     PlaceVisited,
@@ -15,18 +15,19 @@ import {
     ProbableLocation,
     Profile,
     Purchase,
-    PurchaseHistory,
+    PurchaseHistory, SearchActivities, SearchActivity,
     SearchEngine,
     SearchEngines,
-    SemanticLocations,
+    SemanticLocations, ShoppingActivities, ShoppingActivity,
     Transaction,
     Transactions,
-    TransitPath
+    TransitPath, YoutubeActivities, YoutubeActivity
 } from "../models/google.model";
 import {Validating} from "../utils/validating";
 import {ConfigGoogle} from "../config/config.google";
 import {Parser} from "../utils/parser";
 import {Months} from "../utils/utils.enum";
+import {Decoding} from "../utils/decoding";
 
 /**
  * Class used to parse most important files into the directory returned by Google in CSV and JSON formats.
@@ -467,5 +468,219 @@ export class GoogleService {
         (value.postalCode) && (newContact.postalCode = value.postalCode);
         (value.phoneNumber) && (newContact.phoneNumber = parseInt(value.phoneNumber));
         return newContact;
+    }
+
+    /**
+     * @param data - file 'Takeout/YourActivities/Shopping/MyActivities.html' in input as Buffer
+     * @return {Promise<ShoppingActivities | undefined>}
+     */
+    async parseActivitiesShopping(data: Buffer): Promise<ShoppingActivities | undefined> {
+        try {
+            let model: ShoppingActivities = {list: []};
+
+            const jsdom = require("jsdom");
+            const { JSDOM } = jsdom;
+            const dom = new JSDOM(data, {});
+
+            Array.from(dom.window.document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).forEach((el: any) => {
+                if(el) {
+                    let shopping: ShoppingActivity = {};
+                    if(el.childNodes[1]) {
+                        let product = el.childNodes[1].textContent;
+                        (product) && (shopping.product = Decoding.decodeObject(product));
+                        let link = el.childNodes[1].href;
+                        (link) && (shopping.link = link);
+                    }
+                    if(el.childNodes[3]) {
+                        let date = el.childNodes[3].textContent;
+                        if (date) {
+                            let match = date.match(/(\d+) (\w+) (\d+), (\d+):(\d+):(\d+) CET/);
+                            if (match) {
+                                let monthENG: any = this.configGoogle.get(`${this.prefix}-${match[2]}`);
+                                shopping.date = new Date(Date.UTC(parseInt(match[3]), parseInt(Months[monthENG]) - 1, parseInt(match[1]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6])));
+                            }
+                        }
+                    }
+                    !Validating.objectIsEmpty(shopping) && model.list.push(shopping);
+                }
+            });
+
+            return model.list.length > 0 ? model : undefined;
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseActivitiesShopping');
+        }
+    }
+
+    /**
+     * @param data - file 'Takeout/YourActivities/Discover/MyActivities.html' in input as Buffer
+     * @return {Promise<DailyDiscoverActivities | undefined>}
+     */
+    async parseDailyDiscoverActivities(data: Buffer): Promise<DailyDiscoverActivities | undefined> {
+        try {
+            let model: DailyDiscoverActivities = {list: []};
+
+            const jsdom = require("jsdom");
+            const { JSDOM } = jsdom;
+            const dom = new JSDOM(data, {});
+
+            Array.from(dom.window.document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((el: any) => {
+                if(el.childNodes.length) {
+                    let newSearch: DailyDiscoverActivity = {searchKeys: []};
+                    let skipFirstElement = false; //always skip the first line (E.g. 16 schede nel tuo feed)
+                    el.childNodes.forEach((childElement: Node) => {
+                        if(skipFirstElement) {
+                            if (childElement.textContent) {
+                                let textContent = Decoding.decodeObject(childElement.textContent);
+                                let match = textContent.match(/(\d+) (\w+) (\d+), (\d+):(\d+):(\d+) CET/);
+                                if (match) {
+                                    let monthENG: any = this.configGoogle.get(`${this.prefix}-${match[2]}`);
+                                    newSearch.date = new Date(Date.UTC(parseInt(match[3]), parseInt(Months[monthENG]) - 1, parseInt(match[1]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6])));
+                                } else {
+                                    match = textContent.match(/(.+) - (.+)/);
+                                    if (match) {
+                                        (match[1]) && (newSearch.searchKeys.push(match[1]));
+                                    } else {
+                                        match = textContent.match(/(.+)/);
+                                        if (match) {
+                                            (match[1]) && (newSearch.searchKeys.push(match[1]));
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            skipFirstElement = true;
+                        }
+                    });
+                    if (newSearch.searchKeys.length > 0) {
+                        //the last element in searchKeys, that might be useless (E.g. "Altre 7 schede"), is always left in
+                        model.list.push(newSearch);
+                    }
+                }
+            });
+            return model.list.length > 0 ? model : undefined;
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseDailyDiscoverActivities');
+        }
+    }
+
+    /**
+     * @param data - file 'Takeout/YourActivities/Search/MyActivities.html' in input as Buffer
+     * @return {Promise<DailyDiscoverActivities | undefined>}
+     */
+    async parseSearchActivities(data: Buffer): Promise<SearchActivities | undefined> {
+        try {
+            let model: SearchActivities = {list: []};
+
+            const jsdom = require("jsdom");
+            const { JSDOM } = jsdom;
+            const dom = new JSDOM(data, {});
+
+            Array.from(dom.window.document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((element: any) => {
+                if(element.childNodes.length > 0) {
+                    let newSearch: SearchActivity = {};
+                    if (element.childNodes[1]) {
+                        (element.childNodes[1].href) && (newSearch.link = element.childNodes[1].href);
+                        (element.childNodes[1].textContent) && (newSearch.searchKey =  Decoding.decodeObject(element.childNodes[1].textContent));
+                    }
+                    if (element.childNodes[3]) {
+                        let match = element.childNodes[3].textContent.match(/(\d+) (\w+) (\d+), (\d+):(\d+):(\d+) CET/);
+                        if (match) {
+                            let monthENG: any = this.configGoogle.get(`${this.prefix}-${match[2]}`);
+                            newSearch.date = new Date(Date.UTC(parseInt(match[3]), parseInt(Months[monthENG]) - 1, parseInt(match[1]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6])));
+                        }
+                    }
+                    !Validating.objectIsEmpty(newSearch) && model.list.push(newSearch);
+                }
+            });
+            return model.list.length > 0 ? model : undefined;
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseSearchActivities');
+        }
+    }
+
+    /**
+     * @param data - file 'Takeout/YourActivities/YouTube/MyActivities.html' in input as Buffer
+     * @return {Promise<YoutubeActivities | undefined>}
+     */
+    async parseYoutubeActivities(data: Buffer): Promise<YoutubeActivities | undefined> {
+        try {
+            let model: YoutubeActivities = {list: []};
+            const jsdom = require("jsdom");
+            const { JSDOM } = jsdom;
+            const dom = new JSDOM(data, {});
+
+            Array.from(dom.window.document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((element: any) => {
+                let newActivity: YoutubeActivity = {};
+                if (element.childNodes.length >= 4) {
+                    (element.childNodes[0] && element.childNodes[0].textContent) && (newActivity.activity = Decoding.decodeObject(element.childNodes[0].textContent));
+                    if (element.childNodes[1]) {
+                        (element.childNodes[1].href) && (newActivity.linkVideo = element.childNodes[1].href);
+                        (element.childNodes[1].textContent) && (newActivity.titleVideo = Decoding.decodeObject(element.childNodes[1].textContent));
+                    }
+                    if(element.childNodes.length == 4) {
+                        if (element.childNodes[3]) {
+                            let match = element.childNodes[3].textContent.match(/(\d+) (\w+) (\d+), (\d+):(\d+):(\d+) CET/);
+                            if (match) {
+                                let monthENG: any = this.configGoogle.get(`${this.prefix}-${match[2]}`);
+                                newActivity.date = new Date(Date.UTC(parseInt(match[3]), parseInt(Months[monthENG]) - 1, parseInt(match[1]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6])));
+                            }
+                        }
+                    } else if(element.childNodes.length == 6) {
+                        if (element.childNodes[3]) {
+                            (element.childNodes[3].href) && (newActivity.linkChannel = element.childNodes[3].href);
+                            (element.childNodes[3].textContent) && (newActivity.nameChannel = Decoding.decodeObject(element.childNodes[3].textContent));
+                        }
+                        if (element.childNodes[5]) {
+                            let match = element.childNodes[5].textContent.match(/(\d+) (\w+) (\d+), (\d+):(\d+):(\d+) CET/);
+                            if (match) {
+                                let monthENG: any = this.configGoogle.get(`${this.prefix}-${match[2]}`);
+                                newActivity.date = new Date(Date.UTC(parseInt(match[3]), parseInt(Months[monthENG]) - 1, parseInt(match[1]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6])));
+                            }
+                        }
+                    }
+                    !Validating.objectIsEmpty(newActivity) && model.list.push(newActivity);
+                }
+            });
+            return model.list.length > 0 ? model : undefined;
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseYoutubeActivities');
+        }
+    }
+
+
+    /**
+     * @param data - file 'Takeout/YourActivities/News/MyActivities.html' in input as Buffer
+     * @return {Promise<NewsActivities | undefined>}
+     */
+    async parseNewsActivities(data: Buffer): Promise<NewsActivities | undefined> {
+        try {
+            let model: NewsActivities = {list: []};
+            const jsdom = require("jsdom");
+            const { JSDOM } = jsdom;
+            const dom = new JSDOM(data, {});
+
+            Array.from(dom.window.document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((element: any) => {
+                if(element.childNodes) {
+                    let newArticle: NewsActivity = {};
+                    if (element.childNodes.length == 4) {
+                        if (element.childNodes[1]) {
+                            (element.childNodes[1].textContent) && (newArticle.titleArticle = Decoding.decodeObject(element.childNodes[1].textContent));
+                            (element.childNodes[1].href) && (newArticle.linkArticle = element.childNodes[1].href);
+                        }
+                        if (element.childNodes[3]) {
+                            let match = element.childNodes[3].textContent.match(/(\d+) (\w+) (\d+), (\d+):(\d+):(\d+) CET/);
+                            if (match) {
+                                let monthENG: any = this.configGoogle.get(`${this.prefix}-${match[2]}`);
+                                newArticle.date = new Date(Date.UTC(parseInt(match[3]), parseInt(Months[monthENG]) - 1, parseInt(match[1]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6])));
+                            }
+                        }
+                        !Validating.objectIsEmpty(newArticle) && model.list.push(newArticle);
+                    }
+                }
+            });
+            return model.list.length > 0 ? model : undefined;
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseNewsActivities');
+        }
     }
 }

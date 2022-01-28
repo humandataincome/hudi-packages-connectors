@@ -27,6 +27,11 @@ Go into one of your account' profiles, click on your account's icon in the top-r
 ### Google Data Source ###
 You can find the guide at this link: https://support.google.com/accounts/answer/162744?hl=en.
 
+### LinkedIn Data Source ###
+From Computer: Click on your icon, click on **Settings and Profile**, **Data privacy**, **Get a copy of your data** and Download the larger Archive.
+### Twitch Data Source ###
+Go to https://privacyportal.onetrust.com/webform/0e674578-2f0b-4638-8943-97e3c8060048/ee57cd1d-b315-4b29-90cd-4def381b86c9 and compile the form.
+
 
 ## Contribution guidelines ##
 
