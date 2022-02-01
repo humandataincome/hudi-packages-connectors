@@ -183,7 +183,11 @@ export class NetflixService {
                     (listItem['Playback Start Utc Ts'] != '') && (match = listItem['Playback Start Utc Ts'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/));
                     (listItem['Playback Start Utc Ts'] != '') && (newItem.playbackStartTime = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
                     (listItem['Country'] != '') && (newItem.country = listItem['Country']);
-                    (listItem['Playtraces'] != '') && (newItem.playtraces = listItem['Playtraces']);
+
+                    if (listItem['Playtraces'] != '') {
+                        let playTraces = JSON.parse(listItem['Playtraces']);
+                        (playTraces.length > 0) && (newItem.playtraces = playTraces);
+                    }
                     model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;

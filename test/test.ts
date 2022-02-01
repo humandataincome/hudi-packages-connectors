@@ -18,25 +18,25 @@ import {LinkedinService} from "../src/services/linkedin.service";
 
 
 async function test(){
-    //await netflixServiceTest();
+    await netflixServiceTest();
     //await amazonServiceTest();
     //await facebookServiceTest();
     //await instagramServiceTest();
     //await googleServiceTest();
-    await linkedinServiceTest();
+    //await linkedinServiceTest();
 }
 
 async function amazonServiceTest() {
     try {
         const amazonService = new AmazonService();
-        //console.log(await amazonService.parsePrimeVideoWatchlist(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv`))));
-        //console.log(await amazonService.parsePrimeVideoWatchlistHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv`))));
-        //console.log(await amazonService.parsePrimeVideoViewingHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv`))));
-        //console.log(await amazonService.parseSearchDataCustomerEngagement(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Search-Data/Search-Data.Customer-Engagement.csv`))));
+        console.log(await amazonService.parsePrimeVideoWatchlist(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv`))));
+        console.log(await amazonService.parsePrimeVideoWatchlistHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv`))));
+        console.log(await amazonService.parsePrimeVideoViewingHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv`))));
+        console.log(await amazonService.parseSearchDataCustomerEngagement(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Search-Data/Search-Data.Customer-Engagement.csv`))));
         console.log(await amazonService.parseAudibleLibrary(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Audible.Library/Audible.Library.csv`))));
-        //console.log(await amazonService.parseTwitchPrimeSubscription(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv`))));
-        //console.log(await amazonService.parseAmazonWishlists(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json`))));
-        //console.log(await amazonService.parseRetailOrderHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Retail.OrderHistory.2/Retail.OrderHistory.2.csv`))));
+        console.log(await amazonService.parseTwitchPrimeSubscription(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv`))));
+        console.log(await amazonService.parseAmazonWishlists(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json`))));
+        console.log(await amazonService.parseRetailOrderHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/amazon/Retail.OrderHistory.2/Retail.OrderHistory.2.csv`))));
 
         /**
          * advertising files are generated with a limit of 100 entries for each files,
@@ -60,8 +60,8 @@ async function amazonServiceTest() {
             array = await amazonService.parseAdvertiserClicked(await Parser.CSVToBuffer(source));
             array && (resultClicked = resultClicked.concat(array.list));
         }
-        //console.log(resultAudience.sort());
-        //console.log(resultClicked.sort());
+        console.log(resultAudience.sort());
+        console.log(resultClicked.sort());
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);
@@ -74,7 +74,6 @@ async function amazonServiceTest() {
 async function linkedinServiceTest() {
     try {
         const linkedinService = new LinkedinService();
-        // ERROR //console.log(await linkedinService.parseAccountStatusHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Account Status History.csv`))));
         //console.log(await linkedinService.parseAdsClicked(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Ads Clicked.csv`))));
         //console.log(await linkedinService.parseConnections(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Connections.csv`))));
         //console.log(await linkedinService.parseCompaniesFollowed(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Company Follows.csv`))));
@@ -83,7 +82,25 @@ async function linkedinServiceTest() {
         //console.log(await linkedinService.parseEmails(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Email Addresses.csv`))));
         //console.log(await linkedinService.parseEndorsementsReceived(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Endorsement_Received_Info.csv`))));
         //console.log(await linkedinService.parseInferencesAboutYou(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Inferences_about_you.csv`))));
-        console.log(await linkedinService.parseInvitations(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Invitations.csv`))));
+        //console.log(await linkedinService.parseInvitations(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Invitations.csv`))));
+        //console.log(await linkedinService.parseJobApplicantSavedInfo(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Job Applicant Saved Answers.csv`))));
+        //console.log(await linkedinService.parseJobApplicantSavedScreeningQuestionInfo(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Job Applicant Saved Screening Question Responses.csv`))));
+        //console.log(await linkedinService.parseLearnings(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Learning.csv`))));
+        //console.log(await linkedinService.parseLogins(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Logins.csv`))));
+        //console.log(await linkedinService.parseMembersFollowed(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Member_Follows.csv`))));
+        //console.log(await linkedinService.parseMessages(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/messages.csv`))));
+        //console.log(await linkedinService.parsePhoneNumbers(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/PhoneNumbers.csv`))));
+        //console.log(await linkedinService.parseWorkingPositions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Positions.csv`))));
+        //console.log(await linkedinService.parseProfile(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Profile.csv`))));
+        //console.log(await linkedinService.parseReactions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Reactions.csv`))));
+        //console.log(await linkedinService.parseProfile(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Profile.csv`))));
+        //console.log(await linkedinService.parseRegistration(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Registration.csv`))));
+        //console.log(await linkedinService.parseRichMediaList(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Rich Media.csv`))));
+        //console.log(await linkedinService.parseSavedJobAlerts(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/SavedJobAlerts.csv`))));
+        //console.log(await linkedinService.parseSearchQueries(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/SearchQueries.csv`))));
+        //console.log(await linkedinService.parseSecurityChallenges(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Security Challenges.csv`))));
+        //console.log(await linkedinService.parseSkills(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Skills.csv`))));
+        console.log(await linkedinService.parseVotes(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Votes.csv`))));
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);
@@ -101,7 +118,7 @@ async function netflixServiceTest() {
         //console.log(await netflixService.parseMyList(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/MyList.csv`))));
         //console.log(await netflixService.parseSearchHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/SearchHistory.csv`))));
         //console.log(await netflixService.parseViewingActivity(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/ViewingActivity.csv`))));
-        //console.log(await netflixService.parsePlaybackEvents(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/PlaybackRelatedEvents.csv`))));
+        console.log(await netflixService.parsePlaybackEvents(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/CONTENT_INTERACTION/PlaybackRelatedEvents.csv`))));
         //console.log(await netflixService.parseProfiles(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/netflix/PROFILES/Profiles.csv`))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
@@ -160,7 +177,7 @@ async function instagramServiceTest() {
         //console.log(await instagramService.parseReelSentiments(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/your_topics/your_reels_sentiments.json`)))));
         //console.log(await instagramService.parseReelTopics(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/your_topics/your_reels_topics.json`)))));
         //console.log(await instagramService.parseTopics(Buffer.from(JSON.stringify(require(`${CONFIG.get('PATH_PREFIX')}instagram_json/your_topics/your_topics.json`)))));
-        console.log(await testMessagesIGFB(instagramService, 'instagram_json/messages/inbox/'))
+        //console.log(await testMessagesIGFB(instagramService, 'instagram_json/messages/inbox/'))
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);

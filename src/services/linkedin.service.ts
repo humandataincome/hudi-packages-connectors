@@ -16,8 +16,41 @@ import {
     Email,
     Emails,
     Endorsement,
-    EndorsementsReceived, Inference,
-    InferencesAboutYou, Invitation, Invitations
+    EndorsementsReceived,
+    Inference,
+    InferencesAboutYou,
+    Invitation,
+    Invitations,
+    JobApplicantSavedInfo,
+    JobApplicantSavedScreeningQuestionInfo,
+    Learning,
+    Learnings,
+    Login,
+    Logins,
+    MemberFollows,
+    MembersFollowed,
+    Message,
+    Messages,
+    PhoneNumber,
+    PhoneNumbers,
+    Profile,
+    QuestionAnswer,
+    Reaction,
+    Reactions,
+    Registration,
+    RichMedia,
+    RichMediaList,
+    SavedJobAlert,
+    SavedJobAlerts,
+    SearchQueries,
+    SearchQuery,
+    SecurityChallenge,
+    SecurityChallenges,
+    Skills,
+    Vote,
+    Votes,
+    WorkingPosition,
+    WorkingPositions
 } from "../models/linkedin.model";
 import {Parser} from "../utils/parser";
 import {Months} from "../utils/utils.enum";
@@ -311,6 +344,451 @@ export class LinkedinService {
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseInvitations');
+        }
+    }
+
+    /**
+     * @param data - file 'Job Applicant Saved Answers.csv' in input as Buffer
+     * @return {Promise<JobApplicantSavedInfo | undefined>}
+     */
+    async parseJobApplicantSavedInfo(data: Buffer): Promise<JobApplicantSavedInfo | undefined> {
+        try {
+            let result = <Array<QuestionAnswer>>Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: JobApplicantSavedInfo = {list: []};
+                result.map((item: any) => {
+                    if(item['Question'] != '' && item['Answer'] != '') {
+                        model.list.push({question: item['Question'], answer: item['Answer']});
+                    }
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseJobApplicantSavedInfo');
+        }
+    }
+
+    /**
+     * @param data - file 'Job Applicant Saved Screening Question Responses.csv' in input as Buffer
+     * @return {Promise<JobApplicantSavedScreeningQuestionInfo | undefined>}
+     */
+    async parseJobApplicantSavedScreeningQuestionInfo(data: Buffer): Promise<JobApplicantSavedScreeningQuestionInfo | undefined> {
+        try {
+            let result = <Array<QuestionAnswer>>Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: JobApplicantSavedScreeningQuestionInfo = {list: []};
+                result.map((item: any) => {
+                    if(item['Question'] != '' && item['Answer'] != '') {
+                        model.list.push({question: item['Question'], answer: item['Answer']});
+                    }
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseJobApplicantSavedScreeningQuestionInfo');
+        }
+    }
+
+    /**
+     * @param data - file 'Learning.csv' in input as Buffer
+     * @return {Promise<Learnings | undefined>}
+     */
+    async parseLearnings(data: Buffer): Promise<Learnings | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: Learnings = {list: []};
+                result.map((item: any) => {
+                    let newItem: Learning = {};
+                    (item['Content Title'] != '') && (newItem.contentTitle = item['Content Title']);
+                    (item['Content Description'] != '') && (newItem.contentDescription = item['Content Description']);
+                    (item['Content Type'] != '') && (newItem.contentType = item['Content Type']);
+                    if (item['Content Last Watched Date (if viewed)'] != '' &&  item['Content Last Watched Date (if viewed)'] != 'N/A') {
+                        let match = item['Content Last Watched Date (if viewed)'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+) UTC/);
+                        newItem.contentLastWatchedDate = new Date(Date.UTC(match[1], match[2] - 1, match[3], match[4], match[5],0));
+                    }
+                    if (item['Content Completed At (if completed)'] != '' &&  item['Content Completed At (if completed)'] != 'N/A') {
+                        let match = item['Content Completed At (if completed)'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+) UTC/);
+                        newItem.contentCompletedDate = new Date(Date.UTC(match[1], match[2] - 1, match[3], match[4], match[5],0));
+                    }
+                    (item['Content Saved'] != undefined) && (newItem.contentSaved = item['Content Saved']);
+                    (item['Notes taken on videos (if taken)'] != '' && item['Notes taken on videos (if taken)'] != 'N/A') && (newItem.notesTakenOnVideos = item['Notes taken on videos (if taken)']);
+                    !Validating.objectIsEmpty(item) && model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseLearnings');
+        }
+    }
+
+    /**
+     * @param data - file 'Logins.csv' in input as Buffer
+     * @return {Promise<Logins | undefined>}
+     */
+    async parseLogins(data: Buffer): Promise<Logins | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: Logins = {list: []};
+                result.map((item: any) => {
+                    let newItem: Login = {};
+                    if (item['Login Date'] != '') {
+                        let match = item['Login Date'].match(/(\w+) (\w+) (\d+) (\d+):(\d+):(\d+) UTC (\d+)/);
+                        newItem.loginDate = new Date(Date.UTC(match[7], parseInt(Months[match[2].toUpperCase()]) - 1, match[3], match[4], match[5], match[6]));
+                    }
+                    (item['IP Address'] != '') && (newItem.IPaddress = item['IP Address']);
+                    (item['User Agent'] != '') && (newItem.userAgent = item['User Agent']);
+                    (item['Login Type'] != '') && (newItem.loginType = item['Login Type']);
+                    !Validating.objectIsEmpty(item) && model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseLogins');
+        }
+    }
+
+    /**
+     * @param data - file 'Member_Follows.csv' in input as Buffer
+     * @return {Promise<MembersFollowed | undefined>}
+     */
+    async parseMembersFollowed(data: Buffer): Promise<MembersFollowed | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: MembersFollowed = {list: []};
+                result.map((item: any) => {
+                    let newItem: MemberFollows = {};
+                    if (item['Date'] != '') {
+                        let match = item['Date'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/);
+                        newItem.date = new Date(Date.UTC(match[1], match[2] - 1, match[3], match[4], match[5], match[6]));
+                    }
+                    (item['FullName'] != '') && (newItem.fullName = item['FullName']);
+                    (item['Status'] != '') && (newItem.status = item['Status']);
+                    !Validating.objectIsEmpty(item) && model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseMembersFollowed');
+        }
+    }
+
+    /**
+     * @param data - file 'Member_Follows.csv' in input as Buffer
+     * @return {Promise<Messages | undefined>}
+     */
+    async parseMessages(data: Buffer): Promise<Messages | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: Messages = {list: []};
+                result.map((item: any) => {
+                    let newItem: Message = {};
+                    (item['CONVERSATION ID'] != '') && (newItem.conversationID = item['CONVERSATION ID']);
+                    (item['CONVERSATION TITLE'] != '') && (newItem.conversationTitle = item['CONVERSATION TITLE']);
+                    (item['FROM'] != '') && (newItem.from = item['FROM']);
+                    (item['SENDER PROFILE URL'] != '') && (newItem.senderProfileURL = item['SENDER PROFILE URL']);
+                    (item['TO'] != '') && (newItem.to = item['TO']);
+                    if (item['DATE'] != '') {
+                        let match = item['DATE'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+) UTC/);
+                        newItem.date = new Date(Date.UTC(match[1], match[2] - 1, match[3], match[4], match[5], match[6]));
+                    }
+                    (item['SUBJECT'] != '') && (newItem.subject = item['SUBJECT']);
+                    (item['CONTENT'] != '') && (newItem.content = item['CONTENT']);
+                    (item['FOLDER'] != '') && (newItem.folder = item['FOLDER']);
+                    !Validating.objectIsEmpty(item) && model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseMessages');
+        }
+    }
+
+    /**
+     * @param data - file 'PhoneNumber.csv' in input as Buffer
+     * @return {Promise<PhoneNumbers | undefined>}
+     */
+    async parsePhoneNumbers(data: Buffer): Promise<PhoneNumbers | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: PhoneNumbers = {list: []};
+                result.map((item: any) => {
+                    let newItem: PhoneNumber = {};
+                    (item['Extension'] != '') && (newItem.extension = item['Extension']);
+                    (item['Number'] != '') && (newItem.number = item['Number']);
+                    (item['Type'] != '') && (newItem.type = item['Type']);
+                    !Validating.objectIsEmpty(item) && model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parsePhoneNumbers');
+        }
+    }
+
+    /**
+     * @param data - file 'Positions.csv' in input as Buffer
+     * @return {Promise<WorkingPositions | undefined>}
+     */
+    async parseWorkingPositions(data: Buffer): Promise<WorkingPositions | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: WorkingPositions = {list: []};
+                result.map((item: any) => {
+                    let newItem: WorkingPosition = {};
+                    (item['Company Name'] != '') && (newItem.companyName = item['Company Name']);
+                    (item['Title'] != '') && (newItem.title = item['Title']);
+                    (item['Description'] != '') && (newItem.description = item['Description']);
+                    (item['Location'] != '') && (newItem.location = item['Location']);
+                    if (item['Started On'] != '') {
+                        let match = item['Started On'].match(/(\w+) (\d+)/);
+                        newItem.startedDate = new Date(Date.UTC(match[2], parseInt(Months[match[1].toUpperCase()]) - 1, 1));
+                    }
+                    if (item['Finished On'] != '') {
+                        let match = item['Finished On'].match(/(\w+) (\d+)/);
+                        newItem.finishedDate = new Date(Date.UTC(match[2], parseInt(Months[match[1].toUpperCase()]) - 1, 1));
+                    }
+                    !Validating.objectIsEmpty(item) && model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseWorkingPositions');
+        }
+    }
+
+    /**
+     * @param data - file 'Profile.csv' in input as Buffer
+     * @return {Promise<Profile | undefined>}
+     */
+    async parseProfile(data: Buffer): Promise<Profile | undefined> {
+        try {
+            let result = <Array<any>>Parser.parseCSVfromBuffer(data);
+            if (result) {
+                if (result[0]) {
+                    let model: Profile = {};
+                    (result[0]['First Name']) && (model.firstName = result[0]['First Name']);
+                    (result[0]['Last Name']) && (model.lastName = result[0]['Last Name']);
+                    (result[0]['Maiden Name']) && (model.maidenName = result[0]['Maiden Name']);
+                    (result[0]['Address']) && (model.address = result[0]['Address']);
+                    if (result[0]['Birth Date'] != '') {
+                        let match = result[0]['Birth Date'].match(/(\w+) (\d+)/);
+                        model.birthdate = {day: match[2], month: match[1].toUpperCase()};
+                    }
+                    (result[0]['Headline']) && (model.headline = result[0]['Headline']);
+                    (result[0]['Summary']) && (model.summary = result[0]['Summary']);
+                    (result[0]['Industry']) && (model.industry = result[0]['Industry']);
+                    (result[0]['Zip Code']) && (model.zipCode = result[0]['Zip Code']);
+                    (result[0]['Geo Location']) && (model.geoLocation = result[0]['Geo Location']);
+                    (result[0]['Twitter Handles']) && (model.twitterHandles = result[0]['Twitter Handles']);
+                    (result[0]['Websites']) && (model.websites = result[0]['Websites']);
+                    (result[0]['Instant Messengers']) && (model.instantMessengers = result[0]['Instant Messengers']);
+                    return !Validating.objectIsEmpty(model) ? model : undefined;
+                }
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseProfile');
+        }
+    }
+
+    /**
+     * @param data - file 'Reactions.csv' in input as Buffer
+     * @return {Promise<Reactions | undefined>}
+     */
+    async parseReactions(data: Buffer): Promise<Reactions | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: Reactions = {list: []};
+                result.map((item: any) => {
+                    let newItem: Reaction = {};
+                    if (item['Date'] != '') {
+                        let match = item['Date'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/);
+                        newItem.date = new Date(Date.UTC(match[1], match[2] - 1, match[3], match[4], match[5], match[6]));
+                    }
+                    (item['Type'] != '') && (newItem.type = item['Type']);
+                    (item['Link'] != '') && (newItem.link = item['Link']);
+                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseReactions');
+        }
+    }
+
+    /**
+     * @param data - file 'Registration.csv' in input as Buffer
+     * @return {Promise<Registration | undefined>}
+     */
+    async parseRegistration(data: Buffer): Promise<Registration | undefined> {
+        try {
+            let result = <Array<any>>Parser.parseCSVfromBuffer(data);
+            if (result) {
+                if (result[0]) {
+                    let model: Registration = {};
+                    if (result[0]['Registered At'] != '') {
+                        let match = result[0]['Registered At'].match(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+) (\w+)/);
+                        model.registeredDate = new Date(Date.UTC(2000+parseInt(match[3]), match[1] - 1, match[2], (match[6] == 'AM') ? match[4] : parseInt(match[4])+12, match[5], 0));
+                    }
+                    (result[0]['Registration Ip']) && (model.registeredIP = result[0]['Registration Ip']);
+                    (result[0]['Subscription Types']) && (model.subscriptionTypes = result[0]['Subscription Types']);
+                    return !Validating.objectIsEmpty(model) ? model : undefined;
+                }
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseRegistration');
+        }
+    }
+
+    /**
+     * @param data - file 'Rich Media.csv' in input as Buffer
+     * @return {Promise<RichMediaList | undefined>}
+     */
+    async parseRichMediaList(data: Buffer): Promise<RichMediaList | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: RichMediaList = {list: []};
+                result.map((item: any) => {
+                    let newItem: RichMedia = {};
+                    (item['Type'] != '') && (newItem.type = item['Type']);
+                    (item['Link'] != '') && (newItem.link = item['Link']);
+                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseRichMediaList');
+        }
+    }
+
+    /**
+     * @param data - file 'SavedJobAlerts.csv' in input as Buffer
+     * @return {Promise<SavedJobsAlerts | undefined>}
+     */
+    async parseSavedJobAlerts(data: Buffer): Promise<SavedJobAlerts | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: SavedJobAlerts = {list: []};
+                result.map((item: any) => {
+                    let newItem: SavedJobAlert = {};
+                    if (item['Saved Search Date'] != '') {
+                        let match = item['Saved Search Date'].match(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+) (\w+)/);
+                        newItem.searchDate = new Date(Date.UTC(2000+parseInt(match[3]), match[1] - 1, match[2], (match[6] == 'AM') ? match[4] : parseInt(match[4])+12, match[5], 0));
+                    }
+                    (item['Jobs Search Url'] != '') && (newItem.searchURL = item['Jobs Search Url']);
+                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseSavedJobAlerts');
+        }
+    }
+
+    /**
+     * @param data - file 'SearchQueries.csv' in input as Buffer
+     * @return {Promise<SearchQueries | undefined>}
+     */
+    async parseSearchQueries(data: Buffer): Promise<SearchQueries | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: SearchQueries = {list: []};
+                result.map((item: any) => {
+                    let newItem: SearchQuery = {};
+                    if (item['Time'] != '') {
+                        let match = item['Time'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+) UTC/);
+                        newItem.date = new Date(Date.UTC(match[1], match[2]-1, match[3], match[4], match[5], match[6]));
+                    }
+                    (item['Search Query'] != '') && (newItem.query = item['Search Query']);
+                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseSearchQueries');
+        }
+    }
+
+    /**
+     * @param data - file 'Security Challenges.csv' in input as Buffer
+     * @return {Promise<SecurityChallenges | undefined>}
+     */
+    async parseSecurityChallenges(data: Buffer): Promise<SecurityChallenges | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: SecurityChallenges = {list: []};
+                result.map((item: any) => {
+                    let newItem: SecurityChallenge = {};
+                    if (item['Challenge Date'] != '') {
+                        let match = item['Challenge Date'].match(/(\w+) (\w+) (\d+) (\d+):(\d+):(\d+) UTC (\d+)/);
+                        newItem.challengeDate = new Date(Date.UTC(match[7], parseInt(Months[match[2].toUpperCase()]) - 1, match[3], match[4], match[5], match[6]));
+                    }
+                    (item['IP Address'] != '') && (newItem.IPaddress = item['IP Address']);
+                    (item['User Agent'] != '') && (newItem.userAgent = item['User Agent']);
+                    (item['Country'] != '') && (newItem.country = item['Country']);
+                    (item['Challenge Type'] != '') && (newItem.challengeType = item['Challenge Type']);
+                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseSecurityChallenges');
+        }
+    }
+
+    /**
+     * @param data - file 'Skills.csv' in input as Buffer
+     * @return {Promise<Skills | undefined>}
+     */
+    async parseSkills(data: Buffer): Promise<Skills | undefined> {
+        try {
+            let result = <Array<Array<string>>>Parser.parseCSVfromBuffer(data, {escapeChar: '"', header: false, skipEmptyLines: true});
+            if (result) {
+                result = result.splice(1);
+                let model: Skills = {list: []};
+                result.map((item: string[]) => {
+                    model.list.push(item[0]);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseSkills');
+        }
+    }
+
+    /**
+     * @param data - file 'Votes.csv' in input as Buffer
+     * @return {Promise<Votes | undefined>}
+     */
+    async parseVotes(data: Buffer): Promise<Votes | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: Votes = {list: []};
+                result.map((item: any) => {
+                    let newItem: Vote = {};
+                    if (item['Date'] != '') {
+                        let match = item['Date'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/);
+                        newItem.date = new Date(Date.UTC(match[1], match[2] - 1, match[3], match[4], match[5], match[6]));
+                    }
+                    (item['Link'] != '') && (newItem.link = item['Link']);
+                    (item['OptionText'] != '') && (newItem.optionText = item['OptionText']);
+                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseVotes');
         }
     }
 }

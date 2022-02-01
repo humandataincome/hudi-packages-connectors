@@ -93,7 +93,17 @@ export interface Event {
     device?: string;
     playbackStartTime?: Date;
     country?: string;
-    playtraces?: string;
+    playtraces?: Playtraces;
+}
+
+export interface Playtraces {
+    list: Array<Playtrace>;
+}
+
+export interface Playtrace {
+    eventType?: string;
+    sessionOffsetMs?: number;
+    mediaOffsetMs?: number;
 }
 
 export interface Profile {

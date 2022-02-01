@@ -108,7 +108,7 @@ export class GoogleService {
                 (value.favicon_url) && (newValue.faviconUrl = value.favicon_url);
                 (value.safe_for_autoreplace != undefined) && (newValue.safeForAutoreplace = value.safe_for_autoreplace);
                 (value.is_active) && (newValue.isActive = value.is_active);
-                (value.date_created) && (newValue.dateCreated = Validating.converWebkitTimestamp(parseInt(value.date_created)));
+                (value.date_created) && (newValue.dateCreated = Validating.convertWebkitTimestamp(parseInt(value.date_created)));
                 (value.url) && (newValue.url = value.url);
                 (value.new_tab_url) && (newValue.newTabUrl = value.new_tab_url);
                 (value.originating_url) && (newValue.originatingUrl = value.originating_url);
@@ -117,7 +117,7 @@ export class GoogleService {
                 (value.keyword) && (newValue.keyword = value.keyword);
                 (value.input_encodings) && (newValue.inputEncodings = value.input_encodings);
                 (value.prepopulate_id != undefined) && (newValue.prepopulateId = value.prepopulate_id);
-                (value.last_modified) && (newValue.lastModified = Validating.converWebkitTimestamp(parseInt(value.last_modified)));
+                (value.last_modified) && (newValue.lastModified = Validating.convertWebkitTimestamp(parseInt(value.last_modified)));
                 return newValue;
             });
             return model.list.length > 0 ? model : undefined;
