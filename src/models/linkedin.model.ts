@@ -298,3 +298,73 @@ export interface Vote {
     link?: string;
     optionText?: string;
 }
+
+export interface AdsTargeting {
+    list: Array<ADVTargeting>;
+}
+
+export interface ADVTargeting {
+    memberAge?: string;
+    companyNames?: Array<string>;
+    degrees?: Array<string>;
+    universities?: Array<string>;
+    degreeFields?: Array<string>;
+    gender?: string;
+    degreeYears?: Array<string>;
+    expressedInterests?: Array<string>;
+    companyCategories?: Array<string>;
+    language?: string;
+    languageCode?: string;
+    jobPreferences?: Array<string>;
+    profileLocations?: Array<string>;
+    bibliographyTags?: Array<string>;
+}
+
+export interface JobApplications {
+    list: Array<JobApplication>;
+}
+
+export interface JobApplication {
+    applicationDate?: Date;
+    contactEmail?: string;
+    contactPhoneNumber?: string;
+    companyName?: string;
+    jobTitle?: string;
+    jobUrl?: string;
+    resumeName?: string;
+    questionAnswers?: string;
+}
+
+export interface SavedJobs {
+    list: Array<SavedJob>;
+}
+
+export interface SavedJob {
+    savedDate?: Date;
+    jobUrl?: string;
+    jobTitle?: string;
+    companyName?: string;
+}
+
+//Some parameter type may be not correct.
+export interface JobSeekerPreferences {
+    locations?: Array<string>;
+    industries?: Array<string>;
+    companyEmployeeCount?: number;
+    preferredJobTypes?: Array<string>;
+    jobTitles?: string;
+    openToRecruiters?: boolean;
+    dreamCompanies?: string;
+    profileSharedWithJobPoster?: boolean;
+    jobTitleForSearchingFastGrowingCompanies?: string;
+    introductionStatement?: string;
+    phoneNumber?: string;
+    jobSeekerActivityLevel?: string;
+    preferredStartTimeRange?: string;
+    commutePreferenceStartingAddress?: string;
+    commutePreferenceStartingTime?: string;
+    modeOfTransportation?: string;
+    maximumCommuteDuration?: string;
+    openCandidateVisibility?: string;
+    jobSeekingUrgencyLevel?: string;
+}

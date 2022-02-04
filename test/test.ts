@@ -18,12 +18,12 @@ import {LinkedinService} from "../src/services/linkedin.service";
 
 
 async function test(){
-    await netflixServiceTest();
+    //await netflixServiceTest();
     //await amazonServiceTest();
     //await facebookServiceTest();
     //await instagramServiceTest();
     //await googleServiceTest();
-    //await linkedinServiceTest();
+    await linkedinServiceTest();
 }
 
 async function amazonServiceTest() {
@@ -100,7 +100,11 @@ async function linkedinServiceTest() {
         //console.log(await linkedinService.parseSearchQueries(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/SearchQueries.csv`))));
         //console.log(await linkedinService.parseSecurityChallenges(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Security Challenges.csv`))));
         //console.log(await linkedinService.parseSkills(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Skills.csv`))));
-        console.log(await linkedinService.parseVotes(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Votes.csv`))));
+        //console.log(await linkedinService.parseVotes(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Votes.csv`))));
+        //console.log(await linkedinService.parseAdsTargeting(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Ad_Targeting.csv`))));
+        //console.log(await linkedinService.parseJobApplications(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/jobs/Job Applications.csv`))));
+        //console.log(await linkedinService.parseSavedJobs(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/jobs/Saved Jobs.csv`))));
+        console.log(await linkedinService.parseJobSeekerPreferences(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/jobs/Job Seeker Preferences.csv`))));
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);

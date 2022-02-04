@@ -3,8 +3,8 @@ import {Validating} from "../utils/validating";
 import {
     AccountStatus,
     AccountStatusHistory,
-    AdsClicked,
-    AdvClicked,
+    AdsClicked, AdsTargeting,
+    AdvClicked, ADVTargeting,
     CompaniesFollowed,
     CompanyFollowed,
     Connection,
@@ -22,7 +22,7 @@ import {
     Invitation,
     Invitations,
     JobApplicantSavedInfo,
-    JobApplicantSavedScreeningQuestionInfo,
+    JobApplicantSavedScreeningQuestionInfo, JobApplication, JobApplications, JobSeekerPreferences,
     Learning,
     Learnings,
     Login,
@@ -39,9 +39,9 @@ import {
     Reactions,
     Registration,
     RichMedia,
-    RichMediaList,
+    RichMediaList, SavedJob,
     SavedJobAlert,
-    SavedJobAlerts,
+    SavedJobAlerts, SavedJobs,
     SearchQueries,
     SearchQuery,
     SecurityChallenge,
@@ -789,6 +789,142 @@ export class LinkedinService {
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseVotes');
+        }
+    }
+
+    /**
+     * @param data - file 'Ad_Targeting.csv' in input as Buffer
+     * @return {Promise<AdsTargeting | undefined>}
+     */
+    async parseAdsTargeting(data: Buffer): Promise<AdsTargeting | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data, {escapeChar: '"', header: false, skipEmptyLines: true});
+            if (result) {
+                result = result.splice(1);
+                let model: AdsTargeting = {list: []};
+                result.map((item: any) => {
+                    let newItem: ADVTargeting = {};
+                    if(item) {
+                        (item[0]) && (newItem.memberAge = item[0]);
+                        (item[3]) && (newItem.companyNames = item[3].split('; '));
+                        (item[7]) && (newItem.degrees = item[7].split('; '));
+                        (item[9]) && (newItem.universities = item[9].split('; '));
+                        (item[11]) && (newItem.degreeFields = item[11].split('; '));
+                        (item[15]) && (newItem.gender = item[15]);
+                        (item[16]) && (newItem.degreeYears = item[16].split('; '));
+                        (item[17]) && (newItem.expressedInterests = item[17].split(';'));
+                        (item[19]) && (newItem.companyCategories = item[19].split(';'));
+
+                        (item[20]) && (newItem.language = item[20]);
+                        (item[21]) && (newItem.languageCode = item[21]);
+                        (item[22]) && (newItem.jobPreferences = item[22].split('; '));
+                        (item[23]) && (newItem.profileLocations = item[23].split('; '));
+                        (item[26]) && (newItem.bibliographyTags = item[26].split('; '));
+                        !Validating.objectIsEmpty(newItem) && (model.list.push(newItem));
+                    }
+                });
+                console.log(model.list[0].profileLocations)
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseAdsTargeting');
+        }
+    }
+
+    /**
+     * @param data - file '/jobs/Job Applications.csv' in input as Buffer
+     * @return {Promise<JobApplications | undefined>}
+     */
+    async parseJobApplications(data: Buffer): Promise<JobApplications | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: JobApplications = {list: []};
+                result.map((item: any) => {
+                    let newItem: JobApplication = {};
+                    if (item['Application Date'] != '') {
+                        let match = item['Application Date'].match(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+) (\w+)/);
+                        newItem.applicationDate = new Date(Date.UTC(2000+parseInt(match[3]), match[1] - 1, match[2], (match[6] == 'AM') ? match[4] : parseInt(match[4])+12, match[5], 0));
+                    }
+                    (item['Contact Email'] != '') && (newItem.contactEmail = item['Contact Email']);
+                    (item['Contact Phone Number'] != '') && (newItem.contactPhoneNumber = item['Contact Phone Number']);
+                    (item['Company Name'] != '') && (newItem.companyName = item['Company Name']);
+                    (item['Job Title'] != '') && (newItem.jobTitle = item['Job Title']);
+                    (item['Job Url'] != '') && (newItem.jobUrl = item['Job Url']);
+                    (item['Resume Name'] != '') && (newItem.resumeName = item['Resume Name']);
+                    (item['Question And Answers'] != '') && (newItem.questionAnswers = item['Question And Answers']);
+                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseJobApplications');
+        }
+    }
+
+    /**
+     * @param data - file '/jobs/Saved Jobs.csv' in input as Buffer
+     * @return {Promise<SavedJobs | undefined>}
+     */
+    async parseSavedJobs(data: Buffer): Promise<SavedJobs | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: SavedJobs = {list: []};
+                result.map((item: any) => {
+                    let newItem: SavedJob = {};
+                    if (item['Saved Date'] != '') {
+                        let match = item['Saved Date'].match(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+) (\w+)/);
+                        newItem.savedDate = new Date(Date.UTC(2000+parseInt(match[3]), match[1] - 1, match[2], (match[6] == 'AM') ? match[4] : parseInt(match[4])+12, match[5], 0));
+                    }
+                    (item['Job Url'] != '') && (newItem.jobUrl = item['Job Url']);
+                    (item['Job Title'] != '') && (newItem.jobTitle = item['Job Title']);
+                    (item['Company Name'] != '') && (newItem.companyName = item['Company Name']);
+                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseSavedJobs');
+        }
+    }
+
+    /**
+     * Some parameter type may be not correct.
+     * @param data - file '/jobs/Job Seeker Preferences.csv' in input as Buffer
+     * @return {Promise<JobSeekerPreferences | undefined>}
+     */
+    async parseJobSeekerPreferences(data: Buffer): Promise<JobSeekerPreferences | undefined> {
+        try {
+            let result = <Array<Array<any>>>Parser.parseCSVfromBuffer(data, {escapeChar: '"', header: false, skipEmptyLines: true});
+            if (result) {
+                let model: JobSeekerPreferences = {};
+                result = result.splice(1);
+                if(result[0]) {
+                    (result[0][0] != '') && (model.locations = result[0][0].split(' | '));
+                    (result[0][1] != '') && (model.industries = result[0][1].split('| '));
+                    (result[0][2] != '') && (model.companyEmployeeCount = result[0][2]);
+                    (result[0][3] != '') && (model.preferredJobTypes = result[0][3].split('| '));
+                    (result[0][4] != '') && (model.jobTitles = result[0][4]);
+                    (result[0][5] != '') && (model.openToRecruiters = result[0][5].toLowerCase() == 'yes');
+                    (result[0][6] != '') && (model.dreamCompanies = result[0][6]);
+                    (result[0][7] != '') && (model.profileSharedWithJobPoster = result[0][7].toLowerCase() == 'yes');
+                    (result[0][8] != '') && (model.jobTitleForSearchingFastGrowingCompanies = result[0][8]);
+                    (result[0][9] != '') && (model.introductionStatement = result[0][9]);
+                    (result[0][10] != '') && (model.phoneNumber = result[0][10]);
+                    (result[0][11] != '') && (model.jobSeekerActivityLevel = result[0][11]);
+                    (result[0][12] != '') && (model.preferredStartTimeRange = result[0][12]);
+                    (result[0][13] != '') && (model.commutePreferenceStartingAddress = result[0][13]);
+                    (result[0][14] != '') && (model.commutePreferenceStartingTime = result[0][14]);
+                    (result[0][15] != '') && (model.modeOfTransportation = result[0][15]);
+                    (result[0][16] != '') && (model.maximumCommuteDuration = result[0][16]);
+                    (result[0][17] != '') && (model.openCandidateVisibility = result[0][17]);
+                    (result[0][18] != '') && (model.jobSeekingUrgencyLevel = result[0][18]);
+                    return !Validating.objectIsEmpty(model) ? model : undefined;
+                }
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parseJobSeekerPreferences');
         }
     }
 }
