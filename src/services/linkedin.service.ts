@@ -55,7 +55,12 @@ import {
 import {Parser} from "../utils/parser";
 import {Months} from "../utils/utils.enum";
 
-export class LinkedinService {
+/**
+ * Class used to parse most important files into the directory returned by LinkedIn in CSV format.
+ * All the files are given in input as Buffer, parsed back to JSON and then mapped into a specific interface model.
+ * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
+ */
+export class LinkedInService {
     private logger = new Logger("Linkedin Service");
 
     /**

@@ -1,28 +1,27 @@
 
-import {InstagramService} from '../src/services/instagram.service';
 import {LanguageMode} from "../src/utils/utils.enum"
-import {FacebookService} from "../src/services/facebook.service";
-import {NetflixService} from "../src/services/netflix.service";
-import {AmazonService} from "../src/services/amazon.service";
 import {ConfigInstagram} from "../src/config/config.instagram";
 import {Conversation as ConversationIG, Conversations as ConversationsIG} from "../src/models/instagram.model";
 import {Conversation as ConversationFB, Conversations as ConversationsFB} from "../src/models/facebook.model";
 import path from "path";
 import {Parser} from "./utils/parser";
-import {GoogleService} from "../src/services/google.service";
 import {ADV} from "../src/models/amazon.model";
 import {ConfigGoogle} from "../src/config/config.google";
-import {LinkedinService} from "../src/services/linkedin.service";
-
+import {LinkedInService} from "../src/services/linkedin.service";
+import {InstagramService} from "../src/services/instagram.service";
+import {GoogleService} from "../src/services/google.service";
+import {FacebookService} from "../src/services/facebook.service";
+import {NetflixService} from "../src/services/netflix.service";
+import {AmazonService} from "../src/services/amazon.service";
 
 
 async function test(){
     //await netflixServiceTest();
     //await amazonServiceTest();
-    await facebookServiceTest();
+    //await facebookServiceTest();
     await instagramServiceTest();
     //await googleServiceTest();
-    //await linkedinServiceTest();
+    //await linkedInServiceTest();
 }
 
 async function amazonServiceTest() {
@@ -70,40 +69,40 @@ async function amazonServiceTest() {
     }
 }
 
-async function linkedinServiceTest() {
+async function linkedInServiceTest() {
     try {
-        const linkedinService = new LinkedinService();
-        //console.log(await linkedinService.parseAdsClicked(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Ads Clicked.csv`))));
-        //console.log(await linkedinService.parseConnections(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Connections.csv`))));
-        //console.log(await linkedinService.parseCompaniesFollowed(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Company Follows.csv`))));
-        //console.log(await linkedinService.parseContacts(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Contacts.csv`))));
-        //console.log(await linkedinService.parseEducationHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Education.csv`))));
-        //console.log(await linkedinService.parseEmails(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Email Addresses.csv`))));
-        //console.log(await linkedinService.parseEndorsementsReceived(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Endorsement_Received_Info.csv`))));
-        //console.log(await linkedinService.parseInferencesAboutYou(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Inferences_about_you.csv`))));
-        //console.log(await linkedinService.parseInvitations(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Invitations.csv`))));
-        //console.log(await linkedinService.parseJobApplicantSavedInfo(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Job Applicant Saved Answers.csv`))));
-        //console.log(await linkedinService.parseJobApplicantSavedScreeningQuestionInfo(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Job Applicant Saved Screening Question Responses.csv`))));
-        //console.log(await linkedinService.parseLearnings(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Learning.csv`))));
-        //console.log(await linkedinService.parseLogins(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Logins.csv`))));
-        //console.log(await linkedinService.parseMembersFollowed(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Member_Follows.csv`))));
-        //console.log(await linkedinService.parseMessages(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/messages.csv`))));
-        //console.log(await linkedinService.parsePhoneNumbers(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/PhoneNumbers.csv`))));
-        //console.log(await linkedinService.parseWorkingPositions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Positions.csv`))));
-        //console.log(await linkedinService.parseProfile(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Profile.csv`))));
-        //console.log(await linkedinService.parseReactions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Reactions.csv`))));
-        //console.log(await linkedinService.parseProfile(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Profile.csv`))));
-        //console.log(await linkedinService.parseRegistration(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Registration.csv`))));
-        //console.log(await linkedinService.parseRichMediaList(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Rich Media.csv`))));
-        //console.log(await linkedinService.parseSavedJobAlerts(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/SavedJobAlerts.csv`))));
-        //console.log(await linkedinService.parseSearchQueries(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/SearchQueries.csv`))));
-        //console.log(await linkedinService.parseSecurityChallenges(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Security Challenges.csv`))));
-        //console.log(await linkedinService.parseSkills(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Skills.csv`))));
-        //console.log(await linkedinService.parseVotes(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Votes.csv`))));
-        //console.log(await linkedinService.parseAdsTargeting(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Ad_Targeting.csv`))));
-        //console.log(await linkedinService.parseJobApplications(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/jobs/Job Applications.csv`))));
-        //console.log(await linkedinService.parseSavedJobs(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/jobs/Saved Jobs.csv`))));
-        console.log(await linkedinService.parseJobSeekerPreferences(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/jobs/Job Seeker Preferences.csv`))));
+        const linkedInService = new LinkedInService();
+        //console.log(await linkedInService.parseAdsClicked(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Ads Clicked.csv`))));
+        //console.log(await linkedInService.parseConnections(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Connections.csv`))));
+        //console.log(await linkedInService.parseCompaniesFollowed(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Company Follows.csv`))));
+        //console.log(await linkedInService.parseContacts(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Contacts.csv`))));
+        //console.log(await linkedInService.parseEducationHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Education.csv`))));
+        //console.log(await linkedInService.parseEmails(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Email Addresses.csv`))));
+        //console.log(await linkedInService.parseEndorsementsReceived(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Endorsement_Received_Info.csv`))));
+        //console.log(await linkedInService.parseInferencesAboutYou(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Inferences_about_you.csv`))));
+        //console.log(await linkedInService.parseInvitations(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Invitations.csv`))));
+        //console.log(await linkedInService.parseJobApplicantSavedInfo(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Job Applicant Saved Answers.csv`))));
+        //console.log(await linkedInService.parseJobApplicantSavedScreeningQuestionInfo(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Job Applicant Saved Screening Question Responses.csv`))));
+        //console.log(await linkedInService.parseLearnings(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Learning.csv`))));
+        //console.log(await linkedInService.parseLogins(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Logins.csv`))));
+        //console.log(await linkedInService.parseMembersFollowed(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Member_Follows.csv`))));
+        //console.log(await linkedInService.parseMessages(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/messages.csv`))));
+        //console.log(await linkedInService.parsePhoneNumbers(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/PhoneNumbers.csv`))));
+        //console.log(await linkedInService.parseWorkingPositions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Positions.csv`))));
+        //console.log(await linkedInService.parseProfile(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Profile.csv`))));
+        //console.log(await linkedInService.parseReactions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Reactions.csv`))));
+        //console.log(await linkedInService.parseProfile(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Profile.csv`))));
+        //console.log(await linkedInService.parseRegistration(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Registration.csv`))));
+        //console.log(await linkedInService.parseRichMediaList(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Rich Media.csv`))));
+        //console.log(await linkedInService.parseSavedJobAlerts(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/SavedJobAlerts.csv`))));
+        //console.log(await linkedInService.parseSearchQueries(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/SearchQueries.csv`))));
+        //console.log(await linkedInService.parseSecurityChallenges(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Security Challenges.csv`))));
+        //console.log(await linkedInService.parseSkills(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Skills.csv`))));
+        //console.log(await linkedInService.parseVotes(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Votes.csv`))));
+        //console.log(await linkedInService.parseAdsTargeting(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/Ad_Targeting.csv`))));
+        //console.log(await linkedInService.parseJobApplications(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/jobs/Job Applications.csv`))));
+        //console.log(await linkedInService.parseSavedJobs(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/jobs/Saved Jobs.csv`))));
+        console.log(await linkedInService.parseJobSeekerPreferences(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/linkedin/jobs/Job Seeker Preferences.csv`))));
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);
