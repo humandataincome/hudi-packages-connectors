@@ -20,11 +20,11 @@ async function test(){
     //await netflixServiceTest();
     //await amazonServiceTest();
     //await facebookServiceTest();
-    await instagramServiceTest();
+    //await instagramServiceTest();
     //await googleServiceTest();
     //await linkedInServiceTest();
 
-    //await descriptorServiceTest();
+    await descriptorServiceTest();
 }
 
 async function descriptorServiceTest() {

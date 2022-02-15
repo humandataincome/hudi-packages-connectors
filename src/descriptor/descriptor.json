@@ -1,0 +1,180 @@
+{
+  "supportedSources": [
+    {
+      "sourceName": "Instagram",
+      "sourceCode": "INSTAGRAM",
+      "retrievingProcedures": [
+        {
+          "languageCode": "EN",
+          "procedures": [
+            {
+              "procedureType": "DEFAULT",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Follow the guide at this link",
+                  "link": "https://help.instagram.com/181231772500920"
+                }
+              ]
+            },
+            {
+              "procedureType": "DESKTOP",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Go to your Profile"
+                },
+                {
+                  "index": 2,
+                  "description": "Click on the Menu Icon"
+                },
+                {
+                  "index": 3,
+                  "description": "Click on Settings"
+                },
+                {
+                  "index": 4,
+                  "description": "Click on Privacy and Security"
+                },
+                {
+                  "index": 5,
+                  "description": "Click on Download Data"
+                },
+                {
+                  "index": 6,
+                  "description": "Insert your email"
+                },
+                {
+                  "index": 7,
+                  "description": "Click on Request Download"
+                },
+                {
+                  "index": 8,
+                  "description": "Select JSON format"
+                }
+              ]
+            },
+            {
+              "procedureType": "MOBILE",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Go to your Profile"
+                },
+                {
+                  "index": 2,
+                  "description": "Click on the Menu Icon"
+                },
+                {
+                  "index": 3,
+                  "description": "Click on Settings"
+                },
+                {
+                  "index": 4,
+                  "description": "Click on Security"
+                },
+                {
+                  "index": 5,
+                  "description": "Click on Download Data"
+                },
+                {
+                  "index": 6,
+                  "description": "Insert your email"
+                },
+                {
+                  "index": 7,
+                  "description": "Click on Request Download"
+                },
+                {
+                  "index": 8,
+                  "description": "Select JSON format"
+                }
+              ]
+            }
+          ],
+          "dataDescription": [
+            {
+              "filePath": "ads_and_content/ads_clicked.json",
+              "fileContent": "Counter of ADS clicked",
+              "fileCode": "INSTAGRAM_ADS_CLICKED"
+            },
+            {
+              "filePath": "ads_and_content/ads_viewed.json",
+              "fileContent": "Counter of ADS viewed",
+              "fileCode": "INSTAGRAM_ADS_VIEWED"
+            },
+            {
+              "filePath": "comments/post_comments.json",
+              "fileContent": "Counter of comments to posts",
+              "fileCode": "INSTAGRAM_POST_COMMENT"
+            },
+            {
+              "filePath": "story_sticker_interactions/emoji_sliders.json",
+              "fileContent": "Counter of emoji_sliders engagement",
+              "fileCode": "INSTAGRAM_EMOJI_SLIDERS"
+            },
+            {
+              "filePath": "followers_and_following/followers.json",
+              "fileContent": "Total of followers.",
+              "fileCode": "INSTAGRAM_FOLLOWERS"
+            },
+            {
+              "filePath": "followers_and_following/following.json",
+              "fileContent": "Total of followings",
+              "fileCode": "INSTAGRAM_FOLLOWING"
+            },
+            {
+              "filePath": "likes/liked_comments.json",
+              "fileContent": "Counter of likes to comments",
+              "fileCode": "INSTAGRAM_LIKE_COMMENTS"
+            },
+            {
+              "filePath": "likes/liked_posts.json",
+              "fileContent": "Counter of likes to posts",
+              "fileCode": "INSTAGRAM_LIKE_POSTS"
+            },
+            {
+              "filePath": "monetization/eligibility.json",
+              "fileContent": "If user can Monetize",
+              "fileCode": "INSTAGRAM_ELEGIBILITY"
+            },
+            {
+              "filePath": "story_sticker_interactions/polls.json",
+              "fileContent": "Counter of polls engagement",
+              "fileCode": "INSTAGRAM_POLL"
+            },
+            {
+              "filePath": "content/post1.json",
+              "fileContent": "Counter of posts created",
+              "fileCode": "INSTAGRAM_POSTS_CREATED"
+            },
+            {
+              "filePath": "ads_and_content/posts_viewed.json",
+              "fileContent": "Counter of posts viewed",
+              "fileCode": "INSTAGRAM_POSTS_VIEWED"
+            },
+            {
+              "filePath": "story_sticker_interactions/quizzes.json",
+              "fileContent": "Counter of quizzes engagement",
+              "fileCode": "INSTAGRAM_QUIZZES"
+            },
+            {
+              "filePath": "content/stories.json",
+              "fileContent": "Counter of stories created",
+              "fileCode": "INSTAGRAM_STORIES_CREATED"
+            },
+            {
+              "filePath": "ads_and_content/videos_watched.json",
+              "fileContent": "Counter of videos viewed",
+              "fileCode": "INSTAGRAM_VIDEO_CREATED"
+            }
+          ]
+        },
+        {
+          "language": "IT",
+          "procedure": []
+        }
+      ]
+    }
+  ]
+}
