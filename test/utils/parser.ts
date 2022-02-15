@@ -1,4 +1,3 @@
-import fs from "fs";
 
 export class Parser{
     /**
@@ -7,6 +6,7 @@ export class Parser{
      * @return {Promise<Buffer>}
      */
     static CSVToBuffer(source: string): Promise<Buffer>{
+        const fs = require('fs');
         let buffer: Buffer[] = [];
         const readStream = fs.createReadStream(source, {encoding: 'utf8'});
         return new Promise((resolve, reject) => {

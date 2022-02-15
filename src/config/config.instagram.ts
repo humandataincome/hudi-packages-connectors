@@ -1,4 +1,4 @@
-import {LanguageMode} from "../utils/utils.enum"
+import {Language} from "../utils/utils.enum"
 
 /**
  * Class must be configured before using Instagram Service to parse files.
@@ -8,7 +8,7 @@ export class ConfigInstagram {
     private readonly _languageMode;
     private readonly _config: Record<string, string>;
 
-    constructor(mode: LanguageMode) {
+    constructor(mode: Language) {
         this._languageMode = mode;
         this._config = {
             'IT-username':'Nome utente',
@@ -29,6 +29,9 @@ export class ConfigInstagram {
             'IT-cityName':'Nome della citt\u00c3\u00a0',
             'IT-interest':'Interesse',
             'IT-search':'Cerca',
+            'IT-productName':'Nome del prodotto',
+            'IT-decision':'Decisione',
+            'IT-reason':'Motivo'
         };
     }
 

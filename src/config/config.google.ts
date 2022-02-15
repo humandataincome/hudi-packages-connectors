@@ -1,4 +1,4 @@
-import {LanguageMode} from "../utils/utils.enum"
+import {Language} from "../utils/utils.enum"
 
 /**
  * Class must be configured before using Google Service to parse files.
@@ -8,7 +8,7 @@ export class ConfigGoogle {
     private readonly _languageMode;
     private readonly _config: Record<string, string>;
 
-    constructor(mode: LanguageMode) {
+    constructor(mode: Language) {
         this._languageMode = mode;
         this._config = {
             //Google Transactions

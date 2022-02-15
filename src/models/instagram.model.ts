@@ -10,6 +10,12 @@ export interface PersonalInformation {
     gender?: string;
 }
 
+export interface Eligibility {
+    value?: string;
+    decision?: string;
+    reason?: string;
+}
+
 export interface LocationInformation {
     basedIn?:string;
 }
@@ -17,9 +23,11 @@ export interface LocationInformation {
 export interface AdsClicked {
     list: Array<Adv>;
 }
+
 export interface AdsViewed {
     list: Array<Adv>;
 }
+
 export interface AdsInterests {
     list: Array<Adv>;
 }
@@ -64,6 +72,10 @@ export interface PersonalPosts {
     list: Array<Post>;
 }
 
+export interface PersonalStories {
+    list: Array<Story>;
+}
+
 export interface Followers {
     list: Array<Account>;
 }
@@ -99,6 +111,18 @@ export interface Topics {
     list: Array<Topic>;
 }
 
+export interface EmojiSliders {
+    list: Array<EmojiSlider>;
+}
+
+export interface Polls {
+    list: Array<Poll>;
+}
+
+export interface Quizzes {
+    list: Array<Quiz>;
+}
+
  export interface Conversations {
     listInbox?: Array<Conversation>;
  }
@@ -115,6 +139,12 @@ export interface Account {
  *  if it's other people's post then date is the viewing date and uri doesn't exist
  */
 export interface Post {
+    uri?: string;
+    title?: string;
+    date?: Date;
+}
+
+export interface Story {
     uri?: string;
     title?: string;
     date?: Date;
@@ -174,6 +204,21 @@ export interface Adv {
 
 export interface Topic {
     value?: string;
+}
+
+export interface EmojiSlider {
+    title?: string;
+    date?: Date;
+}
+
+export interface Poll {
+    title?: string;
+    date?: Date;
+}
+
+export interface Quiz {
+    title?: string;
+    date?: Date;
 }
 
 export interface Sentiment {

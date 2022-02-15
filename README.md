@@ -9,7 +9,7 @@ A set of connectors to the most important Data Sources.
 ### Instagram Data Source ###
 You can find the guide at this link: https://help.instagram.com/181231772500920 under the section **Downloading a copy of your data on Instagram**.
 
-Alternately, from Android and iPhone, you can find the **Request Download** under your **Settings** -> **Security** -> **Download data**. From Computer you can find it under **Settings** -> **Privacy and security**
+Alternately, from Android and iPhone, you can find the **Request Download** under your **Settings** -> **Security** -> **Download data**. From Desktop, you can find it under **Settings** -> **Privacy and security**
 -> **Data download** -> **Request download**.
 
 Always select the **JSON** format.

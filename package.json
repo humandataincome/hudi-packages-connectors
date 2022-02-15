@@ -4,8 +4,8 @@
   "description": "A set of connectors for data source",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=local ts-node src/index.ts",
-    "test": "NODE_ENV=local ts-node test/test.ts"
+    "start": "ts-node src/index.ts",
+    "test": "ts-node test/test.ts"
   },
   "repository": {
     "type": "git",

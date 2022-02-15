@@ -1,18 +1,48 @@
 import {ConfigInstagram} from "../config/config.instagram";
 import {
     Account,
-    AccountYouAreNotInterested, AdsClicked, AdsInterests, AdsViewed, Adv, ArchivedPosts, CommentPosted,
-    CommentsPosted, ContactSynced,
+    AccountYouAreNotInterested,
+    AdsClicked,
+    AdsInterests,
+    AdsViewed,
+    Adv,
+    ArchivedPosts,
+    CommentPosted,
+    CommentsPosted,
+    ContactSynced,
     Conversation,
     Followers,
-    FollowingAccounts, FollowingHashtags, Like,
+    FollowingAccounts,
+    FollowingHashtags,
+    Like,
     LikedComments,
-    LikedPosts, LocationInformation, Media, Search, Message, MusicHeardInStories, MusicRecentlyUsedInStories,
+    LikedPosts,
+    LocationInformation,
+    Media,
+    Search,
+    Message,
+    MusicHeardInStories,
+    MusicRecentlyUsedInStories,
     PersonalInformation,
-    PersonalPosts, Post,
-    PostViewed, ReelSentiments, ReelTopics,
-    Searches, SuggestedAccountViewed,
-    SyncedContracts, Topics, VideoWatched, Sentiment, Topic
+    PersonalPosts,
+    Post,
+    PostViewed,
+    ReelSentiments,
+    ReelTopics,
+    Searches,
+    SuggestedAccountViewed,
+    SyncedContracts,
+    Topics,
+    VideoWatched,
+    Sentiment,
+    Topic,
+    EmojiSliders,
+    EmojiSlider,
+    Eligibility,
+    Polls,
+    Poll,
+    Quiz,
+    Quizzes, PersonalStories, Story
 } from "../models/instagram.model";
 import Logger from "../utils/logger";
 import {Decoding} from "../utils/decoding";
@@ -387,6 +417,27 @@ export class InstagramService {
     }
 
     /**
+     * @param data - file 'content/stories.json' in input as Buffer
+     * @return {Promise<PersonalStories | undefined>}
+     */
+    async parsePersonalStories(data: Buffer): Promise<PersonalStories | undefined> {
+        try {
+            let document = JSON.parse(data.toString());
+            let model: PersonalStories = {list: []};
+            document.ig_stories.map((value: any) => {
+                let newItem: Story = {};
+                (value.uri) && (newItem.uri = Decoding.decodeObject(value.uri));
+                (value.title) && (newItem.title = Decoding.decodeObject(value.title));
+                (value.creation_timestamp) && (newItem.date = new Date(1000 * value.creation_timestamp));
+                model.list.push(newItem);
+            });
+            return model.list.length > 0 ? model : undefined;
+        } catch (e: any) {
+            this.logger.log('error', `${e}`,'parsePersonalStories');
+        }
+    }
+
+    /**
      * @param data - file 'followers_and_following/followers.json' in input as Buffer
      * @return {Promise<Followers | undefined>}
      */
@@ -572,6 +623,95 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseTopics');
+        }
+    }
+
+    /**
+     * @param data - file 'story_sticker_interactions/emoji_sliders.json' in input as Buffer
+     * @return {Promise<EmojiSliders | undefined>}
+     */
+    async parseEmojiSliders(data: Buffer): Promise<EmojiSliders | undefined> {
+        try {
+            let document = JSON.parse(data.toString());
+            let model: EmojiSliders = {list: []};
+            document.story_activities_emoji_sliders.map((value: any) => {
+                let newItem: EmojiSlider = {};
+                (value.title) && (newItem.title = Decoding.decodeObject(value.title));
+                (value.string_list_data && value.string_list_data[0] && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
+                model.list.push(newItem);
+            });
+            return model.list.length > 0 ? model : undefined;
+        } catch (e: any) {
+            this.logger.log('error', `${e}`,'parseEmojiSliders');
+        }
+    }
+
+    /**
+     * @param data - file 'story_sticker_interactions/polls.json' in input as Buffer
+     * @return {Promise<Polls | undefined>}
+     */
+    async parsePolls(data: Buffer): Promise<Polls | undefined> {
+        try {
+            let document = JSON.parse(data.toString());
+            let model: Polls = {list: []};
+            document.story_activities_polls.map((value: any) => {
+                let newItem: Poll = {};
+                (value.title) && (newItem.title = Decoding.decodeObject(value.title));
+                (value.string_list_data && value.string_list_data[0] && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
+                model.list.push(newItem);
+            });
+            return model.list.length > 0 ? model : undefined;
+        } catch (e: any) {
+            this.logger.log('error', `${e}`,'parsePolls');
+        }
+    }
+
+    /**
+     * @param data - file 'story_sticker_interactions/quizzes.json' in input as Buffer
+     * @return {Promise<Quizzes | undefined>}
+     */
+    async parseQuizzes(data: Buffer): Promise<Quizzes | undefined> {
+        try {
+            let document = JSON.parse(data.toString());
+            let model: Quizzes = {list: []};
+            document.story_activities_quizzes.map((value: any) => {
+                let newItem: Quiz = {};
+                (value.title) && (newItem.title = Decoding.decodeObject(value.title));
+                (value.string_list_data && value.string_list_data[0] && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
+                model.list.push(newItem);
+            });
+            return model.list.length > 0 ? model : undefined;
+        } catch (e: any) {
+            this.logger.log('error', `${e}`,'parseQuizzes');
+        }
+    }
+
+    /**
+     * @param data - file 'monetization/eligibility.json' in input as Buffer
+     * @return {Promise<Eligibility | undefined>}
+     */
+    async parseEligibility(data: Buffer): Promise<Eligibility | undefined> {
+        try {
+            let eligibility: Eligibility = {};
+            let parameterName;
+            let document = JSON.parse(data.toString());
+            if (document.monetization_eligibility && document.monetization_eligibility[0] && document.monetization_eligibility[0].string_map_data) {
+                parameterName = this.configInstagram.get(`${this.prefix}-productName`);
+                if (document.monetization_eligibility[0].string_map_data[parameterName] && document.monetization_eligibility[0].string_map_data[parameterName].value) {
+                    eligibility.value = Decoding.decodeObject(document.monetization_eligibility[0].string_map_data[parameterName].value);
+                }
+                parameterName = this.configInstagram.get(`${this.prefix}-decision`);
+                if (document.monetization_eligibility[0].string_map_data[parameterName] && document.monetization_eligibility[0].string_map_data[parameterName].value) {
+                    eligibility.decision = Decoding.decodeObject(document.monetization_eligibility[0].string_map_data[parameterName].value);
+                }
+                parameterName = this.configInstagram.get(`${this.prefix}-reason`);
+                if (document.monetization_eligibility[0].string_map_data[parameterName] && document.monetization_eligibility[0].string_map_data[parameterName].value) {
+                    eligibility.reason = Decoding.decodeObject(document.monetization_eligibility[0].string_map_data[parameterName].value);
+                }
+                return !Validating.objectIsEmpty(eligibility) ? eligibility : undefined;
+            }
+        } catch (e: any) {
+            this.logger.log('error', `${e}`,'parseEligibility');
         }
     }
 

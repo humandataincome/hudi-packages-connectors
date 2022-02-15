@@ -14,9 +14,8 @@ export enum Months {
     NOV,
     DEC
 }
-export enum LanguageMode {
+export enum Language {
     ENGLISH = 'EN',
     ITALIAN = 'IT'
 }
-
 
