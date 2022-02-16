@@ -1,26 +1,33 @@
-import {DataSourceCode, FileCode, RetrievingProcedureType} from "./descriptor.enum";
-import {Language} from "../utils/utils.enum";
+import {DataSourceCode, FileCode, FileFormat, Language, RetrievingProcedureType} from "./descriptor.enum";
+
+
+export interface SupportedSources {
+    list: Array<DataSourceCode>;
+}
 
 export interface SourceDescription {
     sourceName: string;
     sourceCode: DataSourceCode;
+    supportedFormats: Array<FileFormat>;
     retrievingProcedures: Array<RetrievingProcedure>;
 }
 
 export interface RetrievingProcedure {
     languageCode: Language;
+    description: string;
     procedures: Array<Procedure>;
-    dataDescription: Array<FileContent>;
+    filesDescription: Array<FileContent>;
 }
 
 export interface Procedure {
     procedureType: RetrievingProcedureType;
-    retrievingSteps: Array<RetrieveStep>;
+    retrievingSteps: Array<RetrievingStep>;
 }
 
-export interface RetrieveStep{
+export interface RetrievingStep{
     index: string;
     description: string;
+    attributeDescription?: string;
     link?: string;
 }
 

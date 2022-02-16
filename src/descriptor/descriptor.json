@@ -1,11 +1,14 @@
 {
-  "supportedSources": [
+  "supportedSources": [ "INSTAGRAM" ],
+  "sourceDescription": [
     {
       "sourceName": "Instagram",
       "sourceCode": "INSTAGRAM",
+      "supportedFormats": [ "ZIP" ],
       "retrievingProcedures": [
         {
           "languageCode": "EN",
+          "description:": "",
           "procedures": [
             {
               "procedureType": "DEFAULT",
@@ -22,35 +25,43 @@
               "retrievingSteps": [
                 {
                   "index": 1,
-                  "description": "Go to your Profile"
+                  "description": "Go to your Profile",
+                  "attributeDescription": ""
                 },
                 {
                   "index": 2,
-                  "description": "Click on the Menu Icon"
+                  "description": "Click on the Menu Icon",
+                  "attributeDescription": ""
                 },
                 {
                   "index": 3,
-                  "description": "Click on Settings"
+                  "description": "Click on Settings",
+                  "attributeDescription": ""
                 },
                 {
                   "index": 4,
-                  "description": "Click on Privacy and Security"
+                  "description": "Click on Privacy and Security",
+                  "attributeDescription": ""
                 },
                 {
                   "index": 5,
-                  "description": "Click on Download Data"
+                  "description": "Click on Download Data",
+                  "attributeDescription": ""
                 },
                 {
                   "index": 6,
-                  "description": "Insert your email"
+                  "description": "Insert your email",
+                  "attributeDescription": ""
                 },
                 {
                   "index": 7,
-                  "description": "Click on Request Download"
+                  "description": "Click on Request Download",
+                  "attributeDescription": ""
                 },
                 {
                   "index": 8,
-                  "description": "Select JSON format"
+                  "description": "Select JSON format",
+                  "attributeDescription": ""
                 }
               ]
             },
@@ -59,40 +70,48 @@
               "retrievingSteps": [
                 {
                   "index": 1,
-                  "description": "Go to your Profile"
+                  "description": "Go to your Profile",
+                  "attributeDescription": ""
                 },
                 {
                   "index": 2,
-                  "description": "Click on the Menu Icon"
+                  "description": "Click on the Menu Icon",
+                  "attributeDescription": ""
                 },
                 {
                   "index": 3,
-                  "description": "Click on Settings"
+                  "description": "Click on Settings",
+                  "attributeDescription": ""
                 },
                 {
                   "index": 4,
-                  "description": "Click on Security"
+                  "description": "Click on Security",
+                  "attributeDescription": ""
                 },
                 {
                   "index": 5,
-                  "description": "Click on Download Data"
+                  "description": "Click on Download Data",
+                  "attributeDescription": ""
                 },
                 {
                   "index": 6,
-                  "description": "Insert your email"
+                  "description": "Insert your email",
+                  "attributeDescription": ""
                 },
                 {
                   "index": 7,
-                  "description": "Click on Request Download"
+                  "description": "Click on Request Download",
+                  "attributeDescription": ""
                 },
                 {
                   "index": 8,
-                  "description": "Select JSON format"
+                  "description": "Select JSON format",
+                  "attributeDescription": ""
                 }
               ]
             }
           ],
-          "dataDescription": [
+          "filesDescription": [
             {
               "filePath": "ads_and_content/ads_clicked.json",
               "fileContent": "Counter of ADS clicked",
@@ -115,7 +134,7 @@
             },
             {
               "filePath": "followers_and_following/followers.json",
-              "fileContent": "Total of followers.",
+              "fileContent": "Total of followers",
               "fileCode": "INSTAGRAM_FOLLOWERS"
             },
             {
