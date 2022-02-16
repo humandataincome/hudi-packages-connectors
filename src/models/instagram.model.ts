@@ -93,7 +93,7 @@ export interface LikedPosts {
 }
 
 export interface LikedComments {
-    list?: Array<Like>;
+    list: Array<Like>;
 }
 
 export interface Searches {

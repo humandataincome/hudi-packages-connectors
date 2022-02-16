@@ -47,6 +47,7 @@ import {
 import Logger from "../utils/logger";
 import {Decoding} from "../utils/decoding";
 import {Validating} from "../utils/validating";
+import {Language} from "../descriptor/descriptor.enum";
 
 /**
  * Class used to parse most important files into the directory returned by Instagram in JSON format.
@@ -59,12 +60,11 @@ export class InstagramService {
     private readonly prefix: string;
 
     /**
-     * @param config - the service needs a language configuration since the json files have unique fields for any country
-     *                  (E.g. 'Nome utente' for italian instead of 'Username')
+     * @param language
      */
-    constructor(config: ConfigInstagram) {
-        this.configInstagram = config;
-        this.prefix = this.configInstagram.languageMode;
+    constructor(language: Language) {
+        this.configInstagram = new ConfigInstagram();
+        this.prefix = language;
     }
 
     /**

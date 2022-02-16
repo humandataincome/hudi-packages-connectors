@@ -1,15 +1,8 @@
-import {Language} from "../utils/utils.enum"
 
-/**
- * Class must be configured before using Instagram Service to parse files.
- * It is used to map generic parameters into the specific ones present into Instagram's JSON files.
- */
 export class ConfigInstagram {
-    private readonly _languageMode;
     private readonly _config: Record<string, string>;
 
-    constructor(mode: Language) {
-        this._languageMode = mode;
+    constructor() {
         this._config = {
             'IT-username':'Nome utente',
             'IT-name':'Nome',
@@ -33,10 +26,6 @@ export class ConfigInstagram {
             'IT-decision':'Decisione',
             'IT-reason':'Motivo'
         };
-    }
-
-    get languageMode() {
-        return this._languageMode;
     }
 
     get(key: string): any {
