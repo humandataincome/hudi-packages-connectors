@@ -1,20 +1,16 @@
-
-import {Language} from "../src/utils/utils.enum"
-import {ConfigInstagram} from "../src/config/config.instagram";
 import {Conversation as ConversationIG, Conversations as ConversationsIG} from "../src/models/instagram.model";
 import {Conversation as ConversationFB, Conversations as ConversationsFB} from "../src/models/facebook.model";
-
 import {Parser} from "./utils/parser";
 import {ADV} from "../src/models/amazon.model";
-import {ConfigGoogle} from "../src/config/config.google";
 import {LinkedInService} from "../src/services/linkedin.service";
 import {InstagramService} from "../src/services/instagram.service";
 import {GoogleService} from "../src/services/google.service";
 import {FacebookService} from "../src/services/facebook.service";
 import {NetflixService} from "../src/services/netflix.service";
 import {AmazonService} from "../src/services/amazon.service";
-import {DataSourceCode} from "../src/descriptor/descriptor.enum";
+import {DataSourceCode, FileCode, Language, RetrievingProcedureType} from "../src/descriptor/descriptor.enum";
 import {DescriptorService} from "../src/descriptor/descriptor.service";
+import {ProcessorInstagram} from "../src/processor/processor.instagram";
 
 async function test(){
     //await netflixServiceTest();
@@ -25,13 +21,49 @@ async function test(){
     //await linkedInServiceTest();
 
     await descriptorServiceTest();
+    //await processorInstagramTest();
+}
+
+
+async function processorInstagramTest() {
+    try {
+        const processorInstagram = new ProcessorInstagram();
+        console.log(await processorInstagram.aggregatorFactory([
+            { fileCode: FileCode.INSTAGRAM_ADS_CLICKED, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/ads_clicked.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
+            { fileCode: FileCode.INSTAGRAM_ADS_VIEWED, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/ads_viewed.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
+            { fileCode: FileCode.INSTAGRAM_POST_COMMENT, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/comments/post_comments.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
+            { fileCode: FileCode.INSTAGRAM_POLLS, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/polls.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
+            { fileCode: FileCode.INSTAGRAM_EMOJI_SLIDERS, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/emoji_sliders.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
+            { fileCode: FileCode.INSTAGRAM_ELEGIBILITY, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/monetization/eligibility.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
+            { fileCode: FileCode.INSTAGRAM_LIKE_POSTS, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/likes/liked_posts.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
+            { fileCode: FileCode.INSTAGRAM_LIKE_COMMENTS, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/likes/liked_comments.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
+            { fileCode: FileCode.INSTAGRAM_FOLLOWING_ACCOUNTS, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/followers_and_following/following.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
+            { fileCode: FileCode.INSTAGRAM_FOLLOWERS, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/followers_and_following/followers.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
+            { fileCode: FileCode.INSTAGRAM_QUIZZES, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/quizzes.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
+            { fileCode: FileCode.INSTAGRAM_POSTS_VIEWED, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/posts_viewed.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
+            { fileCode: FileCode.INSTAGRAM_VIDEO_VIEWED, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/videos_watched.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
+            { fileCode: FileCode.INSTAGRAM_POSTS_CREATED, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/posts_1.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
+            { fileCode: FileCode.INSTAGRAM_STORIES_CREATED, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/stories.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
+            ]));
+    } catch (e: any) {
+        if (e.code == 'MODULE_NOT_FOUND') {
+            console.log('[Error not founding module] ' + e);
+        } else {
+            console.log(e);
+        }
+    }
 }
 
 async function descriptorServiceTest() {
     try {
         const descriptorService = new DescriptorService();
-        //console.log(await descriptorService.retrieveDataSourceProcedure(DataSourceCode.INSTAGRAM, Language.ENGLISH, RetrievingProcedureType.DESKTOP));
-        console.log(await descriptorService.retrieveDataContentDescription(DataSourceCode.INSTAGRAM, Language.ENGLISH));
+        //console.log(await descriptorService.availableDataSources());
+        //console.log(await descriptorService.getDataSourceProcedure(DataSourceCode.INSTAGRAM, Language.ENGLISH, RetrievingProcedureType.DESKTOP));
+        //console.log(await descriptorService.getDataContentDescription(DataSourceCode.INSTAGRAM, Language.ENGLISH));
+        //console.log(await descriptorService.getSourceFormats(DataSourceCode.INSTAGRAM));
+        //console.log(await descriptorService.getSourceName(DataSourceCode.INSTAGRAM));
+        //console.log(await descriptorService.getAllSupportedSources());
+        console.log(await descriptorService.getDataSource(DataSourceCode.INSTAGRAM));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
@@ -174,8 +206,7 @@ async function facebookServiceTest() {
 
 async function instagramServiceTest() {
     try {
-        let configIG = new ConfigInstagram(Language.ITALIAN);
-        const instagramService = new InstagramService(configIG);
+        const instagramService = new InstagramService(Language.ITALIAN);
         //console.log(await instagramService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/account_information/personal_information.json`)))));
         //console.log(await instagramService.parseLocation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/information_about_you/account_based_in.json`)))));
         //console.log(await instagramService.parseAdsClicked(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/ads_clicked.json`)))));
@@ -216,8 +247,7 @@ async function instagramServiceTest() {
 
 async function googleServiceTest() {
     try {
-        let configGoogle = new ConfigGoogle(Language.ITALIAN);
-        let googleService = new GoogleService(configGoogle);
+        let googleService = new GoogleService(Language.ITALIAN);
         //console.log(await googleService.parseProfile(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Profile/Profile.json`)))));
         //console.log(await googleService.parseBrowseHistory(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Chrome/BrowserHistory.json`)))));
         //console.log(await googleService.parseSearchEngines(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Chrome/SearchEngines.json`)))));
