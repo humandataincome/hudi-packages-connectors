@@ -1,15 +1,8 @@
-import {Language} from "../utils/utils.enum"
 
-/**
- * Class must be configured before using Google Service to parse files.
- * It is used to map generic parameters into the specific ones present into Google's JSON/CSV files.
- */
 export class ConfigGoogle {
-    private readonly _languageMode;
     private readonly _config: Record<string, string>;
 
-    constructor(mode: Language) {
-        this._languageMode = mode;
+    constructor() {
         this._config = {
             //Google Transactions
             'IT-DateAndHour':'Data e ora',
@@ -33,10 +26,6 @@ export class ConfigGoogle {
             'IT-nov':'NOV',
             'IT-dic':'DEC',
         };
-    }
-
-    get languageMode() {
-        return this._languageMode;
     }
 
     get(key: string): any {

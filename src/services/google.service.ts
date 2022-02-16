@@ -28,6 +28,7 @@ import {ConfigGoogle} from "../config/config.google";
 import {Parser} from "../utils/parser";
 import {Months} from "../utils/utils.enum";
 import {Decoding} from "../utils/decoding";
+import {Language} from "../descriptor/descriptor.enum";
 
 /**
  * Class used to parse most important files into the directory returned by Google in CSV and JSON formats.
@@ -40,12 +41,11 @@ export class GoogleService {
     private readonly prefix: string;
 
     /**
-     * @param config - the service needs a language configuration since the json files have unique fields for any country
-     *                  (E.g. 'Descrizione' for italian instead of 'Description')
+     * @param language
      */
-    constructor(config: ConfigGoogle) {
-        this.configGoogle = config;
-        this.prefix = this.configGoogle.languageMode;
+    constructor(language: Language) {
+        this.configGoogle = new ConfigGoogle();
+        this.prefix = language;
     }
 
     /**
