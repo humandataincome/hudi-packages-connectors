@@ -77,29 +77,29 @@ export class InstagramService {
             let parameterName, match;
             let document = JSON.parse(data.toString());
 
-            parameterName = this.configInstagram.get(`${this.prefix}-username`);
+            parameterName = this.configInstagram.get(`${this.prefix}-1-username`);
             (this.pathExists(parameterName, document)) && (personalInfoModel.username = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
-            parameterName = this.configInstagram.get(`${this.prefix}-name`);
+            parameterName = this.configInstagram.get(`${this.prefix}-2-name`);
             (this.pathExists(parameterName, document)) && (personalInfoModel.name = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
-            parameterName = this.configInstagram.get(`${this.prefix}-email`);
+            parameterName = this.configInstagram.get(`${this.prefix}-3-email`);
             (this.pathExists(parameterName, document)) && (personalInfoModel.email = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
-            parameterName = this.configInstagram.get(`${this.prefix}-privateAccount`);
+            parameterName = this.configInstagram.get(`${this.prefix}-4-privateAccount`);
             (this.pathExists(parameterName, document)) && (personalInfoModel.private = document.profile_user[0].string_map_data[parameterName].value.toLowerCase() == 'true');
 
-            parameterName = this.configInstagram.get(`${this.prefix}-birthdate`);
+            parameterName = this.configInstagram.get(`${this.prefix}-5-birthdate`);
             (this.pathExists(parameterName, document)) && (match = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value).split('-'));
             match && (personalInfoModel.birthdate = new Date(Date.UTC(match[0], match[1]-1, match[2], 0, 0, 0)));
 
-            parameterName = this.configInstagram.get(`${this.prefix}-phoneNumber`);
+            parameterName = this.configInstagram.get(`${this.prefix}-6-phoneNumber`);
             (this.pathExists(parameterName, document)) && (personalInfoModel.phoneNumber = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
-            parameterName = this.configInstagram.get(`${this.prefix}-biography`);
+            parameterName = this.configInstagram.get(`${this.prefix}-7-biography`);
             (this.pathExists(parameterName, document)) && (personalInfoModel.biography = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
-            parameterName = this.configInstagram.get(`${this.prefix}-gender`);
+            parameterName = this.configInstagram.get(`${this.prefix}-8-gender`);
             (this.pathExists(parameterName, document)) && (personalInfoModel.gender = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
             return !Validating.objectIsEmpty(personalInfoModel) ? personalInfoModel : undefined;
@@ -119,7 +119,7 @@ export class InstagramService {
     async parseLocation(data: Buffer): Promise<LocationInformation | undefined>{
         try {
             let document = JSON.parse(data.toString());
-            let parameterName = this.configInstagram.get(`${this.prefix}-cityName`);
+            let parameterName = this.configInstagram.get(`${this.prefix}-9-cityName`);
             let model: LocationInformation = {};
             (document.inferred_data_primary_location &&
                 document.inferred_data_primary_location[0].string_map_data &&
@@ -159,8 +159,8 @@ export class InstagramService {
     async parseAdsViewed(data: Buffer): Promise<AdsViewed | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let parameterName1 = this.configInstagram.get(`${this.prefix}-author`);
-            let parameterName2 = this.configInstagram.get(`${this.prefix}-time`);
+            let parameterName1 = this.configInstagram.get(`${this.prefix}-10-author`);
+            let parameterName2 = this.configInstagram.get(`${this.prefix}-11-time`);
             let model: AdsViewed = {list: []};
             document.impressions_history_ads_seen.map((value: any) => {
                 let newItem: Adv = {};
@@ -181,7 +181,7 @@ export class InstagramService {
     async parseAdsInterests(data: Buffer): Promise<AdsInterests | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let parameterName = this.configInstagram.get(`${this.prefix}-interest`);
+            let parameterName = this.configInstagram.get(`${this.prefix}-12-interest`);
             let model: AdsInterests = {list: []};
             document.inferred_data_ig_interest.map((value: any) => {
                 let newItem: Adv = {};
@@ -201,9 +201,9 @@ export class InstagramService {
     async parseMusicHeardInStories(data: Buffer): Promise<MusicHeardInStories | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let parameterName1 = this.configInstagram.get(`${this.prefix}-song`);
-            let parameterName2 = this.configInstagram.get(`${this.prefix}-artist`);
-            let parameterName3 = this.configInstagram.get(`${this.prefix}-time`);
+            let parameterName1 = this.configInstagram.get(`${this.prefix}-13-song`);
+            let parameterName2 = this.configInstagram.get(`${this.prefix}-14-artist`);
+            let parameterName3 = this.configInstagram.get(`${this.prefix}-15-time`);
             let model: MusicHeardInStories = {list: []};
             document.impressions_history_music_heard_in_stories.map((value: any) => {
                 let newItem: Media = {};
@@ -225,9 +225,9 @@ export class InstagramService {
     async parseMusicRecentlyUsedInStories(data: Buffer): Promise<MusicRecentlyUsedInStories | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let parameterName1 = this.configInstagram.get(`${this.prefix}-song`);
-            let parameterName2 = this.configInstagram.get(`${this.prefix}-artist`);
-            let parameterName3 = this.configInstagram.get(`${this.prefix}-time`);
+            let parameterName1 = this.configInstagram.get(`${this.prefix}-16-song`);
+            let parameterName2 = this.configInstagram.get(`${this.prefix}-17-artist`);
+            let parameterName3 = this.configInstagram.get(`${this.prefix}-18-time`);
             let model: MusicHeardInStories = {list: []};
             document.impressions_history_music_recently_used_in_stories.map((value: any) => {
                 let newItem: Media = {};
@@ -249,8 +249,8 @@ export class InstagramService {
     async parsePostViewed(data: Buffer): Promise<PostViewed | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let parameterName1 = this.configInstagram.get(`${this.prefix}-author`);
-            let parameterName2 = this.configInstagram.get(`${this.prefix}-time`);
+            let parameterName1 = this.configInstagram.get(`${this.prefix}-19-author`);
+            let parameterName2 = this.configInstagram.get(`${this.prefix}-20-time`);
             let model: PostViewed = {list: []};
             document.impressions_history_posts_seen.map((value: any) => {
                 let newItem: Post = {};
@@ -271,8 +271,8 @@ export class InstagramService {
     async parseVideoWatched(data: Buffer): Promise<VideoWatched | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let parameterName1 = this.configInstagram.get(`${this.prefix}-author`);
-            let parameterName2 = this.configInstagram.get(`${this.prefix}-time`);
+            let parameterName1 = this.configInstagram.get(`${this.prefix}-21-author`);
+            let parameterName2 = this.configInstagram.get(`${this.prefix}-22-time`);
             let model: VideoWatched = {list: []};
             document.impressions_history_videos_watched.map((value: any) => {
                 let newItem: Media = {};
@@ -293,8 +293,8 @@ export class InstagramService {
     async parseSuggestedAccountViewed(data: Buffer): Promise<SuggestedAccountViewed | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let parameterName1 = this.configInstagram.get(`${this.prefix}-username`);
-            let parameterName2 = this.configInstagram.get(`${this.prefix}-time`);
+            let parameterName1 = this.configInstagram.get(`${this.prefix}-23-username`);
+            let parameterName2 = this.configInstagram.get(`${this.prefix}-24-time`);
             let model: SuggestedAccountViewed = {list: []};
             document.impressions_history_chaining_seen.map((value: any) => {
                 let newItem: Account = {};
@@ -315,8 +315,8 @@ export class InstagramService {
     async parseAccountYouAreNotInterested(data: Buffer): Promise<AccountYouAreNotInterested | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let parameterName1 = this.configInstagram.get(`${this.prefix}-username`);
-            let parameterName2 = this.configInstagram.get(`${this.prefix}-dateAndTime`);
+            let parameterName1 = this.configInstagram.get(`${this.prefix}-25-username`);
+            let parameterName2 = this.configInstagram.get(`${this.prefix}-26-dateAndTime`);
             let model: SuggestedAccountViewed = {list: []};
             document.impressions_history_recs_hidden_authors.map((value: any) => {
                 let newItem: Account = {};
@@ -358,9 +358,9 @@ export class InstagramService {
     async parseSyncedContracts(data: Buffer): Promise<SyncedContracts | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let parameterName1 = this.configInstagram.get(`${this.prefix}-name`);
-            let parameterName2 = this.configInstagram.get(`${this.prefix}-secondName`);
-            let parameterName3 = this.configInstagram.get(`${this.prefix}-contactInfo`);
+            let parameterName1 = this.configInstagram.get(`${this.prefix}-27-name`);
+            let parameterName2 = this.configInstagram.get(`${this.prefix}-28-secondName`);
+            let parameterName3 = this.configInstagram.get(`${this.prefix}-29-contactInfo`);
             let model: SyncedContracts = {list: []};
             document.contacts_contact_info.map((value: any) => {
                 let newItem: ContactSynced = {};
@@ -551,8 +551,8 @@ export class InstagramService {
     async parseSearches(data: Buffer): Promise<Searches | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let parameterName1 = this.configInstagram.get(`${this.prefix}-search`);
-            let parameterName2 = this.configInstagram.get(`${this.prefix}-time`);
+            let parameterName1 = this.configInstagram.get(`${this.prefix}-30-search`);
+            let parameterName2 = this.configInstagram.get(`${this.prefix}-31-time`);
             let model: Searches = {list: []};
             document.searches_user.map((value: any) => {
                 let newItem: Search = {};
@@ -573,7 +573,7 @@ export class InstagramService {
     async parseReelSentiments(data: Buffer): Promise<ReelSentiments | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let parameterName = this.configInstagram.get(`${this.prefix}-name`);
+            let parameterName = this.configInstagram.get(`${this.prefix}-32-name`);
             let model: ReelSentiments = {list: []};
             document.topics_your_reels_emotions.map((value: any) => {
                 let newItem: Sentiment = {};
@@ -593,7 +593,7 @@ export class InstagramService {
     async parseReelTopics(data: Buffer): Promise<ReelTopics | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let parameterName = this.configInstagram.get(`${this.prefix}-name`);
+            let parameterName = this.configInstagram.get(`${this.prefix}-33-name`);
             let model: ReelTopics = {list: []};
             document.topics_your_reels_topics.map((value: any) => {
                 let newItem: Topic = {};
@@ -613,7 +613,7 @@ export class InstagramService {
     async parseTopics(data: Buffer): Promise<Topics | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let parameterName = this.configInstagram.get(`${this.prefix}-name`);
+            let parameterName = this.configInstagram.get(`${this.prefix}-34-name`);
             let model: Topics = {list: []};
             document.topics_your_topics.map((value: any) => {
                 let newItem: Topic = {};
@@ -696,15 +696,15 @@ export class InstagramService {
             let parameterName;
             let document = JSON.parse(data.toString());
             if (document.monetization_eligibility && document.monetization_eligibility[0] && document.monetization_eligibility[0].string_map_data) {
-                parameterName = this.configInstagram.get(`${this.prefix}-productName`);
+                parameterName = this.configInstagram.get(`${this.prefix}-35-productName`);
                 if (document.monetization_eligibility[0].string_map_data[parameterName] && document.monetization_eligibility[0].string_map_data[parameterName].value) {
                     eligibility.value = Decoding.decodeObject(document.monetization_eligibility[0].string_map_data[parameterName].value);
                 }
-                parameterName = this.configInstagram.get(`${this.prefix}-decision`);
+                parameterName = this.configInstagram.get(`${this.prefix}-36-decision`);
                 if (document.monetization_eligibility[0].string_map_data[parameterName] && document.monetization_eligibility[0].string_map_data[parameterName].value) {
                     eligibility.decision = Decoding.decodeObject(document.monetization_eligibility[0].string_map_data[parameterName].value);
                 }
-                parameterName = this.configInstagram.get(`${this.prefix}-reason`);
+                parameterName = this.configInstagram.get(`${this.prefix}-37-reason`);
                 if (document.monetization_eligibility[0].string_map_data[parameterName] && document.monetization_eligibility[0].string_map_data[parameterName].value) {
                     eligibility.reason = Decoding.decodeObject(document.monetization_eligibility[0].string_map_data[parameterName].value);
                 }
