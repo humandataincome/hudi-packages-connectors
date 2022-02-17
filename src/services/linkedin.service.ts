@@ -1,5 +1,4 @@
 import Logger from "../utils/logger";
-import {Validating} from "../utils/validating";
 import {
     AccountStatus,
     AccountStatusHistory,
@@ -54,6 +53,7 @@ import {
 } from "../models/linkedin.model";
 import {Parser} from "../utils/parser";
 import {Months} from "../utils/utils.enum";
+import {Validator} from "../validator/validator";
 
 /**
  * Class used to parse most important files into the directory returned by LinkedIn in CSV format.
@@ -79,7 +79,7 @@ export class LinkedInService {
                         (match) && (newItem.date = new Date(Date.UTC(match[1], match[2] - 1, match[3], match[4], match[5], match[6])));
                     }
                     (listItem['Event'] != '') && (newItem.event = listItem['Event']);
-                    !Validating.objectIsEmpty(newItem) && (model.list.push(newItem));
+                    !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -105,7 +105,7 @@ export class LinkedInService {
                         (match) && (newItem.date = new Date(Date.UTC(match[1], match[2] - 1, match[3], match[4], match[5], match[6])));
                     }
                     (listItem['Ad Title/Id'] != '') && (newItem.title = listItem['Ad Title/Id']);
-                    !Validating.objectIsEmpty(newItem) && (model.list.push(newItem));
+                    !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -131,7 +131,7 @@ export class LinkedInService {
                         let match = listItem['Followed On'].match(/(\w+) (\w+) (\d+) (\d+):(\d+):(\d+) UTC (\d+)/);
                         (match) && (newItem.dateFollow = new Date(Date.UTC(match[7], parseInt((Months[match[2].toUpperCase()])) - 1, match[3], match[4], match[5], match[6])));
                     }
-                    !Validating.objectIsEmpty(newItem) && (model.list.push(newItem));
+                    !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -161,7 +161,7 @@ export class LinkedInService {
                         let match = entry[5].match(/(\d+) (\w+) (\d+)/);
                         (match) && (newItem.dateConnection = new Date(Date.UTC(match[3], parseInt((Months[match[2].toUpperCase()])) - 1, match[1], 0, 0, 0)));
                     }
-                    !Validating.objectIsEmpty(newItem) && (model.list.push(newItem));
+                    !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -202,7 +202,7 @@ export class LinkedInService {
                     (listItem['Location'] != '') && (newItem.location = listItem['Location']);
                     (listItem['BookmarkedAt'] != '') && (newItem.bookmarkedAt = listItem['BookmarkedAt']);
                     (listItem['Profiles'] != '') && (newItem.profiles = listItem['Profiles']);
-                    !Validating.objectIsEmpty(newItem) && (model.list.push(newItem));
+                    !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -234,7 +234,7 @@ export class LinkedInService {
                     (listItem['Notes'] != '') && (newItem.notes = listItem['Notes']);
                     (listItem['Degree Name'] != '') && (newItem.degreeName = listItem['Degree Name']);
                     (listItem['Activities'] != '') && (newItem.activities = listItem['Activities']);
-                    !Validating.objectIsEmpty(newItem) && (model.list.push(newItem));
+                    !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -261,7 +261,7 @@ export class LinkedInService {
                         let match = listItem['Updated On'].match(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+) (\w+)/);
                         (match) && (newItem.dateUpdate = new Date(Date.UTC(2000+parseInt(match[3]), match[1] - 1, match[2], (match[6] == 'AM') ? match[4] : parseInt(match[4])+12, match[5], 0)));
                     }
-                    !Validating.objectIsEmpty(newItem) && (model.list.push(newItem));
+                    !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -289,7 +289,7 @@ export class LinkedInService {
                     (listItem['Endorser First Name'] != '') && (newItem.endorserFirstName = listItem['Endorser First Name']);
                     (listItem['Endorser Last Name'] != '') && (newItem.endorserLastName = listItem['Endorser Last Name']);
                     (listItem['Endorsement Status'] != '') && (newItem.endorsementStatus = listItem['Endorsement Status']);
-                    !Validating.objectIsEmpty(newItem) && (model.list.push(newItem));
+                    !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -315,7 +315,7 @@ export class LinkedInService {
                     (listItem['Description'] != '') && (newItem.description = listItem['Description']);
                     (listItem['Inference'] != '') && (newItem.inference =
                         (parseInt(listItem['Inference']) == 1 || listItem['Inference'].toLowerCase() == 'yes' || listItem['Inference'].toLowerCase() == 'true'));
-                    !Validating.objectIsEmpty(newItem) && (model.list.push(newItem));
+                    !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -343,7 +343,7 @@ export class LinkedInService {
                     }
                     (listItem['Message'] != '') && (newItem.message = listItem['Message']);
                     (listItem['Direction'] != '') && (newItem.direction = listItem['Direction']);
-                    !Validating.objectIsEmpty(newItem) && (model.list.push(newItem));
+                    !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -418,7 +418,7 @@ export class LinkedInService {
                     }
                     (item['Content Saved'] != undefined) && (newItem.contentSaved = item['Content Saved']);
                     (item['Notes taken on videos (if taken)'] != '' && item['Notes taken on videos (if taken)'] != 'N/A') && (newItem.notesTakenOnVideos = item['Notes taken on videos (if taken)']);
-                    !Validating.objectIsEmpty(item) && model.list.push(newItem);
+                    !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -445,7 +445,7 @@ export class LinkedInService {
                     (item['IP Address'] != '') && (newItem.IPaddress = item['IP Address']);
                     (item['User Agent'] != '') && (newItem.userAgent = item['User Agent']);
                     (item['Login Type'] != '') && (newItem.loginType = item['Login Type']);
-                    !Validating.objectIsEmpty(item) && model.list.push(newItem);
+                    !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -471,7 +471,7 @@ export class LinkedInService {
                     }
                     (item['FullName'] != '') && (newItem.fullName = item['FullName']);
                     (item['Status'] != '') && (newItem.status = item['Status']);
-                    !Validating.objectIsEmpty(item) && model.list.push(newItem);
+                    !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -503,7 +503,7 @@ export class LinkedInService {
                     (item['SUBJECT'] != '') && (newItem.subject = item['SUBJECT']);
                     (item['CONTENT'] != '') && (newItem.content = item['CONTENT']);
                     (item['FOLDER'] != '') && (newItem.folder = item['FOLDER']);
-                    !Validating.objectIsEmpty(item) && model.list.push(newItem);
+                    !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -526,7 +526,7 @@ export class LinkedInService {
                     (item['Extension'] != '') && (newItem.extension = item['Extension']);
                     (item['Number'] != '') && (newItem.number = item['Number']);
                     (item['Type'] != '') && (newItem.type = item['Type']);
-                    !Validating.objectIsEmpty(item) && model.list.push(newItem);
+                    !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -558,7 +558,7 @@ export class LinkedInService {
                         let match = item['Finished On'].match(/(\w+) (\d+)/);
                         newItem.finishedDate = new Date(Date.UTC(match[2], parseInt(Months[match[1].toUpperCase()]) - 1, 1));
                     }
-                    !Validating.objectIsEmpty(item) && model.list.push(newItem);
+                    !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -593,7 +593,7 @@ export class LinkedInService {
                     (result[0]['Twitter Handles']) && (model.twitterHandles = result[0]['Twitter Handles']);
                     (result[0]['Websites']) && (model.websites = result[0]['Websites']);
                     (result[0]['Instant Messengers']) && (model.instantMessengers = result[0]['Instant Messengers']);
-                    return !Validating.objectIsEmpty(model) ? model : undefined;
+                    return !Validator.objectIsEmpty(model) ? model : undefined;
                 }
             }
         } catch (e: any) {
@@ -618,7 +618,7 @@ export class LinkedInService {
                     }
                     (item['Type'] != '') && (newItem.type = item['Type']);
                     (item['Link'] != '') && (newItem.link = item['Link']);
-                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                    !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -643,7 +643,7 @@ export class LinkedInService {
                     }
                     (result[0]['Registration Ip']) && (model.registeredIP = result[0]['Registration Ip']);
                     (result[0]['Subscription Types']) && (model.subscriptionTypes = result[0]['Subscription Types']);
-                    return !Validating.objectIsEmpty(model) ? model : undefined;
+                    return !Validator.objectIsEmpty(model) ? model : undefined;
                 }
             }
         } catch (e: any) {
@@ -664,7 +664,7 @@ export class LinkedInService {
                     let newItem: RichMedia = {};
                     (item['Type'] != '') && (newItem.type = item['Type']);
                     (item['Link'] != '') && (newItem.link = item['Link']);
-                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                    !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -689,7 +689,7 @@ export class LinkedInService {
                         newItem.searchDate = new Date(Date.UTC(2000+parseInt(match[3]), match[1] - 1, match[2], (match[6] == 'AM') ? match[4] : parseInt(match[4])+12, match[5], 0));
                     }
                     (item['Jobs Search Url'] != '') && (newItem.searchURL = item['Jobs Search Url']);
-                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                    !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -714,7 +714,7 @@ export class LinkedInService {
                         newItem.date = new Date(Date.UTC(match[1], match[2]-1, match[3], match[4], match[5], match[6]));
                     }
                     (item['Search Query'] != '') && (newItem.query = item['Search Query']);
-                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                    !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -742,7 +742,7 @@ export class LinkedInService {
                     (item['User Agent'] != '') && (newItem.userAgent = item['User Agent']);
                     (item['Country'] != '') && (newItem.country = item['Country']);
                     (item['Challenge Type'] != '') && (newItem.challengeType = item['Challenge Type']);
-                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                    !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -788,7 +788,7 @@ export class LinkedInService {
                     }
                     (item['Link'] != '') && (newItem.link = item['Link']);
                     (item['OptionText'] != '') && (newItem.optionText = item['OptionText']);
-                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                    !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -825,7 +825,7 @@ export class LinkedInService {
                         (item[22]) && (newItem.jobPreferences = item[22].split('; '));
                         (item[23]) && (newItem.profileLocations = item[23].split('; '));
                         (item[26]) && (newItem.bibliographyTags = item[26].split('; '));
-                        !Validating.objectIsEmpty(newItem) && (model.list.push(newItem));
+                        !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                     }
                 });
                 console.log(model.list[0].profileLocations)
@@ -858,7 +858,7 @@ export class LinkedInService {
                     (item['Job Url'] != '') && (newItem.jobUrl = item['Job Url']);
                     (item['Resume Name'] != '') && (newItem.resumeName = item['Resume Name']);
                     (item['Question And Answers'] != '') && (newItem.questionAnswers = item['Question And Answers']);
-                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                    !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -885,7 +885,7 @@ export class LinkedInService {
                     (item['Job Url'] != '') && (newItem.jobUrl = item['Job Url']);
                     (item['Job Title'] != '') && (newItem.jobTitle = item['Job Title']);
                     (item['Company Name'] != '') && (newItem.companyName = item['Company Name']);
-                    !Validating.objectIsEmpty(newItem) && model.list.push(newItem);
+                    !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -925,7 +925,7 @@ export class LinkedInService {
                     (result[0][16] != '') && (model.maximumCommuteDuration = result[0][16]);
                     (result[0][17] != '') && (model.openCandidateVisibility = result[0][17]);
                     (result[0][18] != '') && (model.jobSeekingUrgencyLevel = result[0][18]);
-                    return !Validating.objectIsEmpty(model) ? model : undefined;
+                    return !Validator.objectIsEmpty(model) ? model : undefined;
                 }
             }
         } catch (e: any) {

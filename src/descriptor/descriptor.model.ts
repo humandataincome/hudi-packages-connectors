@@ -36,3 +36,12 @@ export interface FileContent {
     fileContent: string;
     fileCode: FileCode;
 }
+
+//used by processor and validator
+export interface FileContainer {
+    fileCode: FileCode;
+    fileBuffer: Buffer;
+    fileLanguage: Language;
+    fileTIdays?: number; //days of temporal unit
+
+}

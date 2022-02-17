@@ -2,17 +2,14 @@
 import {
     FileContent,
     Procedure,
-    RetrievingStep,
     RetrievingProcedure,
     SourceDescription,
     SupportedSources
 } from "./descriptor.model";
-import Logger from "../utils/logger";
 import {DataSourceCode, FileFormat, Language, RetrievingProcedureType} from "./descriptor.enum";
-import {Validating} from "../utils/validating";
+import {Validator} from "../validator/validator";
 
 export class DescriptorService {
-    private logger = new Logger("Descriptor Service");
 
     /**
      * @return {Promise<Array<DataSourceCode> | undefined>} - all available data sources' respective codes
@@ -24,7 +21,7 @@ export class DescriptorService {
                 return document.supportedSources;
             }
         } catch (error) {
-            this.logger.log('error', `${error}`,'availableDataSources');
+            throw ('Error in availableDataSources function: '+ error);
         }
     }
 
@@ -45,7 +42,7 @@ export class DescriptorService {
             }
             return name;
         } catch (error) {
-            this.logger.log('error', `${error}`,'getSourceName');
+            throw ('Error in getSourceName function: '+ error);
         }
     }
 
@@ -66,7 +63,7 @@ export class DescriptorService {
             }
             return formats;
         } catch (error) {
-            this.logger.log('error', `${error}`,'getSourceFormats');
+            throw ('Error in getSourceFormats function: '+ error);
         }
     }
 
@@ -95,9 +92,9 @@ export class DescriptorService {
                     }
                 });
             }
-            return !Validating.objectIsEmpty(model) ? model : undefined;
+            return !Validator.objectIsEmpty(model) ? model : undefined;
         } catch (error) {
-            this.logger.log('error', `${error}`,'getDataSourceProcedure');
+            throw ('Error in getDataSourceProcedure function: '+ error);
         }
     }
 
@@ -123,7 +120,7 @@ export class DescriptorService {
             }
             return model.length > 0 ? model : undefined;
         } catch (error) {
-            this.logger.log('error', `${error}`,'getAllDataSourceProcedures');
+            throw ('Error in getAllDataSourceProcedures function: '+ error);
         }
     }
 
@@ -137,7 +134,7 @@ export class DescriptorService {
                 return document.sourceDescription;
             }
         } catch (error) {
-            this.logger.log('error', `${error}`,'getAllDataSourcesDescriptions');
+            throw ('Error in getAllDataSourcesDescriptions function: '+ error);
         }
     }
 
@@ -158,7 +155,7 @@ export class DescriptorService {
             }
             return description;
         } catch (error) {
-            this.logger.log('error', `${error}`,'getDataSourceDescription');
+            throw ('Error in getDataSourceDescription function: '+ error);
         }
     }
 }

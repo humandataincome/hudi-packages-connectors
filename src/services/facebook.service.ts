@@ -19,7 +19,7 @@ import {
     AddressLocation, PlaceLived, Pages, AdvInteraction, AdvUsingYourInfo, Search, Page,
 } from "../models/facebook.model";
 import {Decoding} from "../utils/decoding";
-import {Validating} from "../utils/validating";
+import {Validator} from "../validator/validator";
 
 /**
  * Class used to parse most important files into the directory returned by Facebook in JSON format.
@@ -50,7 +50,7 @@ export class FacebookService{
             (document.profile_v2.relationship.status) && (relationshipModel.status = Decoding.decodeObject(document.profile_v2.relationship.status));
             (document.profile_v2.relationship.anniversary) && (relationshipModel.anniversary = document.profile_v2.relationship.anniversary);
             (document.profile_v2.relationship.timestamp) && (relationshipModel.dateAdded = new Date(1000 * document.profile_v2.relationship.timestamp));
-            (!Validating.objectIsEmpty(relationshipModel)) && (personalInfoModel.relationship = relationshipModel);
+            (!Validator.objectIsEmpty(relationshipModel)) && (personalInfoModel.relationship = relationshipModel);
 
             (document.profile_v2.education_experiences && document.profile_v2.education_experiences.length > 0) && (personalInfoModel.educationExperiences =
                 document.profile_v2.education_experiences.map((value: any) => {
@@ -103,7 +103,7 @@ export class FacebookService{
             (document.profile_v2.address.country) && (addressModel.country = Decoding.decodeObject(document.profile_v2.address.country));
             (document.profile_v2.address.country_code) && (addressModel.countryCode = Decoding.decodeObject(document.profile_v2.address.country_code));
             (document.profile_v2.address.region) && (addressModel.region = Decoding.decodeObject(document.profile_v2.address.region));
-            (!Validating.objectIsEmpty(addressModel)) && (personalInfoModel.address = addressModel);
+            (!Validator.objectIsEmpty(addressModel)) && (personalInfoModel.address = addressModel);
 
             (document.profile_v2.phone_numbers && document.profile_v2.phone_numbers.length > 0) && (personalInfoModel.phoneNumbers = document.profile_v2.phone_numbers);
             (document.profile_v2.places_lived && document.profile_v2.places_lived.length > 0) && (personalInfoModel.placesLived = document.profile_v2.places_lived.map((value: any) => {
@@ -123,7 +123,7 @@ export class FacebookService{
                 }));
             (document.profile_v2.registration_timestamp) && (personalInfoModel.registrationDate = new Date(1000*document.profile_v2.registration_timestamp));
             (document.profile_v2.profile_uri) && (personalInfoModel.profileUri = Decoding.decodeObject(document.profile_v2.profile_uri));
-            return !Validating.objectIsEmpty(personalInfoModel) ? personalInfoModel : undefined;
+            return !Validator.objectIsEmpty(personalInfoModel) ? personalInfoModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parsePersonalInformation');
         }
@@ -305,7 +305,7 @@ export class FacebookService{
             (participants) && (conversationModel.participants = participants);
             (document.is_still_participant) && (conversationModel.isStillParticipant = document.is_still_participant);
 
-            return !Validating.objectIsEmpty(conversationModel) ? conversationModel : undefined;
+            return !Validator.objectIsEmpty(conversationModel) ? conversationModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseMessages');
         }

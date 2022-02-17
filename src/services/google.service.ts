@@ -23,12 +23,12 @@ import {
     Transactions,
     TransitPath, YoutubeActivities, YoutubeActivity
 } from "../models/google.model";
-import {Validating} from "../utils/validating";
 import {ConfigGoogle} from "../config/config.google";
 import {Parser} from "../utils/parser";
 import {Months} from "../utils/utils.enum";
 import {Decoding} from "../utils/decoding";
 import {Language} from "../descriptor/descriptor.enum";
+import {Validator} from "../validator/validator";
 
 /**
  * Class used to parse most important files into the directory returned by Google in CSV and JSON formats.
@@ -64,7 +64,7 @@ export class GoogleService {
             (document.birthday) && (match = document.birthday.match(/(\d+)-(\d+)-(\d+)/));
             model.birthdate = new Date(Date.UTC(match[1], match[2]-1, match[3], 0, 0, 0));
             (document.gender.type) && (model.gender = document.gender.type);
-            return !Validating.objectIsEmpty(model) ? model : undefined;
+            return !Validator.objectIsEmpty(model) ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseProfile');
         }
@@ -108,7 +108,7 @@ export class GoogleService {
                 (value.favicon_url) && (newValue.faviconUrl = value.favicon_url);
                 (value.safe_for_autoreplace != undefined) && (newValue.safeForAutoreplace = value.safe_for_autoreplace);
                 (value.is_active) && (newValue.isActive = value.is_active);
-                (value.date_created) && (newValue.dateCreated = Validating.convertWebkitTimestamp(parseInt(value.date_created)));
+                (value.date_created) && (newValue.dateCreated = Validator.convertWebkitTimestamp(parseInt(value.date_created)));
                 (value.url) && (newValue.url = value.url);
                 (value.new_tab_url) && (newValue.newTabUrl = value.new_tab_url);
                 (value.originating_url) && (newValue.originatingUrl = value.originating_url);
@@ -117,7 +117,7 @@ export class GoogleService {
                 (value.keyword) && (newValue.keyword = value.keyword);
                 (value.input_encodings) && (newValue.inputEncodings = value.input_encodings);
                 (value.prepopulate_id != undefined) && (newValue.prepopulateId = value.prepopulate_id);
-                (value.last_modified) && (newValue.lastModified = Validating.convertWebkitTimestamp(parseInt(value.last_modified)));
+                (value.last_modified) && (newValue.lastModified = Validator.convertWebkitTimestamp(parseInt(value.last_modified)));
                 return newValue;
             });
             return model.list.length > 0 ? model : undefined;
@@ -146,13 +146,13 @@ export class GoogleService {
                         let location: ProbableLocation = {};
                         (value.activitySegment.startLocation.latitudeE7) && (location.latitudeE7 = value.activitySegment.startLocation.latitudeE7);
                         (value.activitySegment.startLocation.longitudeE7) && (location.longitudeE7 = value.activitySegment.startLocation.longitudeE7);
-                        (!Validating.objectIsEmpty(location)) && (newValue.startLocation = location);
+                        (!Validator.objectIsEmpty(location)) && (newValue.startLocation = location);
                     }
                     if (value.activitySegment.endLocation) {
                         let location: ProbableLocation = {};
                         (value.activitySegment.endLocation.latitudeE7) && (location.latitudeE7 = value.activitySegment.endLocation.latitudeE7);
                         (value.activitySegment.endLocation.longitudeE7) && (location.longitudeE7 = value.activitySegment.endLocation.longitudeE7);
-                        (!Validating.objectIsEmpty(location)) && (newValue.endLocation = location);
+                        (!Validator.objectIsEmpty(location)) && (newValue.endLocation = location);
                     }
                     if (value.activitySegment.duration) {
                         (value.activitySegment.duration.startTimestampMs) && (newValue.startDate = new Date(parseInt(value.activitySegment.duration.startTimestampMs)));
@@ -168,7 +168,7 @@ export class GoogleService {
                             let newActivity: ProbableActivity = {};
                             (activity.activityType) && (newActivity.activityType = activity.activityType);
                             (activity.probability) && (newActivity.probability = activity.probability);
-                            (!Validating.objectIsEmpty(newActivity) && newValue.allActivitiesProbabilities) && (newValue.allActivitiesProbabilities.push(newActivity));
+                            (!Validator.objectIsEmpty(newActivity) && newValue.allActivitiesProbabilities) && (newValue.allActivitiesProbabilities.push(newActivity));
                         });
                     }
 
@@ -183,12 +183,12 @@ export class GoogleService {
                                 (transitStop.placeId) && (newLocation.placeId = transitStop.placeId);
                                 (transitStop.name) && (newLocation.name = transitStop.name);
                                 (transitStop.address) && (newLocation.address = transitStop.address);
-                                (!Validating.objectIsEmpty(newLocation) && newPath.transitStops) && (newPath.transitStops.push(newLocation));
+                                (!Validator.objectIsEmpty(newLocation) && newPath.transitStops) && (newPath.transitStops.push(newLocation));
                             });
                         }
                         (value.activitySegment.transitPath.name) && (newPath.name = value.activitySegment.transitPath.name);
                         (value.activitySegment.transitPath.hexRgbColor) && (newPath.hexRgbColor = value.activitySegment.transitPath.hexRgbColor);
-                        (!Validating.objectIsEmpty(newPath)) && (newValue.transitPath = newPath);
+                        (!Validator.objectIsEmpty(newPath)) && (newValue.transitPath = newPath);
                     }
 
                     if(value.activitySegment.simplifiedRawPath) {
@@ -200,7 +200,7 @@ export class GoogleService {
                                 (point.lngE7) && (newPoint.longitudeE7 = point.lngE7);
                                 (point.timestampMs) && (newPoint.date = new Date(parseInt(point.timestampMs)));
                                 (point.accuracyMeters) && (newPoint.accuracyMeters = point.accuracyMeters);
-                                (!Validating.objectIsEmpty(newPoint) && newValue.simplifiedRawPath) && (newValue.simplifiedRawPath.push(newPoint));
+                                (!Validator.objectIsEmpty(newPoint) && newValue.simplifiedRawPath) && (newValue.simplifiedRawPath.push(newPoint));
                             });
                         }
                     }
@@ -225,7 +225,7 @@ export class GoogleService {
             (value.location.name) && (newLocation.name = value.location.name);
             (value.location.locationConfidence) && (newLocation.locationConfidence = value.location.locationConfidence);
             (value.location.sourceInfo && value.location.sourceInfo.deviceTag) && (newLocation.deviceTag = value.location.sourceInfo.deviceTag);
-            !Validating.objectIsEmpty(newLocation) && (newValue.location = newLocation);
+            !Validator.objectIsEmpty(newLocation) && (newValue.location = newLocation);
         }
         if (value.duration) {
             (value.duration.startTimestampMs) && (newValue.startDate = new Date(parseInt(value.duration.startTimestampMs)));
@@ -246,14 +246,14 @@ export class GoogleService {
                 (location.locationConfidence != undefined) && (otherLocation.locationConfidence = location.locationConfidence);
                 (location.name) && (otherLocation.name = location.name);
                 (location.address) && (otherLocation.address = location.address);
-                (!Validating.objectIsEmpty(otherLocation) && newValue.otherProbableLocations) && (newValue.otherProbableLocations.push(otherLocation));
+                (!Validator.objectIsEmpty(otherLocation) && newValue.otherProbableLocations) && (newValue.otherProbableLocations.push(otherLocation));
             });
         }
         if (value.childVisits) {
             newValue.childVisits = value.childVisits.map((childValue: any) => this.parsePlaceVisitedRecursive(childValue));
         }
 
-        return (!Validating.objectIsEmpty(newValue)) ? newValue : undefined;
+        return (!Validator.objectIsEmpty(newValue)) ? newValue : undefined;
     }
 
     /**
@@ -280,18 +280,18 @@ export class GoogleService {
             }
             if (document.geoData) {
                 let newGeo = parseGeoData(document.geoData);
-                !Validating.objectIsEmpty(newGeo) && (model.geoData = parseGeoData(document.geoData));
+                !Validator.objectIsEmpty(newGeo) && (model.geoData = parseGeoData(document.geoData));
             }
             if (document.geoDataExif) {
                 let newGeo = parseGeoData(document.geoDataExif);
-                !Validating.objectIsEmpty(newGeo) && (model.geoDataExif = parseGeoData(document.geoDataExif));
+                !Validator.objectIsEmpty(newGeo) && (model.geoDataExif = parseGeoData(document.geoDataExif));
             }
             (document.url) && (model.url = document.url);
             (document.googlePhotosOrigin && document.googlePhotosOrigin.mobileUpload && document.googlePhotosOrigin.mobileUpload.deviceType)
                 && (model.deviceType = document.googlePhotosOrigin.mobileUpload.deviceType);
             (document.photoLastModifiedTime && document.photoLastModifiedTime.timestamp) && (model.photoLastModifiedTime = new Date(1000*document.photoLastModifiedTime.timestamp));
 
-            return !Validating.objectIsEmpty(model) ? model : undefined;
+            return !Validator.objectIsEmpty(model) ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseImageData');
         }
@@ -331,7 +331,7 @@ export class GoogleService {
                         newTs.amount = match[1];
                         newTs.currency = match[2];
                     }
-                    !Validating.objectIsEmpty(newTs) && (model.list.push(newTs));
+                    !Validator.objectIsEmpty(newTs) && (model.list.push(newTs));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -355,7 +355,7 @@ export class GoogleService {
                     (value.libraryDoc.doc.title) && (newDoc.title = value.libraryDoc.doc.title);
                 }
                 (value.libraryDoc.acquisitionTime) && (newDoc.acquisitionDate = new Date(value.libraryDoc.acquisitionTime));
-                !Validating.objectIsEmpty(newDoc) && (model.list.push(newDoc));
+                !Validator.objectIsEmpty(newDoc) && (model.list.push(newDoc));
             });
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
@@ -385,8 +385,8 @@ export class GoogleService {
                         (value.purchaseHistory.doc.title) && (newDoc.title = value.purchaseHistory.doc.title);
                     }
                     (value.purchaseHistory.purchaseTime) && (newDoc.acquisitionDate = new Date(value.purchaseHistory.purchaseTime));
-                    !Validating.objectIsEmpty(newDoc) && (purchase.document = newDoc);
-                    !Validating.objectIsEmpty(newDoc) && (model.list.push(purchase));
+                    !Validator.objectIsEmpty(newDoc) && (purchase.document = newDoc);
+                    !Validator.objectIsEmpty(newDoc) && (model.list.push(purchase));
                 }
             });
             return model.list.length > 0 ? model : undefined;
@@ -414,17 +414,17 @@ export class GoogleService {
                         (value.orderHistory.billingInstrument.cardType) && (newBill.cardType = value.orderHistory.billingInstrument.cardType);
                         (value.orderHistory.billingInstrument.expiration) && (newBill.expiration = value.orderHistory.billingInstrument.expiration);
                         (value.orderHistory.billingInstrument.displayName) && (newBill.displayName = value.orderHistory.billingInstrument.displayName);
-                        !Validating.objectIsEmpty(newBill) && (newOrder.billingInstrument = newBill);
+                        !Validator.objectIsEmpty(newBill) && (newOrder.billingInstrument = newBill);
                     }
                     if (value.orderHistory.billingContact) {
                         let newContact: Contact = this.parseContact(value.orderHistory.billingContact);
-                        !Validating.objectIsEmpty(newContact) && (newOrder.billingContacts = newContact);
+                        !Validator.objectIsEmpty(newContact) && (newOrder.billingContacts = newContact);
                     }
                     if (value.orderHistory.associatedContact) {
                         newOrder.associatedContacts = [];
                         value.orderHistory.associatedContact.map((contact: any) => {
                             let newContact: Contact = this.parseContact(contact);
-                            (!Validating.objectIsEmpty(newContact) && newOrder.associatedContacts) && (newOrder.associatedContacts.push(newContact));
+                            (!Validator.objectIsEmpty(newContact) && newOrder.associatedContacts) && (newOrder.associatedContacts.push(newContact));
                         });
                     }
                     (value.orderHistory.ipAddress) && (newOrder.ipAddress = value.orderHistory.ipAddress);
@@ -442,14 +442,14 @@ export class GoogleService {
                                 let newDoc: Doc = {};
                                 (lineItem.doc.documentType) && (newDoc.type = lineItem.doc.documentType);
                                 (lineItem.doc.title) && (newDoc.title = lineItem.doc.title);
-                                !Validating.objectIsEmpty(newDoc) && (newLineItem.doc = newDoc);
+                                !Validator.objectIsEmpty(newDoc) && (newLineItem.doc = newDoc);
                             }
                             (lineItem.quantity) && (newLineItem.quantity = parseInt(lineItem.quantity));
-                            (!Validating.objectIsEmpty(newLineItem) && newOrder.lineItems) && (newOrder.lineItems.push(newLineItem));
+                            (!Validator.objectIsEmpty(newLineItem) && newOrder.lineItems) && (newOrder.lineItems.push(newLineItem));
                         });
                     }
 
-                    !Validating.objectIsEmpty(newOrder) && (model.list.push(newOrder));
+                    !Validator.objectIsEmpty(newOrder) && (model.list.push(newOrder));
                 }
             });
             return model.list.length > 0 ? model : undefined;
@@ -501,7 +501,7 @@ export class GoogleService {
                             }
                         }
                     }
-                    !Validating.objectIsEmpty(shopping) && model.list.push(shopping);
+                    !Validator.objectIsEmpty(shopping) && model.list.push(shopping);
                 }
             });
 
@@ -589,7 +589,7 @@ export class GoogleService {
                             newSearch.date = new Date(Date.UTC(parseInt(match[3]), parseInt(Months[monthENG]) - 1, parseInt(match[1]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6])));
                         }
                     }
-                    !Validating.objectIsEmpty(newSearch) && model.list.push(newSearch);
+                    !Validator.objectIsEmpty(newSearch) && model.list.push(newSearch);
                 }
             });
             return model.list.length > 0 ? model : undefined;
@@ -638,7 +638,7 @@ export class GoogleService {
                             }
                         }
                     }
-                    !Validating.objectIsEmpty(newActivity) && model.list.push(newActivity);
+                    !Validator.objectIsEmpty(newActivity) && model.list.push(newActivity);
                 }
             });
             return model.list.length > 0 ? model : undefined;
@@ -674,7 +674,7 @@ export class GoogleService {
                                 newArticle.date = new Date(Date.UTC(parseInt(match[3]), parseInt(Months[monthENG]) - 1, parseInt(match[1]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6])));
                             }
                         }
-                        !Validating.objectIsEmpty(newArticle) && model.list.push(newArticle);
+                        !Validator.objectIsEmpty(newArticle) && model.list.push(newArticle);
                     }
                 }
             });

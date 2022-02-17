@@ -1,5 +1,4 @@
 import {InstagramDataAggregator} from "./processor.instagram.model";
-import {FileContainer} from "./processor.model";
 import {FileCode} from "../descriptor/descriptor.enum";
 import {InstagramService} from "../services/instagram.service";
 import {
@@ -24,7 +23,8 @@ import {
 } from "../models/instagram.model";
 import Logger from "../utils/logger";
 import {ProcessorUtils} from "./processor.utils";
-import {Validating} from "../utils/validating";
+import {FileContainer} from "../descriptor/descriptor.model";
+import {Validator} from "../validator/validator";
 
 export class ProcessorInstagram{
     private logger = new Logger("Instagram Processor");
@@ -234,7 +234,7 @@ export class ProcessorInstagram{
             }
         }));
         model.dataPoints = ProcessorUtils.calculateInstagramPoints(model);
-        return !Validating.objectIsEmpty(model) ? model : undefined;
+        return !Validator.objectIsEmpty(model) ? model : undefined;
     }
 
 }
