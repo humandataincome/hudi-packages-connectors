@@ -9,6 +9,7 @@ import {
 } from "./descriptor.model";
 import Logger from "../utils/logger";
 import {DataSourceCode, FileFormat, Language, RetrievingProcedureType} from "./descriptor.enum";
+import {Validating} from "../utils/validating";
 
 export class DescriptorService {
     private logger = new Logger("Descriptor Service");
@@ -73,12 +74,12 @@ export class DescriptorService {
      * @param dataSourceCode - code of the procedure's data source we want to retrieve
      * @param language - code of procedure's language we want to retrieve
      * @param procedureType - type of procedure we want to retrieve
-     * @return {Promise<Array<RetrievingStep>  | undefined>} - list of all the steps
+     * @return {Promise<Procedure | undefined>} - list of all the steps
      */
-    async getDataSourceProcedure(dataSourceCode: DataSourceCode, language: Language, procedureType: RetrievingProcedureType = RetrievingProcedureType.DEFAULT): Promise<Array<RetrievingStep> | undefined> {
+    async getDataSourceProcedure(dataSourceCode: DataSourceCode, language: Language, procedureType: RetrievingProcedureType): Promise<Procedure | undefined> {
         try {
             const document = require('./descriptor.json');
-            let model: Array<RetrievingStep> = [];
+            let model;
             if (document.sourceDescription.length > 0) {
                 document.sourceDescription.map((item: SourceDescription) => {
                     if(item.sourceCode == dataSourceCode && item.retrievingProcedures.length > 0) {
@@ -86,7 +87,7 @@ export class DescriptorService {
                             if(item.languageCode == language && item.procedures.length > 0) {
                                 item.procedures.map((item: Procedure) => {
                                     if(item.procedureType == procedureType) {
-                                        model = item.retrievingSteps;
+                                        model = item;
                                     }
                                 });
                             }
@@ -94,7 +95,7 @@ export class DescriptorService {
                     }
                 });
             }
-            return model.length > 0 ? model : undefined;
+            return !Validating.objectIsEmpty(model) ? model : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`,'getDataSourceProcedure');
         }
@@ -105,7 +106,7 @@ export class DescriptorService {
      * @param language - code of description's language we want to retrieve
      * @return {Promise<Array<FileContent>  | undefined>} - list of all useful files and their description content
      */
-    async getDataContentDescription(dataSourceCode: DataSourceCode, language: Language): Promise<Array<FileContent> | undefined> {
+    async getAllDataSourceProcedures(dataSourceCode: DataSourceCode, language: Language): Promise<Array<FileContent> | undefined> {
         try {
             const document = require('./descriptor.json');
             let model: Array<FileContent> = [];
@@ -122,21 +123,21 @@ export class DescriptorService {
             }
             return model.length > 0 ? model : undefined;
         } catch (error) {
-            this.logger.log('error', `${error}`,'getDataContentDescription');
+            this.logger.log('error', `${error}`,'getAllDataSourceProcedures');
         }
     }
 
     /**
      * @return {Promise<SupportedSources | undefined>} - list of supported sources
      */
-    async getAllSupportedSources(): Promise<SupportedSources | undefined> {
+    async getAllDataSourcesDescriptions(): Promise<SupportedSources | undefined> {
         try {
             const document = require('./descriptor.json');
             if (document) {
                 return document.sourceDescription;
             }
         } catch (error) {
-            this.logger.log('error', `${error}`,'getAllSupportedSources');
+            this.logger.log('error', `${error}`,'getAllDataSourcesDescriptions');
         }
     }
 
@@ -144,7 +145,7 @@ export class DescriptorService {
      * @param dataSourceCode
      * @return {Promise<SourceDescription | undefined>} - list of supported source descriptions (all languages for a specific source)
      */
-    async getDataSource(dataSourceCode: DataSourceCode): Promise<SourceDescription | undefined> {
+    async getDataSourceDescription(dataSourceCode: DataSourceCode): Promise<SourceDescription | undefined> {
         try {
             const document = require('./descriptor.json');
             let description;
@@ -157,7 +158,7 @@ export class DescriptorService {
             }
             return description;
         } catch (error) {
-            this.logger.log('error', `${error}`,'getDataSource');
+            this.logger.log('error', `${error}`,'getDataSourceDescription');
         }
     }
 }

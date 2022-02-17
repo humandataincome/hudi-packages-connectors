@@ -58,12 +58,12 @@ async function descriptorServiceTest() {
     try {
         const descriptorService = new DescriptorService();
         //console.log(await descriptorService.availableDataSources());
-        //console.log(await descriptorService.getDataSourceProcedure(DataSourceCode.INSTAGRAM, Language.ENGLISH, RetrievingProcedureType.DESKTOP));
-        //console.log(await descriptorService.getDataContentDescription(DataSourceCode.INSTAGRAM, Language.ENGLISH));
+        //console.log(await descriptorService.getAllDataSourcesDescriptions());
         //console.log(await descriptorService.getSourceFormats(DataSourceCode.INSTAGRAM));
         //console.log(await descriptorService.getSourceName(DataSourceCode.INSTAGRAM));
-        //console.log(await descriptorService.getAllSupportedSources());
-        console.log(await descriptorService.getDataSource(DataSourceCode.INSTAGRAM));
+        //console.log(await descriptorService.getDataSourceDescription(DataSourceCode.INSTAGRAM));
+        //console.log(await descriptorService.getAllDataSourceProcedures(DataSourceCode.INSTAGRAM, Language.ENGLISH));
+        console.log(await descriptorService.getDataSourceProcedure(DataSourceCode.INSTAGRAM, Language.ENGLISH, RetrievingProcedureType.DESKTOP));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
