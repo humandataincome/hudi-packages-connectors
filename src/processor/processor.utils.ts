@@ -7,8 +7,4 @@ export class ProcessorUtils {
          return differenceTime / (1000 * 3600 * 24);
      }
 
-     static calculateInstagramPoints(model: InstagramDataAggregator): number {
-         return 0;
-     }
-
  }

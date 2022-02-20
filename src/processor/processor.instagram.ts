@@ -23,12 +23,12 @@ import {
 } from "../models/instagram.model";
 import Logger from "../utils/logger";
 import {ProcessorUtils} from "./processor.utils";
-import {FileContainer} from "../descriptor/descriptor.model";
 import {Validator} from "../validator/validator";
 
 export class ProcessorInstagram{
     private logger = new Logger("Instagram Processor");
 
+    /*
     async aggregatorFactory(filesContainer: Array<FileContainer>): Promise<InstagramDataAggregator | undefined>{
         let model: InstagramDataAggregator = {};
         await Promise.all(filesContainer.map(async (data: FileContainer) => {
@@ -233,8 +233,8 @@ export class ProcessorInstagram{
                 }
             }
         }));
-        model.dataPoints = ProcessorUtils.calculateInstagramPoints(model);
         return !Validator.objectIsEmpty(model) ? model : undefined;
     }
+     */
 
 }

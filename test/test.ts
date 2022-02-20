@@ -11,6 +11,7 @@ import {AmazonService} from "../src/services/amazon.service";
 import {DataSourceCode, FileCode, Language, RetrievingProcedureType} from "../src/descriptor/descriptor.enum";
 import {DescriptorService} from "../src/descriptor/descriptor.service";
 import {ProcessorInstagram} from "../src/processor/processor.instagram";
+import {ZipManager} from "../src/utils/zipManager";
 
 async function test(){
     //await netflixServiceTest();
@@ -20,11 +21,31 @@ async function test(){
     //await googleServiceTest();
     //await linkedInServiceTest();
 
-    await descriptorServiceTest();
+    //await descriptorServiceTest();
     //await processorInstagramTest();
+    await validateTest();
 }
 
+async function validateTest() {
+    try {
+        const fs = require('fs');
+        const path = require('path');
+        const zipManager = new ZipManager();
+        let buffer = fs.readFileSync(path.join(__dirname,'../src/mock/validation/instagram.zip'));
+        let arraybuffer = Uint8Array.from(buffer);
+        console.log(await zipManager.unzipFile(arraybuffer));
+    } catch (e: any) {
+        if (e.code == 'MODULE_NOT_FOUND') {
+            console.log('[Error not founding module] ' + e);
+        } else {
+            console.log(e);
+        }
+    }
+}
 
+function createFile(path: string) {
+}
+/*
 async function processorInstagramTest() {
     try {
         const processorInstagram = new ProcessorInstagram();
@@ -53,6 +74,8 @@ async function processorInstagramTest() {
         }
     }
 }
+
+ */
 
 async function descriptorServiceTest() {
     try {

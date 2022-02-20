@@ -37,11 +37,8 @@ export interface FileContent {
     fileCode: FileCode;
 }
 
-//used by processor and validator
-export interface FileContainer {
-    fileCode: FileCode;
-    fileBuffer: Buffer;
+//used by processor
+export interface SourceDescription {
     fileLanguage: Language;
-    fileTIdays?: number; //days of temporal unit
-
+    fileTIdays: number; //days of temporal unit
 }

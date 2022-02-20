@@ -4,7 +4,7 @@
     {
       "sourceName": "Instagram",
       "sourceCode": "INSTAGRAM",
-      "supportedFormats": [ "ZIP" ],
+      "supportedFormats": [ "zip" ],
       "retrievingProcedures": [
         {
           "languageCode": "EN",
@@ -112,6 +112,11 @@
             }
           ],
           "filesDescription": [
+            {
+              "filePath": "account_information/personal_information.json",
+              "fileContent": "Information about language files",
+              "fileCode": "INSTAGRAM_PERSONAL_INFO"
+            },
             {
               "filePath": "ads_and_content/ads_clicked.json",
               "fileContent": "Counter of ADS clicked",

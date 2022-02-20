@@ -14,10 +14,13 @@ export enum RetrievingProcedureType {
 }
 
 export enum FileFormat {
-    ZIP = 'ZIP',
-    JSON = 'JSON',
-    CSV = 'CSV',
-    XML = 'XML'
+    ZIP = 'zip',
+    JSON = 'json',
+    CSV = 'csv',
+
+    XML = 'xml',
+    TXT = 'txt',
+    HTML = 'html'
 }
 
 export enum Language {
@@ -25,6 +28,7 @@ export enum Language {
     ITALIAN = 'IT'
 }
 export enum FileCode {
+    INSTAGRAM_PERSONAL_INFO, //account_information/personal_information.json
     INSTAGRAM_ADS_CLICKED, //ads_and_content/ads_clicked.json
     INSTAGRAM_ADS_VIEWED, //ads_and_content/ads_viewed.json
     INSTAGRAM_POSTS_VIEWED, //ads_and_content/posts_viewed.json

@@ -42,7 +42,4 @@ export interface InstagramDataAggregator {
     //from INSTAGRAM_VIDEO_VIEWED
     videosViewed?: number;
     videosViewedTI?: number;
-
-    //dataPoints is the total points generated
-    dataPoints?: number;
 }
