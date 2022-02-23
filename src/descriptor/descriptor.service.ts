@@ -6,7 +6,7 @@ import {
     SourceDescription,
     SupportedSources
 } from "./descriptor.model";
-import {DataSourceCode, FileFormat, Language, RetrievingProcedureType} from "./descriptor.enum";
+import {DataSourceCode, FileExtension, Language, RetrievingProcedureType} from "./descriptor.enum";
 import {Validator} from "../validator/validator";
 
 export class DescriptorService {
@@ -50,7 +50,7 @@ export class DescriptorService {
      * @param dataSourceCode
      * @return {Promise<Array<FileFormat> | undefined>} - return the array of valid format for a specific data source
      */
-    async getSourceFormats(dataSourceCode: DataSourceCode): Promise<Array<FileFormat> | undefined> {
+    async getSourceFormats(dataSourceCode: DataSourceCode): Promise<Array<FileExtension> | undefined> {
         try {
             const document = require('./descriptor.json');
             let formats;

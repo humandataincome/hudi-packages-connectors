@@ -13,11 +13,10 @@ export enum RetrievingProcedureType {
     MOBILE = 'MOBILE'
 }
 
-export enum FileFormat {
+export enum FileExtension {
     ZIP = 'zip',
     JSON = 'json',
     CSV = 'csv',
-
     XML = 'xml',
     TXT = 'txt',
     HTML = 'html'

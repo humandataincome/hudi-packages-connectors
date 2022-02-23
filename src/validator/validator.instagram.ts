@@ -1,24 +1,24 @@
 import {Language} from "../descriptor/descriptor.enum";
-
+import {LanguageError} from "./validator.error";
 export class ValidatorInstagram {
 
-    async getLanguageInstagram(file :Buffer): Promise<Language | undefined> {
+    async getLanguage(file :Buffer): Promise<Language | undefined> {
         try {
             const document = file.toString();
             //check if ITALIAN
-            const regexIT = /(.*(Indirizzo e-mail | Nome utente | Data di nascita).*)/;
-            let match = document.match(regexIT);
-            if (match && match[1]) {
+            const regexIT = /(Nome utente)|(Indirizzo e-mail)|(Data di nascita)/;
+            if (document.match(regexIT)) {
                 return Language.ITALIAN;
             }
+            /*
             //check if ENGLISH
             const regexEN = /(.*().*)/;
             match = document.match(regexEN);
-            if (match && match[1]) {
+            if (match) {
                 return Language.ENGLISH;
             }
-
-            throw new LanguageError("Language not recognized.");
+             */
+            throw new LanguageError("Language not recognized in getLanguageInstagram function");
         } catch (error) {
             throw (error);
         }

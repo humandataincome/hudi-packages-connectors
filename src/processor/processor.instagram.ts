@@ -28,7 +28,7 @@ import {Validator} from "../validator/validator";
 export class ProcessorInstagram{
     private logger = new Logger("Instagram Processor");
 
-    /*
+/*
     async aggregatorFactory(filesContainer: Array<FileContainer>): Promise<InstagramDataAggregator | undefined>{
         let model: InstagramDataAggregator = {};
         await Promise.all(filesContainer.map(async (data: FileContainer) => {
@@ -235,6 +235,5 @@ export class ProcessorInstagram{
         }));
         return !Validator.objectIsEmpty(model) ? model : undefined;
     }
-     */
-
+*/
 }

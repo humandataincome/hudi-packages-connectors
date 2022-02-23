@@ -1,4 +1,4 @@
-import {DataSourceCode, FileCode, FileFormat, Language, RetrievingProcedureType} from "./descriptor.enum";
+import {DataSourceCode, FileCode, FileExtension, Language, RetrievingProcedureType} from "./descriptor.enum";
 
 
 export interface SupportedSources {
@@ -8,7 +8,7 @@ export interface SupportedSources {
 export interface SourceDescription {
     sourceName: string;
     sourceCode: DataSourceCode;
-    supportedFormats: Array<FileFormat>;
+    supportedFormats: Array<FileExtension>;
     retrievingProcedures: Array<RetrievingProcedure>;
 }
 

@@ -8,10 +8,11 @@ import {GoogleService} from "../src/services/google.service";
 import {FacebookService} from "../src/services/facebook.service";
 import {NetflixService} from "../src/services/netflix.service";
 import {AmazonService} from "../src/services/amazon.service";
-import {DataSourceCode, FileCode, Language, RetrievingProcedureType} from "../src/descriptor/descriptor.enum";
+import {DataSourceCode, Language, RetrievingProcedureType} from "../src/descriptor/descriptor.enum";
 import {DescriptorService} from "../src/descriptor/descriptor.service";
-import {ProcessorInstagram} from "../src/processor/processor.instagram";
-import {ZipManager} from "../src/utils/zipManager";
+import {ValidatorInstagram} from "../src/validator/validator.instagram";
+import ErrnoException = NodeJS.ErrnoException;
+import {Validator} from "../src/validator/validator";
 
 async function test(){
     //await netflixServiceTest();
@@ -23,17 +24,23 @@ async function test(){
 
     //await descriptorServiceTest();
     //await processorInstagramTest();
-    await validateTest();
+    await validatorTest();
+    //await validatorTestInstagram();
 }
 
-async function validateTest() {
+
+
+
+async function validatorTest() {
     try {
-        const fs = require('fs');
-        const path = require('path');
-        const zipManager = new ZipManager();
-        let buffer = fs.readFileSync(path.join(__dirname,'../src/mock/validation/instagram.zip'));
-        let arraybuffer = Uint8Array.from(buffer);
-        console.log(await zipManager.unzipFile(arraybuffer));
+        const validator = new Validator();
+        const fs =  require('fs');
+        const path =  require('path');
+        console.log(validator.getFileExtension("dd.ddd.json"));
+        fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),function(err:ErrnoException, data: Buffer) {
+            if (err) throw err;
+            validator.validateZIP(Buffer.from(data));
+        });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
@@ -43,8 +50,20 @@ async function validateTest() {
     }
 }
 
-function createFile(path: string) {
+
+async function validatorTestInstagram() {
+    try {
+        const validatorIG = new ValidatorInstagram();
+        console.log(await validatorIG.getLanguage(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/account_information/personal_information.json`)))));
+    } catch (e: any) {
+        if (e.code == 'MODULE_NOT_FOUND') {
+            console.log('[Error not founding module] ' + e);
+        } else {
+            console.log(e);
+        }
+    }
 }
+
 /*
 async function processorInstagramTest() {
     try {
@@ -76,6 +95,8 @@ async function processorInstagramTest() {
 }
 
  */
+
+
 
 async function descriptorServiceTest() {
     try {
@@ -109,11 +130,6 @@ async function amazonServiceTest() {
         console.log(await amazonService.parseAmazonWishlists(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json`))));
         console.log(await amazonService.parseRetailOrderHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Retail.OrderHistory.2/Retail.OrderHistory.2.csv`))));
 
-        /**
-         * advertising files are generated with a limit of 100 entries for each files,
-         * when the limit is reached another directory with files is created.
-         * Mock files have 3 of these directories.
-         */
         const fs = require('fs');
         let source = path.join(__dirname, `../src/mock/IT_version/amazon/`);
         const directories = fs.readdirSync(source);
@@ -326,5 +342,4 @@ async function testMessagesIGFB(service: InstagramService | FacebookService, pat
         console.log('[testMessagesIGFB] '+e);
     }
 }
-
 test();

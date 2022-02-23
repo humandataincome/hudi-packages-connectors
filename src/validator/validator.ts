@@ -1,52 +1,91 @@
-import {FileCode, FileFormat} from "../descriptor/descriptor.enum";
-import ErrnoException = NodeJS.ErrnoException;
+import {FileExtension} from "../descriptor/descriptor.enum";
+import * as JSZip from "jszip";
 
 export class Validator {
 
-    private readonly MIN_BYTE_FILE_SIZE: number = 100;
-    private readonly MAX_BYTE_FILE_SIZE: number = 6e6; //6 MB
+    private MAX_BYTE_FILE_SIZE: number = 6e6;
+    private MIN_BYTE_FILE_SIZE: number = 100;
 
-    /*
-    async isValideFile(filePath: string): Promise<boolean> {
-        if (stats.size > this.MIN_BYTE_FILE_SIZE) {
-            if (stats.size < this.MAX_BYTE_FILE_SIZE) {
-                let code = path.parse(filePath).ext;
-                switch (code) {
-                    case FileFormat.XML:
-                        return Validator.validateXML(filePath);
-                    case FileFormat.CSV:
-                        return Validator.validateCSV(filePath);
-                    case FileFormat.JSON:
-                        return Validator.validateJSON(filePath);
-                    case FileFormat.HTML:
-                        return Validator.validateHTML(filePath);
-                    case FileFormat.TXT:
-                        return Validator.validateTXT(filePath);
-                    default:
-                        throw new Error('File Format not recognized');
+    /*TO ADD:
+    - check validity of the single file based on its extension (csv, json, ecc)
+    - return a zip file as buffer with only the useful files
+     */
+    async validateZIP(zipDataBuffer: Buffer) {
+        JSZip.loadAsync(zipDataBuffer).then((zip: JSZip) => {
+            Object.keys(zip.files).map((fileName: string) => {
+                const file = zip.files[fileName];
+                if (!file.dir) {
+                    // @ts-ignore
+                    const fileSizeInByte = file["_data"].uncompressedSize;
+                    if(fileSizeInByte < this.MAX_BYTE_FILE_SIZE && fileSizeInByte > this.MIN_BYTE_FILE_SIZE) {
+                        file.async('string')
+                            .then(async (data: string) => {
+                                if (await this.isValideFile(this.getFileExtension(fileName), data)) {
+                                    //add the file to a new zip
+
+
+
+                                }
+                            });
+                    }
                 }
-            } else {
-                throw new Error("File too large");
-            }
+            });
+        });
+    }
+
+    getFileExtension(fileName: string): FileExtension {
+        const extension = fileName.split('.').pop();
+        if (extension == 'csv') {
+            return FileExtension.CSV;
+        } else if (extension == 'json') {
+            return FileExtension.JSON;
+        } else if (extension == 'txt') {
+            return FileExtension.TXT
+        } else if (extension == 'xml') {
+            return FileExtension.XML;
+        } else if (extension == 'html') {
+            return FileExtension.HTML;
         } else {
-            throw new Error("Empty File");
+            throw Error("File Extension not recognized");
         }
     }
-     */
 
-    private static validateXML(path: string): boolean {
+    private async isValideFile(extension: FileExtension, file: string): Promise<boolean> {
+        switch(extension){
+            case FileExtension.JSON:
+                return await this.validateJSON(file);
+            case FileExtension.TXT:
+                return await this.validateTXT(file);
+            case FileExtension.CSV:
+                return await this.validateCSV(file);
+            case FileExtension.XML:
+                return await this.validateXML(file);
+            case FileExtension.HTML:
+                return await this.validateHTML(file);
+            default:
+                return false;
+        }
+    }
+
+    async validateJSON(file: string): Promise<boolean> {
         return false;
     }
-    private static validateCSV(path: string): boolean {
+
+    async validateXML(file: string): Promise<boolean> {
         return false;
     }
-    private static validateJSON(path: string): boolean {
+
+    async validateCSV(file: string): Promise<boolean> {
+        const regex = /^([^;\r\n]*)$/;
+        //regex (parte iniziale)(sequenza di xxx,)(stringa finale)
         return false;
     }
-    private static validateHTML(path: string): boolean {
+
+    async validateHTML(file: string): Promise<boolean> {
         return false;
     }
-    private static validateTXT(path: string): boolean {
+
+    async validateTXT(file: string): Promise<boolean> {
         return false;
     }
 
