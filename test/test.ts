@@ -36,10 +36,10 @@ async function validatorTest() {
         const validator = new Validator();
         const fs =  require('fs');
         const path =  require('path');
-        console.log(validator.getFileExtension("dd.ddd.json"));
-        fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),function(err:ErrnoException, data: Buffer) {
+        //console.log(validator.getFileExtension("dd.ddd.json"));
+        fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            validator.validateZIP(Buffer.from(data));
+            console.log(await validator.validateZIP(Buffer.from(data)));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {

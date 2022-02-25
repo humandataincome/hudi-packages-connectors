@@ -1,5 +1,6 @@
 import {Language} from "../descriptor/descriptor.enum";
 import {LanguageError} from "./validator.error";
+import {ValidatedFile} from "./validator.model";
 export class ValidatorInstagram {
 
     async getLanguage(file :Buffer): Promise<Language | undefined> {
@@ -22,6 +23,12 @@ export class ValidatorInstagram {
         } catch (error) {
             throw (error);
         }
+    }
+
+
+    // validate file name if it owns to the useful files
+    async selectFilesIntoZip(validatedFiles: Array<ValidatedFile>){
+
     }
 
 }

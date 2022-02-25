@@ -1,36 +1,36 @@
 import {FileExtension} from "../descriptor/descriptor.enum";
 import * as JSZip from "jszip";
+import {ValidatedFile} from "./validator.model";
 
 export class Validator {
 
-    private MAX_BYTE_FILE_SIZE: number = 6e6;
-    private MIN_BYTE_FILE_SIZE: number = 100;
+    private MAX_BYTE_FILE_SIZE: number = 6e6; //6 MB
+    private MIN_BYTE_FILE_SIZE: number = 50; //50 B
 
     /*TO ADD:
     - check validity of the single file based on its extension (csv, json, ecc)
-    - return a zip file as buffer with only the useful files
      */
-    async validateZIP(zipDataBuffer: Buffer) {
-        JSZip.loadAsync(zipDataBuffer).then((zip: JSZip) => {
-            Object.keys(zip.files).map((fileName: string) => {
-                const file = zip.files[fileName];
+    async validateZIP(zipDataBuffer: Buffer): Promise<Array<ValidatedFile>> {
+        let validatedFiles: Array<ValidatedFile> = [];
+        await JSZip.loadAsync(zipDataBuffer).then(async (zip: JSZip) => {
+            const keys = Object.keys(zip.files);
+            await Promise.all(keys.map(async (pathName: string) => {
+                const file = zip.files[pathName];
                 if (!file.dir) {
                     // @ts-ignore
                     const fileSizeInByte = file["_data"].uncompressedSize;
-                    if(fileSizeInByte < this.MAX_BYTE_FILE_SIZE && fileSizeInByte > this.MIN_BYTE_FILE_SIZE) {
-                        file.async('string')
-                            .then(async (data: string) => {
-                                if (await this.isValideFile(this.getFileExtension(fileName), data)) {
-                                    //add the file to a new zip
-
-
-
-                                }
-                            });
+                    if(this.isValideSize(fileSizeInByte)) {
+                        await file.async('string').then((data: string) => {
+                            if (this.isValideFile(this.getFileExtension(pathName), data)) {
+                                const validatedFile: ValidatedFile = {data: Buffer.from(data), path: pathName};
+                                validatedFiles.push(validatedFile);
+                            }
+                        });
                     }
                 }
-            });
+            }));
         });
+        return validatedFiles;
     }
 
     getFileExtension(fileName: string): FileExtension {
@@ -50,7 +50,13 @@ export class Validator {
         }
     }
 
-    private async isValideFile(extension: FileExtension, file: string): Promise<boolean> {
+    private isValideSize(fileSizeInByte: number): boolean {
+        return fileSizeInByte < this.MAX_BYTE_FILE_SIZE && fileSizeInByte > this.MIN_BYTE_FILE_SIZE
+    }
+
+    private isValideFile(extension: FileExtension, file: string): boolean {
+        return true;
+        /*
         switch(extension){
             case FileExtension.JSON:
                 return await this.validateJSON(file);
@@ -65,28 +71,30 @@ export class Validator {
             default:
                 return false;
         }
+
+         */
     }
 
     async validateJSON(file: string): Promise<boolean> {
-        return false;
+        return true;
     }
 
     async validateXML(file: string): Promise<boolean> {
-        return false;
+        return true;
     }
 
     async validateCSV(file: string): Promise<boolean> {
         const regex = /^([^;\r\n]*)$/;
         //regex (parte iniziale)(sequenza di xxx,)(stringa finale)
-        return false;
+        return true;
     }
 
     async validateHTML(file: string): Promise<boolean> {
-        return false;
+        return true;
     }
 
     async validateTXT(file: string): Promise<boolean> {
-        return false;
+        return true;
     }
 
     /**
