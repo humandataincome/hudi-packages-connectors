@@ -1,5 +1,3 @@
-import {InstagramDataAggregator} from "./processor.instagram.model";
-
 export class ProcessorUtils {
 
      static daysDifference(date1: Date, date2: Date): number {

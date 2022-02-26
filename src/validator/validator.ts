@@ -1,6 +1,5 @@
 import {FileExtension} from "../descriptor/descriptor.enum";
 import * as JSZip from "jszip";
-import {ValidatedFile} from "./validator.model";
 
 export class Validator {
 
@@ -10,9 +9,9 @@ export class Validator {
     /*TO ADD:
     - check validity of the single file based on its extension (csv, json, ecc)
      */
-    async validateZIP(zipDataBuffer: Buffer): Promise<Array<ValidatedFile>> {
-        let validatedFiles: Array<ValidatedFile> = [];
-        await JSZip.loadAsync(zipDataBuffer).then(async (zip: JSZip) => {
+    async validateZIP(zipFile: Buffer): Promise<Buffer> {
+        let validatedFiles = new JSZip();
+        await JSZip.loadAsync(zipFile).then(async (zip: JSZip) => {
             const keys = Object.keys(zip.files);
             await Promise.all(keys.map(async (pathName: string) => {
                 const file = zip.files[pathName];
@@ -21,19 +20,18 @@ export class Validator {
                     const fileSizeInByte = file["_data"].uncompressedSize;
                     if(this.isValideSize(fileSizeInByte)) {
                         await file.async('string').then((data: string) => {
-                            if (this.isValideFile(this.getFileExtension(pathName), data)) {
-                                const validatedFile: ValidatedFile = {data: Buffer.from(data), path: pathName};
-                                validatedFiles.push(validatedFile);
+                            if (this.isValideFile(Validator.getFileExtension(pathName), data)) {
+                                validatedFiles.file(pathName, data);
                             }
                         });
                     }
                 }
             }));
         });
-        return validatedFiles;
+        return await validatedFiles.generateAsync({type: "nodebuffer"});
     }
 
-    getFileExtension(fileName: string): FileExtension {
+    private static getFileExtension(fileName: string): FileExtension {
         const extension = fileName.split('.').pop();
         if (extension == 'csv') {
             return FileExtension.CSV;

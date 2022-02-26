@@ -13,6 +13,7 @@ import {DescriptorService} from "../src/descriptor/descriptor.service";
 import {ValidatorInstagram} from "../src/validator/validator.instagram";
 import ErrnoException = NodeJS.ErrnoException;
 import {Validator} from "../src/validator/validator";
+import {ValidatedFile} from "../src/validator/validator.model";
 
 async function test(){
     //await netflixServiceTest();
@@ -39,7 +40,8 @@ async function validatorTest() {
         //console.log(validator.getFileExtension("dd.ddd.json"));
         fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            console.log(await validator.validateZIP(Buffer.from(data)));
+            const files = await validator.validateZIP(data);
+            await validator.validateZIP(files);
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
@@ -54,7 +56,7 @@ async function validatorTest() {
 async function validatorTestInstagram() {
     try {
         const validatorIG = new ValidatorInstagram();
-        console.log(await validatorIG.getLanguage(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/account_information/personal_information.json`)))));
+        //console.log(await validatorIG.getLanguage(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/account_information/personal_information.json`)))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
