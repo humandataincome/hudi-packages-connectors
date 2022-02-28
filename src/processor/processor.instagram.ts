@@ -1,5 +1,5 @@
 import {InstagramDataAggregator} from "./processor.instagram.model";
-import {FileCode, Language} from "../descriptor/descriptor.enum";
+import {FileCode, LanguageCode} from "../descriptor/descriptor.enum";
 import {InstagramService} from "../services/instagram.service";
 import {
     AdsClicked,
@@ -34,13 +34,12 @@ export class ProcessorInstagram{
         let model: InstagramDataAggregator = {};
         await JSZip.loadAsync(zipFile).then(async (zip: JSZip) => {
             const keys = Object.keys(zip.files);
-            await Promise.all(keys.map(async (pathName: string) => {
-                const file = zip.files[pathName];
-                const languageCode = file.comment;
-                if (!file.dir) {
-                    await file.async('nodebuffer').then( async (data: Buffer) => {
-                        if (languageCode != '') {
-                            let igService = new InstagramService(languageCode as Language);
+                await Promise.all(keys.map(async (pathName: string) => {
+                    const file = zip.files[pathName];
+                    if (!file.dir) {
+                        await file.async('nodebuffer').then( async (data: Buffer) => {
+                            let languageCode = file.comment;
+                            let igService = new InstagramService(languageCode as LanguageCode);
                             let result;
                             switch (pathName) {
                                 case FileCode.INSTAGRAM_ADS_CLICKED:
@@ -96,7 +95,7 @@ export class ProcessorInstagram{
                                         model.emojiSlidersTI = counterTI;
                                         model.emojiSliders = result.list.length;
                                     } else {
-                                        this.logger.log('info', `empty file with ${pathName} code`, 'aggregatorFactory');
+                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_FOLLOWERS:
@@ -104,7 +103,7 @@ export class ProcessorInstagram{
                                     if (result) {
                                         model.followers = result.list.length;
                                     } else {
-                                        this.logger.log('info', `empty file with ${pathName} code`, 'aggregatorFactory');
+                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_FOLLOWING_ACCOUNTS:
@@ -112,7 +111,7 @@ export class ProcessorInstagram{
                                     if (result) {
                                         model.following = result.list.length;
                                     } else {
-                                        this.logger.log('info', `empty file with ${pathName} code`, 'aggregatorFactory');
+                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_LIKE_COMMENTS:
@@ -126,7 +125,7 @@ export class ProcessorInstagram{
                                         model.likesCommentsTI = counterTI;
                                         model.likesComments = result.list.length;
                                     } else {
-                                        this.logger.log('info', `empty file with ${pathName} code`, 'aggregatorFactory');
+                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_LIKE_POSTS:
@@ -140,7 +139,7 @@ export class ProcessorInstagram{
                                         model.likesPostsTI = counterTI;
                                         model.likesPosts = result.list.length;
                                     } else {
-                                        this.logger.log('info', `empty file with ${pathName} code`, 'aggregatorFactory');
+                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_ELEGIBILITY:
@@ -148,7 +147,7 @@ export class ProcessorInstagram{
                                     if (result) {
                                         model.isMonetizable = result.decision == 'Eligible';
                                     } else {
-                                        this.logger.log('info', `empty file with ${pathName} code`, 'aggregatorFactory');
+                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_POLLS:
@@ -162,7 +161,7 @@ export class ProcessorInstagram{
                                         model.pollsTI = counterTI;
                                         model.polls = result.list.length;
                                     } else {
-                                        this.logger.log('info', `empty file with ${pathName} code`, 'aggregatorFactory');
+                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_POSTS_CREATED:
@@ -176,7 +175,7 @@ export class ProcessorInstagram{
                                         model.postsCreatedTI = counterTI;
                                         model.postsCreated = result.list.length;
                                     } else {
-                                        this.logger.log('info', `empty file with ${pathName} code`, 'aggregatorFactory');
+                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_POSTS_VIEWED:
@@ -190,7 +189,7 @@ export class ProcessorInstagram{
                                         model.postsViewedTI = counterTI;
                                         model.postsViewed = result.list.length;
                                     } else {
-                                        this.logger.log('info', `empty file with ${pathName} code`, 'aggregatorFactory');
+                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_QUIZZES:
@@ -204,7 +203,7 @@ export class ProcessorInstagram{
                                         model.quizzesTI = counterTI;
                                         model.quizzes = result.list.length;
                                     } else {
-                                        this.logger.log('info', `empty file with ${pathName} code`, 'aggregatorFactory');
+                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_STORIES_CREATED:
@@ -218,7 +217,7 @@ export class ProcessorInstagram{
                                         model.storiesCreatedTI = counterTI;
                                         model.storiesCreated = result.list.length;
                                     } else {
-                                        this.logger.log('info', `empty file with ${pathName} code`, 'aggregatorFactory');
+                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_VIDEO_VIEWED:
@@ -232,16 +231,15 @@ export class ProcessorInstagram{
                                         model.videosViewedTI = counterTI;
                                         model.videosViewed = result.list.length;
                                     } else {
-                                        this.logger.log('info', `empty file with ${pathName} code`, 'aggregatorFactory');
+                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 default:
                                     this.logger.log('info', `file not recognized`, 'aggregatorFactory');
                             }
-                        }
-                    });
-                }
-            }));
+                        });
+                    }
+                }));
         });
         return !Validator.objectIsEmpty(model) ? model : undefined;
     }

@@ -46,7 +46,7 @@ import {
 } from "../models/instagram.model";
 import Logger from "../utils/logger";
 import {Decoding} from "../utils/decoding";
-import {Language} from "../descriptor/descriptor.enum";
+import {LanguageCode} from "../descriptor/descriptor.enum";
 import {Validator} from "../validator/validator";
 
 /**
@@ -62,7 +62,7 @@ export class InstagramService {
     /**
      * @param language
      */
-    constructor(language: Language) {
+    constructor(language: LanguageCode) {
         this.configInstagram = new ConfigInstagram();
         this.prefix = language;
     }

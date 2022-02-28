@@ -1,4 +1,4 @@
-import {DataSourceCode, FileCode, FileExtension, Language, RetrievingProcedureType} from "./descriptor.enum";
+import {DataSourceCode, FileCode, FileExtension, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
 
 
 export interface SupportedSources {
@@ -13,7 +13,7 @@ export interface SourceDescription {
 }
 
 export interface RetrievingProcedure {
-    languageCode: Language;
+    languageCode: LanguageCode;
     description: string;
     procedures: Array<Procedure>;
     filesDescription: Array<FileContent>;
@@ -39,6 +39,6 @@ export interface FileContent {
 
 //used by processor
 export interface SourceDescription {
-    fileLanguage: Language;
+    fileLanguage: LanguageCode;
     fileTIdays: number; //days of temporal unit
 }

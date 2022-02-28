@@ -22,7 +22,7 @@ export enum FileExtension {
     HTML = 'html'
 }
 
-export enum Language {
+export enum LanguageCode {
     ENGLISH = 'EN',
     ITALIAN = 'IT'
 }

@@ -8,12 +8,12 @@ import {GoogleService} from "../src/services/google.service";
 import {FacebookService} from "../src/services/facebook.service";
 import {NetflixService} from "../src/services/netflix.service";
 import {AmazonService} from "../src/services/amazon.service";
-import {DataSourceCode, Language, RetrievingProcedureType} from "../src/descriptor/descriptor.enum";
+import {DataSourceCode, LanguageCode, RetrievingProcedureType} from "../src/descriptor/descriptor.enum";
 import {DescriptorService} from "../src/descriptor/descriptor.service";
 import {ValidatorInstagram} from "../src/validator/validator.instagram";
 import ErrnoException = NodeJS.ErrnoException;
 import {Validator} from "../src/validator/validator";
-import {ValidatedFile} from "../src/validator/validator.model";
+import {ProcessorInstagram} from "../src/processor/processor.instagram";
 
 async function test(){
     //await netflixServiceTest();
@@ -25,8 +25,8 @@ async function test(){
 
     //await descriptorServiceTest();
     //await processorInstagramTest();
-    await validatorTest();
-    //await validatorTestInstagram();
+    //await validatorTest();
+    await validatorTestInstagram();
 }
 
 
@@ -56,37 +56,18 @@ async function validatorTest() {
 async function validatorTestInstagram() {
     try {
         const validatorIG = new ValidatorInstagram();
-        //console.log(await validatorIG.getLanguage(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/account_information/personal_information.json`)))));
-    } catch (e: any) {
-        if (e.code == 'MODULE_NOT_FOUND') {
-            console.log('[Error not founding module] ' + e);
-        } else {
-            console.log(e);
-        }
-    }
-}
-
-/*
-async function processorInstagramTest() {
-    try {
+        const validator = new Validator();
         const processorInstagram = new ProcessorInstagram();
-        console.log(await processorInstagram.aggregatorFactory([
-            { fileCode: FileCode.INSTAGRAM_ADS_CLICKED, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/ads_clicked.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
-            { fileCode: FileCode.INSTAGRAM_ADS_VIEWED, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/ads_viewed.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
-            { fileCode: FileCode.INSTAGRAM_POST_COMMENT, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/comments/post_comments.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
-            { fileCode: FileCode.INSTAGRAM_POLLS, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/polls.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
-            { fileCode: FileCode.INSTAGRAM_EMOJI_SLIDERS, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/emoji_sliders.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
-            { fileCode: FileCode.INSTAGRAM_ELEGIBILITY, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/monetization/eligibility.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
-            { fileCode: FileCode.INSTAGRAM_LIKE_POSTS, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/likes/liked_posts.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
-            { fileCode: FileCode.INSTAGRAM_LIKE_COMMENTS, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/likes/liked_comments.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
-            { fileCode: FileCode.INSTAGRAM_FOLLOWING_ACCOUNTS, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/followers_and_following/following.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
-            { fileCode: FileCode.INSTAGRAM_FOLLOWERS, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/followers_and_following/followers.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
-            { fileCode: FileCode.INSTAGRAM_QUIZZES, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/quizzes.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
-            { fileCode: FileCode.INSTAGRAM_POSTS_VIEWED, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/posts_viewed.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
-            { fileCode: FileCode.INSTAGRAM_VIDEO_VIEWED, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/videos_watched.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
-            { fileCode: FileCode.INSTAGRAM_POSTS_CREATED, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/posts_1.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
-            { fileCode: FileCode.INSTAGRAM_STORIES_CREATED, fileBuffer: Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/stories.json`))), fileTIdays: 180, fileLanguage: Language.ITALIAN },
-            ]));
+        const fs =  require('fs');
+        const path =  require('path');
+        //console.log(await validatorIG.getLanguage(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/account_information/personal_information.json`)))));
+        fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
+            if (err) throw err;
+            const validatedZip = await validatorIG.selectUsefulFilesFromZip(await validator.validateZIP(data));
+            if(validatedZip) {
+                console.log(await processorInstagram.aggregatorFactory(validatedZip));
+            }
+        });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
@@ -96,7 +77,6 @@ async function processorInstagramTest() {
     }
 }
 
- */
 
 
 
@@ -109,7 +89,7 @@ async function descriptorServiceTest() {
         //console.log(await descriptorService.getSourceName(DataSourceCode.INSTAGRAM));
         //console.log(await descriptorService.getDataSourceDescription(DataSourceCode.INSTAGRAM));
         //console.log(await descriptorService.getAllDataSourceProcedures(DataSourceCode.INSTAGRAM, Language.ENGLISH));
-        console.log(await descriptorService.getDataSourceProcedure(DataSourceCode.INSTAGRAM, Language.ENGLISH, RetrievingProcedureType.DESKTOP));
+        console.log(await descriptorService.getDataSourceProcedure(DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH, RetrievingProcedureType.DESKTOP));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
@@ -247,7 +227,7 @@ async function facebookServiceTest() {
 
 async function instagramServiceTest() {
     try {
-        const instagramService = new InstagramService(Language.ITALIAN);
+        const instagramService = new InstagramService(LanguageCode.ITALIAN);
         //console.log(await instagramService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/account_information/personal_information.json`)))));
         //console.log(await instagramService.parseLocation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/information_about_you/account_based_in.json`)))));
         //console.log(await instagramService.parseAdsClicked(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/ads_clicked.json`)))));
@@ -288,7 +268,7 @@ async function instagramServiceTest() {
 
 async function googleServiceTest() {
     try {
-        let googleService = new GoogleService(Language.ITALIAN);
+        let googleService = new GoogleService(LanguageCode.ITALIAN);
         //console.log(await googleService.parseProfile(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Profile/Profile.json`)))));
         //console.log(await googleService.parseBrowseHistory(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Chrome/BrowserHistory.json`)))));
         //console.log(await googleService.parseSearchEngines(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Chrome/SearchEngines.json`)))));

@@ -6,7 +6,7 @@ import {
     SourceDescription,
     SupportedSources
 } from "./descriptor.model";
-import {DataSourceCode, FileExtension, Language, RetrievingProcedureType} from "./descriptor.enum";
+import {DataSourceCode, FileExtension, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
 import {Validator} from "../validator/validator";
 
 export class DescriptorService {
@@ -73,7 +73,7 @@ export class DescriptorService {
      * @param procedureType - type of procedure we want to retrieve
      * @return {Promise<Procedure | undefined>} - list of all the steps
      */
-    async getDataSourceProcedure(dataSourceCode: DataSourceCode, language: Language, procedureType: RetrievingProcedureType): Promise<Procedure | undefined> {
+    async getDataSourceProcedure(dataSourceCode: DataSourceCode, language: LanguageCode, procedureType: RetrievingProcedureType): Promise<Procedure | undefined> {
         try {
             const document = require('./descriptor.json');
             let model;
@@ -103,7 +103,7 @@ export class DescriptorService {
      * @param language - code of description's language we want to retrieve
      * @return {Promise<Array<FileContent>  | undefined>} - list of all useful files and their description content
      */
-    async getAllDataSourceProcedures(dataSourceCode: DataSourceCode, language: Language): Promise<Array<FileContent> | undefined> {
+    async getAllDataSourceProcedures(dataSourceCode: DataSourceCode, language: LanguageCode): Promise<Array<FileContent> | undefined> {
         try {
             const document = require('./descriptor.json');
             let model: Array<FileContent> = [];

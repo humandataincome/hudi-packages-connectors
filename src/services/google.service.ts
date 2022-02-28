@@ -27,7 +27,7 @@ import {ConfigGoogle} from "../config/config.google";
 import {Parser} from "../utils/parser";
 import {Months} from "../utils/utils.enum";
 import {Decoding} from "../utils/decoding";
-import {Language} from "../descriptor/descriptor.enum";
+import {LanguageCode} from "../descriptor/descriptor.enum";
 import {Validator} from "../validator/validator";
 
 /**
@@ -43,7 +43,7 @@ export class GoogleService {
     /**
      * @param language
      */
-    constructor(language: Language) {
+    constructor(language: LanguageCode) {
         this.configGoogle = new ConfigGoogle();
         this.prefix = language;
     }
