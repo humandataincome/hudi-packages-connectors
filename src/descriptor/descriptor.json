@@ -114,53 +114,43 @@
           "filesDescription": [
             {
               "filePath": "account_information/personal_information.json",
-              "fileContent": "Information about language files",
-              "fileCode": "INSTAGRAM_PERSONAL_INFO"
+              "fileContent": "Information about language files"
             },
             {
               "filePath": "ads_and_content/ads_clicked.json",
-              "fileContent": "Counter of ADS clicked",
-              "fileCode": "INSTAGRAM_ADS_CLICKED"
+              "fileContent": "Counter of ADS clicked"
             },
             {
               "filePath": "ads_and_content/ads_viewed.json",
-              "fileContent": "Counter of ADS viewed",
-              "fileCode": "INSTAGRAM_ADS_VIEWED"
+              "fileContent": "Counter of ADS viewed"
             },
             {
               "filePath": "comments/post_comments.json",
-              "fileContent": "Counter of comments to posts",
-              "fileCode": "INSTAGRAM_POST_COMMENT"
+              "fileContent": "Counter of comments to posts"
             },
             {
               "filePath": "story_sticker_interactions/emoji_sliders.json",
-              "fileContent": "Counter of emoji_sliders engagement",
-              "fileCode": "INSTAGRAM_EMOJI_SLIDERS"
+              "fileContent": "Counter of emoji_sliders engagement"
             },
             {
               "filePath": "followers_and_following/followers.json",
-              "fileContent": "Total of followers",
-              "fileCode": "INSTAGRAM_FOLLOWERS"
+              "fileContent": "Total of followers"
             },
             {
               "filePath": "followers_and_following/following.json",
-              "fileContent": "Total of followings",
-              "fileCode": "INSTAGRAM_FOLLOWING"
+              "fileContent": "Total of followings"
             },
             {
               "filePath": "likes/liked_comments.json",
-              "fileContent": "Counter of likes to comments",
-              "fileCode": "INSTAGRAM_LIKE_COMMENTS"
+              "fileContent": "Counter of likes to comments"
             },
             {
               "filePath": "likes/liked_posts.json",
-              "fileContent": "Counter of likes to posts",
-              "fileCode": "INSTAGRAM_LIKE_POSTS"
+              "fileContent": "Counter of likes to posts"
             },
             {
               "filePath": "monetization/eligibility.json",
-              "fileContent": "If user can Monetize",
-              "fileCode": "INSTAGRAM_ELEGIBILITY"
+              "fileContent": "If user can Monetize"
             },
             {
               "filePath": "story_sticker_interactions/polls.json",
@@ -169,13 +159,11 @@
             },
             {
               "filePath": "content/post1.json",
-              "fileContent": "Counter of posts created",
-              "fileCode": "INSTAGRAM_POSTS_CREATED"
+              "fileContent": "Counter of posts created"
             },
             {
               "filePath": "ads_and_content/posts_viewed.json",
-              "fileContent": "Counter of posts viewed",
-              "fileCode": "INSTAGRAM_POSTS_VIEWED"
+              "fileContent": "Counter of posts viewed"
             },
             {
               "filePath": "story_sticker_interactions/quizzes.json",
@@ -184,13 +172,11 @@
             },
             {
               "filePath": "content/stories.json",
-              "fileContent": "Counter of stories created",
-              "fileCode": "INSTAGRAM_STORIES_CREATED"
+              "fileContent": "Counter of stories created"
             },
             {
               "filePath": "ads_and_content/videos_watched.json",
-              "fileContent": "Counter of videos viewed",
-              "fileCode": "INSTAGRAM_VIDEO_CREATED"
+              "fileContent": "Counter of videos viewed"
             }
           ]
         },

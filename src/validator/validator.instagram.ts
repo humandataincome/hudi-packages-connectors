@@ -10,23 +10,23 @@ export class ValidatorInstagram {
         if (document.match(regexIT)) {
             return LanguageCode.ITALIAN;
         }
-        /*
+
         //check if ENGLISH
-        const regexEN = /(.*().*)/;
-        match = document.match(regexEN);
-        if (match) {
-            return Language.ENGLISH;
+        const regexEN = /(Email address)|(Phone number confirmed)|(Username)/;
+        if (document.match(regexEN)) {
+            return LanguageCode.ENGLISH;
         }
-        //check if INDIAN
-        //check if SPANISH
-        //check if FRENCH
-         */
+        //check if HINDI
+        const regexHI = /(\u00e0\u00a4\u0088\u00e0\u00a4\u00ae\u00e0\u00a5\u0087\u00e0\u00a4\u00b2)|(\u00e0\u00a4\u00aa\u00e0\u00a5\u008d\u00e0\u00a4\u00b0\u00e0\u00a4\u00be\u00e0\u00a4\u0087\u00e0\u00a4\u00b5\u00e0\u00a5\u0087\u00e0\u00a4\u009f \u00e0\u00a4\u0085\u00e0\u00a4\u0095\u00e0\u00a4\u00be\u00e0\u00a4\u0089\u00e0\u00a4\u0082\u00e0\u00a4\u009f)|(\u00e0\u00a4\u00af\u00e0\u00a5\u0082\u00e0\u00a4\u009c\u00e0\u00a4\u00bc\u00e0\u00a4\u00b0\u00e0\u00a4\u00a8\u00e0\u00a5\u0087\u00e0\u00a4\u00ae)/;
+        if (document.match(regexHI)) {
+            return LanguageCode.HINDI;
+        }
         throw new LanguageError("Language not recognized in getLanguageInstagram function");
     }
 
 
     // validate file name if it owns to the useful files
-    async selectUsefulFilesFromZip(zipFile: Buffer): Promise<Buffer | undefined>{
+    async selectUsefulFilesFromZip(zipFile: Buffer, fileList: Array<string>): Promise<Buffer | undefined>{
         let languageCode: LanguageCode | undefined;
         let usefulFiles = new JSZip();
         await JSZip.loadAsync(zipFile).then(async (zip: JSZip) => {
@@ -41,22 +41,7 @@ export class ValidatorInstagram {
                     });
                     if (languageCode) {
                         await file.async('nodebuffer').then((data: Buffer) => {
-                            if (pathName == FileCode.INSTAGRAM_ADS_CLICKED ||
-                                pathName == FileCode.INSTAGRAM_ADS_VIEWED ||
-                                pathName == FileCode.INSTAGRAM_POSTS_VIEWED ||
-                                pathName == FileCode.INSTAGRAM_VIDEO_VIEWED ||
-                                pathName == FileCode.INSTAGRAM_POST_COMMENT ||
-                                pathName == FileCode.INSTAGRAM_POSTS_CREATED ||
-                                pathName == FileCode.INSTAGRAM_STORIES_CREATED ||
-                                pathName == FileCode.INSTAGRAM_FOLLOWERS ||
-                                pathName == FileCode.INSTAGRAM_FOLLOWING_ACCOUNTS ||
-                                pathName == FileCode.INSTAGRAM_LIKE_COMMENTS ||
-                                pathName == FileCode.INSTAGRAM_LIKE_POSTS ||
-                                pathName == FileCode.INSTAGRAM_ELEGIBILITY ||
-                                pathName == FileCode.INSTAGRAM_EMOJI_SLIDERS ||
-                                pathName == FileCode.INSTAGRAM_POLLS ||
-                                pathName == FileCode.INSTAGRAM_QUIZZES
-                            ) {
+                            if (fileList.includes(pathName)) {
                                 usefulFiles.file(pathName, data, {comment: languageCode});
                             }
                         });

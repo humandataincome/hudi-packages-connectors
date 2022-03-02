@@ -145,7 +145,7 @@ export class ProcessorInstagram{
                                 case FileCode.INSTAGRAM_ELEGIBILITY:
                                     result = <Eligibility>await igService.parseEligibility(data);
                                     if (result) {
-                                        model.isMonetizable = result.decision == 'Eligible';
+                                        model.isMonetizable = !(result.decision == 'Not Eligible');
                                     } else {
                                         this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }

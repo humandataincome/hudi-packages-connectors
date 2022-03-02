@@ -1,4 +1,4 @@
-import {DataSourceCode, FileCode, FileExtension, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
+import {DataSourceCode, FileExtension, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
 
 
 export interface SupportedSources {
@@ -34,7 +34,6 @@ export interface RetrievingStep{
 export interface FileContent {
     filePath: string;
     fileContent: string;
-    fileCode: FileCode;
 }
 
 //used by processor

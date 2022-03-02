@@ -15,6 +15,7 @@ export enum RetrievingProcedureType {
 
 export enum FileExtension {
     ZIP = 'zip',
+    TGZ = 'tgz',
     JSON = 'json',
     CSV = 'csv',
     XML = 'xml',
@@ -24,8 +25,13 @@ export enum FileExtension {
 
 export enum LanguageCode {
     ENGLISH = 'EN',
-    ITALIAN = 'IT'
+    ITALIAN = 'IT',
+    SPANISH = 'ES',
+    FRENCH = 'FR',
+    GERMAN = 'DE',
+    HINDI = 'HI'
 }
+
 export enum FileCode {
     INSTAGRAM_PERSONAL_INFO = 'account_information/personal_information.json',
     INSTAGRAM_ADS_CLICKED = 'ads_and_content/ads_clicked.json',
@@ -43,5 +49,4 @@ export enum FileCode {
     INSTAGRAM_EMOJI_SLIDERS = 'story_sticker_interactions/emoji_sliders.json',
     INSTAGRAM_POLLS = 'story_sticker_interactions/polls.json',
     INSTAGRAM_QUIZZES = 'story_sticker_interactions/quizzes.json'
-
 }

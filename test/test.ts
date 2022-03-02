@@ -8,7 +8,7 @@ import {GoogleService} from "../src/services/google.service";
 import {FacebookService} from "../src/services/facebook.service";
 import {NetflixService} from "../src/services/netflix.service";
 import {AmazonService} from "../src/services/amazon.service";
-import {DataSourceCode, LanguageCode, RetrievingProcedureType} from "../src/descriptor/descriptor.enum";
+import {DataSourceCode, FileCode, LanguageCode, RetrievingProcedureType} from "../src/descriptor/descriptor.enum";
 import {DescriptorService} from "../src/descriptor/descriptor.service";
 import {ValidatorInstagram} from "../src/validator/validator.instagram";
 import ErrnoException = NodeJS.ErrnoException;
@@ -40,8 +40,7 @@ async function validatorTest() {
         //console.log(validator.getFileExtension("dd.ddd.json"));
         fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const files = await validator.validateZIP(data);
-            await validator.validateZIP(files);
+            console.log(await validator.getFilesPathsIntoZip(data));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
@@ -63,9 +62,12 @@ async function validatorTestInstagram() {
         //console.log(await validatorIG.getLanguage(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/account_information/personal_information.json`)))));
         fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validatedZip = await validatorIG.selectUsefulFilesFromZip(await validator.validateZIP(data));
-            if(validatedZip) {
-                console.log(await processorInstagram.aggregatorFactory(validatedZip));
+            const validationFE = await validatorIG.selectUsefulFilesFromZip(await validator.validateZIP(data), [FileCode.INSTAGRAM_ADS_CLICKED, FileCode.INSTAGRAM_ADS_VIEWED, FileCode.INSTAGRAM_POSTS_VIEWED, FileCode.INSTAGRAM_VIDEO_VIEWED, FileCode.INSTAGRAM_POST_COMMENT, FileCode.INSTAGRAM_POSTS_CREATED, FileCode.INSTAGRAM_STORIES_CREATED, FileCode.INSTAGRAM_FOLLOWERS, FileCode.INSTAGRAM_FOLLOWING_ACCOUNTS, FileCode.INSTAGRAM_LIKE_COMMENTS, FileCode.INSTAGRAM_LIKE_POSTS, FileCode.INSTAGRAM_ELEGIBILITY, FileCode.INSTAGRAM_EMOJI_SLIDERS, FileCode.INSTAGRAM_POLLS, FileCode.INSTAGRAM_QUIZZES]);
+            if(validationFE) {
+                const validationBE = await validator.validateZIP(validationFE);
+                if(validationBE) {
+                    console.log(await processorInstagram.aggregatorFactory(validationBE));
+                }
             }
         });
     } catch (e: any) {
