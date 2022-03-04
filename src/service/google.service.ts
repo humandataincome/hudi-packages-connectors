@@ -22,7 +22,7 @@ import {
     Transaction,
     Transactions,
     TransitPath, YoutubeActivities, YoutubeActivity
-} from "../models/google.model";
+} from "../model/google.model";
 import {ConfigGoogle} from "../config/config.google";
 import {Parser} from "../utils/parser";
 import {Months} from "../utils/utils.enum";

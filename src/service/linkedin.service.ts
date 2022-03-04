@@ -50,7 +50,7 @@ import {
     Votes,
     WorkingPosition,
     WorkingPositions
-} from "../models/linkedin.model";
+} from "../model/linkedin.model";
 import {Parser} from "../utils/parser";
 import {Months} from "../utils/utils.enum";
 import {Validator} from "../validator/validator";

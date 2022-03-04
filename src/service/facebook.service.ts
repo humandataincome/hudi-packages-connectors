@@ -17,7 +17,7 @@ import {
     WorkExperience,
     View,
     AddressLocation, PlaceLived, Pages, AdvInteraction, AdvUsingYourInfo, Search, Page,
-} from "../models/facebook.model";
+} from "../model/facebook.model";
 import {Decoding} from "../utils/decoding";
 import {Validator} from "../validator/validator";
 

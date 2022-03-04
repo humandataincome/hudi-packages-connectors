@@ -1,6 +1,6 @@
 import {InstagramDataAggregator} from "./processor.instagram.model";
 import {FileCode, LanguageCode} from "../descriptor/descriptor.enum";
-import {InstagramService} from "../services/instagram.service";
+import {InstagramService} from "../service/instagram.service";
 import {
     AdsClicked,
     AdsViewed,
@@ -20,7 +20,7 @@ import {
     Polls,
     Post,
     PostViewed, Quiz, Quizzes, Story, VideoWatched
-} from "../models/instagram.model";
+} from "../model/instagram.model";
 import Logger from "../utils/logger";
 import {ProcessorUtils} from "./processor.utils";
 import {Validator} from "../validator/validator";

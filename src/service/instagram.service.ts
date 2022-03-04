@@ -43,7 +43,7 @@ import {
     Poll,
     Quiz,
     Quizzes, PersonalStories, Story
-} from "../models/instagram.model";
+} from "../model/instagram.model";
 import Logger from "../utils/logger";
 import {Decoding} from "../utils/decoding";
 import {LanguageCode} from "../descriptor/descriptor.enum";

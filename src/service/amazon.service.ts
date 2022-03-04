@@ -20,7 +20,7 @@ import {
     TwitchPrimeSubscriptions,
     ViewingActivity,
     WishList
-} from "../models/amazon.model";
+} from "../model/amazon.model";
 import {Parser} from "../utils/parser";
 import {Months} from "../utils/utils.enum";
 

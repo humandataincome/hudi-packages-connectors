@@ -6,7 +6,7 @@ import {
     PreferencesAccount, Profile, Profiles, Search,
     SearchHistory,
     Title, ViewingActivity
-} from "../models/netflix.model";
+} from "../model/netflix.model";
 import Logger from "../utils/logger";
 import {Parser} from "../utils/parser";
 
