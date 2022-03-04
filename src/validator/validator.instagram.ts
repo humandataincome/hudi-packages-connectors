@@ -3,7 +3,7 @@ import {LanguageError} from "./validator.error";
 import * as JSZip from "jszip";
 export class ValidatorInstagram {
 
-    private static getLanguage(file: Buffer): LanguageCode | undefined {
+    getLanguage(file: Buffer): LanguageCode | undefined {
         const document = file.toString();
         //check if ITALIAN
         const regexIT = /(Nome utente)|(Indirizzo e-mail)|(Data di nascita)/;
@@ -36,7 +36,7 @@ export class ValidatorInstagram {
                 if (!file.dir) {
                     await file.async('nodebuffer').then((data: Buffer) => {
                         if (pathName == FileCode.INSTAGRAM_PERSONAL_INFO) {
-                            languageCode = ValidatorInstagram.getLanguage(data);
+                            languageCode = this.getLanguage(data);
                         }
                     });
                     if (languageCode) {
@@ -55,5 +55,4 @@ export class ValidatorInstagram {
             new Error("Missing personal_information.json file. Impossible to retrieve LanguageCode")
         }
     }
-
 }

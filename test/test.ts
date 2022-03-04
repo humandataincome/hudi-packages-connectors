@@ -37,7 +37,7 @@ async function validatorTest() {
         const validator = new Validator();
         const fs =  require('fs');
         const path =  require('path');
-        //console.log(validator.getFileExtension("dd.ddd.json"));
+        console.log(validator.getFileExtension("dd.json"));
         fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             console.log(await validator.getFilesPathsIntoZip(data));
@@ -59,7 +59,6 @@ async function validatorTestInstagram() {
         const processorInstagram = new ProcessorInstagram();
         const fs =  require('fs');
         const path =  require('path');
-        //console.log(await validatorIG.getLanguage(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/account_information/personal_information.json`)))));
         fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validationFE = await validatorIG.selectUsefulFilesFromZip(await validator.validateZIP(data), [FileCode.INSTAGRAM_ADS_CLICKED, FileCode.INSTAGRAM_ADS_VIEWED, FileCode.INSTAGRAM_POSTS_VIEWED, FileCode.INSTAGRAM_VIDEO_VIEWED, FileCode.INSTAGRAM_POST_COMMENT, FileCode.INSTAGRAM_POSTS_CREATED, FileCode.INSTAGRAM_STORIES_CREATED, FileCode.INSTAGRAM_FOLLOWERS, FileCode.INSTAGRAM_FOLLOWING_ACCOUNTS, FileCode.INSTAGRAM_LIKE_COMMENTS, FileCode.INSTAGRAM_LIKE_POSTS, FileCode.INSTAGRAM_ELEGIBILITY, FileCode.INSTAGRAM_EMOJI_SLIDERS, FileCode.INSTAGRAM_POLLS, FileCode.INSTAGRAM_QUIZZES]);

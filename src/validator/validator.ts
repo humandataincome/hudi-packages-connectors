@@ -89,8 +89,6 @@ export class Validator {
     }
 
     async validateCSV(file: Buffer): Promise<boolean> {
-        const regex = /^([^;\r\n]*)$/;
-        //regex (parte iniziale)(sequenza di xxx,)(stringa finale)
         return true;
     }
 
