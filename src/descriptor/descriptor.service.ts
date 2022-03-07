@@ -8,30 +8,31 @@ import {
 } from "./descriptor.model";
 import {DataSourceCode, FileExtension, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
 import {Validator} from "../validator/validator";
+import {DescriptorErrorEnum} from "./descriptor.error";
 
 export class DescriptorService {
 
     /**
+     * @param document - JSON descriptor file
      * @return {Promise<Array<DataSourceCode> | undefined>} - all available data sources' respective codes
      */
-    async availableDataSources(): Promise<Array<DataSourceCode> | undefined> {
+    async getDataSourcesCodes(document: any): Promise<Array<DataSourceCode> | undefined> {
         try {
-            const document = require('./descriptor.json');
             if (document) {
                 return document.supportedSources;
             }
         } catch (error) {
-            throw ('Error in availableDataSources function: '+ error);
+            throw new Error(`${DescriptorErrorEnum.ALL_SOURCES_CODES_ERROR}: ${error}`);
         }
     }
 
     /**
-     * @param dataSourceCode
+     * @param document - JSON descriptor file
+     * @param dataSourceCode - code of the procedure's data source we want to retrieve
      * @return {Promise<string | undefined>} - return source name given a data source code
      */
-    async getSourceName(dataSourceCode: DataSourceCode): Promise<string | undefined> {
+    async getSourceName(document: any, dataSourceCode: DataSourceCode): Promise<string | undefined> {
         try {
-            const document = require('./descriptor.json');
             let name;
             if (document) {
                 document.sourceDescription.map((source: SourceDescription) => {
@@ -42,17 +43,17 @@ export class DescriptorService {
             }
             return name;
         } catch (error) {
-            throw ('Error in getSourceName function: '+ error);
+            throw new Error(`${DescriptorErrorEnum.SOURCE_NAME_ERROR}: ${error}`);
         }
     }
 
     /**
-     * @param dataSourceCode
-     * @return {Promise<Array<FileFormat> | undefined>} - return the array of valid format for a specific data source
+     * @param document - JSON descriptor file
+     * @param dataSourceCode - code of the procedure's data source we want to retrieve
+     * @return {Promise<Array<FileExtension> | undefined>} - return the array of valid format for a specific data source
      */
-    async getSourceFormats(dataSourceCode: DataSourceCode): Promise<Array<FileExtension> | undefined> {
+    async getSourceFormats(document: any, dataSourceCode: DataSourceCode): Promise<Array<FileExtension> | undefined> {
         try {
-            const document = require('./descriptor.json');
             let formats;
             if (document) {
                 document.sourceDescription.map((source: SourceDescription) => {
@@ -63,19 +64,19 @@ export class DescriptorService {
             }
             return formats;
         } catch (error) {
-            throw ('Error in getSourceFormats function: '+ error);
+            throw new Error(`${DescriptorErrorEnum.SOURCE_FORMAT_ERROR}: ${error}`);
         }
     }
 
     /**
+     * @param document - JSON descriptor file
      * @param dataSourceCode - code of the procedure's data source we want to retrieve
      * @param language - code of procedure's language we want to retrieve
      * @param procedureType - type of procedure we want to retrieve
      * @return {Promise<Procedure | undefined>} - list of all the steps
      */
-    async getDataSourceProcedure(dataSourceCode: DataSourceCode, language: LanguageCode, procedureType: RetrievingProcedureType): Promise<Procedure | undefined> {
+    async getDataSourceProcedure(document: any, dataSourceCode: DataSourceCode, language: LanguageCode, procedureType: RetrievingProcedureType): Promise<Procedure | undefined> {
         try {
-            const document = require('./descriptor.json');
             let model;
             if (document.sourceDescription.length > 0) {
                 document.sourceDescription.map((item: SourceDescription) => {
@@ -94,18 +95,18 @@ export class DescriptorService {
             }
             return !Validator.objectIsEmpty(model) ? model : undefined;
         } catch (error) {
-            throw ('Error in getDataSourceProcedure function: '+ error);
+            throw new Error(`${DescriptorErrorEnum.SOURCE_PROCEDURE_ERROR}: ${error}`);
         }
     }
 
     /**
+     * @param document - JSON descriptor file
      * @param dataSourceCode - code of the description's data source we want to retrieve
      * @param language - code of description's language we want to retrieve
      * @return {Promise<Array<FileContent>  | undefined>} - list of all useful files and their description content
      */
-    async getAllDataSourceProcedures(dataSourceCode: DataSourceCode, language: LanguageCode): Promise<Array<FileContent> | undefined> {
+    async getAllDataSourceProcedures(document: any, dataSourceCode: DataSourceCode, language: LanguageCode): Promise<Array<FileContent> | undefined> {
         try {
-            const document = require('./descriptor.json');
             let model: Array<FileContent> = [];
             if (document.sourceDescription.length > 0) {
                 document.sourceDescription.map((item: SourceDescription) => {
@@ -120,31 +121,31 @@ export class DescriptorService {
             }
             return model.length > 0 ? model : undefined;
         } catch (error) {
-            throw ('Error in getAllDataSourceProcedures function: '+ error);
+            throw new Error(`${DescriptorErrorEnum.ALL_SOURCE_PROCEDURE_ERROR}: ${error}`);
         }
     }
 
     /**
+     * @param document - JSON descriptor file
      * @return {Promise<SupportedSources | undefined>} - list of supported sources
      */
-    async getAllDataSourcesDescriptions(): Promise<SupportedSources | undefined> {
+    async getAllDataSourcesDescriptions(document: any): Promise<SupportedSources | undefined> {
         try {
-            const document = require('./descriptor.json');
             if (document) {
                 return document.sourceDescription;
             }
         } catch (error) {
-            throw ('Error in getAllDataSourcesDescriptions function: '+ error);
+            throw new Error(`${DescriptorErrorEnum.ALL_SOURCES_DESCRIPTION_ERROR}: ${error}`);
         }
     }
 
     /**
-     * @param dataSourceCode
+     * @param document - JSON descriptor file
+     * @param dataSourceCode - code of the description's data source we want to retrieve
      * @return {Promise<SourceDescription | undefined>} - list of supported source descriptions (all languages for a specific source)
      */
-    async getDataSourceDescription(dataSourceCode: DataSourceCode): Promise<SourceDescription | undefined> {
+    async getDataSourceDescription(document: any, dataSourceCode: DataSourceCode): Promise<SourceDescription | undefined> {
         try {
-            const document = require('./descriptor.json');
             let description;
             if (document) {
                 document.sourceDescription.map((item: SourceDescription) => {
@@ -155,7 +156,7 @@ export class DescriptorService {
             }
             return description;
         } catch (error) {
-            throw ('Error in getDataSourceDescription function: '+ error);
+            throw new Error(`${DescriptorErrorEnum.SOURCE_DESCRIPTION_ERROR}: ${error}`);
         }
     }
 }

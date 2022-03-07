@@ -3,8 +3,15 @@
 ## What is this repository for? ##
 A set of connectors to the most important Data Sources. 
 
+## Which data sources are supported? ##
+- **Instagram** (full support for EN, IT and HI languages).
+- **Facebook** (coming soon)
+- **Google** (coming soon)
+- **Amazon** (coming soon)
+- **Netflix** (coming soon)
+- **LinkedIn** (coming soon)
 
-## How do I retrieve my personal data source? ##
+## How do I retrieve my personal data sources? ##
 
 ### Instagram Data Source ###
 You can find the guide at this link: https://help.instagram.com/181231772500920 under the section **Downloading a copy of your data on Instagram**.
@@ -29,11 +36,14 @@ You can find the guide at this link: https://support.google.com/accounts/answer/
 
 ### LinkedIn Data Source ###
 From Computer: Click on your icon, click on **Settings and Profile**, **Data privacy**, **Get a copy of your data** and Download the larger Archive.
+
 ### Twitch Data Source ###
 Go to https://privacyportal.onetrust.com/webform/0e674578-2f0b-4638-8943-97e3c8060048/ee57cd1d-b315-4b29-90cd-4def381b86c9 and compile the form.
 
 
-## Contribution guidelines ##
+## Tutorial ##
+**Descriptor**
+```
 
-
+```
 ## Who do I talk to? ##

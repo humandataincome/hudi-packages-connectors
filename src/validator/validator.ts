@@ -1,10 +1,10 @@
 import {FileExtension} from "../descriptor/descriptor.enum";
 import * as JSZip from "jszip";
+import {ValidationErrorEnums} from "./validator.error";
 
 export class Validator {
 
-    private MAX_BYTE_FILE_SIZE: number = 6e6; //6 MB
-    private MIN_BYTE_FILE_SIZE: number = 50; //50 B
+    constructor(private readonly MAX_BYTE_FILE_SIZE: number = 6e6, private readonly MIN_BYTE_FILE_SIZE: number = 50) {}
 
     async getFilesPathsIntoZip(zipFile: Buffer): Promise<Array<string>> {
         let filesPath: Array<string> = [];
@@ -27,15 +27,11 @@ export class Validator {
             await Promise.all(keys.map(async (pathName: string) => {
                 const file = zip.files[pathName];
                 if (!file.dir) {
-                    // @ts-ignore
-                    const fileSizeInByte = file["_data"].uncompressedSize;
-                    if(this.isValideSize(fileSizeInByte)) {
-                        await file.async('nodebuffer').then(async (data: Buffer) => {
-                            if (await this.isValideFile(await this.getFileExtension(pathName), data)) {
-                                validatedFiles.file(pathName, data, {comment: file.comment});
-                            }
-                        });
-                    }
+                    await file.async('nodebuffer').then(async (data: Buffer) => {
+                        if (await this.isValideFile(await this.getFileExtension(pathName), data)) {
+                            validatedFiles.file(pathName, data, {comment: file.comment});
+                        }
+                    });
                 }
             }));
         });
@@ -55,12 +51,12 @@ export class Validator {
         } else if (extension == 'html') {
             return FileExtension.HTML;
         } else {
-            throw Error("File Extension not recognized");
+            throw new Error(`${ValidationErrorEnums.FILE_EXTENSION_ERROR}`);
         }
     }
 
-    private isValideSize(fileSizeInByte: number): boolean {
-        return fileSizeInByte < this.MAX_BYTE_FILE_SIZE && fileSizeInByte > this.MIN_BYTE_FILE_SIZE
+    private isValideSize(file: Buffer): boolean {
+        return (file.byteLength < this.MAX_BYTE_FILE_SIZE) && (file.byteLength > this.MIN_BYTE_FILE_SIZE);
     }
 
     private async isValideFile(extension: FileExtension, file: Buffer): Promise<boolean> {
@@ -81,23 +77,58 @@ export class Validator {
     }
 
     async validateJSON(file: Buffer): Promise<boolean> {
-        return !!JSON.parse(file.toString());
+        if(this.isValideSize(file)) {
+            try {
+                return !!JSON.parse(file.toString());
+            } catch (error) {
+                throw new Error(`${ValidationErrorEnums.JSON_ERROR}: ${error}`);
+            }
+        }
+        return false;
     }
 
     async validateXML(file: Buffer): Promise<boolean> {
-        return true;
+        if(this.isValideSize(file)) {
+            try {
+                return true;
+            } catch (error) {
+                throw new Error(`${ValidationErrorEnums.XML_ERROR}: ${error}`);
+            }
+        }
+        return false;
     }
 
     async validateCSV(file: Buffer): Promise<boolean> {
-        return true;
+        if(this.isValideSize(file)) {
+            try {
+                return true;
+            } catch (error) {
+                throw new Error(`${ValidationErrorEnums.CSV_ERROR}: ${error}`);
+            }
+        }
+        return false;
     }
 
     async validateHTML(file: Buffer): Promise<boolean> {
-        return true;
+        if(this.isValideSize(file)) {
+            try {
+                return true;
+            } catch (error) {
+                throw new Error(`${ValidationErrorEnums.HTML_ERROR}: ${error}`);
+            }
+        }
+        return false;
     }
 
     async validateTXT(file: Buffer): Promise<boolean> {
-        return true;
+        if(this.isValideSize(file)) {
+            try {
+                return true;
+            } catch (error) {
+                throw new Error(`${ValidationErrorEnums.TXT_ERROR}: ${error}`);
+            }
+        }
+        return false;
     }
 
     /**

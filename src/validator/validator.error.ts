@@ -1,7 +1,10 @@
-export class LanguageError extends Error {
-    constructor(message: string) {
-        super(message);
-        this.name = "LanguageError";
-        Object.setPrototypeOf(this, LanguageError.prototype);
-    }
+export enum ValidationErrorEnums {
+    LANGUAGE_ERROR = 'CON-VAL-001',
+    MISSING_FILE_ERROR = 'CON-VAL-002',
+    FILE_EXTENSION_ERROR = 'CON-VAL-003',
+    JSON_ERROR = 'CON-VAL-004',
+    CSV_ERROR = 'CON-VAL-005',
+    XML_ERROR = 'CON-VAL-006',
+    HTML_ERROR = 'CON-VAL-007',
+    TXT_ERROR = 'CON-VAL-008',
 }

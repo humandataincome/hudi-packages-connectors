@@ -23,10 +23,10 @@ async function test(){
     //await googleServiceTest();
     //await linkedInServiceTest();
 
-    //await descriptorServiceTest();
+    await descriptorServiceTest();
     //await processorInstagramTest();
     //await validatorTest();
-    await validatorTestInstagram();
+    //await validatorTestInstagram();
 }
 
 
@@ -65,7 +65,7 @@ async function validatorTestInstagram() {
             if(validationFE) {
                 const validationBE = await validator.validateZIP(validationFE);
                 if(validationBE) {
-                    console.log(await processorInstagram.aggregatorFactory(validationBE));
+                    console.log(await processorInstagram.aggregatorFactory(validationBE, 180));
                 }
             }
         });
@@ -84,13 +84,14 @@ async function validatorTestInstagram() {
 async function descriptorServiceTest() {
     try {
         const descriptorService = new DescriptorService();
-        //console.log(await descriptorService.availableDataSources());
-        //console.log(await descriptorService.getAllDataSourcesDescriptions());
-        //console.log(await descriptorService.getSourceFormats(DataSourceCode.INSTAGRAM));
-        //console.log(await descriptorService.getSourceName(DataSourceCode.INSTAGRAM));
-        //console.log(await descriptorService.getDataSourceDescription(DataSourceCode.INSTAGRAM));
-        //console.log(await descriptorService.getAllDataSourceProcedures(DataSourceCode.INSTAGRAM, Language.ENGLISH));
-        console.log(await descriptorService.getDataSourceProcedure(DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH, RetrievingProcedureType.DESKTOP));
+        const document = require('../src/descriptor/descriptor.json');
+        console.log(await descriptorService.getDataSourcesCodes(document));
+        console.log(await descriptorService.getAllDataSourcesDescriptions(document));
+        console.log(await descriptorService.getSourceFormats(document, DataSourceCode.INSTAGRAM));
+        console.log(await descriptorService.getSourceName(document, DataSourceCode.INSTAGRAM));
+        console.log(await descriptorService.getDataSourceDescription(document, DataSourceCode.INSTAGRAM));
+        console.log(await descriptorService.getAllDataSourceProcedures(document, DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH));
+        console.log(await descriptorService.getDataSourceProcedure(document, DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH, RetrievingProcedureType.DESKTOP));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);

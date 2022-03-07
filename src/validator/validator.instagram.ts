@@ -1,6 +1,6 @@
 import {FileCode, LanguageCode} from "../descriptor/descriptor.enum";
-import {LanguageError} from "./validator.error";
 import * as JSZip from "jszip";
+import {ValidationErrorEnums} from "./validator.error";
 export class ValidatorInstagram {
 
     getLanguage(file: Buffer): LanguageCode | undefined {
@@ -21,7 +21,7 @@ export class ValidatorInstagram {
         if (document.match(regexHI)) {
             return LanguageCode.HINDI;
         }
-        throw new LanguageError("Language not recognized in getLanguageInstagram function");
+        throw new Error(`${ValidationErrorEnums.LANGUAGE_ERROR}`);
     }
 
 
@@ -52,7 +52,7 @@ export class ValidatorInstagram {
         if(languageCode) {
             return await usefulFiles.generateAsync({type: "nodebuffer"});
         } else {
-            new Error("Missing personal_information.json file. Impossible to retrieve LanguageCode")
+            throw new Error(`${ValidationErrorEnums.MISSING_FILE_ERROR}`);
         }
     }
 }

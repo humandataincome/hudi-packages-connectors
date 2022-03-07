@@ -28,9 +28,8 @@ import * as JSZip from "jszip";
 
 export class ProcessorInstagram{
     private logger = new Logger("Instagram Processor");
-    private TIME_INTERVAL_DAYS: number = 180; //6 months
 
-    async aggregatorFactory(zipFile: Buffer): Promise<InstagramDataAggregator | undefined> {
+    async aggregatorFactory(zipFile: Buffer, timeIntervalDays: number): Promise<InstagramDataAggregator | undefined> {
         let model: InstagramDataAggregator = {};
         await JSZip.loadAsync(zipFile).then(async (zip: JSZip) => {
             const keys = Object.keys(zip.files);
@@ -48,7 +47,7 @@ export class ProcessorInstagram{
                                         let counterTI = 0;
                                         let today = new Date();
                                         result.list.map((item: Adv) => {
-                                            (item.date && this.TIME_INTERVAL_DAYS) && (ProcessorUtils.daysDifference(today, item.date) < this.TIME_INTERVAL_DAYS) && (counterTI++);
+                                            (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.adsClickTI = counterTI;
                                         model.adsClick = result.list.length;
@@ -62,7 +61,7 @@ export class ProcessorInstagram{
                                         let counterTI = 0;
                                         let today = new Date();
                                         result.list.map((item: Adv) => {
-                                            (item.date && this.TIME_INTERVAL_DAYS) && (ProcessorUtils.daysDifference(today, item.date) < this.TIME_INTERVAL_DAYS) && (counterTI++);
+                                            (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.adsViewedTI = counterTI;
                                         model.adsViewed = result.list.length;
@@ -76,7 +75,7 @@ export class ProcessorInstagram{
                                         let counterTI = 0;
                                         let today = new Date();
                                         result.list.map((comment: CommentPosted) => {
-                                            (comment.date && this.TIME_INTERVAL_DAYS) && (ProcessorUtils.daysDifference(today, comment.date) < this.TIME_INTERVAL_DAYS) && (counterTI++);
+                                            (comment.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, comment.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.commentsPostsTI = counterTI;
                                         model.commentsPosts = result.list.length;
@@ -90,7 +89,7 @@ export class ProcessorInstagram{
                                         let counterTI = 0;
                                         let today = new Date();
                                         result.list.map((item: EmojiSlider) => {
-                                            (item.date && this.TIME_INTERVAL_DAYS) && (ProcessorUtils.daysDifference(today, item.date) < this.TIME_INTERVAL_DAYS) && (counterTI++);
+                                            (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.emojiSlidersTI = counterTI;
                                         model.emojiSliders = result.list.length;
@@ -120,7 +119,7 @@ export class ProcessorInstagram{
                                         let counterTI = 0;
                                         let today = new Date();
                                         result.list.map((item: Like) => {
-                                            (item.date && this.TIME_INTERVAL_DAYS) && (ProcessorUtils.daysDifference(today, item.date) < this.TIME_INTERVAL_DAYS) && (counterTI++);
+                                            (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.likesCommentsTI = counterTI;
                                         model.likesComments = result.list.length;
@@ -134,7 +133,7 @@ export class ProcessorInstagram{
                                         let counterTI = 0;
                                         let today = new Date();
                                         result.list.map((item: Like) => {
-                                            (item.date && this.TIME_INTERVAL_DAYS) && (ProcessorUtils.daysDifference(today, item.date) < this.TIME_INTERVAL_DAYS) && (counterTI++);
+                                            (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.likesPostsTI = counterTI;
                                         model.likesPosts = result.list.length;
@@ -156,7 +155,7 @@ export class ProcessorInstagram{
                                         let counterTI = 0;
                                         let today = new Date();
                                         result.list.map((item: Poll) => {
-                                            (item.date && this.TIME_INTERVAL_DAYS) && (ProcessorUtils.daysDifference(today, item.date) < this.TIME_INTERVAL_DAYS) && (counterTI++);
+                                            (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.pollsTI = counterTI;
                                         model.polls = result.list.length;
@@ -170,7 +169,7 @@ export class ProcessorInstagram{
                                         let counterTI = 0;
                                         let today = new Date();
                                         result.list.map((item: Post) => {
-                                            (item.date && this.TIME_INTERVAL_DAYS) && (ProcessorUtils.daysDifference(today, item.date) < this.TIME_INTERVAL_DAYS) && (counterTI++);
+                                            (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.postsCreatedTI = counterTI;
                                         model.postsCreated = result.list.length;
@@ -184,7 +183,7 @@ export class ProcessorInstagram{
                                         let counterTI = 0;
                                         let today = new Date();
                                         result.list.map((item: Post) => {
-                                            (item.date && this.TIME_INTERVAL_DAYS) && (ProcessorUtils.daysDifference(today, item.date) < this.TIME_INTERVAL_DAYS) && (counterTI++);
+                                            (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.postsViewedTI = counterTI;
                                         model.postsViewed = result.list.length;
@@ -198,7 +197,7 @@ export class ProcessorInstagram{
                                         let counterTI = 0;
                                         let today = new Date();
                                         result.list.map((item: Quiz) => {
-                                            (item.date && this.TIME_INTERVAL_DAYS) && (ProcessorUtils.daysDifference(today, item.date) < this.TIME_INTERVAL_DAYS) && (counterTI++);
+                                            (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.quizzesTI = counterTI;
                                         model.quizzes = result.list.length;
@@ -212,7 +211,7 @@ export class ProcessorInstagram{
                                         let counterTI = 0;
                                         let today = new Date();
                                         result.list.map((item: Story) => {
-                                            (item.date && this.TIME_INTERVAL_DAYS) && (ProcessorUtils.daysDifference(today, item.date) < this.TIME_INTERVAL_DAYS) && (counterTI++);
+                                            (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.storiesCreatedTI = counterTI;
                                         model.storiesCreated = result.list.length;
@@ -226,7 +225,7 @@ export class ProcessorInstagram{
                                         let counterTI = 0;
                                         let today = new Date();
                                         result.list.map((item: Media) => {
-                                            (item.date && this.TIME_INTERVAL_DAYS) && (ProcessorUtils.daysDifference(today, item.date) < this.TIME_INTERVAL_DAYS) && (counterTI++);
+                                            (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.videosViewedTI = counterTI;
                                         model.videosViewed = result.list.length;

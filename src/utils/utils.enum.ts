@@ -15,8 +15,4 @@ export enum Months {
     DEC
 }
 
-export enum ConnectorErrorsMappingEnums {
-    LANGUAGE_ERROR = 'CON-001',
-    VALIDATION_JSON_ERROR = 'CON-002',
-}
 
