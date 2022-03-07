@@ -6,7 +6,11 @@ export class Validator {
 
     constructor(private readonly MAX_BYTE_FILE_SIZE: number = 6e6, private readonly MIN_BYTE_FILE_SIZE: number = 50) {}
 
-    async getFilesPathsIntoZip(zipFile: Buffer): Promise<Array<string>> {
+    /**
+     * @param zipFile - file zip as Buffer
+     * @return Promise<Array<string>> - filter all the file paths from the directories paths
+     */
+    async filterFilesPathsIntoZip(zipFile: Buffer): Promise<Array<string>> {
         let filesPath: Array<string> = [];
         await JSZip.loadAsync(zipFile).then(async (zip: JSZip) => {
             const keys = Object.keys(zip.files);
@@ -20,6 +24,10 @@ export class Validator {
         return filesPath;
     }
 
+    /**
+     * @param zipFile - file zip as Buffer
+     * @return Promise<Buffer> - zip file containing all the files from input that passed the validation
+     */
     async validateZIP(zipFile: Buffer): Promise<Buffer> {
         let validatedFiles = new JSZip();
         await JSZip.loadAsync(zipFile).then(async (zip: JSZip) => {
@@ -38,6 +46,10 @@ export class Validator {
         return await validatedFiles.generateAsync({type: "nodebuffer"});
     }
 
+    /**
+     * @param fileName - string containing the file name
+     * @return Promise<FileExtension> - return its extension (e.g. json, csv).
+     */
     async getFileExtension(fileName: string): Promise<FileExtension> {
         const extension = fileName.split('.').pop();
         if (extension == 'csv') {
@@ -55,6 +67,10 @@ export class Validator {
         }
     }
 
+    /**
+     * @param file - file as buffer
+     * @return boolean - true if the size is included between MAX_BYTE_FILE_SIZE and MIN_BYTE_FILE_SIZE
+     */
     private isValideSize(file: Buffer): boolean {
         return (file.byteLength < this.MAX_BYTE_FILE_SIZE) && (file.byteLength > this.MIN_BYTE_FILE_SIZE);
     }
@@ -76,6 +92,10 @@ export class Validator {
         }
     }
 
+    /**
+     * @param file - file as buffer
+     * @return boolean - true if the file is valid and the size is supported
+     */
     async validateJSON(file: Buffer): Promise<boolean> {
         if(this.isValideSize(file)) {
             try {

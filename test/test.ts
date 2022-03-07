@@ -23,10 +23,10 @@ async function test(){
     //await googleServiceTest();
     //await linkedInServiceTest();
 
-    await descriptorServiceTest();
+    //await descriptorServiceTest();
     //await processorInstagramTest();
     //await validatorTest();
-    //await validatorTestInstagram();
+    await validatorTestInstagram();
 }
 
 
@@ -40,7 +40,7 @@ async function validatorTest() {
         console.log(validator.getFileExtension("dd.json"));
         fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            console.log(await validator.getFilesPathsIntoZip(data));
+            console.log(await validator.filterFilesPathsIntoZip(data));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {

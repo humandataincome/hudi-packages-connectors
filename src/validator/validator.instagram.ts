@@ -25,8 +25,12 @@ export class ValidatorInstagram {
     }
 
 
-    // validate file name if it owns to the useful files
-    async selectUsefulFilesFromZip(zipFile: Buffer, fileList: Array<string>): Promise<Buffer | undefined>{
+    /**
+     * @param zipFile - file zip containing file that must be parsed
+     * @param fileList - list of paths of file (as FileCode) that we want to keep into the file zip
+     * @return Promise<Buffer | undefined> - buffer containing all useful files that have been found
+     */
+    async selectUsefulFilesFromZip(zipFile: Buffer, fileList: Array<FileCode>): Promise<Buffer | undefined>{
         let languageCode: LanguageCode | undefined;
         let usefulFiles = new JSZip();
         await JSZip.loadAsync(zipFile).then(async (zip: JSZip) => {
@@ -41,7 +45,7 @@ export class ValidatorInstagram {
                     });
                     if (languageCode) {
                         await file.async('nodebuffer').then((data: Buffer) => {
-                            if (fileList.includes(pathName)) {
+                            if (fileList.includes(<FileCode>pathName)) {
                                 usefulFiles.file(pathName, data, {comment: languageCode});
                             }
                         });
