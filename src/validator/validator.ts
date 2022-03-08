@@ -4,7 +4,24 @@ import {ValidationErrorEnums} from "./validator.error";
 
 export class Validator {
 
-    constructor(private readonly MAX_BYTE_FILE_SIZE: number = 6e6, private readonly MIN_BYTE_FILE_SIZE: number = 50) {}
+    constructor(private _MAX_BYTE_FILE_SIZE: number = 6e6, private _MIN_BYTE_FILE_SIZE: number = 50) {}
+
+
+    get MAX_BYTE_FILE_SIZE(): number {
+        return this._MAX_BYTE_FILE_SIZE;
+    }
+
+    set MAX_BYTE_FILE_SIZE(value: number) {
+        this._MAX_BYTE_FILE_SIZE = value;
+    }
+
+    get MIN_BYTE_FILE_SIZE(): number {
+        return this._MIN_BYTE_FILE_SIZE;
+    }
+
+    set MIN_BYTE_FILE_SIZE(value: number) {
+        this._MIN_BYTE_FILE_SIZE = value;
+    }
 
     /**
      * @param zipFile - file zip as Buffer
@@ -72,7 +89,7 @@ export class Validator {
      * @return boolean - true if the size is included between MAX_BYTE_FILE_SIZE and MIN_BYTE_FILE_SIZE
      */
     private isValideSize(file: Buffer): boolean {
-        return (file.byteLength < this.MAX_BYTE_FILE_SIZE) && (file.byteLength > this.MIN_BYTE_FILE_SIZE);
+        return (file.byteLength < this._MAX_BYTE_FILE_SIZE) && (file.byteLength > this._MIN_BYTE_FILE_SIZE);
     }
 
     private async isValideFile(extension: FileExtension, file: Buffer): Promise<boolean> {
