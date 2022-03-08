@@ -1,6 +1,6 @@
 {
-  "name": "hudi-packages-connectors",
-  "version": "1.0.0",
+  "name": "@humandataincome/connectors",
+  "version": "0.1.0",
   "description": "A set of connectors for data source",
   "main": "index.js",
   "scripts": {
@@ -9,11 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://DavideMacchia@bitbucket.org/huditeam/hudi-packages-connectors.git"
+    "url": "git+https://github.com/humandataincome/hudi-packages-connectors.git"
   },
-  "author": "",
+  "author": "Human Data Income LTD",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/huditeam/hudi-packages-connectors#readme",
+  "bugs": {
+    "url": "https://github.com/humandataincome/hudi-packages-connectors/issues"
+  },
+  "homepage": "https://github.com/humandataincome/hudi-packages-connectors#readme",
   "devDependencies": {
     "@types/node": "^16.11.12",
     "@types/papaparse": "^5.3.1",
