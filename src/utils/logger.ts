@@ -13,6 +13,5 @@ export default class Logger {
         } else {
             console.log(`[${this.name}] [${(new Date()).toISOString()}] [${level}] ${message}`);
         }
-
     }
 }

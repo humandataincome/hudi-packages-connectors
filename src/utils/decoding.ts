@@ -12,10 +12,11 @@ export class Decoding {
             } else {
                 return this.decodeObjectParameters(obj);
             }
-        } catch(e: any){
-            if(e == 'URIError: URI malformed'){
+        } catch(error){
+            if(error == 'URIError: URI malformed'){
                 return obj;
             }
+            throw error;
         }
     }
 
