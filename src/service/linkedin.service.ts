@@ -1019,6 +1019,7 @@ export class LinkedInService {
                     (result[0][18] != '') && (model.jobSeekingUrgencyLevel = result[0][18]);
                     return !Validator.objectIsEmpty(model) ? model : undefined;
                 }
+                return undefined;
             } else {
                 return undefined;
             }
