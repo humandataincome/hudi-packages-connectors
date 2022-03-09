@@ -1,19 +1,9 @@
 import {Conversation as ConversationIG, Conversations as ConversationsIG} from "../src/model/instagram.model";
 import {Conversation as ConversationFB, Conversations as ConversationsFB} from "../src/model/facebook.model";
+import ErrnoException = NodeJS.ErrnoException;
 import {Parser} from "./utils/parser";
 import {ADV} from "../src/model/amazon.model";
-import {LinkedInService} from "../src/service/linkedin.service";
-import {InstagramService} from "../src/service/instagram.service";
-import {GoogleService} from "../src/service/google.service";
-import {FacebookService} from "../src/service/facebook.service";
-import {NetflixService} from "../src/service/netflix.service";
-import {AmazonService} from "../src/service/amazon.service";
-import {DataSourceCode, FileCode, LanguageCode, RetrievingProcedureType} from "../src/descriptor/descriptor.enum";
-import {DescriptorService} from "../src/descriptor/descriptor.service";
-import {ValidatorInstagram} from "../src/validator/validator.instagram";
-import ErrnoException = NodeJS.ErrnoException;
-import {Validator} from "../src/validator/validator";
-import {ProcessorInstagram} from "../src/processor/processor.instagram";
+import {Validator, ProcessorInstagram, LinkedInService, GoogleService, InstagramService, FacebookService, NetflixService, AmazonService, DataSourceCode, FileCode, LanguageCode, RetrievingProcedureType, DescriptorService, ValidatorInstagram} from "../src";
 
 async function test(){
     //await netflixServiceTest();
@@ -22,15 +12,11 @@ async function test(){
     //await instagramServiceTest();
     //await googleServiceTest();
     //await linkedInServiceTest();
-
     //await descriptorServiceTest();
-    //await processorInstagramTest();
     //await validatorTest();
-    await validatorTestInstagram();
+    await validatorInstagramTest();
+    //await processorInstagramTest();
 }
-
-
-
 
 async function validatorTest() {
     try {
@@ -40,7 +26,7 @@ async function validatorTest() {
         console.log(validator.getFileExtension("dd.json"));
         fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            console.log(await validator.filterFilesPathsIntoZip(data));
+            console.log(await Validator.filterFilesPathsIntoZip(data));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
@@ -51,21 +37,18 @@ async function validatorTest() {
     }
 }
 
-
-async function validatorTestInstagram() {
+async function validatorInstagramTest() {
     try {
-        const validatorIG = new ValidatorInstagram();
         const validator = new Validator();
-        const processorInstagram = new ProcessorInstagram();
         const fs =  require('fs');
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validationFE = await validatorIG.selectUsefulFilesFromZip(await validator.validateZIP(data), [FileCode.INSTAGRAM_ADS_CLICKED, FileCode.INSTAGRAM_ADS_VIEWED, FileCode.INSTAGRAM_POSTS_VIEWED, FileCode.INSTAGRAM_VIDEO_VIEWED, FileCode.INSTAGRAM_POST_COMMENT, FileCode.INSTAGRAM_POSTS_CREATED, FileCode.INSTAGRAM_STORIES_CREATED, FileCode.INSTAGRAM_FOLLOWERS, FileCode.INSTAGRAM_FOLLOWING_ACCOUNTS, FileCode.INSTAGRAM_LIKE_COMMENTS, FileCode.INSTAGRAM_LIKE_POSTS, FileCode.INSTAGRAM_ELEGIBILITY, FileCode.INSTAGRAM_EMOJI_SLIDERS, FileCode.INSTAGRAM_POLLS, FileCode.INSTAGRAM_QUIZZES]);
+            const validationFE = await ValidatorInstagram.selectUsefulFilesFromZip(await validator.validateZIP(data));
             if(validationFE) {
                 const validationBE = await validator.validateZIP(validationFE);
                 if(validationBE) {
-                    console.log(await processorInstagram.aggregatorFactory(validationBE, 180));
+                    console.log(await ProcessorInstagram.aggregatorFactory(validationBE, 180));
                 }
             }
         });
@@ -78,20 +61,15 @@ async function validatorTestInstagram() {
     }
 }
 
-
-
-
 async function descriptorServiceTest() {
     try {
-        const descriptorService = new DescriptorService();
-        const document = require('../src/descriptor/descriptor.json');
-        console.log(await descriptorService.getDataSourcesCodes(document));
-        console.log(await descriptorService.getAllDataSourcesDescriptions(document));
-        console.log(await descriptorService.getSourceFormats(document, DataSourceCode.INSTAGRAM));
-        console.log(await descriptorService.getSourceName(document, DataSourceCode.INSTAGRAM));
-        console.log(await descriptorService.getDataSourceDescription(document, DataSourceCode.INSTAGRAM));
-        console.log(await descriptorService.getAllDataSourceProcedures(document, DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH));
-        console.log(await descriptorService.getDataSourceProcedure(document, DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH, RetrievingProcedureType.DESKTOP));
+        console.log(await DescriptorService.getAllDataSourcesCodes());
+        console.log(await DescriptorService.getDataSourceDescription(DataSourceCode.INSTAGRAM));
+        console.log(await DescriptorService.getDataSourceName(DataSourceCode.INSTAGRAM));
+        console.log(await DescriptorService.getDataSourceFormats(DataSourceCode.INSTAGRAM));
+        console.log(await DescriptorService.getDataSourceProcedure(DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH, RetrievingProcedureType.DESKTOP));
+        console.log(await DescriptorService.getAllDataSourceLanguages(DataSourceCode.INSTAGRAM));
+        console.log(await DescriptorService.getAllDataSourceProcedureTypes(DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
