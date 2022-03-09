@@ -35,9 +35,3 @@ export interface FileContent {
     filePath: string;
     fileContent: string;
 }
-
-//used by processor
-export interface SourceDescription {
-    fileLanguage: LanguageCode;
-    fileTIdays: number; //days of temporal unit
-}
