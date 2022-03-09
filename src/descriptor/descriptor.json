@@ -26,7 +26,7 @@
                 {
                   "index": 1,
                   "description": "Go to your Profile",
-                  "attributeDescription": "<p>go to your <a href=\"\">Profile</a></p>"
+                  "attributeDescription": "<p>Go to your <a href=\"\">Profile</a></p>"
                 },
                 {
                   "index": 2,
@@ -154,8 +154,7 @@
             },
             {
               "filePath": "story_sticker_interactions/polls.json",
-              "fileContent": "Counter of polls engagement",
-              "fileCode": "INSTAGRAM_POLL"
+              "fileContent": "Counter of polls engagement"
             },
             {
               "filePath": "content/post1.json",
@@ -167,8 +166,7 @@
             },
             {
               "filePath": "story_sticker_interactions/quizzes.json",
-              "fileContent": "Counter of quizzes engagement",
-              "fileCode": "INSTAGRAM_QUIZZES"
+              "fileContent": "Counter of quizzes engagement"
             },
             {
               "filePath": "content/stories.json",
@@ -200,7 +198,7 @@
                 {
                   "index": 1,
                   "description": "Vai al tuo profilo",
-                  "attributeDescription": "<p>vai al tuo <a href=\"\">Profilo</a></p>"
+                  "attributeDescription": "<p>Vai al tuo <a href=\"\">Profilo</a></p>"
                 },
                 {
                   "index": 2,
@@ -328,8 +326,7 @@
             },
             {
               "filePath": "story_sticker_interactions/polls.json",
-              "fileContent": "Numero di interazioni nei sondaggi",
-              "fileCode": "INSTAGRAM_POLL"
+              "fileContent": "Numero di interazioni nei sondaggi"
             },
             {
               "filePath": "content/post1.json",
@@ -341,8 +338,7 @@
             },
             {
               "filePath": "story_sticker_interactions/quizzes.json",
-              "fileContent": "Numero di interazioni ai quiz",
-              "fileCode": "INSTAGRAM_QUIZZES"
+              "fileContent": "Numero di interazioni ai quiz"
             },
             {
               "filePath": "content/stories.json",
