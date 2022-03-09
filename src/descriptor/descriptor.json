@@ -1,5 +1,4 @@
 {
-  "supportedSources": [ "INSTAGRAM" ],
   "sourceDescription": [
     {
       "sourceName": "Instagram",
@@ -179,9 +178,9 @@
           ]
         },
         {
-          "language": "IT",
+          "languageCode": "IT",
           "description": "Instagram data source",
-          "procedure": [
+          "procedures": [
             {
               "procedureType": "DEFAULT",
               "retrievingSteps": [

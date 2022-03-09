@@ -1,5 +1,8 @@
 import {DataSourceCode, FileExtension, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
 
+export interface Descriptor {
+    sourceDescription: Array<SourceDescription>;
+}
 
 export interface SupportedSources {
     list: Array<DataSourceCode>;
