@@ -80,8 +80,10 @@ const file = require(@humandataincome/connectors/src/descriptor/descriptor.json)
 
 Example of **DescriptorService** usage:
 ```
-let service = new Connector.DescriptorService();
-let codes = await service.getDataSourcesCodes(file);
+import {DescriptorService} from '@humandataincome/connectors';
+```
+```
+let codes = await DescriptorService.getAllDataSourcesCodes();
 ```
 
 ## How to use Validator ##
@@ -94,15 +96,19 @@ let validatedZip = await service.validateZIP(zipFile);
 ```
 Example of **ValidatorInstagram** usage:
 ```
-let validatorIG = new Connector.ValidatorInstagram();
-let validatedZip = await validatorIG.selectUsefulFilesFromZip(zipFile);
+import {ValidatorInstagram} from '@humandataincome/connectors';
+```
+```
+let validatedZip = await ValidatorInstagram.selectUsefulFilesFromZip(zipFile);
 ```
 
 ## How to use Processor ##
 Example of **ProcessorInstagram** usage:
 ```
-let prosessor = new Connector.ProcessorInstagram();
-let aggregator = await prosessor.aggregatorFactory(zipFile, 180);
+import {ProcessorInstagram} from '@humandataincome/connectors';
+```
+```
+let aggregator = await ProcessorInstagram.aggregatorFactory(zipFile, 180);
 ```
 
 # How do I retrieve my personal data sources? #
