@@ -1,6 +1,6 @@
 import {InstagramDataAggregator} from "./processor.instagram.model";
-import {FileCode, LanguageCode} from "../descriptor/descriptor.enum";
-import {InstagramService} from "../service/instagram.service";
+import {FileCode, LanguageCode} from "../descriptor";
+import {InstagramService} from "../service";
 import {
     AdsClicked,
     AdsViewed,
@@ -20,16 +20,15 @@ import {
     Polls,
     Post,
     PostViewed, Quiz, Quizzes, Story, VideoWatched
-} from "../model/instagram.model";
-import Logger from "../utils/logger";
+} from "../model";
 import {ProcessorUtils} from "./processor.utils";
-import {Validator} from "../validator/validator";
+import {Validator} from "../validator";
 import * as JSZip from "jszip";
+import {ProcessorErrorEnums} from "./processor.error";
 
-export class ProcessorInstagram{
-    private logger = new Logger("Instagram Processor");
+export class ProcessorInstagram {
 
-    async aggregatorFactory(zipFile: Buffer, timeIntervalDays: number): Promise<InstagramDataAggregator | undefined> {
+    static async aggregatorFactory(zipFile: Buffer, timeIntervalDays: number): Promise<InstagramDataAggregator | undefined> {
         let model: InstagramDataAggregator = {};
         await JSZip.loadAsync(zipFile).then(async (zip: JSZip) => {
             const keys = Object.keys(zip.files);
@@ -46,13 +45,11 @@ export class ProcessorInstagram{
                                     if (result) {
                                         let counterTI = 0;
                                         let today = new Date();
-                                        result.list.map((item: Adv) => {
+                                        result.list.forEach((item: Adv) => {
                                             (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.adsClickTI = counterTI;
                                         model.adsClick = result.list.length;
-                                    } else {
-                                        this.logger.log('info', `empty file with ${pathName} code`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_ADS_VIEWED:
@@ -60,13 +57,11 @@ export class ProcessorInstagram{
                                     if (result) {
                                         let counterTI = 0;
                                         let today = new Date();
-                                        result.list.map((item: Adv) => {
+                                        result.list.forEach((item: Adv) => {
                                             (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.adsViewedTI = counterTI;
                                         model.adsViewed = result.list.length;
-                                    } else {
-                                        this.logger.log('info', `empty file with ${pathName} code`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_POST_COMMENT:
@@ -74,13 +69,11 @@ export class ProcessorInstagram{
                                     if (result) {
                                         let counterTI = 0;
                                         let today = new Date();
-                                        result.list.map((comment: CommentPosted) => {
+                                        result.list.forEach((comment: CommentPosted) => {
                                             (comment.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, comment.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.commentsPostsTI = counterTI;
                                         model.commentsPosts = result.list.length;
-                                    } else {
-                                        this.logger.log('info', `empty file with ${pathName} code`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_EMOJI_SLIDERS:
@@ -88,29 +81,23 @@ export class ProcessorInstagram{
                                     if (result) {
                                         let counterTI = 0;
                                         let today = new Date();
-                                        result.list.map((item: EmojiSlider) => {
+                                        result.list.forEach((item: EmojiSlider) => {
                                             (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.emojiSlidersTI = counterTI;
                                         model.emojiSliders = result.list.length;
-                                    } else {
-                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_FOLLOWERS:
                                     result = <Followers>await igService.parseFollowers(data);
                                     if (result) {
                                         model.followers = result.list.length;
-                                    } else {
-                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_FOLLOWING_ACCOUNTS:
                                     result = <FollowingAccounts>await igService.parseFollowingAccounts(data);
                                     if (result) {
                                         model.following = result.list.length;
-                                    } else {
-                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_LIKE_COMMENTS:
@@ -118,13 +105,11 @@ export class ProcessorInstagram{
                                     if (result) {
                                         let counterTI = 0;
                                         let today = new Date();
-                                        result.list.map((item: Like) => {
+                                        result.list.forEach((item: Like) => {
                                             (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.likesCommentsTI = counterTI;
                                         model.likesComments = result.list.length;
-                                    } else {
-                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_LIKE_POSTS:
@@ -132,21 +117,17 @@ export class ProcessorInstagram{
                                     if (result) {
                                         let counterTI = 0;
                                         let today = new Date();
-                                        result.list.map((item: Like) => {
+                                        result.list.forEach((item: Like) => {
                                             (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.likesPostsTI = counterTI;
                                         model.likesPosts = result.list.length;
-                                    } else {
-                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_ELEGIBILITY:
                                     result = <Eligibility>await igService.parseEligibility(data);
                                     if (result) {
                                         model.isMonetizable = !(result.decision == 'Not Eligible');
-                                    } else {
-                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_POLLS:
@@ -154,13 +135,11 @@ export class ProcessorInstagram{
                                     if (result) {
                                         let counterTI = 0;
                                         let today = new Date();
-                                        result.list.map((item: Poll) => {
+                                        result.list.forEach((item: Poll) => {
                                             (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.pollsTI = counterTI;
                                         model.polls = result.list.length;
-                                    } else {
-                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_POSTS_CREATED:
@@ -168,13 +147,11 @@ export class ProcessorInstagram{
                                     if (result) {
                                         let counterTI = 0;
                                         let today = new Date();
-                                        result.list.map((item: Post) => {
+                                        result.list.forEach((item: Post) => {
                                             (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.postsCreatedTI = counterTI;
                                         model.postsCreated = result.list.length;
-                                    } else {
-                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_POSTS_VIEWED:
@@ -182,13 +159,11 @@ export class ProcessorInstagram{
                                     if (result) {
                                         let counterTI = 0;
                                         let today = new Date();
-                                        result.list.map((item: Post) => {
+                                        result.list.forEach((item: Post) => {
                                             (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.postsViewedTI = counterTI;
                                         model.postsViewed = result.list.length;
-                                    } else {
-                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_QUIZZES:
@@ -196,13 +171,11 @@ export class ProcessorInstagram{
                                     if (result) {
                                         let counterTI = 0;
                                         let today = new Date();
-                                        result.list.map((item: Quiz) => {
+                                        result.list.forEach((item: Quiz) => {
                                             (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.quizzesTI = counterTI;
                                         model.quizzes = result.list.length;
-                                    } else {
-                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_STORIES_CREATED:
@@ -210,13 +183,11 @@ export class ProcessorInstagram{
                                     if (result) {
                                         let counterTI = 0;
                                         let today = new Date();
-                                        result.list.map((item: Story) => {
+                                        result.list.forEach((item: Story) => {
                                             (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.storiesCreatedTI = counterTI;
                                         model.storiesCreated = result.list.length;
-                                    } else {
-                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 case FileCode.INSTAGRAM_VIDEO_VIEWED:
@@ -224,17 +195,15 @@ export class ProcessorInstagram{
                                     if (result) {
                                         let counterTI = 0;
                                         let today = new Date();
-                                        result.list.map((item: Media) => {
+                                        result.list.forEach((item: Media) => {
                                             (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                         });
                                         model.videosViewedTI = counterTI;
                                         model.videosViewed = result.list.length;
-                                    } else {
-                                        this.logger.log('info', `empty file: ${pathName}`, 'aggregatorFactory');
                                     }
                                     break;
                                 default:
-                                    this.logger.log('info', `file not recognized`, 'aggregatorFactory');
+                                    throw new Error(`${ProcessorErrorEnums.PROCESSOR_INSTAGRAM_INVALID_FILE_CODE}`)
                             }
                         });
                     }
