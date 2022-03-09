@@ -48,9 +48,12 @@ export class AmazonService {
                     model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parsePrimeVideoWatchlist');
+            return undefined;
         }
     }
 
@@ -74,9 +77,12 @@ export class AmazonService {
                     model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parsePrimeVideoWatchlistHistory');
+            return undefined;
         }
     }
 
@@ -108,9 +114,12 @@ export class AmazonService {
                     model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parsePrimeVideoViewingHistory');
+            return undefined;
         }
     }
 
@@ -197,9 +206,12 @@ export class AmazonService {
                     model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseSearchDataCustomerEngagement');
+            return undefined;
         }
     }
 
@@ -254,9 +266,12 @@ export class AmazonService {
                     }
                 });
                 return model.lists.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseAmazonWishlists');
+            return undefined;
         }
     }
 
@@ -301,9 +316,12 @@ export class AmazonService {
                     model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseAudibleLibrary');
+            return undefined;
         }
     }
 
@@ -321,9 +339,12 @@ export class AmazonService {
                     (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseAdvertiserAudiences');
+            return undefined;
         }
     }
 
@@ -341,9 +362,12 @@ export class AmazonService {
                     (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseAdvertiserClicked');
+            return undefined;
         }
     }
 
@@ -361,6 +385,8 @@ export class AmazonService {
                     (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseThirdPartyAudiences');
@@ -381,9 +407,12 @@ export class AmazonService {
                     (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseAmazonAudiences');
+            return undefined;
         }
     }
 
@@ -413,9 +442,12 @@ export class AmazonService {
                     model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseTwitchPrimeSubscription');
+            return undefined;
         }
     }
 
@@ -462,9 +494,12 @@ export class AmazonService {
                     model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseRetailOrderHistory');
+            return undefined;
         }
     }
 }

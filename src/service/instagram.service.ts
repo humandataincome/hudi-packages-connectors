@@ -43,11 +43,11 @@ import {
     Poll,
     Quiz,
     Quizzes, PersonalStories, Story
-} from "../model/instagram.model";
+} from "../model";
 import Logger from "../utils/logger";
 import {Decoding} from "../utils/decoding";
-import {LanguageCode} from "../descriptor/descriptor.enum";
-import {Validator} from "../validator/validator";
+import {LanguageCode} from "../descriptor";
+import {Validator} from "../validator";
 
 /**
  * Class used to parse most important files into the directory returned by Instagram in JSON format.
@@ -78,37 +78,38 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
 
             parameterName = this.configInstagram.get(`${this.prefix}-1-username`);
-            (this.pathExists(parameterName, document)) && (personalInfoModel.username = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
+            (InstagramService.pathExists(parameterName, document)) && (personalInfoModel.username = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
             parameterName = this.configInstagram.get(`${this.prefix}-2-name`);
-            (this.pathExists(parameterName, document)) && (personalInfoModel.name = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
+            (InstagramService.pathExists(parameterName, document)) && (personalInfoModel.name = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
             parameterName = this.configInstagram.get(`${this.prefix}-3-email`);
-            (this.pathExists(parameterName, document)) && (personalInfoModel.email = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
+            (InstagramService.pathExists(parameterName, document)) && (personalInfoModel.email = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
             parameterName = this.configInstagram.get(`${this.prefix}-4-privateAccount`);
-            (this.pathExists(parameterName, document)) && (personalInfoModel.private = document.profile_user[0].string_map_data[parameterName].value.toLowerCase() == 'true');
+            (InstagramService.pathExists(parameterName, document)) && (personalInfoModel.private = document.profile_user[0].string_map_data[parameterName].value.toLowerCase() == 'true');
 
             parameterName = this.configInstagram.get(`${this.prefix}-5-birthdate`);
-            (this.pathExists(parameterName, document)) && (match = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value).split('-'));
+            (InstagramService.pathExists(parameterName, document)) && (match = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value).split('-'));
             match && (personalInfoModel.birthdate = new Date(Date.UTC(match[0], match[1]-1, match[2], 0, 0, 0)));
 
             parameterName = this.configInstagram.get(`${this.prefix}-6-phoneNumber`);
-            (this.pathExists(parameterName, document)) && (personalInfoModel.phoneNumber = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
+            (InstagramService.pathExists(parameterName, document)) && (personalInfoModel.phoneNumber = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
             parameterName = this.configInstagram.get(`${this.prefix}-7-biography`);
-            (this.pathExists(parameterName, document)) && (personalInfoModel.biography = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
+            (InstagramService.pathExists(parameterName, document)) && (personalInfoModel.biography = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
             parameterName = this.configInstagram.get(`${this.prefix}-8-gender`);
-            (this.pathExists(parameterName, document)) && (personalInfoModel.gender = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
+            (InstagramService.pathExists(parameterName, document)) && (personalInfoModel.gender = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
             return !Validator.objectIsEmpty(personalInfoModel) ? personalInfoModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parsePersonalInformation');
+            return undefined;
         }
     }
 
-    private pathExists(parameterName: string, document: any): boolean {
+    private static pathExists(parameterName: string, document: any): boolean {
         return !!(document.profile_user && document.profile_user[0].string_map_data && document.profile_user[0].string_map_data[parameterName] && document.profile_user[0].string_map_data[parameterName].value);
     }
 
@@ -129,6 +130,7 @@ export class InstagramService {
             return !Validator.objectIsEmpty(model) ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseLocation');
+            return undefined;
         }
     }
 
@@ -149,6 +151,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseAdsClicked');
+            return undefined;
         }
     }
 
@@ -171,6 +174,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseAdsViewed');
+            return undefined;
         }
     }
 
@@ -191,6 +195,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseAdsInterests');
+            return undefined;
         }
     }
 
@@ -215,6 +220,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseMusicHeardInStories');
+            return undefined;
         }
     }
 
@@ -239,6 +245,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseMusicRecentlyUsedInStories');
+            return undefined;
         }
     }
 
@@ -261,6 +268,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parsePostViewed');
+            return undefined;
         }
     }
 
@@ -283,6 +291,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseVideoWatched');
+            return undefined;
         }
     }
 
@@ -305,6 +314,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseSuggestedAccountViewed');
+            return undefined;
         }
     }
 
@@ -327,6 +337,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseAccountYouAreNotInterested');
+            return undefined;
         }
     }
 
@@ -348,6 +359,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseCommentsPosted');
+            return undefined;
         }
     }
 
@@ -372,6 +384,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseSyncedContracts');
+            return undefined;
         }
     }
 
@@ -392,6 +405,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseArchivedPost');
+            return undefined;
         }
     }
 
@@ -413,6 +427,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parsePersonalPost');
+            return undefined;
         }
     }
 
@@ -434,6 +449,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parsePersonalStories');
+            return undefined;
         }
     }
 
@@ -455,6 +471,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseFollowers');
+            return undefined;
         }
     }
 
@@ -476,6 +493,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseFollowingAccounts');
+            return undefined;
         }
     }
 
@@ -497,6 +515,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseFollowingHashtags');
+            return undefined;
         }
     }
 
@@ -519,6 +538,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseLikedPosts');
+            return undefined;
         }
     }
 
@@ -541,6 +561,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseLikedComments');
+            return undefined;
         }
     }
 
@@ -563,6 +584,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseSearches');
+            return undefined;
         }
     }
 
@@ -583,6 +605,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseReelSentiments');
+            return undefined;
         }
     }
 
@@ -603,6 +626,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseReelTopics');
+            return undefined;
         }
     }
 
@@ -623,6 +647,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseTopics');
+            return undefined;
         }
     }
 
@@ -643,6 +668,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseEmojiSliders');
+            return undefined;
         }
     }
 
@@ -663,6 +689,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parsePolls');
+            return undefined;
         }
     }
 
@@ -683,6 +710,7 @@ export class InstagramService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseQuizzes');
+            return undefined;
         }
     }
 
@@ -712,6 +740,7 @@ export class InstagramService {
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseEligibility');
+            return undefined;
         }
     }
 
@@ -745,6 +774,7 @@ export class InstagramService {
             return !Validator.objectIsEmpty(conversationModel) ? conversationModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseMessages');
+            return undefined;
         }
     }
 }

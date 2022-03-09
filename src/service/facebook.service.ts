@@ -19,7 +19,7 @@ import {
     AddressLocation, PlaceLived, Pages, AdvInteraction, AdvUsingYourInfo, Search, Page,
 } from "../model/facebook.model";
 import {Decoding} from "../utils/decoding";
-import {Validator} from "../validator/validator";
+import {Validator} from "../validator";
 
 /**
  * Class used to parse most important files into the directory returned by Facebook in JSON format.
@@ -126,6 +126,7 @@ export class FacebookService{
             return !Validator.objectIsEmpty(personalInfoModel) ? personalInfoModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parsePersonalInformation');
+            return undefined;
         }
     }
 
@@ -147,6 +148,7 @@ export class FacebookService{
             return adsModel.list.length > 0 ? adsModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseAdsInteractedWith');
+            return undefined;
         }
     }
 
@@ -169,6 +171,7 @@ export class FacebookService{
             return adsModel.list.length > 0 ? adsModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseAdsUsingYourInfo');
+            return undefined;
         }
     }
 
@@ -189,6 +192,7 @@ export class FacebookService{
             return searchHistoryModel.listSearches.length > 0 ? searchHistoryModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseSearchHistory');
+            return undefined;
         }
     }
 
@@ -211,6 +215,7 @@ export class FacebookService{
             return commentsPostedModel.list.length > 0 ? commentsPostedModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseComments');
+            return undefined;
         }
     }
 
@@ -231,6 +236,7 @@ export class FacebookService{
             return modelPagesLiked.list.length > 0 ? modelPagesLiked : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parsePageLiked');
+            return undefined;
         }
     }
 
@@ -251,6 +257,7 @@ export class FacebookService{
             return modelPagesFollow.list.length > 0 ? modelPagesFollow : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parsePageFollowed');
+            return undefined;
         }
     }
 
@@ -275,6 +282,7 @@ export class FacebookService{
             return modelAppsConnected.list.length > 0 ? modelAppsConnected : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseAppsConnected');
+            return undefined;
         }
     }
 
@@ -308,6 +316,7 @@ export class FacebookService{
             return !Validator.objectIsEmpty(conversationModel) ? conversationModel : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseMessages');
+            return undefined;
         }
     }
 }
