@@ -1,9 +1,9 @@
 import {FileCode, LanguageCode} from "../descriptor";
 import * as JSZip from "jszip";
 import {ValidationErrorEnums} from "./validator.error";
-export class ValidatorInstagram {
 
-    static getLanguage(file: Buffer): LanguageCode | undefined {
+export class ValidatorInstagram {
+    static async getLanguage(file: Buffer): Promise<LanguageCode | undefined> {
         const document = file.toString();
         //check if ITALIAN
         const regexIT = /(Nome utente)|(Indirizzo e-mail)|(Data di nascita)/;
@@ -38,9 +38,9 @@ export class ValidatorInstagram {
             await Promise.all(keys.map(async (pathName: string) => {
                 const file = zip.files[pathName];
                 if (!file.dir) {
-                    await file.async('nodebuffer').then((data: Buffer) => {
+                    await file.async('nodebuffer').then(async (data: Buffer) => {
                         if (pathName == FileCode.INSTAGRAM_PERSONAL_INFO) {
-                            languageCode = this.getLanguage(data);
+                            languageCode = await this.getLanguage(data);
                         }
                     });
                     if (languageCode) {
