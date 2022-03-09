@@ -1,4 +1,4 @@
-import {FileExtension} from "../descriptor/descriptor.enum";
+import {FileExtension} from "../descriptor";
 import * as JSZip from "jszip";
 import {ValidationErrorEnums} from "./validator.error";
 
@@ -27,7 +27,7 @@ export class Validator {
      * @param zipFile - file zip as Buffer
      * @return Promise<Array<string>> - filter all the file paths from the directories paths
      */
-    async filterFilesPathsIntoZip(zipFile: Buffer): Promise<Array<string>> {
+    static async filterFilesPathsIntoZip(zipFile: Buffer): Promise<Array<string>> {
         let filesPath: Array<string> = [];
         await JSZip.loadAsync(zipFile).then(async (zip: JSZip) => {
             const keys = Object.keys(zip.files);
