@@ -339,6 +339,7 @@ export class GoogleService {
                 });
                 return model.list.length > 0 ? model : undefined;
             }
+            return undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseTransactions');
             return undefined;

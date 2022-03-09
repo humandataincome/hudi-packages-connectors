@@ -649,6 +649,7 @@ export class LinkedInService {
                     (result[0]['Instant Messengers']) && (model.instantMessengers = result[0]['Instant Messengers']);
                     return !Validator.objectIsEmpty(model) ? model : undefined;
                 }
+                return undefined;
             } else {
                 return undefined;
             }
@@ -705,6 +706,7 @@ export class LinkedInService {
                     (result[0]['Subscription Types']) && (model.subscriptionTypes = result[0]['Subscription Types']);
                     return !Validator.objectIsEmpty(model) ? model : undefined;
                 }
+                return undefined;
             } else {
                 return undefined;
             }

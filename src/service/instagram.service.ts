@@ -738,6 +738,7 @@ export class InstagramService {
                 }
                 return !Validator.objectIsEmpty(eligibility) ? eligibility : undefined;
             }
+            return undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`,'parseEligibility');
             return undefined;

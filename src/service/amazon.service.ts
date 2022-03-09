@@ -390,6 +390,7 @@ export class AmazonService {
             }
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseThirdPartyAudiences');
+            return undefined;
         }
     }
 
