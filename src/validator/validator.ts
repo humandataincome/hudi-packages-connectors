@@ -37,7 +37,7 @@ export class Validator {
 
     /**
      * @param zipFile - file zip as Buffer
-     * @return Promise<Buffer> - zip file containing all the files from input that passed the validation
+     * @return {Promise<Buffer>} - zip file containing all the files from input that passed the validation
      */
     async validateZIP(zipFile: Buffer): Promise<Buffer> {
         const validatedFiles = new JSZip();
@@ -57,7 +57,7 @@ export class Validator {
 
     /**
      * @param fileName - string containing the file name
-     * @return Promise<FileExtension> - return its extension (e.g. json, csv).
+     * @return {Promise<FileExtension>} - return its extension (e.g. json, csv).
      */
     async getFileExtension(fileName: string): Promise<FileExtension> {
         const extension = fileName.split('.').pop();
@@ -78,7 +78,7 @@ export class Validator {
 
     /**
      * @param file - file as buffer
-     * @return boolean - true if the size is included between MAX_BYTE_FILE_SIZE and MIN_BYTE_FILE_SIZE
+     * @return {boolean} - true if the size is included between MAX_BYTE_FILE_SIZE and MIN_BYTE_FILE_SIZE
      */
     private static isValideSize(file: Buffer): boolean {
         return (file.byteLength < Validator._MAX_BYTE_FILE_SIZE) && (file.byteLength > Validator._MIN_BYTE_FILE_SIZE);
@@ -103,7 +103,7 @@ export class Validator {
 
     /**
      * @param file - file as buffer
-     * @return boolean - true if the file is valid and the size is supported
+     * @return {boolean} - true if the file is valid and the size is supported
      */
     async validateJSON(file: Buffer): Promise<boolean> {
         if (Validator.isValideSize(file)) {

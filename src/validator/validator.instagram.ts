@@ -3,6 +3,11 @@ import * as JSZip from "jszip";
 import {ValidationErrorEnums} from "./validator.error";
 
 export class ValidatorInstagram {
+
+    /**
+     * @param file - file zip as Buffer (should be the file account_information/personal_information.json) to work properly
+     * @return {Promise<LanguageCode | undefined>} - return the Code of the Language of the file
+     */
     static async getLanguage(file: Buffer): Promise<LanguageCode | undefined> {
         const document = file.toString();
         //check if ITALIAN
@@ -24,11 +29,10 @@ export class ValidatorInstagram {
         throw new Error(`${ValidationErrorEnums.LANGUAGE_ERROR}`);
     }
 
-
     /**
      * @param zipFile - file zip containing file that must be parsed
      * @param fileList - optional list of paths of file (as FileCode) that we want to keep into the file zip
-     * @return Promise<Buffer | undefined> - buffer containing all useful files that have been found
+     * @return {Promise<Buffer | undefined>} - buffer containing all useful files that have been found
      */
     static async selectUsefulFilesFromZip(
         zipFile: Buffer,
