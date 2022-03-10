@@ -141,7 +141,8 @@ export class InstagramService {
     async parseAdsClicked(data: Buffer): Promise<AdsClickedIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: AdsClickedIG = document.impressions_history_ads_clicked.map((value: any) => {
+            let model: AdsClickedIG = {list: []};
+            model.list = document.impressions_history_ads_clicked.map((value: any) => {
                 let newItem: AdvIG = {};
                 (value.title) && (newItem.title = Decoding.decodeObject(value.title));
                 (value.string_list_data && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
@@ -163,7 +164,8 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             let parameterName1 = this.configInstagram.get(`${this.prefix}-10-author`);
             let parameterName2 = this.configInstagram.get(`${this.prefix}-11-time`);
-            let model: AdsViewedIG = document.impressions_history_ads_seen.map((value: any) => {
+            let model: AdsViewedIG = {list: []};
+            model.list = document.impressions_history_ads_seen.map((value: any) => {
                 let newItem: AdvIG = {};
                 (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.title = Decoding.decodeObject(value.string_map_data[parameterName1].value));
                 (value.string_map_data && value.string_map_data[parameterName2].timestamp) && (newItem.date = new Date(1000 * value.string_map_data[parameterName2].timestamp));
@@ -184,7 +186,8 @@ export class InstagramService {
         try {
             let document = JSON.parse(data.toString());
             let parameterName = this.configInstagram.get(`${this.prefix}-12-interest`);
-            let model: AdsInterestsIG = document.inferred_data_ig_interest.map((value: any) => {
+            let model: AdsInterestsIG = {list: []};
+            model.list = document.inferred_data_ig_interest.map((value: any) => {
                 let newItem: AdvIG = {};
                 (value.string_map_data && value.string_map_data[parameterName].value) && (newItem.title = Decoding.decodeObject(value.string_map_data[parameterName].value));
                 return newItem;
@@ -206,7 +209,8 @@ export class InstagramService {
             let parameterName1 = this.configInstagram.get(`${this.prefix}-13-song`);
             let parameterName2 = this.configInstagram.get(`${this.prefix}-14-artist`);
             let parameterName3 = this.configInstagram.get(`${this.prefix}-15-time`);
-            let model: MusicHeardInStoriesIG = document.impressions_history_music_heard_in_stories.map((value: any) => {
+            let model: MusicHeardInStoriesIG = {list: []};
+            model.list = document.impressions_history_music_heard_in_stories.map((value: any) => {
                 let newItem: MediaIG = {};
                 (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.title = Decoding.decodeObject(value.string_map_data[parameterName1].value));
                 (value.string_map_data && value.string_map_data[parameterName2].value) && (newItem.artist = Decoding.decodeObject(value.string_map_data[parameterName2].value));
@@ -230,7 +234,8 @@ export class InstagramService {
             let parameterName1 = this.configInstagram.get(`${this.prefix}-16-song`);
             let parameterName2 = this.configInstagram.get(`${this.prefix}-17-artist`);
             let parameterName3 = this.configInstagram.get(`${this.prefix}-18-time`);
-            let model: MusicHeardInStoriesIG = document.impressions_history_music_recently_used_in_stories.map((value: any) => {
+            let model: MusicHeardInStoriesIG = {list: []};
+            model.list = document.impressions_history_music_recently_used_in_stories.map((value: any) => {
                 let newItem: MediaIG = {};
                 (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.title = Decoding.decodeObject(value.string_map_data[parameterName1].value));
                 (value.string_map_data && value.string_map_data[parameterName2].value) && (newItem.artist = Decoding.decodeObject(value.string_map_data[parameterName2].value));
@@ -253,7 +258,8 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             let parameterName1 = this.configInstagram.get(`${this.prefix}-19-author`);
             let parameterName2 = this.configInstagram.get(`${this.prefix}-20-time`);
-            let model: PostViewedIG = document.impressions_history_posts_seen.map((value: any) => {
+            let model: PostViewedIG = {list: []};
+            model.list = document.impressions_history_posts_seen.map((value: any) => {
                 let newItem: PostIG = {};
                 (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.title = Decoding.decodeObject(value.string_map_data[parameterName1].value));
                 (value.string_map_data && value.string_map_data[parameterName2].timestamp) && (newItem.date = new Date(1000 * value.string_map_data[parameterName2].timestamp));
@@ -275,7 +281,8 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             let parameterName1 = this.configInstagram.get(`${this.prefix}-21-author`);
             let parameterName2 = this.configInstagram.get(`${this.prefix}-22-time`);
-            let model: VideoWatchedIG = document.impressions_history_videos_watched.map((value: any) => {
+            let model: VideoWatchedIG = {list: []};
+            model.list = document.impressions_history_videos_watched.map((value: any) => {
                 let newItem: MediaIG = {};
                 (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.title = Decoding.decodeObject(value.string_map_data[parameterName1].value));
                 (value.string_map_data && value.string_map_data[parameterName2].timestamp) && (newItem.date = new Date(1000 * value.string_map_data[parameterName2].timestamp));
@@ -297,7 +304,8 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             let parameterName1 = this.configInstagram.get(`${this.prefix}-23-username`);
             let parameterName2 = this.configInstagram.get(`${this.prefix}-24-time`);
-            let model: SuggestedAccountViewedIG = document.impressions_history_chaining_seen.map((value: any) => {
+            let model: SuggestedAccountViewedIG = {list: []};
+            model.list = document.impressions_history_chaining_seen.map((value: any) => {
                 let newItem: AccountIG = {};
                 (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.name = Decoding.decodeObject(value.string_map_data[parameterName1].value));
                 (value.string_map_data && value.string_map_data[parameterName2].timestamp) && (newItem.date = new Date(1000 * value.string_map_data[parameterName2].timestamp));
@@ -319,7 +327,8 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             let parameterName1 = this.configInstagram.get(`${this.prefix}-25-username`);
             let parameterName2 = this.configInstagram.get(`${this.prefix}-26-dateAndTime`);0
-            let model: SuggestedAccountViewedIG = document.impressions_history_recs_hidden_authors.map((value: any) => {
+            let model: SuggestedAccountViewedIG = {list: []};
+            model.list = document.impressions_history_recs_hidden_authors.map((value: any) => {
                 let newItem: AccountIG = {};
                 (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.name = Decoding.decodeObject(value.string_map_data[parameterName1].value));
                 (value.string_map_data && value.string_map_data[parameterName2].timestamp) && (newItem.date = new Date(1000 * value.string_map_data[parameterName2].timestamp));
@@ -339,7 +348,8 @@ export class InstagramService {
     async parseCommentsPosted(data: Buffer): Promise<CommentsPostedIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: CommentsPostedIG = document.comments_media_comments.map((value: any) => {
+            let model: CommentsPostedIG = {list: []};
+            model.list = document.comments_media_comments.map((value: any) => {
                 let newItem: CommentPostedIG = {};
                 (value.title) && (newItem.toUser = Decoding.decodeObject(value.title));
                 (value.string_list_data && value.string_list_data[0].value) && (newItem.text = Decoding.decodeObject(value.string_list_data[0].value));
@@ -363,7 +373,8 @@ export class InstagramService {
             let parameterName1 = this.configInstagram.get(`${this.prefix}-27-name`);
             let parameterName2 = this.configInstagram.get(`${this.prefix}-28-secondName`);
             let parameterName3 = this.configInstagram.get(`${this.prefix}-29-contactInfo`);
-            let model: SyncedContractsIG = document.contacts_contact_info.map((value: any) => {
+            let model: SyncedContractsIG = {list: []};
+            model.list = document.contacts_contact_info.map((value: any) => {
                 let newItem: ContactSyncedIG = {};
                 (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.firstName = Decoding.decodeObject(value.string_map_data[parameterName1].value));
                 (value.string_map_data && value.string_map_data[parameterName2].value) && (newItem.secondName = Decoding.decodeObject(value.string_map_data[parameterName2].value));
@@ -384,7 +395,8 @@ export class InstagramService {
     async parseArchivedPost(data: Buffer): Promise<ArchivedPostsIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: ArchivedPostsIG = document.ig_archived_post_media.map((value: any) => {
+            let model: ArchivedPostsIG = {list: []};
+            model.list = document.ig_archived_post_media.map((value: any) => {
                 let newItem: PostIG = {};
                 (value.media && value.media[0].uri) && (newItem.uri = Decoding.decodeObject(value.media[0].uri));
                 (value.media && value.media[0].creation_timestamp) && (newItem.date = new Date(1000 * value.media[0].creation_timestamp));
@@ -404,7 +416,8 @@ export class InstagramService {
     async parsePersonalPost(data: Buffer): Promise<PersonalPostsIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: PersonalPostsIG = document.map((value: any) => {
+            let model: PersonalPostsIG = {list: []};
+            model.list = document.map((value: any) => {
                 let newItem: PostIG = {};
                 (value.media && value.media[0].uri) && (newItem.uri = Decoding.decodeObject(value.media[0].uri));
                 (value.media && value.media[0].title) && (newItem.title = Decoding.decodeObject(value.media[0].title));
@@ -425,7 +438,8 @@ export class InstagramService {
     async parsePersonalStories(data: Buffer): Promise<PersonalStoriesIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: PersonalStoriesIG = document.ig_stories.map((value: any) => {
+            let model: PersonalStoriesIG = {list: []};
+            model.list = document.ig_stories.map((value: any) => {
                 let newItem: StoryIG = {};
                 (value.uri) && (newItem.uri = Decoding.decodeObject(value.uri));
                 (value.title) && (newItem.title = Decoding.decodeObject(value.title));
@@ -446,7 +460,8 @@ export class InstagramService {
     async parseFollowers(data: Buffer): Promise<FollowersIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: FollowersIG = document.relationships_followers.map((value: any) => {
+            let model: FollowersIG = {list: []};
+            model.list = document.relationships_followers.map((value: any) => {
                 let newItem: AccountIG = {};
                 (value.string_list_data && value.string_list_data[0].href) && (newItem.href = Decoding.decodeObject(value.string_list_data[0].href));
                 (value.string_list_data && value.string_list_data[0].value) && (newItem.name = Decoding.decodeObject(value.string_list_data[0].value));
@@ -467,7 +482,8 @@ export class InstagramService {
     async parseFollowingAccounts(data: Buffer): Promise<FollowingAccountsIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: FollowingAccountsIG = document.relationships_following.map((value: any) => {
+            let model: FollowingAccountsIG = {list: []};
+            model.list = document.relationships_following.map((value: any) => {
                 let newItem: AccountIG = {};
                 (value.string_list_data && value.string_list_data[0].href) && (newItem.href = Decoding.decodeObject(value.string_list_data[0].href));
                 (value.string_list_data && value.string_list_data[0].value) && (newItem.name = Decoding.decodeObject(value.string_list_data[0].value));
@@ -488,7 +504,8 @@ export class InstagramService {
     async parseFollowingHashtags(data: Buffer): Promise<FollowingHashtagsIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: FollowingAccountsIG = document.relationships_following_hashtags.map((value: any) => {
+            let model: FollowingAccountsIG = {list: []};
+            model.list = document.relationships_following_hashtags.map((value: any) => {
                 let newItem: AccountIG = {};
                 (value.string_list_data && value.string_list_data[0].href) && (newItem.href = Decoding.decodeObject(value.string_list_data[0].href));
                 (value.string_list_data && value.string_list_data[0].value) && (newItem.name = Decoding.decodeObject(value.string_list_data[0].value));
@@ -509,7 +526,8 @@ export class InstagramService {
     async parseLikedPosts(data: Buffer): Promise<LikedPostsIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: LikedPostsIG = document.likes_media_likes.map((value: any) => {
+            let model: LikedPostsIG = {list: []};
+            model.list = document.likes_media_likes.map((value: any) => {
                 let newItem: LikeIG = {};
                 (value.title) && (newItem.title = Decoding.decodeObject(value.title));
                 (value.string_list_data && value.string_list_data[0].href) && (newItem.href = Decoding.decodeObject(value.string_list_data[0].href));
@@ -531,7 +549,8 @@ export class InstagramService {
     async parseLikedComments(data: Buffer): Promise<LikedCommentsIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: LikedPostsIG = document.likes_comment_likes.map((value: any) => {
+            let model: LikedPostsIG = {list: []};
+            model.list = document.likes_comment_likes.map((value: any) => {
                 let newItem: LikeIG = {};
                 (value.title) && (newItem.title = Decoding.decodeObject(value.title));
                 (value.string_list_data && value.string_list_data[0].href) && (newItem.href = Decoding.decodeObject(value.string_list_data[0].href));
@@ -555,7 +574,8 @@ export class InstagramService {
             let document = JSON.parse(data.toString());
             let parameterName1 = this.configInstagram.get(`${this.prefix}-30-search`);
             let parameterName2 = this.configInstagram.get(`${this.prefix}-31-time`);
-            let model: SearchesIG = document.searches_user.map((value: any) => {
+            let model: SearchesIG = {list: []};
+            model.list = document.searches_user.map((value: any) => {
                 let newItem: SearchIG = {};
                 (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.text = Decoding.decodeObject(value.string_map_data[parameterName1].value));
                 (value.string_map_data && value.string_map_data[parameterName2].timestamp) && (newItem.date = new Date(1000 * value.string_map_data[parameterName2].timestamp));
@@ -576,10 +596,11 @@ export class InstagramService {
         try {
             let document = JSON.parse(data.toString());
             let parameterName = this.configInstagram.get(`${this.prefix}-32-name`);
-            let model: ReelSentimentsIG = document.topics_your_reels_emotions.map((value: any) => {
+            let model: ReelSentimentsIG = {list: []};
+            model.list = document.topics_your_reels_emotions.map((value: any) => {
                 let newItem: SentimentIG = {};
                 (value.string_map_data && value.string_map_data[parameterName].value) && (newItem.value = Decoding.decodeObject(value.string_map_data[parameterName].value));
-                model.list.push(newItem);
+                return newItem;
             });
             return model.list.length > 0 ? model : undefined;
         } catch (error) {
@@ -596,7 +617,8 @@ export class InstagramService {
         try {
             let document = JSON.parse(data.toString());
             let parameterName = this.configInstagram.get(`${this.prefix}-33-name`);
-            let model: ReelTopicsIG = document.topics_your_reels_topics.map((value: any) => {
+            let model: ReelTopicsIG = {list: []};
+            model.list = document.topics_your_reels_topics.map((value: any) => {
                 let newItem: TopicIG = {};
                 (value.string_map_data && value.string_map_data[parameterName].value) && (newItem.value = Decoding.decodeObject(value.string_map_data[parameterName].value));
                 return newItem;
@@ -616,7 +638,8 @@ export class InstagramService {
         try {
             let document = JSON.parse(data.toString());
             let parameterName = this.configInstagram.get(`${this.prefix}-34-name`);
-            let model: TopicsIG = document.topics_your_topics.map((value: any) => {
+            let model: TopicsIG = {list: []};
+            model.list = document.topics_your_topics.map((value: any) => {
                 let newItem: TopicIG = {};
                 (value.string_map_data && value.string_map_data[parameterName].value) && (newItem.value = Decoding.decodeObject(value.string_map_data[parameterName].value));
                 return newItem;
@@ -635,7 +658,8 @@ export class InstagramService {
     async parseEmojiSliders(data: Buffer): Promise<EmojiSlidersIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: EmojiSlidersIG = document.story_activities_emoji_sliders.map((value: any) => {
+            let model: EmojiSlidersIG = {list: []};
+            model.list = document.story_activities_emoji_sliders.map((value: any) => {
                 let newItem: EmojiSliderIG = {};
                 (value.title) && (newItem.title = Decoding.decodeObject(value.title));
                 (value.string_list_data && value.string_list_data[0] && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
@@ -655,7 +679,8 @@ export class InstagramService {
     async parsePolls(data: Buffer): Promise<PollsIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: PollsIG = document.story_activities_polls.map((value: any) => {
+            let model: PollsIG = {list: []};
+            model.list = document.story_activities_polls.map((value: any) => {
                 let newItem: PollIG = {};
                 (value.title) && (newItem.title = Decoding.decodeObject(value.title));
                 (value.string_list_data && value.string_list_data[0] && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
@@ -675,7 +700,8 @@ export class InstagramService {
     async parseQuizzes(data: Buffer): Promise<QuizzesIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: QuizzesIG = document.story_activities_quizzes.map((value: any) => {
+            let model: QuizzesIG = {list: []};
+            model.list = document.story_activities_quizzes.map((value: any) => {
                 let newItem: QuizIG = {};
                 (value.title) && (newItem.title = Decoding.decodeObject(value.title));
                 (value.string_list_data && value.string_list_data[0] && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
