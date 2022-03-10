@@ -17,11 +17,7 @@ export class DescriptorService {
      * @return  all available data sources' respective codes
      */
     static getAllDataSourcesCodes(): DataSourceCode[] {
-        try {
-            return descriptor?.sourceDescription?.map(({sourceCode}) => sourceCode);
-        } catch (error) {
-            throw new Error(`${DescriptorErrorEnum.ALL_SOURCES_CODES_ERROR}: ${error}`);
-        }
+        return descriptor?.sourceDescription?.map(({sourceCode}) => sourceCode) || [];
     }
 
     /**
