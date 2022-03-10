@@ -51,26 +51,21 @@ export class ValidatorInstagram {
         ]): Promise<Buffer | undefined> {
         let languageCode: LanguageCode | undefined;
         let usefulFiles = new JSZip();
-        await JSZip.loadAsync(zipFile).then(async (zip: JSZip) => {
-            const keys = Object.keys(zip.files);
-            await Promise.all(keys.map(async (pathName: string) => {
-                const file = zip.files[pathName];
-                if (!file.dir) {
-                    await file.async('nodebuffer').then(async (data: Buffer) => {
-                        if (pathName == FileCode.INSTAGRAM_PERSONAL_INFO) {
-                            languageCode = await this.getLanguage(data);
-                        }
-                    });
-                    if (languageCode) {
-                        await file.async('nodebuffer').then((data: Buffer) => {
-                            if (fileList.includes(<FileCode>pathName)) {
-                                usefulFiles.file(pathName, data, {comment: languageCode});
-                            }
-                        });
-                    }
+        const zip = await JSZip.loadAsync(zipFile);
+        for (let pathName of Object.keys(zip.files)) {
+            const file = zip.files[pathName];
+            if (!file.dir) {
+                let data = await file.async('nodebuffer');
+                if (pathName == FileCode.INSTAGRAM_PERSONAL_INFO) {
+                    languageCode = await this.getLanguage(data);
                 }
-            }));
-        });
+
+                data = await file.async('nodebuffer');
+                if (fileList.includes(<FileCode>pathName)) {
+                    usefulFiles.file(pathName, data, {comment: languageCode});
+                }
+            }
+        }
         if (languageCode) {
             return await usefulFiles.generateAsync({type: "nodebuffer"});
         } else {
