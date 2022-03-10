@@ -30,7 +30,25 @@ export class ValidatorInstagram {
      * @param fileList - optional list of paths of file (as FileCode) that we want to keep into the file zip
      * @return Promise<Buffer | undefined> - buffer containing all useful files that have been found
      */
-    static async selectUsefulFilesFromZip(zipFile: Buffer, fileList: Array<FileCode> = [FileCode.INSTAGRAM_ADS_CLICKED, FileCode.INSTAGRAM_ADS_VIEWED, FileCode.INSTAGRAM_POSTS_VIEWED, FileCode.INSTAGRAM_VIDEO_VIEWED, FileCode.INSTAGRAM_POST_COMMENT, FileCode.INSTAGRAM_POSTS_CREATED, FileCode.INSTAGRAM_STORIES_CREATED, FileCode.INSTAGRAM_FOLLOWERS, FileCode.INSTAGRAM_FOLLOWING_ACCOUNTS, FileCode.INSTAGRAM_LIKE_COMMENTS, FileCode.INSTAGRAM_LIKE_POSTS, FileCode.INSTAGRAM_ELEGIBILITY, FileCode.INSTAGRAM_EMOJI_SLIDERS, FileCode.INSTAGRAM_POLLS, FileCode.INSTAGRAM_QUIZZES]): Promise<Buffer | undefined>{
+    static async selectUsefulFilesFromZip(
+        zipFile: Buffer,
+        fileList: Array<FileCode> = [
+            FileCode.INSTAGRAM_ADS_CLICKED,
+            FileCode.INSTAGRAM_ADS_VIEWED,
+            FileCode.INSTAGRAM_POSTS_VIEWED,
+            FileCode.INSTAGRAM_VIDEO_VIEWED,
+            FileCode.INSTAGRAM_POST_COMMENT,
+            FileCode.INSTAGRAM_POSTS_CREATED,
+            FileCode.INSTAGRAM_STORIES_CREATED,
+            FileCode.INSTAGRAM_FOLLOWERS,
+            FileCode.INSTAGRAM_FOLLOWING_ACCOUNTS,
+            FileCode.INSTAGRAM_LIKE_COMMENTS,
+            FileCode.INSTAGRAM_LIKE_POSTS,
+            FileCode.INSTAGRAM_ELEGIBILITY,
+            FileCode.INSTAGRAM_EMOJI_SLIDERS,
+            FileCode.INSTAGRAM_POLLS,
+            FileCode.INSTAGRAM_QUIZZES
+        ]): Promise<Buffer | undefined> {
         let languageCode: LanguageCode | undefined;
         let usefulFiles = new JSZip();
         await JSZip.loadAsync(zipFile).then(async (zip: JSZip) => {
@@ -53,7 +71,7 @@ export class ValidatorInstagram {
                 }
             }));
         });
-        if(languageCode) {
+        if (languageCode) {
             return await usefulFiles.generateAsync({type: "nodebuffer"});
         } else {
             throw new Error(`${ValidationErrorEnums.MISSING_FILE_ERROR}`);

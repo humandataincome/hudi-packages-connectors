@@ -486,11 +486,16 @@ export class GoogleService {
     async parseActivitiesShopping(data: Buffer): Promise<ShoppingActivities | undefined> {
         try {
             let model: ShoppingActivities = {list: []};
-            const jsdom = require("jsdom");
-            const { JSDOM } = jsdom;
-            const dom = new JSDOM(data, {});
+            let document = window.document || undefined;
 
-            Array.from(dom.window.document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).forEach((el: any) => {
+            if (document === undefined) {
+                const jsdom = require("jsdom");
+                const { JSDOM } = jsdom;
+                const dom = new JSDOM(data, {});
+                document = dom.window.document;
+            }
+
+            Array.from(document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).forEach((el: any) => {
                 if(el) {
                     let shopping: ShoppingActivity = {};
                     if(el.childNodes[1]) {
@@ -527,11 +532,16 @@ export class GoogleService {
         try {
             let model: DailyDiscoverActivities = {list: []};
 
-            const jsdom = require("jsdom");
-            const { JSDOM } = jsdom;
-            const dom = new JSDOM(data, {});
+            let document = window.document || undefined;
 
-            Array.from(dom.window.document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((el: any) => {
+            if (document === undefined) {
+                const jsdom = require("jsdom");
+                const { JSDOM } = jsdom;
+                const dom = new JSDOM(data, {});
+                document = dom.window.document;
+            }
+
+            Array.from(document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((el: any) => {
                 if(el.childNodes.length) {
                     let newSearch: DailyDiscoverActivity = {searchKeys: []};
                     let skipFirstElement = false; //always skip the first line (E.g. 16 schede nel tuo feed)
@@ -580,11 +590,16 @@ export class GoogleService {
         try {
             let model: SearchActivities = {list: []};
 
-            const jsdom = require("jsdom");
-            const { JSDOM } = jsdom;
-            const dom = new JSDOM(data, {});
+            let document = window.document || undefined;
 
-            Array.from(dom.window.document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((element: any) => {
+            if (document === undefined) {
+                const jsdom = require("jsdom");
+                const { JSDOM } = jsdom;
+                const dom = new JSDOM(data, {});
+                document = dom.window.document;
+            }
+
+            Array.from(document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((element: any) => {
                 if(element.childNodes.length > 0) {
                     let newSearch: SearchActivity = {};
                     if (element.childNodes[1]) {
@@ -615,11 +630,16 @@ export class GoogleService {
     async parseYoutubeActivities(data: Buffer): Promise<YoutubeActivities | undefined> {
         try {
             let model: YoutubeActivities = {list: []};
-            const jsdom = require("jsdom");
-            const { JSDOM } = jsdom;
-            const dom = new JSDOM(data, {});
+            let document = window.document || undefined;
 
-            Array.from(dom.window.document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((element: any) => {
+            if (document === undefined) {
+                const jsdom = require("jsdom");
+                const { JSDOM } = jsdom;
+                const dom = new JSDOM(data, {});
+                document = dom.window.document;
+            }
+
+            Array.from(document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((element: any) => {
                 let newActivity: YoutubeActivity = {};
                 if (element.childNodes.length >= 4) {
                     (element.childNodes[0] && element.childNodes[0].textContent) && (newActivity.activity = Decoding.decodeObject(element.childNodes[0].textContent));
@@ -666,11 +686,16 @@ export class GoogleService {
     async parseNewsActivities(data: Buffer): Promise<NewsActivities | undefined> {
         try {
             let model: NewsActivities = {list: []};
-            const jsdom = require("jsdom");
-            const { JSDOM } = jsdom;
-            const dom = new JSDOM(data, {});
+            let document = window.document || undefined;
 
-            Array.from(dom.window.document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((element: any) => {
+            if (document === undefined) {
+                const jsdom = require("jsdom");
+                const { JSDOM } = jsdom;
+                const dom = new JSDOM(data, {});
+                document = dom.window.document;
+            }
+
+            Array.from(document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((element: any) => {
                 if(element.childNodes) {
                     let newArticle: NewsActivity = {};
                     if (element.childNodes.length == 4) {

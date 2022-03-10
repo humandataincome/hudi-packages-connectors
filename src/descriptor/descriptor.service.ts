@@ -1,24 +1,24 @@
-
 import {
     Descriptor,
-    FileContent,
     Procedure,
-    RetrievingProcedure,
     SourceDescription
 } from "./descriptor.model";
 import {DataSourceCode, FileExtension, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
 import {Validator} from "../validator";
 import {DescriptorErrorEnum} from "./descriptor.error";
 
+
+const descriptor: Descriptor = require('./descriptor.json');
+
 export class DescriptorService {
+    static readonly document: Descriptor = descriptor;
 
     /**
-     * @return {Promise<Array<DataSourceCode> | undefined>} - all available data sources' respective codes
+     * @return  all available data sources' respective codes
      */
-    static async getAllDataSourcesCodes(): Promise<Array<DataSourceCode> | undefined> {
+    static getAllDataSourcesCodes(): DataSourceCode[] {
         try {
-            const document: Descriptor = require('./descriptor.json');
-            return document?.sourceDescription.map((item: SourceDescription) => item.sourceCode);
+            return descriptor?.sourceDescription?.map(({sourceCode}) => sourceCode);
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.ALL_SOURCES_CODES_ERROR}: ${error}`);
         }
@@ -26,12 +26,11 @@ export class DescriptorService {
 
     /**
      * @param dataSourceCode - code of the data source
-     * @return {Promise<SourceDescription | undefined>} - get the whole description of a given data source
+     * @return get the whole description of a given data source
      */
-    static async getDataSourceDescription(dataSourceCode: DataSourceCode): Promise<SourceDescription | undefined> {
+    static getDataSourceDescription(dataSourceCode: DataSourceCode): SourceDescription | undefined {
         try {
-            const document = require('./descriptor.json');
-            return document?.sourceDescription.find(({sourceCode}: SourceDescription) => sourceCode === dataSourceCode);
+            return descriptor?.sourceDescription?.find(({sourceCode}) => sourceCode === dataSourceCode);
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_DESCRIPTION_ERROR}: ${error}`);
         }
@@ -39,12 +38,13 @@ export class DescriptorService {
 
     /**
      * @param dataSourceCode - code of the data source
-     * @return {Promise<string | undefined>} - return source name of a given data source code
+     * @return return source name of a given data source code
      */
-    static async getDataSourceName(dataSourceCode: DataSourceCode): Promise<string | undefined> {
+    static getDataSourceName(dataSourceCode: DataSourceCode): string | undefined {
         try {
-            const document: Descriptor = require('./descriptor.json');
-            return document?.sourceDescription.find(({sourceCode}: SourceDescription) => sourceCode == dataSourceCode)?.sourceName;
+            return descriptor?.sourceDescription?.find(
+                ({sourceCode}) => sourceCode === dataSourceCode
+            )?.sourceName;
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_NAME_ERROR}: ${error}`);
         }
@@ -54,10 +54,11 @@ export class DescriptorService {
      * @param dataSourceCode - code of the data source
      * @return {Promise<Array<FileExtension> | undefined>} - return the array of valid format of a given data source
      */
-    static async getDataSourceFormats(dataSourceCode: DataSourceCode): Promise<Array<FileExtension> | undefined> {
+    static getDataSourceFormats(dataSourceCode: DataSourceCode): FileExtension[] | undefined {
         try {
-            const document = require('./descriptor.json');
-            return document?.sourceDescription.find(({sourceCode}: SourceDescription) => sourceCode == dataSourceCode)?.supportedFormats;
+            return descriptor?.sourceDescription?.find(
+                ({sourceCode}) => sourceCode === dataSourceCode
+            )?.supportedFormats;
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_FORMAT_ERROR}: ${error}`);
         }
@@ -67,29 +68,28 @@ export class DescriptorService {
     /**
      * @param dataSourceCode - code of the data source
      * @param language - language of the data source
-     * @param procedureType - procedure type of the data source
+     * @param retrievingProcedureType - procedure type of the data source
      * @return {Promise<Procedure | undefined>} - return the specific procedure and relative steps to retrieve a given data source, language code and retrieving procedure code
      */
-    static async getDataSourceProcedure(dataSourceCode: DataSourceCode, language: LanguageCode, procedureType: RetrievingProcedureType): Promise<Procedure | undefined> {
+    static getDataSourceProcedure(
+        dataSourceCode: DataSourceCode,
+        language: LanguageCode,
+        retrievingProcedureType: RetrievingProcedureType
+    ): Procedure | undefined {
         try {
-            const document = require('./descriptor.json');
-            let model;
-            if (document.sourceDescription.length > 0) {
-                document.sourceDescription.find((item: SourceDescription) => {
-                    if(item.sourceCode === dataSourceCode && item.retrievingProcedures.length > 0) {
-                        item.retrievingProcedures.find((item: RetrievingProcedure) => {
-                            if(item.languageCode == language && item.procedures.length > 0) {
-                                item.procedures.find((item: Procedure) => {
-                                    if(item.procedureType === procedureType) {
-                                        model = item;
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-            return !Validator.objectIsEmpty(model) ? model : undefined;
+            const sourceDescription = descriptor?.sourceDescription?.find(
+                ({sourceCode, retrievingProcedures}) => sourceCode === dataSourceCode && retrievingProcedures.length
+            );
+
+            const retrievingProcedure = sourceDescription?.retrievingProcedures?.find(
+                ({languageCode, procedures}) => languageCode === language && procedures.length
+            );
+
+            const procedure = retrievingProcedure?.procedures?.find(
+                ({procedureType}) => procedureType === retrievingProcedureType
+            );
+
+            return !Validator.objectIsEmpty(procedure) ? procedure : undefined;
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_PROCEDURE_ERROR}: ${error}`);
         }
@@ -97,20 +97,15 @@ export class DescriptorService {
 
     /**
      * @param dataSourceCode - code of the data source
-     * @return {Promise<Array<LanguageCode> | undefined>} - return all the procedure languages available for a given data source
+     * @return {LanguageCode[] | undefined} - return all the procedure languages available for a given data source
      */
-    static async getAllDataSourceLanguages(dataSourceCode: DataSourceCode): Promise<Array<LanguageCode> | undefined> {
+    static getAllDataSourceLanguages(dataSourceCode: DataSourceCode): LanguageCode[] | undefined {
         try {
-            const document = require('./descriptor.json');
-            let model;
-            if (document.sourceDescription.length > 0) {
-                document.sourceDescription.find((item: SourceDescription) => {
-                    if (item.sourceCode === dataSourceCode && item.retrievingProcedures.length > 0) {
-                        model = item.retrievingProcedures.map(({languageCode}: RetrievingProcedure) => languageCode);
-                    }
-                });
-            }
-            return model;
+            const sourceDescription = descriptor?.sourceDescription?.find(
+                ({sourceCode, retrievingProcedures}) => sourceCode === dataSourceCode && retrievingProcedures.length
+            );
+
+            return sourceDescription?.retrievingProcedures?.map(({languageCode}) => languageCode);
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_ALL_LANGUAGES_ERROR}: ${error}`);
         }
@@ -119,24 +114,19 @@ export class DescriptorService {
     /**
      * @param dataSourceCode - code of the data source
      * @param language - language of the data source
-     * @return {Promise<Array<FileContent> | undefined>} - return all the retrieving procedure types for a given data source and language code
+     * @return {RetrievingProcedureType[] | undefined } - return all the retrieving procedure types for a given data source and language code
      */
-    static async getAllDataSourceProcedureTypes(dataSourceCode: DataSourceCode, language: LanguageCode): Promise<Array<RetrievingProcedureType> | undefined> {
+    static getAllDataSourceProcedureTypes(dataSourceCode: DataSourceCode, language: LanguageCode): RetrievingProcedureType[] | undefined {
         try {
-            const document = require('./descriptor.json');
-            let model;
-            if (document.sourceDescription.length > 0) {
-                document.sourceDescription.find((item: SourceDescription) => {
-                    if (item.sourceCode === dataSourceCode && item.retrievingProcedures.length > 0) {
-                        item.retrievingProcedures.find((item: RetrievingProcedure) => {
-                            if (item.languageCode == language && item.procedures.length > 0) {
-                                model = item.procedures.map(({procedureType}: Procedure) => procedureType)
-                            }
-                        });
-                    }
-                });
-            }
-            return model;
+            const sourceDescription = descriptor?.sourceDescription?.find(
+                ({sourceCode, retrievingProcedures}) => sourceCode === dataSourceCode && retrievingProcedures.length
+            );
+
+            const retrievingProcedure = sourceDescription?.retrievingProcedures?.find(
+                ({languageCode, procedures}) => languageCode === language && procedures.length
+            );
+
+            return retrievingProcedure?.procedures?.map(({procedureType}) => procedureType);
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_ALL_PROCEDURES_ERROR}: ${error}`);
         }

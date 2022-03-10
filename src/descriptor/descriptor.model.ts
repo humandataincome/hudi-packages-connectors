@@ -1,7 +1,7 @@
 import {DataSourceCode, FileExtension, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
 
 export interface Descriptor {
-    sourceDescription: Array<SourceDescription>;
+    sourceDescription: SourceDescription[];
 }
 
 export interface SupportedSources {
@@ -27,7 +27,7 @@ export interface Procedure {
     retrievingSteps: Array<RetrievingStep>;
 }
 
-export interface RetrievingStep{
+export interface RetrievingStep {
     index: string;
     description: string;
     attributeDescription?: string;
