@@ -1,5 +1,5 @@
 
-export interface PersonalInformation {
+export interface PersonalInformationFB {
     firstName?: string;
     middleName?: string;
     lastName?: string;
@@ -8,57 +8,57 @@ export interface PersonalInformation {
     gender?: string;
     currentCity?: string;
     homeTown?: string;
-    relationship?: Relationship;
-    educationExperiences?: Array<EducationExperience>;
-    workExperience?: Array<WorkExperience>;
+    relationship?: RelationshipFB;
+    educationExperiences?: Array<EducationExperienceFB>;
+    workExperience?: Array<WorkExperienceFB>;
     languages?: Array<string>;
     gendersInterests?: Array<string>;
-    politicalView?: View;
-    religiousView?: View;
+    politicalView?: ViewFB;
+    religiousView?: ViewFB;
     bloodInfo?: string;
     websites?: Array<string>;
-    address?: AddressLocation;
+    address?: AddressLocationFB;
     phoneNumbers?: Array<string>;
-    placesLived?: Array<PlaceLived>;
-    pagesInterests?: Array<Pages>;
+    placesLived?: Array<PlaceLivedFB>;
+    pagesInterests?: Array<PagesFB>;
     registrationDate?: Date;
     profileUri?: string;
 }
 
-export interface AdsInteractedWith {
-    list: Array<AdvInteraction>;
+export interface AdsInteractedWithFB {
+    list: Array<AdvInteractionFB>;
 }
 
-export interface AdsUsingYourInfo {
-    list: Array<AdvUsingYourInfo>;
+export interface AdsUsingYourInfoFB {
+    list: Array<AdvUsingYourInfoFB>;
 }
 
-export interface SearchHistory {
-    listSearches: Array<Search>;
+export interface SearchHistoryFB {
+    listSearches: Array<SearchFB>;
 }
 
-export interface CommentsPosted {
-    list: Array<CommentPosted>;
+export interface CommentsPostedFB {
+    list: Array<CommentPostedFB>;
 }
 
-export interface PagesLiked {
-    list: Array<Page>;
+export interface PagesLikedFB {
+    list: Array<PageFB>;
 }
 
-export interface PagesFollow {
-    list: Array<Page>;
+export interface PagesFollowFB {
+    list: Array<PageFB>;
 }
- export interface AppsConnected {
-    list: Array<AppConnected>;
+ export interface AppsConnectedFB {
+    list: Array<AppConnectedFB>;
  }
 
-export interface Conversations {
-    listInbox?: Array<Conversation>;
+export interface ConversationsFB {
+    listInbox?: Array<ConversationFB>;
 }
 
 
 //-----------------------------------
-export interface AppConnected {
+export interface AppConnectedFB {
     name?: string;
     userAppScopedId?: number;
     category?: string;
@@ -66,37 +66,37 @@ export interface AppConnected {
     removedTimestamp?: Date;
 }
 
-export interface Page {
+export interface PageFB {
     name?: string;
     date?: Date;
 }
 
-export interface AdvInteraction{
+export interface AdvInteractionFB {
     title?: string;
     action?: string;
     date?: Date;
 }
 
-export interface CommentPosted {
+export interface CommentPostedFB {
     text?: string;
     author?: string;
     title?: string;
     date?: Date;
 }
 
-export interface AdvUsingYourInfo{
+export interface AdvUsingYourInfoFB {
     advertiserName?: string;
     hasDataFileCustomAudience?: boolean;
     hasRemarketingCustomAudience?: boolean;
     hasInPersonStoreVisit?: boolean;
 }
 
-export interface Relationship {
+export interface RelationshipFB {
     status?: string,
-    anniversary?: DateAlternative,
+    anniversary?: DateAlternativeFB,
     dateAdded?: Date
 }
-export interface AddressLocation {
+export interface AddressLocationFB {
     street?: string;
     city?: string;
     zipcode?: number;
@@ -106,7 +106,7 @@ export interface AddressLocation {
     region?: string;
 }
 
-export interface EducationExperience {
+export interface EducationExperienceFB {
     name?: string;
     startDate?: Date;
     endDate?: Date;
@@ -117,7 +117,7 @@ export interface EducationExperience {
     schoolType?: string;
 }
 
-export interface WorkExperience {
+export interface WorkExperienceFB {
     employer?: string;
     title?: string;
     location?: string;
@@ -126,29 +126,29 @@ export interface WorkExperience {
     endDate?: Date;
 }
 
-export interface PlaceLived {
+export interface PlaceLivedFB {
     place?: string;
     startDate?: Date;
 }
 
-export interface Pages {
+export interface PagesFB {
     category?: string;
     pages?: Array<string>;
 }
 
-export interface View {
+export interface ViewFB {
     name?: string;
     description?: string;
 }
 
-export interface Conversation {
+export interface ConversationFB {
     title?: string;
-    listMessages?: Array<Message>;
+    listMessages?: Array<MessageFB>;
     participants?: Array<string>;
     isStillParticipant?: boolean;
 }
 
-export interface Message {
+export interface MessageFB {
     senderName?: string;
     content?: string;
     link?: string;
@@ -157,13 +157,13 @@ export interface Message {
     date?: Date;
 }
 
-export interface DateAlternative {
+export interface DateAlternativeFB {
     year?:number,
     month?:number,
     day?:number
 }
 
-export interface Search {
+export interface SearchFB {
     text?: string;
     date?: Date;
 }

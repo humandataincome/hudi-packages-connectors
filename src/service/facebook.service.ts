@@ -1,23 +1,23 @@
 import Logger from "../utils/logger";
 import {
-    AppConnected,
-    AppsConnected,
-    CommentPosted,
-    CommentsPosted,
-    PagesFollow,
-    PagesLiked,
-    PersonalInformation,
-    SearchHistory,
-    Conversation,
-    Message,
-    AdsInteractedWith,
-    AdsUsingYourInfo,
-    EducationExperience,
-    Relationship,
-    WorkExperience,
-    View,
-    AddressLocation, PlaceLived, Pages, AdvInteraction, AdvUsingYourInfo, Search, Page,
-} from "../model/facebook.model";
+    AppConnectedFB,
+    AppsConnectedFB,
+    CommentPostedFB,
+    CommentsPostedFB,
+    PagesFollowFB,
+    PagesLikedFB,
+    PersonalInformationFB,
+    SearchHistoryFB,
+    ConversationFB,
+    MessageFB,
+    AdsInteractedWithFB,
+    AdsUsingYourInfoFB,
+    EducationExperienceFB,
+    RelationshipFB,
+    WorkExperienceFB,
+    ViewFB,
+    AddressLocationFB, PlaceLivedFB, PagesFB, AdvInteractionFB, AdvUsingYourInfoFB, SearchFB, PageFB,
+} from "../model";
 import {Decoding} from "../utils/decoding";
 import {Validator} from "../validator";
 
@@ -31,10 +31,10 @@ export class FacebookService{
 
     /**
      * @param data - file 'profile_information/profile_information.json' in input as Buffer
-     * @return {Promise<PersonalInformation | undefined>}
+     * @return {Promise<PersonalInformationFB | undefined>}
      */
-    async parsePersonalInformation(data: Buffer): Promise<PersonalInformation | undefined> {
-        let personalInfoModel: PersonalInformation = {};
+    async parsePersonalInformation(data: Buffer): Promise<PersonalInformationFB | undefined> {
+        let personalInfoModel: PersonalInformationFB = {};
         try {
             let document = JSON.parse(data.toString());
             (document.profile_v2.name.first_name) && (personalInfoModel.firstName = Decoding.decodeObject(document.profile_v2.name.first_name));
@@ -46,7 +46,7 @@ export class FacebookService{
             (document.profile_v2.current_city.name) && (personalInfoModel.currentCity = Decoding.decodeObject(document.profile_v2.current_city.name));
             (document.profile_v2.hometown.name) && (personalInfoModel.homeTown = Decoding.decodeObject(document.profile_v2.hometown.name));
 
-            let relationshipModel: Relationship = {};
+            let relationshipModel: RelationshipFB = {};
             (document.profile_v2.relationship.status) && (relationshipModel.status = Decoding.decodeObject(document.profile_v2.relationship.status));
             (document.profile_v2.relationship.anniversary) && (relationshipModel.anniversary = document.profile_v2.relationship.anniversary);
             (document.profile_v2.relationship.timestamp) && (relationshipModel.dateAdded = new Date(1000 * document.profile_v2.relationship.timestamp));
@@ -54,7 +54,7 @@ export class FacebookService{
 
             (document.profile_v2.education_experiences && document.profile_v2.education_experiences.length > 0) && (personalInfoModel.educationExperiences =
                 document.profile_v2.education_experiences.map((value: any) => {
-                    let educationModel: EducationExperience = {};
+                    let educationModel: EducationExperienceFB = {};
                     (value.name) && (educationModel.name = Decoding.decodeObject(value.name));
                     (value.start_timestamp) && (educationModel.startDate = new Date(1000 * value.start_timestamp));
                     (value.end_timestamp) && (educationModel.endDate = new Date(1000 * value.end_timestamp));
@@ -68,7 +68,7 @@ export class FacebookService{
 
             (document.profile_v2.work_experiences && document.profile_v2.work_experiences.length > 0) && (personalInfoModel.workExperience =
                 document.profile_v2.work_experiences.map((value: any) => {
-                    let workModel: WorkExperience = {};
+                    let workModel: WorkExperienceFB = {};
                     (value.employer) && (workModel.employer = Decoding.decodeObject(value.employer));
                     (value.title) && (workModel.title = Decoding.decodeObject(value.title));
                     (value.location) && (workModel.location = Decoding.decodeObject(value.location));
@@ -81,13 +81,13 @@ export class FacebookService{
             (document.profile_v2.languages && document.profile_v2.languages.length > 0) && (personalInfoModel.languages = document.profile_v2.languages.map((value: any) => Decoding.decodeObject(value.name)));
             (document.profile_v2.interested_in && document.profile_v2.interested_in.length > 0) && (personalInfoModel.gendersInterests = Decoding.decodeObject(document.profile_v2.interested_in));
             (document.profile_v2.political_view && document.profile_v2.political_view.length > 0) && (personalInfoModel.politicalView = document.profile_v2.political_view.map((value: any) => {
-                let viewModel: View = {};
+                let viewModel: ViewFB = {};
                 (value.name) && (viewModel.name = Decoding.decodeObject(value.name));
                 (value.description) && (viewModel.description = Decoding.decodeObject(value.description));
                 return viewModel;
             }));
             (document.profile_v2.religious_view && document.profile_v2.political_view.length > 0) && (personalInfoModel.religiousView = document.profile_v2.religious_view.map((value: any) => {
-                let viewModel: View = {};
+                let viewModel: ViewFB = {};
                 (value.name) && (viewModel.name = Decoding.decodeObject(value.name));
                 (value.description) && (viewModel.description = Decoding.decodeObject(value.description));
                 return viewModel;
@@ -95,7 +95,7 @@ export class FacebookService{
             (document.profile_v2.blood_donor_status) && (personalInfoModel.bloodInfo = Decoding.decodeObject(document.profile_v2.blood_info.blood_donor_status));
             (document.profile_v2.websites && document.profile_v2.websites.length > 0) && (personalInfoModel.websites = document.profile_v2.websites.map((value: any) => Decoding.decodeObject(value.address)));
 
-            let addressModel: AddressLocation = {};
+            let addressModel: AddressLocationFB = {};
             (document.profile_v2.address.street) && (addressModel.street = Decoding.decodeObject(document.profile_v2.address.street));
             (document.profile_v2.address.city) && (addressModel.city = Decoding.decodeObject(document.profile_v2.address.city));
             (document.profile_v2.address.zipcode) && (addressModel.zipcode = Decoding.decodeObject(document.profile_v2.address.zipcode));
@@ -107,7 +107,7 @@ export class FacebookService{
 
             (document.profile_v2.phone_numbers && document.profile_v2.phone_numbers.length > 0) && (personalInfoModel.phoneNumbers = document.profile_v2.phone_numbers);
             (document.profile_v2.places_lived && document.profile_v2.places_lived.length > 0) && (personalInfoModel.placesLived = document.profile_v2.places_lived.map((value: any) => {
-                let placeModel: PlaceLived = {};
+                let placeModel: PlaceLivedFB = {};
                 (value.place) && (placeModel.place = Decoding.decodeObject(value.place));
                 (value.start_timestamp) && (placeModel.startDate = new Date(1000 * value.start_timestamp));
                 return placeModel;
@@ -116,7 +116,7 @@ export class FacebookService{
 
             (document.profile_v2.pages && document.profile_v2.pages.length > 0) && (personalInfoModel.pagesInterests =
                 document.profile_v2.pages.map((value: any) => {
-                    let pagesModel: Pages = {};
+                    let pagesModel: PagesFB = {};
                     (value.name) && (pagesModel.category = Decoding.decodeObject(value.name));
                     (value.pages && value.pages.length > 0) && (pagesModel.pages = Decoding.decodeObject(value.pages));
                     return pagesModel;
@@ -124,44 +124,44 @@ export class FacebookService{
             (document.profile_v2.registration_timestamp) && (personalInfoModel.registrationDate = new Date(1000*document.profile_v2.registration_timestamp));
             (document.profile_v2.profile_uri) && (personalInfoModel.profileUri = Decoding.decodeObject(document.profile_v2.profile_uri));
             return !Validator.objectIsEmpty(personalInfoModel) ? personalInfoModel : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`,'parsePersonalInformation');
+        } catch (error) {
+            this.logger.log('error', `${error}`,'parsePersonalInformation');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'ads_information/advertisers_you've_interacted_with.json' in input as Buffer
-     * @return {Promise<AdsInteractedWith | undefined>}
+     * @return {Promise<AdsInteractedWithFB | undefined>}
      */
-    async parseAdsInteractedWith(data: Buffer): Promise<AdsInteractedWith | undefined> {
-        let adsModel: AdsInteractedWith = {list: []};
+    async parseAdsInteractedWith(data: Buffer): Promise<AdsInteractedWithFB | undefined> {
+        let adsModel: AdsInteractedWithFB = {list: []};
         try {
             let document = JSON.parse(data.toString());
             (document.history_v2 && document.history_v2.length > 0) && (adsModel.list = document.history_v2.map((value: any) => {
-                let model: AdvInteraction = {};
+                let model: AdvInteractionFB = {};
                 (value.title) && (model.title = Decoding.decodeObject(value.title));
                 (value.action) && (model.action = Decoding.decodeObject(value.action));
                 (value.timestamp) && (model.date = new Date(1000*value.timestamp));
                 return model;
             }));
             return adsModel.list.length > 0 ? adsModel : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`,'parseAdsInteractedWith');
+        } catch (error) {
+            this.logger.log('error', `${error}`,'parseAdsInteractedWith');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'ads_information/advertisers_using_your_activity_or_information.json' in input as Buffer
-     * @return {Promise<AdsUsingYourInfo | undefined>}
+     * @return {Promise<AdsUsingYourInfoFB | undefined>}
      */
-    async parseAdsUsingYourInfo(data: Buffer): Promise<AdsUsingYourInfo | undefined> {
-        let adsModel: AdsUsingYourInfo = {list:[]};
+    async parseAdsUsingYourInfo(data: Buffer): Promise<AdsUsingYourInfoFB | undefined> {
+        let adsModel: AdsUsingYourInfoFB = {list:[]};
         try {
             let document = JSON.parse(data.toString());
             (document.custom_audiences_all_types_v2 && document.custom_audiences_all_types_v2.length > 0) && (adsModel.list = document.custom_audiences_all_types_v2.map((value: any) => {
-                let model: AdvUsingYourInfo = {};
+                let model: AdvUsingYourInfoFB = {};
                 (value.advertiser_name) && (model.advertiserName = Decoding.decodeObject(value.advertiser_name));
                 (value.has_data_file_custom_audience) && (model.hasDataFileCustomAudience = value.has_data_file_custom_audience);
                 (value.has_remarketing_custom_audience) && (model.hasRemarketingCustomAudience = value.has_remarketing_custom_audience);
@@ -169,43 +169,43 @@ export class FacebookService{
                 return model;
             }));
             return adsModel.list.length > 0 ? adsModel : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`,'parseAdsUsingYourInfo');
+        } catch (error) {
+            this.logger.log('error', `${error}`,'parseAdsUsingYourInfo');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'search/your_search_history.json' in input as Buffer
-     * @return {Promise<SearchHistory | undefined>}
+     * @return {Promise<SearchHistoryFB | undefined>}
      */
-    async parseSearchHistory(data: Buffer): Promise<SearchHistory | undefined> {
-        let searchHistoryModel: SearchHistory = {listSearches: []};
+    async parseSearchHistory(data: Buffer): Promise<SearchHistoryFB | undefined> {
+        let searchHistoryModel: SearchHistoryFB = {listSearches: []};
         try {
             let document = JSON.parse(data.toString());
             (document.searches_v2 && document.searches_v2.length > 0) && (searchHistoryModel.listSearches = document.searches_v2.map((value: any) => {
-                let model: Search = {};
+                let model: SearchFB = {};
                 (value.data && value.data[0].text) && (model.text = Decoding.decodeObject(value.data[0].text));
                 (value.timestamp) && (model.date = new Date(1000*value.timestamp));
                 return model;
             }));
             return searchHistoryModel.listSearches.length > 0 ? searchHistoryModel : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`,'parseSearchHistory');
+        } catch (error) {
+            this.logger.log('error', `${error}`,'parseSearchHistory');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'comments_and_reactions/comments.json' in input as Buffer
-     * @return {Promise<CommentsPosted | undefined>}
+     * @return {Promise<CommentsPostedFB | undefined>}
      */
-    async parseComments(data: Buffer): Promise<CommentsPosted | undefined> {
-        let commentsPostedModel: CommentsPosted = {list: []};
+    async parseComments(data: Buffer): Promise<CommentsPostedFB | undefined> {
+        let commentsPostedModel: CommentsPostedFB = {list: []};
         try {
             let document = JSON.parse(data.toString());
             (document.comments_v2 && document.comments_v2.length > 0) && (commentsPostedModel.list = document.comments_v2.map((value: any) => {
-                let model: CommentPosted = {};
+                let model: CommentPostedFB = {};
                 (value.data && value.data[0].comment.comment) && (model.text = Decoding.decodeObject(value.data[0].comment.comment));
                 (value.data && value.data[0].comment.author) && (model.author = Decoding.decodeObject(value.data[0].comment.author));
                 (value.timestamp) && (model.date = new Date(1000 * value.timestamp));
@@ -213,64 +213,64 @@ export class FacebookService{
                 return model;
             }));
             return commentsPostedModel.list.length > 0 ? commentsPostedModel : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`,'parseComments');
+        } catch (error) {
+            this.logger.log('error', `${error}`,'parseComments');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'pages/pages_you've_liked.json' in input as Buffer
-     * @return {Promise<PagesLiked | undefined>}
+     * @return {Promise<PagesLikedFB | undefined>}
      */
-    async parsePageLiked(data: Buffer): Promise<PagesLiked | undefined> {
-        let modelPagesLiked: PagesLiked = {list: []};
+    async parsePageLiked(data: Buffer): Promise<PagesLikedFB | undefined> {
+        let modelPagesLiked: PagesLikedFB = {list: []};
         try {
             let document = JSON.parse(data.toString());
             (document.page_likes_v2 && document.page_likes_v2.length > 0) && (modelPagesLiked.list = document.page_likes_v2.map((value: any) => {
-                let model: Page = {};
+                let model: PageFB = {};
                 (value.name) && (model.name = Decoding.decodeObject(value.name));
                 (value.timestamp) && (model.date = new Date(1000 * value.timestamp));
                 return model;
             }));
             return modelPagesLiked.list.length > 0 ? modelPagesLiked : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`,'parsePageLiked');
+        } catch (error) {
+            this.logger.log('error', `${error}`,'parsePageLiked');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'pages/pages_you_follow.json' in input as Buffer
-     * @return {Promise<PagesFollow | undefined>}
+     * @return {Promise<PagesFollowFB | undefined>}
      */
-    async parsePageFollowed(data: Buffer): Promise<PagesFollow | undefined> {
-        let modelPagesFollow: PagesFollow = {list: []};
+    async parsePageFollowed(data: Buffer): Promise<PagesFollowFB | undefined> {
+        let modelPagesFollow: PagesFollowFB = {list: []};
         try {
             let document = JSON.parse(data.toString());
             (document.pages_followed_v2 && document.pages_followed_v2.length > 0) && (modelPagesFollow.list = document.pages_followed_v2.map((value: any) => {
-                let model: Page = {};
+                let model: PageFB = {};
                 (value.title) && (model.name = Decoding.decodeObject(value.title));
                 (value.timestamp) && (model.date = new Date(1000 * value.timestamp));
                 return model;
             }));
             return modelPagesFollow.list.length > 0 ? modelPagesFollow : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`,'parsePageFollowed');
+        } catch (error) {
+            this.logger.log('error', `${error}`,'parsePageFollowed');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'apps_and_websites_off_of_facebook/apps_and_websites.json' in input as Buffer
-     * @return {Promise<AppsConnected | undefined>}
+     * @return {Promise<AppsConnectedFB | undefined>}
      */
-    async parseAppsConnected(data: Buffer): Promise<AppsConnected | undefined> {
-        let modelAppsConnected: AppsConnected = {list: []};
+    async parseAppsConnected(data: Buffer): Promise<AppsConnectedFB | undefined> {
+        let modelAppsConnected: AppsConnectedFB = {list: []};
         try {
             let document = JSON.parse(data.toString());
             modelAppsConnected.list = document.installed_apps_v2.map((value: any) => {
-                let model: AppConnected = {};
+                let model: AppConnectedFB = {};
                 (value.name) && (model.name = Decoding.decodeObject(value.name));
                 (value.user_app_scoped_id) && (model.userAppScopedId = value.user_app_scoped_id);
                 (value.category) && (model.category = Decoding.decodeObject(value.category));
@@ -280,22 +280,22 @@ export class FacebookService{
                 return model;
             });
             return modelAppsConnected.list.length > 0 ? modelAppsConnected : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`,'parseAppsConnected');
+        } catch (error) {
+            this.logger.log('error', `${error}`,'parseAppsConnected');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'messages/inbox/{chat_directory_name}/message_1.json' in input as Buffer
-     * @return {Promise<Conversation | undefined>}
+     * @return {Promise<ConversationFB | undefined>}
      */
-    async parseMessages(data: Buffer): Promise<Conversation | undefined> {
+    async parseMessages(data: Buffer): Promise<ConversationFB | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let messages: Message[] = [];
+            let messages: Array<MessageFB> = [];
             (document.messages) && (messages = document.messages.map((value: any) => {
-                let model: Message = {};
+                let model: MessageFB = {};
                 (value.sender_name) && (model.senderName = Decoding.decodeObject(value.sender_name));
                 (value.content) && (model.content = Decoding.decodeObject(value.content));
                 (value.type) && (model.type = Decoding.decodeObject(value.type));
@@ -307,15 +307,15 @@ export class FacebookService{
             let participants: string[] = [];
             (document.participants) && (participants = document.participants.map((value: any) => Decoding.decodeObject(value.name)));
 
-            let conversationModel: Conversation = {};
+            let conversationModel: ConversationFB = {};
             (document.title) && (conversationModel.title = Decoding.decodeObject(document.title));
             (messages) && (conversationModel.listMessages = messages);
             (participants) && (conversationModel.participants = participants);
             (document.is_still_participant) && (conversationModel.isStillParticipant = document.is_still_participant);
 
             return !Validator.objectIsEmpty(conversationModel) ? conversationModel : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`,'parseMessages');
+        } catch (error) {
+            this.logger.log('error', `${error}`,'parseMessages');
             return undefined;
         }
     }
