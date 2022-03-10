@@ -81,7 +81,7 @@ export class Validator {
      * @param file - file as buffer
      * @return boolean - true if the size is included between MAX_BYTE_FILE_SIZE and MIN_BYTE_FILE_SIZE
      */
-    private isValideSize(file: Buffer): boolean {
+    private static isValideSize(file: Buffer): boolean {
         return (file.byteLength < Validator._MAX_BYTE_FILE_SIZE) && (file.byteLength > Validator._MIN_BYTE_FILE_SIZE);
     }
 
@@ -107,7 +107,7 @@ export class Validator {
      * @return boolean - true if the file is valid and the size is supported
      */
     async validateJSON(file: Buffer): Promise<boolean> {
-        if (this.isValideSize(file)) {
+        if (Validator.isValideSize(file)) {
             try {
                 return !!JSON.parse(file.toString());
             } catch (error) {
@@ -118,7 +118,7 @@ export class Validator {
     }
 
     async validateXML(file: Buffer): Promise<boolean> {
-        if (this.isValideSize(file)) {
+        if (Validator.isValideSize(file)) {
             try {
                 return true;
             } catch (error) {
@@ -129,7 +129,7 @@ export class Validator {
     }
 
     async validateCSV(file: Buffer): Promise<boolean> {
-        if (this.isValideSize(file)) {
+        if (Validator.isValideSize(file)) {
             try {
                 return true;
             } catch (error) {
@@ -140,7 +140,7 @@ export class Validator {
     }
 
     async validateHTML(file: Buffer): Promise<boolean> {
-        if (this.isValideSize(file)) {
+        if (Validator.isValideSize(file)) {
             try {
                 return true;
             } catch (error) {
@@ -151,7 +151,7 @@ export class Validator {
     }
 
     async validateTXT(file: Buffer): Promise<boolean> {
-        if (this.isValideSize(file)) {
+        if (Validator.isValideSize(file)) {
             try {
                 return true;
             } catch (error) {
