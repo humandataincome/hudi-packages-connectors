@@ -87,7 +87,7 @@ export class InstagramService {
             (InstagramService.pathExists(parameterName, document)) && (personalInfoModel.email = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
             parameterName = this.configInstagram.get(`${this.prefix}-4-privateAccount`);
-            (InstagramService.pathExists(parameterName, document)) && (personalInfoModel.private = document.profile_user[0].string_map_data[parameterName].value.toLowerCase() == 'true');
+            (InstagramService.pathExists(parameterName, document)) && (personalInfoModel.private = document.profile_user[0].string_map_data[parameterName].value.toLowerCase() === 'true');
 
             parameterName = this.configInstagram.get(`${this.prefix}-5-birthdate`);
             (InstagramService.pathExists(parameterName, document)) && (match = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value).split('-'));
