@@ -45,14 +45,13 @@ export class Validator {
 
         for (let pathName of Object.keys(zip.files)) {
             const file = zip.files[pathName];
-            if (file.dir) {
+            if (!file.dir) {
                 const data = await file.async('nodebuffer');
                 if (await this.isValideFile(await this.getFileExtension(pathName), data)) {
                     validatedFiles.file(pathName, data, {comment: file.comment});
                 }
             }
         }
-
         return await validatedFiles.generateAsync({type: "nodebuffer"});
     }
 
@@ -62,15 +61,15 @@ export class Validator {
      */
     async getFileExtension(fileName: string): Promise<FileExtension> {
         const extension = fileName.split('.').pop();
-        if (extension == 'csv') {
+        if (extension === 'csv') {
             return FileExtension.CSV;
-        } else if (extension == 'json') {
+        } else if (extension === 'json') {
             return FileExtension.JSON;
-        } else if (extension == 'txt') {
+        } else if (extension === 'txt') {
             return FileExtension.TXT
-        } else if (extension == 'xml') {
+        } else if (extension === 'xml') {
             return FileExtension.XML;
-        } else if (extension == 'html') {
+        } else if (extension === 'html') {
             return FileExtension.HTML;
         } else {
             throw new Error(`${ValidationErrorEnums.FILE_EXTENSION_ERROR}`);
@@ -171,7 +170,7 @@ export class Validator {
         if (Object.getPrototypeOf(obj) === Object.prototype) {
             if (obj && Object.keys(obj).length > 0) {
                 const reducer = (previousValue: boolean, currentValue: string) => {
-                    return (obj[currentValue] == '') && previousValue;
+                    return (obj[currentValue] === '') && previousValue;
                 };
                 return Object.keys(obj).reduce(reducer, true);
             }
