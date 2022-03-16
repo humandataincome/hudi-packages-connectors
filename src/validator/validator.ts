@@ -24,14 +24,14 @@ export class Validator {
 
     /**
      * @param zipFile - file zip as Buffer
-     * @return Promise<Array<string>> - filter all the file paths from the directories paths
+     * @return {Promise<Array<string>} - filter all the file paths from the directories paths
      */
-    static async filterFilesPathsIntoZip(zipFile: Buffer): Promise<string[]> {
+    static async getFilesPathsIntoZip(zipFile: Buffer): Promise<string[]> {
         const zip = await JSZip.loadAsync(zipFile);
         const keys = Object.keys(zip.files);
 
         return keys
-            .filter((pathName) => zip.files[pathName].dir)
+            .filter((pathName) => !zip.files[pathName].dir)
             .map((pathName) => pathName);
     }
 
@@ -71,6 +71,8 @@ export class Validator {
             return FileExtension.XML;
         } else if (extension === 'html') {
             return FileExtension.HTML;
+        } else if (extension === 'zip') {
+            return FileExtension.ZIP;
         } else {
             throw new Error(`${ValidationErrorEnums.FILE_EXTENSION_ERROR}`);
         }

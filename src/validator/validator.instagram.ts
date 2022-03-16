@@ -60,20 +60,25 @@ export class ValidatorInstagram {
             const file = zip.files[pathName];
             if (!file.dir) {
                 let data = await file.async('nodebuffer');
-                if (pathName == FileCode.INSTAGRAM_PERSONAL_INFO) {
+                if (this.extractRightPath(pathName) == FileCode.INSTAGRAM_PERSONAL_INFO) {
                     languageCode = await this.getLanguage(data);
                 }
 
                 data = await file.async('nodebuffer');
-                if (fileList.includes(<FileCode>pathName)) {
-                    usefulFiles.file(pathName, data, {comment: languageCode});
+                if (fileList.includes(<FileCode>this.extractRightPath(pathName))) {
+                    usefulFiles.file(this.extractRightPath(pathName), data, {comment: languageCode});
                 }
             }
         }
         if (languageCode) {
             return await usefulFiles.generateAsync({type: "nodebuffer"});
         } else {
-            throw new Error(`${ValidationErrorEnums.MISSING_FILE_ERROR}`);
+            throw new Error(`${ValidationErrorEnums.MISSING_FILE_ERROR}: ${FileCode.INSTAGRAM_PERSONAL_INFO}`);
         }
+    }
+
+    private static extractRightPath(path: string): string {
+        const x: string[] = path.split('/');
+        return (x[x.length-2] + '/' + x[x.length-1]);
     }
 }

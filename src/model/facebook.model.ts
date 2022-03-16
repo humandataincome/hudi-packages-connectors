@@ -1,4 +1,3 @@
-
 export interface PersonalInformationFB {
     firstName?: string;
     middleName?: string;
@@ -24,6 +23,11 @@ export interface PersonalInformationFB {
     registrationDate?: Date;
     profileUri?: string;
 }
+export interface LanguagesFB {
+    settingsLanguage?: string;
+    languagesKnown?: Array<string>;
+    favouriteLanguage?: string;
+}
 
 export interface AdsInteractedWithFB {
     list: Array<AdvInteractionFB>;
@@ -41,6 +45,10 @@ export interface CommentsPostedFB {
     list: Array<CommentPostedFB>;
 }
 
+export interface ReactionsFB {
+    list: Array<ReactionFB>;
+}
+
 export interface PagesLikedFB {
     list: Array<PageFB>;
 }
@@ -48,6 +56,11 @@ export interface PagesLikedFB {
 export interface PagesFollowFB {
     list: Array<PageFB>;
 }
+
+export interface PagesRecommendedFB {
+    list: Array<PageFB>;
+}
+
  export interface AppsConnectedFB {
     list: Array<AppConnectedFB>;
  }
@@ -56,8 +69,40 @@ export interface ConversationsFB {
     listInbox?: Array<ConversationFB>;
 }
 
+export interface RecentlyViewedFB {
+    timeSpentOnPageVideos?: Array<VisualizationFB>;
+    videoWatched?: Array<VisualizationFB>;
+    timeSpentOnSingleVideo?: Array<VisualizationFB>;
+    postsShownInNewsLast90Days?: Array<VisualizationFB>;
+    peopleVisualizedWhenSuggested?: Array<VisualizationFB>;
+    marketplaceArticlesVisualized?: Array<VisualizationFB>;
+    insertionsVisualized?: Array<VisualizationFB>;
+    //marketplaceSearchesDays?: Array<VisualizationFB>;
+    //marketplaceVendorsContactedDays?: Array<VisualizationFB>;
+    //marketplaceArticleDetailsVisualizedDays?: Array<VisualizationFB>;
+    //marketplaceYourTabVisualizationDays?: Array<VisualizationFB>;
+}
 
-//-----------------------------------
+export interface YourPostsFB {
+    list: Array<YourPostFB>;
+}
+
+export interface YourPostFB {
+    title?: string;
+    post?: string;
+    url?: string;
+    date?: Date;
+    updateDate?: Date;
+}
+
+export interface VisualizationFB {
+    name?: string;
+    uri?: string;
+    watchTimeInSeconds?: number;
+    date?: Date;
+
+}
+
 export interface AppConnectedFB {
     name?: string;
     userAppScopedId?: number;
@@ -69,6 +114,7 @@ export interface AppConnectedFB {
 export interface PageFB {
     name?: string;
     date?: Date;
+    url?: string;
 }
 
 export interface AdvInteractionFB {
@@ -81,6 +127,13 @@ export interface CommentPostedFB {
     text?: string;
     author?: string;
     title?: string;
+    date?: Date;
+}
+
+export interface ReactionFB {
+    title?: string;
+    actor?: string;
+    reaction?: string;
     date?: Date;
 }
 
