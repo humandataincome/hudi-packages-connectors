@@ -1,19 +1,6 @@
-import {Conversation as ConversationIG, Conversations as ConversationsIG} from "../src/model/instagram.model";
-import {Conversation as ConversationFB, Conversations as ConversationsFB} from "../src/model/facebook.model";
-import {Parser} from "./utils/parser";
-import {ADV} from "../src/model/amazon.model";
-import {LinkedInService} from "../src/service/linkedin.service";
-import {InstagramService} from "../src/service/instagram.service";
-import {GoogleService} from "../src/service/google.service";
-import {FacebookService} from "../src/service/facebook.service";
-import {NetflixService} from "../src/service/netflix.service";
-import {AmazonService} from "../src/service/amazon.service";
-import {DataSourceCode, FileCode, LanguageCode, RetrievingProcedureType} from "../src/descriptor/descriptor.enum";
-import {DescriptorService} from "../src/descriptor/descriptor.service";
-import {ValidatorInstagram} from "../src/validator/validator.instagram";
 import ErrnoException = NodeJS.ErrnoException;
-import {Validator} from "../src/validator/validator";
-import {ProcessorInstagram} from "../src/processor/processor.instagram";
+//import {Parser} from "./utils/parser";
+import {InstagramService, LanguageCode, ProcessorInstagram, Validator, ValidatorInstagram} from "../src";
 
 async function test(){
     //await netflixServiceTest();
@@ -22,15 +9,11 @@ async function test(){
     //await instagramServiceTest();
     //await googleServiceTest();
     //await linkedInServiceTest();
-
     //await descriptorServiceTest();
-    //await processorInstagramTest();
     //await validatorTest();
-    await validatorTestInstagram();
+    await validatorInstagramTest();
+    //await processorInstagramTest();
 }
-
-
-
 
 async function validatorTest() {
     try {
@@ -40,7 +23,7 @@ async function validatorTest() {
         console.log(validator.getFileExtension("dd.json"));
         fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            console.log(await validator.filterFilesPathsIntoZip(data));
+            console.log(await Validator.filterFilesPathsIntoZip(data));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
@@ -51,21 +34,18 @@ async function validatorTest() {
     }
 }
 
-
-async function validatorTestInstagram() {
+async function validatorInstagramTest() {
     try {
-        const validatorIG = new ValidatorInstagram();
         const validator = new Validator();
-        const processorInstagram = new ProcessorInstagram();
         const fs =  require('fs');
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validationFE = await validatorIG.selectUsefulFilesFromZip(await validator.validateZIP(data), [FileCode.INSTAGRAM_ADS_CLICKED, FileCode.INSTAGRAM_ADS_VIEWED, FileCode.INSTAGRAM_POSTS_VIEWED, FileCode.INSTAGRAM_VIDEO_VIEWED, FileCode.INSTAGRAM_POST_COMMENT, FileCode.INSTAGRAM_POSTS_CREATED, FileCode.INSTAGRAM_STORIES_CREATED, FileCode.INSTAGRAM_FOLLOWERS, FileCode.INSTAGRAM_FOLLOWING_ACCOUNTS, FileCode.INSTAGRAM_LIKE_COMMENTS, FileCode.INSTAGRAM_LIKE_POSTS, FileCode.INSTAGRAM_ELEGIBILITY, FileCode.INSTAGRAM_EMOJI_SLIDERS, FileCode.INSTAGRAM_POLLS, FileCode.INSTAGRAM_QUIZZES]);
+            const validationFE = await ValidatorInstagram.selectUsefulFilesFromZip(await validator.validateZIP(data));
             if(validationFE) {
                 const validationBE = await validator.validateZIP(validationFE);
                 if(validationBE) {
-                    console.log(await processorInstagram.aggregatorFactory(validationBE, 180));
+                    console.log(await ProcessorInstagram.aggregatorFactory(validationBE, 180));
                 }
             }
         });
@@ -78,20 +58,17 @@ async function validatorTestInstagram() {
     }
 }
 
-
-
-
 async function descriptorServiceTest() {
     try {
-        const descriptorService = new DescriptorService();
-        const document = require('../src/descriptor/descriptor.json');
-        console.log(await descriptorService.getDataSourcesCodes(document));
-        console.log(await descriptorService.getAllDataSourcesDescriptions(document));
-        console.log(await descriptorService.getSourceFormats(document, DataSourceCode.INSTAGRAM));
-        console.log(await descriptorService.getSourceName(document, DataSourceCode.INSTAGRAM));
-        console.log(await descriptorService.getDataSourceDescription(document, DataSourceCode.INSTAGRAM));
-        console.log(await descriptorService.getAllDataSourceProcedures(document, DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH));
-        console.log(await descriptorService.getDataSourceProcedure(document, DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH, RetrievingProcedureType.DESKTOP));
+        /*
+        console.log(await DescriptorService.getAllDataSourcesCodes());
+        console.log(await DescriptorService.getDataSourceDescription(DataSourceCode.INSTAGRAM));
+        console.log(await DescriptorService.getDataSourceName(DataSourceCode.INSTAGRAM));
+        console.log(await DescriptorService.getDataSourceFormats(DataSourceCode.INSTAGRAM));
+        console.log(await DescriptorService.getDataSourceProcedure(DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH, RetrievingProcedureType.DESKTOP));
+        console.log(await DescriptorService.getAllDataSourceLanguages(DataSourceCode.INSTAGRAM));
+        console.log(await DescriptorService.getAllDataSourceProcedureTypes(DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH));
+         */
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
@@ -101,6 +78,47 @@ async function descriptorServiceTest() {
     }
 }
 
+async function instagramServiceTest() {
+    try {
+        const instagramService = new InstagramService(LanguageCode.ITALIAN);
+        console.log(await instagramService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/account_information/personal_information.json`)))));
+        console.log(await instagramService.parseLocation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/information_about_you/account_based_in.json`)))));
+        console.log(await instagramService.parseAdsClicked(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/ads_clicked.json`)))));
+        console.log(await instagramService.parseAdsViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/ads_viewed.json`)))));
+        console.log(await instagramService.parseAdsInterests(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/information_about_you/ads_interests.json`)))));
+        console.log(await instagramService.parseMusicHeardInStories(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/music_heard_in_stories.json`)))));
+        console.log(await instagramService.parseMusicRecentlyUsedInStories(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/music_recently_used_in_stories.json`)))));
+        console.log(await instagramService.parsePostViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/posts_viewed.json`)))));
+        console.log(await instagramService.parseVideoWatched(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/videos_watched.json`)))));
+        console.log(await instagramService.parseSuggestedAccountViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/suggested_accounts_viewed.json`)))));
+        console.log(await instagramService.parseAccountYouAreNotInterested(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/accounts_you're_not_interested_in.json`)))));
+        console.log(await instagramService.parseCommentsPosted(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/comments/post_comments.json`)))));
+        console.log(await instagramService.parseSyncedContracts(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/contacts/synced_contacts.json`)))));
+        console.log(await instagramService.parseArchivedPost(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/archived_posts.json`)))));
+        console.log(await instagramService.parsePersonalPost(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/posts_1.json`)))));
+        console.log(await instagramService.parseFollowers(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/followers_and_following/followers.json`)))));
+        console.log(await instagramService.parseFollowingHashtags(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/followers_and_following/following_hashtags.json`)))));
+        console.log(await instagramService.parseLikedPosts(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/likes/liked_posts.json`)))));
+        console.log(await instagramService.parseLikedComments(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/likes/liked_comments.json`)))));
+        console.log(await instagramService.parseSearches(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/recent_search/account_searches.json`)))));
+        console.log(await instagramService.parseReelSentiments(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/your_topics/your_reels_sentiments.json`)))));
+        console.log(await instagramService.parseReelTopics(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/your_topics/your_reels_topics.json`)))));
+        console.log(await instagramService.parseTopics(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/your_topics/your_topics.json`)))));
+        console.log(await instagramService.parseEmojiSliders(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/emoji_sliders.json`)))));
+        console.log(await instagramService.parseEligibility(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/monetization/eligibility.json`)))));
+        console.log(await instagramService.parsePolls(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/polls.json`)))));
+        console.log(await instagramService.parseQuizzes(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/quizzes.json`)))));
+        console.log(await instagramService.parsePersonalStories(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/stories.json`)))));
+    } catch (e: any) {
+        if(e.code == 'MODULE_NOT_FOUND'){
+            console.log('[Error not founding module] '+ e);
+        } else {
+            console.log(e);
+        }
+    }
+}
+
+/*
 async function amazonServiceTest() {
     try {
         const amazonService = new AmazonService();
@@ -227,46 +245,7 @@ async function facebookServiceTest() {
     }
 }
 
-async function instagramServiceTest() {
-    try {
-        const instagramService = new InstagramService(LanguageCode.ITALIAN);
-        //console.log(await instagramService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/account_information/personal_information.json`)))));
-        //console.log(await instagramService.parseLocation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/information_about_you/account_based_in.json`)))));
-        //console.log(await instagramService.parseAdsClicked(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/ads_clicked.json`)))));
-        //console.log(await instagramService.parseAdsViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/ads_viewed.json`)))));
-        //console.log(await instagramService.parseAdsInterests(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/information_about_you/ads_interests.json`)))));
-        //console.log(await instagramService.parseMusicHeardInStories(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/music_heard_in_stories.json`)))));
-        //console.log(await instagramService.parseMusicRecentlyUsedInStories(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/music_recently_used_in_stories.json`)))));
-        //console.log(await instagramService.parsePostViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/posts_viewed.json`)))));
-        //console.log(await instagramService.parseVideoWatched(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/videos_watched.json`)))));
-        //console.log(await instagramService.parseSuggestedAccountViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/suggested_accounts_viewed.json`)))));
-        //console.log(await instagramService.parseAccountYouAreNotInterested(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/accounts_you're_not_interested_in.json`)))));
-        //console.log(await instagramService.parseCommentsPosted(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/comments/post_comments.json`)))));
-        //console.log(await instagramService.parseSyncedContracts(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/contacts/synced_contacts.json`)))));
-        //console.log(await instagramService.parseArchivedPost(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/archived_posts.json`)))));
-        //console.log(await instagramService.parsePersonalPost(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/posts_1.json`)))));
-        //console.log(await instagramService.parseFollowers(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/followers_and_following/followers.json`)))));
-        //console.log(await instagramService.parseFollowingHashtags(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/followers_and_following/following_hashtags.json`)))));
-        //console.log(await instagramService.parseLikedPosts(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/likes/liked_posts.json`)))));
-        //console.log(await instagramService.parseLikedComments(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/likes/liked_comments.json`)))));
-        //console.log(await instagramService.parseSearches(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/recent_search/account_searches.json`)))));
-        //console.log(await instagramService.parseReelSentiments(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/your_topics/your_reels_sentiments.json`)))));
-        //console.log(await instagramService.parseReelTopics(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/your_topics/your_reels_topics.json`)))));
-        //console.log(await instagramService.parseTopics(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/your_topics/your_topics.json`)))));
-        //console.log(await instagramService.parseEmojiSliders(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/emoji_sliders.json`)))));
-        //console.log(await instagramService.parseEligibility(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/monetization/eligibility.json`)))));
-        //console.log(await instagramService.parsePolls(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/polls.json`)))));
-        //console.log(await instagramService.parseQuizzes(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/quizzes.json`)))));
-        console.log(await instagramService.parsePersonalStories(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/stories.json`)))));
-        //console.log(await testMessagesIGFB(instagramService, 'instagram_json/messages/inbox/'))
-    } catch (e: any) {
-        if(e.code == 'MODULE_NOT_FOUND'){
-            console.log('[Error not founding module] '+ e);
-        } else {
-            console.log(e);
-        }
-    }
-}
+
 
 async function googleServiceTest() {
     try {
@@ -326,4 +305,6 @@ async function testMessagesIGFB(service: InstagramService | FacebookService, pat
         console.log('[testMessagesIGFB] '+e);
     }
 }
+
+ */
 test();

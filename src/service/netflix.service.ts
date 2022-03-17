@@ -49,8 +49,10 @@ export class NetflixService {
                 (result[0]['Marketing Communications Matched Identifiers'] != '') && (modelInfo.marketingCommunications = result[0]['Marketing Communications Matched Identifiers'].toLowerCase() == 'yes');
                 return modelInfo;
             }
+            return undefined;
         } catch (e: any){
             this.logger.log('error', `${e}`,'parsePersonalInformation');
+            return undefined;
         }
     }
 
@@ -75,8 +77,10 @@ export class NetflixService {
                 });
                 return model.list.length > 0 ? model : undefined;
             }
+            return undefined;
         } catch (e: any){
             this.logger.log('error', `${e}`,'parsePreferences');
+            return undefined;
         }
     }
 
@@ -100,8 +104,10 @@ export class NetflixService {
                 });
                 return model.list.length > 0 ? model : undefined;
             }
+            return undefined;
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseMyList');
+            return undefined;
         }
     }
 
@@ -130,8 +136,10 @@ export class NetflixService {
                 });
                 return model.list.length > 0 ? model : undefined;
             }
+            return undefined;
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseSearchHistory');
+            return undefined;
         }
     }
 
@@ -161,8 +169,10 @@ export class NetflixService {
                 });
                 return model.list.length > 0 ? model : undefined;
             }
+            return undefined;
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseViewingActivity');
+            return undefined;
         }
     }
 
@@ -192,8 +202,10 @@ export class NetflixService {
                 });
                 return model.list.length > 0 ? model : undefined;
             }
+            return undefined;
         } catch (e: any){
             this.logger.log('error', `${e}`,'parsePlaybackEvents');
+            return undefined;
         }
     }
 
@@ -220,8 +232,10 @@ export class NetflixService {
                 });
                 return model.list.length > 0 ? model : undefined;
             }
+            return undefined;
         } catch (e: any){
             this.logger.log('error', `${e}`,'parseProfiles');
+            return undefined;
         }
     }
 }

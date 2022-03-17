@@ -1,162 +1,131 @@
-
 import {
-    FileContent,
+    Descriptor,
     Procedure,
-    RetrievingProcedure,
-    SourceDescription,
-    SupportedSources
+    SourceDescription
 } from "./descriptor.model";
 import {DataSourceCode, FileExtension, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
-import {Validator} from "../validator/validator";
+import {Validator} from "../validator";
 import {DescriptorErrorEnum} from "./descriptor.error";
 
+
+const descriptor: Descriptor = require('./descriptor.json');
+
 export class DescriptorService {
+    static readonly document: Descriptor = descriptor;
 
     /**
-     * @param document - JSON descriptor file
-     * @return {Promise<Array<DataSourceCode> | undefined>} - all available data sources' respective codes
+     * @return  all available data sources' respective codes
      */
-    async getDataSourcesCodes(document: any): Promise<Array<DataSourceCode> | undefined> {
+    static getAllDataSourcesCodes(): DataSourceCode[] {
+        return descriptor?.sourceDescription?.map(({sourceCode}) => sourceCode) || [];
+    }
+
+    /**
+     * @param dataSourceCode - code of the data source
+     * @return get the whole description of a given data source
+     */
+    static getDataSourceDescription(dataSourceCode: DataSourceCode): SourceDescription | undefined {
         try {
-            if (document) {
-                return document.supportedSources;
-            }
+            return descriptor?.sourceDescription?.find(({sourceCode}) => sourceCode === dataSourceCode);
         } catch (error) {
-            throw new Error(`${DescriptorErrorEnum.ALL_SOURCES_CODES_ERROR}: ${error}`);
+            throw new Error(`${DescriptorErrorEnum.SOURCE_DESCRIPTION_ERROR}: ${error}`);
         }
     }
 
     /**
-     * @param document - JSON descriptor file
-     * @param dataSourceCode - code of the procedure's data source we want to retrieve
-     * @return {Promise<string | undefined>} - return source name given a data source code
+     * @param dataSourceCode - code of the data source
+     * @return return source name of a given data source code
      */
-    async getSourceName(document: any, dataSourceCode: DataSourceCode): Promise<string | undefined> {
+    static getDataSourceName(dataSourceCode: DataSourceCode): string | undefined {
         try {
-            let name;
-            if (document) {
-                document.sourceDescription.map((source: SourceDescription) => {
-                    if (source.sourceCode == dataSourceCode) {
-                        name = source.sourceName;
-                    }
-                });
-            }
-            return name;
+            return descriptor?.sourceDescription?.find(
+                ({sourceCode}) => sourceCode === dataSourceCode
+            )?.sourceName;
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_NAME_ERROR}: ${error}`);
         }
     }
 
     /**
-     * @param document - JSON descriptor file
-     * @param dataSourceCode - code of the procedure's data source we want to retrieve
-     * @return {Promise<Array<FileExtension> | undefined>} - return the array of valid format for a specific data source
+     * @param dataSourceCode - code of the data source
+     * @return {Promise<Array<FileExtension> | undefined>} - return the array of valid format of a given data source
      */
-    async getSourceFormats(document: any, dataSourceCode: DataSourceCode): Promise<Array<FileExtension> | undefined> {
+    static getDataSourceFormats(dataSourceCode: DataSourceCode): FileExtension[] | undefined {
         try {
-            let formats;
-            if (document) {
-                document.sourceDescription.map((source: SourceDescription) => {
-                    if (source.sourceCode == dataSourceCode) {
-                        formats = source.supportedFormats;
-                    }
-                });
-            }
-            return formats;
+            return descriptor?.sourceDescription?.find(
+                ({sourceCode}) => sourceCode === dataSourceCode
+            )?.supportedFormats;
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_FORMAT_ERROR}: ${error}`);
         }
     }
 
+
     /**
-     * @param document - JSON descriptor file
-     * @param dataSourceCode - code of the procedure's data source we want to retrieve
-     * @param language - code of procedure's language we want to retrieve
-     * @param procedureType - type of procedure we want to retrieve
-     * @return {Promise<Procedure | undefined>} - list of all the steps
+     * @param dataSourceCode - code of the data source
+     * @param language - language of the data source
+     * @param retrievingProcedureType - procedure type of the data source
+     * @return {Promise<Procedure | undefined>} - return the specific procedure and relative steps to retrieve a given data source, language code and retrieving procedure code
      */
-    async getDataSourceProcedure(document: any, dataSourceCode: DataSourceCode, language: LanguageCode, procedureType: RetrievingProcedureType): Promise<Procedure | undefined> {
+    static getDataSourceProcedure(
+        dataSourceCode: DataSourceCode,
+        language: LanguageCode,
+        retrievingProcedureType: RetrievingProcedureType
+    ): Procedure | undefined {
         try {
-            let model;
-            if (document.sourceDescription.length > 0) {
-                document.sourceDescription.map((item: SourceDescription) => {
-                    if(item.sourceCode == dataSourceCode && item.retrievingProcedures.length > 0) {
-                        item.retrievingProcedures.map((item: RetrievingProcedure) => {
-                            if(item.languageCode == language && item.procedures.length > 0) {
-                                item.procedures.map((item: Procedure) => {
-                                    if(item.procedureType == procedureType) {
-                                        model = item;
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-            return !Validator.objectIsEmpty(model) ? model : undefined;
+            const sourceDescription = descriptor?.sourceDescription?.find(
+                ({sourceCode, retrievingProcedures}) => sourceCode === dataSourceCode && retrievingProcedures.length
+            );
+
+            const retrievingProcedure = sourceDescription?.retrievingProcedures?.find(
+                ({languageCode, procedures}) => languageCode === language && procedures.length
+            );
+
+            const procedure = retrievingProcedure?.procedures?.find(
+                ({procedureType}) => procedureType === retrievingProcedureType
+            );
+
+            return !Validator.objectIsEmpty(procedure) ? procedure : undefined;
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_PROCEDURE_ERROR}: ${error}`);
         }
     }
 
     /**
-     * @param document - JSON descriptor file
-     * @param dataSourceCode - code of the description's data source we want to retrieve
-     * @param language - code of description's language we want to retrieve
-     * @return {Promise<Array<FileContent>  | undefined>} - list of all useful files and their description content
+     * @param dataSourceCode - code of the data source
+     * @return {LanguageCode[] | undefined} - return all the procedure languages available for a given data source
      */
-    async getAllDataSourceProcedures(document: any, dataSourceCode: DataSourceCode, language: LanguageCode): Promise<Array<FileContent> | undefined> {
+    static getAllDataSourceLanguages(dataSourceCode: DataSourceCode): LanguageCode[] | undefined {
         try {
-            let model: Array<FileContent> = [];
-            if (document.sourceDescription.length > 0) {
-                document.sourceDescription.map((item: SourceDescription) => {
-                    if(item.sourceCode == dataSourceCode && item.retrievingProcedures.length > 0) {
-                        item.retrievingProcedures.map((item: RetrievingProcedure) => {
-                            if(item.languageCode == language) {
-                                model = item.filesDescription;
-                            }
-                        });
-                    }
-                });
-            }
-            return model.length > 0 ? model : undefined;
+            const sourceDescription = descriptor?.sourceDescription?.find(
+                ({sourceCode, retrievingProcedures}) => sourceCode === dataSourceCode && retrievingProcedures.length
+            );
+
+            return sourceDescription?.retrievingProcedures?.map(({languageCode}) => languageCode);
         } catch (error) {
-            throw new Error(`${DescriptorErrorEnum.ALL_SOURCE_PROCEDURE_ERROR}: ${error}`);
+            throw new Error(`${DescriptorErrorEnum.SOURCE_ALL_LANGUAGES_ERROR}: ${error}`);
         }
     }
 
     /**
-     * @param document - JSON descriptor file
-     * @return {Promise<SupportedSources | undefined>} - list of supported sources
+     * @param dataSourceCode - code of the data source
+     * @param language - language of the data source
+     * @return {RetrievingProcedureType[] | undefined } - return all the retrieving procedure types for a given data source and language code
      */
-    async getAllDataSourcesDescriptions(document: any): Promise<SupportedSources | undefined> {
+    static getAllDataSourceProcedureTypes(dataSourceCode: DataSourceCode, language: LanguageCode): RetrievingProcedureType[] | undefined {
         try {
-            if (document) {
-                return document.sourceDescription;
-            }
+            const sourceDescription = descriptor?.sourceDescription?.find(
+                ({sourceCode, retrievingProcedures}) => sourceCode === dataSourceCode && retrievingProcedures.length
+            );
+
+            const retrievingProcedure = sourceDescription?.retrievingProcedures?.find(
+                ({languageCode, procedures}) => languageCode === language && procedures.length
+            );
+
+            return retrievingProcedure?.procedures?.map(({procedureType}) => procedureType);
         } catch (error) {
-            throw new Error(`${DescriptorErrorEnum.ALL_SOURCES_DESCRIPTION_ERROR}: ${error}`);
+            throw new Error(`${DescriptorErrorEnum.SOURCE_ALL_PROCEDURES_ERROR}: ${error}`);
         }
     }
 
-    /**
-     * @param document - JSON descriptor file
-     * @param dataSourceCode - code of the description's data source we want to retrieve
-     * @return {Promise<SourceDescription | undefined>} - list of supported source descriptions (all languages for a specific source)
-     */
-    async getDataSourceDescription(document: any, dataSourceCode: DataSourceCode): Promise<SourceDescription | undefined> {
-        try {
-            let description;
-            if (document) {
-                document.sourceDescription.map((item: SourceDescription) => {
-                    if(item.sourceCode == dataSourceCode) {
-                        description = item;
-                    }
-                });
-            }
-            return description;
-        } catch (error) {
-            throw new Error(`${DescriptorErrorEnum.SOURCE_DESCRIPTION_ERROR}: ${error}`);
-        }
-    }
 }

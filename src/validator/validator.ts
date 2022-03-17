@@ -1,67 +1,78 @@
-import {FileExtension} from "../descriptor/descriptor.enum";
+import {FileExtension} from "../descriptor";
 import * as JSZip from "jszip";
 import {ValidationErrorEnums} from "./validator.error";
 
 export class Validator {
+    private static _MAX_BYTE_FILE_SIZE: number = 6e6;
+    private static _MIN_BYTE_FILE_SIZE: number = 50;
 
-    constructor(private readonly MAX_BYTE_FILE_SIZE: number = 6e6, private readonly MIN_BYTE_FILE_SIZE: number = 50) {}
+    get MAX_BYTE_FILE_SIZE(): number {
+        return Validator._MAX_BYTE_FILE_SIZE;
+    }
 
-    /**
-     * @param zipFile - file zip as Buffer
-     * @return Promise<Array<string>> - filter all the file paths from the directories paths
-     */
-    async filterFilesPathsIntoZip(zipFile: Buffer): Promise<Array<string>> {
-        let filesPath: Array<string> = [];
-        await JSZip.loadAsync(zipFile).then(async (zip: JSZip) => {
-            const keys = Object.keys(zip.files);
-            await Promise.all(keys.map(async (pathName: string) => {
-                const file = zip.files[pathName];
-                if (!file.dir) {
-                    filesPath.push(pathName);
-                }
-            }));
-        });
-        return filesPath;
+    set MAX_BYTE_FILE_SIZE(value: number) {
+        Validator._MAX_BYTE_FILE_SIZE = value;
+    }
+
+    get MIN_BYTE_FILE_SIZE(): number {
+        return Validator._MIN_BYTE_FILE_SIZE;
+    }
+
+    set MIN_BYTE_FILE_SIZE(value: number) {
+        Validator._MIN_BYTE_FILE_SIZE = value;
     }
 
     /**
      * @param zipFile - file zip as Buffer
-     * @return Promise<Buffer> - zip file containing all the files from input that passed the validation
+     * @return {Promise<Array<string>} - filter all the file paths from the directories paths
+     */
+    static async getFilesPathsIntoZip(zipFile: Buffer): Promise<string[]> {
+        const zip = await JSZip.loadAsync(zipFile);
+        const keys = Object.keys(zip.files);
+
+        return keys
+            .filter((pathName) => !zip.files[pathName].dir)
+            .map((pathName) => pathName);
+    }
+
+    /**
+     * @param zipFile - file zip as Buffer
+     * @return {Promise<Buffer>} - zip file containing all the files from input that passed the validation
      */
     async validateZIP(zipFile: Buffer): Promise<Buffer> {
-        let validatedFiles = new JSZip();
-        await JSZip.loadAsync(zipFile).then(async (zip: JSZip) => {
-            const keys = Object.keys(zip.files);
-            await Promise.all(keys.map(async (pathName: string) => {
-                const file = zip.files[pathName];
-                if (!file.dir) {
-                    await file.async('nodebuffer').then(async (data: Buffer) => {
-                        if (await this.isValideFile(await this.getFileExtension(pathName), data)) {
-                            validatedFiles.file(pathName, data, {comment: file.comment});
-                        }
-                    });
+        const validatedFiles = new JSZip();
+        const zip = await JSZip.loadAsync(zipFile);
+
+        for (let pathName of Object.keys(zip.files)) {
+            const file = zip.files[pathName];
+            if (!file.dir) {
+                const data = await file.async('nodebuffer');
+                if (await this.isValideFile(await this.getFileExtension(pathName), data)) {
+                    validatedFiles.file(pathName, data, {comment: file.comment});
                 }
-            }));
-        });
+            }
+        }
         return await validatedFiles.generateAsync({type: "nodebuffer"});
     }
 
     /**
      * @param fileName - string containing the file name
-     * @return Promise<FileExtension> - return its extension (e.g. json, csv).
+     * @return {Promise<FileExtension>} - return its extension (e.g. json, csv).
      */
     async getFileExtension(fileName: string): Promise<FileExtension> {
         const extension = fileName.split('.').pop();
-        if (extension == 'csv') {
+        if (extension === 'csv') {
             return FileExtension.CSV;
-        } else if (extension == 'json') {
+        } else if (extension === 'json') {
             return FileExtension.JSON;
-        } else if (extension == 'txt') {
+        } else if (extension === 'txt') {
             return FileExtension.TXT
-        } else if (extension == 'xml') {
+        } else if (extension === 'xml') {
             return FileExtension.XML;
-        } else if (extension == 'html') {
+        } else if (extension === 'html') {
             return FileExtension.HTML;
+        } else if (extension === 'zip') {
+            return FileExtension.ZIP;
         } else {
             throw new Error(`${ValidationErrorEnums.FILE_EXTENSION_ERROR}`);
         }
@@ -69,14 +80,14 @@ export class Validator {
 
     /**
      * @param file - file as buffer
-     * @return boolean - true if the size is included between MAX_BYTE_FILE_SIZE and MIN_BYTE_FILE_SIZE
+     * @return {boolean} - true if the size is included between MAX_BYTE_FILE_SIZE and MIN_BYTE_FILE_SIZE
      */
-    private isValideSize(file: Buffer): boolean {
-        return (file.byteLength < this.MAX_BYTE_FILE_SIZE) && (file.byteLength > this.MIN_BYTE_FILE_SIZE);
+    private static isValideSize(file: Buffer): boolean {
+        return (file.byteLength < Validator._MAX_BYTE_FILE_SIZE) && (file.byteLength > Validator._MIN_BYTE_FILE_SIZE);
     }
 
     private async isValideFile(extension: FileExtension, file: Buffer): Promise<boolean> {
-        switch(extension){
+        switch (extension) {
             case FileExtension.JSON:
                 return await this.validateJSON(file);
             case FileExtension.TXT:
@@ -94,10 +105,10 @@ export class Validator {
 
     /**
      * @param file - file as buffer
-     * @return boolean - true if the file is valid and the size is supported
+     * @return {boolean} - true if the file is valid and the size is supported
      */
     async validateJSON(file: Buffer): Promise<boolean> {
-        if(this.isValideSize(file)) {
+        if (Validator.isValideSize(file)) {
             try {
                 return !!JSON.parse(file.toString());
             } catch (error) {
@@ -108,7 +119,7 @@ export class Validator {
     }
 
     async validateXML(file: Buffer): Promise<boolean> {
-        if(this.isValideSize(file)) {
+        if (Validator.isValideSize(file)) {
             try {
                 return true;
             } catch (error) {
@@ -119,7 +130,7 @@ export class Validator {
     }
 
     async validateCSV(file: Buffer): Promise<boolean> {
-        if(this.isValideSize(file)) {
+        if (Validator.isValideSize(file)) {
             try {
                 return true;
             } catch (error) {
@@ -130,7 +141,7 @@ export class Validator {
     }
 
     async validateHTML(file: Buffer): Promise<boolean> {
-        if(this.isValideSize(file)) {
+        if (Validator.isValideSize(file)) {
             try {
                 return true;
             } catch (error) {
@@ -141,7 +152,7 @@ export class Validator {
     }
 
     async validateTXT(file: Buffer): Promise<boolean> {
-        if(this.isValideSize(file)) {
+        if (Validator.isValideSize(file)) {
             try {
                 return true;
             } catch (error) {
@@ -158,10 +169,10 @@ export class Validator {
      * @return boolean
      */
     static objectIsEmpty(obj: any): boolean {
-        if(Object.getPrototypeOf(obj) === Object.prototype) {
+        if (Object.getPrototypeOf(obj) === Object.prototype) {
             if (obj && Object.keys(obj).length > 0) {
                 const reducer = (previousValue: boolean, currentValue: string) => {
-                    return (obj[currentValue] == '') && previousValue;
+                    return (obj[currentValue] === '') && previousValue;
                 };
                 return Object.keys(obj).reduce(reducer, true);
             }

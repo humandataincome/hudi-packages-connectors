@@ -53,7 +53,7 @@ import {
 } from "../model/linkedin.model";
 import {Parser} from "../utils/parser";
 import {Months} from "../utils/utils.enum";
-import {Validator} from "../validator/validator";
+import {Validator} from "../validator";
 
 /**
  * Class used to parse most important files into the directory returned by LinkedIn in CSV format.
@@ -82,9 +82,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseAccountStatusHistory');
+            return undefined;
         }
     }
 
@@ -108,9 +111,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseAdsClicked');
+            return undefined;
         }
     }
 
@@ -134,9 +140,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseCompaniesFollowed');
+            return undefined;
         }
     }
 
@@ -164,9 +173,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseConnections');
+            return undefined;
         }
     }
 
@@ -205,9 +217,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseContacts');
+            return undefined;
         }
     }
 
@@ -237,9 +252,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseEducationHistory');
+            return undefined;
         }
     }
 
@@ -264,9 +282,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseEmails');
+            return undefined;
         }
     }
 
@@ -292,9 +313,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseEndorsementsReceived');
+            return undefined;
         }
     }
 
@@ -318,9 +342,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseInferencesAboutYou');
+            return undefined;
         }
     }
 
@@ -346,9 +373,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseInvitations');
+            return undefined;
         }
     }
 
@@ -367,9 +397,12 @@ export class LinkedInService {
                     }
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseJobApplicantSavedInfo');
+            return undefined;
         }
     }
 
@@ -388,9 +421,12 @@ export class LinkedInService {
                     }
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseJobApplicantSavedScreeningQuestionInfo');
+            return undefined;
         }
     }
 
@@ -421,9 +457,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseLearnings');
+            return undefined;
         }
     }
 
@@ -448,9 +487,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseLogins');
+            return undefined;
         }
     }
 
@@ -474,9 +516,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseMembersFollowed');
+            return undefined;
         }
     }
 
@@ -506,9 +551,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseMessages');
+            return undefined;
         }
     }
 
@@ -529,9 +577,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parsePhoneNumbers');
+            return undefined;
         }
     }
 
@@ -561,9 +612,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseWorkingPositions');
+            return undefined;
         }
     }
 
@@ -595,9 +649,13 @@ export class LinkedInService {
                     (result[0]['Instant Messengers']) && (model.instantMessengers = result[0]['Instant Messengers']);
                     return !Validator.objectIsEmpty(model) ? model : undefined;
                 }
+                return undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseProfile');
+            return undefined;
         }
     }
 
@@ -621,9 +679,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseReactions');
+            return undefined;
         }
     }
 
@@ -645,9 +706,13 @@ export class LinkedInService {
                     (result[0]['Subscription Types']) && (model.subscriptionTypes = result[0]['Subscription Types']);
                     return !Validator.objectIsEmpty(model) ? model : undefined;
                 }
+                return undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseRegistration');
+            return undefined;
         }
     }
 
@@ -667,15 +732,18 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseRichMediaList');
+            return undefined;
         }
     }
 
     /**
      * @param data - file 'SavedJobAlerts.csv' in input as Buffer
-     * @return {Promise<SavedJobsAlerts | undefined>}
+     * @return {Promise<SavedJobAlerts | undefined>}
      */
     async parseSavedJobAlerts(data: Buffer): Promise<SavedJobAlerts | undefined> {
         try {
@@ -692,9 +760,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseSavedJobAlerts');
+            return undefined;
         }
     }
 
@@ -717,9 +788,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseSearchQueries');
+            return undefined;
         }
     }
 
@@ -745,9 +819,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseSecurityChallenges');
+            return undefined;
         }
     }
 
@@ -765,9 +842,12 @@ export class LinkedInService {
                     model.list.push(item[0]);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseSkills');
+            return undefined;
         }
     }
 
@@ -791,9 +871,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseVotes');
+            return undefined;
         }
     }
 
@@ -830,9 +913,12 @@ export class LinkedInService {
                 });
                 console.log(model.list[0].profileLocations)
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseAdsTargeting');
+            return undefined;
         }
     }
 
@@ -861,9 +947,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseJobApplications');
+            return undefined;
         }
     }
 
@@ -888,9 +977,12 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseSavedJobs');
+            return undefined;
         }
     }
 
@@ -927,9 +1019,13 @@ export class LinkedInService {
                     (result[0][18] != '') && (model.jobSeekingUrgencyLevel = result[0][18]);
                     return !Validator.objectIsEmpty(model) ? model : undefined;
                 }
+                return undefined;
+            } else {
+                return undefined;
             }
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseJobSeekerPreferences');
+            return undefined;
         }
     }
 }

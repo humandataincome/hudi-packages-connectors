@@ -27,8 +27,8 @@ import {ConfigGoogle} from "../config/config.google";
 import {Parser} from "../utils/parser";
 import {Months} from "../utils/utils.enum";
 import {Decoding} from "../utils/decoding";
-import {LanguageCode} from "../descriptor/descriptor.enum";
-import {Validator} from "../validator/validator";
+import {LanguageCode} from "../descriptor";
+import {Validator} from "../validator";
 
 /**
  * Class used to parse most important files into the directory returned by Google in CSV and JSON formats.
@@ -67,6 +67,7 @@ export class GoogleService {
             return !Validator.objectIsEmpty(model) ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseProfile');
+            return undefined;
         }
     }
 
@@ -91,6 +92,7 @@ export class GoogleService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseBrowseHistory');
+            return undefined;
         }
     }
 
@@ -123,6 +125,7 @@ export class GoogleService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseSearchEngines');
+            return undefined;
         }
     }
 
@@ -211,6 +214,7 @@ export class GoogleService {
             return (model.listVisitedPlaces.length > 0 || model.listActivities.length > 0) ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseSemanticLocations');
+            return undefined;
         }
     }
 
@@ -252,7 +256,6 @@ export class GoogleService {
         if (value.childVisits) {
             newValue.childVisits = value.childVisits.map((childValue: any) => this.parsePlaceVisitedRecursive(childValue));
         }
-
         return (!Validator.objectIsEmpty(newValue)) ? newValue : undefined;
     }
 
@@ -294,6 +297,7 @@ export class GoogleService {
             return !Validator.objectIsEmpty(model) ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseImageData');
+            return undefined;
         }
     }
 
@@ -335,8 +339,10 @@ export class GoogleService {
                 });
                 return model.list.length > 0 ? model : undefined;
             }
+            return undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseTransactions');
+            return undefined;
         }
     }
 
@@ -360,6 +366,7 @@ export class GoogleService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseDocLibrary');
+            return undefined;
         }
     }
 
@@ -392,6 +399,7 @@ export class GoogleService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parsePurchaseHistory');
+            return undefined;
         }
     }
 
@@ -417,13 +425,13 @@ export class GoogleService {
                         !Validator.objectIsEmpty(newBill) && (newOrder.billingInstrument = newBill);
                     }
                     if (value.orderHistory.billingContact) {
-                        let newContact: Contact = this.parseContact(value.orderHistory.billingContact);
+                        let newContact: Contact = GoogleService.parseContact(value.orderHistory.billingContact);
                         !Validator.objectIsEmpty(newContact) && (newOrder.billingContacts = newContact);
                     }
                     if (value.orderHistory.associatedContact) {
                         newOrder.associatedContacts = [];
                         value.orderHistory.associatedContact.map((contact: any) => {
-                            let newContact: Contact = this.parseContact(contact);
+                            let newContact: Contact = GoogleService.parseContact(contact);
                             (!Validator.objectIsEmpty(newContact) && newOrder.associatedContacts) && (newOrder.associatedContacts.push(newContact));
                         });
                     }
@@ -455,10 +463,11 @@ export class GoogleService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseOrderHistory');
+            return undefined;
         }
     }
 
-    private parseContact(value: any): Contact {
+    private static parseContact(value: any): Contact {
         let newContact: Contact = {};
         (value.name) && (newContact.name = value.name);
         (value.addressLine) && (newContact.addressLine = value.addressLine);
@@ -477,12 +486,16 @@ export class GoogleService {
     async parseActivitiesShopping(data: Buffer): Promise<ShoppingActivities | undefined> {
         try {
             let model: ShoppingActivities = {list: []};
+            let document = window.document || undefined;
 
-            const jsdom = require("jsdom");
-            const { JSDOM } = jsdom;
-            const dom = new JSDOM(data, {});
+            if (document === undefined) {
+                const jsdom = require("jsdom");
+                const { JSDOM } = jsdom;
+                const dom = new JSDOM(data, {});
+                document = dom.window.document;
+            }
 
-            Array.from(dom.window.document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).forEach((el: any) => {
+            Array.from(document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).forEach((el: any) => {
                 if(el) {
                     let shopping: ShoppingActivity = {};
                     if(el.childNodes[1]) {
@@ -504,10 +517,10 @@ export class GoogleService {
                     !Validator.objectIsEmpty(shopping) && model.list.push(shopping);
                 }
             });
-
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseActivitiesShopping');
+            return undefined;
         }
     }
 
@@ -519,11 +532,16 @@ export class GoogleService {
         try {
             let model: DailyDiscoverActivities = {list: []};
 
-            const jsdom = require("jsdom");
-            const { JSDOM } = jsdom;
-            const dom = new JSDOM(data, {});
+            let document = window.document || undefined;
 
-            Array.from(dom.window.document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((el: any) => {
+            if (document === undefined) {
+                const jsdom = require("jsdom");
+                const { JSDOM } = jsdom;
+                const dom = new JSDOM(data, {});
+                document = dom.window.document;
+            }
+
+            Array.from(document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((el: any) => {
                 if(el.childNodes.length) {
                     let newSearch: DailyDiscoverActivity = {searchKeys: []};
                     let skipFirstElement = false; //always skip the first line (E.g. 16 schede nel tuo feed)
@@ -560,6 +578,7 @@ export class GoogleService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseDailyDiscoverActivities');
+            return undefined;
         }
     }
 
@@ -571,11 +590,16 @@ export class GoogleService {
         try {
             let model: SearchActivities = {list: []};
 
-            const jsdom = require("jsdom");
-            const { JSDOM } = jsdom;
-            const dom = new JSDOM(data, {});
+            let document = window.document || undefined;
 
-            Array.from(dom.window.document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((element: any) => {
+            if (document === undefined) {
+                const jsdom = require("jsdom");
+                const { JSDOM } = jsdom;
+                const dom = new JSDOM(data, {});
+                document = dom.window.document;
+            }
+
+            Array.from(document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((element: any) => {
                 if(element.childNodes.length > 0) {
                     let newSearch: SearchActivity = {};
                     if (element.childNodes[1]) {
@@ -595,6 +619,7 @@ export class GoogleService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseSearchActivities');
+            return undefined;
         }
     }
 
@@ -605,11 +630,16 @@ export class GoogleService {
     async parseYoutubeActivities(data: Buffer): Promise<YoutubeActivities | undefined> {
         try {
             let model: YoutubeActivities = {list: []};
-            const jsdom = require("jsdom");
-            const { JSDOM } = jsdom;
-            const dom = new JSDOM(data, {});
+            let document = window.document || undefined;
 
-            Array.from(dom.window.document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((element: any) => {
+            if (document === undefined) {
+                const jsdom = require("jsdom");
+                const { JSDOM } = jsdom;
+                const dom = new JSDOM(data, {});
+                document = dom.window.document;
+            }
+
+            Array.from(document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((element: any) => {
                 let newActivity: YoutubeActivity = {};
                 if (element.childNodes.length >= 4) {
                     (element.childNodes[0] && element.childNodes[0].textContent) && (newActivity.activity = Decoding.decodeObject(element.childNodes[0].textContent));
@@ -644,6 +674,7 @@ export class GoogleService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseYoutubeActivities');
+            return undefined;
         }
     }
 
@@ -655,11 +686,16 @@ export class GoogleService {
     async parseNewsActivities(data: Buffer): Promise<NewsActivities | undefined> {
         try {
             let model: NewsActivities = {list: []};
-            const jsdom = require("jsdom");
-            const { JSDOM } = jsdom;
-            const dom = new JSDOM(data, {});
+            let document = window.document || undefined;
 
-            Array.from(dom.window.document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((element: any) => {
+            if (document === undefined) {
+                const jsdom = require("jsdom");
+                const { JSDOM } = jsdom;
+                const dom = new JSDOM(data, {});
+                document = dom.window.document;
+            }
+
+            Array.from(document.getElementsByClassName('content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')).map((element: any) => {
                 if(element.childNodes) {
                     let newArticle: NewsActivity = {};
                     if (element.childNodes.length == 4) {
@@ -681,6 +717,7 @@ export class GoogleService {
             return model.list.length > 0 ? model : undefined;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parseNewsActivities');
+            return undefined;
         }
     }
 }
