@@ -1,9 +1,9 @@
 
-export interface SearchDataCustomerEngagement {
-    list: Array<Search>;
+export interface SearchDataCustomerEngagementAM {
+    list: Array<SearchAM>;
 }
 
-export interface Search {
+export interface SearchAM {
     firstSearchTime?: Date;
     countryID?: string;
     APSorCategory?:string;
@@ -73,32 +73,32 @@ export interface Search {
     LKCI?:string;
 }
 
-export interface AdvertiserAudiences {
-    list: Array<ADV>;
+export interface AdvertiserAudiencesAM {
+    list: Array<AdvertiserAM>;
 }
 
-export interface AdvertiserClicked {
-    list: Array<ADV>;
+export interface AdvertiserClickedAM {
+    list: Array<AdvertiserAM>;
 }
 
-export interface ThirdPartyAudiences {
-    list: Array<ADV>;
+export interface ThirdPartyAudiencesAM {
+    list: Array<AdvertiserAM>;
 }
 
-export interface AmazonAudiences {
-    list: Array<ADV>;
+export interface AmazonAudiencesAM {
+    list: Array<AdvertiserAM>;
 }
 
-export interface ADV {
+export interface AdvertiserAM {
     value?: string;
 }
 
-export interface AmazonWishlists {
-    lists: Array<WishList>;
+export interface AmazonWishlistsAM {
+    lists: Array<WishListAM>;
 }
 
-export interface WishList {
-    itemList: Array<Item>;
+export interface WishListAM {
+    itemList: Array<ItemAM>;
     privacy?: string;
     nodeFlags?: Array<string>;
     listName?: string;
@@ -108,7 +108,7 @@ export interface WishList {
     roleName?: string;
 }
 
-export interface Item {
+export interface ItemAM {
     asin?: string;
     quantity?: number;
     privacy?: string;
@@ -120,11 +120,11 @@ export interface Item {
 }
 
 //AUDIBLE MODELS
-export interface AudibleLibrary {
-    list: Array<AudioBook>;
+export interface AudibleLibraryAM {
+    list: Array<AudioBookAM>;
 }
 
-export interface AudioBook {
+export interface AudioBookAM {
     dateAdded?:Date;
     title?:string;
     asin?:string;
@@ -142,19 +142,19 @@ export interface AudioBook {
  }
 
 //PRIME VIDEO MODELS
-export interface PrimeVideoWatchlist {
-    list: Array<Title>;
+export interface PrimeVideoWatchlistAM {
+    list: Array<TitleAM>;
 }
 
-export interface PrimeVideoWatchlistHistory {
-    list: Array<Title>;
+export interface PrimeVideoWatchlistHistoryAM {
+    list: Array<TitleAM>;
 }
 
-export interface PrimeVideoViewingHistory {
-    list: Array<ViewingActivity>;
+export interface PrimeVideoViewingHistoryAM {
+    list: Array<ViewingActivityAM>;
 }
 
-export interface Title {
+export interface TitleAM {
     listId?: string;
     itemAddedDate?: Date;
     itemType?: string;
@@ -162,7 +162,7 @@ export interface Title {
     catalogTitle?: string;
 }
 
-export interface ViewingActivity {
+export interface ViewingActivityAM {
     playbackHour?: Date;
     operatingSystem?: string;
     browser?: string;
@@ -179,11 +179,11 @@ export interface ViewingActivity {
 }
 
 //twitch prime subscription
-export interface TwitchPrimeSubscriptions {
-    list: Array<TwitchPrimeSubscription>;
+export interface TwitchPrimeSubscriptionsAM {
+    list: Array<TwitchPrimeSubscriptionAM>;
 }
 
-export interface TwitchPrimeSubscription {
+export interface TwitchPrimeSubscriptionAM {
     date?: Date;
     balanceTrackerOperation?: string;
     subscriptionCreditOperation?: string;
@@ -198,11 +198,11 @@ export interface TwitchPrimeSubscription {
 }
 
 //RETAIL
-export interface RetailOrderHistory {
-    list: Array<RetailOrder>;
+export interface RetailOrderHistoryAM {
+    list: Array<RetailOrderAM>;
 }
 
-export interface RetailOrder {
+export interface RetailOrderAM {
     website?: string;
     orderID?: string;
     orderDate?: Date;

@@ -1,11 +1,11 @@
 # HUDI-PACKAGE-CONNECTORS #
 
 ## What is this repository for? ##
-A set of connectors to describe, parse and process the data sources provided by websites and social networks.
+A set of connectors to describe, parse and process the data sources provided by websites and social networks. Compatible with NodeJS and on Browsers.
 
 ## Which data sources are supported? ##
-- **Instagram** (parsing, validation and processing support for EN, IT and HI languages).
-- **Facebook** (only parsing)
+- **Instagram** (full support for EN, IT and HI languages)
+- **Facebook** (full support)
 - **Google** (only parsing)
 - **Amazon** (only parsing)
 - **Netflix** (only parsing)

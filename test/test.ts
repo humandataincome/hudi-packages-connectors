@@ -1,21 +1,35 @@
 import ErrnoException = NodeJS.ErrnoException;
-//import {Parser} from "./utils/parser";
-import {InstagramService, LanguageCode, ProcessorInstagram, Validator, ValidatorInstagram} from "../src";
+import {
+    ProcessorFacebook,
+    ValidatorFacebook,
+    FacebookService,
+    InstagramService,
+    LanguageCode,
+    ProcessorInstagram,
+    Validator,
+    ValidatorInstagram,
+    DescriptorService,
+    DataSourceCode,
+    RetrievingProcedureType,
+    AmazonService,
+    AdvertiserAM
+} from "../src";
 
 async function test(){
-    //await netflixServiceTest();
-    //await amazonServiceTest();
-    //await facebookServiceTest();
+    //validatorTest();
+    //validatorAndProcessingInstagramTest();
+    //validatorAndProcessingFacebookTest();
+    await descriptorServiceTest();
     //await instagramServiceTest();
+    //await facebookServiceTest();
+    //await amazonServiceTest();
+
+    //await netflixServiceTest();
     //await googleServiceTest();
     //await linkedInServiceTest();
-    //await descriptorServiceTest();
-    //await validatorTest();
-    await validatorInstagramTest();
-    //await processorInstagramTest();
 }
 
-async function validatorTest() {
+function validatorTest() {
     try {
         const validator = new Validator();
         const fs =  require('fs');
@@ -34,18 +48,47 @@ async function validatorTest() {
     }
 }
 
-async function validatorInstagramTest() {
+function validatorAndProcessingInstagramTest() {
     try {
         const validator = new Validator();
         const fs =  require('fs');
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
+            //console.log(await Validator.getFilesPathsIntoZip(data));
             const validationFE = await ValidatorInstagram.selectUsefulFilesFromZip(await validator.validateZIP(data));
             if(validationFE) {
                 const validationBE = await validator.validateZIP(validationFE);
                 if(validationBE) {
+                    //console.log(await Validator.getFilesPathsIntoZip(validationBE));
                     console.log(await ProcessorInstagram.aggregatorFactory(validationBE, 180));
+                }
+            }
+        });
+    } catch (e: any) {
+        if (e.code == 'MODULE_NOT_FOUND') {
+            console.log('[Error not founding module] ' + e);
+        } else {
+            console.log(e);
+        }
+    }
+}
+
+
+function validatorAndProcessingFacebookTest() {
+    try {
+        const validator = new Validator();
+        const fs =  require('fs');
+        const path =  require('path');
+        fs.readFile(path.join(__dirname,"../src/mock/validation/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
+            if (err) throw err;
+            //console.log(await Validator.getFilesPathsIntoZip(data));
+            const validationFE = await ValidatorFacebook.selectUsefulFilesFromZip(await validator.validateZIP(data));
+            if(validationFE) {
+                const validationBE = await validator.validateZIP(validationFE);
+                if(validationBE) {
+                    //console.log(await Validator.getFilesPathsIntoZip(validationBE));
+                    console.log(await ProcessorFacebook.aggregatorFactory(validationBE, 180));
                 }
             }
         });
@@ -60,15 +103,13 @@ async function validatorInstagramTest() {
 
 async function descriptorServiceTest() {
     try {
-        /*
-        console.log(await DescriptorService.getAllDataSourcesCodes());
-        console.log(await DescriptorService.getDataSourceDescription(DataSourceCode.INSTAGRAM));
-        console.log(await DescriptorService.getDataSourceName(DataSourceCode.INSTAGRAM));
-        console.log(await DescriptorService.getDataSourceFormats(DataSourceCode.INSTAGRAM));
-        console.log(await DescriptorService.getDataSourceProcedure(DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH, RetrievingProcedureType.DESKTOP));
-        console.log(await DescriptorService.getAllDataSourceLanguages(DataSourceCode.INSTAGRAM));
-        console.log(await DescriptorService.getAllDataSourceProcedureTypes(DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH));
-         */
+        console.log(DescriptorService.getAllDataSourcesCodes());
+        console.log(DescriptorService.getDataSourceDescription(DataSourceCode.INSTAGRAM));
+        console.log(DescriptorService.getDataSourceName(DataSourceCode.INSTAGRAM));
+        console.log(DescriptorService.getDataSourceFormats(DataSourceCode.INSTAGRAM));
+        console.log(DescriptorService.getDataSourceProcedure(DataSourceCode.FACEBOOK, LanguageCode.ITALIAN, RetrievingProcedureType.DESKTOP));
+        console.log(DescriptorService.getAllDataSourceLanguages(DataSourceCode.INSTAGRAM));
+        console.log(DescriptorService.getAllDataSourceProcedureTypes(DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
@@ -118,10 +159,41 @@ async function instagramServiceTest() {
     }
 }
 
-/*
+
+async function facebookServiceTest() {
+    try {
+        const facebookService = new FacebookService();
+        console.log(await facebookService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/profile_information/profile_information.json`)))));
+        console.log(await facebookService.parseAdsInteractedWith(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/ads_information/advertisers_you've_interacted_with.json`)))));
+        console.log(await facebookService.parseAdsUsingYourInfo(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/ads_information/advertisers_using_your_activity_or_information.json`)))));
+        console.log(await facebookService.parseSearchHistory(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/search/your_search_history.json`)))));
+        console.log(await facebookService.parseComments(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/comments_and_reactions/comments.json`)))));
+        console.log(await facebookService.parseReactions(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/comments_and_reactions/posts_and_comments.json`)))));
+        console.log(await facebookService.parsePagesLiked(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/pages/pages_you've_liked.json`)))));
+        console.log(await facebookService.parsePagesFollowed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/pages/pages_you_follow.json`)))));
+        console.log(await facebookService.parseAppsConnected(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/apps_and_websites_off_of_facebook/apps_and_websites.json`)))));
+        console.log(await facebookService.parseFriendRequestsSent(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/friends_and_followers/friend_requests_sent.json`)))));
+        console.log(await facebookService.parseRejectedFriendshipRequests(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/friends_and_followers/rejected_friend_requests.json`)))));
+        console.log(await facebookService.parseRemovedFriends(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/friends_and_followers/removed_friends.json`)))));
+        console.log(await facebookService.parseWhoYouFollow(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/friends_and_followers/who_you_follow.json`)))));
+        console.log(await facebookService.parseLanguages(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/preferences/language_and_locale.json`)))));
+        console.log(await facebookService.parsePagesRecommended(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/pages/pages_you've_recommended.json`)))));
+        console.log(await facebookService.parseRecentlyViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/your_interactions_on_facebook/recently_viewed.json`)))));
+        console.log(await facebookService.parseYourPosts(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/posts/your_posts_1.json`)))));
+    } catch (e: any) {
+        if(e.code == 'MODULE_NOT_FOUND'){
+            console.log('[Error not founding module] '+ e);
+        } else {
+            console.log(e);
+        }
+    }
+}
+
+
 async function amazonServiceTest() {
     try {
         const amazonService = new AmazonService();
+        const {Parser} = require("./utils/parser");
         const path = require('path');
         console.log(await amazonService.parsePrimeVideoWatchlist(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv`))));
         console.log(await amazonService.parsePrimeVideoWatchlistHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv`))));
@@ -137,8 +209,8 @@ async function amazonServiceTest() {
         const directories = fs.readdirSync(source);
         let directoriesADV = directories.filter((directory: string) => /Advertising/.test(directory));
 
-        let resultAudience: ADV[] = [];
-        let resultClicked: ADV[] = [];
+        let resultAudience: AdvertiserAM[] = [];
+        let resultClicked: AdvertiserAM[] = [];
         let array;
         for (let i = 1; i < directoriesADV.length + 1; i++) {
             source = path.join(__dirname, `../src/mock/IT_version/amazon/Advertising.${i}/Advertising.AdvertiserAudiences.csv`);
@@ -160,6 +232,7 @@ async function amazonServiceTest() {
     }
 }
 
+/*
 async function linkedInServiceTest() {
     try {
         const linkedInService = new LinkedInService();
@@ -224,26 +297,6 @@ async function netflixServiceTest() {
     }
 }
 
-async function facebookServiceTest() {
-    try {
-        const facebookService = new FacebookService();
-        console.log(await facebookService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/profile_information/profile_information.json`)))));
-        console.log(await facebookService.parseAdsInteractedWith(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/ads_information/advertisers_you've_interacted_with.json`)))));
-        console.log(await facebookService.parseAdsUsingYourInfo(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/ads_information/advertisers_using_your_activity_or_information.json`)))));
-        console.log(await facebookService.parseSearchHistory(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/search/your_search_history.json`)))));
-        console.log(await facebookService.parseComments(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/comments_and_reactions/comments.json`)))));
-        console.log(await facebookService.parsePageLiked(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/pages/pages_you've_liked.json`)))));
-        console.log(await facebookService.parsePageFollowed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/pages/pages_you_follow.json`)))));
-        console.log(await facebookService.parseAppsConnected(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/apps_and_websites_off_of_facebook/apps_and_websites.json`)))));
-        console.log(await testMessagesIGFB(facebookService, 'facebook_json/messages/inbox/'))
-    } catch (e: any) {
-        if(e.code == 'MODULE_NOT_FOUND'){
-            console.log('[Error not founding module] '+ e);
-        } else {
-            console.log(e);
-        }
-    }
-}
 
 
 

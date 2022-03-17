@@ -1,28 +1,28 @@
 import Logger from "../utils/logger";
-import {
-    AdvertiserAudiences,
-    AdvertiserClicked,
-    AmazonAudiences,
-    AmazonWishlists,
-    AudibleLibrary,
-    AudioBook,
-    Item,
-    PrimeVideoViewingHistory,
-    PrimeVideoWatchlist,
-    PrimeVideoWatchlistHistory,
-    RetailOrder,
-    RetailOrderHistory,
-    Search,
-    SearchDataCustomerEngagement,
-    ThirdPartyAudiences,
-    Title,
-    TwitchPrimeSubscription,
-    TwitchPrimeSubscriptions,
-    ViewingActivity,
-    WishList
-} from "../model/amazon.model";
 import {Parser} from "../utils/parser";
 import {Months} from "../utils/utils.enum";
+import {
+    AdvertiserAudiencesAM,
+    AdvertiserClickedAM,
+    AmazonAudiencesAM,
+    AmazonWishlistsAM,
+    AudibleLibraryAM,
+    AudioBookAM,
+    ItemAM,
+    PrimeVideoViewingHistoryAM,
+    PrimeVideoWatchlistAM,
+    PrimeVideoWatchlistHistoryAM,
+    RetailOrderAM,
+    RetailOrderHistoryAM,
+    SearchAM,
+    SearchDataCustomerEngagementAM,
+    ThirdPartyAudiencesAM,
+    TitleAM,
+    TwitchPrimeSubscriptionAM,
+    TwitchPrimeSubscriptionsAM,
+    ViewingActivityAM,
+    WishListAM
+} from "../model";
 
 /**
  * Class used to parse most important files into the directory returned by Amazon in CSV and JSON format.
@@ -33,70 +33,68 @@ export class AmazonService {
     private logger = new Logger("Amazon Service");
     /**
      * @param data - file 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv' in input as Buffer
-     * @return {Promise<PrimeVideoWatchlist | undefined>}
+     * @return {Promise<PrimeVideoWatchlistAM | undefined>}
      */
-    async parsePrimeVideoWatchlist(data: Buffer): Promise<PrimeVideoWatchlist | undefined> {
+    async parsePrimeVideoWatchlist(data: Buffer): Promise<PrimeVideoWatchlistAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
-                let model: PrimeVideoWatchlist = {list: []}
-                result.map((listItem: any) => {
-                    let newItem: Title = {}, match;
+                let model: PrimeVideoWatchlistAM = {list: []}
+                model.list = result.map((listItem: any) => {
+                    let newItem: TitleAM = {}, match;
                     (listItem.catalogTitle != '') && (newItem.catalogTitle = listItem.catalogTitle);
                     (listItem['﻿"itemAddedDate"'] != '') && (match = listItem['﻿"itemAddedDate"'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/));
                     (listItem['﻿"itemAddedDate"'] != '') && (newItem.itemAddedDate = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), 0)));
-                    model.list.push(newItem);
+                    return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parsePrimeVideoWatchlist');
+            return undefined;
+        } catch (error){
+            this.logger.log('error', `${error}`,'parsePrimeVideoWatchlist');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv' in input as Buffer
-     * @return {Promise<PrimeVideoWatchlistHistory | undefined>}
+     * @return {Promise<PrimeVideoWatchlistHistoryAM | undefined>}
      */
-    async parsePrimeVideoWatchlistHistory(data: Buffer): Promise<PrimeVideoWatchlistHistory | undefined> {
+    async parsePrimeVideoWatchlistHistory(data: Buffer): Promise<PrimeVideoWatchlistHistoryAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
-                let model: PrimeVideoWatchlistHistory = {list: []}
-                result.map((listItem: any) => {
-                    let newItem: Title = {}, match;
+                let model: PrimeVideoWatchlistHistoryAM = {list: []}
+                model.list = result.map((listItem: any) => {
+                    let newItem: TitleAM = {}, match;
                     (listItem['﻿"listId"'] != '') && (newItem.listId = listItem['﻿"listId"']);
                     (listItem.itemAddedDate != '') && (match = listItem.itemAddedDate.match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/));
                     (listItem.itemAddedDate != '') && (newItem.itemAddedDate = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), 0)));
                     (listItem.itemType != '') && (newItem.itemType = listItem.itemType);
                     (listItem.deleted != '') && (newItem.deleted = listItem.deleted == '1');
                     (listItem.catalogTitle != '') && (newItem.catalogTitle = listItem.catalogTitle);
-                    model.list.push(newItem);
+                    return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parsePrimeVideoWatchlistHistory');
+            return undefined;
+        } catch (error){
+            this.logger.log('error', `${error}`,'parsePrimeVideoWatchlistHistory');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv' in input as Buffer
-     * @return {Promise<PrimeVideoViewingHistory | undefined>}
+     * @return {Promise<PrimeVideoViewingHistoryAM | undefined>}
      */
-    async parsePrimeVideoViewingHistory(data: Buffer): Promise<PrimeVideoViewingHistory | undefined> {
+    async parsePrimeVideoViewingHistory(data: Buffer): Promise<PrimeVideoViewingHistoryAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
-                let model: PrimeVideoViewingHistory = {list: []}
-                result.map((listItem: any) => {
-                    let newItem: ViewingActivity = {}, match;
+                let model: PrimeVideoViewingHistoryAM = {list: []}
+                model.list = result.map((listItem: any) => {
+                    let newItem: ViewingActivityAM = {}, match;
                     (listItem['﻿Playback Hour']  != '') && (match = listItem['﻿Playback Hour'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/));
                     (listItem['﻿Playback Hour']  != '') && (newItem.playbackHour = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
                     (listItem['Operating System'] != '') && (newItem.operatingSystem = listItem['Operating System']);
@@ -111,29 +109,28 @@ export class AmazonService {
                     (listItem['Video Type'] != '') && (newItem.videoType = listItem['Video Type']);
                     (listItem['Audio Language'] != '') && (newItem.audioLanguage = listItem['Audio Language']);
                     (listItem['Title'] != '') && (newItem.title = listItem['Title']);
-                    model.list.push(newItem);
+                    return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parsePrimeVideoViewingHistory');
+            return undefined;
+        } catch (error){
+            this.logger.log('error', `${error}`,'parsePrimeVideoViewingHistory');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Search-Data/Search-Data.Customer-Engagement.csv' in input as Buffer
-     * @return {Promise<SearchDataCustomerEngagement | undefined>}
+     * @return {Promise<SearchDataCustomerEngagementAM | undefined>}
      */
-    async parseSearchDataCustomerEngagement(data: Buffer): Promise<SearchDataCustomerEngagement | undefined> {
+    async parseSearchDataCustomerEngagement(data: Buffer): Promise<SearchDataCustomerEngagementAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
-                let model: SearchDataCustomerEngagement = {list: []}
-                result.map((listItem: any) => {
-                    let newItem: Search = {}, match;
+                let model: SearchDataCustomerEngagementAM = {list: []}
+                model.list = result.map((listItem: any) => {
+                    let newItem: SearchAM = {}, match;
                     (listItem['﻿First Search Time (GMT)'] != '') && (match = listItem['﻿First Search Time (GMT)'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/));
                     (listItem['﻿First Search Time (GMT)'] != '') && (newItem.firstSearchTime = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
                     (listItem['Country ID'] != '') && (newItem.countryID = listItem['Country ID']);
@@ -203,35 +200,34 @@ export class AmazonService {
                     (listItem['Is First Search From External Ad'] != '') && (newItem.isFirstSearchFromExternalAd = listItem['Is First Search From External Ad'].toLowerCase() == 'yes');
                     (listItem['User Agent Info Family'] != '') && (newItem.userAgentInfoFamily = listItem['User Agent Info Family']);
                     (listItem.LKCI != '') && (newItem.LKCI = listItem['LKCI']);
-                    model.list.push(newItem);
+                    return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parseSearchDataCustomerEngagement');
+            return undefined;
+        } catch (error){
+            this.logger.log('error', `${error}`,'parseSearchDataCustomerEngagement');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json' in input as Buffer
-     * @return {Promise<AmazonWishlists | undefined>}
+     * @return {Promise<AmazonWishlistsAM | undefined>}
      */
-    async parseAmazonWishlists(data: Buffer): Promise<AmazonWishlists | undefined> {
+    async parseAmazonWishlists(data: Buffer): Promise<AmazonWishlistsAM | undefined> {
         try {
             let document = JSON.parse(data.toString());
             if(document) {
                 let regex = /(.*) \[(.*)]/;
-                let model: AmazonWishlists = {lists: []};
-                let wishList: WishList = {itemList: []};
+                let model: AmazonWishlistsAM = {lists: []};
+                let wishList: WishListAM = {itemList: []};
                 document.forEach((value: any) => {
                     let keys = Object.keys(value);
                     let match = keys[0].match(regex);
                     if(match) {
                         if(match[2] == 'List') {
-                            value[keys[0]].map((parameter: any) => {
+                            value[keys[0]].forEach((parameter: any) => {
                                 let parameterKeys = Object.keys(parameter);
                                 (parameterKeys[0] == 'listName') && (wishList.listName = parameter.listName);
                                 (parameterKeys[0] == 'privacy') && (wishList.privacy = parameter.privacy);
@@ -239,8 +235,8 @@ export class AmazonService {
                                 (parameterKeys[0] == 'recentActivityDate') && (wishList.recentActivityDate = new Date(parameter.recentActivityDate));
                             });
                         } else if(match[1] && match[2] == 'Item 1') {
-                            let item: Item = {};
-                            value[keys[0]].map((parameter: any) => {
+                            let item: ItemAM = {};
+                            value[keys[0]].forEach((parameter: any) => {
                                 let parameterKeys = Object.keys(parameter);
                                 (parameterKeys[0] == 'asin') && (item.asin = parameter.asin);
                                 (parameterKeys[0] == 'quantity') && (item.quantity = parameter.quantity);
@@ -253,24 +249,22 @@ export class AmazonService {
                                 wishList.itemList.push(item);
                             });
                         } else if(match[2] == 'User') {
-                            value[keys[0]].map((parameter: any) => {
+                            value[keys[0]].forEach((parameter: any) => {
                                 let parameterKeys = Object.keys(parameter);
                                 (parameterKeys[0] == 'emailAddress') && (wishList.emailAddress = parameter.emailAddress);
                                 (parameterKeys[0] == 'roleName') && (wishList.roleName = parameter.roleName);
                                 (parameterKeys[0] == 'nodeFlags') && (wishList.nodeFlags = parameter.nodeFlags);
                             });
                             model.lists.push(wishList);
-                            console.log(wishList.itemList);
                             wishList = {itemList: []};
                         }
                     }
                 });
                 return model.lists.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parseAmazonWishlists');
+            return undefined;
+        } catch (error){
+            this.logger.log('error', `${error}`,'parseAmazonWishlists');
             return undefined;
         }
     }
@@ -278,15 +272,15 @@ export class AmazonService {
 
     /**
      * @param data - file 'Audible.Library/Audible.Library.csv' in input as Buffer
-     * @return {Promise<AudibleLibrary | undefined>}
+     * @return {Promise<AudibleLibraryAM | undefined>}
      */
-    async parseAudibleLibrary(data: Buffer): Promise<AudibleLibrary | undefined> {
+    async parseAudibleLibrary(data: Buffer): Promise<AudibleLibraryAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
-                let model: AudibleLibrary = {list: []}
-                result.map((listItem: any) => {
-                    let newItem: AudioBook = {};
+                let model: AudibleLibraryAM = {list: []}
+                model.list = result.map((listItem: any) => {
+                    let newItem: AudioBookAM = {};
                     if(listItem['﻿"DateAdded"'] != '') {
                         let match = listItem['﻿"DateAdded"'].match(/(\d+)-(\w+)-(\d+)/);
                         let monthIndex = Months[match[2]];
@@ -313,121 +307,116 @@ export class AmazonService {
                     }
                     (listItem.OrderNumber != '') && (newItem.orderNumber = listItem.OrderNumber);
                     (listItem.OriginType != '') && (newItem.originType = listItem.OriginType);
-                    model.list.push(newItem);
+                    return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parseAudibleLibrary');
+            return undefined;
+        } catch (error){
+            this.logger.log('error', `${error}`,'parseAudibleLibrary');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Advertising.{X}/Advertising.AdvertiserAudiences.csv' in input as Buffer
-     * @return {Promise<AdvertiserAudiences | undefined>}
+     * @return {Promise<AdvertiserAudiencesAM | undefined>}
      */
-    async parseAdvertiserAudiences(data: Buffer): Promise<AdvertiserAudiences | undefined> {
+    async parseAdvertiserAudiences(data: Buffer): Promise<AdvertiserAudiencesAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
-                let model: AdvertiserAudiences = {list: []}
-                result.map((listItem: any) => {
+                let model: AdvertiserAudiencesAM = {list: []}
+                result.forEach((listItem: any) => {
                     let parameter = '﻿Advertisers who brought audiences in which you are included';
                     (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parseAdvertiserAudiences');
+            return undefined;
+        } catch (error){
+            this.logger.log('error', `${error}`,'parseAdvertiserAudiences');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Advertising.{X}/Advertising.AdvertiserClicks.csv' in input as Buffer
-     * @return {Promise<AdvertiserClicked | undefined>}
+     * @return {Promise<AdvertiserClickedAM | undefined>}
      */
-    async parseAdvertiserClicked(data: Buffer): Promise<AdvertiserClicked | undefined> {
+    async parseAdvertiserClicked(data: Buffer): Promise<AdvertiserClickedAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
-                let model: AdvertiserClicked = {list: []}
-                result.map((listItem: any) => {
+                let model: AdvertiserClickedAM = {list: []}
+                result.forEach((listItem: any) => {
                     let parameter = '﻿Advertisers whose ads you clicked';
                     (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parseAdvertiserClicked');
+            return undefined;
+        } catch (error){
+            this.logger.log('error', `${error}`,'parseAdvertiserClicked');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Advertising.{X}/Advertising.3PAudiences.csv' in input as Buffer
-     * @return {Promise<ThirdPartyAudiences | undefined>}
+     * @return {Promise<ThirdPartyAudiencesAM | undefined>}
      */
-    async parseThirdPartyAudiences(data: Buffer): Promise<ThirdPartyAudiences | undefined> {
+    async parseThirdPartyAudiences(data: Buffer): Promise<ThirdPartyAudiencesAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
-                let model: ThirdPartyAudiences = {list: []}
-                result.map((listItem: any) => {
+                let model: ThirdPartyAudiencesAM = {list: []}
+                result.forEach((listItem: any) => {
                     let parameter = '﻿Audiences in which you are included via 3rd Parties';
                     (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parseThirdPartyAudiences');
+            return undefined;
+        } catch (error){
+            this.logger.log('error', `${error}`,'parseThirdPartyAudiences');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Advertising.{X}/Advertising.AmazonAudiences.csv' in input as Buffer
-     * @return {Promise<AmazonAudiences | undefined>}
+     * @return {Promise<AmazonAudiencesAM | undefined>}
      */
-    async parseAmazonAudiences(data: Buffer): Promise<AmazonAudiences | undefined> {
+    async parseAmazonAudiences(data: Buffer): Promise<AmazonAudiencesAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
-                let model: AmazonAudiences = {list: []}
-                result.map((listItem: any) => {
+                let model: AmazonAudiencesAM = {list: []}
+                result.forEach((listItem: any) => {
                     let parameter = '﻿Amazon Audiences in which you are included';
                     (listItem[parameter] != '') && (model.list.push({value: listItem[parameter]}));
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parseAmazonAudiences');
+            return undefined;
+        } catch (error){
+            this.logger.log('error', `${error}`,'parseAmazonAudiences');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv' in input as Buffer
-     * @return {Promise<TwitchPrimeSubscriptions | undefined>}
+     * @return {Promise<TwitchPrimeSubscriptionsAM | undefined>}
      */
-    async parseTwitchPrimeSubscription(data: Buffer): Promise<TwitchPrimeSubscriptions | undefined> {
+    async parseTwitchPrimeSubscription(data: Buffer): Promise<TwitchPrimeSubscriptionsAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
-                let model: TwitchPrimeSubscriptions = {list: []}
-                result.map((listItem: any) => {
-                    let newItem: TwitchPrimeSubscription = {}, match;
+                let model: TwitchPrimeSubscriptionsAM = {list: []}
+                model.list = result.map((listItem: any) => {
+                    let newItem: TwitchPrimeSubscriptionAM = {}, match;
                     (listItem['﻿Timestamp'] != '') && (match = listItem['﻿Timestamp'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/));
                     (match) && (newItem.date = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), 0)));
                     (listItem.BalanceTrackerOperation != '') && (newItem.balanceTrackerOperation = listItem.BalanceTrackerOperation);
@@ -440,29 +429,28 @@ export class AmazonService {
                     (listItem.StreamerLinkedChannels != '') && (newItem.streamerLinkedChannels = listItem.StreamerLinkedChannels);
                     (listItem.SpenderTwitchUserID != '') && (newItem.spenderTwitchUserID = listItem.SpenderTwitchUserID);
                     (listItem.CustomerServiceNote != '') && (newItem.customerServiceNote = listItem.CustomerServiceNote);
-                    model.list.push(newItem);
+                    return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parseTwitchPrimeSubscription');
+            return undefined;
+        } catch (error){
+            this.logger.log('error', `${error}`,'parseTwitchPrimeSubscription');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Retail.OrderHistory.2/Retail.OrderHistory.2.csv' in input as Buffer
-     * @return {Promise<RetailOrderHistory | undefined>}
+     * @return {Promise<RetailOrderHistoryAM | undefined>}
      */
-    async parseRetailOrderHistory(data: Buffer): Promise<RetailOrderHistory | undefined> {
+    async parseRetailOrderHistory(data: Buffer): Promise<RetailOrderHistoryAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
-                let model: RetailOrderHistory = {list: []}
-                result.map((listItem: any) => {
-                    let newItem: RetailOrder = {}, match;
+                let model: RetailOrderHistoryAM = {list: []}
+                model.list = result.map((listItem: any) => {
+                    let newItem: RetailOrderAM = {}, match;
                     (listItem['﻿"Website"'] != '') && (newItem.website = listItem['﻿"Website"']);
                     (listItem['Order ID'] != '') && (newItem.orderID = listItem['Order ID']);
                     (listItem['Order Date']  != '') && (match = listItem['Order Date'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/));
@@ -492,14 +480,13 @@ export class AmazonService {
                     (listItem['Gift Message'] != '') && (newItem.giftMessage = listItem['Gift Message']);
                     (listItem['Gift Sender Name'] != '') && (newItem.giftSenderName = listItem['Gift Sender Name']);
                     (listItem['Gift Recipient Contact Details'] != '') && (newItem.giftRecipientContactDetails = listItem['Gift Recipient Contact Details']);
-                    model.list.push(newItem);
+                    return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parseRetailOrderHistory');
+            return undefined;
+        } catch (error){
+            this.logger.log('error', `${error}`,'parseRetailOrderHistory');
             return undefined;
         }
     }

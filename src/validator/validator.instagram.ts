@@ -60,13 +60,13 @@ export class ValidatorInstagram {
             const file = zip.files[pathName];
             if (!file.dir) {
                 let data = await file.async('nodebuffer');
-                if (this.extractRightPath(pathName) == FileCode.INSTAGRAM_PERSONAL_INFO) {
+                if (this.extractCompatiblePath(pathName) == FileCode.INSTAGRAM_PERSONAL_INFO) {
                     languageCode = await this.getLanguage(data);
                 }
 
                 data = await file.async('nodebuffer');
-                if (fileList.includes(<FileCode>this.extractRightPath(pathName))) {
-                    usefulFiles.file(this.extractRightPath(pathName), data, {comment: languageCode});
+                if (fileList.includes(<FileCode>this.extractCompatiblePath(pathName))) {
+                    usefulFiles.file(this.extractCompatiblePath(pathName), data, {comment: languageCode});
                 }
             }
         }
@@ -77,7 +77,7 @@ export class ValidatorInstagram {
         }
     }
 
-    private static extractRightPath(path: string): string {
+    private static extractCompatiblePath(path: string): string {
         const x: string[] = path.split('/');
         return (x[x.length-2] + '/' + x[x.length-1]);
     }

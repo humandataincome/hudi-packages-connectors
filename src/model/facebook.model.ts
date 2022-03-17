@@ -77,10 +77,27 @@ export interface RecentlyViewedFB {
     peopleVisualizedWhenSuggested?: Array<VisualizationFB>;
     marketplaceArticlesVisualized?: Array<VisualizationFB>;
     insertionsVisualized?: Array<VisualizationFB>;
-    //marketplaceSearchesDays?: Array<VisualizationFB>;
-    //marketplaceVendorsContactedDays?: Array<VisualizationFB>;
-    //marketplaceArticleDetailsVisualizedDays?: Array<VisualizationFB>;
-    //marketplaceYourTabVisualizationDays?: Array<VisualizationFB>;
+}
+
+export interface FriendRequestsSentFB {
+    list: Array<FriendActivityFB>;
+}
+
+export interface RejectedFriendshipRequestsFB {
+    list: Array<FriendActivityFB>;
+}
+
+export interface RemovedFriendsFB {
+    list: Array<FriendActivityFB>;
+}
+
+export interface WhoYouFollowFB {
+    list: Array<FriendActivityFB>;
+}
+
+export interface FriendActivityFB {
+    name?: string;
+    date?: Date;
 }
 
 export interface YourPostsFB {

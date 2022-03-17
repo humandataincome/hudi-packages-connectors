@@ -1,355 +1,518 @@
 {
-  "sourceDescription": [
-    {
-      "sourceName": "Instagram",
-      "sourceCode": "INSTAGRAM",
-      "supportedFormats": [ "zip" ],
-      "retrievingProcedures": [
+    "sourceDescription": [
         {
-          "languageCode": "EN",
-          "description": "Instagram data source",
-          "procedures": [
-            {
-              "procedureType": "DEFAULT",
-              "retrievingSteps": [
+            "sourceName": "Instagram",
+            "sourceCode": "INSTAGRAM",
+            "supportedFormats": [ "zip" ],
+            "retrievingProcedures": [
                 {
-                  "index": 1,
-                  "description": "Follow the guide at this link",
-                  "link": "https://help.instagram.com/181231772500920"
+                    "languageCode": "EN",
+                    "description": "Instagram data source",
+                    "procedures": [
+                        {
+                            "procedureType": "DEFAULT",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Follow the guide at this link",
+                                    "link": "https://help.instagram.com/181231772500920"
+                                }
+                            ]
+                        },
+                        {
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Go to your Profile",
+                                    "attributeDescription": "<p>Go to your <a href=\"\">Profile</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Click on the Menu Icon",
+                                    "attributeDescription": "<p>Click on the <b>Menu Icon</b></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Click on Settings",
+                                    "attributeDescription": "<p>Click on <b>Settings</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Click on Privacy and Security",
+                                    "attributeDescription": "<p>Click on <b>Privacy</b> and <b>Security</b></p>"
+                                },
+                                {
+                                    "index": 5,
+                                    "description": "Click on Download Data",
+                                    "attributeDescription": "<p>Click on <b>Download Data</b></p>"
+                                },
+                                {
+                                    "index": 6,
+                                    "description": "Insert your email",
+                                    "attributeDescription": "<p>Insert your <b>email</b></p>"
+                                },
+                                {
+                                    "index": 7,
+                                    "description": "Click on Request Download",
+                                    "attributeDescription": "<p>Click on Request Download</p>"
+                                },
+                                {
+                                    "index": 8,
+                                    "description": "Select JSON format",
+                                    "attributeDescription": "<p>Select JSON format</p>"
+                                }
+                            ]
+                        },
+                        {
+                            "procedureType": "MOBILE",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Go to your Profile",
+                                    "attributeDescription": "<p>Go to your <a href=\"\">Profile</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Click on the Menu Icon",
+                                    "attributeDescription": "<p>Click on the <b>Menu Icon</b></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Click on Settings",
+                                    "attributeDescription": "<p>Click on <b>Settings</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Click on Security",
+                                    "attributeDescription": "<p>Click on <b>Security</b></p>"
+                                },
+                                {
+                                    "index": 5,
+                                    "description": "Click on Download Data",
+                                    "attributeDescription": "<p>Click on <b>Download Data</b></p>"
+                                },
+                                {
+                                    "index": 6,
+                                    "description": "Insert your email",
+                                    "attributeDescription": "<p>Insert your <b>email</b></p>"
+                                },
+                                {
+                                    "index": 7,
+                                    "description": "Click on Request Download",
+                                    "attributeDescription": "<p>Click on <b>Request Download</b></p>"
+                                },
+                                {
+                                    "index": 8,
+                                    "description": "Select JSON format",
+                                    "attributeDescription": "<p>Select <b>JSON format</b></p>"
+                                }
+                            ]
+                        }
+                    ],
+                    "filesDescription": [
+                        {
+                            "filePath": "account_information/personal_information.json",
+                            "fileContent": "Information about language files"
+                        },
+                        {
+                            "filePath": "ads_and_content/ads_clicked.json",
+                            "fileContent": "Counter of ADS clicked"
+                        },
+                        {
+                            "filePath": "ads_and_content/ads_viewed.json",
+                            "fileContent": "Counter of ADS viewed"
+                        },
+                        {
+                            "filePath": "comments/post_comments.json",
+                            "fileContent": "Counter of comments to posts"
+                        },
+                        {
+                            "filePath": "story_sticker_interactions/emoji_sliders.json",
+                            "fileContent": "Counter of emoji_sliders engagement"
+                        },
+                        {
+                            "filePath": "followers_and_following/followers.json",
+                            "fileContent": "Total of followers"
+                        },
+                        {
+                            "filePath": "followers_and_following/following.json",
+                            "fileContent": "Total of followings"
+                        },
+                        {
+                            "filePath": "likes/liked_comments.json",
+                            "fileContent": "Counter of likes to comments"
+                        },
+                        {
+                            "filePath": "likes/liked_posts.json",
+                            "fileContent": "Counter of likes to posts"
+                        },
+                        {
+                            "filePath": "monetization/eligibility.json",
+                            "fileContent": "If user can Monetize"
+                        },
+                        {
+                            "filePath": "story_sticker_interactions/polls.json",
+                            "fileContent": "Counter of polls engagement"
+                        },
+                        {
+                            "filePath": "content/post1.json",
+                            "fileContent": "Counter of posts created"
+                        },
+                        {
+                            "filePath": "ads_and_content/posts_viewed.json",
+                            "fileContent": "Counter of posts viewed"
+                        },
+                        {
+                            "filePath": "story_sticker_interactions/quizzes.json",
+                            "fileContent": "Counter of quizzes engagement"
+                        },
+                        {
+                            "filePath": "content/stories.json",
+                            "fileContent": "Counter of stories created"
+                        },
+                        {
+                            "filePath": "ads_and_content/videos_watched.json",
+                            "fileContent": "Counter of videos viewed"
+                        }
+                    ]
+                },
+                {
+                    "languageCode": "IT",
+                    "description": "Instagram data source",
+                    "procedures": [
+                        {
+                            "procedureType": "DEFAULT",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Segui la guida a questo link",
+                                    "link": "https://help.instagram.com/181231772500920"
+                                }
+                            ]
+                        },
+                        {
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Vai al tuo profilo",
+                                    "attributeDescription": "<p>Vai al tuo <a href=\"\">Profilo</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Clicca sull'icona del menu",
+                                    "attributeDescription": "<p>Fai click sull'<b>icona del menu</b></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Clicca su Impostazioni",
+                                    "attributeDescription": "<p>Fai click su <b>Impostazioni</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Clicca su Privacy e Sicurezza",
+                                    "attributeDescription": "<p>Fai click su <b>Privacy</b> e <b>Sicurezza</b></p>"
+                                },
+                                {
+                                    "index": 5,
+                                    "description": "Clicca su Scarica dati",
+                                    "attributeDescription": "<p>Fai click su <b>Scarica dati</b></p>"
+                                },
+                                {
+                                    "index": 6,
+                                    "description": "Inserisci la tua email",
+                                    "attributeDescription": "<p>Inserisci la tua <b>email</b></p>"
+                                },
+                                {
+                                    "index": 7,
+                                    "description": "Clicca su Richiedi download",
+                                    "attributeDescription": "<p>Fai click su Richiedi download</p>"
+                                },
+                                {
+                                    "index": 8,
+                                    "description": "Seleziona il formato JSON",
+                                    "attributeDescription": "<p>Seleziona il formato JSON</p>"
+                                }
+                            ]
+                        },
+                        {
+                            "procedureType": "MOBILE",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Vai al tuo profilo",
+                                    "attributeDescription": "<p>vai al tuo <a href=\"\">Profilo</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Clicca sull'icona del menu",
+                                    "attributeDescription": "<p>Fai click sull'<b>icona del menu</b></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Clicca su Impostazioni",
+                                    "attributeDescription": "<p>Fai click su <b>Impostazioni</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Clicca su Sicurezza",
+                                    "attributeDescription": "<p>Fai click su <b>Sicurezza</b></p>"
+                                },
+                                {
+                                    "index": 5,
+                                    "description": "Clicca su Scarica dati",
+                                    "attributeDescription": "<p>Fai click su <b>Scarica dati</b></p>"
+                                },
+                                {
+                                    "index": 6,
+                                    "description": "Inserisci la tua email",
+                                    "attributeDescription": "<p>Inserisci la tua <b>email</b></p>"
+                                },
+                                {
+                                    "index": 7,
+                                    "description": "Clicca su Richiedi download",
+                                    "attributeDescription": "<p>Fai click su <b>Richiedi download</b></p>"
+                                },
+                                {
+                                    "index": 8,
+                                    "description": "Seleziona il formato JSON",
+                                    "attributeDescription": "<p>Seleziona <b>formato JSON</b></p>"
+                                }
+                            ]
+                        }
+                    ],
+                    "filesDescription": [
+                        {
+                            "filePath": "account_information/personal_information.json",
+                            "fileContent": "Informazioni sui file di lingua"
+                        },
+                        {
+                            "filePath": "ads_and_content/ads_clicked.json",
+                            "fileContent": "Numero di ADS cliccati"
+                        },
+                        {
+                            "filePath": "ads_and_content/ads_viewed.json",
+                            "fileContent": "Numero di ADS visualizzate"
+                        },
+                        {
+                            "filePath": "comments/post_comments.json",
+                            "fileContent": "Numero di commenti sotto ai posts"
+                        },
+                        {
+                            "filePath": "story_sticker_interactions/emoji_sliders.json",
+                            "fileContent": "Numero di interazioni per gli emoji_sliders"
+                        },
+                        {
+                            "filePath": "followers_and_following/followers.json",
+                            "fileContent": "Totale followers"
+                        },
+                        {
+                            "filePath": "followers_and_following/following.json",
+                            "fileContent": "Totale seguiti"
+                        },
+                        {
+                            "filePath": "likes/liked_comments.json",
+                            "fileContent": "Numero dei like ai commenti"
+                        },
+                        {
+                            "filePath": "likes/liked_posts.json",
+                            "fileContent": "Numero dei like ai posts"
+                        },
+                        {
+                            "filePath": "monetization/eligibility.json",
+                            "fileContent": "Se l'utente può monetizzare"
+                        },
+                        {
+                            "filePath": "story_sticker_interactions/polls.json",
+                            "fileContent": "Numero di interazioni nei sondaggi"
+                        },
+                        {
+                            "filePath": "content/post1.json",
+                            "fileContent": "Numero di posts creati"
+                        },
+                        {
+                            "filePath": "ads_and_content/posts_viewed.json",
+                            "fileContent": "Numero di posts visualizzati"
+                        },
+                        {
+                            "filePath": "story_sticker_interactions/quizzes.json",
+                            "fileContent": "Numero di interazioni ai quiz"
+                        },
+                        {
+                            "filePath": "content/stories.json",
+                            "fileContent": "Numero di storie create"
+                        },
+                        {
+                            "filePath": "ads_and_content/videos_watched.json",
+                            "fileContent": "Numero di video visualizzati"
+                        }
+                    ]
                 }
-              ]
-            },
-            {
-              "procedureType": "DESKTOP",
-              "retrievingSteps": [
-                {
-                  "index": 1,
-                  "description": "Go to your Profile",
-                  "attributeDescription": "<p>Go to your <a href=\"\">Profile</a></p>"
-                },
-                {
-                  "index": 2,
-                  "description": "Click on the Menu Icon",
-                  "attributeDescription": "<p>Click on the <b>Menu Icon</b></p>"
-                },
-                {
-                  "index": 3,
-                  "description": "Click on Settings",
-                  "attributeDescription": "<p>Click on <b>Settings</b></p>"
-                },
-                {
-                  "index": 4,
-                  "description": "Click on Privacy and Security",
-                  "attributeDescription": "<p>Click on <b>Privacy</b> and <b>Security</b></p>"
-                },
-                {
-                  "index": 5,
-                  "description": "Click on Download Data",
-                  "attributeDescription": "<p>Click on <b>Download Data</b></p>"
-                },
-                {
-                  "index": 6,
-                  "description": "Insert your email",
-                  "attributeDescription": "<p>Insert your <b>email</b></p>"
-                },
-                {
-                  "index": 7,
-                  "description": "Click on Request Download",
-                  "attributeDescription": "<p>Click on Request Download</p>"
-                },
-                {
-                  "index": 8,
-                  "description": "Select JSON format",
-                  "attributeDescription": "<p>Select JSON format</p>"
-                }
-              ]
-            },
-            {
-              "procedureType": "MOBILE",
-              "retrievingSteps": [
-                {
-                  "index": 1,
-                  "description": "Go to your Profile",
-                  "attributeDescription": "<p>Go to your <a href=\"\">Profile</a></p>"
-                },
-                {
-                  "index": 2,
-                  "description": "Click on the Menu Icon",
-                  "attributeDescription": "<p>Click on the <b>Menu Icon</b></p>"
-                },
-                {
-                  "index": 3,
-                  "description": "Click on Settings",
-                  "attributeDescription": "<p>Click on <b>Settings</b></p>"
-                },
-                {
-                  "index": 4,
-                  "description": "Click on Security",
-                  "attributeDescription": "<p>Click on <b>Security</b></p>"
-                },
-                {
-                  "index": 5,
-                  "description": "Click on Download Data",
-                  "attributeDescription": "<p>Click on <b>Download Data</b></p>"
-                },
-                {
-                  "index": 6,
-                  "description": "Insert your email",
-                  "attributeDescription": "<p>Insert your <b>email</b></p>"
-                },
-                {
-                  "index": 7,
-                  "description": "Click on Request Download",
-                  "attributeDescription": "<p>Click on <b>Request Download</b></p>"
-                },
-                {
-                  "index": 8,
-                  "description": "Select JSON format",
-                  "attributeDescription": "<p>Select <b>JSON format</b></p>"
-                }
-              ]
-            }
-          ],
-          "filesDescription": [
-            {
-              "filePath": "account_information/personal_information.json",
-              "fileContent": "Information about language files"
-            },
-            {
-              "filePath": "ads_and_content/ads_clicked.json",
-              "fileContent": "Counter of ADS clicked"
-            },
-            {
-              "filePath": "ads_and_content/ads_viewed.json",
-              "fileContent": "Counter of ADS viewed"
-            },
-            {
-              "filePath": "comments/post_comments.json",
-              "fileContent": "Counter of comments to posts"
-            },
-            {
-              "filePath": "story_sticker_interactions/emoji_sliders.json",
-              "fileContent": "Counter of emoji_sliders engagement"
-            },
-            {
-              "filePath": "followers_and_following/followers.json",
-              "fileContent": "Total of followers"
-            },
-            {
-              "filePath": "followers_and_following/following.json",
-              "fileContent": "Total of followings"
-            },
-            {
-              "filePath": "likes/liked_comments.json",
-              "fileContent": "Counter of likes to comments"
-            },
-            {
-              "filePath": "likes/liked_posts.json",
-              "fileContent": "Counter of likes to posts"
-            },
-            {
-              "filePath": "monetization/eligibility.json",
-              "fileContent": "If user can Monetize"
-            },
-            {
-              "filePath": "story_sticker_interactions/polls.json",
-              "fileContent": "Counter of polls engagement"
-            },
-            {
-              "filePath": "content/post1.json",
-              "fileContent": "Counter of posts created"
-            },
-            {
-              "filePath": "ads_and_content/posts_viewed.json",
-              "fileContent": "Counter of posts viewed"
-            },
-            {
-              "filePath": "story_sticker_interactions/quizzes.json",
-              "fileContent": "Counter of quizzes engagement"
-            },
-            {
-              "filePath": "content/stories.json",
-              "fileContent": "Counter of stories created"
-            },
-            {
-              "filePath": "ads_and_content/videos_watched.json",
-              "fileContent": "Counter of videos viewed"
-            }
-          ]
+            ]
         },
         {
-          "languageCode": "IT",
-          "description": "Instagram data source",
-          "procedures": [
-            {
-              "procedureType": "DEFAULT",
-              "retrievingSteps": [
+            "sourceName": "Facebook",
+            "sourceCode": "FACEBOOK",
+            "supportedFormats": [
+                "zip"
+            ],
+            "retrievingProcedures": [
                 {
-                  "index": 1,
-                  "description": "Segui la guida a questo link",
-                  "link": "https://help.instagram.com/181231772500920"
+                    "languageCode": "EN",
+                    "description": "Facebook data source",
+                    "procedures": [
+                        {
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Click on this link https://www.facebook.com/dyi",
+                                    "attributeDescription": "<p>Click on this <a href='https://www.facebook.com/dyi'>link</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Select Format:JSON, Media Quality: High and Data Range: All Time",
+                                    "attributeDescription": "<p>Select Format <b>JSON</b>, Media Quality <b>High</b> and Data Range <b>All time</b></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Optional: uncheck Messages box",
+                                    "attributeDescription": "<p>Optional: Scroll down and uncheck <b>Messages</b> box</p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Scroll down at the bottom of the page and click Request a download bottom",
+                                    "attributeDescription": "<p>Scroll down at the bottom of the page and click on <b>Request a download</b> bottom</p>"
+                                }
+                            ]
+                        }
+                    ],
+                    "filesDescription": [
+                        {
+                            "filePath": "ads_information/advertisers_you've_interacted_with.json",
+                            "fileContent": "Advertising that you have interacted with"
+                        },
+                        {
+                            "filePath": "comments_and_reactions/comments.json",
+                            "fileContent": "Your comments on posts"
+                        },
+                        {
+                            "filePath": "comments_and_reactions/posts_and_comments.json",
+                            "fileContent": "Your reactions to posts"
+                        },
+                        {
+                            "filePath": "friends_and_followers/friend_requests_sent.json",
+                            "fileContent": "Friendship requests sent"
+                        },
+                        {
+                            "filePath": "pages/page_you_follow.json",
+                            "fileContent": "Pages you follow"
+                        },
+                        {
+                            "filePath": "pages/page_you’ve_liked.json",
+                            "fileContent": "Page you like"
+                        },
+                        {
+                            "filePath": "pages/page_you’ve_recommended.json",
+                            "fileContent": "Page you have recommend"
+                        },
+                        {
+                            "filePath": "preferences/language_and_locale.json",
+                            "fileContent": "Languages you know"
+                        },
+                        {
+                            "filePath": "profile_information/profile_information.json",
+                            "fileContent": "Your profile information"
+                        },
+                        {
+                            "filePath": "your_interactions_on_facebook/recently_viewed.json",
+                            "fileContent": "Video recently viewed"
+                        },
+                        {
+                            "filePath": "posts/your_posts_1.json",
+                            "fileContent": "Your posts information"
+                        }
+                    ]
+                },
+                {
+                    "languageCode": "IT",
+                    "description": "Facebook data source",
+                    "procedures": [
+                        {
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Clicca su questo link: https://www.facebook.com/dyi",
+                                    "attributeDescription": "<p>Clicca su questo <a href='https://www.facebook.com/dyi'>link</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Seleziona Formato:JSON, Media Quality: Alto ed Intervallo di date: Tutti i miei dati",
+                                    "attributeDescription": "<p>Seleziona Formato <b>JSON</b>, Media Quality <b>Alto</b> ed Intervallo di date <b>Tutti i miei dati</b></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Opzionali: deseleziona la casella Messaggi",
+                                    "attributeDescription": "<p>Opzionali: deseleziona la casella <b>Messaggi</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Scrolla fino a fondo pagina e clicca sul pulsante 'Richiedi download'",
+                                    "attributeDescription": "<p>Scrolla fino a fondo pagina e clicca sul pulsante <b>Richiedi download</b></p>"
+                                }
+                            ]
+                        }
+                    ],
+                    "filesDescription": [
+                        {
+                            "filePath": "ads_information/advertisers_you've_interacted_with.json",
+                            "fileContent": "ADS con cui hai interagito"
+                        },
+                        {
+                            "filePath": "comments_and_reactions/comments.json",
+                            "fileContent": "I tuoi commenti sui post"
+                        },
+                        {
+                            "filePath": "comments_and_reactions/posts_and_comments.json",
+                            "fileContent": "Le tue reazioni ai post"
+                        },
+                        {
+                            "filePath": "friends_and_followers/friend_requests_sent.json",
+                            "fileContent": "Richieste di amicizia inviate"
+                        },
+                        {
+                            "filePath": "pages/page_you_follow.json",
+                            "fileContent": "Pagine che segui"
+                        },
+                        {
+                            "filePath": "pages/page_you’ve_liked.json",
+                            "fileContent": "Pagine a cui hai messo Mi Piace"
+                        },
+                        {
+                            "filePath": "pages/page_you’ve_recommended.json",
+                            "fileContent": "Pagine che consigli"
+                        },
+                        {
+                            "filePath": "preferences/language_and_locale.json",
+                            "fileContent": "Lingue che conosci"
+                        },
+                        {
+                            "filePath": "profile_information/profile_information.json",
+                            "fileContent": "Informazioni sul tuo profilo"
+                        },
+                        {
+                            "filePath": "your_interactions_on_facebook/recently_viewed.json",
+                            "fileContent": "Video recentemente visti"
+                        },
+                        {
+                            "filePath": "posts/your_posts_1.json",
+                            "fileContent": "Informazioni sui tuoi post"
+                        }
+                    ]
                 }
-              ]
-            },
-            {
-              "procedureType": "DESKTOP",
-              "retrievingSteps": [
-                {
-                  "index": 1,
-                  "description": "Vai al tuo profilo",
-                  "attributeDescription": "<p>Vai al tuo <a href=\"\">Profilo</a></p>"
-                },
-                {
-                  "index": 2,
-                  "description": "Clicca sull'icona del menu",
-                  "attributeDescription": "<p>Fai click sull'<b>icona del menu</b></p>"
-                },
-                {
-                  "index": 3,
-                  "description": "Clicca su Impostazioni",
-                  "attributeDescription": "<p>Fai click su <b>Impostazioni</b></p>"
-                },
-                {
-                  "index": 4,
-                  "description": "Clicca su Privacy e Sicurezza",
-                  "attributeDescription": "<p>Fai click su <b>Privacy</b> e <b>Sicurezza</b></p>"
-                },
-                {
-                  "index": 5,
-                  "description": "Clicca su Scarica dati",
-                  "attributeDescription": "<p>Fai click su <b>Scarica dati</b></p>"
-                },
-                {
-                  "index": 6,
-                  "description": "Inserisci la tua email",
-                  "attributeDescription": "<p>Inserisci la tua <b>email</b></p>"
-                },
-                {
-                  "index": 7,
-                  "description": "Clicca su Richiedi download",
-                  "attributeDescription": "<p>Fai click su Richiedi download</p>"
-                },
-                {
-                  "index": 8,
-                  "description": "Seleziona il formato JSON",
-                  "attributeDescription": "<p>Seleziona il formato JSON</p>"
-                }
-              ]
-            },
-            {
-              "procedureType": "MOBILE",
-              "retrievingSteps": [
-                {
-                  "index": 1,
-                  "description": "Vai al tuo profilo",
-                  "attributeDescription": "<p>vai al tuo <a href=\"\">Profilo</a></p>"
-                },
-                {
-                  "index": 2,
-                  "description": "Clicca sull'icona del menu",
-                  "attributeDescription": "<p>Fai click sull'<b>icona del menu</b></p>"
-                },
-                {
-                  "index": 3,
-                  "description": "Clicca su Impostazioni",
-                  "attributeDescription": "<p>Fai click su <b>Impostazioni</b></p>"
-                },
-                {
-                  "index": 4,
-                  "description": "Clicca su Sicurezza",
-                  "attributeDescription": "<p>Fai click su <b>Sicurezza</b></p>"
-                },
-                {
-                  "index": 5,
-                  "description": "Clicca su Scarica dati",
-                  "attributeDescription": "<p>Fai click su <b>Scarica dati</b></p>"
-                },
-                {
-                  "index": 6,
-                  "description": "Inserisci la tua email",
-                  "attributeDescription": "<p>Inserisci la tua <b>email</b></p>"
-                },
-                {
-                  "index": 7,
-                  "description": "Clicca su Richiedi download",
-                  "attributeDescription": "<p>Fai click su <b>Richiedi download</b></p>"
-                },
-                {
-                  "index": 8,
-                  "description": "Seleziona il formato JSON",
-                  "attributeDescription": "<p>Seleziona <b>formato JSON</b></p>"
-                }
-              ]
-            }
-          ],
-          "filesDescription": [
-            {
-              "filePath": "account_information/personal_information.json",
-              "fileContent": "Informazioni sui file di lingua"
-            },
-            {
-              "filePath": "ads_and_content/ads_clicked.json",
-              "fileContent": "Numero di ADS cliccati"
-            },
-            {
-              "filePath": "ads_and_content/ads_viewed.json",
-              "fileContent": "Numero di ADS visualizzate"
-            },
-            {
-              "filePath": "comments/post_comments.json",
-              "fileContent": "Numero di commenti sotto ai posts"
-            },
-            {
-              "filePath": "story_sticker_interactions/emoji_sliders.json",
-              "fileContent": "Numero di interazioni per gli emoji_sliders"
-            },
-            {
-              "filePath": "followers_and_following/followers.json",
-              "fileContent": "Totale followers"
-            },
-            {
-              "filePath": "followers_and_following/following.json",
-              "fileContent": "Totale seguiti"
-            },
-            {
-              "filePath": "likes/liked_comments.json",
-              "fileContent": "Numero dei like ai commenti"
-            },
-            {
-              "filePath": "likes/liked_posts.json",
-              "fileContent": "Numero dei like ai posts"
-            },
-            {
-              "filePath": "monetization/eligibility.json",
-              "fileContent": "Se l'utente può monetizzare"
-            },
-            {
-              "filePath": "story_sticker_interactions/polls.json",
-              "fileContent": "Numero di interazioni nei sondaggi"
-            },
-            {
-              "filePath": "content/post1.json",
-              "fileContent": "Numero di posts creati"
-            },
-            {
-              "filePath": "ads_and_content/posts_viewed.json",
-              "fileContent": "Numero di posts visualizzati"
-            },
-            {
-              "filePath": "story_sticker_interactions/quizzes.json",
-              "fileContent": "Numero di interazioni ai quiz"
-            },
-            {
-              "filePath": "content/stories.json",
-              "fileContent": "Numero di storie create"
-            },
-            {
-              "filePath": "ads_and_content/videos_watched.json",
-              "fileContent": "Numero di video visualizzati"
-            }
-          ]
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }

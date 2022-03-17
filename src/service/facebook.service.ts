@@ -24,7 +24,14 @@ import {
     SearchFB,
     PageFB,
     ReactionsFB,
-    ReactionFB, LanguagesFB, PagesRecommendedFB, RecentlyViewedFB, VisualizationFB, YourPostsFB, YourPostFB,
+    ReactionFB,
+    LanguagesFB,
+    PagesRecommendedFB,
+    RecentlyViewedFB,
+    VisualizationFB,
+    YourPostsFB,
+    YourPostFB,
+    FriendRequestsSentFB, FriendActivityFB, RejectedFriendshipRequestsFB, RemovedFriendsFB, WhoYouFollowFB,
 } from "../model";
 import {Decoding} from "../utils/decoding";
 import {Validator} from "../validator";
@@ -359,9 +366,9 @@ export class FacebookService{
             const document = JSON.parse(data.toString());
             const model: LanguagesFB = {};
             if (document.language_and_locale_v2 && document.language_and_locale_v2.length > 0) {
-                (document.language_and_locale_v2[0].children[0].entries[0].data?.value) && (model.settingsLanguage = document.language_and_locale_v2[0].children[0].entries[0].data.value);
-                (document.language_and_locale_v2[1].entries) && (model.languagesKnown = document.language_and_locale_v2[1].entries.map((item: {"data": {"value": string}}) => item.data.value));
-                (document.language_and_locale_v2[2].entries[0].data?.value) && (model.favouriteLanguage = document.language_and_locale_v2[2].entries[0].data.value);
+                (document.language_and_locale_v2[0].children[0].entries[0].data?.value) && (model.settingsLanguage = Decoding.decodeObject(document.language_and_locale_v2[0].children[0].entries[0].data.value));
+                (document.language_and_locale_v2[1].entries) && (model.languagesKnown = document.language_and_locale_v2[1].entries.map((item: {"data": {"value": string}}) => Decoding.decodeObject(item.data.value)));
+                (document.language_and_locale_v2[2].entries[0].data?.value) && (model.favouriteLanguage = Decoding.decodeObject(document.language_and_locale_v2[2].entries[0].data.value));
                 return !Validator.objectIsEmpty(model) ? model : undefined;
             }
             return undefined;
@@ -407,9 +414,9 @@ export class FacebookService{
                         modelRecentlyViewed.timeSpentOnPageVideos = document.recently_viewed[0].children[0].entries.map((entry: any) => {
                             const model: VisualizationFB = {};
                             (entry.timestamp) && (model.date = new Date(1000 * entry.timestamp));
-                            (entry.data?.name) && (model.name = entry.data.name);
-                            (entry.data?.uri) && (model.uri = entry.data.uri);
-                            (entry.data?.watch_time) && (model.watchTimeInSeconds = entry.data.watch_time);
+                            (entry.data?.name) && (model.name = Decoding.decodeObject(entry.data.name));
+                            (entry.data?.uri) && (model.uri = Decoding.decodeObject(entry.data.uri));
+                            (entry.data?.watch_time) && (model.watchTimeInSeconds = Decoding.decodeObject(entry.data.watch_time));
                             return model;
                         });
                     }
@@ -417,8 +424,8 @@ export class FacebookService{
                         modelRecentlyViewed.videoWatched = document.recently_viewed[0].children[1].entries.map((entry: any) => {
                             const model: VisualizationFB = {};
                             (entry.timestamp) && (model.date = new Date(1000 * entry.timestamp));
-                            (entry.data?.name) && (model.name = entry.data.name);
-                            (entry.data?.uri) && (model.uri = entry.data.uri);
+                            (entry.data?.name) && (model.name = Decoding.decodeObject(entry.data.name));
+                            (entry.data?.uri) && (model.uri = Decoding.decodeObject(entry.data.uri));
                             return model;
                         });
                     }
@@ -426,9 +433,9 @@ export class FacebookService{
                         modelRecentlyViewed.timeSpentOnSingleVideo = document.recently_viewed[0].children[2].entries.map((entry: any) => {
                             const model: VisualizationFB = {};
                             (entry.timestamp) && (model.date = new Date(1000 * entry.timestamp));
-                            (entry.data?.name) && (model.name = entry.data.name);
-                            (entry.data?.uri) && (model.uri = entry.data.uri);
-                            (entry.data?.watch_position_seconds) && (model.watchTimeInSeconds = entry.data.watch_position_seconds);
+                            (entry.data?.name) && (model.name = Decoding.decodeObject(entry.data.name));
+                            (entry.data?.uri) && (model.uri = Decoding.decodeObject(entry.data.uri));
+                            (entry.data?.watch_position_seconds) && (model.watchTimeInSeconds = Decoding.decodeObject(entry.data.watch_position_seconds));
                             return model;
                         });
                     }
@@ -437,8 +444,8 @@ export class FacebookService{
                     (document.recently_viewed[1].entries) && (modelRecentlyViewed.postsShownInNewsLast90Days = document.recently_viewed[1].entries.map((entry: any) => {
                         const model: VisualizationFB = {};
                         (entry.timestamp) && (model.date = new Date(1000 * entry.timestamp));
-                        (entry.data?.name) && (model.name = entry.data.name);
-                        (entry.data?.uri) && (model.uri = entry.data.uri);
+                        (entry.data?.name) && (model.name = Decoding.decodeObject(entry.data.name));
+                        (entry.data?.uri) && (model.uri = Decoding.decodeObject(entry.data.uri));
                         return model;
                     }));
                 }
@@ -446,8 +453,8 @@ export class FacebookService{
                     (document.recently_viewed[2].entries) && (modelRecentlyViewed.peopleVisualizedWhenSuggested = document.recently_viewed[2].entries.map((entry: any) => {
                         const model: VisualizationFB = {};
                         (entry.timestamp) && (model.date = new Date(1000 * entry.timestamp));
-                        (entry.data?.name) && (model.name = entry.data.name);
-                        (entry.data?.uri) && (model.uri = entry.data.uri);
+                        (entry.data?.name) && (model.name = Decoding.decodeObject(entry.data.name));
+                        (entry.data?.uri) && (model.uri = Decoding.decodeObject(entry.data.uri));
                         return model;
                     }));
                 }
@@ -456,8 +463,8 @@ export class FacebookService{
                         modelRecentlyViewed.marketplaceArticlesVisualized = document.recently_viewed[3].children[4].entries.map((entry: any) => {
                             const model: VisualizationFB = {};
                             (entry.timestamp) && (model.date = new Date(1000 * entry.timestamp));
-                            (entry.data?.name) && (model.name = entry.data.name);
-                            (entry.data?.uri) && (model.uri = entry.data.uri);
+                            (entry.data?.name) && (model.name = Decoding.decodeObject(entry.data.name));
+                            (entry.data?.uri) && (model.uri = Decoding.decodeObject(entry.data.uri));
                             return model;
                         });
                     }
@@ -466,8 +473,8 @@ export class FacebookService{
                     (document.recently_viewed[4].entries) && (modelRecentlyViewed.insertionsVisualized = document.recently_viewed[4].entries.map((entry: any) => {
                         const model: VisualizationFB = {};
                         (entry.timestamp) && (model.date = new Date(1000 * entry.timestamp));
-                        (entry.data?.name) && (model.name = entry.data.name);
-                        (entry.data?.uri) && (model.uri = entry.data.uri);
+                        (entry.data?.name) && (model.name = Decoding.decodeObject(entry.data.name));
+                        (entry.data?.uri) && (model.uri = Decoding.decodeObject(entry.data.uri));
                         return model;
                     }));
                 }
@@ -491,15 +498,100 @@ export class FacebookService{
             modelPosts.list = document.map((item: any) => {
                 const model: YourPostFB = {};
                 (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
-                (item.attachments && item.attachments[0] && item.attachments[0].data && item.attachments[0].data[0]?.external_context?.url) && (model.url = item.attachments[0].data[0].external_context.url);
-                (item.title) && (model.title = item.title);
-                (item.data?.post) && (model.post = item.data.post);
+                (item.attachments && item.attachments[0] && item.attachments[0].data && item.attachments[0].data[0]?.external_context?.url) && (model.url = Decoding.decodeObject(item.attachments[0].data[0].external_context.url));
+                (item.title) && (model.title = Decoding.decodeObject(item.title));
+                (item.data?.post) && (model.post = Decoding.decodeObject(item.data.post));
                 (item.data && item.data[0].update_timestamp) && (model.updateDate = new Date(1000 * item.data[0].update_timestamp));
                 return model;
             });
             return modelPosts.list.length > 0 ? modelPosts : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseYourPosts');
+            return undefined;
+        }
+    }
+
+
+    /**
+     * @param data - file 'friends_and_followers/friend_requests_sent.json' in input as Buffer
+     * @return {Promise<FriendRequestsSentFB | undefined>}
+     */
+    async parseFriendRequestsSent(data: Buffer): Promise<FriendRequestsSentFB | undefined> {
+        try {
+            const document = JSON.parse(data.toString());
+            const modelPosts: FriendRequestsSentFB = {list: []};
+            modelPosts.list = document.sent_requests_v2.map((item: any) => {
+                const model: FriendActivityFB = {};
+                (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
+                (item.name) && (model.name = Decoding.decodeObject(item.name));
+                return model;
+            });
+            return modelPosts.list.length > 0 ? modelPosts : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseFriendRequestsSent');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - file 'friends_and_followers/rejected_friend_requests.json' in input as Buffer
+     * @return {Promise<RejectedFriendshipRequestsFB | undefined>}
+     */
+    async parseRejectedFriendshipRequests(data: Buffer): Promise<RejectedFriendshipRequestsFB | undefined> {
+        try {
+            const document = JSON.parse(data.toString());
+            const modelPosts: FriendRequestsSentFB = {list: []};
+            modelPosts.list = document.rejected_requests_v2.map((item: any) => {
+                const model: FriendActivityFB = {};
+                (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
+                (item.name) && (model.name = Decoding.decodeObject(item.name));
+                return model;
+            });
+            return modelPosts.list.length > 0 ? modelPosts : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseRejectedFriendshipRequests');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - file 'friends_and_followers/removed_friends.json' in input as Buffer
+     * @return {Promise<RemovedFriendsFB | undefined>}
+     */
+    async parseRemovedFriends(data: Buffer): Promise<RemovedFriendsFB | undefined> {
+        try {
+            const document = JSON.parse(data.toString());
+            const modelPosts: FriendRequestsSentFB = {list: []};
+            modelPosts.list = document.deleted_friends_v2.map((item: any) => {
+                const model: FriendActivityFB = {};
+                (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
+                (item.name) && (model.name = Decoding.decodeObject(item.name));
+                return model;
+            });
+            return modelPosts.list.length > 0 ? modelPosts : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseRemovedFriends');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - file 'friends_and_followers/who_you_follow.json' in input as Buffer
+     * @return {Promise<WhoYouFollowFB | undefined>}
+     */
+    async parseWhoYouFollow(data: Buffer): Promise<WhoYouFollowFB | undefined> {
+        try {
+            const document = JSON.parse(data.toString());
+            const modelPosts: FriendRequestsSentFB = {list: []};
+            modelPosts.list = document.following_v2.map((item: any) => {
+                const model: FriendActivityFB = {};
+                (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
+                (item.name) && (model.name = Decoding.decodeObject(item.name));
+                return model;
+            });
+            return modelPosts.list.length > 0 ? modelPosts : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseWhoYouFollow');
             return undefined;
         }
     }

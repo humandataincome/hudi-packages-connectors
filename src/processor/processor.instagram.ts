@@ -49,7 +49,7 @@ export class ProcessorInstagram {
                                 let counterTI = 0;
                                 let today = new Date();
                                 result.list.forEach((item: AdvIG) => {
-                                    (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
+                                    (item.date) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                 });
                                 model.adsClickTI = counterTI;
                                 model.adsClick = result.list.length;
@@ -61,7 +61,7 @@ export class ProcessorInstagram {
                                 let counterTI = 0;
                                 let today = new Date();
                                 result.list.forEach((item: AdvIG) => {
-                                    (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
+                                    (item.date) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                 });
                                 model.adsViewedTI = counterTI;
                                 model.adsViewed = result.list.length;
@@ -73,7 +73,7 @@ export class ProcessorInstagram {
                                 let counterTI = 0;
                                 let today = new Date();
                                 result.list.forEach((comment: CommentPostedIG) => {
-                                    (comment.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, comment.date) < timeIntervalDays) && (counterTI++);
+                                    (comment.date) && (ProcessorUtils.daysDifference(today, comment.date) < timeIntervalDays) && (counterTI++);
                                 });
                                 model.commentsPostsTI = counterTI;
                                 model.commentsPosts = result.list.length;
@@ -85,7 +85,7 @@ export class ProcessorInstagram {
                                 let counterTI = 0;
                                 let today = new Date();
                                 result.list.forEach((item: EmojiSliderIG) => {
-                                    (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
+                                    (item.date) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                 });
                                 model.emojiSlidersTI = counterTI;
                                 model.emojiSliders = result.list.length;
@@ -109,7 +109,7 @@ export class ProcessorInstagram {
                                 let counterTI = 0;
                                 let today = new Date();
                                 result.list.forEach((item: LikeIG) => {
-                                    (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
+                                    (item.date) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                 });
                                 model.likesCommentsTI = counterTI;
                                 model.likesComments = result.list.length;
@@ -121,7 +121,7 @@ export class ProcessorInstagram {
                                 let counterTI = 0;
                                 let today = new Date();
                                 result.list.forEach((item: LikeIG) => {
-                                    (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
+                                    (item.date) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                 });
                                 model.likesPostsTI = counterTI;
                                 model.likesPosts = result.list.length;
@@ -139,7 +139,7 @@ export class ProcessorInstagram {
                                 let counterTI = 0;
                                 let today = new Date();
                                 result.list.forEach((item: PollIG) => {
-                                    (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
+                                    (item.date) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                 });
                                 model.pollsTI = counterTI;
                                 model.polls = result.list.length;
@@ -151,7 +151,7 @@ export class ProcessorInstagram {
                                 let counterTI = 0;
                                 let today = new Date();
                                 result.list.forEach((item: PostIG) => {
-                                    (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
+                                    (item.date) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                 });
                                 model.postsCreatedTI = counterTI;
                                 model.postsCreated = result.list.length;
@@ -163,7 +163,7 @@ export class ProcessorInstagram {
                                 let counterTI = 0;
                                 let today = new Date();
                                 result.list.forEach((item: PostIG) => {
-                                    (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
+                                    (item.date) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                 });
                                 model.postsViewedTI = counterTI;
                                 model.postsViewed = result.list.length;
@@ -175,7 +175,7 @@ export class ProcessorInstagram {
                                 let counterTI = 0;
                                 let today = new Date();
                                 result.list.forEach((item: QuizIG) => {
-                                    (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
+                                    (item.date) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                 });
                                 model.quizzesTI = counterTI;
                                 model.quizzes = result.list.length;
@@ -187,7 +187,7 @@ export class ProcessorInstagram {
                                 let counterTI = 0;
                                 let today = new Date();
                                 result.list.forEach((item: StoryIG) => {
-                                    (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
+                                    (item.date) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                 });
                                 model.storiesCreatedTI = counterTI;
                                 model.storiesCreated = result.list.length;
@@ -199,14 +199,14 @@ export class ProcessorInstagram {
                                 let counterTI = 0;
                                 let today = new Date();
                                 result.list.forEach((item: MediaIG) => {
-                                    (item.date && timeIntervalDays) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
+                                    (item.date) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
                                 });
                                 model.videosViewedTI = counterTI;
                                 model.videosViewed = result.list.length;
                             }
                             break;
                         default:
-                            throw new Error(`${ProcessorErrorEnums.PROCESSOR_INSTAGRAM_INVALID_FILE_CODE}`)
+                            throw new Error(`${ProcessorErrorEnums.PROCESSOR_INSTAGRAM_INVALID_FILE_CODE}`);
                     }
                 });
             }
