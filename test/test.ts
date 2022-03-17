@@ -23,7 +23,7 @@ async function validatorTest() {
         console.log(validator.getFileExtension("dd.json"));
         fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            console.log(await Validator.filterFilesPathsIntoZip(data));
+            console.log(await Validator.getFilesPathsIntoZip(data));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
