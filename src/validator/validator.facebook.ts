@@ -1,5 +1,6 @@
 import {FileCode} from "../descriptor";
 import * as JSZip from "jszip";
+import {ValidationErrorEnums} from "./validator.error";
 
 export class ValidatorFacebook {
 
@@ -23,6 +24,7 @@ export class ValidatorFacebook {
             FileCode.FACEBOOK_YOUR_POSTS,
             FileCode.FACEBOOK_FRIENDS
         ]): Promise<Buffer | undefined> {
+        let hasAnyFile = false;
         let usefulFiles = new JSZip();
         const zip = await JSZip.loadAsync(zipFile);
         for (let pathName of Object.keys(zip.files)) {
@@ -31,10 +33,15 @@ export class ValidatorFacebook {
                 let data = await file.async('nodebuffer');
                 if (fileList.includes(<FileCode>this.extractCompatiblePath(pathName))) {
                     usefulFiles.file(this.extractCompatiblePath(pathName), data, {comment: file.comment});
+                    (!hasAnyFile) && (hasAnyFile = true);
                 }
             }
         }
-        return await usefulFiles.generateAsync({type: "nodebuffer"});
+        if(hasAnyFile) {
+            return await usefulFiles.generateAsync({type: "nodebuffer"});
+        } else {
+            throw new Error(`${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: File ZIP has not any useful file`);
+        }
     }
 
     /**

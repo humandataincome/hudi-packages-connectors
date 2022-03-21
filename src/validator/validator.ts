@@ -37,44 +37,47 @@ export class Validator {
 
     /**
      * @param zipFile - file zip as Buffer
+     * @param validatedFiles - optional
      * @return {Promise<Buffer>} - zip file containing all the files from input that passed the validation
      */
-    async validateZIP(zipFile: Buffer): Promise<Buffer> {
-        const validatedFiles = new JSZip();
+    async validateZIP(zipFile: Buffer, validatedFiles: JSZip = new JSZip()): Promise<Buffer> {
         const zip = await JSZip.loadAsync(zipFile);
-
+        let hasAnyFile = false;
         for (let pathName of Object.keys(zip.files)) {
             const file = zip.files[pathName];
             if (!file.dir) {
-                const data = await file.async('nodebuffer');
-                if (await this.isValideFile(await this.getFileExtension(pathName), data)) {
-                    validatedFiles.file(pathName, data, {comment: file.comment});
+                const fileBuffer = await file.async('nodebuffer');
+                const fileExtension = this.getFileExtension(pathName);
+                if(fileExtension === FileExtension.ZIP) {
+                    await this.validateZIP(fileBuffer, validatedFiles);
+                } else if (await this.isValideFile(fileExtension, fileBuffer)) {
+                    validatedFiles.file(pathName, fileBuffer, {comment: file.comment});
+                    (!hasAnyFile) && (hasAnyFile = true);
                 }
             }
         }
-        return await validatedFiles.generateAsync({type: "nodebuffer"});
+        if(hasAnyFile) {
+            return await validatedFiles.generateAsync({type: "nodebuffer"});
+        } else {
+            throw new Error(`${ValidationErrorEnums.EMPTY_FILE_ERROR}: File ZIP is empty`);
+        }
     }
 
     /**
      * @param fileName - string containing the file name
      * @return {Promise<FileExtension>} - return its extension (e.g. json, csv).
      */
-    async getFileExtension(fileName: string): Promise<FileExtension> {
-        const extension = fileName.split('.').pop();
-        if (extension === 'csv') {
+    getFileExtension(fileName: string): FileExtension {
+        const segments = fileName.split('.');
+        if (segments[segments.length-1] === 'csv') {
             return FileExtension.CSV;
-        } else if (extension === 'json') {
+        } else if (segments[segments.length-1] === 'json') {
             return FileExtension.JSON;
-        } else if (extension === 'txt') {
-            return FileExtension.TXT
-        } else if (extension === 'xml') {
-            return FileExtension.XML;
-        } else if (extension === 'html') {
-            return FileExtension.HTML;
-        } else if (extension === 'zip') {
+        } else if (segments[segments.length-1] === 'zip') {
             return FileExtension.ZIP;
         } else {
-            throw new Error(`${ValidationErrorEnums.FILE_EXTENSION_ERROR}`);
+            //throw new Error(`${ValidationErrorEnums.FILE_EXTENSION_ERROR}: File extension ${segments[segments.length-1]} not supported`);
+            return FileExtension.OTHER;
         }
     }
 
@@ -87,19 +90,19 @@ export class Validator {
     }
 
     private async isValideFile(extension: FileExtension, file: Buffer): Promise<boolean> {
-        switch (extension) {
-            case FileExtension.JSON:
-                return await this.validateJSON(file);
-            case FileExtension.TXT:
-                return await this.validateTXT(file);
-            case FileExtension.CSV:
-                return await this.validateCSV(file);
-            case FileExtension.XML:
-                return await this.validateXML(file);
-            case FileExtension.HTML:
-                return await this.validateHTML(file);
-            default:
-                return false;
+        if (Validator.isValideSize(file)) {
+            switch (extension) {
+                case FileExtension.JSON:
+                    return await this.validateJSON(file);
+                case FileExtension.CSV:
+                    return await this.validateCSV(file);
+                case FileExtension.OTHER:
+                    return false;
+                default:
+                    return false;
+            }
+        } else {
+            return false;
         }
     }
 
@@ -108,58 +111,19 @@ export class Validator {
      * @return {boolean} - true if the file is valid and the size is supported
      */
     async validateJSON(file: Buffer): Promise<boolean> {
-        if (Validator.isValideSize(file)) {
-            try {
-                return !!JSON.parse(file.toString());
-            } catch (error) {
-                throw new Error(`${ValidationErrorEnums.JSON_ERROR}: ${error}`);
-            }
+        try {
+            return !!JSON.parse(file.toString());
+        } catch (error) {
+            throw new Error(`${ValidationErrorEnums.JSON_ERROR}: ${error}`);
         }
-        return false;
-    }
-
-    async validateXML(file: Buffer): Promise<boolean> {
-        if (Validator.isValideSize(file)) {
-            try {
-                return true;
-            } catch (error) {
-                throw new Error(`${ValidationErrorEnums.XML_ERROR}: ${error}`);
-            }
-        }
-        return false;
     }
 
     async validateCSV(file: Buffer): Promise<boolean> {
-        if (Validator.isValideSize(file)) {
-            try {
-                return true;
-            } catch (error) {
-                throw new Error(`${ValidationErrorEnums.CSV_ERROR}: ${error}`);
-            }
+        try {
+            return true;
+        } catch (error) {
+            throw new Error(`${ValidationErrorEnums.CSV_ERROR}: ${error}`);
         }
-        return false;
-    }
-
-    async validateHTML(file: Buffer): Promise<boolean> {
-        if (Validator.isValideSize(file)) {
-            try {
-                return true;
-            } catch (error) {
-                throw new Error(`${ValidationErrorEnums.HTML_ERROR}: ${error}`);
-            }
-        }
-        return false;
-    }
-
-    async validateTXT(file: Buffer): Promise<boolean> {
-        if (Validator.isValideSize(file)) {
-            try {
-                return true;
-            } catch (error) {
-                throw new Error(`${ValidationErrorEnums.TXT_ERROR}: ${error}`);
-            }
-        }
-        return false;
     }
 
     /**

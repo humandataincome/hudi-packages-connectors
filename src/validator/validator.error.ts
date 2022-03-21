@@ -7,4 +7,6 @@ export enum ValidationErrorEnums {
     XML_ERROR = 'CON-VAL-006',
     HTML_ERROR = 'CON-VAL-007',
     TXT_ERROR = 'CON-VAL-008',
+    EMPTY_FILE_ERROR = 'CON-VAL-009',
+    NO_USEFUL_FILES_ERROR = 'CON-VAL-010',
 }

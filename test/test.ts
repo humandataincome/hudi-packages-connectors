@@ -17,9 +17,10 @@ import {
 
 async function test(){
     //validatorTest();
-    //validatorAndProcessingInstagramTest();
+    validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
-    await descriptorServiceTest();
+    validatorAndProcessingAmazonTest();
+    //await descriptorServiceTest();
     //await instagramServiceTest();
     //await facebookServiceTest();
     //await amazonServiceTest();
@@ -35,9 +36,11 @@ function validatorTest() {
         const fs =  require('fs');
         const path =  require('path');
         console.log(validator.getFileExtension("dd.json"));
-        fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/validation/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             console.log(await Validator.getFilesPathsIntoZip(data));
+            const valideZip = await validator.validateZIP(data);
+            console.log(await Validator.getFilesPathsIntoZip(valideZip));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
@@ -99,6 +102,10 @@ function validatorAndProcessingFacebookTest() {
             console.log(e);
         }
     }
+}
+
+function validatorAndProcessingAmazonTest() {
+
 }
 
 async function descriptorServiceTest() {
@@ -180,6 +187,7 @@ async function facebookServiceTest() {
         console.log(await facebookService.parsePagesRecommended(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/pages/pages_you've_recommended.json`)))));
         console.log(await facebookService.parseRecentlyViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/your_interactions_on_facebook/recently_viewed.json`)))));
         console.log(await facebookService.parseYourPosts(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/posts/your_posts_1.json`)))));
+        console.log(await facebookService.parseFriends(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/friends_and_followers/friends.json`)))));
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);

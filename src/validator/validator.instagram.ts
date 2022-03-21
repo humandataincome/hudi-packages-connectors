@@ -8,14 +8,13 @@ export class ValidatorInstagram {
      * @param file - file zip as Buffer (should be the file account_information/personal_information.json) to work properly
      * @return {Promise<LanguageCode | undefined>} - return the Code of the Language of the file
      */
-    static async getLanguage(file: Buffer): Promise<LanguageCode | undefined> {
+    static getLanguage(file: Buffer): LanguageCode | undefined {
         const document = file.toString();
         //check if ITALIAN
         const regexIT = /(Nome utente)|(Indirizzo e-mail)|(Data di nascita)/;
         if (document.match(regexIT)) {
             return LanguageCode.ITALIAN;
         }
-
         //check if ENGLISH
         const regexEN = /(Email address)|(Phone number confirmed)|(Username)/;
         if (document.match(regexEN)) {
@@ -54,26 +53,27 @@ export class ValidatorInstagram {
             FileCode.INSTAGRAM_QUIZZES
         ]): Promise<Buffer | undefined> {
         let languageCode: LanguageCode | undefined;
+        let hasAnyFile = false;
         let usefulFiles = new JSZip();
         const zip = await JSZip.loadAsync(zipFile);
         for (let pathName of Object.keys(zip.files)) {
             const file = zip.files[pathName];
             if (!file.dir) {
                 let data = await file.async('nodebuffer');
-                if (this.extractCompatiblePath(pathName) == FileCode.INSTAGRAM_PERSONAL_INFO) {
-                    languageCode = await this.getLanguage(data);
+                if (this.extractCompatiblePath(pathName) === FileCode.INSTAGRAM_PERSONAL_INFO) {
+                    languageCode = this.getLanguage(data);
                 }
-
                 data = await file.async('nodebuffer');
                 if (fileList.includes(<FileCode>this.extractCompatiblePath(pathName))) {
                     usefulFiles.file(this.extractCompatiblePath(pathName), data, {comment: languageCode});
+                    (!hasAnyFile) && (hasAnyFile = true);
                 }
             }
         }
-        if (languageCode) {
+        if(hasAnyFile) {
             return await usefulFiles.generateAsync({type: "nodebuffer"});
         } else {
-            throw new Error(`${ValidationErrorEnums.MISSING_FILE_ERROR}: ${FileCode.INSTAGRAM_PERSONAL_INFO}`);
+            throw new Error(`${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: File ZIP has not any useful file`);
         }
     }
 
