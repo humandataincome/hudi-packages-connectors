@@ -79,6 +79,10 @@ export interface RecentlyViewedFB {
     insertionsVisualized?: Array<VisualizationFB>;
 }
 
+export interface FriendsFB {
+    list: Array<FriendActivityFB>;
+}
+
 export interface FriendRequestsSentFB {
     list: Array<FriendActivityFB>;
 }

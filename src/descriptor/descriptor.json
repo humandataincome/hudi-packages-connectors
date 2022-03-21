@@ -454,8 +454,8 @@
                                 },
                                 {
                                     "index": 3,
-                                    "description": "Opzionali: deseleziona la casella Messaggi",
-                                    "attributeDescription": "<p>Opzionali: deseleziona la casella <b>Messaggi</b></p>"
+                                    "description": "Opzionale: deseleziona la casella Messaggi",
+                                    "attributeDescription": "<p>Opzionale: deseleziona la casella <b>Messaggi</b></p>"
                                 },
                                 {
                                     "index": 4,

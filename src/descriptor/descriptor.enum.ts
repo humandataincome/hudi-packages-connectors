@@ -20,7 +20,9 @@ export enum FileExtension {
     CSV = 'csv',
     XML = 'xml',
     TXT = 'txt',
-    HTML = 'html'
+    HTML = 'html',
+    PDF = 'pdf',
+    OTHER = 'other'
 }
 
 export enum LanguageCode {
@@ -29,7 +31,9 @@ export enum LanguageCode {
     SPANISH = 'ES',
     FRENCH = 'FR',
     GERMAN = 'DE',
-    HINDI = 'HI'
+    HINDI = 'HI',
+    ARABIC = 'AR',
+    CHINESE = 'ZH',
 }
 
 export enum FileCode {
@@ -62,7 +66,7 @@ export enum FileCode {
     INSTAGRAM_EMOJI_SLIDERS = 'story_sticker_interactions/emoji_sliders.json',
     INSTAGRAM_POLLS = 'story_sticker_interactions/polls.json',
     INSTAGRAM_QUIZZES = 'story_sticker_interactions/quizzes.json',
-    INSTAGRAM_CONVERSATION = `messages/inbox/{chat_directory_name}/message_1.json`,
+    INSTAGRAM_CONVERSATION = `messages/inbox/message_1.json`,
 
     FACEBOOK_PROFILE_INFO = 'profile_information/profile_information.json',
     FACEBOOK_ADS_INTERACTED_WITH = 'ads_information/advertisers_you\'ve_interacted_with.json',
@@ -77,9 +81,24 @@ export enum FileCode {
     FACEBOOK_LANGUAGE = 'preferences/language_and_locale.json',
     FACEBOOK_RECENTLY_VIEWED = 'your_interactions_on_facebook/recently_viewed.json',
     FACEBOOK_YOUR_POSTS = 'posts/your_posts_1.json',
+    FACEBOOK_FRIENDS = 'friends_and_followers/friends.json',
     FACEBOOK_FRIEND_REQUESTS_SENT = 'friends_and_followers/friend_requests_sent.json',
     FACEBOOK_REJECTED_FRIEND_REQUESTS = 'friends_and_followers/rejected_friend_requests.json',
     FACEBOOK_REMOVED_FRIENDS = 'friends_and_followers/removed_friends.json',
     FACEBOOK_WHO_YOU_FOLLOW = 'friends_and_followers/who_you_follow.json',
-    FACEBOOK_CONVERSATION = `messages/inbox/{chat_directory_name}/message_1.json`,
+    FACEBOOK_CONVERSATION = `messages/inbox/message_1.json`,
+
+    AMAZON_PRIMEVIDEO_WATCHLIST = 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv',
+    AMAZON_PRIMEVIDEO_WATCHLIST_HISTORY = 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv',
+    AMAZON_PRIMEVIDEO_VIEWING_HISTORY = 'Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv',
+    AMAZON_CUSTOMER_ENGAGEMENT = 'Search-Data/Search-Data.Customer-Engagement.csv',
+    AMAZON_WISHLIST = 'Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json',
+    AMAZON_AUDIBLE_LIBRARY = 'Audible.Library/Audible.Library.csv',
+    AMAZON_ADV_AUDIENCES = 'Advertising.{X}/Advertising.AdvertiserAudiences.csv',
+    AMAZON_ADV_CLICKS = 'Advertising.{X}/Advertising.AdvertiserClicks.csv',
+    AMAZON_ADV_THIRDPARTIES = 'Advertising.{X}/Advertising.3PAudiences.csv',
+    AMAZON_AUDIENCES = 'Advertising.{X}/Advertising.AmazonAudiences.csv',
+    AMAZON_TWITCHPRIME_SUB_HISTORY = 'AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv',
+    AMAZON_RETAIl_ORDER_HISTORY = 'Retail.OrderHistory.2/Retail.OrderHistory.2.csv',
+    AMAZON_AUDIBLE_LISTENING = 'Audible.Library/Audible.Listening.csv',
 }

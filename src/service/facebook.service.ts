@@ -31,7 +31,7 @@ import {
     VisualizationFB,
     YourPostsFB,
     YourPostFB,
-    FriendRequestsSentFB, FriendActivityFB, RejectedFriendshipRequestsFB, RemovedFriendsFB, WhoYouFollowFB,
+    FriendRequestsSentFB, FriendActivityFB, RejectedFriendshipRequestsFB, RemovedFriendsFB, WhoYouFollowFB, FriendsFB,
 } from "../model";
 import {Decoding} from "../utils/decoding";
 import {Validator} from "../validator";
@@ -596,4 +596,24 @@ export class FacebookService{
         }
     }
 
+    /**
+     * @param data - file 'friends_and_followers/friends.json' in input as Buffer
+     * @return {Promise<FriendsFB | undefined>}
+     */
+    async parseFriends(data: Buffer): Promise<FriendsFB | undefined> {
+        try {
+            const document = JSON.parse(data.toString());
+            const modelFriends: FriendsFB = {list: []};
+            modelFriends.list = document.friends_v2.map((item: any) => {
+                const model: FriendActivityFB = {};
+                (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
+                (item.name) && (model.name = Decoding.decodeObject(item.name));
+                return model;
+            });
+            return modelFriends.list.length > 0 ? modelFriends : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseFriends');
+            return undefined;
+        }
+    }
 }

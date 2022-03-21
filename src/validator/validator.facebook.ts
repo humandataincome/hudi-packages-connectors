@@ -21,7 +21,7 @@ export class ValidatorFacebook {
             FileCode.FACEBOOK_PROFILE_INFO,
             FileCode.FACEBOOK_RECENTLY_VIEWED,
             FileCode.FACEBOOK_YOUR_POSTS,
-            FileCode.FACEBOOK_FRIEND_REQUESTS_SENT
+            FileCode.FACEBOOK_FRIENDS
         ]): Promise<Buffer | undefined> {
         let usefulFiles = new JSZip();
         const zip = await JSZip.loadAsync(zipFile);
@@ -37,8 +37,19 @@ export class ValidatorFacebook {
         return await usefulFiles.generateAsync({type: "nodebuffer"});
     }
 
+    /**
+     * @param path - get a raw path in input
+     * @return {string} - return a path compatible with the FileCode enumeration
+     * @private
+     */
     private static extractCompatiblePath(path: string): string {
-        const x: string[] = path.split('/');
-        return (x[x.length-2] + '/' + x[x.length-1]);
+        const arrayDir: string[] = path.split('/');
+        if(arrayDir.length > 3) {
+            //case FACEBOOK_CONVERSATION: 'messages/inbox/alebarry_vz29qw/message_1.json
+            if(arrayDir[arrayDir.length - 1] === 'message_1.json' && arrayDir[arrayDir.length - 3] === 'inbox' && arrayDir[arrayDir.length - 4] === 'messages') {
+                return (arrayDir[arrayDir.length-4] + '/' + arrayDir[arrayDir.length-3] + '/' + arrayDir[arrayDir.length-1]);
+            }
+        }
+        return (arrayDir[arrayDir.length-2] + '/' + arrayDir[arrayDir.length-1]);
     }
 }

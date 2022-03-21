@@ -123,7 +123,7 @@ Always select the **JSON** format.
 
 
 ### Facebook Data Source ###
-Go to https://www.facebook.com/dyi, select Format **JSON** and Media Quality **High**, select a **Data Range** (**All time** has more information). Scroll at the end of the page and click on the blue button **Request a download**.
+Click on https://www.facebook.com/dyi, select Format **JSON** and Media Quality **High**, select a **Data Range** (**All time** has more information). Scroll at the end of the page and click on the blue button **Request a download**.
 
 ### Amazon Data Source ###
 Go to https://www.amazon.com/hz/privacy-central/data-requests/preview.html, select **Request All Your Data** from the drop down menu and then **Submit Request**.

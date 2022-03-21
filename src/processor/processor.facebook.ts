@@ -72,15 +72,15 @@ export class ProcessorFacebook {
                                 result.list.forEach((item: ReactionFB) => {
                                     if(item.reaction === 'LIKE') {
                                         counterLIKE++;
-                                    } else if(item.reaction === 'ANGRY') {
+                                    } else if(item.reaction === 'ANGER') {
                                         counterANGRY++;
-                                    } else if(item.reaction === 'HUG') {
+                                    } else if(item.reaction === 'SUPPORT') {
                                         counterHUG++;
-                                    } else if(item.reaction === 'LAUGH') {
+                                    } else if(item.reaction === 'HAHA') {
                                         counterLAUGH++;
                                     } else if(item.reaction === 'LOVE') {
                                         counterLOVE++;
-                                    } else if(item.reaction === 'SAD') {
+                                    } else if(item.reaction === 'SORRY') {
                                         counterSAD++;
                                     } else if(item.reaction === 'WOW') {
                                         counterWOW++;
@@ -173,8 +173,8 @@ export class ProcessorFacebook {
                                 model.postsCreated = result.list.length;
                             }
                             break;
-                        case FileCode.FACEBOOK_FRIEND_REQUESTS_SENT:
-                            result = <FriendRequestsSentFB>await fbService.parseFriendRequestsSent(data);
+                        case FileCode.FACEBOOK_FRIENDS:
+                            result = <FriendRequestsSentFB>await fbService.parseFriends(data);
                             if(result){
                                 model.friends = result.list.length;
                             }
