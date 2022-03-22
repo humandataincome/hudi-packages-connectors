@@ -206,7 +206,7 @@ export class ProcessorInstagram {
                             }
                             break;
                         default:
-                            throw new Error(`${ProcessorErrorEnums.PROCESSOR_INSTAGRAM_INVALID_FILE_CODE}`);
+                            throw new Error(`${ProcessorErrorEnums.PROCESSOR_INSTAGRAM_INVALID_FILE_CODE}: File ${pathName} in input is not a valid Instagram file`);
                     }
                 });
             }

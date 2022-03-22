@@ -16,10 +16,9 @@ import {
 } from "../src";
 
 async function test(){
-    //validatorTest();
-    validatorAndProcessingInstagramTest();
+    //validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
-    //validatorAndProcessingAmazonTest();
+    validatorAndProcessingAmazonTest();
     //await descriptorServiceTest();
     //await instagramServiceTest();
     //await facebookServiceTest();
@@ -30,27 +29,6 @@ async function test(){
     //await linkedInServiceTest();
 }
 
-function validatorTest() {
-    try {
-        const validator = new Validator();
-        const fs =  require('fs');
-        const path =  require('path');
-        console.log(validator.getFileExtension("dd.json"));
-        fs.readFile(path.join(__dirname,"../src/mock/validation/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
-            if (err) throw err;
-            console.log(await Validator.getFilesPathsIntoZip(data));
-            const valideZip = await validator.validateZIP(data);
-            console.log(await Validator.getFilesPathsIntoZip(valideZip));
-        });
-    } catch (e: any) {
-        if (e.code == 'MODULE_NOT_FOUND') {
-            console.log('[Error not founding module] ' + e);
-        } else {
-            console.log(e);
-        }
-    }
-}
-
 function validatorAndProcessingInstagramTest() {
     try {
         const validator = new Validator();
@@ -58,8 +36,9 @@ function validatorAndProcessingInstagramTest() {
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            //console.log(await Validator.getFilesPathsIntoZip(data));
-            const validationFE = await ValidatorInstagram.selectUsefulFilesFromZip(await validator.validateZIP(data));
+            const validZip = await validator.validateZIP(data);
+            const validationFE = await ValidatorInstagram.selectUsefulFilesFromZip(validZip);
+            //console.log(await Validator.getFilesPathsIntoZip(validZip));
             if(validationFE) {
                 const validationBE = await validator.validateZIP(validationFE);
                 if(validationBE) {
@@ -105,7 +84,23 @@ function validatorAndProcessingFacebookTest() {
 }
 
 function validatorAndProcessingAmazonTest() {
+    try {
+        const validator = new Validator();
+        const fs =  require('fs');
+        const path =  require('path');
+        fs.readFile(path.join(__dirname,"../src/mock/validation/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
+            if (err) throw err;
+            const validationFE = await validator.validateZIP(data);
+            console.log(await Validator.getFilesPathsIntoZip(validationFE));
 
+        });
+    } catch (e: any) {
+        if (e.code == 'MODULE_NOT_FOUND') {
+            console.log('[Error not founding module] ' + e);
+        } else {
+            console.log(e);
+        }
+    }
 }
 
 async function descriptorServiceTest() {
