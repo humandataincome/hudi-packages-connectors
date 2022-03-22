@@ -35,7 +35,7 @@ export class ValidatorInstagram {
      */
     static async selectUsefulFilesFromZip(
         zipFile: Buffer,
-        fileList: Array<FileCode> = [
+        fileList: FileCode[] = [
             FileCode.INSTAGRAM_ADS_CLICKED,
             FileCode.INSTAGRAM_ADS_VIEWED,
             FileCode.INSTAGRAM_POSTS_VIEWED,
