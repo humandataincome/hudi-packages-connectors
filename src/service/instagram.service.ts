@@ -326,7 +326,7 @@ export class InstagramService {
         try {
             let document = JSON.parse(data.toString());
             let parameterName1 = this.configInstagram.get(`${this.prefix}-25-username`);
-            let parameterName2 = this.configInstagram.get(`${this.prefix}-26-dateAndTime`);0
+            let parameterName2 = this.configInstagram.get(`${this.prefix}-26-dateAndTime`);
             let model: SuggestedAccountViewedIG = {list: []};
             model.list = document.impressions_history_recs_hidden_authors.map((value: any) => {
                 let newItem: AccountIG = {};

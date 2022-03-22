@@ -19,7 +19,7 @@ async function test(){
     //validatorTest();
     validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
-    validatorAndProcessingAmazonTest();
+    //validatorAndProcessingAmazonTest();
     //await descriptorServiceTest();
     //await instagramServiceTest();
     //await facebookServiceTest();
