@@ -56,18 +56,24 @@ export class Validator {
             if (!file.dir) {
                 const fileBuffer = await file.async('nodebuffer');
                 const fileExtension = Validator.getFileExtension(pathName);
-                if(fileExtension === FileExtension.ZIP) {
-                    hasAnyFile = await this._validateZIP(fileBuffer, validatedFiles, pathName.slice(0, -4)) || hasAnyFile;
-                } else if (Validator.isValideFile(fileExtension, fileBuffer)) {
-                    validatedFiles.file(prefix === '' ? pathName : prefix+'/'+pathName, fileBuffer, {comment: file.comment});
-                    (!hasAnyFile) && (hasAnyFile = true);
+                if(fileExtension) {
+                    if (fileExtension === FileExtension.ZIP) {
+                        hasAnyFile = await this._validateZIP(fileBuffer, validatedFiles, pathName.slice(0, -4)) || hasAnyFile;
+                    } else if (Validator.isValideFile(fileExtension, fileBuffer)) {
+                        validatedFiles.file(prefix === '' ? pathName : prefix + '/' + pathName, fileBuffer, {comment: file.comment});
+                        (!hasAnyFile) && (hasAnyFile = true);
+                    }
                 }
             }
         }
         return hasAnyFile;
     }
 
-    private static getFileExtension(fileName: string): FileExtension {
+    /**
+     * @param fileName - name of the file
+     * @return FileExtension if the name matches one of the supported extensions, undefined otherwise
+     */
+    static getFileExtension(fileName: string): FileExtension | undefined {
         const segments = fileName.split('.');
         if (segments[segments.length-1] === 'csv') {
             return FileExtension.CSV;
@@ -75,9 +81,26 @@ export class Validator {
             return FileExtension.JSON;
         } else if (segments[segments.length-1] === 'zip') {
             return FileExtension.ZIP;
+        } else if (segments[segments.length-1] === 'pdf') {
+            return FileExtension.PDF;
+        } else if (segments[segments.length-1] === 'xml') {
+            return FileExtension.XML;
+        } else if (segments[segments.length-1] === 'html') {
+            return FileExtension.HTML;
+        } else if (segments[segments.length-1] === 'txt') {
+            return FileExtension.TXT;
+        } else if (segments[segments.length-1] === 'jpg') {
+            return FileExtension.JPG;
+        } else if (segments[segments.length-1] === 'png') {
+            return FileExtension.PNG;
+        } else if (segments[segments.length-1] === 'gif') {
+            return FileExtension.GIF;
+        } else if (segments[segments.length-1] === 'vcf') {
+            return FileExtension.VCF;
+        } else if (segments[segments.length-1] === 'eml') {
+            return FileExtension.EML;
         } else {
-            //throw new Error(`${ValidationErrorEnums.FILE_EXTENSION_ERROR}: File extension ${segments[segments.length-1]} not supported`);
-            return FileExtension.OTHER;
+            return undefined;
         }
     }
 
@@ -92,6 +115,8 @@ export class Validator {
                     return Validator.validateJSON(file);
                 case FileExtension.CSV:
                     return Validator.validateCSV(file);
+                case FileExtension.PDF || FileExtension.XML || FileExtension.HTML || FileExtension.TXT:
+                    return true;
                 default:
                     return false;
             }
@@ -101,13 +126,14 @@ export class Validator {
 
     /**
      * @param file - file as buffer
-     * @return {boolean} - true if the file is valid and the size is supported
+     * @return {boolean} - TRUE if the file is valid and the size is supported, FALSE otherwise
      */
     static validateJSON(file: Buffer): boolean {
         try {
             return !!JSON.parse(file.toString());
         } catch (error) {
-            throw new Error(`${ValidationErrorEnums.JSON_ERROR}: ${error}`);
+            return false;
+            //throw new Error(`${ValidationErrorEnums.JSON_ERROR}: ${error}`);
         }
     }
 
@@ -115,7 +141,8 @@ export class Validator {
         try {
             return true;
         } catch (error) {
-            throw new Error(`${ValidationErrorEnums.CSV_ERROR}: ${error}`);
+            return false;
+            //throw new Error(`${ValidationErrorEnums.CSV_ERROR}: ${error}`);
         }
     }
 

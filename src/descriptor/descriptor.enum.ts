@@ -15,23 +15,26 @@ export enum RetrievingProcedureType {
 
 export enum FileExtension {
     ZIP = 'zip',
-    TGZ = 'tgz',
     JSON = 'json',
     CSV = 'csv',
     XML = 'xml',
     TXT = 'txt',
     HTML = 'html',
     PDF = 'pdf',
-    OTHER = 'other'
+    JPG = 'jpg',
+    PNG = 'png',
+    GIF = 'gif',
+    VCF = 'vcf',
+    EML = 'eml',
 }
 
 export enum LanguageCode {
     ENGLISH = 'EN',
     ITALIAN = 'IT',
     SPANISH = 'ES',
+    HINDI = 'HI',
     FRENCH = 'FR',
     GERMAN = 'DE',
-    HINDI = 'HI',
     ARABIC = 'AR',
     CHINESE = 'ZH',
 }
