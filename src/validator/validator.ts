@@ -40,7 +40,7 @@ export class Validator {
      * @return {Promise<Buffer>} - zip file containing all the files from input that passed the validation
      */
     async validateZIP(zipFile: Buffer): Promise<Buffer> {
-        let validatedFiles = new JSZip();
+        const validatedFiles = new JSZip();
         if(await this._validateZIP(zipFile, validatedFiles)) {
             return await validatedFiles.generateAsync({type: 'nodebuffer'});
         } else {
@@ -95,9 +95,8 @@ export class Validator {
                 default:
                     return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**

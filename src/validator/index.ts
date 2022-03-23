@@ -8,7 +8,6 @@ export * from './validator.instagram';
 export * from './validator.facebook';
 
 
-
 export default  {
     [DataSourceCode.INSTAGRAM]: ValidatorInstagram,
     [DataSourceCode.FACEBOOK]: ValidatorFacebook,
