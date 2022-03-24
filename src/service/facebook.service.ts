@@ -42,13 +42,12 @@ import {Validator} from "../validator";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class FacebookService{
-    private logger = new Logger("Facebook Service");
+    private static logger = new Logger("Facebook Service");
 
     /**
      * @param data - file 'profile_information/profile_information.json' in input as Buffer
-     * @return {Promise<PersonalInformationFB | undefined>}
      */
-    async parsePersonalInformation(data: Buffer): Promise<PersonalInformationFB | undefined> {
+    static async parsePersonalInformation(data: Buffer): Promise<PersonalInformationFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const personalInfoModel: PersonalInformationFB = {};
@@ -147,9 +146,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'ads_information/advertisers_you've_interacted_with.json' in input as Buffer
-     * @return {Promise<AdsInteractedWithFB | undefined>}
      */
-    async parseAdsInteractedWith(data: Buffer): Promise<AdsInteractedWithFB | undefined> {
+    static async parseAdsInteractedWith(data: Buffer): Promise<AdsInteractedWithFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const adsModel: AdsInteractedWithFB = {list: []};
@@ -169,9 +167,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'ads_information/advertisers_using_your_activity_or_information.json' in input as Buffer
-     * @return {Promise<AdsUsingYourInfoFB | undefined>}
      */
-    async parseAdsUsingYourInfo(data: Buffer): Promise<AdsUsingYourInfoFB | undefined> {
+    static async parseAdsUsingYourInfo(data: Buffer): Promise<AdsUsingYourInfoFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const adsModel: AdsUsingYourInfoFB = {list:[]};
@@ -192,9 +189,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'search/your_search_history.json' in input as Buffer
-     * @return {Promise<SearchHistoryFB | undefined>}
      */
-    async parseSearchHistory(data: Buffer): Promise<SearchHistoryFB | undefined> {
+    static async parseSearchHistory(data: Buffer): Promise<SearchHistoryFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const searchHistoryModel: SearchHistoryFB = {listSearches: []};
@@ -213,9 +209,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'comments_and_reactions/comments.json' in input as Buffer
-     * @return {Promise<CommentsPostedFB | undefined>}
      */
-    async parseComments(data: Buffer): Promise<CommentsPostedFB | undefined> {
+    static async parseComments(data: Buffer): Promise<CommentsPostedFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const commentsPostedModel: CommentsPostedFB = {list: []};
@@ -236,9 +231,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'comments_and_reactions/posts_and_comments.json' in input as Buffer
-     * @return {Promise<ReactionsFB | undefined>}
      */
-    async parseReactions(data: Buffer): Promise<ReactionsFB | undefined> {
+    static async parseReactions(data: Buffer): Promise<ReactionsFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const reactionsModel: ReactionsFB = {list: []};
@@ -258,9 +252,8 @@ export class FacebookService{
     }
     /**
      * @param data - file 'pages/pages_you've_liked.json' in input as Buffer
-     * @return {Promise<PagesLikedFB | undefined>}
      */
-    async parsePagesLiked(data: Buffer): Promise<PagesLikedFB | undefined> {
+    static async parsePagesLiked(data: Buffer): Promise<PagesLikedFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const modelPagesLiked: PagesLikedFB = {list: []};
@@ -279,9 +272,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'pages/pages_you_follow.json' in input as Buffer
-     * @return {Promise<PagesFollowFB | undefined>}
      */
-    async parsePagesFollowed(data: Buffer): Promise<PagesFollowFB | undefined> {
+    static async parsePagesFollowed(data: Buffer): Promise<PagesFollowFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const modelPagesFollow: PagesFollowFB = {list: []};
@@ -300,9 +292,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'apps_and_websites_off_of_facebook/apps_and_websites.json' in input as Buffer
-     * @return {Promise<AppsConnectedFB | undefined>}
      */
-    async parseAppsConnected(data: Buffer): Promise<AppsConnectedFB | undefined> {
+    static async parseAppsConnected(data: Buffer): Promise<AppsConnectedFB | undefined> {
         try {
             let document = JSON.parse(data.toString());
             const modelAppsConnected: AppsConnectedFB = {list: []};
@@ -325,9 +316,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'messages/inbox/{chat_directory_name}/message_1.json' in input as Buffer
-     * @return {Promise<ConversationFB | undefined>}
      */
-    async parseMessages(data: Buffer): Promise<ConversationFB | undefined> {
+    static async parseMessages(data: Buffer): Promise<ConversationFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             let messages: Array<MessageFB> = [];
@@ -359,9 +349,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'preferences/language_and_locale.json' in input as Buffer
-     * @return {Promise<LanguagesFB | undefined>}
      */
-    async parseLanguages(data: Buffer): Promise<LanguagesFB | undefined> {
+    static async parseLanguages(data: Buffer): Promise<LanguagesFB | undefined> {
         try{
             const document = JSON.parse(data.toString());
             const model: LanguagesFB = {};
@@ -380,9 +369,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'pages/pages_you've_recommended.json' in input as Buffer
-     * @return {Promise<PagesRecommendedFB | undefined>}
      */
-    async parsePagesRecommended(data: Buffer): Promise<PagesRecommendedFB | undefined> {
+    static async parsePagesRecommended(data: Buffer): Promise<PagesRecommendedFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const modelPages: PagesRecommendedFB = {list: []};
@@ -402,9 +390,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'your_interactions_on_facebook/recently_viewed.json' in input as Buffer
-     * @return {Promise<RecentlyViewedFB | undefined>}
      */
-    async parseRecentlyViewed(data: Buffer): Promise<RecentlyViewedFB | undefined> {
+    static async parseRecentlyViewed(data: Buffer): Promise<RecentlyViewedFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const modelRecentlyViewed: RecentlyViewedFB = {};
@@ -489,9 +476,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'posts/your_posts_1.json' in input as Buffer
-     * @return {Promise<YourPostsFB | undefined>}
      */
-    async parseYourPosts(data: Buffer): Promise<YourPostsFB | undefined> {
+    static async parseYourPosts(data: Buffer): Promise<YourPostsFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const modelPosts: YourPostsFB = {list: []};
@@ -514,9 +500,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'friends_and_followers/friend_requests_sent.json' in input as Buffer
-     * @return {Promise<FriendRequestsSentFB | undefined>}
      */
-    async parseFriendRequestsSent(data: Buffer): Promise<FriendRequestsSentFB | undefined> {
+    static async parseFriendRequestsSent(data: Buffer): Promise<FriendRequestsSentFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const modelPosts: FriendRequestsSentFB = {list: []};
@@ -535,9 +520,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'friends_and_followers/rejected_friend_requests.json' in input as Buffer
-     * @return {Promise<RejectedFriendshipRequestsFB | undefined>}
      */
-    async parseRejectedFriendshipRequests(data: Buffer): Promise<RejectedFriendshipRequestsFB | undefined> {
+    static async parseRejectedFriendshipRequests(data: Buffer): Promise<RejectedFriendshipRequestsFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const modelPosts: FriendRequestsSentFB = {list: []};
@@ -556,9 +540,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'friends_and_followers/removed_friends.json' in input as Buffer
-     * @return {Promise<RemovedFriendsFB | undefined>}
      */
-    async parseRemovedFriends(data: Buffer): Promise<RemovedFriendsFB | undefined> {
+    static async parseRemovedFriends(data: Buffer): Promise<RemovedFriendsFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const modelPosts: FriendRequestsSentFB = {list: []};
@@ -577,9 +560,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'friends_and_followers/who_you_follow.json' in input as Buffer
-     * @return {Promise<WhoYouFollowFB | undefined>}
      */
-    async parseWhoYouFollow(data: Buffer): Promise<WhoYouFollowFB | undefined> {
+    static async parseWhoYouFollow(data: Buffer): Promise<WhoYouFollowFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const modelPosts: FriendRequestsSentFB = {list: []};
@@ -598,9 +580,8 @@ export class FacebookService{
 
     /**
      * @param data - file 'friends_and_followers/friends.json' in input as Buffer
-     * @return {Promise<FriendsFB | undefined>}
      */
-    async parseFriends(data: Buffer): Promise<FriendsFB | undefined> {
+    static async parseFriends(data: Buffer): Promise<FriendsFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const modelFriends: FriendsFB = {list: []};

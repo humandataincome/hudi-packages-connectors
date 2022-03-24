@@ -34,11 +34,10 @@ export class ProcessorFacebook {
             if (!file.dir) {
                 let today = new Date();
                 await file.async('nodebuffer').then(async (data: Buffer) => {
-                    let fbService = new FacebookService();
                     let result;
                     switch (pathName) {
                         case FileCode.FACEBOOK_ADS_INTERACTED_WITH:
-                            result = <AdsInteractedWithFB>await fbService.parseAdsInteractedWith(data);
+                            result = <AdsInteractedWithFB>await FacebookService.parseAdsInteractedWith(data);
                             if (result) {
                                 let counterTI = 0;
                                 result.list.forEach((item: AdvInteractionFB) => {
@@ -49,7 +48,7 @@ export class ProcessorFacebook {
                             }
                             break;
                         case FileCode.FACEBOOK_COMMENTS:
-                            result = <CommentsPostedFB>await fbService.parseComments(data);
+                            result = <CommentsPostedFB>await FacebookService.parseComments(data);
                             if (result) {
                                 let counterTI = 0;
                                 result.list.forEach((item: CommentPostedFB) => {
@@ -60,7 +59,7 @@ export class ProcessorFacebook {
                             }
                             break;
                         case FileCode.FACEBOOK_REACTIONS:
-                            result = <ReactionsFB>await fbService.parseReactions(data);
+                            result = <ReactionsFB>await FacebookService.parseReactions(data);
                             if (result) {
                                 let counterLIKE = 0,
                                     counterANGRY = 0,
@@ -96,14 +95,14 @@ export class ProcessorFacebook {
                             }
                             break;
                         case FileCode.FACEBOOK_LANGUAGE:
-                            result = <LanguagesFB>await fbService.parseLanguages(data);
+                            result = <LanguagesFB>await FacebookService.parseLanguages(data);
                             if(result && result.languagesKnown) {
                                 model.languages = result.languagesKnown.length;
                                 model.languagesList = result.languagesKnown;
                             }
                             break;
                         case FileCode.FACEBOOK_PAGES_FOLLOWED:
-                            result = <PagesFollowFB>await fbService.parsePagesFollowed(data);
+                            result = <PagesFollowFB>await FacebookService.parsePagesFollowed(data);
                             if(result) {
                                 if(model.pages) {
                                     model.pages = model.pages+result.list.length;
@@ -113,7 +112,7 @@ export class ProcessorFacebook {
                             }
                             break;
                         case FileCode.FACEBOOK_PAGES_LIKED:
-                            result = <PagesLikedFB>await fbService.parsePagesLiked(data);
+                            result = <PagesLikedFB>await FacebookService.parsePagesLiked(data);
                             if(result) {
                                 if(model.pages) {
                                     model.pages = model.pages+result.list.length;
@@ -123,7 +122,7 @@ export class ProcessorFacebook {
                             }
                             break;
                         case FileCode.FACEBOOK_PAGES_RACCOMENDED:
-                            result = <PagesRecommendedFB>await fbService.parsePagesRecommended(data);
+                            result = <PagesRecommendedFB>await FacebookService.parsePagesRecommended(data);
                             if(result) {
                                 if(model.pages) {
                                     model.pages = model.pages+result.list.length;
@@ -133,7 +132,7 @@ export class ProcessorFacebook {
                             }
                             break;
                         case FileCode.FACEBOOK_PROFILE_INFO:
-                            result = <PersonalInformationFB>await fbService.parsePersonalInformation(data);
+                            result = <PersonalInformationFB>await FacebookService.parsePersonalInformation(data);
                             if(result) {
                                 (result.gendersInterests) && (model.genderPreferences = result.gendersInterests);
                                 let bestCategoryName = '';
@@ -152,7 +151,7 @@ export class ProcessorFacebook {
                             }
                             break;
                         case FileCode.FACEBOOK_RECENTLY_VIEWED:
-                            result = <RecentlyViewedFB>await fbService.parseRecentlyViewed(data);
+                            result = <RecentlyViewedFB>await FacebookService.parseRecentlyViewed(data);
                             if(result && result.videoWatched) {
                                 let counterTI = 0;
                                 result.videoWatched.forEach((item: VisualizationFB) => {
@@ -163,7 +162,7 @@ export class ProcessorFacebook {
                             }
                             break;
                         case FileCode.FACEBOOK_YOUR_POSTS:
-                            result = <YourPostsFB>await fbService.parseYourPosts(data);
+                            result = <YourPostsFB>await FacebookService.parseYourPosts(data);
                             if(result){
                                 let counterTI = 0;
                                 result.list.forEach((item: YourPostFB) => {
@@ -174,7 +173,7 @@ export class ProcessorFacebook {
                             }
                             break;
                         case FileCode.FACEBOOK_FRIENDS:
-                            result = <FriendRequestsSentFB>await fbService.parseFriends(data);
+                            result = <FriendRequestsSentFB>await FacebookService.parseFriends(data);
                             if(result){
                                 model.friends = result.list.length;
                             }

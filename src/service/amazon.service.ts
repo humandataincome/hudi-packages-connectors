@@ -30,12 +30,11 @@ import {
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class AmazonService {
-    private logger = new Logger("Amazon Service");
+    private static logger = new Logger("Amazon Service");
     /**
      * @param data - file 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv' in input as Buffer
-     * @return {Promise<PrimeVideoWatchlistAM | undefined>}
      */
-    async parsePrimeVideoWatchlist(data: Buffer): Promise<PrimeVideoWatchlistAM | undefined> {
+    static async parsePrimeVideoWatchlist(data: Buffer): Promise<PrimeVideoWatchlistAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
@@ -58,9 +57,8 @@ export class AmazonService {
 
     /**
      * @param data - file 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv' in input as Buffer
-     * @return {Promise<PrimeVideoWatchlistHistoryAM | undefined>}
      */
-    async parsePrimeVideoWatchlistHistory(data: Buffer): Promise<PrimeVideoWatchlistHistoryAM | undefined> {
+    static async parsePrimeVideoWatchlistHistory(data: Buffer): Promise<PrimeVideoWatchlistHistoryAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
@@ -86,9 +84,8 @@ export class AmazonService {
 
     /**
      * @param data - file 'Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv' in input as Buffer
-     * @return {Promise<PrimeVideoViewingHistoryAM | undefined>}
      */
-    async parsePrimeVideoViewingHistory(data: Buffer): Promise<PrimeVideoViewingHistoryAM | undefined> {
+    static async parsePrimeVideoViewingHistory(data: Buffer): Promise<PrimeVideoViewingHistoryAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
@@ -122,9 +119,8 @@ export class AmazonService {
 
     /**
      * @param data - file 'Search-Data/Search-Data.Customer-Engagement.csv' in input as Buffer
-     * @return {Promise<SearchDataCustomerEngagementAM | undefined>}
      */
-    async parseSearchDataCustomerEngagement(data: Buffer): Promise<SearchDataCustomerEngagementAM | undefined> {
+    static async parseSearchDataCustomerEngagement(data: Buffer): Promise<SearchDataCustomerEngagementAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
@@ -213,9 +209,8 @@ export class AmazonService {
 
     /**
      * @param data - file 'Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json' in input as Buffer
-     * @return {Promise<AmazonWishlistsAM | undefined>}
      */
-    async parseAmazonWishlists(data: Buffer): Promise<AmazonWishlistsAM | undefined> {
+    static async parseAmazonWishlists(data: Buffer): Promise<AmazonWishlistsAM | undefined> {
         try {
             let document = JSON.parse(data.toString());
             if(document) {
@@ -272,9 +267,8 @@ export class AmazonService {
 
     /**
      * @param data - file 'Audible.Library/Audible.Library.csv' in input as Buffer
-     * @return {Promise<AudibleLibraryAM | undefined>}
      */
-    async parseAudibleLibrary(data: Buffer): Promise<AudibleLibraryAM | undefined> {
+    static async parseAudibleLibrary(data: Buffer): Promise<AudibleLibraryAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
@@ -320,9 +314,8 @@ export class AmazonService {
 
     /**
      * @param data - file 'Advertising.{X}/Advertising.AdvertiserAudiences.csv' in input as Buffer
-     * @return {Promise<AdvertiserAudiencesAM | undefined>}
      */
-    async parseAdvertiserAudiences(data: Buffer): Promise<AdvertiserAudiencesAM | undefined> {
+    static async parseAdvertiserAudiences(data: Buffer): Promise<AdvertiserAudiencesAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
@@ -342,9 +335,8 @@ export class AmazonService {
 
     /**
      * @param data - file 'Advertising.{X}/Advertising.AdvertiserClicks.csv' in input as Buffer
-     * @return {Promise<AdvertiserClickedAM | undefined>}
      */
-    async parseAdvertiserClicked(data: Buffer): Promise<AdvertiserClickedAM | undefined> {
+    static async parseAdvertiserClicked(data: Buffer): Promise<AdvertiserClickedAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
@@ -364,9 +356,8 @@ export class AmazonService {
 
     /**
      * @param data - file 'Advertising.{X}/Advertising.3PAudiences.csv' in input as Buffer
-     * @return {Promise<ThirdPartyAudiencesAM | undefined>}
      */
-    async parseThirdPartyAudiences(data: Buffer): Promise<ThirdPartyAudiencesAM | undefined> {
+    static async parseThirdPartyAudiences(data: Buffer): Promise<ThirdPartyAudiencesAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
@@ -386,9 +377,8 @@ export class AmazonService {
 
     /**
      * @param data - file 'Advertising.{X}/Advertising.AmazonAudiences.csv' in input as Buffer
-     * @return {Promise<AmazonAudiencesAM | undefined>}
      */
-    async parseAmazonAudiences(data: Buffer): Promise<AmazonAudiencesAM | undefined> {
+    static async parseAmazonAudiences(data: Buffer): Promise<AmazonAudiencesAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
@@ -408,9 +398,8 @@ export class AmazonService {
 
     /**
      * @param data - file 'AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv' in input as Buffer
-     * @return {Promise<TwitchPrimeSubscriptionsAM | undefined>}
      */
-    async parseTwitchPrimeSubscription(data: Buffer): Promise<TwitchPrimeSubscriptionsAM | undefined> {
+    static async parseTwitchPrimeSubscription(data: Buffer): Promise<TwitchPrimeSubscriptionsAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
@@ -442,9 +431,8 @@ export class AmazonService {
 
     /**
      * @param data - file 'Retail.OrderHistory.2/Retail.OrderHistory.2.csv' in input as Buffer
-     * @return {Promise<RetailOrderHistoryAM | undefined>}
      */
-    async parseRetailOrderHistory(data: Buffer): Promise<RetailOrderHistoryAM | undefined> {
+    static async parseRetailOrderHistory(data: Buffer): Promise<RetailOrderHistoryAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
