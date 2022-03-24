@@ -78,9 +78,9 @@ import {ValidatorInstagram} from '@humandataincome/connectors';
 ```
 let validatedZip = await ValidatorInstagram.selectUsefulFilesFromZip(zipFile);
 ```
-The function **selectUsefulFilesFromZip**
+The function **selectUsefulFilesFromZip** can get in input an optional list of FilesCode to filter out from the zip the data source's unwanted files.
 ## How to use Processor ##
-Example of **ProcessorInstagram** usage:
+Example of **ProcessorInstagram** usage: 
 ```
 import {ProcessorInstagram} from '@humandataincome/connectors';
 ```
