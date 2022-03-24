@@ -2,6 +2,7 @@
 node_modules/
 test/
 src/
+mock/
 
 .idea/
 TEST*.xml

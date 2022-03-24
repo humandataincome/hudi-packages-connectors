@@ -101,11 +101,10 @@
     },
     "include": [
         "src",
-        "src/**/*.json"
+        "src/descriptor/*.json"
     ],
     "exclude": [
         "node_modules",
         "dist",
-        "src/mock"
     ]
 }
