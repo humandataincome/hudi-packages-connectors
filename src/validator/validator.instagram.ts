@@ -1,14 +1,16 @@
 import {FileCode, LanguageCode} from "../descriptor";
-import * as JSZip from "jszip";
 import {ValidationErrorEnums} from "./validator.error";
+import {InputFileFormat} from "./validator";
+
+import * as JSZip from "jszip";
 
 export class ValidatorInstagram {
 
     /**
      * @param file - file zip as Buffer (should be the file account_information/personal_information.json) to work properly
-     * @return {Promise<LanguageCode | undefined>} - return the Code of the Language of the file
+     * @return return the Code of the Language of the file
      */
-    static getLanguage(file: Buffer): LanguageCode | undefined {
+    static getLanguage(file: InputFileFormat): LanguageCode | undefined {
         const document = file.toString();
         //check if ITALIAN
         const regexIT = /(Nome utente)|(Indirizzo e-mail)|(Data di nascita)/;
@@ -39,7 +41,7 @@ export class ValidatorInstagram {
      * @return buffer containing all useful files that have been found
      */
     static async selectUsefulFilesFromZip(
-        zipFile: Buffer,
+        zipFile: InputFileFormat,
         fileList: FileCode[] = [
             FileCode.INSTAGRAM_ADS_CLICKED,
             FileCode.INSTAGRAM_ADS_VIEWED,
@@ -75,7 +77,7 @@ export class ValidatorInstagram {
                 }
             }
         }
-        if(hasAnyFile) {
+        if (hasAnyFile) {
             return await usefulFiles.generateAsync({type: "nodebuffer"});
         } else {
             throw new Error(`${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: File ZIP has not any useful file`);
@@ -84,6 +86,6 @@ export class ValidatorInstagram {
 
     private static extractCompatiblePath(path: string): string {
         const x: string[] = path.split('/');
-        return (x[x.length-2] + '/' + x[x.length-1]);
+        return (x[x.length - 2] + '/' + x[x.length - 1]);
     }
 }

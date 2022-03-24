@@ -2,55 +2,69 @@ import {FileExtension} from "../descriptor";
 import * as JSZip from "jszip";
 import {ValidationErrorEnums} from "./validator.error";
 
+// interface InputByType {
+//     base64: string;
+//     string: string;
+//     text: string;
+//     binarystring: string;
+//     array: number[];
+//     uint8array: Uint8Array;
+//     arraybuffer: ArrayBuffer;
+//     blob: Blob;
+//     stream: NodeJS.ReadableStream;
+// }
+//
+// interface OutputByType {
+//     base64: string;
+//     string: string;
+//     text: string;
+//     binarystring: string;
+//     array: number[];
+//     uint8array: Uint8Array;
+//     arraybuffer: ArrayBuffer;
+//     blob: Blob;
+//     nodebuffer: Buffer;
+// }
+//
+// type InputFileFormat = InputByType[keyof InputByType];
+// type OutputFileFormat = OutputByType[keyof OutputByType];
+
+export type InputFileFormat = string | number[] | Blob | NodeJS.ReadableStream | Uint8Array | ArrayBuffer;
+export type OutputFileFormat = string | number[] | Blob | Buffer | Uint8Array | ArrayBuffer;
+
+
 export class Validator {
-    private static _MAX_BYTE_FILE_SIZE: number = 6e6;
-    private static _MIN_BYTE_FILE_SIZE: number = 50;
+    public static MAX_BYTE_FILE_SIZE = 6e6;
+    public static MIN_BYTE_FILE_SIZE = 50;
 
-    get MAX_BYTE_FILE_SIZE(): number {
-        return Validator._MAX_BYTE_FILE_SIZE;
-    }
-
-    set MAX_BYTE_FILE_SIZE(value: number) {
-        Validator._MAX_BYTE_FILE_SIZE = value;
-    }
-
-    get MIN_BYTE_FILE_SIZE(): number {
-        return Validator._MIN_BYTE_FILE_SIZE;
-    }
-
-    set MIN_BYTE_FILE_SIZE(value: number) {
-        Validator._MIN_BYTE_FILE_SIZE = value;
-    }
 
     /**
-     * @param zipFile - file zip as Buffer
+     * @param zipFile - file zip as BufferLike
      * @return filter all the file paths from the directories paths
      */
-    static async getFilesPathsIntoZip(zipFile: Buffer): Promise<string[]> {
+    static async getFilesPathsIntoZip(zipFile: InputFileFormat): Promise<string[]> {
         const zip = await JSZip.loadAsync(zipFile);
-        const keys = Object.keys(zip.files);
-
-        return keys
+        return Object.keys(zip.files)
             .filter((pathName) => !zip.files[pathName].dir)
             .map((pathName) => pathName);
     }
 
     /**
-     * @param zipFile - file zip as Buffer
+     * @param zipFile - file zip as BufferLike
      * @return zip file containing all the files from input that passed the validation
      */
-    async validateZIP(zipFile: Buffer): Promise<Buffer> {
+    static async validateZIP(zipFile: InputFileFormat): Promise<Buffer> {
         const validatedFiles = new JSZip();
-        if(await this._validateZIP(zipFile, validatedFiles)) {
+        if (await this._validateZIP(zipFile, validatedFiles)) {
             return await validatedFiles.generateAsync({type: 'nodebuffer'});
         } else {
             throw new Error(`${ValidationErrorEnums.EMPTY_FILE_ERROR}: File ZIP has not any valid file`);
         }
     }
 
-    private async _validateZIP(zipFile: Buffer, validatedFiles: JSZip, prefix: string = ''): Promise<boolean> {
+    private static async _validateZIP(zipFile: InputFileFormat, validatedFiles: JSZip, prefix: string = ''): Promise<boolean> {
         const zip = await JSZip.loadAsync(zipFile);
-        let hasAnyFile :boolean = false;
+        let hasAnyFile: boolean = false;
         for (let pathName of Object.keys(zip.files)) {
             const file = zip.files[pathName];
             if (!file.dir) {
@@ -105,7 +119,7 @@ export class Validator {
     }
 
     private static isValideSize(file: Buffer): boolean {
-        return (file.byteLength < Validator._MAX_BYTE_FILE_SIZE) && (file.byteLength > Validator._MIN_BYTE_FILE_SIZE);
+        return (file.byteLength < Validator.MAX_BYTE_FILE_SIZE) && (file.byteLength > Validator.MIN_BYTE_FILE_SIZE);
     }
 
     private static isValideFile(extension: FileExtension, file: Buffer): boolean {
@@ -126,7 +140,7 @@ export class Validator {
 
     /**
      * @param file - file as buffer
-     * @return {boolean} - TRUE if the file is valid and the size is supported, FALSE otherwise
+     * @return TRUE if the file is valid and the size is supported, FALSE otherwise
      */
     static validateJSON(file: Buffer): boolean {
         try {
