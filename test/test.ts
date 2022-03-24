@@ -16,13 +16,13 @@ import {
 } from "../src";
 
 async function test(){
-    //validatorAndProcessingInstagramTest();
+    validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
-    validatorAndProcessingAmazonTest();
+    //validatorAndProcessingAmazonTest();
     //await descriptorServiceTest();
-    //await instagramServiceTest();
-    //await facebookServiceTest();
-    //await amazonServiceTest();
+    //await InstagramServiceTest();
+    //await FacebookServiceTest();
+    //await AmazonServiceTest();
 
     //await netflixServiceTest();
     //await googleServiceTest();
@@ -121,35 +121,34 @@ async function descriptorServiceTest() {
 
 async function instagramServiceTest() {
     try {
-        const instagramService = new InstagramService(LanguageCode.ITALIAN);
-        console.log(await instagramService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/account_information/personal_information.json`)))));
-        console.log(await instagramService.parseLocation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/information_about_you/account_based_in.json`)))));
-        console.log(await instagramService.parseAdsClicked(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/ads_clicked.json`)))));
-        console.log(await instagramService.parseAdsViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/ads_viewed.json`)))));
-        console.log(await instagramService.parseAdsInterests(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/information_about_you/ads_interests.json`)))));
-        console.log(await instagramService.parseMusicHeardInStories(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/music_heard_in_stories.json`)))));
-        console.log(await instagramService.parseMusicRecentlyUsedInStories(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/music_recently_used_in_stories.json`)))));
-        console.log(await instagramService.parsePostViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/posts_viewed.json`)))));
-        console.log(await instagramService.parseVideoWatched(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/videos_watched.json`)))));
-        console.log(await instagramService.parseSuggestedAccountViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/suggested_accounts_viewed.json`)))));
-        console.log(await instagramService.parseAccountYouAreNotInterested(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/accounts_you're_not_interested_in.json`)))));
-        console.log(await instagramService.parseCommentsPosted(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/comments/post_comments.json`)))));
-        console.log(await instagramService.parseSyncedContracts(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/contacts/synced_contacts.json`)))));
-        console.log(await instagramService.parseArchivedPost(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/archived_posts.json`)))));
-        console.log(await instagramService.parsePersonalPost(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/posts_1.json`)))));
-        console.log(await instagramService.parseFollowers(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/followers_and_following/followers.json`)))));
-        console.log(await instagramService.parseFollowingHashtags(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/followers_and_following/following_hashtags.json`)))));
-        console.log(await instagramService.parseLikedPosts(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/likes/liked_posts.json`)))));
-        console.log(await instagramService.parseLikedComments(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/likes/liked_comments.json`)))));
-        console.log(await instagramService.parseSearches(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/recent_search/account_searches.json`)))));
-        console.log(await instagramService.parseReelSentiments(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/your_topics/your_reels_sentiments.json`)))));
-        console.log(await instagramService.parseReelTopics(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/your_topics/your_reels_topics.json`)))));
-        console.log(await instagramService.parseTopics(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/your_topics/your_topics.json`)))));
-        console.log(await instagramService.parseEmojiSliders(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/emoji_sliders.json`)))));
-        console.log(await instagramService.parseEligibility(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/monetization/eligibility.json`)))));
-        console.log(await instagramService.parsePolls(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/polls.json`)))));
-        console.log(await instagramService.parseQuizzes(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/quizzes.json`)))));
-        console.log(await instagramService.parsePersonalStories(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/stories.json`)))));
+        console.log(await InstagramService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/account_information/personal_information.json`)))));
+        console.log(await InstagramService.parseLocation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/information_about_you/account_based_in.json`)))));
+        console.log(await InstagramService.parseAdsClicked(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/ads_clicked.json`)))));
+        console.log(await InstagramService.parseAdsViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/ads_viewed.json`)))));
+        console.log(await InstagramService.parseAdsInterests(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/information_about_you/ads_interests.json`)))));
+        console.log(await InstagramService.parseMusicHeardInStories(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/music_heard_in_stories.json`)))));
+        console.log(await InstagramService.parseMusicRecentlyUsedInStories(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/music_recently_used_in_stories.json`)))));
+        console.log(await InstagramService.parsePostViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/posts_viewed.json`)))));
+        console.log(await InstagramService.parseVideoWatched(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/videos_watched.json`)))));
+        console.log(await InstagramService.parseSuggestedAccountViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/suggested_accounts_viewed.json`)))));
+        console.log(await InstagramService.parseAccountYouAreNotInterested(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/ads_and_content/accounts_you're_not_interested_in.json`)))));
+        console.log(await InstagramService.parseCommentsPosted(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/comments/post_comments.json`)))));
+        console.log(await InstagramService.parseSyncedContracts(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/contacts/synced_contacts.json`)))));
+        console.log(await InstagramService.parseArchivedPost(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/archived_posts.json`)))));
+        console.log(await InstagramService.parsePersonalPost(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/posts_1.json`)))));
+        console.log(await InstagramService.parseFollowers(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/followers_and_following/followers.json`)))));
+        console.log(await InstagramService.parseFollowingHashtags(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/followers_and_following/following_hashtags.json`)))));
+        console.log(await InstagramService.parseLikedPosts(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/likes/liked_posts.json`)))));
+        console.log(await InstagramService.parseLikedComments(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/likes/liked_comments.json`)))));
+        console.log(await InstagramService.parseSearches(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/recent_search/account_searches.json`)))));
+        console.log(await InstagramService.parseReelSentiments(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/your_topics/your_reels_sentiments.json`)))));
+        console.log(await InstagramService.parseReelTopics(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/your_topics/your_reels_topics.json`)))));
+        console.log(await InstagramService.parseTopics(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/your_topics/your_topics.json`)))));
+        console.log(await InstagramService.parseEmojiSliders(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/emoji_sliders.json`)))));
+        console.log(await InstagramService.parseEligibility(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/monetization/eligibility.json`)))));
+        console.log(await InstagramService.parsePolls(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/polls.json`)))));
+        console.log(await InstagramService.parseQuizzes(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/story_sticker_interactions/quizzes.json`)))));
+        console.log(await InstagramService.parsePersonalStories(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/instagram_json/content/stories.json`)))));
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);
@@ -162,25 +161,24 @@ async function instagramServiceTest() {
 
 async function facebookServiceTest() {
     try {
-        const facebookService = new FacebookService();
-        console.log(await facebookService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/profile_information/profile_information.json`)))));
-        console.log(await facebookService.parseAdsInteractedWith(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/ads_information/advertisers_you've_interacted_with.json`)))));
-        console.log(await facebookService.parseAdsUsingYourInfo(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/ads_information/advertisers_using_your_activity_or_information.json`)))));
-        console.log(await facebookService.parseSearchHistory(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/search/your_search_history.json`)))));
-        console.log(await facebookService.parseComments(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/comments_and_reactions/comments.json`)))));
-        console.log(await facebookService.parseReactions(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/comments_and_reactions/posts_and_comments.json`)))));
-        console.log(await facebookService.parsePagesLiked(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/pages/pages_you've_liked.json`)))));
-        console.log(await facebookService.parsePagesFollowed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/pages/pages_you_follow.json`)))));
-        console.log(await facebookService.parseAppsConnected(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/apps_and_websites_off_of_facebook/apps_and_websites.json`)))));
-        console.log(await facebookService.parseFriendRequestsSent(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/friends_and_followers/friend_requests_sent.json`)))));
-        console.log(await facebookService.parseRejectedFriendshipRequests(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/friends_and_followers/rejected_friend_requests.json`)))));
-        console.log(await facebookService.parseRemovedFriends(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/friends_and_followers/removed_friends.json`)))));
-        console.log(await facebookService.parseWhoYouFollow(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/friends_and_followers/who_you_follow.json`)))));
-        console.log(await facebookService.parseLanguages(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/preferences/language_and_locale.json`)))));
-        console.log(await facebookService.parsePagesRecommended(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/pages/pages_you've_recommended.json`)))));
-        console.log(await facebookService.parseRecentlyViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/your_interactions_on_facebook/recently_viewed.json`)))));
-        console.log(await facebookService.parseYourPosts(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/posts/your_posts_1.json`)))));
-        console.log(await facebookService.parseFriends(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/friends_and_followers/friends.json`)))));
+        console.log(await FacebookService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/profile_information/profile_information.json`)))));
+        console.log(await FacebookService.parseAdsInteractedWith(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/ads_information/advertisers_you've_interacted_with.json`)))));
+        console.log(await FacebookService.parseAdsUsingYourInfo(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/ads_information/advertisers_using_your_activity_or_information.json`)))));
+        console.log(await FacebookService.parseSearchHistory(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/search/your_search_history.json`)))));
+        console.log(await FacebookService.parseComments(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/comments_and_reactions/comments.json`)))));
+        console.log(await FacebookService.parseReactions(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/comments_and_reactions/posts_and_comments.json`)))));
+        console.log(await FacebookService.parsePagesLiked(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/pages/pages_you've_liked.json`)))));
+        console.log(await FacebookService.parsePagesFollowed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/pages/pages_you_follow.json`)))));
+        console.log(await FacebookService.parseAppsConnected(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/apps_and_websites_off_of_facebook/apps_and_websites.json`)))));
+        console.log(await FacebookService.parseFriendRequestsSent(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/friends_and_followers/friend_requests_sent.json`)))));
+        console.log(await FacebookService.parseRejectedFriendshipRequests(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/friends_and_followers/rejected_friend_requests.json`)))));
+        console.log(await FacebookService.parseRemovedFriends(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/friends_and_followers/removed_friends.json`)))));
+        console.log(await FacebookService.parseWhoYouFollow(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/friends_and_followers/who_you_follow.json`)))));
+        console.log(await FacebookService.parseLanguages(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/preferences/language_and_locale.json`)))));
+        console.log(await FacebookService.parsePagesRecommended(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/pages/pages_you've_recommended.json`)))));
+        console.log(await FacebookService.parseRecentlyViewed(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/your_interactions_on_facebook/recently_viewed.json`)))));
+        console.log(await FacebookService.parseYourPosts(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/posts/your_posts_1.json`)))));
+        console.log(await FacebookService.parseFriends(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/facebook_json/friends_and_followers/friends.json`)))));
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);
@@ -193,17 +191,16 @@ async function facebookServiceTest() {
 
 async function amazonServiceTest() {
     try {
-        const amazonService = new AmazonService();
         const {Parser} = require("./utils/parser");
         const path = require('path');
-        console.log(await amazonService.parsePrimeVideoWatchlist(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv`))));
-        console.log(await amazonService.parsePrimeVideoWatchlistHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv`))));
-        console.log(await amazonService.parsePrimeVideoViewingHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv`))));
-        console.log(await amazonService.parseSearchDataCustomerEngagement(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Search-Data/Search-Data.Customer-Engagement.csv`))));
-        console.log(await amazonService.parseAudibleLibrary(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Audible.Library/Audible.Library.csv`))));
-        console.log(await amazonService.parseTwitchPrimeSubscription(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv`))));
-        console.log(await amazonService.parseAmazonWishlists(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json`))));
-        console.log(await amazonService.parseRetailOrderHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Retail.OrderHistory.2/Retail.OrderHistory.2.csv`))));
+        console.log(await AmazonService.parsePrimeVideoWatchlist(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv`))));
+        console.log(await AmazonService.parsePrimeVideoWatchlistHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv`))));
+        console.log(await AmazonService.parsePrimeVideoViewingHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv`))));
+        console.log(await AmazonService.parseSearchDataCustomerEngagement(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Search-Data/Search-Data.Customer-Engagement.csv`))));
+        console.log(await AmazonService.parseAudibleLibrary(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Audible.Library/Audible.Library.csv`))));
+        console.log(await AmazonService.parseTwitchPrimeSubscription(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv`))));
+        console.log(await AmazonService.parseAmazonWishlists(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json`))));
+        console.log(await AmazonService.parseRetailOrderHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Retail.OrderHistory.2/Retail.OrderHistory.2.csv`))));
 
         const fs = require('fs');
         let source = path.join(__dirname, `../src/mock/IT_version/amazon/`);
@@ -215,11 +212,11 @@ async function amazonServiceTest() {
         let array;
         for (let i = 1; i < directoriesADV.length + 1; i++) {
             source = path.join(__dirname, `../src/mock/IT_version/amazon/Advertising.${i}/Advertising.AdvertiserAudiences.csv`);
-            array = await amazonService.parseAdvertiserAudiences(await Parser.CSVToBuffer(source));
+            array = await AmazonService.parseAdvertiserAudiences(await Parser.CSVToBuffer(source));
             array && (resultAudience = resultAudience.concat(array.list));
 
             source = path.join(__dirname, `../src/mock/IT_version/amazon/Advertising.${i}/Advertising.AdvertiserClicks.csv`);
-            array = await amazonService.parseAdvertiserClicked(await Parser.CSVToBuffer(source));
+            array = await AmazonService.parseAdvertiserClicked(await Parser.CSVToBuffer(source));
             array && (resultClicked = resultClicked.concat(array.list));
         }
         console.log(resultAudience.sort());

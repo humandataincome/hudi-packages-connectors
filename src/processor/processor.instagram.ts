@@ -39,12 +39,11 @@ export class ProcessorInstagram {
             const file = zip.files[pathName];
             if (!file.dir) {
                 await file.async('nodebuffer').then(async (data: Buffer) => {
-                    let languageCode = file.comment;
-                    let igService = new InstagramService(languageCode as LanguageCode);
+                    InstagramService.languagePrefix = file.comment as LanguageCode;
                     let result;
                     switch (pathName) {
                         case FileCode.INSTAGRAM_ADS_CLICKED:
-                            result = <AdsClickedIG>await igService.parseAdsClicked(data);
+                            result = <AdsClickedIG>await InstagramService.parseAdsClicked(data);
                             if (result) {
                                 let counterTI = 0;
                                 let today = new Date();
@@ -56,7 +55,7 @@ export class ProcessorInstagram {
                             }
                             break;
                         case FileCode.INSTAGRAM_ADS_VIEWED:
-                            result = <AdsViewedIG>await igService.parseAdsViewed(data);
+                            result = <AdsViewedIG>await InstagramService.parseAdsViewed(data);
                             if (result) {
                                 let counterTI = 0;
                                 let today = new Date();
@@ -68,7 +67,7 @@ export class ProcessorInstagram {
                             }
                             break;
                         case FileCode.INSTAGRAM_POST_COMMENT:
-                            result = <CommentsPostedIG>await igService.parseCommentsPosted(data);
+                            result = <CommentsPostedIG>await InstagramService.parseCommentsPosted(data);
                             if (result) {
                                 let counterTI = 0;
                                 let today = new Date();
@@ -80,7 +79,7 @@ export class ProcessorInstagram {
                             }
                             break;
                         case FileCode.INSTAGRAM_EMOJI_SLIDERS:
-                            result = <EmojiSlidersIG>await igService.parseEmojiSliders(data);
+                            result = <EmojiSlidersIG>await InstagramService.parseEmojiSliders(data);
                             if (result) {
                                 let counterTI = 0;
                                 let today = new Date();
@@ -92,19 +91,19 @@ export class ProcessorInstagram {
                             }
                             break;
                         case FileCode.INSTAGRAM_FOLLOWERS:
-                            result = <FollowersIG>await igService.parseFollowers(data);
+                            result = <FollowersIG>await InstagramService.parseFollowers(data);
                             if (result) {
                                 model.followers = result.list.length;
                             }
                             break;
                         case FileCode.INSTAGRAM_FOLLOWING_ACCOUNTS:
-                            result = <FollowingAccountsIG>await igService.parseFollowingAccounts(data);
+                            result = <FollowingAccountsIG>await InstagramService.parseFollowingAccounts(data);
                             if (result) {
                                 model.following = result.list.length;
                             }
                             break;
                         case FileCode.INSTAGRAM_LIKE_COMMENTS:
-                            result = <LikedCommentsIG>await igService.parseLikedComments(data);
+                            result = <LikedCommentsIG>await InstagramService.parseLikedComments(data);
                             if (result) {
                                 let counterTI = 0;
                                 let today = new Date();
@@ -116,7 +115,7 @@ export class ProcessorInstagram {
                             }
                             break;
                         case FileCode.INSTAGRAM_LIKE_POSTS:
-                            result = <LikedPostsIG>await igService.parseLikedPosts(data);
+                            result = <LikedPostsIG>await InstagramService.parseLikedPosts(data);
                             if (result) {
                                 let counterTI = 0;
                                 let today = new Date();
@@ -128,13 +127,13 @@ export class ProcessorInstagram {
                             }
                             break;
                         case FileCode.INSTAGRAM_ELEGIBILITY:
-                            result = <EligibilityIG>await igService.parseEligibility(data);
+                            result = <EligibilityIG>await InstagramService.parseEligibility(data);
                             if (result) {
                                 model.isMonetizable = !(result.decision == 'Not Eligible');
                             }
                             break;
                         case FileCode.INSTAGRAM_POLLS:
-                            result = <PollsIG>await igService.parsePolls(data);
+                            result = <PollsIG>await InstagramService.parsePolls(data);
                             if (result) {
                                 let counterTI = 0;
                                 let today = new Date();
@@ -146,7 +145,7 @@ export class ProcessorInstagram {
                             }
                             break;
                         case FileCode.INSTAGRAM_POSTS_CREATED:
-                            result = <PersonalPostsIG>await igService.parsePersonalPost(data);
+                            result = <PersonalPostsIG>await InstagramService.parsePersonalPost(data);
                             if (result) {
                                 let counterTI = 0;
                                 let today = new Date();
@@ -158,7 +157,7 @@ export class ProcessorInstagram {
                             }
                             break;
                         case FileCode.INSTAGRAM_POSTS_VIEWED:
-                            result = <PostViewedIG>await igService.parsePostViewed(data);
+                            result = <PostViewedIG>await InstagramService.parsePostViewed(data);
                             if (result) {
                                 let counterTI = 0;
                                 let today = new Date();
@@ -170,7 +169,7 @@ export class ProcessorInstagram {
                             }
                             break;
                         case FileCode.INSTAGRAM_QUIZZES:
-                            result = <QuizzesIG>await igService.parseQuizzes(data);
+                            result = <QuizzesIG>await InstagramService.parseQuizzes(data);
                             if (result) {
                                 let counterTI = 0;
                                 let today = new Date();
@@ -182,7 +181,7 @@ export class ProcessorInstagram {
                             }
                             break;
                         case FileCode.INSTAGRAM_STORIES_CREATED:
-                            result = <PersonalStoriesIG>await igService.parsePersonalStories(data);
+                            result = <PersonalStoriesIG>await InstagramService.parsePersonalStories(data);
                             if (result) {
                                 let counterTI = 0;
                                 let today = new Date();
@@ -194,7 +193,7 @@ export class ProcessorInstagram {
                             }
                             break;
                         case FileCode.INSTAGRAM_VIDEO_VIEWED:
-                            result = <VideoWatchedIG>await igService.parseVideoWatched(data);
+                            result = <VideoWatchedIG>await InstagramService.parseVideoWatched(data);
                             if (result) {
                                 let counterTI = 0;
                                 let today = new Date();
