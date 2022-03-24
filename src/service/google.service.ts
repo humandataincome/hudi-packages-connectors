@@ -1,12 +1,15 @@
 import Logger from "../utils/logger";
 import {
-    ActivitySegment, BillingInstrument,
+    ActivitySegment,
+    BillingInstrument,
     BrowserHistory,
-    BrowserSearch, Contact,
+    BrowserSearch,
+    Contact,
     Doc,
     DocLibrary,
     GeoData,
-    ImageData, LineItem,
+    ImageData,
+    LineItem,
     Order,
     OrderHistory,
     PlaceVisited,
@@ -23,11 +26,11 @@ import {
     Transactions,
     TransitPath,
 } from "../model/google.model";
-import {ConfigGoogle} from "../config/config.google";
 import {Parser} from "../utils/parser";
 import {Months} from "../utils/utils.enum";
 import {LanguageCode} from "../descriptor";
 import {Validator} from "../validator";
+import {ConfigGoogle} from "../config/config.google";
 
 /**
  * Class used to parse most important files into the directory returned by Google in CSV and JSON formats.
@@ -35,23 +38,13 @@ import {Validator} from "../validator";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class GoogleService {
-    private logger = new Logger("Google Service");
-    private readonly configGoogle;
-    private readonly prefix: string;
-
-    /**
-     * @param language
-     */
-    constructor(language: LanguageCode) {
-        this.configGoogle = new ConfigGoogle();
-        this.prefix = language;
-    }
+    private static logger = new Logger("Google Service");
+    public static readonly prefixLanguage: LanguageCode = LanguageCode.ENGLISH;
 
     /**
      * @param data - file 'Takeout/Profile/Profile.json' in input as Buffer
-     * @return {Promise<Profile | undefined>}
      */
-    async parseProfile(data: Buffer): Promise<Profile | undefined> {
+    static async parseProfile(data: Buffer): Promise<Profile | undefined> {
         let model: Profile = {}, match;
         try {
             let document = JSON.parse(data.toString());
@@ -64,17 +57,16 @@ export class GoogleService {
             model.birthdate = new Date(Date.UTC(match[1], match[2] - 1, match[3], 0, 0, 0));
             (document.gender.type) && (model.gender = document.gender.type);
             return !Validator.objectIsEmpty(model) ? model : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseProfile');
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseProfile');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Takeout/Chrome/BrowserHistory.json' in input as Buffer
-     * @return {Promise<BrowserHistory | undefined>}
      */
-    async parseBrowseHistory(data: Buffer): Promise<BrowserHistory | undefined> {
+    static async parseBrowseHistory(data: Buffer): Promise<BrowserHistory | undefined> {
         let model: BrowserHistory = {list: []};
         try {
             let document = JSON.parse(data.toString());
@@ -89,17 +81,16 @@ export class GoogleService {
                 return newValue;
             });
             return model.list.length > 0 ? model : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseBrowseHistory');
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseBrowseHistory');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Takeout/Chrome/SearchEngines.json' in input as Buffer
-     * @return {Promise<SearchEngines | undefined>}
      */
-    async parseSearchEngines(data: Buffer): Promise<SearchEngines | undefined> {
+    static async parseSearchEngines(data: Buffer): Promise<SearchEngines | undefined> {
         let model: SearchEngines = {list: []};
         try {
             let document = JSON.parse(data.toString());
@@ -122,24 +113,23 @@ export class GoogleService {
                 return newValue;
             });
             return model.list.length > 0 ? model : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseSearchEngines');
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseSearchEngines');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Takeout/LocationHistory/SemanticLocationHistory/2017/2017_APRIL.json' in input as Buffer
-     * @return {Promise<SemanticLocations | undefined>}
      */
-    async parseSemanticLocations(data: Buffer): Promise<SemanticLocations | undefined> {
+    static async parseSemanticLocations(data: Buffer): Promise<SemanticLocations | undefined> {
         let model: SemanticLocations = {listVisitedPlaces: [], listActivities: []};
         try {
             let document = JSON.parse(data.toString());
-            document.timelineObjects.map((value: any) => {
+            document.timelineObjects.forEach((value: any) => {
                 if (value.placeVisit) {
                     value = value.placeVisit;
-                    let newValue: PlaceVisited | undefined = this.parsePlaceVisitedRecursive(value);
+                    let newValue = this.parsePlaceVisitedRecursive(value);
                     (newValue) && (model.listVisitedPlaces.push(newValue));
                 }
                 if (value.activitySegment) {
@@ -166,7 +156,7 @@ export class GoogleService {
 
                     if (value.activitySegment.activities) {
                         newValue.allActivitiesProbabilities = [];
-                        value.activitySegment.activities.map((activity: any) => {
+                        value.activitySegment.activities.forEach((activity: any) => {
                             let newActivity: ProbableActivity = {};
                             (activity.activityType) && (newActivity.activityType = activity.activityType);
                             (activity.probability) && (newActivity.probability = activity.probability);
@@ -178,7 +168,7 @@ export class GoogleService {
                         let newPath: TransitPath = {};
                         if (value.activitySegment.transitPath.transitStops) {
                             newPath.transitStops = [];
-                            value.activitySegment.transitPath.transitStops.map((transitStop: any) => {
+                            value.activitySegment.transitPath.transitStops.forEach((transitStop: any) => {
                                 let newLocation: ProbableLocation = {};
                                 (transitStop.latitudeE7) && (newLocation.latitudeE7 = transitStop.latitudeE7);
                                 (transitStop.longitudeE7) && (newLocation.longitudeE7 = transitStop.longitudeE7);
@@ -196,7 +186,7 @@ export class GoogleService {
                     if (value.activitySegment.simplifiedRawPath) {
                         if (value.activitySegment.simplifiedRawPath.points) {
                             newValue.simplifiedRawPath = [];
-                            value.activitySegment.simplifiedRawPath.points.map((point: any) => {
+                            value.activitySegment.simplifiedRawPath.points.forEach((point: any) => {
                                 let newPoint: Point = {};
                                 (point.latE7) && (newPoint.latitudeE7 = point.latE7);
                                 (point.lngE7) && (newPoint.longitudeE7 = point.lngE7);
@@ -211,13 +201,13 @@ export class GoogleService {
                 }
             });
             return (model.listVisitedPlaces.length > 0 || model.listActivities.length > 0) ? model : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseSemanticLocations');
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseSemanticLocations');
             return undefined;
         }
     }
 
-    private parsePlaceVisitedRecursive(value: any): PlaceVisited | undefined {
+    private static parsePlaceVisitedRecursive(value: any): PlaceVisited | undefined {
         let newValue: PlaceVisited = {};
         if (value.location) {
             let newLocation: ProbableLocation = {};
@@ -241,7 +231,7 @@ export class GoogleService {
 
         if (value.otherCandidateLocations) {
             newValue.otherProbableLocations = [];
-            value.otherCandidateLocations.map((location: any) => {
+            value.otherCandidateLocations.forEach((location: any) => {
                 let otherLocation: ProbableLocation = {};
                 (location.latitudeE7) && (otherLocation.latitudeE7 = location.latitudeE7);
                 (location.longitudeE7) && (otherLocation.longitudeE7 = location.longitudeE7);
@@ -260,9 +250,8 @@ export class GoogleService {
 
     /**
      * @param data - file 'Takeout/GooglePhoto/PhotosFrom2019/photo.mp4.json' in input as Buffer
-     * @return {Promise<ImageData | undefined>}
      */
-    async parseImageData(data: Buffer): Promise<ImageData | undefined> {
+    static async parseImageData(data: Buffer): Promise<ImageData | undefined> {
         let model: ImageData = {};
         try {
             let document = JSON.parse(data.toString());
@@ -294,41 +283,40 @@ export class GoogleService {
             (document.photoLastModifiedTime && document.photoLastModifiedTime.timestamp) && (model.photoLastModifiedTime = new Date(1000 * document.photoLastModifiedTime.timestamp));
 
             return !Validator.objectIsEmpty(model) ? model : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseImageData');
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseImageData');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Takeout/GooglePay/GoogleTransactions/transactions_123456.csv' in input as Buffer
-     * @return {Promise<Transactions | undefined>}
      */
-    async parseTransactions(data: Buffer): Promise<Transactions | undefined> {
+    static async parseTransactions(data: Buffer): Promise<Transactions | undefined> {
         try {
             let document: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
             if (document) {
                 let model: Transactions = {list: []};
-                document.map((value: any) => {
+                document.forEach((value: any) => {
                     let newTs: Transaction = {}, match, parameterName;
-                    parameterName = this.configGoogle.get(`${this.prefix}-DateAndHour`);
+                    parameterName = ConfigGoogle.keysValues[`${this.prefixLanguage}-DateAndHour`];
                     if (value[parameterName]) {
                         match = value[parameterName].match(/(\d+) (\w+) (\d+), (\d+):(\d+)/);
-                        let monthENG: any = this.configGoogle.get(`${this.prefix}-${match[2]}`);
+                        let monthENG: any = ConfigGoogle.keysValues[`${this.prefixLanguage}-${match[2]}`];
                         let monthIndex: number = parseInt(Months[monthENG]);
                         newTs.date = new Date(Date.UTC(parseInt(match[3]), monthIndex - 1, parseInt(match[1]), parseInt(match[4]), parseInt(match[5]), 0));
                     }
-                    parameterName = this.configGoogle.get(`${this.prefix}-IDtransaction`);
+                    parameterName = ConfigGoogle.keysValues[`${this.prefixLanguage}-IDtransaction`];
                     (value[parameterName]) && (newTs.IDtransaction = value[parameterName]);
-                    parameterName = this.configGoogle.get(`${this.prefix}-description`);
+                    parameterName = ConfigGoogle.keysValues[`${this.prefixLanguage}-description`];
                     (value[parameterName]) && (newTs.description = value[parameterName]);
-                    parameterName = this.configGoogle.get(`${this.prefix}-product`);
+                    parameterName = ConfigGoogle.keysValues[`${this.prefixLanguage}-product`];
                     (value[parameterName]) && (newTs.productName = value[parameterName]);
-                    parameterName = this.configGoogle.get(`${this.prefix}-payment`);
+                    parameterName = ConfigGoogle.keysValues[`${this.prefixLanguage}-payment`];
                     (value[parameterName]) && (newTs.paymentMethod = value[parameterName]);
-                    parameterName = this.configGoogle.get(`${this.prefix}-state`);
+                    parameterName = ConfigGoogle.keysValues[`${this.prefixLanguage}-state`];
                     (value[parameterName]) && (newTs.state = value[parameterName]);
-                    parameterName = this.configGoogle.get(`${this.prefix}-amount`);
+                    parameterName = ConfigGoogle.keysValues[`${this.prefixLanguage}-amount`];
                     match = value[parameterName].match(/(.+) (\w+)/);
                     if (match) {
                         newTs.amount = match[1];
@@ -339,21 +327,20 @@ export class GoogleService {
                 return model.list.length > 0 ? model : undefined;
             }
             return undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseTransactions');
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseTransactions');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Takeout/GooglePlayStore/Library.json' in input as Buffer
-     * @return {Promise<DocLibrary | undefined>}
      */
-    async parseDocLibrary(data: Buffer): Promise<DocLibrary | undefined> {
+    static async parseDocLibrary(data: Buffer): Promise<DocLibrary | undefined> {
         try {
             let document = JSON.parse(data.toString());
             let model: DocLibrary = {list: []};
-            document.map((value: any) => {
+            document.forEach((value: any) => {
                 let newDoc: Doc = {};
                 if (value.libraryDoc.doc) {
                     (value.libraryDoc.doc.documentType) && (newDoc.type = value.libraryDoc.doc.documentType);
@@ -363,8 +350,8 @@ export class GoogleService {
                 !Validator.objectIsEmpty(newDoc) && (model.list.push(newDoc));
             });
             return model.list.length > 0 ? model : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseDocLibrary');
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseDocLibrary');
             return undefined;
         }
     }
@@ -372,13 +359,12 @@ export class GoogleService {
 
     /**
      * @param data - file 'Takeout/GooglePlayStore/PurchaseHistory.json' in input as Buffer
-     * @return {Promise<PurchaseHistory | undefined>}
      */
-    async parsePurchaseHistory(data: Buffer): Promise<PurchaseHistory | undefined> {
+    static async parsePurchaseHistory(data: Buffer): Promise<PurchaseHistory | undefined> {
         try {
             let document = JSON.parse(data.toString());
             let model: PurchaseHistory = {list: []};
-            document.map((value: any) => {
+            document.forEach((value: any) => {
                 let purchase: Purchase = {};
                 if (value.purchaseHistory) {
                     (value.purchaseHistory.invoicePrice) && (purchase.invoicePrice = value.purchaseHistory.invoicePrice);
@@ -396,21 +382,20 @@ export class GoogleService {
                 }
             });
             return model.list.length > 0 ? model : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parsePurchaseHistory');
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parsePurchaseHistory');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Takeout/GooglePlayStore/OrderHistory.json' in input as Buffer
-     * @return {Promise<OrderHistory | undefined>}
      */
-    async parseOrderHistory(data: Buffer): Promise<OrderHistory | undefined> {
+    static async parseOrderHistory(data: Buffer): Promise<OrderHistory | undefined> {
         try {
             let document = JSON.parse(data.toString());
             let model: OrderHistory = {list: []};
-            document.map((value: any) => {
+            document.forEach((value: any) => {
                 if (value.orderHistory) {
                     let newOrder: Order = {};
                     (value.orderHistory.orderId) && (newOrder.orderId = value.orderHistory.orderId);
@@ -460,8 +445,8 @@ export class GoogleService {
                 }
             });
             return model.list.length > 0 ? model : undefined;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseOrderHistory');
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseOrderHistory');
             return undefined;
         }
     }
