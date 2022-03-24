@@ -1,5 +1,5 @@
 {
-    "sourceDescription": [
+    "sourceDescriptions": [
         {
             "sourceName": "Instagram",
             "sourceCode": "INSTAGRAM",
@@ -7,7 +7,7 @@
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "description": "Instagram data source",
+                    "descriptionText": "Instagram data source",
                     "procedures": [
                         {
                             "procedureType": "DEFAULT",
@@ -179,7 +179,7 @@
                 },
                 {
                     "languageCode": "IT",
-                    "description": "Instagram data source",
+                    "descriptionText": "Instagram data source",
                     "procedures": [
                         {
                             "procedureType": "DEFAULT",
@@ -360,7 +360,7 @@
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "description": "Facebook data source",
+                    "descriptionText": "Facebook data source",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",
@@ -437,7 +437,7 @@
                 },
                 {
                     "languageCode": "IT",
-                    "description": "Facebook data source",
+                    "descriptionText": "Facebook data source",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",

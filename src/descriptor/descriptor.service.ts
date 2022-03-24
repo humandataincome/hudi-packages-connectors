@@ -17,7 +17,7 @@ export class DescriptorService {
      * @return  all available data sources' respective codes
      */
     static getAllDataSourcesCodes(): DataSourceCode[] {
-        return descriptor?.sourceDescription?.map(({sourceCode}) => sourceCode) || [];
+        return descriptor?.sourceDescriptions?.map(({sourceCode}) => sourceCode) || [];
     }
 
     /**
@@ -26,7 +26,7 @@ export class DescriptorService {
      */
     static getDataSourceDescription(dataSourceCode: DataSourceCode): SourceDescription | undefined {
         try {
-            return descriptor?.sourceDescription?.find(({sourceCode}) => sourceCode === dataSourceCode);
+            return descriptor?.sourceDescriptions?.find(({sourceCode}) => sourceCode === dataSourceCode);
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_DESCRIPTION_ERROR}: ${error}`);
         }
@@ -34,11 +34,11 @@ export class DescriptorService {
 
     /**
      * @param dataSourceCode - code of the data source
-     * @return return source name of a given data source code
+     * @return the source name of a given data source code
      */
     static getDataSourceName(dataSourceCode: DataSourceCode): string | undefined {
         try {
-            return descriptor?.sourceDescription?.find(
+            return descriptor?.sourceDescriptions?.find(
                 ({sourceCode}) => sourceCode === dataSourceCode
             )?.sourceName;
         } catch (error) {
@@ -48,11 +48,11 @@ export class DescriptorService {
 
     /**
      * @param dataSourceCode - code of the data source
-     * @return {Promise<Array<FileExtension> | undefined>} - return the array of valid format of a given data source
+     * @return an array containing all valid formats of a given data source
      */
     static getDataSourceFormats(dataSourceCode: DataSourceCode): FileExtension[] | undefined {
         try {
-            return descriptor?.sourceDescription?.find(
+            return descriptor?.sourceDescriptions?.find(
                 ({sourceCode}) => sourceCode === dataSourceCode
             )?.supportedFormats;
         } catch (error) {
@@ -64,8 +64,30 @@ export class DescriptorService {
     /**
      * @param dataSourceCode - code of the data source
      * @param language - language of the data source
+     * @return a string containing the description text
+     **/
+     static getDataSourceDescriptionText(dataSourceCode: DataSourceCode, language: LanguageCode): string | undefined {
+        try {
+            const sourceDescription = descriptor?.sourceDescriptions?.find(
+                ({sourceCode, retrievingProcedures}) => sourceCode === dataSourceCode && retrievingProcedures.length
+            );
+
+            const retrievingProcedure = sourceDescription?.retrievingProcedures?.find(
+                ({languageCode, procedures}) => languageCode === language && procedures.length
+            );
+
+            return retrievingProcedure?.descriptionText;
+        } catch (error) {
+            throw new Error(`${DescriptorErrorEnum.SOURCE_FORMAT_ERROR}: ${error}`);
+        }
+    }
+
+
+    /**
+     * @param dataSourceCode - code of the data source
+     * @param language - language of the data source
      * @param retrievingProcedureType - procedure type of the data source
-     * @return {Promise<Procedure | undefined>} - return the specific procedure and relative steps to retrieve a given data source, language code and retrieving procedure code
+     * @return a specific procedure and relative steps to retrieve a given data source, language code and retrieving procedure code
      */
     static getDataSourceProcedure(
         dataSourceCode: DataSourceCode,
@@ -73,7 +95,7 @@ export class DescriptorService {
         retrievingProcedureType: RetrievingProcedureType
     ): Procedure | undefined {
         try {
-            const sourceDescription = descriptor?.sourceDescription?.find(
+            const sourceDescription = descriptor?.sourceDescriptions?.find(
                 ({sourceCode, retrievingProcedures}) => sourceCode === dataSourceCode && retrievingProcedures.length
             );
 
@@ -93,11 +115,11 @@ export class DescriptorService {
 
     /**
      * @param dataSourceCode - code of the data source
-     * @return {LanguageCode[] | undefined} - return all the procedure languages available for a given data source
+     * @return all the procedure languages available for a given data source
      */
     static getAllDataSourceLanguages(dataSourceCode: DataSourceCode): LanguageCode[] | undefined {
         try {
-            const sourceDescription = descriptor?.sourceDescription?.find(
+            const sourceDescription = descriptor?.sourceDescriptions?.find(
                 ({sourceCode, retrievingProcedures}) => sourceCode === dataSourceCode && retrievingProcedures.length
             );
 
@@ -110,11 +132,11 @@ export class DescriptorService {
     /**
      * @param dataSourceCode - code of the data source
      * @param language - language of the data source
-     * @return {RetrievingProcedureType[] | undefined } - return all the retrieving procedure types for a given data source and language code
+     * @return all the retrieving procedure types for a given data source and language code
      */
     static getAllDataSourceProcedureTypes(dataSourceCode: DataSourceCode, language: LanguageCode): RetrievingProcedureType[] | undefined {
         try {
-            const sourceDescription = descriptor?.sourceDescription?.find(
+            const sourceDescription = descriptor?.sourceDescriptions?.find(
                 ({sourceCode, retrievingProcedures}) => sourceCode === dataSourceCode && retrievingProcedures.length
             );
 
