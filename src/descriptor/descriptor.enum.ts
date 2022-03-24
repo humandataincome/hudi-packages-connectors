@@ -15,23 +15,26 @@ export enum RetrievingProcedureType {
 
 export enum FileExtension {
     ZIP = 'zip',
-    TGZ = 'tgz',
     JSON = 'json',
     CSV = 'csv',
     XML = 'xml',
     TXT = 'txt',
     HTML = 'html',
     PDF = 'pdf',
-    OTHER = 'other'
+    JPG = 'jpg',
+    PNG = 'png',
+    GIF = 'gif',
+    VCF = 'vcf',
+    EML = 'eml',
 }
 
 export enum LanguageCode {
     ENGLISH = 'EN',
     ITALIAN = 'IT',
     SPANISH = 'ES',
+    HINDI = 'HI',
     FRENCH = 'FR',
     GERMAN = 'DE',
-    HINDI = 'HI',
     ARABIC = 'AR',
     CHINESE = 'ZH',
 }
@@ -88,12 +91,12 @@ export enum FileCode {
     FACEBOOK_WHO_YOU_FOLLOW = 'friends_and_followers/who_you_follow.json',
     FACEBOOK_CONVERSATION = `messages/inbox/message_1.json`,
 
-    AMAZON_PRIMEVIDEO_WATCHLIST = 'Digital.PrimeVideo.Watchlist.csv',
-    AMAZON_PRIMEVIDEO_WATCHLIST_HISTORY = 'Digital.PrimeVideo.WatchlistHistory.csv',
-    AMAZON_PRIMEVIDEO_VIEW_COUNT = 'Digital.PrimeVideo.ViewCounts.2.csv',
-    AMAZON_PRIMEVIDEO_VIEWING_HISTORY = 'Digital.PrimeVideo.Viewinghistory.csv',
-    AMAZON_CUSTOMER_ENGAGEMENT = 'Search-Data/Search-Data.Customer-Engagement.csv',
-    AMAZON_WISHLIST = 'Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json',
+    AMAZON_PRIMEVIDEO_WATCHLIST = 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv',
+    AMAZON_PRIMEVIDEO_WATCHLIST_HISTORY = 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv',
+    AMAZON_PRIMEVIDEO_VIEW_COUNT = 'Digital.PrimeVideo.ViewCounts.2/Digital.PrimeVideo.ViewCounts.2.csv',
+    AMAZON_PRIMEVIDEO_VIEWING_HISTORY = 'Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv',
+    _AMAZON_CUSTOMER_ENGAGEMENT = 'Search-Data/Search-Data.Customer-Engagement.csv',
+    _AMAZON_WISHLIST = 'Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json',
     AMAZON_ADV_AUDIENCES = 'Advertising.{X}/Advertising.AdvertiserAudiences.csv',
     AMAZON_ADV_CLICKS = 'Advertising.{X}/Advertising.AdvertiserClicks.csv',
     AMAZON_ADV_THIRDPARTIES = 'Advertising.{X}/Advertising.3PAudiences.csv',

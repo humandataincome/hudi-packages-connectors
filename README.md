@@ -4,7 +4,7 @@
 A set of connectors to describe, parse and process the data sources provided by websites and social networks. Compatible with NodeJS and on Browsers.
 
 ## Which data sources are supported? ##
-- **Instagram** (full support for EN, IT and HI languages)
+- **Instagram** (full support for English, Italian, Spanish and Hindi languages)
 - **Facebook** (full support)
 - **Google** (only parsing)
 - **Amazon** (only parsing)
