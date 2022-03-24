@@ -24,7 +24,7 @@ export class Validator {
 
     /**
      * @param zipFile - file zip as Buffer
-     * @return {Promise<Array<string>} - filter all the file paths from the directories paths
+     * @return filter all the file paths from the directories paths
      */
     static async getFilesPathsIntoZip(zipFile: Buffer): Promise<string[]> {
         const zip = await JSZip.loadAsync(zipFile);
@@ -37,7 +37,7 @@ export class Validator {
 
     /**
      * @param zipFile - file zip as Buffer
-     * @return {Promise<Buffer>} - zip file containing all the files from input that passed the validation
+     * @return zip file containing all the files from input that passed the validation
      */
     async validateZIP(zipFile: Buffer): Promise<Buffer> {
         const validatedFiles = new JSZip();
