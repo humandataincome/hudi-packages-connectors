@@ -61,7 +61,7 @@ import {Validator} from "../validator";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class LinkedInService {
-    private static logger = new Logger("Linkedin Service");
+    private static readonly logger = new Logger("Linkedin Service");
 
     /**
      * @param data - file 'Account Status History.csv' in input as Buffer

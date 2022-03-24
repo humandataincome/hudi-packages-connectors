@@ -42,7 +42,7 @@ import {Validator} from "../validator";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class FacebookService{
-    private static logger = new Logger("Facebook Service");
+    private static readonly logger = new Logger("Facebook Service");
 
     /**
      * @param data - file 'profile_information/profile_information.json' in input as Buffer

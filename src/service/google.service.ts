@@ -38,8 +38,8 @@ import {ConfigGoogle} from "../config/config.google";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class GoogleService {
-    private static logger = new Logger("Google Service");
-    public static readonly prefixLanguage: LanguageCode = LanguageCode.ENGLISH;
+    private static readonly logger = new Logger("Google Service");
+    public static prefixLanguage: LanguageCode = LanguageCode.ITALIAN;
 
     /**
      * @param data - file 'Takeout/Profile/Profile.json' in input as Buffer

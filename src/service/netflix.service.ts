@@ -16,7 +16,7 @@ import {Parser} from "../utils/parser";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class NetflixService {
-    private static logger = new Logger("Netflix Service");
+    private static readonly logger = new Logger("Netflix Service");
 
     /**
      * @param data - file 'ACCOUNT/AccountDetails.csv' in input as Buffer

@@ -30,7 +30,7 @@ import {
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class AmazonService {
-    private static logger = new Logger("Amazon Service");
+    private static readonly logger = new Logger("Amazon Service");
     /**
      * @param data - file 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv' in input as Buffer
      */
