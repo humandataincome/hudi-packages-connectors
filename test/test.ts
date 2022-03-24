@@ -31,16 +31,15 @@ async function test(){
 
 function validatorAndProcessingInstagramTest() {
     try {
-        const validator = new Validator();
         const fs =  require('fs');
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validZip = await validator.validateZIP(data);
+            const validZip = await Validator.validateZIP(data);
             const validationFE = await ValidatorInstagram.selectUsefulFilesFromZip(validZip);
             //console.log(await Validator.getFilesPathsIntoZip(validZip));
             if(validationFE) {
-                const validationBE = await validator.validateZIP(validationFE);
+                const validationBE = await Validator.validateZIP(validationFE);
                 if(validationBE) {
                     //console.log(await Validator.getFilesPathsIntoZip(validationBE));
                     console.log(await ProcessorInstagram.aggregatorFactory(validationBE, 180));
@@ -65,9 +64,9 @@ function validatorAndProcessingFacebookTest() {
         fs.readFile(path.join(__dirname,"../src/mock/validation/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             //console.log(await Validator.getFilesPathsIntoZip(data));
-            const validationFE = await ValidatorFacebook.selectUsefulFilesFromZip(await validator.validateZIP(data));
+            const validationFE = await ValidatorFacebook.selectUsefulFilesFromZip(await Validator.validateZIP(data));
             if(validationFE) {
-                const validationBE = await validator.validateZIP(validationFE);
+                const validationBE = await Validator.validateZIP(validationFE);
                 if(validationBE) {
                     //console.log(await Validator.getFilesPathsIntoZip(validationBE));
                     console.log(await ProcessorFacebook.aggregatorFactory(validationBE, 180));
@@ -85,12 +84,11 @@ function validatorAndProcessingFacebookTest() {
 
 function validatorAndProcessingAmazonTest() {
     try {
-        const validator = new Validator();
         const fs =  require('fs');
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/validation/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validationFE = await validator.validateZIP(data);
+            const validationFE = await Validator.validateZIP(data);
             console.log(await Validator.getFilesPathsIntoZip(validationFE));
 
         });

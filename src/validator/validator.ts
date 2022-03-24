@@ -2,33 +2,6 @@ import {FileExtension} from "../descriptor";
 import * as JSZip from "jszip";
 import {ValidationErrorEnums} from "./validator.error";
 
-// interface InputByType {
-//     base64: string;
-//     string: string;
-//     text: string;
-//     binarystring: string;
-//     array: number[];
-//     uint8array: Uint8Array;
-//     arraybuffer: ArrayBuffer;
-//     blob: Blob;
-//     stream: NodeJS.ReadableStream;
-// }
-//
-// interface OutputByType {
-//     base64: string;
-//     string: string;
-//     text: string;
-//     binarystring: string;
-//     array: number[];
-//     uint8array: Uint8Array;
-//     arraybuffer: ArrayBuffer;
-//     blob: Blob;
-//     nodebuffer: Buffer;
-// }
-//
-// type InputFileFormat = InputByType[keyof InputByType];
-// type OutputFileFormat = OutputByType[keyof OutputByType];
-
 export type InputFileFormat = string | number[] | Blob | NodeJS.ReadableStream | Uint8Array | ArrayBuffer;
 export type OutputFileFormat = string | number[] | Blob | Buffer | Uint8Array | ArrayBuffer;
 
