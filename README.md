@@ -3,11 +3,17 @@
 ## What is this repository for? ##
 A set of connectors to describe, parse and process the data sources provided by websites and social networks. Compatible with NodeJS and on Browsers.
 
+### Features included in the package ###
+- A set of **Service Classes** to parse the files received by the data sources' zip files.
+- A set of **Validators** for the file received: a generic validation for raw zip files and a specific validator for each data source supported to filter that useful files from the others.
+- A set of **Processors** for each specific data source supported to aggregate the data contained into them.
+
+
 ## Which data sources are supported? ##
-- **Instagram** (full support for English, Italian, Spanish and Hindi languages)
-- **Facebook** (full support)
-- **Google** (only parsing)
+- **Instagram** (full support on validation, processing and parsing)
+- **Facebook** (full support on validation, processing and parsing)
 - **Amazon** (only parsing)
+- **Google** (only parsing)
 - **Netflix** (only parsing)
 - **LinkedIn** (only parsing)
 - **Twitch** (not supported yet)
@@ -24,54 +30,20 @@ npm i @humandataincome/connectors
 import * as Connector from '@humandataincome/connectors';
 ```
 
-## How to use Instagram Service ##
+## How to use a Service (Instagram service in the example) ##
+```
+import {InstagramService} from '@humandataincome/connectors';
+```
 ```
 //fileBuffer is the file 'account_information/personal_information.json' into the Instagram data source, as Buffer
 
-let service = new Connector.InstagramService(LanguageCode.ENGLISH);
-let result = await service.parsePersonalInformation(fileBuffer);
+let result = await InstagramService.parsePersonalInformation(fileBuffer);
 ```
-
-## How to use Facebook Service ##
+Instagram needs the **language** of the files given in input, it can be changed with one of the supported languages codes (default is ENGLISH):
 ```
-//fileBuffer is the file 'profile_information/profile_information.json' into the Facebook data source, as Buffer
-
-let service = new Connector.FacebookService();
-let result = await service.parsePersonalInformation(fileBuffer);
+InstagramService.languagePrefix = LanguageCode.ITALIAN;
 ```
-
-## How to use Google Service ##
-```
-//fileBuffer is the file 'Takeout/Profile/Profile.json' into the Google data source, as Buffer
-
-let service = new Connector.GoogleService(LanguageCode.ENGLISH);
-let result = await service.parseProfile(fileBuffer);
-```
-
-## How to use Amazon Service ##
-```
-//fileBuffer is the file 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv' into the Amazon data source, as Buffer
-
-let service = new Connector.AmazonService();
-let result = await service.parsePrimeVideoWatchlist(fileBuffer);
-```
-
-## How to use Netflix Service ##
-```
-//fileBuffer is the file 'ACCOUNT/AccountDetails.csv' into the Netflix data source, as Buffer
-
-let service = new Connector.NetflixService();
-let result = await service.parsePersonalInformation(fileBuffer);
-```
-
-## How to use LinkedIn Service ##
-```
-//fileBuffer is the file 'linkedin/Ads Clicked.csv' into the LinkedIn data source, as Buffer
-
-let service = new Connector.LinkedInService();
-let result = await service.parseAdsClicked(fileBuffer);
-```
-
+At the moment the languages supported for the Instagram service are: ENGLISH, ITALIAN, SPANISH and HINDI.
 ## How to use Descriptor ##
 How to retrieve the **descriptor.json** file containing the description of the supported sources:
 ```
@@ -83,17 +55,22 @@ Example of **DescriptorService** usage:
 import {DescriptorService} from '@humandataincome/connectors';
 ```
 ```
-let codes = await DescriptorService.getAllDataSourcesCodes();
+let codes = DescriptorService.getAllDataSourcesCodes();
 ```
 
 ## How to use Validator ##
 Example of **ValidatorService** usage:
 ```
-//zipFile is a zip file as Buffer
-
-let service = new Connector.ValidatorService();
-let validatedZip = await service.validateZIP(zipFile);
+let validatedZip = await ValidatorService.validateZIP(zipFile);
 ```
+The function **validateZIP** take in input a zip file. The allowed types are: string, number[], Blob, NodeJS.ReadableStream, Uint8Array, ArrayBuffer.
+
+Validator class has two parameters to filter files based on their bytes sizes that can be changed:
+```
+ValidatorService.MAX_BYTE_FILE_SIZE = 7e10; //default value is 6 MB
+ValidatorService.MIN_BYTE_FILE_SIZE = 100;  //default value is 50 B
+```
+
 Example of **ValidatorInstagram** usage:
 ```
 import {ValidatorInstagram} from '@humandataincome/connectors';
@@ -101,7 +78,7 @@ import {ValidatorInstagram} from '@humandataincome/connectors';
 ```
 let validatedZip = await ValidatorInstagram.selectUsefulFilesFromZip(zipFile);
 ```
-
+The function **selectUsefulFilesFromZip**
 ## How to use Processor ##
 Example of **ProcessorInstagram** usage:
 ```
