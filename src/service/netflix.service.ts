@@ -16,16 +16,15 @@ import {Parser} from "../utils/parser";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class NetflixService {
-    private logger = new Logger("Netflix Service");
+    private static logger = new Logger("Netflix Service");
 
     /**
      * @param data - file 'ACCOUNT/AccountDetails.csv' in input as Buffer
-     * @return {Promise<PersonalInformation | undefined>}
      */
-    async parsePersonalInformation(data: Buffer): Promise<PersonalInformation | undefined> {
+    static async parsePersonalInformation(data: Buffer): Promise<PersonalInformation | undefined> {
         try {
-            let result: any[]|undefined = Parser.parseCSVfromBuffer(data);
-            if (result) {
+            let result: any = Parser.parseCSVfromBuffer(data);
+            if (result && result[0]) {
                 let modelInfo: PersonalInformation = {};
                 (result[0]['First Name'] != '') && (modelInfo.firstName = result[0]['First Name']);
                 (result[0]['Last Name'] != '') && (modelInfo.lastName = result[0]['Last Name']);
@@ -50,22 +49,21 @@ export class NetflixService {
                 return modelInfo;
             }
             return undefined;
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parsePersonalInformation');
+        } catch (error){
+            this.logger.log('error', `${error}`,'parsePersonalInformation');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'CONTENT_INTERACTION/IndicatedPreferences.csv' in input as Buffer
-     * @return {Promise<PreferencesAccount | undefined>}
      */
-    async parsePreferences(data: Buffer): Promise<PreferencesAccount | undefined> {
+    static async parsePreferences(data: Buffer): Promise<PreferencesAccount | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: PreferencesAccount = {list: []}
-                result.map((listItem: any) => {
+                model.list = result.map((listItem: any) => {
                     let newItem: Preference = {}, match;
                     (listItem['Profile Name'] != '') && (newItem.profileName = listItem['Profile Name']);
                     (listItem['Show'] != '') && (newItem.show = listItem['Show']);
@@ -73,54 +71,52 @@ export class NetflixService {
                     (listItem['Is Interested'] != '') && (newItem.isInterested = listItem['Is Interested'].toLowerCase() == 'true');
                     (listItem['Event Date'] != '') && (match = listItem['Event Date'].split('-'));
                     (listItem['Event Date'] != '') && (newItem.eventDate = new Date(Date.UTC(parseInt(match[0]), parseInt(match[1]) - 1, parseInt(match[2]), 0, 0, 0)));
-                    model.list.push(newItem);
+                    return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
             }
             return undefined;
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parsePreferences');
+        } catch (error){
+            this.logger.log('error', `${error}`,'parsePreferences');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'CONTENT_INTERACTION/MyList.csv' in input as Buffer
-     * @return {Promise<MyListAccount | undefined>}
      */
-    async parseMyList(data: Buffer): Promise<MyListAccount | undefined> {
+    static async parseMyList(data: Buffer): Promise<MyListAccount | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: MyListAccount = {list: []}
-                result.map((listItem: any) => {
+                model.list = result.map((listItem: any) => {
                     let newItem: Title = {}, match;
                     (listItem['Profile Name'] != '') && (newItem.profileName = listItem['Profile Name']);
                     (listItem['Title Name'] != '') && (newItem.titleName = listItem['Title Name']);
                     (listItem['Country'] != '') && (newItem.country = listItem['Country']);
                     (listItem['Utc Title Add Date'] != '') && (match = listItem['Utc Title Add Date'].split('-'));
                     (listItem['Utc Title Add Date'] != '') && (newItem.titleAddDate = new Date(Date.UTC(parseInt(match[0]), parseInt(match[1]) - 1, parseInt(match[2]), 0, 0, 0)));
-                    model.list.push(newItem);
+                    return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
             }
             return undefined;
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parseMyList');
+        } catch (error){
+            this.logger.log('error', `${error}`,'parseMyList');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'CONTENT_INTERACTION/SearchHistory.csv' in input as Buffer
-     * @return {Promise<SearchHistory | undefined>}
      */
-    async parseSearchHistory(data: Buffer): Promise<SearchHistory | undefined> {
+    static async parseSearchHistory(data: Buffer): Promise<SearchHistory | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: SearchHistory = {list: []}
-                result.map((listItem: any) => {
+                model.list = result.map((listItem: any) => {
                     let newItem: Search = {}, match;
                     (listItem['Profile Name'] != '') && (newItem.profileName = listItem['Profile Name']);
                     (listItem['Country Iso Code'] != '') && (newItem.countryIsoCode = listItem['Country Iso Code']);
@@ -132,27 +128,26 @@ export class NetflixService {
                     (listItem['Section'] != '') && (newItem.section = listItem['Section']);
                     (listItem['Utc Timestamp'] != '') && (match = listItem['Utc Timestamp'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/));
                     (listItem['Utc Timestamp'] != '') && (newItem.time = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
-                    model.list.push(newItem);
+                    return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
             }
             return undefined;
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parseSearchHistory');
+        } catch (error){
+            this.logger.log('error', `${error}`,'parseSearchHistory');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'CONTENT_INTERACTION/ViewingActivity.csv' in input as Buffer
-     * @return {Promise<ViewingActivity | undefined>}
      */
-    async parseViewingActivity(data: Buffer): Promise<ViewingActivity | undefined> {
+    static async parseViewingActivity(data: Buffer): Promise<ViewingActivity | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: ViewingActivity = {list: []}
-                result.map((listItem: any) => {
+                model.list = result.map((listItem: any) => {
                     let newItem: Activity = {}, match;
                     (listItem['Profile Name'] != '') && (newItem.profileName = listItem['Profile Name']);
                     (listItem['Start Time'] != '') && (match = listItem['Start Time'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/));
@@ -165,27 +160,26 @@ export class NetflixService {
                     (listItem['Bookmark'] != '') && (newItem.bookmark = listItem['Bookmark']);
                     (listItem['Latest Bookmark'] != '') && (newItem.latestBookmark = listItem['Latest Bookmark']);
                     (listItem['Country'] != '') && (newItem.country = listItem['Country']);
-                    model.list.push(newItem);
+                    return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
             }
             return undefined;
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parseViewingActivity');
+        } catch (error){
+            this.logger.log('error', `${error}`,'parseViewingActivity');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'CONTENT_INTERACTION/PlaybackRelatedEvents.csv' in input as Buffer
-     * @return {Promise<PlaybackEvents | undefined>}
      */
-    async parsePlaybackEvents(data: Buffer): Promise<PlaybackEvents | undefined> {
+    static async parsePlaybackEvents(data: Buffer): Promise<PlaybackEvents | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: PlaybackEvents = {list: []};
-                result.map((listItem: any) => {
+                model.list = result.map((listItem: any) => {
                     let newItem: Event = {}, match;
                     (listItem['Profile Name'] != '') && (newItem.profileName = listItem['Profile Name']);
                     (listItem['Title Description'] != '') && (newItem.titleDescription = listItem['Title Description'].replace(/""/, '"').replace(/"""/, '""'));
@@ -198,27 +192,26 @@ export class NetflixService {
                         let playTraces = JSON.parse(listItem['Playtraces']);
                         (playTraces.length > 0) && (newItem.playtraces = playTraces);
                     }
-                    model.list.push(newItem);
+                    return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
             }
             return undefined;
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parsePlaybackEvents');
+        } catch (error){
+            this.logger.log('error', `${error}`,'parsePlaybackEvents');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'PROFILES/Profiles.csv' in input as Buffer
-     * @return {Promise<Profiles | undefined>}
      */
-    async parseProfiles(data: Buffer): Promise<Profiles | undefined> {
+    static async parseProfiles(data: Buffer): Promise<Profiles | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
                 let model: Profiles = {list: []}
-                result.map((listItem: any) => {
+                model.list = result.map((listItem: any) => {
                     let newItem: Profile = {};
                     (listItem['Profile Name'] != '') && (newItem.profileName = listItem['Profile Name']);
                     (listItem['Email Address'] != '') && (newItem.emailAddress = listItem['Email Address']);
@@ -228,13 +221,13 @@ export class NetflixService {
                     (listItem['Has Auto Playback'] != '') && (newItem.hasAutoPlayback = listItem['Has Auto Playback'].toLowerCase() == 'true');
                     (listItem['Max Stream Quality'] != '') && (newItem.maxStreamQuality = listItem['Max Stream Quality']);
                     (listItem['Profile Lock Enabled'] != '') && (newItem.profileLockEnabled = listItem['Profile Lock Enabled'].toLowerCase() == 'true');
-                    model.list.push(newItem);
+                    return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
             }
             return undefined;
-        } catch (e: any){
-            this.logger.log('error', `${e}`,'parseProfiles');
+        } catch (error){
+            this.logger.log('error', `${error}`,'parseProfiles');
             return undefined;
         }
     }
