@@ -61,18 +61,17 @@ import {Validator} from "../validator";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class LinkedInService {
-    private logger = new Logger("Linkedin Service");
+    private static logger = new Logger("Linkedin Service");
 
     /**
      * @param data - file 'Account Status History.csv' in input as Buffer
-     * @return {Promise<AccountStatusHistory | undefined>}
      */
-    async parseAccountStatusHistory(data: Buffer): Promise<AccountStatusHistory | undefined> {
+    static async parseAccountStatusHistory(data: Buffer): Promise<AccountStatusHistory | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data, {delimitersToGuess: [',', '\t'], escapeChar: '"', header: true, skipEmptyLines: false });
             if (result) {
                 let model: AccountStatusHistory = {list: []};
-                result.map((listItem: any) => {
+                result.forEach((listItem: any) => {
                     let newItem: AccountStatus = {};
                     if (listItem['Time'] != '') {
                         let match = listItem['Time'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/);
@@ -82,11 +81,10 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseAccountStatusHistory');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseAccountStatusHistory');
             return undefined;
         }
     }
@@ -94,14 +92,13 @@ export class LinkedInService {
 
     /**
      * @param data - file 'Ads Clicked.csv' in input as Buffer
-     * @return {Promise<AdsClicked | undefined>}
      */
-    async parseAdsClicked(data: Buffer): Promise<AdsClicked | undefined> {
+    static async parseAdsClicked(data: Buffer): Promise<AdsClicked | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: AdsClicked = {list: []};
-                result.map((listItem: any) => {
+                result.forEach((listItem: any) => {
                     let newItem: AdvClicked = {};
                     if (listItem['Ad clicked Date'] != '') {
                         let match = listItem['Ad clicked Date'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/);
@@ -111,11 +108,10 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseAdsClicked');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseAdsClicked');
             return undefined;
         }
     }
@@ -123,14 +119,13 @@ export class LinkedInService {
 
     /**
      * @param data - file 'Company Follows.csv' in input as Buffer
-     * @return {Promise<CompaniesFollowed | undefined>}
      */
-    async parseCompaniesFollowed(data: Buffer): Promise<CompaniesFollowed | undefined> {
+    static async parseCompaniesFollowed(data: Buffer): Promise<CompaniesFollowed | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: CompaniesFollowed = {list: []};
-                result.map((listItem: any) => {
+                result.forEach((listItem: any) => {
                     let newItem: CompanyFollowed = {};
                     (listItem['Organization'] != '') && (newItem.organization = listItem['Organization']);
                     if (listItem['Followed On'] != '') {
@@ -140,20 +135,18 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseCompaniesFollowed');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseCompaniesFollowed');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Connections.csv' in input as Buffer
-     * @return {Promise<Connections | undefined>}
      */
-    async parseConnections(data: Buffer): Promise<Connections | undefined> {
+    static async parseConnections(data: Buffer): Promise<Connections | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data, {escapeChar: '"', header: false, skipEmptyLines: true} );
             if (result) {
@@ -173,25 +166,23 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseConnections');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseConnections');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Contacts.csv' in input as Buffer
-     * @return {Promise<Contacts | undefined>}
      */
-    async parseContacts(data: Buffer): Promise<Contacts | undefined> {
+    static async parseContacts(data: Buffer): Promise<Contacts | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: Contacts = {list: []};
-                result.map((listItem: any) => {
+                result.forEach((listItem: any) => {
                     let newItem: Contact = {};
                     (listItem['Source'] != '') && (newItem.source = listItem['Source']);
                     (listItem['FirstName'] != '') && (newItem.firstName = listItem['FirstName']);
@@ -217,25 +208,23 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseContacts');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseContacts');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Education.csv' in input as Buffer
-     * @return {Promise<EducationHistory | undefined>}
      */
-    async parseEducationHistory(data: Buffer): Promise<EducationHistory | undefined> {
+    static async parseEducationHistory(data: Buffer): Promise<EducationHistory | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: EducationHistory = {list: []};
-                result.map((listItem: any) => {
+                result.forEach((listItem: any) => {
                     let newItem: Education = {};
                     (listItem['School Name'] != '') && (newItem.schoolName = listItem['School Name']);
                     if (listItem['Start Date'] != '') {
@@ -252,25 +241,23 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseEducationHistory');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseEducationHistory');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Email Addresses.csv' in input as Buffer
-     * @return {Promise<Emails | undefined>}
      */
-    async parseEmails(data: Buffer): Promise<Emails | undefined> {
+    static async parseEmails(data: Buffer): Promise<Emails | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: Emails = {list: []};
-                result.map((listItem: any) => {
+                result.forEach((listItem: any) => {
                     let newItem: Email = {};
                     (listItem['Email Address'] != '') && (newItem.emailAddress = listItem['Email Address']);
                     (listItem['Confirmed'] != '') && (newItem.confirmed = listItem['Confirmed'].toLowerCase() == 'yes');
@@ -282,25 +269,23 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseEmails');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseEmails');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Endorsement_Received_Info.csv' in input as Buffer
-     * @return {Promise<EndorsementsReceived | undefined>}
      */
-    async parseEndorsementsReceived(data: Buffer): Promise<EndorsementsReceived | undefined> {
+    static async parseEndorsementsReceived(data: Buffer): Promise<EndorsementsReceived | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: EndorsementsReceived = {list: []};
-                result.map((listItem: any) => {
+                result.forEach((listItem: any) => {
                     let newItem: Endorsement = {};
                     if (listItem['Endorsement Date'] != '') {
                         let match = listItem['Endorsement Date'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/);
@@ -313,11 +298,10 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseEndorsementsReceived');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseEndorsementsReceived');
             return undefined;
         }
     }
@@ -325,14 +309,13 @@ export class LinkedInService {
 
     /**
      * @param data - file 'Inferences_about_you.csv' in input as Buffer
-     * @return {Promise<InferencesAboutYou | undefined>}
      */
-    async parseInferencesAboutYou(data: Buffer): Promise<InferencesAboutYou | undefined> {
+    static async parseInferencesAboutYou(data: Buffer): Promise<InferencesAboutYou | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: InferencesAboutYou = {list: []};
-                result.map((listItem: any) => {
+                result.forEach((listItem: any) => {
                     let newItem: Inference = {};
                     (listItem['Category'] != '') && (newItem.category = listItem['Category']);
                     (listItem['Type of inference'] != '') && (newItem.typeInference = listItem['Type of inference']);
@@ -342,25 +325,23 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseInferencesAboutYou');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseInferencesAboutYou');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Invitations.csv' in input as Buffer
-     * @return {Promise<Invitations | undefined>}
      */
-    async parseInvitations(data: Buffer): Promise<Invitations | undefined> {
+    static async parseInvitations(data: Buffer): Promise<Invitations | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: Invitations = {list: []};
-                result.map((listItem: any) => {
+                result.forEach((listItem: any) => {
                     let newItem: Invitation = {};
                     (listItem['From'] != '') && (newItem.from = listItem['From']);
                     (listItem['To'] != '') && (newItem.to = listItem['To']);
@@ -373,20 +354,18 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && (model.list.push(newItem));
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseInvitations');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseInvitations');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Job Applicant Saved Answers.csv' in input as Buffer
-     * @return {Promise<JobApplicantSavedInfo | undefined>}
      */
-    async parseJobApplicantSavedInfo(data: Buffer): Promise<JobApplicantSavedInfo | undefined> {
+    static async parseJobApplicantSavedInfo(data: Buffer): Promise<JobApplicantSavedInfo | undefined> {
         try {
             let result = <Array<QuestionAnswer>>Parser.parseCSVfromBuffer(data);
             if (result) {
@@ -397,49 +376,45 @@ export class LinkedInService {
                     }
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseJobApplicantSavedInfo');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseJobApplicantSavedInfo');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Job Applicant Saved Screening Question Responses.csv' in input as Buffer
-     * @return {Promise<JobApplicantSavedScreeningQuestionInfo | undefined>}
      */
-    async parseJobApplicantSavedScreeningQuestionInfo(data: Buffer): Promise<JobApplicantSavedScreeningQuestionInfo | undefined> {
+    static async parseJobApplicantSavedScreeningQuestionInfo(data: Buffer): Promise<JobApplicantSavedScreeningQuestionInfo | undefined> {
         try {
             let result = <Array<QuestionAnswer>>Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: JobApplicantSavedScreeningQuestionInfo = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     if(item['Question'] != '' && item['Answer'] != '') {
                         model.list.push({question: item['Question'], answer: item['Answer']});
                     }
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseJobApplicantSavedScreeningQuestionInfo');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseJobApplicantSavedScreeningQuestionInfo');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Learning.csv' in input as Buffer
-     * @return {Promise<Learnings | undefined>}
      */
-    async parseLearnings(data: Buffer): Promise<Learnings | undefined> {
+    static async parseLearnings(data: Buffer): Promise<Learnings | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: Learnings = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     let newItem: Learning = {};
                     (item['Content Title'] != '') && (newItem.contentTitle = item['Content Title']);
                     (item['Content Description'] != '') && (newItem.contentDescription = item['Content Description']);
@@ -457,25 +432,23 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseLearnings');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseLearnings');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Logins.csv' in input as Buffer
-     * @return {Promise<Logins | undefined>}
      */
-    async parseLogins(data: Buffer): Promise<Logins | undefined> {
+    static async parseLogins(data: Buffer): Promise<Logins | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: Logins = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     let newItem: Login = {};
                     if (item['Login Date'] != '') {
                         let match = item['Login Date'].match(/(\w+) (\w+) (\d+) (\d+):(\d+):(\d+) UTC (\d+)/);
@@ -487,25 +460,23 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseLogins');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseLogins');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Member_Follows.csv' in input as Buffer
-     * @return {Promise<MembersFollowed | undefined>}
      */
-    async parseMembersFollowed(data: Buffer): Promise<MembersFollowed | undefined> {
+    static async parseMembersFollowed(data: Buffer): Promise<MembersFollowed | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: MembersFollowed = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     let newItem: MemberFollows = {};
                     if (item['Date'] != '') {
                         let match = item['Date'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/);
@@ -516,25 +487,23 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseMembersFollowed');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseMembersFollowed');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Member_Follows.csv' in input as Buffer
-     * @return {Promise<Messages | undefined>}
      */
-    async parseMessages(data: Buffer): Promise<Messages | undefined> {
+    static async parseMessages(data: Buffer): Promise<Messages | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: Messages = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     let newItem: Message = {};
                     (item['CONVERSATION ID'] != '') && (newItem.conversationID = item['CONVERSATION ID']);
                     (item['CONVERSATION TITLE'] != '') && (newItem.conversationTitle = item['CONVERSATION TITLE']);
@@ -551,25 +520,23 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseMessages');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseMessages');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'PhoneNumber.csv' in input as Buffer
-     * @return {Promise<PhoneNumbers | undefined>}
      */
-    async parsePhoneNumbers(data: Buffer): Promise<PhoneNumbers | undefined> {
+    static async parsePhoneNumbers(data: Buffer): Promise<PhoneNumbers | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: PhoneNumbers = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     let newItem: PhoneNumber = {};
                     (item['Extension'] != '') && (newItem.extension = item['Extension']);
                     (item['Number'] != '') && (newItem.number = item['Number']);
@@ -577,25 +544,23 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parsePhoneNumbers');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parsePhoneNumbers');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Positions.csv' in input as Buffer
-     * @return {Promise<WorkingPositions | undefined>}
      */
-    async parseWorkingPositions(data: Buffer): Promise<WorkingPositions | undefined> {
+    static async parseWorkingPositions(data: Buffer): Promise<WorkingPositions | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: WorkingPositions = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     let newItem: WorkingPosition = {};
                     (item['Company Name'] != '') && (newItem.companyName = item['Company Name']);
                     (item['Title'] != '') && (newItem.title = item['Title']);
@@ -612,20 +577,18 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(item) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseWorkingPositions');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseWorkingPositions');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Profile.csv' in input as Buffer
-     * @return {Promise<Profile | undefined>}
      */
-    async parseProfile(data: Buffer): Promise<Profile | undefined> {
+    static async parseProfile(data: Buffer): Promise<Profile | undefined> {
         try {
             let result = <Array<any>>Parser.parseCSVfromBuffer(data);
             if (result) {
@@ -650,25 +613,23 @@ export class LinkedInService {
                     return !Validator.objectIsEmpty(model) ? model : undefined;
                 }
                 return undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseProfile');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseProfile');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Reactions.csv' in input as Buffer
-     * @return {Promise<Reactions | undefined>}
      */
-    async parseReactions(data: Buffer): Promise<Reactions | undefined> {
+    static async parseReactions(data: Buffer): Promise<Reactions | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: Reactions = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     let newItem: Reaction = {};
                     if (item['Date'] != '') {
                         let match = item['Date'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/);
@@ -679,20 +640,18 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseReactions');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseReactions');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Registration.csv' in input as Buffer
-     * @return {Promise<Registration | undefined>}
      */
-    async parseRegistration(data: Buffer): Promise<Registration | undefined> {
+    static async parseRegistration(data: Buffer): Promise<Registration | undefined> {
         try {
             let result = <Array<any>>Parser.parseCSVfromBuffer(data);
             if (result) {
@@ -707,50 +666,46 @@ export class LinkedInService {
                     return !Validator.objectIsEmpty(model) ? model : undefined;
                 }
                 return undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseRegistration');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseRegistration');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Rich Media.csv' in input as Buffer
-     * @return {Promise<RichMediaList | undefined>}
      */
-    async parseRichMediaList(data: Buffer): Promise<RichMediaList | undefined> {
+    static async parseRichMediaList(data: Buffer): Promise<RichMediaList | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: RichMediaList = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     let newItem: RichMedia = {};
                     (item['Type'] != '') && (newItem.type = item['Type']);
                     (item['Link'] != '') && (newItem.link = item['Link']);
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseRichMediaList');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseRichMediaList');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'SavedJobAlerts.csv' in input as Buffer
-     * @return {Promise<SavedJobAlerts | undefined>}
      */
-    async parseSavedJobAlerts(data: Buffer): Promise<SavedJobAlerts | undefined> {
+    static async parseSavedJobAlerts(data: Buffer): Promise<SavedJobAlerts | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: SavedJobAlerts = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     let newItem: SavedJobAlert = {};
                     if (item['Saved Search Date'] != '') {
                         let match = item['Saved Search Date'].match(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+) (\w+)/);
@@ -760,25 +715,23 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseSavedJobAlerts');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseSavedJobAlerts');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'SearchQueries.csv' in input as Buffer
-     * @return {Promise<SearchQueries | undefined>}
      */
-    async parseSearchQueries(data: Buffer): Promise<SearchQueries | undefined> {
+    static async parseSearchQueries(data: Buffer): Promise<SearchQueries | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: SearchQueries = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     let newItem: SearchQuery = {};
                     if (item['Time'] != '') {
                         let match = item['Time'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+) UTC/);
@@ -788,25 +741,23 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseSearchQueries');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseSearchQueries');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Security Challenges.csv' in input as Buffer
-     * @return {Promise<SecurityChallenges | undefined>}
      */
-    async parseSecurityChallenges(data: Buffer): Promise<SecurityChallenges | undefined> {
+    static async parseSecurityChallenges(data: Buffer): Promise<SecurityChallenges | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: SecurityChallenges = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     let newItem: SecurityChallenge = {};
                     if (item['Challenge Date'] != '') {
                         let match = item['Challenge Date'].match(/(\w+) (\w+) (\d+) (\d+):(\d+):(\d+) UTC (\d+)/);
@@ -819,48 +770,42 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseSecurityChallenges');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseSecurityChallenges');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Skills.csv' in input as Buffer
-     * @return {Promise<Skills | undefined>}
      */
-    async parseSkills(data: Buffer): Promise<Skills | undefined> {
+    static async parseSkills(data: Buffer): Promise<Skills | undefined> {
         try {
             let result = <Array<Array<string>>>Parser.parseCSVfromBuffer(data, {escapeChar: '"', header: false, skipEmptyLines: true});
             if (result) {
                 result = result.splice(1);
                 let model: Skills = {list: []};
-                result.map((item: string[]) => {
-                    model.list.push(item[0]);
-                });
+                model.list = result.map((item: string[]) => item[0]);
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseSkills');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseSkills');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Votes.csv' in input as Buffer
-     * @return {Promise<Votes | undefined>}
      */
-    async parseVotes(data: Buffer): Promise<Votes | undefined> {
+    static async parseVotes(data: Buffer): Promise<Votes | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: Votes = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     let newItem: Vote = {};
                     if (item['Date'] != '') {
                         let match = item['Date'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/);
@@ -871,26 +816,24 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseVotes');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseVotes');
             return undefined;
         }
     }
 
     /**
      * @param data - file 'Ad_Targeting.csv' in input as Buffer
-     * @return {Promise<AdsTargeting | undefined>}
      */
-    async parseAdsTargeting(data: Buffer): Promise<AdsTargeting | undefined> {
+    static async parseAdsTargeting(data: Buffer): Promise<AdsTargeting | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data, {escapeChar: '"', header: false, skipEmptyLines: true});
             if (result) {
                 result = result.splice(1);
                 let model: AdsTargeting = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     let newItem: ADVTargeting = {};
                     if(item) {
                         (item[0]) && (newItem.memberAge = item[0]);
@@ -913,25 +856,23 @@ export class LinkedInService {
                 });
                 console.log(model.list[0].profileLocations)
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseAdsTargeting');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseAdsTargeting');
             return undefined;
         }
     }
 
     /**
      * @param data - file '/jobs/Job Applications.csv' in input as Buffer
-     * @return {Promise<JobApplications | undefined>}
      */
-    async parseJobApplications(data: Buffer): Promise<JobApplications | undefined> {
+    static async parseJobApplications(data: Buffer): Promise<JobApplications | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: JobApplications = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     let newItem: JobApplication = {};
                     if (item['Application Date'] != '') {
                         let match = item['Application Date'].match(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+) (\w+)/);
@@ -947,25 +888,23 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseJobApplications');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseJobApplications');
             return undefined;
         }
     }
 
     /**
      * @param data - file '/jobs/Saved Jobs.csv' in input as Buffer
-     * @return {Promise<SavedJobs | undefined>}
      */
-    async parseSavedJobs(data: Buffer): Promise<SavedJobs | undefined> {
+    static async parseSavedJobs(data: Buffer): Promise<SavedJobs | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if (result) {
                 let model: SavedJobs = {list: []};
-                result.map((item: any) => {
+                result.forEach((item: any) => {
                     let newItem: SavedJob = {};
                     if (item['Saved Date'] != '') {
                         let match = item['Saved Date'].match(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+) (\w+)/);
@@ -977,11 +916,10 @@ export class LinkedInService {
                     !Validator.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseSavedJobs');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseSavedJobs');
             return undefined;
         }
     }
@@ -989,9 +927,8 @@ export class LinkedInService {
     /**
      * Some parameter type may be not correct.
      * @param data - file '/jobs/Job Seeker Preferences.csv' in input as Buffer
-     * @return {Promise<JobSeekerPreferences | undefined>}
      */
-    async parseJobSeekerPreferences(data: Buffer): Promise<JobSeekerPreferences | undefined> {
+    static async parseJobSeekerPreferences(data: Buffer): Promise<JobSeekerPreferences | undefined> {
         try {
             let result = <Array<Array<any>>>Parser.parseCSVfromBuffer(data, {escapeChar: '"', header: false, skipEmptyLines: true});
             if (result) {
@@ -1020,11 +957,10 @@ export class LinkedInService {
                     return !Validator.objectIsEmpty(model) ? model : undefined;
                 }
                 return undefined;
-            } else {
-                return undefined;
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`, 'parseJobSeekerPreferences');
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseJobSeekerPreferences');
             return undefined;
         }
     }
