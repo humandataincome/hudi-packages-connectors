@@ -11,7 +11,7 @@ import {
     AudibleListeningListAM,
     AudibleMembershipBillingAM,
     AudibleMembershipBillingsAM,
-    AudioBookAM,
+    AudioBookAM, DigitalPrimeVideoViewCountsAM,
     ItemAM,
     PrimeVideoViewingHistoryAM,
     PrimeVideoWatchlistAM,
@@ -27,6 +27,7 @@ import {
     ViewingActivityAM,
     WishListAM
 } from "../model";
+import {Validator} from "../validator";
 
 /**
  * Class used to parse most important files into the directory returned by Amazon in CSV and JSON format.
@@ -583,6 +584,37 @@ export class AmazonService {
             return undefined;
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseAudibleMembershipBillings');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - file 'Digital.PrimeVideo.ViewCounts.2/Digital.PrimeVideo.ViewCounts.2.csv' in input as Buffer
+     */
+    static async parseDigitalPrimeVideoViewCounts(data: Buffer): Promise<DigitalPrimeVideoViewCountsAM | undefined> {
+        try {
+            let result: any = Parser.parseCSVfromBuffer(data)?.pop();
+            if (result) {
+                let model: DigitalPrimeVideoViewCountsAM = {};
+                (result['﻿# TV shows watched'] != '') && (model.showTVWatched = parseInt(result['﻿# TV shows watched']));
+                (result['# kids titles watched'] != '') && (model.kidsTitlesWatched = parseInt(result['# kids titles watched']));
+                (result['# movies watched'] != '') && (model.moviesWatched = parseInt(result['# movies watched']));
+                (result['# non-kids titles watched'] != '') && (model.nonKidsTitlesWatched = parseInt(result['# non-kids titles watched']));
+                (result['# prime TV titles watched'] != '') && (model.primeTVTitlesWatched = parseInt(result['# prime TV titles watched']));
+                (result['# prime movie titles watched'] != '') && (model.primeMovieTitlesWatched = parseInt(result['# prime movie titles watched']));
+                (result['# prime titles watched'] != '') && (model.primeTitlesWatched = parseInt(result['# prime titles watched']));
+                (result['# rent/buy TV titles watched'] != '') && (model.rentBuyTVTitlesWatched = parseInt(result['# rent/buy TV titles watched']));
+                (result['# rent/buy movies watched'] != '') && (model.rentBuyMoviesWatched = parseInt(result['# rent/buy movies watched']));
+                (result['# rent/buy titles watched'] != '') && (model.rentBuyTitlesWatched = parseInt(result['# rent/buy titles watched']));
+                (result['# titles added to watchlist'] != '') && (model.titlesAddedToWatchlist = parseInt(result['# titles added to watchlist']));
+                (result['# titles purchased/rented'] != '') && (model.titlesPurchasedRented = parseInt(result['# titles purchased/rented']));
+                (result['# titles watched'] != '') && (model.titlesWatched = parseInt(result['# titles watched']));
+                (result['home country'] != '') && (model.homeCountry = result['home country']);
+                return !Validator.objectIsEmpty(model) ? model : undefined;
+            }
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseDigitalPrimeVideoViewCounts');
             return undefined;
         }
     }

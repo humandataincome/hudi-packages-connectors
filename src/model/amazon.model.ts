@@ -283,3 +283,20 @@ export interface AudibleMembershipBillingAM {
     taxReason?: string;
     status?: string;
 }
+
+export interface DigitalPrimeVideoViewCountsAM {
+    showTVWatched?: number;
+    kidsTitlesWatched?: number;
+    moviesWatched?: number;
+    nonKidsTitlesWatched?: number;
+    primeTVTitlesWatched?: number;
+    primeMovieTitlesWatched?: number;
+    primeTitlesWatched?: number;
+    rentBuyTVTitlesWatched?: number;
+    rentBuyMoviesWatched?: number;
+    rentBuyTitlesWatched?: number;
+    titlesAddedToWatchlist?: number;
+    titlesPurchasedRented?: number;
+    titlesWatched?: number;
+    homeCountry?: string;
+}

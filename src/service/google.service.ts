@@ -436,7 +436,7 @@ export class GoogleService {
                                 (lineItem.doc.title) && (newDoc.title = lineItem.doc.title);
                                 !Validator.objectIsEmpty(newDoc) && (newLineItem.doc = newDoc);
                             }
-                            (lineItem.quantity) && (newLineItem.quantity = parseInt(lineItem.quantity));
+                            (lineItem.quantity) && (newLineItem.quantity = parseFloat(lineItem.quantity));
                             (!Validator.objectIsEmpty(newLineItem) && newOrder.lineItems) && (newOrder.lineItems.push(newLineItem));
                         });
                     }
@@ -459,7 +459,7 @@ export class GoogleService {
         (value.city) && (newContact.city = value.city);
         (value.state) && (newContact.state = value.state);
         (value.postalCode) && (newContact.postalCode = value.postalCode);
-        (value.phoneNumber) && (newContact.phoneNumber = parseInt(value.phoneNumber));
+        (value.phoneNumber) && (newContact.phoneNumber = parseFloat(value.phoneNumber));
         return newContact;
     }
 }

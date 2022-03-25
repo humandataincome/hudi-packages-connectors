@@ -32,6 +32,16 @@ export class ValidatorInstagram {
         if (document.match(regexHI)) {
             return LanguageCode.HINDI;
         }
+        //check if FRENCH
+        const regexFR = /(Adresse e-mail)|(Num\u00c3\u00a9ro de t\u00c3\u00a9l\u00c3\u00a9phone)|(Nom d\u00e2\u0080\u0099utilisateur)/;
+        if (document.match(regexFR)) {
+            return LanguageCode.FRENCH;
+        }
+        //check if GERMAN
+        const regexDE = /(Benutzername)|(E-Mail-Adresse)|(Telefonnummer)/;
+        if (document.match(regexDE)) {
+            return LanguageCode.GERMAN;
+        }
         throw new Error(`${ValidationErrorEnums.LANGUAGE_ERROR}: File language not supported or not recognized`);
     }
 

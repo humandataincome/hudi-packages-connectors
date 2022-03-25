@@ -230,7 +230,8 @@ async function amazonServiceTest() {
 
          */
         //console.log(await AmazonService.parseAudibleListening(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Audible.Listening/Audible.Listening.csv`))));
-        console.log(await AmazonService.parseAudibleMembershipBillings(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Audible.MembershipBillings/Audible.MembershipBillings.csv`))));
+        //console.log(await AmazonService.parseAudibleMembershipBillings(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Audible.MembershipBillings/Audible.MembershipBillings.csv`))));
+        console.log(await AmazonService.parseDigitalPrimeVideoViewCounts(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.ViewCounts.2/Digital.PrimeVideo.ViewCounts.2.csv`))));
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);
