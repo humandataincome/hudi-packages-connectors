@@ -32,6 +32,10 @@ export class DescriptorService {
         }
     }
 
+    static getDataSourceLogo(dataSourceCode: DataSourceCode) {
+        return require(`../../assets/${ dataSourceCode.toLowerCase() }.svg`);
+    }
+
     /**
      * @param dataSourceCode - code of the data source
      * @return the source name of a given data source code
