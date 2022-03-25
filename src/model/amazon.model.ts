@@ -231,3 +231,55 @@ export interface RetailOrderAM {
     giftSenderName?: string;
     giftRecipientContactDetails?: string;
 }
+
+export interface AudibleListeningListAM {
+    list: AudibleListeningAM[];
+}
+
+export interface AudibleListeningAM {
+    deviceType?: string;
+    startDate?: Date;
+    endDate?: Date;
+    eventDuration?: number;
+    startPosition?: number;
+    endPosition?: number;
+    title?: string;
+    asin?: string;
+    bookLength?: number;
+    deliveryType?: string;
+    narrationSpeed?: string;
+    bookmark?: number;
+    audioType?: string;
+    asinOwned?: boolean;
+    listeningMode?: string;
+    store?: string;
+    appVersion?: string;
+    localTimezone?: string;
+}
+
+export interface AudibleMembershipBillingsAM {
+    list: AudibleMembershipBillingAM[];
+}
+
+export interface AudibleMembershipBillingAM {
+    taxCreateDate?: Date;
+    billingPeriodEndDate?: Date;
+    billingPeriodStartDate?: Date;
+    statusLastUpdatedDate?: Date;
+    baseAmount?: number;
+    tax?: number;
+    totalAmount?: number;
+    currency?: string;
+    type?: string;
+    plan?: string;
+    planBillingFreq?: number;
+    planBillingFee?: number;
+    offerName?: string;
+    offerType?: string;
+    transactionId?: string;
+    subscriptionIdentifier?: string;
+    planSelectionIdentifier?: string;
+    merchantName?: string;
+    taxReason?: string;
+    status?: string;
+}

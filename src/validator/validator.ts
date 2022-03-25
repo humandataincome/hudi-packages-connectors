@@ -10,7 +10,6 @@ export class Validator {
     public static MAX_BYTE_FILE_SIZE = 6e6;
     public static MIN_BYTE_FILE_SIZE = 50;
 
-
     /**
      * @param zipFile - file zip as BufferLike
      * @return filter all the file paths from the directories paths
@@ -18,7 +17,7 @@ export class Validator {
     static async getFilesPathsIntoZip(zipFile: InputFileFormat): Promise<string[]> {
         const zip = await JSZip.loadAsync(zipFile);
         return Object.keys(zip.files)
-            .filter((pathName) => !zip.files[pathName].dir)
+           .filter((pathName) => !zip.files[pathName].dir)
             .map((pathName) => pathName);
     }
 

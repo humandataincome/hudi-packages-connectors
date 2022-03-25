@@ -69,7 +69,7 @@ export enum FileCode {
     INSTAGRAM_EMOJI_SLIDERS = 'story_sticker_interactions/emoji_sliders.json',
     INSTAGRAM_POLLS = 'story_sticker_interactions/polls.json',
     INSTAGRAM_QUIZZES = 'story_sticker_interactions/quizzes.json',
-    INSTAGRAM_CONVERSATION = `messages/inbox/message_1.json`,
+    INSTAGRAM_CONVERSATION = `messages\\/inbox\\/(\\w+_\\d+)\\/message_1.json`,
 
     FACEBOOK_PROFILE_INFO = 'profile_information/profile_information.json',
     FACEBOOK_ADS_INTERACTED_WITH = 'ads_information/advertisers_you\'ve_interacted_with.json',
@@ -91,21 +91,32 @@ export enum FileCode {
     FACEBOOK_WHO_YOU_FOLLOW = 'friends_and_followers/who_you_follow.json',
     FACEBOOK_CONVERSATION = `messages\\/inbox\\/(\\w+_\\d+)\\/message_1.json`,
 
-    AMAZON_PRIMEVIDEO_WATCHLIST = 'Digital.PrimeVideo.Watchlist\\/Digital.PrimeVideo.WatchlistHistory.csv',
-    AMAZON_PRIMEVIDEO_WATCHLIST_HISTORY = 'Digital.PrimeVideo.Watchlist\\/Digital.PrimeVideo.WatchlistHistory.csv',
-    AMAZON_PRIMEVIDEO_VIEW_COUNT = 'Digital.PrimeVideo.ViewCounts.2\\/Digital.PrimeVideo.ViewCounts.2.csv',
-    AMAZON_PRIMEVIDEO_VIEWING_HISTORY = 'Digital.PrimeVideo.Viewinghistory\\/Digital.PrimeVideo.Viewinghistory.csv',
-    _AMAZON_CUSTOMER_ENGAGEMENT = 'Search-Data\\/Search-Data.Customer-Engagement.csv',
-    _AMAZON_WISHLIST = 'Amazon.Lists.Wishlist.2.1\\/Amazon.Lists.Wishlist.json',
-    AMAZON_ADV_AUDIENCES = 'Advertising.(\\d+)\\/Advertising.AdvertiserAudiences.csv',
-    AMAZON_ADV_CLICKS = 'Advertising.(\\d+)\\/Advertising.AdvertiserClicks.csv',
-    AMAZON_ADV_THIRDPARTIES = 'Advertising.(\\d+)\\/Advertising.3PAudiences.csv',
-    AMAZON_AUDIENCES = 'Advertising.(\\d+)\\/Advertising.AmazonAudiences.csv',
-    AMAZON_TWITCHPRIME_SUB_HISTORY = 'AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv',
-    AMAZON_RETAIL_ORDER_HISTORY = 'Retail.OrderHistory.2/Retail.OrderHistory.2.csv',
-    AMAZON_RETAIL_LIGHT_WEIGHT_INTERACTIONS = 'Retail.LightWeightInteractions/datasets/LightWeightInteractions/LightWeightInteractions.csv',
     AMAZON_AUDIBLE_LISTENING = 'Audible.Listening/Audible.Listening.csv',
     AMAZON_AUDIBLE_LIBRARY = 'Audible.Library/Audible.Library.csv',
     AMAZON_AUDIBLE_MEMBERSHIP_BILLINGS = 'Audible.MembershipBillings/Audible.MembershipBillings.csv',
     AMAZON_AUDIBLE_MEMBERSHIP_EVENT = 'Audible.MembershipEvent/Audible.MembershipEvent.csv',
+    AMAZON_ADV_THIRDPARTIES = 'Advertising.(\\d+)\\/Advertising.3PAudiences.csv',
+    AMAZON_AUDIENCES = 'Advertising.(\\d+)\\/Advertising.AmazonAudiences.csv',
+    AMAZON_ADV_AUDIENCES = 'Advertising.(\\d+)\\/Advertising.AdvertiserAudiences.csv',
+    AMAZON_ADV_CLICKS = 'Advertising.(\\d+)\\/Advertising.AdvertiserClicks.csv',
+    AMAZON_WISHLIST = 'Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json',
+    AMAZON_TWITCHPRIME_SUB_HISTORY = 'AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv',
+    AMAZON_PRIMEVIDEO_VIEW_COUNT = 'Digital.PrimeVideo.ViewCounts.2/Digital.PrimeVideo.ViewCounts.2.csv',
+    AMAZON_PRIMEVIDEO_VIEWING_HISTORY = 'Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv',
+    AMAZON_PRIMEVIDEO_WATCHLIST_HISTORY = 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv',
+    AMAZON_PRIMEVIDEO_WATCHLIST = 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv',
+    AMAZON_DIGITAL_SUBSCRIPTION = 'Digital.Subscriptions/Subscriptions.csv',
+    AMAZON_RETAIL_LIGHT_WEIGHT_INTERACTIONS = 'LightWeightInteractions/LightWeightInteractions.csv',
+    AMAZON_RETAIL_ORDER_HISTORY = 'Retail.OrderHistory.2/Retail.OrderHistory.2.csv',
+    AMAZON_RETAIL_SELLER_FEEDBACK = 'Retail.Seller-Feedback.2/Retail.Seller-Feedback.csv',
+    AMAZON_CUSTOMER_ENGAGEMENT = 'Search-Data/Search-Data.Customer-Engagement.csv',
+    AMAZON_RETAIL_REGION_AUTHORITY = 'Retail.RegionAuthority.2/Retail.RegionAuthority.2.csv',
+
+
+
+
+
+
+
+
 }

@@ -15,17 +15,18 @@ import {
     AdvertiserAM,
     LinkedInService,
     NetflixService,
-    GoogleService
+    GoogleService,
+    ValidatorAmazon
 } from "../src";
 
 async function test(){
     //validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
-    validatorAndProcessingAmazonTest();
+    //validatorAndProcessingAmazonTest();
     //await descriptorServiceTest();
     //await instagramServiceTest();
     //await facebookServiceTest();
-    //await amazonServiceTest();
+    await amazonServiceTest();
     //await netflixServiceTest();
     //await googleServiceTest();
     //await linkedInServiceTest();
@@ -88,10 +89,12 @@ function validatorAndProcessingAmazonTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/validation/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/validation/amazon2.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validationFE = await Validator.validateZIP(data);
-            console.log(await Validator.getFilesPathsIntoZip(validationFE));
+            const validation1 = await Validator.validateZIP(data);
+            console.log(await Validator.getFilesPathsIntoZip(validation1));
+            const validation2 = await ValidatorAmazon.selectUsefulFilesFromZip(validation1);
+            console.log(await Validator.getFilesPathsIntoZip(validation2!));
 
         });
     } catch (e: any) {
@@ -195,6 +198,8 @@ async function amazonServiceTest() {
     try {
         const {Parser} = require("./utils/parser");
         const path = require('path');
+        const fs = require('fs');
+        /*
         console.log(await AmazonService.parsePrimeVideoWatchlist(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv`))));
         console.log(await AmazonService.parsePrimeVideoWatchlistHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv`))));
         console.log(await AmazonService.parsePrimeVideoViewingHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv`))));
@@ -204,7 +209,6 @@ async function amazonServiceTest() {
         console.log(await AmazonService.parseAmazonWishlists(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json`))));
         console.log(await AmazonService.parseRetailOrderHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Retail.OrderHistory.2/Retail.OrderHistory.2.csv`))));
 
-        const fs = require('fs');
         let source = path.join(__dirname, `../src/mock/IT_version/amazon/`);
         const directories = fs.readdirSync(source);
         let directoriesADV = directories.filter((directory: string) => /Advertising/.test(directory));
@@ -223,6 +227,10 @@ async function amazonServiceTest() {
         }
         console.log(resultAudience.sort());
         console.log(resultClicked.sort());
+
+         */
+        //console.log(await AmazonService.parseAudibleListening(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Audible.Listening/Audible.Listening.csv`))));
+        console.log(await AmazonService.parseAudibleMembershipBillings(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Audible.MembershipBillings/Audible.MembershipBillings.csv`))));
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);

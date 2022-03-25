@@ -7,6 +7,10 @@ import {
     AmazonAudiencesAM,
     AmazonWishlistsAM,
     AudibleLibraryAM,
+    AudibleListeningAM,
+    AudibleListeningListAM,
+    AudibleMembershipBillingAM,
+    AudibleMembershipBillingsAM,
     AudioBookAM,
     ItemAM,
     PrimeVideoViewingHistoryAM,
@@ -445,16 +449,16 @@ export class AmazonService {
                     (listItem['Order Date']  != '') && (newItem.orderDate = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
                     (listItem['Purchase Order Number'] != '') && (newItem.purchaseOrderNumber = listItem['Purchase Order Number']);
                     (listItem['Currency'] != '') && (newItem.currency = listItem['Currency']);
-                    (listItem['Unit Price'] != '') && (newItem.unitPrice = parseInt(listItem['Unit Price']));
-                    (listItem['Unit Price Tax'] != '') && (newItem.unitPriceTax = parseInt(listItem['Unit Price Tax']));
-                    (listItem['Shipping Charge'] != '') && (newItem.shippingCharge = parseInt(listItem['Shipping Charge']));
-                    (listItem['Total Discounts'] != '') && (newItem.totalDiscounts = parseInt(listItem['Total Discounts']));
-                    (listItem['Total Owed'] != '') && (newItem.totalOwed = parseInt(listItem['Total Owed']));
-                    (listItem['Shipment Item Subtotal'] != '') && (newItem.shipmentItemSubtotal = parseInt(listItem['Shipment Item Subtotal']));
-                    (listItem['Shipment Item Subtotal Tax'] != '') && (newItem.shipmentItemSubtotalTax = parseInt(listItem['Shipment Item Subtotal Tax']));
+                    (listItem['Unit Price'] != '') && (newItem.unitPrice = parseFloat(listItem['Unit Price']));
+                    (listItem['Unit Price Tax'] != '') && (newItem.unitPriceTax = parseFloat(listItem['Unit Price Tax']));
+                    (listItem['Shipping Charge'] != '') && (newItem.shippingCharge = parseFloat(listItem['Shipping Charge']));
+                    (listItem['Total Discounts'] != '') && (newItem.totalDiscounts = parseFloat(listItem['Total Discounts']));
+                    (listItem['Total Owed'] != '') && (newItem.totalOwed = parseFloat(listItem['Total Owed']));
+                    (listItem['Shipment Item Subtotal'] != '') && (newItem.shipmentItemSubtotal = parseFloat(listItem['Shipment Item Subtotal']));
+                    (listItem['Shipment Item Subtotal Tax'] != '') && (newItem.shipmentItemSubtotalTax = parseFloat(listItem['Shipment Item Subtotal Tax']));
                     (listItem['ASIN'] != '') && (newItem.ASIN = listItem['ASIN']);
                     (listItem['Product Condition'] != '') && (newItem.productCondition = listItem['Product Condition']);
-                    (listItem['Quantity'] != '') && (newItem.quantity = parseInt(listItem['Quantity']));
+                    (listItem['Quantity'] != '') && (newItem.quantity = parseFloat(listItem['Quantity']));
                     (listItem['Payment Instrument Type'] != '') && (newItem.paymentInstrumentType = listItem['Payment Instrument Type']);
                     (listItem['Order Status'] != '') && (newItem.orderStatus = listItem['Order Status']);
                     (listItem['Shipment Status'] != '') && (newItem.shipmentStatus = listItem['Shipment Status']);
@@ -475,6 +479,110 @@ export class AmazonService {
             return undefined;
         } catch (error){
             this.logger.log('error', `${error}`,'parseRetailOrderHistory');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - file 'Audible.Listening/Audible.Listening.csv' in input as Buffer
+     */
+    static async parseAudibleListening(data: Buffer): Promise<AudibleListeningListAM | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: AudibleListeningListAM = {list: []}
+                model.list = result.map((listItem: any) => {
+                    let newItem: AudibleListeningAM = {};
+                    (listItem['﻿"DeviceType"'] != '') && (newItem.deviceType = listItem['﻿"DeviceType"']);
+                    if(listItem['StartDate'] != '') {
+                        let match = listItem['StartDate'].match(/(\d+)-(\w+)-(\d+)/);
+                        let monthIndex = Months[match[2]];
+                        (monthIndex) && (newItem.startDate = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
+                    }
+                    if(listItem['EndDate'] != '') {
+                        let match = listItem['EndDate'].match(/(\d+)-(\w+)-(\d+)/);
+                        let monthIndex = Months[match[2]];
+                        (monthIndex) && (newItem.endDate = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
+                    }
+                    (listItem['EventDuration'] != '') && (newItem.eventDuration = parseFloat(listItem['EventDuration']));
+                    (listItem['StartPosition'] != '') && (newItem.startPosition = parseFloat(listItem['StartPosition']));
+                    (listItem['EndPosition'] != '') && (newItem.endPosition = parseFloat(listItem['EndPosition']));
+                    (listItem['Title'] != '') && (newItem.title = listItem['Title']);
+                    (listItem['Asin'] != '') && (newItem.asin = listItem['Asin']);
+                    (listItem['BookLength'] != '') && (newItem.bookLength = parseFloat(listItem['BookLength']));
+                    (listItem['DeliveryType'] != '') && (newItem.deliveryType = listItem['DeliveryType']);
+                    (listItem['NarrationSpeed'] != '') && (newItem.narrationSpeed = listItem['NarrationSpeed']);
+                    (listItem['Bookmark'] != '') && (newItem.bookmark = parseFloat(listItem['Bookmark']));
+                    (listItem['AudioType'] != '') && (newItem.audioType = listItem['AudioType']);
+                    (listItem['AsinOwned'] != '') && (newItem.asinOwned = listItem['AsinOwned'].toLowerCase() == 'true');
+                    (listItem['ListeningMode'] != '') && (newItem.listeningMode = listItem['ListeningMode']);
+                    (listItem['Store'] != '') && (newItem.store = listItem['Store']);
+                    (listItem['AppVersion'] != '') && (newItem.appVersion = listItem['AppVersion']);
+                    (listItem['LocalTimezone'] != '') && (newItem.localTimezone = listItem['LocalTimezone']);
+                    return newItem;
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseAudibleListening');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - file 'Audible.MembershipBillings/Audible.MembershipBillings.csv' in input as Buffer
+    */
+    static async parseAudibleMembershipBillings(data: Buffer): Promise<AudibleMembershipBillingsAM | undefined> {
+        try {
+            let result = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: AudibleMembershipBillingsAM = {list: []}
+                model.list = result.map((listItem: any) => {
+                    let newItem: AudibleMembershipBillingAM = {};
+                    if(listItem['﻿"TaxCreateDate"'] != '') {
+                        let match = listItem['﻿"TaxCreateDate"'].match(/(\d+)-(\w+)-(\d+)/);
+                        let monthIndex = Months[match[2]];
+                        (monthIndex) && (newItem.taxCreateDate = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
+                    }
+                    if(listItem['BillingPeriodEndDate'] != '') {
+                        let match = listItem['BillingPeriodEndDate'].match(/(\d+)-(\w+)-(\d+)/);
+                        let monthIndex = Months[match[2]];
+                        (monthIndex) && (newItem.billingPeriodEndDate = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
+                    }
+                    if(listItem['BillingPeriodStartDate'] != '') {
+                        let match = listItem['BillingPeriodStartDate'].match(/(\d+)-(\w+)-(\d+)/);
+                        let monthIndex = Months[match[2]];
+                        (monthIndex) && (newItem.billingPeriodStartDate = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
+                    }
+                    if(listItem['StatusLastupdatedDate'] != '') {
+                        let match = listItem['StatusLastupdatedDate'].match(/(\d+)-(\w+)-(\d+)/);
+                        let monthIndex = Months[match[2]];
+                        (monthIndex) && (newItem.statusLastUpdatedDate = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
+                    }
+                    (listItem['BaseAmount'] != '') && (newItem.baseAmount = parseFloat(listItem['BaseAmount']));
+                    (listItem['Tax'] != '') && (newItem.tax = parseFloat(listItem['Tax']));
+                    (listItem['TotalAmount'] != '') && (newItem.totalAmount = parseFloat(listItem['TotalAmount']));
+                    (listItem['Currency'] != '') && (newItem.currency = listItem['Currency']);
+                    (listItem['Type'] != '') && (newItem.type = listItem['Type']);
+                    (listItem['Plan'] != '') && (newItem.plan = listItem['Plan']);
+                    (listItem['PlanBillingFreq'] != '') && (newItem.planBillingFreq = parseFloat(listItem['PlanBillingFreq']));
+                    (listItem['PlanBillingFee'] != '') && (newItem.planBillingFee = parseFloat(listItem['PlanBillingFee']));
+                    (listItem['OfferName'] != '') && (newItem.offerName = listItem['OfferName']);
+                    (listItem['OfferType'] != '') && (newItem.offerType = listItem['OfferType']);
+                    (listItem['TransactionId'] != '') && (newItem.transactionId = listItem['TransactionId']);
+                    (listItem['SubscriptionIdentifier'] != '') && (newItem.subscriptionIdentifier = listItem['SubscriptionIdentifier']);
+                    (listItem['PlanSelectionIdentifier'] != '') && (newItem.planSelectionIdentifier = listItem['PlanSelectionIdentifier']);
+                    (listItem['MerchantName'] != '') && (newItem.merchantName = listItem['MerchantName']);
+                    (listItem['TaxReason'] != '') && (newItem.taxReason = listItem['TaxReason']);
+                    (listItem['Status'] != '') && (newItem.status = listItem['Status']);
+                    return newItem;
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseAudibleMembershipBillings');
             return undefined;
         }
     }
