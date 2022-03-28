@@ -20,13 +20,13 @@ import {
 } from "../src";
 
 async function test(){
-    //validatorAndProcessingInstagramTest();
+    validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
     //validatorAndProcessingAmazonTest();
     //await descriptorServiceTest();
     //await instagramServiceTest();
     //await facebookServiceTest();
-    await amazonServiceTest();
+    //await amazonServiceTest();
     //await netflixServiceTest();
     //await googleServiceTest();
     //await linkedInServiceTest();
@@ -36,7 +36,7 @@ function validatorAndProcessingInstagramTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/validation/instagram3.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validZip = await Validator.validateZIP(data);
             const validationFE = await ValidatorInstagram.selectUsefulFilesFromZip(validZip);
@@ -108,13 +108,13 @@ function validatorAndProcessingAmazonTest() {
 
 async function descriptorServiceTest() {
     try {
-        console.log(DescriptorService.getAllDataSourcesCodes());
-        console.log(DescriptorService.getDataSourceDescription(DataSourceCode.INSTAGRAM));
-        console.log(DescriptorService.getDataSourceName(DataSourceCode.INSTAGRAM));
-        console.log(DescriptorService.getDataSourceFormats(DataSourceCode.INSTAGRAM));
-        console.log(DescriptorService.getDataSourceProcedure(DataSourceCode.FACEBOOK, LanguageCode.ITALIAN, RetrievingProcedureType.DESKTOP));
-        console.log(DescriptorService.getAllDataSourceLanguages(DataSourceCode.INSTAGRAM));
-        console.log(DescriptorService.getAllDataSourceProcedureTypes(DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH));
+        console.log(DescriptorService.getAllCodes());
+        console.log(DescriptorService.getDescription(DataSourceCode.INSTAGRAM));
+        console.log(DescriptorService.getName(DataSourceCode.INSTAGRAM));
+        console.log(DescriptorService.getFormats(DataSourceCode.INSTAGRAM));
+        console.log(DescriptorService.getProcedure(DataSourceCode.FACEBOOK, LanguageCode.ITALIAN, RetrievingProcedureType.DESKTOP));
+        console.log(DescriptorService.getAllLanguages(DataSourceCode.INSTAGRAM));
+        console.log(DescriptorService.getAllProcedureTypes(DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
