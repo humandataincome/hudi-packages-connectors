@@ -42,6 +42,11 @@ export class ValidatorInstagram {
         if (document.match(regexDE)) {
             return LanguageCode.GERMAN;
         }
+        //check if CHINESE_SIMPLIFIED
+        const regexZH_CN = /(\u00e5\u00b8\u0090\u00e5\u008f\u00b7)|(\u00e9\u0082\u00ae\u00e7\u00ae\u00b1)|(\u00e7\u00a7\u0081\u00e5\u00af\u0086\u00e5\u00b8\u0090\u00e6\u0088\u00b7)/;
+        if (document.match(regexZH_CN)) {
+            return LanguageCode.CHINESE_SIMPLIFIED;
+        }
         throw new Error(`${ValidationErrorEnums.LANGUAGE_ERROR}: File language not supported or not recognized`);
     }
 

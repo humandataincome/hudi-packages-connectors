@@ -43,7 +43,7 @@ Instagram needs the **language** of the files given in input, it can be changed 
 ```
 InstagramService.languagePrefix = LanguageCode.ITALIAN;
 ```
-At the moment the languages supported for the Instagram service are: ENGLISH, ITALIAN, SPANISH and HINDI.
+At the moment the **languages supported** for the Instagram service are: **ENGLISH**, **ITALIAN**, **SPANISH**, **GERMAN**, **FRENCH**, **HINDI** and **CHINESE SIMPLIFIED**.
 ## How to use Descriptor ##
 How to retrieve the **descriptor.json** file containing the description of the supported sources:
 ```

@@ -35,8 +35,8 @@ export enum LanguageCode {
     HINDI = 'HI',
     FRENCH = 'FR',
     GERMAN = 'DE',
+    CHINESE_SIMPLIFIED = 'ZH-CN',
     ARABIC = 'AR',
-    CHINESE = 'ZH',
 }
 
 export enum FileCode {
