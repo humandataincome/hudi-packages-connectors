@@ -1,5 +1,5 @@
 
-export interface PersonalInformation {
+export interface PersonalInformationNF {
     firstName?: string;
     lastName?: string;
     emailAddress?: string;
@@ -23,31 +23,31 @@ export interface PersonalInformation {
     marketingCommunications?: boolean;
 }
 
-export interface PreferencesAccount {
-    list: Array<Preference>;
+export interface PreferencesAccountNF {
+    list: Array<PreferenceNF>;
 }
 
-export interface MyListAccount {
-    list: Array<Title>;
+export interface MyListAccountNF {
+    list: Array<TitleNF>;
 }
 
-export interface SearchHistory {
-    list: Array<Search>;
+export interface SearchHistoryNF {
+    list: Array<SearchNF>;
 }
 
-export interface ViewingActivity {
-    list: Array<Activity>;
+export interface ViewingActivityNF {
+    list: Array<ActivityNF>;
 }
 
-export interface PlaybackEvents {
-    list: Array<Event>;
+export interface PlaybackEventsNF {
+    list: Array<EventNF>;
 }
 
-export interface Profiles {
-    list: Array<Profile>;
+export interface ProfilesNF {
+    list: Array<ProfileNF>;
 }
 //----------------------------------
-export interface Preference {
+export interface PreferenceNF {
     profileName?: string;
     show?: string;
     hasWatched?: boolean;
@@ -55,14 +55,14 @@ export interface Preference {
     eventDate?: Date;
 }
 
-export interface Title {
+export interface TitleNF {
     profileName?: string;
     titleName?: string;
     country?: string;
     titleAddDate?: Date;
 }
 
-export interface Search {
+export interface SearchNF {
     profileName?: string;
     countryIsoCode?: string;
     device?: string;
@@ -74,7 +74,7 @@ export interface Search {
     time?: Date;
 }
 
-export interface Activity{
+export interface ActivityNF {
     profileName?: string;
     startTime?: Date;
     duration?: string;
@@ -87,26 +87,26 @@ export interface Activity{
     country?: string;
 }
 
-export interface Event {
+export interface EventNF {
     profileName?: string;
     titleDescription?: string;
     device?: string;
     playbackStartTime?: Date;
     country?: string;
-    playtraces?: Playtraces;
+    playtraces?: PlaytracesNF;
 }
 
-export interface Playtraces {
-    list: Array<Playtrace>;
+export interface PlaytracesNF {
+    list: Array<PlaytraceNF>;
 }
 
-export interface Playtrace {
+export interface PlaytraceNF {
     eventType?: string;
     sessionOffsetMs?: number;
     mediaOffsetMs?: number;
 }
 
-export interface Profile {
+export interface ProfileNF {
     profileName?: string;
     emailAddress?: string;
     profileCreationTime?: Date;

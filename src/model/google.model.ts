@@ -1,5 +1,5 @@
 
-export interface Profile {
+export interface ProfileGO {
     givenName?: string;
     familyName?: string;
     formattedName?: string;
@@ -9,15 +9,15 @@ export interface Profile {
     gender?: string;
 }
 
-export interface BrowserHistory {
-    list: Array<BrowserSearch>;
+export interface BrowserHistoryGO {
+    list: Array<BrowserSearchGO>;
 }
 
-export interface SearchEngines {
-    list: Array<SearchEngine>;
+export interface SearchEnginesGO {
+    list: Array<SearchEngineGO>;
 }
 
-export interface BrowserSearch {
+export interface BrowserSearchGO {
     title?: string;
     url?: string;
     pageTransition?: string;
@@ -26,7 +26,7 @@ export interface BrowserSearch {
     time?: Date;
 }
 
-export interface SearchEngine {
+export interface SearchEngineGO {
     suggestionsUrl?: string;
     faviconUrl?: string;
     safeForAutoreplace?: boolean;
@@ -43,31 +43,31 @@ export interface SearchEngine {
     lastModified?: Date;
 }
 
-export interface ImageData {
+export interface ImageDataGO {
     title?: string;
     description?: string;
     imageViews?: number;
     creationTime?: Date;
     photoTakenTime?: Date;
-    geoData?: GeoData;
-    geoDataExif?: GeoData;
+    geoData?: GeoDataGO;
+    geoDataExif?: GeoDataGO;
     url?: string;
     deviceType?: string;
     photoLastModifiedTime?: Date;
 }
 
-export interface GeoData {
+export interface GeoDataGO {
     latitude?: number;
     longitude?: number;
     altitude?: number;
     latitudeSpan?: number;
     longitudeSpan?: number;
 }
-export interface Transactions {
-    list: Array<Transaction>;
+export interface TransactionsGO {
+    list: Array<TransactionGO>;
 }
 
-export interface Transaction {
+export interface TransactionGO {
     date?: Date;
     IDtransaction?: string;
     description?: string;
@@ -78,53 +78,53 @@ export interface Transaction {
     currency?: string;
 }
 
-export interface DocLibrary {
-    list: Array<Doc>;
+export interface DocLibraryGO {
+    list: Array<DocGO>;
 }
 
-export interface Doc {
+export interface DocGO {
     type?: string;
     title?: string;
     acquisitionDate?: Date;
 }
 
-export interface PurchaseHistory {
-    list: Array<Purchase>;
+export interface PurchaseHistoryGO {
+    list: Array<PurchaseGO>;
 }
 
-export interface Purchase {
+export interface PurchaseGO {
     invoicePrice?: string;
     paymentMethod?: string;
     userLanguageCode?: string;
     userCountry?: string;
-    document?: Doc;
+    document?: DocGO;
 }
 
-export interface OrderHistory {
-    list: Array<Order>;
+export interface OrderHistoryGO {
+    list: Array<OrderGO>;
 }
 
-export interface Order {
+export interface OrderGO {
     orderId?: string;
     creationTime?: Date;
-    billingInstrument?: BillingInstrument;
-    billingContacts?: Contact;
-    associatedContacts?: Array<Contact>;
+    billingInstrument?: BillingInstrumentGO;
+    billingContacts?: ContactGO;
+    associatedContacts?: Array<ContactGO>;
     ipAddress?: string;
     ipCountry?: string;
     totalPrice?: number;
     tax?: number;
     refundAmount?: number;
     preorder?: boolean;
-    lineItems?: Array<LineItem>;
+    lineItems?: Array<LineItemGO>;
 }
 
-export interface LineItem {
-    doc?: Doc;
+export interface LineItemGO {
+    doc?: DocGO;
     quantity?: number;
 }
 
-export interface Contact {
+export interface ContactGO {
     name?: string;
     addressLine?: Array<string>;
     countryCode?: string;
@@ -134,7 +134,7 @@ export interface Contact {
     phoneNumber?: number;
 }
 
-export interface BillingInstrument {
+export interface BillingInstrumentGO {
     cardClass?: string;
     cardType?: string;
     expiration?: string;
@@ -143,24 +143,24 @@ export interface BillingInstrument {
 
 
 //POSITION HISTORY
-export interface SemanticLocations {
-    listVisitedPlaces: Array<PlaceVisited>;
-    listActivities: Array<ActivitySegment>;
+export interface SemanticLocationsGO {
+    listVisitedPlaces: Array<PlaceVisitedGO>;
+    listActivities: Array<ActivitySegmentGO>;
 }
 
-export interface PlaceVisited {
-    location?: ProbableLocation;
+export interface PlaceVisitedGO {
+    location?: ProbableLocationGO;
     startDate?: Date;
     endDate?: Date;
     placeConfidence?: string;
-    childVisits?: PlaceVisited;
+    childVisits?: PlaceVisitedGO;
     centerLatE7?: number;
     centerLngE7?: number;
     visitConfidence?: number;
-    otherProbableLocations?: Array<ProbableLocation>;
+    otherProbableLocations?: Array<ProbableLocationGO>;
 }
 
-export interface ProbableLocation {
+export interface ProbableLocationGO {
     latitudeE7?: number;
     longitudeE7?: number;
     placeId?: string;
@@ -170,32 +170,32 @@ export interface ProbableLocation {
     deviceTag?: number;
 }
 
-export interface ActivitySegment {
-    startLocation?: ProbableLocation;
-    endLocation?: ProbableLocation;
+export interface ActivitySegmentGO {
+    startLocation?: ProbableLocationGO;
+    endLocation?: ProbableLocationGO;
     startDate?: Date;
     endDate?: Date;
     distance?: number;
     activityType?: string;
     confidence?: string;
-    allActivitiesProbabilities?: Array<ProbableActivity>;
-    transitPath?: TransitPath;
-    simplifiedRawPath?: Array<Point>;
+    allActivitiesProbabilities?: Array<ProbableActivityGO>;
+    transitPath?: TransitPathGO;
+    simplifiedRawPath?: Array<PointGO>;
     editConfirmationStatus?: string;
 }
 
-export interface TransitPath {
-    transitStops?: Array<ProbableLocation>;
+export interface TransitPathGO {
+    transitStops?: Array<ProbableLocationGO>;
     name?: string;
     hexRgbColor?: string
 }
 
-export interface ProbableActivity {
+export interface ProbableActivityGO {
     activityType?: string;
     probability?: number;
 }
 
-export interface Point {
+export interface PointGO {
     latitudeE7?: number;
     longitudeE7?: number;
     date?: Date;
@@ -203,40 +203,40 @@ export interface Point {
 }
 
 //ACTIVITIES
-export interface ShoppingActivities {
-    list: Array<ShoppingActivity>;
+export interface ShoppingActivitiesGO {
+    list: Array<ShoppingActivityGO>;
 }
 
-export interface ShoppingActivity {
+export interface ShoppingActivityGO {
     product?: string;
     link?: string;
     date?: Date;
 }
 
-export interface DailyDiscoverActivities {
-    list: Array<DailyDiscoverActivity>;
+export interface DailyDiscoverActivitiesGO {
+    list: Array<DailyDiscoverActivityGO>;
 }
 
-export interface DailyDiscoverActivity {
+export interface DailyDiscoverActivityGO {
     searchKeys: Array<string>;
     date?: Date;
 }
 
-export interface SearchActivities {
-    list: Array<SearchActivity>;
+export interface SearchActivitiesGO {
+    list: Array<SearchActivityGO>;
 }
 
-export interface SearchActivity {
+export interface SearchActivityGO {
     searchKey?: string;
     link?: string;
     date?: Date;
 }
 
-export interface YoutubeActivities {
-    list: Array<YoutubeActivity>;
+export interface YoutubeActivitiesGO {
+    list: Array<YoutubeActivityGO>;
 }
 
-export interface YoutubeActivity {
+export interface YoutubeActivityGO {
     activity?: string;
     linkVideo?: string;
     titleVideo?: string;
@@ -245,11 +245,11 @@ export interface YoutubeActivity {
     date?: Date;
 }
 
-export interface NewsActivities {
-    list: Array<NewsActivity>;
+export interface NewsActivitiesGO {
+    list: Array<NewsActivityGO>;
 }
 
-export interface NewsActivity {
+export interface NewsActivityGO {
     titleArticle?: string;
     linkArticle?: string;
     date?: Date;

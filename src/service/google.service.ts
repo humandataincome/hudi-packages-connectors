@@ -1,31 +1,20 @@
 import Logger from "../utils/logger";
 import {
-    ActivitySegment,
-    BillingInstrument,
-    BrowserHistory,
-    BrowserSearch,
-    Contact,
-    Doc,
-    DocLibrary,
-    GeoData,
-    ImageData,
-    LineItem,
-    Order,
-    OrderHistory,
-    PlaceVisited,
-    Point,
-    ProbableActivity,
-    ProbableLocation,
-    Profile,
-    Purchase,
-    PurchaseHistory,
-    SearchEngine,
-    SearchEngines,
-    SemanticLocations,
-    Transaction,
-    Transactions,
-    TransitPath,
-} from "../model/google.model";
+    ActivitySegmentGO, BillingInstrumentGO,
+    BrowserHistoryGO,
+    BrowserSearchGO, ContactGO, DocGO, DocLibraryGO,
+    GeoDataGO,
+    ImageDataGO, LineItemGO, OrderGO, OrderHistoryGO,
+    PlaceVisitedGO,
+    PointGO,
+    ProbableActivityGO,
+    ProbableLocationGO,
+    ProfileGO, PurchaseGO, PurchaseHistoryGO,
+    SearchEngineGO,
+    SearchEnginesGO,
+    SemanticLocationsGO, TransactionGO, TransactionsGO,
+    TransitPathGO
+} from "../model";
 import {Parser} from "../utils/parser";
 import {Months} from "../utils/utils.enum";
 import {LanguageCode} from "../descriptor";
@@ -44,8 +33,8 @@ export class GoogleService {
     /**
      * @param data - file 'Takeout/Profile/Profile.json' in input as Buffer
      */
-    static async parseProfile(data: Buffer): Promise<Profile | undefined> {
-        let model: Profile = {}, match;
+    static async parseProfile(data: Buffer): Promise<ProfileGO | undefined> {
+        let model: ProfileGO = {}, match;
         try {
             let document = JSON.parse(data.toString());
             (document.name.givenName) && (model.givenName = document.name.givenName);
@@ -66,12 +55,12 @@ export class GoogleService {
     /**
      * @param data - file 'Takeout/Chrome/BrowserHistory.json' in input as Buffer
      */
-    static async parseBrowseHistory(data: Buffer): Promise<BrowserHistory | undefined> {
-        let model: BrowserHistory = {list: []};
+    static async parseBrowseHistory(data: Buffer): Promise<BrowserHistoryGO | undefined> {
+        let model: BrowserHistoryGO = {list: []};
         try {
             let document = JSON.parse(data.toString());
             model.list = document["Browser History"].map((value: any) => {
-                let newValue: BrowserSearch = {};
+                let newValue: BrowserSearchGO = {};
                 (value.title) && (newValue.title = value.title);
                 (value.url) && (newValue.url = value.url);
                 (value.page_transition) && (newValue.pageTransition = value.page_transition);
@@ -90,12 +79,12 @@ export class GoogleService {
     /**
      * @param data - file 'Takeout/Chrome/SearchEngines.json' in input as Buffer
      */
-    static async parseSearchEngines(data: Buffer): Promise<SearchEngines | undefined> {
-        let model: SearchEngines = {list: []};
+    static async parseSearchEngines(data: Buffer): Promise<SearchEnginesGO | undefined> {
+        let model: SearchEnginesGO = {list: []};
         try {
             let document = JSON.parse(data.toString());
             model.list = document["Search Engines"].map((value: any) => {
-                let newValue: SearchEngine = {};
+                let newValue: SearchEngineGO = {};
                 (value.suggestions_url) && (newValue.suggestionsUrl = value.suggestions_url);
                 (value.favicon_url) && (newValue.faviconUrl = value.favicon_url);
                 (value.safe_for_autoreplace != undefined) && (newValue.safeForAutoreplace = value.safe_for_autoreplace);
@@ -122,8 +111,8 @@ export class GoogleService {
     /**
      * @param data - file 'Takeout/LocationHistory/SemanticLocationHistory/2017/2017_APRIL.json' in input as Buffer
      */
-    static async parseSemanticLocations(data: Buffer): Promise<SemanticLocations | undefined> {
-        let model: SemanticLocations = {listVisitedPlaces: [], listActivities: []};
+    static async parseSemanticLocations(data: Buffer): Promise<SemanticLocationsGO | undefined> {
+        let model: SemanticLocationsGO = {listVisitedPlaces: [], listActivities: []};
         try {
             let document = JSON.parse(data.toString());
             document.timelineObjects.forEach((value: any) => {
@@ -133,15 +122,15 @@ export class GoogleService {
                     (newValue) && (model.listVisitedPlaces.push(newValue));
                 }
                 if (value.activitySegment) {
-                    let newValue: ActivitySegment = {};
+                    let newValue: ActivitySegmentGO = {};
                     if (value.activitySegment.startLocation) {
-                        let location: ProbableLocation = {};
+                        let location: ProbableLocationGO = {};
                         (value.activitySegment.startLocation.latitudeE7) && (location.latitudeE7 = value.activitySegment.startLocation.latitudeE7);
                         (value.activitySegment.startLocation.longitudeE7) && (location.longitudeE7 = value.activitySegment.startLocation.longitudeE7);
                         (!Validator.objectIsEmpty(location)) && (newValue.startLocation = location);
                     }
                     if (value.activitySegment.endLocation) {
-                        let location: ProbableLocation = {};
+                        let location: ProbableLocationGO = {};
                         (value.activitySegment.endLocation.latitudeE7) && (location.latitudeE7 = value.activitySegment.endLocation.latitudeE7);
                         (value.activitySegment.endLocation.longitudeE7) && (location.longitudeE7 = value.activitySegment.endLocation.longitudeE7);
                         (!Validator.objectIsEmpty(location)) && (newValue.endLocation = location);
@@ -157,7 +146,7 @@ export class GoogleService {
                     if (value.activitySegment.activities) {
                         newValue.allActivitiesProbabilities = [];
                         value.activitySegment.activities.forEach((activity: any) => {
-                            let newActivity: ProbableActivity = {};
+                            let newActivity: ProbableActivityGO = {};
                             (activity.activityType) && (newActivity.activityType = activity.activityType);
                             (activity.probability) && (newActivity.probability = activity.probability);
                             (!Validator.objectIsEmpty(newActivity) && newValue.allActivitiesProbabilities) && (newValue.allActivitiesProbabilities.push(newActivity));
@@ -165,11 +154,11 @@ export class GoogleService {
                     }
 
                     if (value.activitySegment.transitPath) {
-                        let newPath: TransitPath = {};
+                        let newPath: TransitPathGO = {};
                         if (value.activitySegment.transitPath.transitStops) {
                             newPath.transitStops = [];
                             value.activitySegment.transitPath.transitStops.forEach((transitStop: any) => {
-                                let newLocation: ProbableLocation = {};
+                                let newLocation: ProbableLocationGO = {};
                                 (transitStop.latitudeE7) && (newLocation.latitudeE7 = transitStop.latitudeE7);
                                 (transitStop.longitudeE7) && (newLocation.longitudeE7 = transitStop.longitudeE7);
                                 (transitStop.placeId) && (newLocation.placeId = transitStop.placeId);
@@ -187,7 +176,7 @@ export class GoogleService {
                         if (value.activitySegment.simplifiedRawPath.points) {
                             newValue.simplifiedRawPath = [];
                             value.activitySegment.simplifiedRawPath.points.forEach((point: any) => {
-                                let newPoint: Point = {};
+                                let newPoint: PointGO = {};
                                 (point.latE7) && (newPoint.latitudeE7 = point.latE7);
                                 (point.lngE7) && (newPoint.longitudeE7 = point.lngE7);
                                 (point.timestampMs) && (newPoint.date = new Date(parseInt(point.timestampMs)));
@@ -207,10 +196,10 @@ export class GoogleService {
         }
     }
 
-    private static parsePlaceVisitedRecursive(value: any): PlaceVisited | undefined {
-        let newValue: PlaceVisited = {};
+    private static parsePlaceVisitedRecursive(value: any): PlaceVisitedGO | undefined {
+        let newValue: PlaceVisitedGO = {};
         if (value.location) {
-            let newLocation: ProbableLocation = {};
+            let newLocation: ProbableLocationGO = {};
             (value.location.latitudeE7) && (newLocation.latitudeE7 = value.location.latitudeE7);
             (value.location.longitudeE7) && (newLocation.longitudeE7 = value.location.longitudeE7);
             (value.location.placeId) && (newLocation.placeId = value.location.placeId);
@@ -232,7 +221,7 @@ export class GoogleService {
         if (value.otherCandidateLocations) {
             newValue.otherProbableLocations = [];
             value.otherCandidateLocations.forEach((location: any) => {
-                let otherLocation: ProbableLocation = {};
+                let otherLocation: ProbableLocationGO = {};
                 (location.latitudeE7) && (otherLocation.latitudeE7 = location.latitudeE7);
                 (location.longitudeE7) && (otherLocation.longitudeE7 = location.longitudeE7);
                 (location.placeId) && (otherLocation.placeId = location.placeId);
@@ -251,8 +240,8 @@ export class GoogleService {
     /**
      * @param data - file 'Takeout/GooglePhoto/PhotosFrom2019/photo.mp4.json' in input as Buffer
      */
-    static async parseImageData(data: Buffer): Promise<ImageData | undefined> {
-        let model: ImageData = {};
+    static async parseImageData(data: Buffer): Promise<ImageDataGO | undefined> {
+        let model: ImageDataGO = {};
         try {
             let document = JSON.parse(data.toString());
             (document.suggestions_url) && (model.title = document.suggestions_url);
@@ -261,7 +250,7 @@ export class GoogleService {
             (document.photoTakenTime && document.photoTakenTime.timestamp) && (model.photoTakenTime = new Date(1000 * document.photoTakenTime.timestamp));
 
             const parseGeoData = (value: any) => {
-                let newGeo: GeoData = {};
+                let newGeo: GeoDataGO = {};
                 (value.latitude != undefined) && (newGeo.latitude = value.latitude);
                 (value.longitude != undefined) && (newGeo.longitude = value.longitude);
                 (value.altitude != undefined) && (newGeo.altitude = value.altitude);
@@ -292,13 +281,13 @@ export class GoogleService {
     /**
      * @param data - file 'Takeout/GooglePay/GoogleTransactions/transactions_123456.csv' in input as Buffer
      */
-    static async parseTransactions(data: Buffer): Promise<Transactions | undefined> {
+    static async parseTransactions(data: Buffer): Promise<TransactionsGO | undefined> {
         try {
             let document: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
             if (document) {
-                let model: Transactions = {list: []};
+                let model: TransactionsGO = {list: []};
                 document.forEach((value: any) => {
-                    let newTs: Transaction = {}, match, parameterName;
+                    let newTs: TransactionGO = {}, match, parameterName;
                     parameterName = ConfigGoogle.keysValues[`${this.prefixLanguage}-DateAndHour`];
                     if (value[parameterName]) {
                         match = value[parameterName].match(/(\d+) (\w+) (\d+), (\d+):(\d+)/);
@@ -336,12 +325,12 @@ export class GoogleService {
     /**
      * @param data - file 'Takeout/GooglePlayStore/Library.json' in input as Buffer
      */
-    static async parseDocLibrary(data: Buffer): Promise<DocLibrary | undefined> {
+    static async parseDocLibrary(data: Buffer): Promise<DocLibraryGO | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: DocLibrary = {list: []};
+            let model: DocLibraryGO = {list: []};
             document.forEach((value: any) => {
-                let newDoc: Doc = {};
+                let newDoc: DocGO = {};
                 if (value.libraryDoc.doc) {
                     (value.libraryDoc.doc.documentType) && (newDoc.type = value.libraryDoc.doc.documentType);
                     (value.libraryDoc.doc.title) && (newDoc.title = value.libraryDoc.doc.title);
@@ -360,18 +349,18 @@ export class GoogleService {
     /**
      * @param data - file 'Takeout/GooglePlayStore/PurchaseHistory.json' in input as Buffer
      */
-    static async parsePurchaseHistory(data: Buffer): Promise<PurchaseHistory | undefined> {
+    static async parsePurchaseHistory(data: Buffer): Promise<PurchaseHistoryGO | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: PurchaseHistory = {list: []};
+            let model: PurchaseHistoryGO = {list: []};
             document.forEach((value: any) => {
-                let purchase: Purchase = {};
+                let purchase: PurchaseGO = {};
                 if (value.purchaseHistory) {
                     (value.purchaseHistory.invoicePrice) && (purchase.invoicePrice = value.purchaseHistory.invoicePrice);
                     (value.purchaseHistory.paymentMethodTitle) && (purchase.paymentMethod = value.purchaseHistory.paymentMethodTitle);
                     (value.purchaseHistory.userLanguageCode) && (purchase.userLanguageCode = value.purchaseHistory.userLanguageCode);
                     (value.purchaseHistory.userCountry) && (purchase.userCountry = value.purchaseHistory.userCountry);
-                    let newDoc: Doc = {};
+                    let newDoc: DocGO = {};
                     if (value.purchaseHistory.doc) {
                         (value.purchaseHistory.doc.documentType) && (newDoc.type = value.purchaseHistory.doc.documentType);
                         (value.purchaseHistory.doc.title) && (newDoc.title = value.purchaseHistory.doc.title);
@@ -391,17 +380,17 @@ export class GoogleService {
     /**
      * @param data - file 'Takeout/GooglePlayStore/OrderHistory.json' in input as Buffer
      */
-    static async parseOrderHistory(data: Buffer): Promise<OrderHistory | undefined> {
+    static async parseOrderHistory(data: Buffer): Promise<OrderHistoryGO | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: OrderHistory = {list: []};
+            let model: OrderHistoryGO = {list: []};
             document.forEach((value: any) => {
                 if (value.orderHistory) {
-                    let newOrder: Order = {};
+                    let newOrder: OrderGO = {};
                     (value.orderHistory.orderId) && (newOrder.orderId = value.orderHistory.orderId);
                     (value.orderHistory.creationTime) && (newOrder.creationTime = new Date(value.orderHistory.creationTime));
                     if (value.orderHistory.billingInstrument) {
-                        let newBill: BillingInstrument = {};
+                        let newBill: BillingInstrumentGO = {};
                         (value.orderHistory.billingInstrument.cardClass) && (newBill.cardClass = value.orderHistory.billingInstrument.cardClass);
                         (value.orderHistory.billingInstrument.cardType) && (newBill.cardType = value.orderHistory.billingInstrument.cardType);
                         (value.orderHistory.billingInstrument.expiration) && (newBill.expiration = value.orderHistory.billingInstrument.expiration);
@@ -409,13 +398,13 @@ export class GoogleService {
                         !Validator.objectIsEmpty(newBill) && (newOrder.billingInstrument = newBill);
                     }
                     if (value.orderHistory.billingContact) {
-                        let newContact: Contact = GoogleService.parseContact(value.orderHistory.billingContact);
+                        let newContact: ContactGO = GoogleService.parseContact(value.orderHistory.billingContact);
                         !Validator.objectIsEmpty(newContact) && (newOrder.billingContacts = newContact);
                     }
                     if (value.orderHistory.associatedContact) {
                         newOrder.associatedContacts = [];
                         value.orderHistory.associatedContact.map((contact: any) => {
-                            let newContact: Contact = GoogleService.parseContact(contact);
+                            let newContact: ContactGO = GoogleService.parseContact(contact);
                             (!Validator.objectIsEmpty(newContact) && newOrder.associatedContacts) && (newOrder.associatedContacts.push(newContact));
                         });
                     }
@@ -429,9 +418,9 @@ export class GoogleService {
                     if (value.orderHistory.lineItem) {
                         newOrder.lineItems = [];
                         value.orderHistory.lineItem.map((lineItem: any) => {
-                            let newLineItem: LineItem = {};
+                            let newLineItem: LineItemGO = {};
                             if (lineItem.doc) {
-                                let newDoc: Doc = {};
+                                let newDoc: DocGO = {};
                                 (lineItem.doc.documentType) && (newDoc.type = lineItem.doc.documentType);
                                 (lineItem.doc.title) && (newDoc.title = lineItem.doc.title);
                                 !Validator.objectIsEmpty(newDoc) && (newLineItem.doc = newDoc);
@@ -451,8 +440,8 @@ export class GoogleService {
         }
     }
 
-    private static parseContact(value: any): Contact {
-        let newContact: Contact = {};
+    private static parseContact(value: any): ContactGO {
+        let newContact: ContactGO = {};
         (value.name) && (newContact.name = value.name);
         (value.addressLine) && (newContact.addressLine = value.addressLine);
         (value.countryCode) && (newContact.countryCode = value.countryCode);

@@ -1,19 +1,19 @@
 import {Months} from "../utils/utils.enum";
 
-export interface AdsClicked {
-    list: Array<AdvClicked>;
+export interface AdsClickedLI {
+    list: Array<AdvClickedLI>;
 }
 
-export interface AdvClicked {
+export interface AdvClickedLI {
     date?: Date;
     title?: string;
 }
 
-export interface Connections {
-    list: Array<Connection>;
+export interface ConnectionsLI {
+    list: Array<ConnectionLI>;
 }
 
-export interface Connection {
+export interface ConnectionLI {
     firstName?: string;
     lastName?: string;
     emailAddress?: string;
@@ -22,29 +22,29 @@ export interface Connection {
     dateConnection?: Date;
 }
 
-export interface AccountStatusHistory {
-    list: Array<AccountStatus>;
+export interface AccountStatusHistoryLI {
+    list: Array<AccountStatusLI>;
 }
 
-export interface AccountStatus {
+export interface AccountStatusLI {
     date?: Date;
     event?: string;
 }
 
-export interface CompaniesFollowed {
-    list: Array<CompanyFollowed>;
+export interface CompaniesFollowedLI {
+    list: Array<CompanyFollowedLI>;
 }
 
-export interface CompanyFollowed {
+export interface CompanyFollowedLI {
     organization?: string;
     dateFollow?: Date;
 }
 
-export interface Contacts {
-    list: Array<Contact>;
+export interface ContactsLI {
+    list: Array<ContactLI>;
 }
 
-export interface Contact {
+export interface ContactLI {
     source?: string;
     firstName?: string;
     lastName?: string;
@@ -63,11 +63,11 @@ export interface Contact {
     profiles?: string;
 }
 
-export interface EducationHistory {
-    list: Array<Education>;
+export interface EducationHistoryLI {
+    list: Array<EducationLI>;
 }
 
-export interface Education {
+export interface EducationLI {
     schoolName?: string;
     startDate?: Date;
     endDate?: Date;
@@ -76,22 +76,22 @@ export interface Education {
     activities?: string;
 }
 
-export interface Emails {
-    list: Array<Email>;
+export interface EmailsLI {
+    list: Array<EmailLI>;
 }
 
-export interface Email {
+export interface EmailLI {
     emailAddress?: string;
     confirmed?: boolean;
     primary?: boolean;
     dateUpdate?: Date;
 }
 
-export interface EndorsementsReceived {
-    list: Array<Endorsement>;
+export interface EndorsementsReceivedLI {
+    list: Array<EndorsementLI>;
 }
 
-export interface Endorsement {
+export interface EndorsementLI {
     endorsementDate?: Date;
     skillName?: string;
     endorserFirstName?: string;
@@ -99,22 +99,22 @@ export interface Endorsement {
     endorsementStatus?: string;
 }
 
-export interface InferencesAboutYou {
-    list: Array<Inference>;
+export interface InferencesAboutYouLI {
+    list: Array<InferenceLI>;
 }
 
-export interface Inference {
+export interface InferenceLI {
     category?: string;
     typeInference?: string;
     description?: string;
     inference?: boolean;
 }
 
-export interface Invitations {
-    list: Array<Invitation>;
+export interface InvitationsLI {
+    list: Array<InvitationLI>;
 }
 
-export interface Invitation {
+export interface InvitationLI {
     from?: string;
     to?: string;
     dataSent?: Date;
@@ -122,24 +122,24 @@ export interface Invitation {
     direction?: string;
 }
 
-export interface JobApplicantSavedInfo {
-    list: Array<QuestionAnswer>;
+export interface JobApplicantSavedInfoLI {
+    list: Array<QuestionAnswerLI>;
 }
 
-export interface JobApplicantSavedScreeningQuestionInfo {
-    list: Array<QuestionAnswer>;
+export interface JobApplicantSavedScreeningQuestionInfoLI {
+    list: Array<QuestionAnswerLI>;
 }
 
-export interface QuestionAnswer {
+export interface QuestionAnswerLI {
     question: string;
     answer: string;
 }
 
-export interface Learnings {
-    list: Array<Learning>;
+export interface LearningsLI {
+    list: Array<LearningLI>;
 }
 
-export interface Learning {
+export interface LearningLI {
     contentTitle?: string;
     contentDescription?: string;
     contentType?: string;
@@ -149,32 +149,32 @@ export interface Learning {
     notesTakenOnVideos?: string;
 }
 
-export interface Logins {
-    list: Array<Login>;
+export interface LoginsLI {
+    list: Array<LoginLI>;
 }
 
-export interface Login {
+export interface LoginLI {
     loginDate?: Date;
     IPaddress?: string;
     userAgent?: string;
     loginType?: string;
 }
 
-export interface MembersFollowed {
-    list: Array<MemberFollows>;
+export interface MembersFollowedLI {
+    list: Array<MemberFollowsLI>;
 }
 
-export interface MemberFollows {
+export interface MemberFollowsLI {
     fullName?: string;
     date?: Date;
     status?: string;
 }
 
-export interface Messages {
-    list: Array<Message>;
+export interface MessagesLI {
+    list: Array<MessageLI>;
 }
 
-export interface Message {
+export interface MessageLI {
     conversationID?: string;
     conversationTitle?: string;
     from?: string;
@@ -186,21 +186,21 @@ export interface Message {
     folder?: string;
 }
 
-export interface PhoneNumbers {
-    list: Array<PhoneNumber>;
+export interface PhoneNumbersLI {
+    list: Array<PhoneNumberLI>;
 }
 
-export interface PhoneNumber {
+export interface PhoneNumberLI {
     extension?: string;
     number?: string;
     type?: string;
 }
 
-export interface WorkingPositions {
-    list: Array<WorkingPosition>;
+export interface WorkingPositionsLI {
+    list: Array<WorkingPositionLI>;
 }
 
-export interface WorkingPosition {
+export interface WorkingPositionLI {
     companyName?: string;
     title?: string;
     description?: string;
@@ -209,12 +209,12 @@ export interface WorkingPosition {
     finishedDate?: Date;
 }
 
-export interface Profile {
+export interface ProfileLI {
     firstName?: string;
     lastName?: string;
     maidenName?: string;
     address?: string;
-    birthdate?: BirthDate;
+    birthdate?: BirthDateLI;
     headline?: string;
     summary?: string;
     industry?: string;
@@ -225,59 +225,59 @@ export interface Profile {
     instantMessengers?: string;
 }
 
-export interface BirthDate {
+export interface BirthDateLI {
     day: number;
     month: Months;
 }
 
-export interface Reactions {
-    list: Array<Reaction>;
+export interface ReactionsLI {
+    list: Array<ReactionLI>;
 }
 
-export interface Reaction {
+export interface ReactionLI {
     date?: Date;
     type?: string;
     link?: string;
 }
 
-export interface Registration {
+export interface RegistrationLI {
     registeredDate?: Date;
     registeredIP?: string;
     subscriptionTypes?: string;
 }
 
-export interface RichMediaList {
-    list: Array<RichMedia>;
+export interface RichMediaListLI {
+    list: Array<RichMediaLI>;
 }
 
-export interface RichMedia {
+export interface RichMediaLI {
     type?: string;
     link?: string;
 }
 
-export interface SavedJobAlerts {
-    list: Array<SavedJobAlert>;
+export interface SavedJobAlertsLI {
+    list: Array<SavedJobAlertLI>;
 }
 
-export interface SavedJobAlert {
+export interface SavedJobAlertLI {
     searchDate?: Date;
     searchURL?: string;
 }
 
-export interface SearchQueries {
-    list: Array<SearchQuery>;
+export interface SearchQueriesLI {
+    list: Array<SearchQueryLI>;
 }
 
-export interface SearchQuery {
+export interface SearchQueryLI {
     date?: Date;
     query?: string;
 }
 
-export interface SecurityChallenges {
-    list: Array<SecurityChallenge>;
+export interface SecurityChallengesLI {
+    list: Array<SecurityChallengeLI>;
 }
 
-export interface SecurityChallenge {
+export interface SecurityChallengeLI {
     challengeDate?: Date;
     IPaddress?: string;
     userAgent?: string;
@@ -285,25 +285,25 @@ export interface SecurityChallenge {
     challengeType?: string;
 }
 
-export interface Skills {
+export interface SkillsLI {
     list: Array<string>;
 }
 
-export interface Votes {
-    list: Array<Vote>;
+export interface VotesLI {
+    list: Array<VoteLI>;
 }
 
-export interface Vote {
+export interface VoteLI {
     date?: Date;
     link?: string;
     optionText?: string;
 }
 
-export interface AdsTargeting {
-    list: Array<ADVTargeting>;
+export interface AdsTargetingLI {
+    list: Array<ADVTargetingLI>;
 }
 
-export interface ADVTargeting {
+export interface ADVTargetingLI {
     memberAge?: string;
     companyNames?: Array<string>;
     degrees?: Array<string>;
@@ -320,11 +320,11 @@ export interface ADVTargeting {
     bibliographyTags?: Array<string>;
 }
 
-export interface JobApplications {
-    list: Array<JobApplication>;
+export interface JobApplicationsLI {
+    list: Array<JobApplicationLI>;
 }
 
-export interface JobApplication {
+export interface JobApplicationLI {
     applicationDate?: Date;
     contactEmail?: string;
     contactPhoneNumber?: string;
@@ -335,11 +335,11 @@ export interface JobApplication {
     questionAnswers?: string;
 }
 
-export interface SavedJobs {
-    list: Array<SavedJob>;
+export interface SavedJobsLI {
+    list: Array<SavedJobLI>;
 }
 
-export interface SavedJob {
+export interface SavedJobLI {
     savedDate?: Date;
     jobUrl?: string;
     jobTitle?: string;
@@ -347,7 +347,7 @@ export interface SavedJob {
 }
 
 //Some parameter type may be not correct.
-export interface JobSeekerPreferences {
+export interface JobSeekerPreferencesLI {
     locations?: Array<string>;
     industries?: Array<string>;
     companyEmployeeCount?: number;
