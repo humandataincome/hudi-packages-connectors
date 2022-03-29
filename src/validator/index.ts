@@ -5,6 +5,7 @@ import {ValidatorAmazon} from "./validator.amazon";
 
 export * from './validator';
 export * from './validator.error';
+export * from './validator.datasource';
 export * from './validator.instagram';
 export * from './validator.facebook';
 export * from './validator.amazon';

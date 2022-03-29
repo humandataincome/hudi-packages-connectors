@@ -20,7 +20,7 @@ import {
 } from "../src";
 
 async function test(){
-    validatorAndProcessingInstagramTest();
+    //validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
     //validatorAndProcessingAmazonTest();
     //await descriptorServiceTest();
@@ -29,14 +29,14 @@ async function test(){
     //await amazonServiceTest();
     //await netflixServiceTest();
     //await googleServiceTest();
-    //await linkedInServiceTest();
+    await linkedInServiceTest();
 }
 
 function validatorAndProcessingInstagramTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/validation/instagram3.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/validation/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validZip = await Validator.validateZIP(data);
             const validationFE = await ValidatorInstagram.selectUsefulFilesFromZip(validZip);
@@ -61,7 +61,6 @@ function validatorAndProcessingInstagramTest() {
 
 function validatorAndProcessingFacebookTest() {
     try {
-        const validator = new Validator();
         const fs =  require('fs');
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/validation/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
@@ -92,7 +91,6 @@ function validatorAndProcessingAmazonTest() {
         fs.readFile(path.join(__dirname,"../src/mock/validation/amazon2.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validation1 = await Validator.validateZIP(data);
-            console.log(await Validator.getFilesPathsIntoZip(validation1));
             const validation2 = await ValidatorAmazon.selectUsefulFilesFromZip(validation1);
             console.log(await Validator.getFilesPathsIntoZip(validation2!));
 
@@ -199,7 +197,6 @@ async function amazonServiceTest() {
         const {Parser} = require("./utils/parser");
         const path = require('path');
         const fs = require('fs');
-        /*
         console.log(await AmazonService.parsePrimeVideoWatchlist(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv`))));
         console.log(await AmazonService.parsePrimeVideoWatchlistHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv`))));
         console.log(await AmazonService.parsePrimeVideoViewingHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv`))));
@@ -228,10 +225,15 @@ async function amazonServiceTest() {
         console.log(resultAudience.sort());
         console.log(resultClicked.sort());
 
-         */
-        //console.log(await AmazonService.parseAudibleListening(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Audible.Listening/Audible.Listening.csv`))));
-        //console.log(await AmazonService.parseAudibleMembershipBillings(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Audible.MembershipBillings/Audible.MembershipBillings.csv`))));
+
+        console.log(await AmazonService.parseAudibleListening(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Audible.Listening/Audible.Listening.csv`))));
+        console.log(await AmazonService.parseAudibleMembershipBillings(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Audible.MembershipBillings/Audible.MembershipBillings.csv`))));
         console.log(await AmazonService.parseDigitalPrimeVideoViewCounts(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.PrimeVideo.ViewCounts.2/Digital.PrimeVideo.ViewCounts.2.csv`))));
+        console.log(await AmazonService.parseDigitalSubscriptions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Digital.Subscriptions/Subscriptions.csv`))));
+        console.log(await AmazonService.parseLightWeightInteractions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Retail.LightWeightInteractions/datasets/LightWeightInteractions/LightWeightInteractions.csv`))));
+
+        console.log(await AmazonService.parseRetailSellerFeedback(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Retail.Seller-Feedback.2/Retail.Seller-Feedback.csv`))));
+        console.log(await AmazonService.parseRetailRegionAuthorities(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/amazon/Retail.RegionAuthority.2/Retail.RegionAuthority.2.csv`))));
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
             console.log('[Error not founding module] '+ e);
@@ -246,36 +248,36 @@ async function linkedInServiceTest() {
     try {
         const path = require('path');
         const {Parser} = require('./utils/parser');
-        //console.log(await LinkedInService.parseAdsClicked(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Ads Clicked.csv`))));
-        //console.log(await LinkedInService.parseConnections(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Connections.csv`))));
-        //console.log(await LinkedInService.parseCompaniesFollowed(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Company Follows.csv`))));
-        //console.log(await LinkedInService.parseContacts(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Contacts.csv`))));
-        //console.log(await LinkedInService.parseEducationHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Education.csv`))));
-        //console.log(await LinkedInService.parseEmails(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Email Addresses.csv`))));
-        //console.log(await LinkedInService.parseEndorsementsReceived(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Endorsement_Received_Info.csv`))));
-        //console.log(await LinkedInService.parseInferencesAboutYou(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Inferences_about_you.csv`))));
-        //console.log(await LinkedInService.parseInvitations(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Invitations.csv`))));
-        //console.log(await LinkedInService.parseJobApplicantSavedInfo(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Job Applicant Saved Answers.csv`))));
-        //console.log(await LinkedInService.parseJobApplicantSavedScreeningQuestionInfo(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Job Applicant Saved Screening Question Responses.csv`))));
-        //console.log(await LinkedInService.parseLearnings(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Learning.csv`))));
-        //console.log(await LinkedInService.parseLogins(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Logins.csv`))));
-        //console.log(await LinkedInService.parseMembersFollowed(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Member_Follows.csv`))));
-        //console.log(await LinkedInService.parseMessages(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/messages.csv`))));
-        //console.log(await LinkedInService.parsePhoneNumbers(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/PhoneNumbers.csv`))));
-        //console.log(await LinkedInService.parseWorkingPositions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Positions.csv`))));
-        //console.log(await LinkedInService.parseProfile(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Profile.csv`))));
-        //console.log(await LinkedInService.parseReactions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Reactions.csv`))));
-        //console.log(await LinkedInService.parseProfile(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Profile.csv`))));
-        //console.log(await LinkedInService.parseRegistration(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Registration.csv`))));
-        //console.log(await LinkedInService.parseRichMediaList(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Rich Media.csv`))));
-        //console.log(await LinkedInService.parseSavedJobAlerts(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/SavedJobAlerts.csv`))));
-        //console.log(await LinkedInService.parseSearchQueries(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/SearchQueries.csv`))));
-        //console.log(await LinkedInService.parseSecurityChallenges(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Security Challenges.csv`))));
-        //console.log(await LinkedInService.parseSkills(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Skills.csv`))));
-        //console.log(await LinkedInService.parseVotes(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Votes.csv`))));
-        //console.log(await LinkedInService.parseAdsTargeting(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Ad_Targeting.csv`))));
-        //console.log(await LinkedInService.parseJobApplications(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/jobs/Job Applications.csv`))));
-        //console.log(await LinkedInService.parseSavedJobs(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/jobs/Saved Jobs.csv`))));
+        console.log(await LinkedInService.parseAdsClicked(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Ads Clicked.csv`))));
+        console.log(await LinkedInService.parseConnections(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Connections.csv`))));
+        console.log(await LinkedInService.parseCompaniesFollowed(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Company Follows.csv`))));
+        console.log(await LinkedInService.parseContacts(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Contacts.csv`))));
+        console.log(await LinkedInService.parseEducationHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Education.csv`))));
+        console.log(await LinkedInService.parseEmails(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Email Addresses.csv`))));
+        console.log(await LinkedInService.parseEndorsementsReceived(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Endorsement_Received_Info.csv`))));
+        console.log(await LinkedInService.parseInferencesAboutYou(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Inferences_about_you.csv`))));
+        console.log(await LinkedInService.parseInvitations(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Invitations.csv`))));
+        console.log(await LinkedInService.parseJobApplicantSavedInfo(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Job Applicant Saved Answers.csv`))));
+        console.log(await LinkedInService.parseJobApplicantSavedScreeningQuestionInfo(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Job Applicant Saved Screening Question Responses.csv`))));
+        console.log(await LinkedInService.parseLearnings(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Learning.csv`))));
+        console.log(await LinkedInService.parseLogins(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Logins.csv`))));
+        console.log(await LinkedInService.parseMembersFollowed(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Member_Follows.csv`))));
+        console.log(await LinkedInService.parseMessages(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/messages.csv`))));
+        console.log(await LinkedInService.parsePhoneNumbers(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/PhoneNumbers.csv`))));
+        console.log(await LinkedInService.parseWorkingPositions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Positions.csv`))));
+        console.log(await LinkedInService.parseProfile(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Profile.csv`))));
+        console.log(await LinkedInService.parseReactions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Reactions.csv`))));
+        console.log(await LinkedInService.parseProfile(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Profile.csv`))));
+        console.log(await LinkedInService.parseRegistration(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Registration.csv`))));
+        console.log(await LinkedInService.parseRichMediaList(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Rich Media.csv`))));
+        console.log(await LinkedInService.parseSavedJobAlerts(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/SavedJobAlerts.csv`))));
+        console.log(await LinkedInService.parseSearchQueries(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/SearchQueries.csv`))));
+        console.log(await LinkedInService.parseSecurityChallenges(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Security Challenges.csv`))));
+        console.log(await LinkedInService.parseSkills(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Skills.csv`))));
+        console.log(await LinkedInService.parseVotes(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Votes.csv`))));
+        console.log(await LinkedInService.parseAdsTargeting(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/Ad_Targeting.csv`))));
+        console.log(await LinkedInService.parseJobApplications(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/jobs/Job Applications.csv`))));
+        console.log(await LinkedInService.parseSavedJobs(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/jobs/Saved Jobs.csv`))));
         console.log(await LinkedInService.parseJobSeekerPreferences(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/linkedin/jobs/Job Seeker Preferences.csv`))));
     } catch (e: any) {
         if(e.code == 'MODULE_NOT_FOUND'){
@@ -290,13 +292,13 @@ async function netflixServiceTest() {
     try {
         const path = require('path');
         const {Parser} = require('./utils/parser');
-        //console.log(await NetflixService.parsePersonalInformation(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/netflix/ACCOUNT/AccountDetails.csv`))));
-        //console.log(await NetflixService.parsePreferences(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/netflix/CONTENT_INTERACTION/IndicatedPreferences.csv`))));
-        //console.log(await NetflixService.parseMyList(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/netflix/CONTENT_INTERACTION/MyList.csv`))));
-        //console.log(await NetflixService.parseSearchHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/netflix/CONTENT_INTERACTION/SearchHistory.csv`))));
-        //console.log(await NetflixService.parseViewingActivity(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/netflix/CONTENT_INTERACTION/ViewingActivity.csv`))));
+        console.log(await NetflixService.parsePersonalInformation(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/netflix/ACCOUNT/AccountDetails.csv`))));
+        console.log(await NetflixService.parsePreferences(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/netflix/CONTENT_INTERACTION/IndicatedPreferences.csv`))));
+        console.log(await NetflixService.parseMyList(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/netflix/CONTENT_INTERACTION/MyList.csv`))));
+        console.log(await NetflixService.parseSearchHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/netflix/CONTENT_INTERACTION/SearchHistory.csv`))));
+        console.log(await NetflixService.parseViewingActivity(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/netflix/CONTENT_INTERACTION/ViewingActivity.csv`))));
         console.log(await NetflixService.parsePlaybackEvents(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/netflix/CONTENT_INTERACTION/PlaybackRelatedEvents.csv`))));
-        //console.log(await NetflixService.parseProfiles(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/netflix/PROFILES/Profiles.csv`))));
+        console.log(await NetflixService.parseProfiles(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/netflix/PROFILES/Profiles.csv`))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
@@ -310,17 +312,16 @@ async function netflixServiceTest() {
 async function googleServiceTest() {
     try {
         const {Parser} = require('./utils/parser');
-        const fs = require('fs');
         const path = require('path');
-        //console.log(await GoogleService.parseProfile(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Profile/Profilo.json`)))));
-        //console.log(await GoogleService.parseBrowseHistory(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Chrome/BrowserHistory.json`)))));
-        //console.log(await GoogleService.parseSearchEngines(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Chrome/SearchEngines.json`)))));
-        //console.log(await GoogleService.parseSemanticLocations(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/LocationHistory/SemanticLocationHistory/2017/2017_APRIL.json`)))));
-        //console.log(await GoogleService.parseImageData(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/GooglePhoto/PhotosFrom2019/photo.mp4.json`)))));
+        console.log(await GoogleService.parseProfile(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Profile/Profilo.json`)))));
+        console.log(await GoogleService.parseBrowseHistory(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Chrome/BrowserHistory.json`)))));
+        console.log(await GoogleService.parseSearchEngines(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Chrome/SearchEngines.json`)))));
+        console.log(await GoogleService.parseSemanticLocations(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/LocationHistory/SemanticLocationHistory/2017/2017_APRIL.json`)))));
+        console.log(await GoogleService.parseImageData(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/GooglePhoto/PhotosFrom2019/photo.mp4.json`)))));
         console.log(await GoogleService.parseTransactions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/google/Takeout/GooglePay/GoogleTransactions/transactions_123456.csv`))));
-        //console.log(await GoogleService.parseDocLibrary(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/GooglePlayStore/Library.json`)))));
-        //console.log(await GoogleService.parsePurchaseHistory(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/GooglePlayStore/PurchaseHistory.json`)))));
-        //console.log(await GoogleService.parseOrderHistory(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/GooglePlayStore/OrderHistory.json`)))));
+        console.log(await GoogleService.parseDocLibrary(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/GooglePlayStore/Library.json`)))));
+        console.log(await GoogleService.parsePurchaseHistory(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/GooglePlayStore/PurchaseHistory.json`)))));
+        console.log(await GoogleService.parseOrderHistory(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/GooglePlayStore/OrderHistory.json`)))));
         /*
         console.log(await GoogleService.parseActivitiesShopping(Buffer.from(fs.readFileSync(path.resolve(__dirname, `../src/mock/IT_version/google/Takeout/YourActivities/Shopping/MyActivities.html`)))));
         console.log(await GoogleService.parseDailyDiscoverActivities(Buffer.from(fs.readFileSync(path.resolve(__dirname, `../src/mock/IT_version/google/Takeout/YourActivities/Discover/MyActivities.html`)))));
