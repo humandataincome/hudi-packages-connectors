@@ -300,3 +300,89 @@ export interface DigitalPrimeVideoViewCountsAM {
     titlesWatched?: number;
     homeCountry?: string;
 }
+
+export interface DigitalSubscriptionsAM {
+    list: DigitalSubscriptionAM[];
+}
+
+export interface DigitalSubscriptionAM {
+    subscriptionId?: string;
+    baseSubscriptionId?: string;
+    shippingAddress?: string;
+    marketplace?: string;
+    subscriptionPlanId?: string;
+    subscriptionStatus?: string;
+    subscriptionStatusDate?: Date;
+    activePaymentPlanId?: string;
+    autoRenew?: boolean;
+    subscriptionStartDate?: Date;
+    walletCyclingPreferenceEnabled?: boolean;
+    serviceProvider?: string;
+    recordVersionNumber?: string;
+    contractTimeInterval?: string;
+    version?: string;
+    haveSubscriptionProblem?: boolean;
+    maxNumOfBeneficiaries?: number;
+    scheduledResumeDateForPausedSubscription?: Date;
+    currentPlanGifted?: boolean;
+    billingScheduleId?: string;
+    nextBillDate?: Date;
+    nextBillAmount?: number;
+    baseCurrencyCode?: string;
+    currentBillingPeriod?: number;
+    billingPeriodStartDate?: Date;
+    currentContractPeriod?: number;
+    contractPeriodStartDate?: Date;
+    contractEndDate?: Date;
+}
+
+export interface LightWeightInteractionsAM {
+    list: LightWeightInteractionAM[];
+}
+
+export interface LightWeightInteractionAM {
+    creationTime?: Date;
+    interactableType?: string;
+    interactableURL?: string;
+    interactionTime?: Date;
+    interactionType?: string;
+    interactionValue?: string;
+    marketplace?: string;
+    modificationTime?: Date;
+    suppressed?: boolean;
+    version?: string;
+}
+
+export interface RetailSellerFeedbacksAM {
+    list: RetailSellerFeedbackAM[];
+}
+
+export interface RetailSellerFeedbackAM {
+    orderId?: string;
+    marketplace?: string;
+    feedbackDate?: Date;
+    feedbackText?: string;
+    feedbackRating?: number;
+    dealAgain?: string;
+    didItemArrivedOnTime?: boolean;
+    itemAsDescribedBySeller?: boolean;
+    promptAndCourteousService?: boolean;
+    whatWentWrong?: string;
+    isFeedbackRemoved?: boolean;
+    feedbackRemovedBy?: string;
+    reasonForRemoval?: string;
+}
+
+export interface RetailRegionAuthoritiesAM {
+    list: RetailRegionAuthorityAM[];
+}
+
+export interface RetailRegionAuthorityAM {
+    postalCode?: string;
+    district?: string;
+    city?: string;
+    stateOrProvince?: string;
+    stateCode?: string;
+    countryCode?: string;
+    date?: Date;
+}
