@@ -386,3 +386,6 @@ export interface RetailRegionAuthorityAM {
     countryCode?: string;
     date?: Date;
 }
+ export interface RegionAuthorityAM {
+
+ }

@@ -22,37 +22,28 @@ export class ProcessorFacebook {
     /**
      * @param zipFile - file zip as Buffer
      * @param timeIntervalDays - optional days of interval wanted for TI parameters, default value is 365
-     * @return {Promise<InstagramDataAggregator | undefined>} - aggregation of data from instagram data source
+     * @return aggregation of data from Facebook data source
      */
     static async aggregatorFactory(zipFile: Buffer, timeIntervalDays: number = 365): Promise<FacebookDataAggregator | undefined> {
         const JSZip = require("jszip");
-        let model: FacebookDataAggregator = {};
+        const model: FacebookDataAggregator = {};
+        let result, regex;
         const zip = await JSZip.loadAsync(zipFile);
         for (let pathName of Object.keys(zip.files)) {
             const file = zip.files[pathName];
             if (!file.dir) {
-                let today = new Date();
                 await file.async('nodebuffer').then(async (data: Buffer) => {
-                    let result, regex;
                     if((regex = new RegExp(FileCode.FACEBOOK_ADS_INTERACTED_WITH)) && (regex.test(pathName))) {
                         result = <AdsInteractedWithFB>await FacebookService.parseAdsInteractedWith(data);
                         if (result) {
-                            let counterTI = 0;
-                            result.list.forEach((item: AdvInteractionFB) => {
-                                (item.date) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
-                            });
-                            model.adsClickTI = counterTI;
                             model.adsClick = result.list.length;
+                            model.adsClickTI = result.list.filter((item: AdvInteractionFB) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
                         }
                     } else if ((regex = new RegExp(FileCode.FACEBOOK_COMMENTS)) && (regex.test(pathName))) {
                         result = <CommentsPostedFB>await FacebookService.parseComments(data);
                         if (result) {
-                            let counterTI = 0;
-                            result.list.forEach((item: CommentPostedFB) => {
-                                (item.date) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
-                            });
-                            model.commentsPostsTI = counterTI;
                             model.commentsPosts = result.list.length;
+                            model.commentsPostsTI = result.list.filter((item: CommentPostedFB) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
                         }
                     } else if ((regex = new RegExp(FileCode.FACEBOOK_REACTIONS)) && (regex.test(pathName))) {
                         result = <ReactionsFB>await FacebookService.parseReactions(data);
@@ -143,22 +134,14 @@ export class ProcessorFacebook {
                     } else if ((regex = new RegExp(FileCode.FACEBOOK_RECENTLY_VIEWED)) && (regex.test(pathName))) {
                         result = <RecentlyViewedFB>await FacebookService.parseRecentlyViewed(data);
                         if(result && result.videoWatched) {
-                            let counterTI = 0;
-                            result.videoWatched.forEach((item: VisualizationFB) => {
-                                (item.date) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
-                            });
-                            model.videosViewedTI = counterTI;
                             model.videosViewed = result.videoWatched.length;
+                            model.videosViewedTI = result.videoWatched.filter((item: VisualizationFB) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
                         }
                     } else if ((regex = new RegExp(FileCode.FACEBOOK_YOUR_POSTS)) && (regex.test(pathName))) {
                         result = <YourPostsFB>await FacebookService.parseYourPosts(data);
                         if(result){
-                            let counterTI = 0;
-                            result.list.forEach((item: YourPostFB) => {
-                                (item.date) && (ProcessorUtils.daysDifference(today, item.date) < timeIntervalDays) && (counterTI++);
-                            });
-                            model.postsCreatedTI = counterTI;
                             model.postsCreated = result.list.length;
+                            model.postsCreatedTI = result.list.filter((item: YourPostFB) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
                         }
                     } else if ((regex = new RegExp(FileCode.FACEBOOK_FRIENDS)) && (regex.test(pathName))) {
                         result = <FriendRequestsSentFB>await FacebookService.parseFriends(data);
@@ -166,7 +149,7 @@ export class ProcessorFacebook {
                             model.friends = result.list.length;
                         }
                     } else {
-                        throw new Error(`${ProcessorErrorEnums.PROCESSOR_FACEBOOK_INVALID_FILE_CODE}`);
+                        throw new Error(`${ProcessorErrorEnums.PROCESSOR_FACEBOOK_INVALID_FILE_CODE}: File ${pathName} in input is not a valid Facebook file`);
                     }
 
                 });

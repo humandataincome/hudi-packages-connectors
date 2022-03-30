@@ -16,20 +16,21 @@ import {
     LinkedInService,
     NetflixService,
     GoogleService,
-    ValidatorAmazon
+    ValidatorAmazon,
+    ProcessorAmazon
 } from "../src";
 
 async function test(){
     //validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
-    //validatorAndProcessingAmazonTest();
+    validatorAndProcessingAmazonTest();
     //await descriptorServiceTest();
     //await instagramServiceTest();
     //await facebookServiceTest();
     //await amazonServiceTest();
     //await netflixServiceTest();
     //await googleServiceTest();
-    await linkedInServiceTest();
+    //await linkedInServiceTest();
 }
 
 function validatorAndProcessingInstagramTest() {
@@ -88,12 +89,12 @@ function validatorAndProcessingAmazonTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/validation/amazon2.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/validation/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validation1 = await Validator.validateZIP(data);
             const validation2 = await ValidatorAmazon.selectUsefulFilesFromZip(validation1);
-            console.log(await Validator.getFilesPathsIntoZip(validation2!));
-
+            //console.log(await Validator.getFilesPathsIntoZip(validation2!));
+            console.log(await ProcessorAmazon.aggregatorFactory(validation2!, 180))
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
