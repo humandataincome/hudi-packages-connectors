@@ -12,7 +12,7 @@ A set of connectors to describe, parse and process the data sources provided by 
 ## Which data sources are supported? ##
 - **Instagram** (full support on validation, processing and parsing)
 - **Facebook** (full support on validation, processing and parsing)
-- **Amazon** (only parsing)
+- **Amazon** (full support on validation, processing and parsing)
 - **Google** (only parsing)
 - **Netflix** (only parsing)
 - **LinkedIn** (only parsing)
@@ -103,7 +103,7 @@ Always select the **JSON** format.
 Click on https://www.facebook.com/dyi, select Format **JSON** and Media Quality **High**, select a **Data Range** (**All time** has more information). Scroll at the end of the page and click on the blue button **Request a download**.
 
 ### Amazon Data Source ###
-Go to https://www.amazon.com/hz/privacy-central/data-requests/preview.html, select **Request All Your Data** from the drop down menu and then **Submit Request**.
+Go to https://www.amazon.com/hz/privacy-central/data-requests/preview.html, select **Request All Your Data** from the drop-down menu and then **Submit Request**. Check your email address, find the last Amazon's email and click on **Confirm Data Request**.
 
 ### Netflix Data Source ###
 Go into one of your account' profiles, click on your account's icon in the top-right corner of the window, click on **Account**, then click **Download your personal data** under Settings paragraph and finish clicking the red button **Send request**.

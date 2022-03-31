@@ -372,7 +372,7 @@
                                 },
                                 {
                                     "index": 2,
-                                    "description": "Select Format:JSON, Media Quality: High and Data Range: All Time",
+                                    "description": "Select Format: JSON, Media Quality: High and Data Range: All Time",
                                     "attributeDescription": "<p>Select Format <b>JSON</b>, Media Quality <b>High</b> and Data Range <b>All time</b></p>"
                                 },
                                 {
@@ -449,7 +449,7 @@
                                 },
                                 {
                                     "index": 2,
-                                    "description": "Seleziona Formato:JSON, Media Quality: Alto ed Intervallo di date: Tutti i miei dati",
+                                    "description": "Seleziona Formato: JSON, Media Quality: Alto ed Intervallo di date: Tutti i miei dati",
                                     "attributeDescription": "<p>Seleziona Formato <b>JSON</b>, Media Quality <b>Alto</b> ed Intervallo di date <b>Tutti i miei dati</b></p>"
                                 },
                                 {
@@ -509,6 +509,169 @@
                         {
                             "filePath": "posts/your_posts_1.json",
                             "fileContent": "Informazioni sui tuoi post"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sourceName": "Amazon",
+            "sourceCode": "AMAZON",
+            "supportedFormats": [
+                "zip"
+            ],
+            "retrievingProcedures": [
+                {
+                    "languageCode": "EN",
+                    "descriptionText": "Amazon data source",
+                    "procedures": [
+                        {
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Click on this link https://www.amazon.com/hz/privacy-central/data-requests/preview.html",
+                                    "attributeDescription": "<p>Click on this <a href='https://www.amazon.com/hz/privacy-central/data-requests/preview.html'>link</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Select \"Request All Your Data\" from the drop-down menu",
+                                    "attributeDescription": "<p>Select <b>Request All Your Data</b> from the drop-down menu</p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Click on \"Submit Request\"",
+                                    "attributeDescription": "<p>Click on <b>Submit Request</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Check your email address, find the last amazon's email and click on \"Confirm Data Request\"",
+                                    "attributeDescription": "<p>Check your <b>Email Address</b>, find the last Amazon's <b>Email</b> and click on <b>Confirm Data Request</b></p>"
+                                }
+                            ]
+                        }
+                    ],
+                    "filesDescription": [
+                        {
+                            "filePath": "Advertising.(\\d+)/Advertising.AdvertiserAudiences.csv",
+                            "fileContent": "Your ADV Audiences"
+                        },
+                        {
+                            "filePath": "Advertising.(\\d+)/Advertising.AdvertiserClicks.csv",
+                            "fileContent": "ADV you clicked on"
+                        },
+                        {
+                            "filePath": "Advertising.(\\d+)/Advertising.AmazonAudiences.csv",
+                            "fileContent": "ADV from Amazon"
+                        },
+                        {
+                            "filePath": "Advertising.(\\d+)/Advertising.3PAudiences.csv",
+                            "fileContent": "ADV from Third Parties"
+                        },
+                        {
+                            "filePath": "Audible.Library/Audible.Library.csv",
+                            "fileContent": "Your Audible Library"
+                        },
+                        {
+                            "filePath": "Digital.Subscriptions/Subscriptions.csv",
+                            "fileContent": "Records of your subscriptions plans"
+                        },
+                        {
+                            "filePath": "Digital.PrimeVideo.ViewCounts.2/Digital.PrimeVideo.ViewCounts.2.csv",
+                            "fileContent": "Prime Video counters of products you have seen or bought"
+                        },
+                        {
+                            "filePath": "LightWeightInteractions/LightWeightInteractions.csv",
+                            "fileContent": "Your interactions with other people's reviews"
+                        },
+                        {
+                            "filePath": "Retail.Seller-Feedback.2/Retail.Seller-Feedback.csv",
+                            "fileContent": "Your reviews history"
+                        },
+                        {
+                            "filePath": "Retail.OrderHistory.2/Retail.OrderHistory.2.csv",
+                            "fileContent": "Your orders history"
+                        },
+                        {
+                            "filePath": "Retail.RegionAuthority.2/Retail.RegionAuthority.2.csv",
+                            "fileContent": "Your addresses"
+                        }
+                    ]
+                },
+                {
+                    "languageCode": "IT",
+                    "descriptionText": "Amazon data source",
+                    "procedures": [
+                        {
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Clicca su questo link https://www.amazon.com/hz/privacy-central/data-requests/preview.html",
+                                    "attributeDescription": "<p>Clicca su questo <a href='https://www.amazon.com/hz/privacy-central/data-requests/preview.html'>link</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Seleziona \"Request All Your Data\" dal menu a tendina",
+                                    "attributeDescription": "<p>Seleziona <b>Request All Your Data</b> dal menu a tendina</p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Clicca su \"Submit Request\"",
+                                    "attributeDescription": "<p>Clicca su <b>Submit Request</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Controlla il tuo indirizzo email, trova l'ultima email di Amazon e clicca su \"Confirm Data Request\"",
+                                    "attributeDescription": "<p>Controlla il tuo <b>Indirizzo Email</b>, trova l'ultima <b>Email</b> di Amazon e clicca su <b>Confirm Data Request</b></p>"
+                                }
+                            ]
+                        }
+                    ],
+                    "filesDescription": [
+                        {
+                            "filePath": "Advertising.(\\d+)/Advertising.AdvertiserAudiences.csv",
+                            "fileContent": "La tua ADV audience"
+                        },
+                        {
+                            "filePath": "Advertising.(\\d+)/Advertising.AdvertiserClicks.csv",
+                            "fileContent": "ADV che hai cliccato"
+                        },
+                        {
+                            "filePath": "Advertising.(\\d+)/Advertising.AmazonAudiences.csv",
+                            "fileContent": "ADV da Amazon"
+                        },
+                        {
+                            "filePath": "Advertising.(\\d+)/Advertising.3PAudiences.csv",
+                            "fileContent": "ADV da terze parti"
+                        },
+                        {
+                            "filePath": "Audible.Library/Audible.Library.csv",
+                            "fileContent": "La tua libreria Audible"
+                        },
+                        {
+                            "filePath": "Digital.Subscriptions/Subscriptions.csv",
+                            "fileContent": "Il registro delle tue sottoscrizioni"
+                        },
+                        {
+                            "filePath": "Digital.PrimeVideo.ViewCounts.2/Digital.PrimeVideo.ViewCounts.2.csv",
+                            "fileContent": "Contatore dei programmi visti o comprati su Amazon Prime"
+                        },
+                        {
+                            "filePath": "LightWeightInteractions/LightWeightInteractions.csv",
+                            "fileContent": "Le tue interazioni con le recensioni altrui"
+                        },
+                        {
+                            "filePath": "Retail.Seller-Feedback.2/Retail.Seller-Feedback.csv",
+                            "fileContent": "Registro delle tue recensioni"
+                        },
+                        {
+                            "filePath": "Retail.OrderHistory.2/Retail.OrderHistory.2.csv",
+                            "fileContent": "Registro dei tuoi ordini"
+                        },
+                        {
+                            "filePath": "Retail.RegionAuthority.2/Retail.RegionAuthority.2.csv",
+                            "fileContent": "I tuoi indirizzi"
                         }
                     ]
                 }
