@@ -60,30 +60,30 @@ export class Validator {
      * @return FileExtension if the name matches one of the supported extensions, undefined otherwise
      */
     static getFileExtension(fileName: string): FileExtension | undefined {
-        const segments = fileName.split('.');
-        if (segments[segments.length-1] === 'csv') {
+        const extension = fileName.split('.').pop();
+        if (extension === 'csv') {
             return FileExtension.CSV;
-        } else if (segments[segments.length-1] === 'json') {
+        } else if (extension === 'json') {
             return FileExtension.JSON;
-        } else if (segments[segments.length-1] === 'zip') {
+        } else if (extension === 'zip') {
             return FileExtension.ZIP;
-        } else if (segments[segments.length-1] === 'pdf') {
+        } else if (extension === 'pdf') {
             return FileExtension.PDF;
-        } else if (segments[segments.length-1] === 'xml') {
+        } else if (extension === 'xml') {
             return FileExtension.XML;
-        } else if (segments[segments.length-1] === 'html') {
+        } else if (extension === 'html') {
             return FileExtension.HTML;
-        } else if (segments[segments.length-1] === 'txt') {
+        } else if (extension === 'txt') {
             return FileExtension.TXT;
-        } else if (segments[segments.length-1] === 'jpg') {
+        } else if (extension === 'jpg') {
             return FileExtension.JPG;
-        } else if (segments[segments.length-1] === 'png') {
+        } else if (extension === 'png') {
             return FileExtension.PNG;
-        } else if (segments[segments.length-1] === 'gif') {
+        } else if (extension === 'gif') {
             return FileExtension.GIF;
-        } else if (segments[segments.length-1] === 'vcf') {
+        } else if (extension === 'vcf') {
             return FileExtension.VCF;
-        } else if (segments[segments.length-1] === 'eml') {
+        } else if (extension === 'eml') {
             return FileExtension.EML;
         } else {
             return undefined;
@@ -94,6 +94,11 @@ export class Validator {
         return (file.byteLength < Validator.MAX_BYTE_FILE_SIZE) && (file.byteLength > Validator.MIN_BYTE_FILE_SIZE);
     }
 
+    /**
+     * @param extension - extension of the file (e.g. json, csv, txt)
+     * @param file - file as buffer
+     * @return TRUE if the file is valid, FALSE otherwise
+     */
     private static isValideFile(extension: FileExtension, file: Buffer): boolean {
         if (Validator.isValideSize(file)) {
             switch (extension) {
@@ -101,8 +106,6 @@ export class Validator {
                     return Validator.validateJSON(file);
                 case FileExtension.CSV:
                     return Validator.validateCSV(file);
-                case FileExtension.PDF || FileExtension.XML || FileExtension.HTML || FileExtension.TXT:
-                    return true;
                 default:
                     return false;
             }
@@ -112,31 +115,31 @@ export class Validator {
 
     /**
      * @param file - file as buffer
-     * @return TRUE if the file is valid and the size is supported, FALSE otherwise
+     * @return TRUE if the file is a valid JSON, FALSE otherwise
      */
     static validateJSON(file: Buffer): boolean {
         try {
             return !!JSON.parse(file.toString());
         } catch (error) {
             return false;
-            //throw new Error(`${ValidationErrorEnums.JSON_ERROR}: ${error}`);
         }
     }
 
+    /**
+     * @param file - file as buffer
+     * @return TRUE if the file is a valid CSV, FALSE otherwise
+     */
     static validateCSV(file: Buffer): boolean {
         try {
             return true;
         } catch (error) {
             return false;
-            //throw new Error(`${ValidationErrorEnums.CSV_ERROR}: ${error}`);
         }
     }
 
     /**
-     * Given any input, if this is a not empty object (it has at least a key and a parameter not empty) return false,
-     * otherwise return true.
-     * @param obj
-     * @return boolean
+     * @param obj - an object in input
+     * @return FALSE if this is a not empty object (it has at least a key and a parameter not empty), TRUE otherwise.
      */
     static objectIsEmpty(obj: any): boolean {
         if (Object.getPrototypeOf(obj) === Object.prototype) {
@@ -153,7 +156,7 @@ export class Validator {
 
     /**
      * @param time - is the 17 digit timestamp of Google Chrome (Webkit Timestamp)
-     * @return Date
+     * @return a compatible Date format
      */
     static convertWebkitTimestamp(time: number): Date {
         const dateInSeconds = Math.round(time / 1000000) - 11644473600;

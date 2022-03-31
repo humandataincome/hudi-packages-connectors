@@ -112,11 +112,4 @@ export enum FileCode {
     AMAZON_CUSTOMER_ENGAGEMENT = 'Search-Data/Search-Data.Customer-Engagement.csv',
     AMAZON_RETAIL_REGION_AUTHORITY = 'Retail.RegionAuthority.2/Retail.RegionAuthority.2.csv',
 
-
-
-
-
-
-
-
 }

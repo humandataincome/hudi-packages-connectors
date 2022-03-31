@@ -23,8 +23,8 @@ import {
 async function test(){
     //validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
-    validatorAndProcessingAmazonTest();
-    //await descriptorServiceTest();
+    //validatorAndProcessingAmazonTest();
+    await descriptorServiceTest();
     //await instagramServiceTest();
     //await facebookServiceTest();
     //await amazonServiceTest();
@@ -111,9 +111,9 @@ async function descriptorServiceTest() {
         console.log(DescriptorService.getDescription(DataSourceCode.INSTAGRAM));
         console.log(DescriptorService.getName(DataSourceCode.INSTAGRAM));
         console.log(DescriptorService.getFormats(DataSourceCode.INSTAGRAM));
-        console.log(DescriptorService.getProcedure(DataSourceCode.FACEBOOK, LanguageCode.ITALIAN, RetrievingProcedureType.DESKTOP));
+        console.log(DescriptorService.getAllProcedureTypes(DataSourceCode.AMAZON, LanguageCode.ENGLISH));
+        console.log(DescriptorService.getProcedure(DataSourceCode.AMAZON, LanguageCode.ITALIAN, RetrievingProcedureType.DESKTOP));
         console.log(DescriptorService.getAllLanguages(DataSourceCode.INSTAGRAM));
-        console.log(DescriptorService.getAllProcedureTypes(DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
