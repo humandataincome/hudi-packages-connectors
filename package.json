@@ -29,7 +29,10 @@
         "hudi",
         "instagram",
         "facebook",
-        "amazon"
+        "amazon",
+        "google",
+        "linkedin",
+        "netflix"
     ],
     "dependencies": {
         "@types/node": "^16.11.12",

@@ -87,7 +87,7 @@ export class ProcessorInstagram {
                             model.likesPosts = result.list.length;
                             model.likesPostsTI = result.list.filter((item: LikeIG) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
                         }
-                    } else if ((regex = new RegExp(FileCode.INSTAGRAM_ELEGIBILITY)) && (regex.test(pathName))) {
+                    } else if ((regex = new RegExp(FileCode.INSTAGRAM_ELIGIBILITY)) && (regex.test(pathName))) {
                         result = <EligibilityIG>await InstagramService.parseEligibility(data);
                         if (result) {
                             model.isMonetizable = !(result.decision == 'Not Eligible');

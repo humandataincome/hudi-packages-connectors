@@ -24,7 +24,7 @@ export class ValidatorInstagram extends ValidatorDatasource {
             FileCode.INSTAGRAM_FOLLOWING_ACCOUNTS,
             FileCode.INSTAGRAM_LIKE_COMMENTS,
             FileCode.INSTAGRAM_LIKE_POSTS,
-            FileCode.INSTAGRAM_ELEGIBILITY,
+            FileCode.INSTAGRAM_ELIGIBILITY,
             FileCode.INSTAGRAM_EMOJI_SLIDERS,
             FileCode.INSTAGRAM_POLLS,
             FileCode.INSTAGRAM_QUIZZES

@@ -547,6 +547,11 @@
                                     "index": 4,
                                     "description": "Check your email address, find the last amazon's email and click on \"Confirm Data Request\"",
                                     "attributeDescription": "<p>Check your <b>Email Address</b>, find the last Amazon's <b>Email</b> and click on <b>Confirm Data Request</b></p>"
+                                },
+                                {
+                                    "index": 5,
+                                    "description": "Once you receive the files list, download and zip all of them into one single zip file",
+                                    "attributeDescription": "<p>Once you receive the <b>files list</b>,download and zip all of them into one <b>single zip file</b></p>"
                                 }
                             ]
                         }
@@ -624,6 +629,11 @@
                                     "index": 4,
                                     "description": "Controlla il tuo indirizzo email, trova l'ultima email di Amazon e clicca su \"Confirm Data Request\"",
                                     "attributeDescription": "<p>Controlla il tuo <b>Indirizzo Email</b>, trova l'ultima <b>Email</b> di Amazon e clicca su <b>Confirm Data Request</b></p>"
+                                },
+                                {
+                                    "index": 5,
+                                    "description": "Una volta ricevuta la lista dei file, scaricali tutti e zippali in un unico file zip",
+                                    "attributeDescription": "<p>Una volta ricevuta la <b>lista dei file</b>, scaricali tutti e zippali in un <b>unico file zip</b></p>"
                                 }
                             ]
                         }

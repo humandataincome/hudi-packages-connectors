@@ -104,7 +104,7 @@ export class ProcessorFacebook {
                                 model.pages = result.list.length;
                             }
                         }
-                    } else if ((regex = new RegExp(FileCode.FACEBOOK_PAGES_RACCOMENDED)) && (regex.test(pathName))) {
+                    } else if ((regex = new RegExp(FileCode.FACEBOOK_PAGES_RECOMMENDED)) && (regex.test(pathName))) {
                         result = <PagesRecommendedFB>await FacebookService.parsePagesRecommended(data);
                         if(result) {
                             if(model.pages) {

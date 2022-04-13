@@ -16,7 +16,7 @@ export class ValidatorFacebook extends ValidatorDatasource{
             FileCode.FACEBOOK_REACTIONS,
             FileCode.FACEBOOK_PAGES_FOLLOWED,
             FileCode.FACEBOOK_PAGES_LIKED,
-            FileCode.FACEBOOK_PAGES_RACCOMENDED,
+            FileCode.FACEBOOK_PAGES_RECOMMENDED,
             FileCode.FACEBOOK_LANGUAGE,
             FileCode.FACEBOOK_PROFILE_INFO,
             FileCode.FACEBOOK_RECENTLY_VIEWED,

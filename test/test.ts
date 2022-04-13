@@ -24,12 +24,12 @@ async function test(){
     //validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
     //validatorAndProcessingAmazonTest();
-    await descriptorServiceTest();
+    //await descriptorServiceTest();
     //await instagramServiceTest();
     //await facebookServiceTest();
-    //await amazonServiceTest();
+    await amazonServiceTest();
     //await netflixServiceTest();
-    //await googleServiceTest();
+    await googleServiceTest();
     //await linkedInServiceTest();
 }
 
