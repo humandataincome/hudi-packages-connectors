@@ -1,6 +1,6 @@
-import {FileCode} from "../descriptor";
-import {InputFileFormat} from "./validator";
+import {FileCode, FileCodeFacebook} from "../descriptor";
 import {ValidatorDatasource} from "./validator.datasource";
+import {InputFileFormat} from "./index";
 
 export class ValidatorFacebook extends ValidatorDatasource{
     /**
@@ -11,17 +11,17 @@ export class ValidatorFacebook extends ValidatorDatasource{
     static async selectUsefulFilesFromZip(
         zipFile: InputFileFormat,
         fileList: FileCode[] = [
-            FileCode.FACEBOOK_ADS_INTERACTED_WITH,
-            FileCode.FACEBOOK_COMMENTS,
-            FileCode.FACEBOOK_REACTIONS,
-            FileCode.FACEBOOK_PAGES_FOLLOWED,
-            FileCode.FACEBOOK_PAGES_LIKED,
-            FileCode.FACEBOOK_PAGES_RECOMMENDED,
-            FileCode.FACEBOOK_LANGUAGE,
-            FileCode.FACEBOOK_PROFILE_INFO,
-            FileCode.FACEBOOK_RECENTLY_VIEWED,
-            FileCode.FACEBOOK_YOUR_POSTS,
-            FileCode.FACEBOOK_FRIENDS
+            FileCodeFacebook.ADS_INTERACTED_WITH,
+            FileCodeFacebook.COMMENTS,
+            FileCodeFacebook.REACTIONS,
+            FileCodeFacebook.PAGES_FOLLOWED,
+            FileCodeFacebook.PAGES_LIKED,
+            FileCodeFacebook.PAGES_RECOMMENDED,
+            FileCodeFacebook.LANGUAGE,
+            FileCodeFacebook.PROFILE_INFO,
+            FileCodeFacebook.RECENTLY_VIEWED,
+            FileCodeFacebook.YOUR_POSTS,
+            FileCodeFacebook.FRIENDS
         ]): Promise<Buffer | undefined> {
         return super.selectUsefulFilesFromZip(zipFile, fileList);
     }

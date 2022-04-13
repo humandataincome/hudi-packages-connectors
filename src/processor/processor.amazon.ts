@@ -1,7 +1,7 @@
 import {AmazonDataAggregator} from "./processor.aggregator.model";
-import {FileCode} from "../descriptor";
+import {FileCodeAmazon} from "../descriptor";
 import {ProcessorErrorEnums} from "./processor.error";
-import {Validator} from "../validator";
+import {InputFileFormat, Validator} from "../validator";
 import {AmazonService} from "../service";
 import {
     AudibleLibraryAM,
@@ -20,7 +20,7 @@ export class ProcessorAmazon {
      * @param timeIntervalDays - optional days of interval wanted for TI parameters, default value is 365
      * @return aggregation of data from Amazon data source
      */
-    static async aggregatorFactory(zipFile: Buffer, timeIntervalDays: number = 365): Promise<AmazonDataAggregator | undefined> {
+    static async aggregatorFactory(zipFile: InputFileFormat, timeIntervalDays: number = 365): Promise<AmazonDataAggregator | undefined> {
         const JSZip = require("jszip");
         let model: AmazonDataAggregator = {};
         let result, regex;
@@ -29,19 +29,19 @@ export class ProcessorAmazon {
             const file = zip.files[pathName];
             if (!file.dir) {
                 await file.async('nodebuffer').then(async (data: Buffer) => {
-                    if((regex = new RegExp(FileCode.AMAZON_ADV_AUDIENCES)) && (regex.test(pathName))) {
+                    if((regex = new RegExp(FileCodeAmazon.ADV_AUDIENCES)) && (regex.test(pathName))) {
                         result = await AmazonService.parseAmazonAudiences(data);
                         (result) && (model.advAudiences = result.list.length);
-                    } else if ((regex = new RegExp(FileCode.AMAZON_ADV_CLICKS)) && (regex.test(pathName))) {
+                    } else if ((regex = new RegExp(FileCodeAmazon.ADV_CLICKS)) && (regex.test(pathName))) {
                         result = await AmazonService.parseAdvertiserClicked(data);
                         (result) && (model.advClicks = result.list.length);
-                    } else if ((regex = new RegExp(FileCode.AMAZON_AUDIENCES)) && (regex.test(pathName))) {
+                    } else if ((regex = new RegExp(FileCodeAmazon.AUDIENCES)) && (regex.test(pathName))) {
                         result = await AmazonService.parseAmazonAudiences(data);
                         (result) && (model.amazonAudiences = result.list.length);
-                    } else if ((regex = new RegExp(FileCode.AMAZON_AUDIBLE_LISTENING)) && (regex.test(pathName))) {
+                    } else if ((regex = new RegExp(FileCodeAmazon.AUDIBLE_LISTENING)) && (regex.test(pathName))) {
                         result = await AmazonService.parseAudibleListening(data);
                         (result) && (model.audibleListening = result.list.length);
-                    } else if ((regex = new RegExp(FileCode.AMAZON_PRIMEVIDEO_VIEW_COUNT)) && (regex.test(pathName))) {
+                    } else if ((regex = new RegExp(FileCodeAmazon.PRIMEVIDEO_VIEW_COUNT)) && (regex.test(pathName))) {
                         result = await AmazonService.parseDigitalPrimeVideoViewCounts(data);
                         if (result) {
                             (result.moviesWatched) && (model.movies = result.moviesWatched);
@@ -51,7 +51,7 @@ export class ProcessorAmazon {
                             (result.rentBuyMoviesWatched) && (model.rents += result.rentBuyMoviesWatched);
                             (result.rentBuyTitlesWatched) && (model.rents += result.rentBuyTitlesWatched);
                         }
-                    } else if ((regex = new RegExp(FileCode.AMAZON_RETAIL_ORDER_HISTORY)) && (regex.test(pathName))) {
+                    } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_ORDER_HISTORY)) && (regex.test(pathName))) {
                         result = <RetailOrderHistoryAM>await AmazonService.parseRetailOrderHistory(data);
                         if (result) {
                             model.orders = result.list.length;
@@ -78,16 +78,16 @@ export class ProcessorAmazon {
                             }, 0);
                             model.avgSpentTI = sum/filteredOrders.length;
                         }
-                    } else if ((regex = new RegExp(FileCode.AMAZON_ADV_THIRDPARTIES)) && (regex.test(pathName))) {
+                    } else if ((regex = new RegExp(FileCodeAmazon.ADV_THIRDPARTIES)) && (regex.test(pathName))) {
                         result = await AmazonService.parseThirdPartyAudiences(data);
                         (result) && (model.thirdPartyAudiences = result.list.length);
-                    } else if ((regex = new RegExp(FileCode.AMAZON_RETAIL_SELLER_FEEDBACK)) && (regex.test(pathName))) {
+                    } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_SELLER_FEEDBACK)) && (regex.test(pathName))) {
                         result = <RetailSellerFeedbacksAM>await AmazonService.parseRetailSellerFeedback(data);
                         (result) && (model.feedbacks = result.list.length);
-                    } else if ((regex = new RegExp(FileCode.AMAZON_RETAIL_LIGHT_WEIGHT_INTERACTIONS)) && (regex.test(pathName))) {
+                    } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_LIGHT_WEIGHT_INTERACTIONS)) && (regex.test(pathName))) {
                         result = <LightWeightInteractionsAM>await AmazonService.parseLightWeightInteractions(data);
                         (result) && (model.helpfulReviews = result.list.length);
-                    } else if ((regex = new RegExp(FileCode.AMAZON_DIGITAL_SUBSCRIPTION)) && (regex.test(pathName))) {
+                    } else if ((regex = new RegExp(FileCodeAmazon.DIGITAL_SUBSCRIPTION)) && (regex.test(pathName))) {
                         result = <DigitalSubscriptionsAM>await AmazonService.parseDigitalSubscriptions(data);
                         if (result) {
                             model.subscriptions = result.list.length;
@@ -104,10 +104,10 @@ export class ProcessorAmazon {
                                 }
                             }
                         }
-                    } else if ((regex = new RegExp(FileCode.AMAZON_AUDIBLE_LIBRARY)) && (regex.test(pathName))) {
+                    } else if ((regex = new RegExp(FileCodeAmazon.AUDIBLE_LIBRARY)) && (regex.test(pathName))) {
                         result = <AudibleLibraryAM>await AmazonService.parseAudibleLibrary(data);
                         (result) && (model.thirdPartyAudiences = result.list.length);
-                    } else if ((regex = new RegExp(FileCode.AMAZON_RETAIL_REGION_AUTHORITY)) && (regex.test(pathName))) {
+                    } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_REGION_AUTHORITY)) && (regex.test(pathName))) {
                         result = <RetailRegionAuthoritiesAM>await AmazonService.parseRetailRegionAuthorities(data);
                         if (result && result.list.length > 1) {
                             const item = result.list.pop();

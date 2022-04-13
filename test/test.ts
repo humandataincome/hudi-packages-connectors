@@ -19,17 +19,20 @@ import {
     ValidatorAmazon,
     ProcessorAmazon
 } from "../src";
+import {ValidatorGoogle} from "../src/validator/validator.google";
 
 async function test(){
     //validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
     //validatorAndProcessingAmazonTest();
+    validatorAndProcessingGoogleTest();
+
     //await descriptorServiceTest();
     //await instagramServiceTest();
     //await facebookServiceTest();
-    await amazonServiceTest();
+    //await amazonServiceTest();
     //await netflixServiceTest();
-    await googleServiceTest();
+    //await googleServiceTest();
     //await linkedInServiceTest();
 }
 
@@ -46,7 +49,7 @@ function validatorAndProcessingInstagramTest() {
                 const validationBE = await Validator.validateZIP(validationFE);
                 if(validationBE) {
                     //console.log(await Validator.getFilesPathsIntoZip(validationBE));
-                    console.log(await ProcessorInstagram.aggregatorFactory(validationBE, 180));
+                    console.log(await ProcessorInstagram.aggregatorFactory(validationBE as Uint8Array, 180));
                 }
             }
         });
@@ -95,6 +98,27 @@ function validatorAndProcessingAmazonTest() {
             const validation2 = await ValidatorAmazon.selectUsefulFilesFromZip(validation1);
             //console.log(await Validator.getFilesPathsIntoZip(validation2!));
             console.log(await ProcessorAmazon.aggregatorFactory(validation2!, 180))
+        });
+    } catch (e: any) {
+        if (e.code == 'MODULE_NOT_FOUND') {
+            console.log('[Error not founding module] ' + e);
+        } else {
+            console.log(e);
+        }
+    }
+}
+
+function validatorAndProcessingGoogleTest() {
+    try {
+        const fs =  require('fs');
+        const path =  require('path');
+        fs.readFile(path.join(__dirname,"../src/mock/validation/google.zip"),async function(err:ErrnoException, data: Buffer) {
+            if (err) throw err;
+            const validation1 = await Validator.validateZIP(data);
+            //console.log(validation1);
+            const validation2 = await ValidatorGoogle.selectUsefulFilesFromZip(validation1);
+            const list = await Validator.getFilesPathsIntoZip(validation2!);
+            list.forEach((path) => console.log(path));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {

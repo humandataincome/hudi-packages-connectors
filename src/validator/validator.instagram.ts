@@ -1,8 +1,9 @@
-import {FileCode, LanguageCode} from "../descriptor";
+import {FileCode, FileCodeInstagram, LanguageCode} from "../descriptor";
 import {ValidationErrorEnums} from "./validator.error";
-import {InputFileFormat} from "./validator";
+
 
 import {ValidatorDatasource} from "./validator.datasource";
+import {InputFileFormat} from "./index";
 
 export class ValidatorInstagram extends ValidatorDatasource {
     /**
@@ -13,21 +14,21 @@ export class ValidatorInstagram extends ValidatorDatasource {
     static async selectUsefulFilesFromZip(
         zipFile: InputFileFormat,
         fileList: FileCode[] = [
-            FileCode.INSTAGRAM_ADS_CLICKED,
-            FileCode.INSTAGRAM_ADS_VIEWED,
-            FileCode.INSTAGRAM_POSTS_VIEWED,
-            FileCode.INSTAGRAM_VIDEO_VIEWED,
-            FileCode.INSTAGRAM_POST_COMMENT,
-            FileCode.INSTAGRAM_POSTS_CREATED,
-            FileCode.INSTAGRAM_STORIES_CREATED,
-            FileCode.INSTAGRAM_FOLLOWERS,
-            FileCode.INSTAGRAM_FOLLOWING_ACCOUNTS,
-            FileCode.INSTAGRAM_LIKE_COMMENTS,
-            FileCode.INSTAGRAM_LIKE_POSTS,
-            FileCode.INSTAGRAM_ELIGIBILITY,
-            FileCode.INSTAGRAM_EMOJI_SLIDERS,
-            FileCode.INSTAGRAM_POLLS,
-            FileCode.INSTAGRAM_QUIZZES
+            FileCodeInstagram.ADS_CLICKED,
+            FileCodeInstagram.ADS_VIEWED,
+            FileCodeInstagram.POSTS_VIEWED,
+            FileCodeInstagram.VIDEO_VIEWED,
+            FileCodeInstagram.POST_COMMENT,
+            FileCodeInstagram.POSTS_CREATED,
+            FileCodeInstagram.STORIES_CREATED,
+            FileCodeInstagram.FOLLOWERS,
+            FileCodeInstagram.FOLLOWING_ACCOUNTS,
+            FileCodeInstagram.LIKE_COMMENTS,
+            FileCodeInstagram.LIKE_POSTS,
+            FileCodeInstagram.ELIGIBILITY,
+            FileCodeInstagram.EMOJI_SLIDERS,
+            FileCodeInstagram.POLLS,
+            FileCodeInstagram.QUIZZES,
         ]): Promise<Buffer | undefined> {
         const JSZip = require("jszip");
         let languageCode: LanguageCode | undefined;
@@ -38,7 +39,7 @@ export class ValidatorInstagram extends ValidatorDatasource {
             const file = zip.files[pathName];
             if (!file.dir) {
                 let data = await file.async('nodebuffer');
-                if (this.extractCompatiblePath(pathName) === FileCode.INSTAGRAM_PERSONAL_INFO) {
+                if (this.extractCompatiblePath(pathName) === FileCodeInstagram.PERSONAL_INFO) {
                     languageCode = this.getLanguage(data);
                 }
                 data = await file.async('nodebuffer');

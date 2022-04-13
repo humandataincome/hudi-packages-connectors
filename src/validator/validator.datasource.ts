@@ -1,6 +1,6 @@
 import {FileCode} from "../descriptor";
 import {ValidationErrorEnums} from "./validator.error";
-import {InputFileFormat} from "./validator";
+import {InputFileFormat} from "./index";
 
 export class ValidatorDatasource {
 

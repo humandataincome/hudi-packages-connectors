@@ -15,3 +15,6 @@ export default {
     [DataSourceCode.FACEBOOK]: ValidatorFacebook,
     [DataSourceCode.AMAZON]: ValidatorAmazon,
 };
+
+export type InputFileFormat = string | number[] | Blob | NodeJS.ReadableStream | Uint8Array | ArrayBuffer;
+export type OutputFileFormat = string | number[] | Blob | Buffer | Uint8Array | ArrayBuffer;

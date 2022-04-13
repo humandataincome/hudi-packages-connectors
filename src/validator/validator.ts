@@ -1,10 +1,7 @@
 import {FileExtension} from "../descriptor";
 import * as JSZip from "jszip";
 import {ValidationErrorEnums} from "./validator.error";
-
-export type InputFileFormat = string | number[] | Blob | NodeJS.ReadableStream | Uint8Array | ArrayBuffer;
-export type OutputFileFormat = string | number[] | Blob | Buffer | Uint8Array | ArrayBuffer;
-
+import {InputFileFormat} from "./index";
 
 export class Validator {
     public static MAX_BYTE_FILE_SIZE = 6e6;
@@ -106,6 +103,8 @@ export class Validator {
                     return Validator.validateJSON(file);
                 case FileExtension.CSV:
                     return Validator.validateCSV(file);
+                case FileExtension.HTML:
+                    return true;
                 default:
                     return false;
             }

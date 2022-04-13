@@ -1,9 +1,8 @@
-import {FileCode} from "../descriptor";
+import {FileCode, FileCodeAmazon} from "../descriptor";
 import {ValidatorDatasource} from "./validator.datasource";
-import {InputFileFormat} from "./validator";
+import {InputFileFormat} from "./index";
 
 export class ValidatorAmazon extends ValidatorDatasource  {
-
     /**
      * @param zipFile - file zip containing file that must be parsed
      * @param fileList - optional list of paths of file (as FileCode) that we want to keep into the file zip
@@ -12,17 +11,17 @@ export class ValidatorAmazon extends ValidatorDatasource  {
     static async selectUsefulFilesFromZip(
         zipFile: InputFileFormat,
         fileList: FileCode[] = [
-            FileCode.AMAZON_ADV_AUDIENCES,
-            FileCode.AMAZON_ADV_CLICKS,
-            FileCode.AMAZON_AUDIENCES,
-            FileCode.AMAZON_ADV_THIRDPARTIES,
-            FileCode.AMAZON_AUDIBLE_LIBRARY,
-            FileCode.AMAZON_DIGITAL_SUBSCRIPTION,
-            FileCode.AMAZON_PRIMEVIDEO_VIEW_COUNT,
-            FileCode.AMAZON_RETAIL_LIGHT_WEIGHT_INTERACTIONS,
-            FileCode.AMAZON_RETAIL_SELLER_FEEDBACK,
-            FileCode.AMAZON_RETAIL_ORDER_HISTORY,
-            FileCode.AMAZON_RETAIL_REGION_AUTHORITY,
+            FileCodeAmazon.ADV_AUDIENCES,
+            FileCodeAmazon.ADV_CLICKS,
+            FileCodeAmazon.AUDIENCES,
+            FileCodeAmazon.ADV_THIRDPARTIES,
+            FileCodeAmazon.AUDIBLE_LIBRARY,
+            FileCodeAmazon.DIGITAL_SUBSCRIPTION,
+            FileCodeAmazon.PRIMEVIDEO_VIEW_COUNT,
+            FileCodeAmazon.RETAIL_LIGHT_WEIGHT_INTERACTIONS,
+            FileCodeAmazon.RETAIL_SELLER_FEEDBACK,
+            FileCodeAmazon.RETAIL_ORDER_HISTORY,
+            FileCodeAmazon.RETAIL_REGION_AUTHORITY,
         ]): Promise<Buffer | undefined> {
         return super.selectUsefulFilesFromZip(zipFile, fileList);
     }
