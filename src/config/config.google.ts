@@ -22,5 +22,10 @@ export class ConfigGoogle {
         'IT-ott':'OCT',
         'IT-nov':'NOV',
         'IT-dic':'DEC',
+        //PATH language translations
+        //english
+        'MyActivities.html':'MyActivities.html',
+        //italian
+        'LeMieAttività.html':'MyActivities.html',
     };
 }

@@ -112,4 +112,18 @@ export enum FileCode {
     AMAZON_CUSTOMER_ENGAGEMENT = 'Search-Data/Search-Data.Customer-Engagement.csv',
     AMAZON_RETAIL_REGION_AUTHORITY = 'Retail.RegionAuthority.2/Retail.RegionAuthority.2.csv',
 
+    GOOGLE_BROWSER_HISTORY = 'BrowserHistory.json',
+    GOOGLE_SEARCH_ENGINES = 'SearchEngines.json',
+    //GOOGLE_TRANSACTIONS = 'SearchEngines.json',
+    //GOOGLE_PHOTO
+    GOOGLE_LIBRARY = 'Library.json',
+    GOOGLE_ORDER_HISTORY = 'OrderHistory.json',
+    GOOGLE_PURCHASE_HISTORY = 'PurchaseHistory.json',
+    //GOOGLE_LOCATION_HISTORY
+    //GOOGLE_PROFILE_IT = 'Profilo.json'
+    GOOGLE_ACTIVITY_DISCOVER = 'Discover/MyActivities.html',
+    GOOGLE_ACTIVITY_NEWS = 'News/MyActivities.html',
+    GOOGLE_ACTIVITY_SEARCH = 'Search/MyActivities.html',
+    GOOGLE_ACTIVITY_SHOPPING = 'Shopping/MyActivities.html',
+    GOOGLE_ACTIVITY_YOUTUBE = 'YouTube/MyActivities.html',
 }

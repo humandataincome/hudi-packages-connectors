@@ -106,6 +106,8 @@ export class Validator {
                     return Validator.validateJSON(file);
                 case FileExtension.CSV:
                     return Validator.validateCSV(file);
+                case FileExtension.HTML:
+                    return true;
                 default:
                     return false;
             }
