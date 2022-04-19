@@ -15,8 +15,9 @@ export class ValidatorDatasource {
             const file = zip.files[pathName];
             if (!file.dir) {
                 let data = await file.async('nodebuffer');
-                if (this.isPatchMatching(this.extractCompatiblePath(pathName), fileList)) {
-                    usefulFiles.file(this.extractCompatiblePath(pathName), data, {comment: file.comment});
+                const compatiblePath = this.extractCompatiblePath(pathName);
+                if (this.isPatchMatching(compatiblePath, fileList)) {
+                    usefulFiles.file(compatiblePath, data, {comment: file.comment});
                     (!hasAnyFile) && (hasAnyFile = true);
                 }
             }
@@ -30,9 +31,14 @@ export class ValidatorDatasource {
 
     protected static isPatchMatching(pathName: string, codes: FileCode[]): boolean {
         let found = false;
+        console.log(pathName);
         codes.forEach((code: FileCode) => {
-            if(pathName.match(code)) {
-                found = true;
+            if (!found) {
+                console.log(new RegExp(code));
+                if (pathName.match(RegExp(code))) {
+                    found = true;
+                    console.log("AAAA")
+                }
             }
         })
         return found;

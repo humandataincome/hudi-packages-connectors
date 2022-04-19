@@ -288,24 +288,24 @@ export class GoogleService {
                 let model: TransactionsGO = {list: []};
                 document.forEach((value: any) => {
                     let newTs: TransactionGO = {}, match, parameterName;
-                    parameterName = ConfigGoogle.keysValues[`${this.prefixLanguage}-DateAndHour`];
+                    parameterName = ConfigGoogle.keyTranslation[`${this.prefixLanguage}-DateAndHour`];
                     if (value[parameterName]) {
                         match = value[parameterName].match(/(\d+) (\w+) (\d+), (\d+):(\d+)/);
-                        let monthENG: any = ConfigGoogle.keysValues[`${this.prefixLanguage}-${match[2]}`];
+                        let monthENG: any = ConfigGoogle.monthTranslation[`${this.prefixLanguage}-${match[2]}`];
                         let monthIndex: number = parseInt(Months[monthENG]);
                         newTs.date = new Date(Date.UTC(parseInt(match[3]), monthIndex - 1, parseInt(match[1]), parseInt(match[4]), parseInt(match[5]), 0));
                     }
-                    parameterName = ConfigGoogle.keysValues[`${this.prefixLanguage}-IDtransaction`];
+                    parameterName = ConfigGoogle.keyTranslation[`${this.prefixLanguage}-IDtransaction`];
                     (value[parameterName]) && (newTs.IDtransaction = value[parameterName]);
-                    parameterName = ConfigGoogle.keysValues[`${this.prefixLanguage}-description`];
+                    parameterName = ConfigGoogle.keyTranslation[`${this.prefixLanguage}-description`];
                     (value[parameterName]) && (newTs.description = value[parameterName]);
-                    parameterName = ConfigGoogle.keysValues[`${this.prefixLanguage}-product`];
+                    parameterName = ConfigGoogle.keyTranslation[`${this.prefixLanguage}-product`];
                     (value[parameterName]) && (newTs.productName = value[parameterName]);
-                    parameterName = ConfigGoogle.keysValues[`${this.prefixLanguage}-payment`];
+                    parameterName = ConfigGoogle.keyTranslation[`${this.prefixLanguage}-payment`];
                     (value[parameterName]) && (newTs.paymentMethod = value[parameterName]);
-                    parameterName = ConfigGoogle.keysValues[`${this.prefixLanguage}-state`];
+                    parameterName = ConfigGoogle.keyTranslation[`${this.prefixLanguage}-state`];
                     (value[parameterName]) && (newTs.state = value[parameterName]);
-                    parameterName = ConfigGoogle.keysValues[`${this.prefixLanguage}-amount`];
+                    parameterName = ConfigGoogle.keyTranslation[`${this.prefixLanguage}-amount`];
                     match = value[parameterName].match(/(.+) (\w+)/);
                     if (match) {
                         newTs.amount = match[1];

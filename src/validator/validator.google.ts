@@ -14,8 +14,10 @@ export class ValidatorGoogle extends ValidatorDatasource  {
     static async selectUsefulFilesFromZip(
         zipFile: InputFileFormat,
         fileList: FileCode[] = [
-            FileCodeGoogle.GOOGLE_CHROME_BROWSER_HISTORY,
-            FileCodeGoogle.GOOGLE_ACTIVITY_DISCOVER,
+            FileCodeGoogle.ACCOUNT_INFO,
+            //FileCodeGoogle.SEMANTIC_LOCATION_HISTORY, //OK
+            //FileCodeGoogle.PLAY_STORE_REVIEWS,
+            //FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS,
         ]): Promise<Buffer | undefined> {
         const JSZip = require("jszip");
         let hasAnyFile = false;
@@ -24,10 +26,10 @@ export class ValidatorGoogle extends ValidatorDatasource  {
         for (let pathName of Object.keys(zip.files)) {
             const file = zip.files[pathName];
             if (!file.dir) {
-                console.log(pathName);
                 const data = await file.async('nodebuffer');
-                if (this.isPatchMatching(this.extractCompatiblePath(pathName), fileList)) {
-                    usefulFiles.file(this.extractCompatiblePath(pathName), data);
+                const compatiblePath = this.extractCompatiblePath(pathName);
+                if (this.isPatchMatching(compatiblePath, fileList)) {
+                    usefulFiles.file(compatiblePath, data);
                     (!hasAnyFile) && (hasAnyFile = true);
                 }
             }
@@ -42,10 +44,10 @@ export class ValidatorGoogle extends ValidatorDatasource  {
     protected static extractCompatiblePath(path: string): string {
         const x: string[] = path.split('/');
         //must be controlled with more inputs
-        const pathTranslation = ConfigGoogle.keysValues[`${x[x.length - 2]} +  \\ + ${x[x.length - 1]}`];
+        const pathTranslation = ConfigGoogle.pathTranslation[`${x[x.length - 2]}/${x[x.length - 1]}`];
         if (pathTranslation) {
             return pathTranslation;
         }
-        return x[x.length - 1];
+        return x[x.length - 2] + '/' + x[x.length - 1];
     }
 }

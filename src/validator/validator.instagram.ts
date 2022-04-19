@@ -35,17 +35,25 @@ export class ValidatorInstagram extends ValidatorDatasource {
         let hasAnyFile = false;
         let usefulFiles = new JSZip();
         const zip = await JSZip.loadAsync(zipFile);
+        console.log(Object.keys(zip.files))
         for (let pathName of Object.keys(zip.files)) {
             const file = zip.files[pathName];
-            if (!file.dir) {
+            const compatiblePath = this.extractCompatiblePath(pathName);
+            if (compatiblePath === FileCodeInstagram.PERSONAL_INFO) {
                 let data = await file.async('nodebuffer');
-                if (this.extractCompatiblePath(pathName) === FileCodeInstagram.PERSONAL_INFO) {
-                    languageCode = this.getLanguage(data);
-                }
-                data = await file.async('nodebuffer');
-                if (this.isPatchMatching(this.extractCompatiblePath(pathName), fileList)) {
-                    usefulFiles.file(this.extractCompatiblePath(pathName), data, {comment: languageCode});
-                    (!hasAnyFile) && (hasAnyFile = true);
+                languageCode = this.getLanguage(data);
+            }
+        }
+        if(languageCode) {
+            for (let pathName of Object.keys(zip.files)) {
+                const file = zip.files[pathName];
+                if (!file.dir) {
+                    const compatiblePath = this.extractCompatiblePath(pathName);
+                    if (this.isPatchMatching(compatiblePath, fileList)) {
+                        const data = await file.async('nodebuffer');
+                        usefulFiles.file(compatiblePath, data, {comment: languageCode});
+                        (!hasAnyFile) && (hasAnyFile = true);
+                    }
                 }
             }
         }

@@ -120,31 +120,41 @@ export enum FileCodeAmazon {
 }
 
 export enum FileCodeGoogle {
-    SEARCH_ENGINES = 'SearchEngines.json',
-    LIBRARY = 'Library.json',
-    ORDER_HISTORY = 'OrderHistory.json',
-    PURCHASE_HISTORY = 'PurchaseHistory.json',
-
-    CHROME_BROWSER_HISTORY = 'Chrome/BrowserHistory.json',
     PROFILE = 'Profile/Profile.json',
+    CHROME_BROWSER_HISTORY = 'Chrome/BrowserHistory.json',
     CHROME_EXTENSION = 'Chrome/Extensions.json',
-    YOUTUBE_LIKED_VIDEOS = 'playlist/Liked videos.csv',
+    CHROME_SEARCH_ENGINES = 'Chrome/SearchEngines.json',
+    YOUTUBE_LIKED_VIDEOS = 'playlists/Liked videos.csv',
+    YOUTUBE_UPLOADS = 'playlists/Uploads from (\\.*).csv',
+    PLAY_STORE_PURCHASE_HISTORY = 'Google Play Store/PurchaseHistory.json',
+    PLAY_STORE_LIBRARY = 'Google Play Store/Library.json.json',
+    PLAY_STORE_REVIEWS = 'Google Play Store/Reviews.json.json',
 
-    ACTIVITY_GMAIL = 'Gmail/MyActivities.html',
-    ACTIVITY_DEVELOPERS = 'Developers/MyActivities.html',
-    ACTIVITY_DRIVE = 'Drive/MyActivities.html',
-    ACTIVITY_TAKEOUT = 'Takeout/MyActivities.html',
-    ACTIVITY_LENS = 'Google Lens/MyActivities.html',
-    ACTIVITY_PLAY_STORE = 'Google Play Store/MyActivities.html',
-    ACTIVITY_CHROME = 'Chrome/MyActivities.html',
-    ACTIVITY_GOOGLE_NEWS = 'Google News/MyActivities.html',
-    ACTIVITY_SHOPPING = 'Shopping/MyActivities.html',
-    ACTIVITY_MAPS = 'Maps/MyActivities.html',
-    ACTIVITY_TRANSLATE = 'Google Translate/MyActivities.html',
-    ACTIVITY_YOUTUBE = 'YouTube/MyActivities.html',
-    ACTIVITY_DISCOVER = 'Discover/MyActivities.html',
+    ACTIVITY_ADS = 'Ads/My Activity.html',
+    ACTIVITY_ASSISTANT = 'Assistant/My Activity.html',
+    ACTIVITY_CHROME = 'Chrome/My Activity.html',
+    ACTIVITY_DEVELOPERS = 'Developers/My Activity.html',
+    ACTIVITY_DISCOVER = 'Discover/My Activity.html',
+    ACTIVITY_DRIVE = 'Drive/My Activity.html',
+    ACTIVITY_GMAIL = 'Gmail/My Activity.html',
+    ACTIVITY_LENS = 'Google Lens/My Activity.html',
+    ACTIVITY_NEWS = 'Google News/My Activity.html',
+    ACTIVITY_PLAY_GAMES = 'Google Play Games/My Activity.html',
+    ACTIVITY_PLAY_MOVIES = 'Google Play Movies _ TV/My Activity.html',
+    ACTIVITY_PLAY_STORE = 'Google Play Store/My Activity.html',
+    ACTIVITY_TRANSLATE = 'Google Translate/My Activity.html',
+    ACTIVITY_HELP = 'Help/My Activity.html',
+    ACTIVITY_IMAGE_SEARCH = 'Image Search/My Activity.html',
+    ACTIVITY_MAPS = 'Maps/My Activity.html',
+    ACTIVITY_SEARCH = 'Search/My Activity.html',
+    ACTIVITY_SHOPPING = 'Shopping/My Activity.html',
+    ACTIVITY_TAKEOUT = 'Takeout/My Activity.html',
+    ACTIVITY_VIDEO_SEARCH = 'Video Search/My Activity.html',
+    ACTIVITY_YOUTUBE = 'YouTube/My Activity.html',
 
-    SEMANTIC_LOCATION_HISTORY = '(\\d\\d\\d\\d)/(\\d\\d\\d\\d)_(JANUARY | FEBRUARY | MARCH | APRIL | MAY | JUNE | JULY | AUGUST | SEPTEMBER | OCTOBER | NOVEMBER | DECEMBER).json', //es. 2017/2017_MARCH.json
+    SEMANTIC_LOCATION_HISTORY = '(\\d{4})/(\\d{4})_((JANUARY)|(FEBRUARY)|(MARCH)|(APRIL)|(MAY)|(JUNE)|(JULY)|(AUGUST)|(SEPTEMBER)|(OCTOBER)|(NOVEMBER)|(DECEMBER)).json', //es. 2017/2017_MARCH.json
     SESSION = '(\\.+)(WALKING | RUNNING).json', //es. 2019-12-15T13_46_55+01_00_WALKING.json
     DAILY_ACTIVITIES = '(\\d+)-(\\d+)-(\\d+).csv', //es. 2020-01-13.csv
+    ACCOUNT_INFO = 'Google Account/(\\.+)SubscriberInfo.html',
+    MAPS_YOUR_PLACES_REVIEWS = 'Maps (your places)/Reviews.json'
 }
