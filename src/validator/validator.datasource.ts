@@ -31,16 +31,7 @@ export class ValidatorDatasource {
 
     protected static isPatchMatching(pathName: string, codes: FileCode[]): boolean {
         let found = false;
-        console.log(pathName);
-        codes.forEach((code: FileCode) => {
-            if (!found) {
-                console.log(new RegExp(code));
-                if (pathName.match(RegExp(code))) {
-                    found = true;
-                    console.log("AAAA")
-                }
-            }
-        })
+        codes.forEach((code: FileCode) => (!found && RegExp('^'+code+'$').test(pathName)) && (found = true));
         return found;
     }
 

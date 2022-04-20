@@ -71,7 +71,7 @@ export enum FileCodeInstagram {
     EMOJI_SLIDERS = 'story_sticker_interactions/emoji_sliders.json',
     POLLS = 'story_sticker_interactions/polls.json',
     QUIZZES = 'story_sticker_interactions/quizzes.json',
-    CONVERSATION = `(\\.*)/message_1.json`,
+    CONVERSATION = `(.*)/message_1.json`,
 }
 
 export enum FileCodeFacebook {
@@ -93,7 +93,7 @@ export enum FileCodeFacebook {
     REJECTED_FRIEND_REQUESTS = 'friends_and_followers/rejected_friend_requests.json',
     REMOVED_FRIENDS = 'friends_and_followers/removed_friends.json',
     WHO_YOU_FOLLOW = 'friends_and_followers/who_you_follow.json',
-    CONVERSATION = `(\\.*)/message_1.json`,
+    CONVERSATION = `(.*)/message_1.json`,
 }
 
 export enum FileCodeAmazon {
@@ -125,10 +125,10 @@ export enum FileCodeGoogle {
     CHROME_EXTENSION = 'Chrome/Extensions.json',
     CHROME_SEARCH_ENGINES = 'Chrome/SearchEngines.json',
     YOUTUBE_LIKED_VIDEOS = 'playlists/Liked videos.csv',
-    YOUTUBE_UPLOADS = 'playlists/Uploads from (\\.*).csv',
+    YOUTUBE_UPLOADS = 'playlists/Uploads from (.*).csv',
     PLAY_STORE_PURCHASE_HISTORY = 'Google Play Store/PurchaseHistory.json',
-    PLAY_STORE_LIBRARY = 'Google Play Store/Library.json.json',
-    PLAY_STORE_REVIEWS = 'Google Play Store/Reviews.json.json',
+    PLAY_STORE_LIBRARY = 'Google Play Store/Library.json',
+    PLAY_STORE_REVIEWS = 'Google Play Store/Reviews.json',
 
     ACTIVITY_ADS = 'Ads/My Activity.html',
     ACTIVITY_ASSISTANT = 'Assistant/My Activity.html',
@@ -153,8 +153,8 @@ export enum FileCodeGoogle {
     ACTIVITY_YOUTUBE = 'YouTube/My Activity.html',
 
     SEMANTIC_LOCATION_HISTORY = '(\\d{4})/(\\d{4})_((JANUARY)|(FEBRUARY)|(MARCH)|(APRIL)|(MAY)|(JUNE)|(JULY)|(AUGUST)|(SEPTEMBER)|(OCTOBER)|(NOVEMBER)|(DECEMBER)).json', //es. 2017/2017_MARCH.json
-    SESSION = '(\\.+)(WALKING | RUNNING).json', //es. 2019-12-15T13_46_55+01_00_WALKING.json
-    DAILY_ACTIVITIES = '(\\d+)-(\\d+)-(\\d+).csv', //es. 2020-01-13.csv
-    ACCOUNT_INFO = 'Google Account/(\\.+)SubscriberInfo.html',
-    MAPS_YOUR_PLACES_REVIEWS = 'Maps (your places)/Reviews.json'
+    SESSION = 'All sessions/(.+)(WALKING)|(RUNNING).json', //es. All sessions/2019-12-15T13_46_55+01_00_WALKING.json
+    DAILY_ACTIVITIES = 'Daily activity metrics/(\\d+)-(\\d+)-(\\d+).csv', //es. Daily activity metrics/2020-01-13.csv
+    ACCOUNT_INFO = 'Google Account/(.+).SubscriberInfo.html',
+    MAPS_YOUR_PLACES_REVIEWS = 'Maps your_places/Reviews.json' //originally:  'Maps (your places)/Reviews.json'
 }

@@ -110,3 +110,7 @@ export interface AmazonDataAggregator {
     //from AMAZON_RETAIL_REGION_AUTHORITY
     address?: string;
 }
+
+export interface GoogleDataAggregator {
+
+}
