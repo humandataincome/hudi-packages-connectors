@@ -176,7 +176,7 @@ export interface ActivitySegmentGO {
     startDate?: Date;
     endDate?: Date;
     distance?: number;
-    activityType?: string;
+    activityType?: ActivityTypeGO;
     confidence?: string;
     allActivitiesProbabilities?: Array<ProbableActivityGO>;
     transitPath?: TransitPathGO;
@@ -191,8 +191,26 @@ export interface TransitPathGO {
 }
 
 export interface ProbableActivityGO {
-    activityType?: string;
+    activityType?: ActivityTypeGO;
     probability?: number;
+}
+
+export enum ActivityTypeGO {
+    IN_PASSENGER_VEHICLE,
+    MOTORCYCLING,
+    STILL,
+    IN_BUS,
+    WALKING,
+    CYCLING,
+    IN_TRAIN,
+    IN_SUBWAY,
+    RUNNING,
+    FLYING,
+    IN_FERRY,
+    SAILING,
+    SKIING,
+    IN_TRAM,
+    IN_VEHICLE,
 }
 
 export interface PointGO {
@@ -253,4 +271,44 @@ export interface NewsActivityGO {
     titleArticle?: string;
     linkArticle?: string;
     date?: Date;
+}
+
+export interface AccountGO {
+    id?: string;
+    creationDate?: Date;
+    contactEmail?: string;
+    recoveryEmail?: string;
+    recoverySMS?: string;
+    recoverySMSCountryCode?: string;
+}
+
+export interface PlayStoreReviewsGO {
+    list: PlayStoreReviewGO[];
+}
+
+export interface PlayStoreReviewGO {
+    documentType?: string;
+    title?: string;
+    creationTime?: Date;
+    starRating?: number;
+    comment?: string;
+    structuredReviewResponse?: Array<{
+        question?: string;
+        responseOptionType?: string;
+    }>
+}
+
+export interface MapsReviewsGO {
+    list: MapsReviewGO[];
+}
+
+export interface MapsReviewGO {
+    type?: string;
+    geoCoordinates?: GeoDataGO;
+    googleMapsURL?: string;
+    address?: string;
+    businessName?: string;
+    countryCode?: string;
+    published?: Date;
+    starRating?: number;
 }

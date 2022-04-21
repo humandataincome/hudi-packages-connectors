@@ -25,14 +25,14 @@ async function test(){
     //validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
     //validatorAndProcessingAmazonTest();
-    validatorAndProcessingGoogleTest();
+    //validatorAndProcessingGoogleTest();
 
     //await descriptorServiceTest();
     //await instagramServiceTest();
     //await facebookServiceTest();
     //await amazonServiceTest();
     //await netflixServiceTest();
-    //await googleServiceTest();
+    await googleServiceTest();
     //await linkedInServiceTest();
 }
 
@@ -338,22 +338,21 @@ async function googleServiceTest() {
     try {
         const {Parser} = require('./utils/parser');
         const path = require('path');
+        const fs = require('fs');
+        /*
         console.log(await GoogleService.parseProfile(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Profile/Profilo.json`)))));
         console.log(await GoogleService.parseBrowseHistory(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Chrome/BrowserHistory.json`)))));
         console.log(await GoogleService.parseSearchEngines(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Chrome/SearchEngines.json`)))));
-        console.log(await GoogleService.parseSemanticLocations(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/LocationHistory/SemanticLocationHistory/2017/2017_APRIL.json`)))));
         console.log(await GoogleService.parseImageData(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/GooglePhoto/PhotosFrom2019/photo.mp4.json`)))));
         console.log(await GoogleService.parseTransactions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/IT_version/google/Takeout/GooglePay/GoogleTransactions/transactions_123456.csv`))));
         console.log(await GoogleService.parseDocLibrary(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/GooglePlayStore/Library.json`)))));
         console.log(await GoogleService.parsePurchaseHistory(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/GooglePlayStore/PurchaseHistory.json`)))));
         console.log(await GoogleService.parseOrderHistory(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/GooglePlayStore/OrderHistory.json`)))));
-        /*
-        console.log(await GoogleService.parseActivitiesShopping(Buffer.from(fs.readFileSync(path.resolve(__dirname, `../src/mock/IT_version/google/Takeout/YourActivities/Shopping/MyActivities.html`)))));
-        console.log(await GoogleService.parseDailyDiscoverActivities(Buffer.from(fs.readFileSync(path.resolve(__dirname, `../src/mock/IT_version/google/Takeout/YourActivities/Discover/MyActivities.html`)))));
-        console.log(await GoogleService.parseSearchActivities(Buffer.from(fs.readFileSync(path.resolve(__dirname, `../src/mock/IT_version/google/Takeout/YourActivities/Search/MyActivities.html`)))));
-        console.log(await GoogleService.parseYoutubeActivities(Buffer.from(fs.readFileSync(path.resolve(__dirname, `../src/mock/IT_version/google/Takeout/YourActivities/YouTube/MyActivities.html`)))));
-        console.log(await GoogleService.parseNewsActivities(Buffer.from(fs.readFileSync(path.resolve(__dirname, `../src/mock/IT_version/google/Takeout/YourActivities/News/MyActivities.html`)))));
-          */
+        */
+        console.log(await GoogleService.parseGoogleAccount(Buffer.from(fs.readFileSync(path.resolve(__dirname, `../src/mock/IT_version/google/Takeout/Google Account/davide.SubscriberInfo.html`)))));
+        console.log(await GoogleService.parseSemanticLocations(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/LocationHistory/SemanticLocationHistory/2017/2017_APRIL.json`)))));
+        console.log(await GoogleService.parsePlayStoreReviews(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/GooglePlayStore/Reviews.json`)))));
+        console.log(await GoogleService.parseMapsReviews(Buffer.from(JSON.stringify(require(`../src/mock/IT_version/google/Takeout/Maps (I tuoi luoghi)/Recensioni.json`)))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);

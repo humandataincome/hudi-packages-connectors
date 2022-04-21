@@ -1,0 +1,32 @@
+[{
+  "review": {
+    "document": {
+      "documentType": "Android Apps",
+      "title": "SimCity BuildIt"
+    },
+    "creationTime": "2021-08-24T12:13:15.674Z",
+    "starRating": 5,
+    "comment": "ottimo gioco"
+  }
+},
+{
+  "review": {
+    "document": {
+      "documentType": "Android Apps",
+      "title": "Rise of Kingdoms: Lost Crusade"
+    },
+    "creationTime": "2020-05-09T09:31:09.208Z",
+    "starRating": 1,
+    "comment": "Gioco da circa 600 giorni: Gestione dei comandanti leggendari ormai è divenata schizofrenica, completamente senza senso ed impossibile rimanere competitivi se non spendi nulla o spendi poco (sotto i 500 euro). Tonnellate di eventi inutili e veramente noiosi, tutto per riempire i tempi e non far notare che ormai si combatte solo il 5% del tempo. Era un gioco di guerra, è diventato una chat room e quando si combatte il lag è mostruoso.",
+    "structuredReviewResponse": [{
+      "question": "Is this a \u003cb\u003emassively multiplayer online\u003c/b\u003e game?",
+      "responseOptionType": "Positive"
+    }, {
+      "question": "Is this game \u003cb\u003ehappy\u003c/b\u003e?",
+      "responseOptionType": "Positive"
+    }, {
+      "question": "Can you play this game with \u003cb\u003efriends\u003c/b\u003e?",
+      "responseOptionType": "Positive"
+    }]
+  }
+}]

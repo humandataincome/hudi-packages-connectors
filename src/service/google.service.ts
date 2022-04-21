@@ -1,11 +1,12 @@
 import Logger from "../utils/logger";
 import {
+    AccountGO,
     ActivitySegmentGO, BillingInstrumentGO,
     BrowserHistoryGO,
     BrowserSearchGO, ContactGO, DocGO, DocLibraryGO,
     GeoDataGO,
-    ImageDataGO, LineItemGO, OrderGO, OrderHistoryGO,
-    PlaceVisitedGO,
+    ImageDataGO, LineItemGO, MapsReviewGO, MapsReviewsGO, OrderGO, OrderHistoryGO,
+    PlaceVisitedGO, PlayStoreReviewGO, PlayStoreReviewsGO,
     PointGO,
     ProbableActivityGO,
     ProbableLocationGO,
@@ -109,7 +110,7 @@ export class GoogleService {
     }
 
     /**
-     * @param data - file 'Takeout/LocationHistory/SemanticLocationHistory/2017/2017_APRIL.json' in input as Buffer
+     * @param data - file like 'Takeout/LocationHistory/SemanticLocationHistory/2017/2017_APRIL.json' in input as Buffer
      */
     static async parseSemanticLocations(data: Buffer): Promise<SemanticLocationsGO | undefined> {
         let model: SemanticLocationsGO = {listVisitedPlaces: [], listActivities: []};
@@ -450,5 +451,99 @@ export class GoogleService {
         (value.postalCode) && (newContact.postalCode = value.postalCode);
         (value.phoneNumber) && (newContact.phoneNumber = parseFloat(value.phoneNumber));
         return newContact;
+    }
+
+    /**
+     * @param data - file 'Google Account/YOUR_EMAIL.SubscriberInfo.html' in input as Buffer
+     */
+    static async parseGoogleAccount(data: Buffer): Promise<AccountGO | undefined> {
+        try {
+            const document = data.toString();
+            const model: AccountGO = {};
+
+            let regex = /<li>Google Account ID: (.*)<\/li>/;
+            let match = document.match(regex);
+            (match && match[1]) && (model.id = match[1]);
+
+            regex = /<li>Created on: (.*)<\/li>/;
+            match = document.match(regex);
+            (match && match[1]) && (model.creationDate = new Date(match[1]));
+
+            regex = /<li>Contact e-Mail: (.*)<\/li>/;
+            match = document.match(regex);
+            (match && match[1]) && (model.contactEmail = match[1]);
+
+            regex = /<li>Recovery e-Mail: (.*)<\/li>/;
+            match = document.match(regex);
+            (match && match[1]) && (model.recoveryEmail = match[1]);
+
+            regex = /<li>Recovery SMS: (.*) \[(.*)]<\/li>/;
+            match = document.match(regex);
+            (match && match[1]) && (model.recoverySMS = match[1]);
+            (match && match[2]) && (model.recoverySMSCountryCode = match[2]);
+            return !Validator.objectIsEmpty(model) ? model : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseGoogleAccount');
+            return undefined;
+        }
+    }
+
+    static async parsePlayStoreReviews(data: Buffer): Promise<PlayStoreReviewsGO | undefined> {
+        try {
+            let document = JSON.parse(data.toString());
+            let model: PlayStoreReviewsGO = {list: []};
+            document.forEach((value: any) => {
+                let review: PlayStoreReviewGO = {};
+                if(value.review) {
+                    (value.review.document && value.review.document.documentType) && (review.documentType = value.review.document.documentType);
+                    (value.review.document && value.review.document.title) && (review.title = value.review.document.title);
+                    (value.review.creationTime) && (review.creationTime = new Date(value.review.creationTime));
+                    (value.review.starRating) && (review.starRating = value.review.starRating);
+                    (value.review.comment) && (review.comment = value.review.comment);
+                    if (value.review.structuredReviewResponse) {
+                        review.structuredReviewResponse = value.review.structuredReviewResponse.map((value: any) => {
+                            return {question: value.question, responseOptionType: value.responseOptionType};
+                        });
+                    }
+                    !Validator.objectIsEmpty(review) && (model.list.push(review));
+                }
+            });
+            return model.list.length > 0 ? model : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parsePlayStoreReviews');
+            return undefined;
+        }
+    }
+
+    static async parseMapsReviews(data: Buffer): Promise<MapsReviewsGO | undefined> {
+        try {
+            let document = JSON.parse(data.toString());
+            let model: MapsReviewsGO = {list: []};
+            (document.features && document.features.length > 0) && (document.features.forEach((value: any) => {
+                let review: MapsReviewGO = {};
+                if (value.properties) {
+                    (value.properties && value.properties['Google Maps URL']) && (review.googleMapsURL = value.properties['Google Maps URL']);
+                    if (value.properties.Location) {
+                        (value.properties.Location.Address) && (review.address = value.properties.Location.Address);
+                        (value.properties.Location['Business Name']) && (review.businessName = value.properties.Location['Business Name']);
+                        (value.properties.Location['Country Code']) && (review.countryCode = value.properties.Location['Country Code']);
+                        if (value.properties.Location['Geo Coordinates']) {
+                            let geoLocal: GeoDataGO = {};
+                            (value.properties.Location['Geo Coordinates'].Latitude) && (geoLocal.latitude = parseFloat(value.properties.Location['Geo Coordinates'].Latitude));
+                            (value.properties.Location['Geo Coordinates'].Longitude) && (geoLocal.longitude = parseFloat(value.properties.Location['Geo Coordinates'].Longitude));
+                            !Validator.objectIsEmpty(geoLocal) && (review.geoCoordinates = geoLocal);
+                        }
+                    }
+                    (value.properties.Published) && (review.published = value.properties.Published);
+                    (value.properties['Star Rating']) && (review.starRating = value.properties['Star Rating']);
+                }
+                (value.type) && (review.type = value.type);
+                !Validator.objectIsEmpty(review) && (model.list.push(review));
+            }));
+            return model.list.length > 0 ? model : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseMapsReviews');
+            return undefined;
+        }
     }
 }

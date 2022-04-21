@@ -1,3 +1,4 @@
+import {ActivityTypeGO} from "../model";
 
 export interface InstagramDataAggregator {
     //from INSTAGRAM_ADS_CLICKED
@@ -22,7 +23,7 @@ export interface InstagramDataAggregator {
     //from INSTAGRAM_LIKE_POSTS
     likesPosts?: number;
     likesPostsTI?: number;
-    //from INSTAGRAM_ELEGIBILITY
+    //from INSTAGRAM_ELIGIBILITY
     isMonetizable?: boolean;
     //from INSTAGRAM_POLLS
     polls?: number;
@@ -62,7 +63,7 @@ export interface FacebookDataAggregator {
     //from FACEBOOK_LANGUAGE | FACEBOOK_PROFILE_INFO
     languages?: number;
     languagesList?: Array<string>;
-    //from FACEBOOK_PAGES_FOLLOWED | FACEBOOK_PAGES_LIKED | FACEBOOK_PAGES_RACCOMENDED
+    //from FACEBOOK_PAGES_FOLLOWED | FACEBOOK_PAGES_LIKED | FACEBOOK_PAGES_RECOMMENDED
     pages?: number;
     //from FACEBOOK_PROFILE_INFO
     mainPageCategory?: string;
@@ -112,5 +113,20 @@ export interface AmazonDataAggregator {
 }
 
 export interface GoogleDataAggregator {
-
+    //from ACCOUNT_INFO
+    email?: string;
+    recoveryEmail?: string;
+    recoveryNUmber?: number;
+    creationAccount?: Date;
+    //from all SEMANTIC_LOCATION_HISTORY
+    mostFrequentActivityTypes?: Array<ActivityTypeGO>[3];
+    averageDistancesForActivityType?: Array<number>[3];
+    //from PLAY_STORE_REVIEWS
+    counterPlayStoreReviewsTI?: number;
+    averagePlayStoreReviewsTI?: number;
+    //from MAPS_YOUR_PLACES_REVIEWS
+    counterMapsReviewsTI?: number;
+    averageMapsReviewsTI?: number;
 }
+
+
