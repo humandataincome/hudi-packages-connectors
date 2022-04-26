@@ -7,7 +7,7 @@
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "Instagram data source",
+                    "descriptionText": "The Datasource contains all your personal information relating to your use of Instagram.\nDo not change the composition of the folders and files within them.",
                     "procedures": [
                         {
                             "procedureType": "DEFAULT",
@@ -179,7 +179,7 @@
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "Instagram data source",
+                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Instagram.\nNon modificare la composizione delle cartelle e dei file al loro interno",
                     "procedures": [
                         {
                             "procedureType": "DEFAULT",
@@ -360,7 +360,7 @@
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "Facebook data source",
+                    "descriptionText": "The Datasource contains all your personal information relating to your use of Facebook.\nDo not change the composition of the folders and files within them.",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",
@@ -437,7 +437,7 @@
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "Facebook data source",
+                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Facebook.\nNon modificare la composizione delle cartelle e dei file al loro interno",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",
@@ -523,7 +523,7 @@
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "Amazon data source",
+                    "descriptionText": "The Datasource contains all your personal information relating to your use of Amazon.\nDo not change the composition of the folders and files within them.",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",
@@ -605,7 +605,7 @@
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "Amazon data source",
+                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Amazon.\nNon modificare la composizione delle cartelle e dei file al loro interno",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",
@@ -682,6 +682,123 @@
                         {
                             "filePath": "Retail.RegionAuthority.2/Retail.RegionAuthority.2.csv",
                             "fileContent": "I tuoi indirizzi"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sourceName": "Google",
+            "sourceCode": "GOOGLE",
+            "supportedFormats": [
+                "zip"
+            ],
+            "retrievingProcedures": [
+                {
+                    "languageCode": "EN",
+                    "descriptionText": "The Datasource contains all your personal information relating to your use of Google.\nDo not change the composition of the folders and files within them.",
+                    "procedures": [
+                        {
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Click on this link https://takeout.google.com/",
+                                    "attributeDescription": "<p>Click on this <a href='https://takeout.google.com/'>link</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Unpin \"Drive\" and \"Google Photos\" from the list",
+                                    "attributeDescription": "<p>Unpin <b>Drive</b> and <b>Google Photos</b> from the list</p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Click on \"Next step\" button",
+                                    "attributeDescription": "<p>Click on <b>Next step</b> button</p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Select \"Export once\" from Frequency menu, \".zip\" and \"2 GB\" from File type & size menu",
+                                    "attributeDescription": "<p>Select <b>Export once</b> from Frequency menu, <b>.zip and 2 GB</b> from File type & size menu</p>"
+                                },
+                                {
+                                    "index": 5,
+                                    "description": "Click on \"Create export\" button",
+                                    "attributeDescription": "<p>Click on <b>Create export</b> button</p>"
+                                }
+                            ]
+                        }
+                    ],
+                    "filesDescription": [
+                        {
+                            "filePath": "Google Account/(.+).SubscriberInfo.html",
+                            "fileContent": "Your Google Account information"
+                        },
+                        {
+                            "filePath": "(\\d{4})/(\\d{4})_((JANUARY)|(FEBRUARY)|(MARCH)|(APRIL)|(MAY)|(JUNE)|(JULY)|(AUGUST)|(SEPTEMBER)|(OCTOBER)|(NOVEMBER)|(DECEMBER)).json",
+                            "fileContent": "Your information about all your movements in a certain month"
+                        },
+                        {
+                            "filePath": "Google Play Store/Reviews.json",
+                            "fileContent": "Your reviews on Google Play Store"
+                        },
+                        {
+                            "filePath": "Maps your_places/Reviews.json",
+                            "fileContent": "Your reviews on Google Maps"
+                        }
+                    ]
+                },
+                {
+                    "languageCode": "IT",
+                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Google.\nNon modificare la composizione delle cartelle e dei file al loro interno",
+                    "procedures": [
+                        {
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Clicca su questo link https://takeout.google.com/",
+                                    "attributeDescription": "<p>Clicca su questo <a href='https://takeout.google.com/'>link</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Deseleziona \"Drive\" and \"Google Foto\" dalla lista",
+                                    "attributeDescription": "<p>Deseleziona <b>Drive</b> e <b>Google Foto</b> dalla lista</p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Clicca sul pulsante \"Passaggio successivo\"",
+                                    "attributeDescription": "<p>Clicca sul pulsante <b>Passaggio successivo</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Seleziona \"Esporta un archivio\" dal menu Frequenza, \".zip\" and \"2 GB\" dal menu Tipo di file e dimensioni",
+                                    "attributeDescription": "<p>Seleziona <b>Esporta un archivio</b> dal menu Frequenza, <b>.zip</b> and <b>2 GB</b> dal menu Tipo di file e dimensioni</p>"
+                                },
+                                {
+                                    "index": 5,
+                                    "description": "Clicca sul pulsante \"Crea esportazione\"",
+                                    "attributeDescription": "<p>Clicca sul pulsante <b>Crea esportazione</b></p>"
+                                }
+                            ]
+                        }
+                    ],
+                    "filesDescription": [
+                        {
+                            "filePath": "Google Account/(.+).SubscriberInfo.html",
+                            "fileContent": "Le tue informazioni sul tuo Account Google"
+                        },
+                        {
+                            "filePath": "(\\d{4})/(\\d{4})_((JANUARY)|(FEBRUARY)|(MARCH)|(APRIL)|(MAY)|(JUNE)|(JULY)|(AUGUST)|(SEPTEMBER)|(OCTOBER)|(NOVEMBER)|(DECEMBER)).json",
+                            "fileContent": "Le informazioni sui tutti i tuoi movimenti in un certo mese"
+                        },
+                        {
+                            "filePath": "Google Play Store/Reviews.json",
+                            "fileContent": "Le tue recensioni sul Play Store di Google"
+                        },
+                        {
+                            "filePath": "Maps your_places/Reviews.json",
+                            "fileContent": "Le tue recensioni sul Google Maps"
                         }
                     ]
                 }
