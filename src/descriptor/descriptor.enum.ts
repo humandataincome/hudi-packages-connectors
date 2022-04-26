@@ -129,6 +129,11 @@ export enum FileCodeGoogle {
     PLAY_STORE_PURCHASE_HISTORY = 'Google Play Store/PurchaseHistory.json',
     PLAY_STORE_LIBRARY = 'Google Play Store/Library.json',
     PLAY_STORE_REVIEWS = 'Google Play Store/Reviews.json',
+    SEMANTIC_LOCATION_HISTORY = '(\\d{4})/(\\d{4})_((JANUARY)|(FEBRUARY)|(MARCH)|(APRIL)|(MAY)|(JUNE)|(JULY)|(AUGUST)|(SEPTEMBER)|(OCTOBER)|(NOVEMBER)|(DECEMBER)).json', //es. 2017/2017_MARCH.json
+    SESSION = 'All sessions/(.+)(WALKING)|(RUNNING).json', //es. All sessions/2019-12-15T13_46_55+01_00_WALKING.json
+    DAILY_ACTIVITIES = 'Daily activity metrics/(\\d+)-(\\d+)-(\\d+).csv', //es. Daily activity metrics/2020-01-13.csv
+    ACCOUNT_INFO = 'Google Account/(.+).SubscriberInfo.html',
+    MAPS_YOUR_PLACES_REVIEWS = 'Maps your_places/Reviews.json', //originally:  'Maps (your places)/Reviews.json'
 
     ACTIVITY_ADS = 'Ads/My Activity.html',
     ACTIVITY_ASSISTANT = 'Assistant/My Activity.html',
@@ -151,10 +156,4 @@ export enum FileCodeGoogle {
     ACTIVITY_TAKEOUT = 'Takeout/My Activity.html',
     ACTIVITY_VIDEO_SEARCH = 'Video Search/My Activity.html',
     ACTIVITY_YOUTUBE = 'YouTube/My Activity.html',
-
-    SEMANTIC_LOCATION_HISTORY = '(\\d{4})/(\\d{4})_((JANUARY)|(FEBRUARY)|(MARCH)|(APRIL)|(MAY)|(JUNE)|(JULY)|(AUGUST)|(SEPTEMBER)|(OCTOBER)|(NOVEMBER)|(DECEMBER)).json', //es. 2017/2017_MARCH.json
-    SESSION = 'All sessions/(.+)(WALKING)|(RUNNING).json', //es. All sessions/2019-12-15T13_46_55+01_00_WALKING.json
-    DAILY_ACTIVITIES = 'Daily activity metrics/(\\d+)-(\\d+)-(\\d+).csv', //es. Daily activity metrics/2020-01-13.csv
-    ACCOUNT_INFO = 'Google Account/(.+).SubscriberInfo.html',
-    MAPS_YOUR_PLACES_REVIEWS = 'Maps your_places/Reviews.json' //originally:  'Maps (your places)/Reviews.json'
 }
