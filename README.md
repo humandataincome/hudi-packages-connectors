@@ -109,7 +109,7 @@ Go to https://www.amazon.com/hz/privacy-central/data-requests/preview.html, sele
 Go into one of your account' profiles, click on your account's icon in the top-right corner of the window, click on **Account**, then click **Download your personal data** under Settings paragraph and finish clicking the red button **Send request**.
 
 ### Google Data Source ###
-You can find the guide at this link: https://support.google.com/accounts/answer/162744?hl=en.
+You can find the guide at this link: https://takeout.google.com/.
 
 ### LinkedIn Data Source ###
 From Computer: Click on your icon, click on **Settings and Profile**, **Data privacy**, **Get a copy of your data** and Download the larger Archive.
