@@ -1,7 +1,7 @@
 export type LogLevel = 'error' | 'debug' | 'info';
 
 export enum Months {
-    JAN =  1,
+    JAN = 1,
     FEB,
     MAR,
     APR,
@@ -15,4 +15,17 @@ export enum Months {
     DEC
 }
 
-
+export enum MonthsFull {
+    JANUARY = 1,
+    FEBRUARY,
+    MARCH,
+    APRIL,
+    MAY,
+    JUNE,
+    JULY,
+    AUGUST,
+    SEPTEMBER,
+    OCTOBER,
+    NOVEMBER,
+    DECEMBER
+}

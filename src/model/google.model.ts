@@ -211,6 +211,7 @@ export enum ActivityTypeGO {
     SKIING,
     IN_TRAM,
     IN_VEHICLE,
+    UNKNOWN_ACTIVITY_TYPE
 }
 
 export interface PointGO {

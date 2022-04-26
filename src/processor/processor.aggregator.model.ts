@@ -116,11 +116,11 @@ export interface GoogleDataAggregator {
     //from ACCOUNT_INFO
     email?: string;
     recoveryEmail?: string;
-    recoveryNUmber?: number;
+    recoverySMS?: string;
     creationAccount?: Date;
     //from all SEMANTIC_LOCATION_HISTORY
-    mostFrequentActivityTypes?: Array<ActivityTypeGO>[3];
-    averageDistancesForActivityType?: Array<number>[3];
+    mostFrequentActivityTypes?: Array<ActivityTypeGO>;
+    averageDistancesForActivityType?: Array<number>;
     //from PLAY_STORE_REVIEWS
     counterPlayStoreReviewsTI?: number;
     averagePlayStoreReviewsTI?: number;

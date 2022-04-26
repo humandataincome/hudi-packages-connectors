@@ -1,6 +1,5 @@
 import {ValidatorDatasource} from "./validator.datasource";
 import {FileCode, FileCodeGoogle} from "../descriptor";
-import {ValidationErrorEnums} from "./validator.error";
 import {ConfigGoogle} from "../config/config.google";
 import {InputFileFormat} from "./index";
 
@@ -25,7 +24,6 @@ export class ValidatorGoogle extends ValidatorDatasource  {
     protected static extractCompatiblePath(path: string): string {
         const x: string[] = path.split('/');
         let pathTranslation = ConfigGoogle.pathTranslation[`${x[x.length - 2]}/${x[x.length - 1]}`];
-        //console.log(pathTranslation, `${x[x.length - 2]}/${x[x.length - 1]}`)
         if (pathTranslation) {
             return pathTranslation;
         }

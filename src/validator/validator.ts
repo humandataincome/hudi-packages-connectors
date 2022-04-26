@@ -20,7 +20,7 @@ export class Validator {
 
     /**
      * @param zipFile - file zip as BufferLike
-     * @return zip file containing all the files from input that passed the validation
+     * @return zip file containing all the files from input that passed the zip_files
      */
     static async validateZIP(zipFile: InputFileFormat): Promise<Buffer> {
         const validatedFiles = new JSZip();
