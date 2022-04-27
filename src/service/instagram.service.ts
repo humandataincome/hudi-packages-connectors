@@ -450,7 +450,7 @@ export class InstagramService {
     }
 
     /**
-     * @param data - file 'likes/liked_comments.json' in input as Buffer
+     * @param data - file 'followers_and_following/following.json' in input as Buffer
      */
     static async parseFollowingAccounts(data: Buffer): Promise<FollowingAccountsIG | undefined> {
         try {
