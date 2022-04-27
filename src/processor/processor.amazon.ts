@@ -119,10 +119,7 @@ export class ProcessorAmazon {
                                     item.countryCode ? ','+item.countryCode : ',');
                             }
                         }
-                    } else {
-                        throw new Error(`${ProcessorErrorEnums.PROCESSOR_AMAZON_INVALID_FILE_CODE}: File ${pathName} in input is not a valid Amazon file`);
                     }
-
                 });
             }
         }

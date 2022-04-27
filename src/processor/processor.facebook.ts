@@ -148,10 +148,7 @@ export class ProcessorFacebook {
                         if(result){
                             model.friends = result.list.length;
                         }
-                    } else {
-                        throw new Error(`${ProcessorErrorEnums.PROCESSOR_FACEBOOK_INVALID_FILE_CODE}: File ${pathName} in input is not a valid Facebook file`);
                     }
-
                 });
             }
         }

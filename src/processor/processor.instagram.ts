@@ -128,8 +128,6 @@ export class ProcessorInstagram {
                             model.videosViewed = result.list.length;
                             model.videosViewedTI = result.list.filter((item: MediaIG) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
                         }
-                    } else {
-                        throw new Error(`${ProcessorErrorEnums.PROCESSOR_INSTAGRAM_INVALID_FILE_CODE}: File ${pathName} in input is not a valid Instagram file`);
                     }
                 });
             }
