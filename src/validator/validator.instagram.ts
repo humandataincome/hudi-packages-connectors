@@ -35,7 +35,6 @@ export class ValidatorInstagram extends ValidatorDatasource {
         let hasAnyFile = false;
         let usefulFiles = new JSZip();
         const zip = await JSZip.loadAsync(zipFile);
-        console.log(Object.keys(zip.files))
         for (let pathName of Object.keys(zip.files)) {
             const file = zip.files[pathName];
             const compatiblePath = this.extractCompatiblePath(pathName);
