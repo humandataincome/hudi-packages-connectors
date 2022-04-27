@@ -461,23 +461,23 @@ export class GoogleService {
             const document = data.toString();
             const model: AccountGO = {};
 
-            let regex = /<li>Google Account ID: (.*)<\/li>/;
+            let regex = /<li>Google Account ID: (\d|\w+)<\/li>/;
             let match = document.match(regex);
             (match && match[1]) && (model.id = match[1]);
 
-            regex = /<li>Created on: (.*)<\/li>/;
+            regex = /<li>Created on: (.*Z)<\/li>/;
             match = document.match(regex);
             (match && match[1]) && (model.creationDate = new Date(match[1]));
 
-            regex = /<li>Contact e-Mail: (.*)<\/li>/;
+            regex = /<li>Contact e-Mail: ((([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,})))<\/li>/;
             match = document.match(regex);
             (match && match[1]) && (model.contactEmail = match[1]);
 
-            regex = /<li>Recovery e-Mail: (.*)<\/li>/;
+            regex = /<li>Recovery e-Mail: ((([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-\d]+\.)+[a-zA-Z]{2,})))<\/li>/;
             match = document.match(regex);
             (match && match[1]) && (model.recoveryEmail = match[1]);
 
-            regex = /<li>Recovery SMS: (.*) \[(.*)]<\/li>/;
+            regex = /<li>Recovery SMS: (\+.*) \[(.*)]<\/li>/;
             match = document.match(regex);
             (match && match[1]) && (model.recoverySMS = match[1]);
             (match && match[2]) && (model.recoverySMSCountryCode = match[2]);
@@ -534,7 +534,7 @@ export class GoogleService {
                             !Validator.objectIsEmpty(geoLocal) && (review.geoCoordinates = geoLocal);
                         }
                     }
-                    (value.properties.Published) && (review.published = value.properties.Published);
+                    (value.properties.Published) && (review.published = new Date(value.properties.Published));
                     (value.properties['Star Rating']) && (review.starRating = value.properties['Star Rating']);
                 }
                 (value.type) && (review.type = value.type);
