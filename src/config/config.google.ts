@@ -57,6 +57,8 @@ export class ConfigGoogle {
         'Account Google':'Google Account',
         'Metriche giornaliere relative all_attività fisica':'Daily activity metrics',
         'Tutte le sessioni':'All sessions',
+        'Transizioni Google':'Google transactions',
+        'App Home':'Home App',
     }
 
 }

@@ -100,7 +100,7 @@ export class AmazonService {
     }
 
     /**
-     * @param data - file 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv' in input as Buffer
+     * @param data - file 'Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv' in input as Buffer
      */
     static async parsePrimeVideoViewingHistory(data: Buffer): Promise<PrimeVideoViewingHistoryAM | undefined> {
         try {

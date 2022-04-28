@@ -488,6 +488,9 @@ export class GoogleService {
         }
     }
 
+    /**
+     * @param data - file 'Google Play Store/Reviews.json' in input as Buffer
+     */
     static async parsePlayStoreReviews(data: Buffer): Promise<PlayStoreReviewsGO | undefined> {
         try {
             let document = JSON.parse(data.toString());
@@ -515,6 +518,9 @@ export class GoogleService {
         }
     }
 
+    /**
+     * @param data - file 'Maps (your places)/Reviews.json' in input as Buffer
+     */
     static async parseMapsReviews(data: Buffer): Promise<MapsReviewsGO | undefined> {
         try {
             let document = JSON.parse(data.toString());
