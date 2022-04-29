@@ -17,15 +17,18 @@ export enum FileExtension {
     ZIP = 'zip',
     JSON = 'json',
     CSV = 'csv',
-    XML = 'xml',
     TXT = 'txt',
     HTML = 'html',
     PDF = 'pdf',
+    EML = 'eml',
+    ICS = 'ics',
+    TCX = 'tcx',
+    MBOX = 'mbox',
+    XML = 'xml',
     JPG = 'jpg',
     PNG = 'png',
     GIF = 'gif',
     VCF = 'vcf',
-    EML = 'eml',
 }
 
 export enum LanguageCode {
@@ -285,7 +288,7 @@ export enum FileCodeGoogle {
     FIT_DAILY_ACTIVITIES = 'Daily activity metrics/(\\d+)-(\\d+)-(\\d+).csv', //es. Daily activity metrics/2020-01-13.csv
     BUSINESS_PROFILE_PERSONALIZATION = 'Google Business Profile/businessPersonalization.json',
     BUSINESS_PROFILE_DATA = 'account-(//d+)/data.json',
-    PAY_REMITTANCES_REQUESTS = 'Google Pay/Money remittances and requests.csv',
+    PAY_REMITTANCES_REQUESTS = 'Money remittances and requests/Money remittances and requests.csv',
     PLAY_GAMES_ACTIVITY = '(.+)/Activity.html', //e.g. Asphalt 8 - Car Racing Game/Activity.html
     PLAY_GAMES_PLAYER = 'Global/Player.html',
     PLAY_MOVIES_SERVICES = 'Google Play Movies _ TV/Linked Services.json',
@@ -312,7 +315,7 @@ export enum FileCodeGoogle {
     APP_HOME_HISTORY = 'Home App/HomeHistory.json',
     APP_HOME_SOUND_SENSING = 'Home App/SoundSensing.json',
     KEEP_FILE_JSON = 'Keep/(.+).json',
-    KEEP_FILE_HTML = 'Keep/(.+).json',
+    KEEP_FILE_HTML = 'Keep/(.+).html',
     MAIL_BLOCKED_ADDRESSES = 'User Settings/Blocked addresses.json',
     MAIL_ALL = 'Mail/All mail Including Spam and Trash.mbox',
     MAPS_ADDED = 'Added dishes, products, activities/Added dishes, products, activities.json',

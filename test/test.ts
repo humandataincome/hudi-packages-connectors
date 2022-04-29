@@ -17,15 +17,15 @@ import {
     NetflixService,
     GoogleService,
     ValidatorAmazon,
-    ProcessorAmazon
+    ProcessorAmazon,
+    ProcessorGoogle
 } from "../src";
 import {ValidatorGoogle} from "../src/validator/validator.google";
-import {ProcessorGoogle} from "../src/processor/processor.google";
 
 async function test(){
-    validatorAndProcessingInstagramTest();
-    validatorAndProcessingFacebookTest();
-    validatorAndProcessingAmazonTest();
+    //validatorAndProcessingInstagramTest();
+    //validatorAndProcessingFacebookTest();
+    //validatorAndProcessingAmazonTest();
     validatorAndProcessingGoogleTest();
 
     //await descriptorServiceTest();
