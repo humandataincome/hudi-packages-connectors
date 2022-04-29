@@ -2,6 +2,7 @@ import {FileExtension} from "../descriptor";
 import * as JSZip from "jszip";
 import {ValidationErrorEnums} from "./validator.error";
 import {InputFileFormat} from "./index";
+import {Parser} from "../utils/parser";
 
 export class Validator {
     public static MAX_BYTE_FILE_SIZE = 6e6;
@@ -42,7 +43,7 @@ export class Validator {
                 if(fileExtension) {
                     if (fileExtension === FileExtension.ZIP) {
                         hasAnyFile = await this._validateZIP(fileBuffer, validatedFiles, pathName.slice(0, -4)) || hasAnyFile;
-                    } else if (Validator.isValideFile(fileExtension, fileBuffer)) {
+                    } else if (Validator.isValidFile(fileExtension, fileBuffer)) {
                         validatedFiles.file(prefix === '' ? pathName : prefix + '/' + pathName, fileBuffer, {comment: file.comment});
                         (!hasAnyFile) && (hasAnyFile = true);
                     }
@@ -66,6 +67,14 @@ export class Validator {
             return FileExtension.ZIP;
         } else if (extension === 'pdf') {
             return FileExtension.PDF;
+        } else if (extension === 'eml') {
+            return FileExtension.EML;
+        } else if (extension === 'ics') {
+            return FileExtension.ICS;
+        } else if (extension === 'tcx') {
+            return FileExtension.TCX;
+        } else if (extension === 'mbox') {
+            return FileExtension.MBOX;
         } else if (extension === 'xml') {
             return FileExtension.XML;
         } else if (extension === 'html') {
@@ -80,14 +89,12 @@ export class Validator {
             return FileExtension.GIF;
         } else if (extension === 'vcf') {
             return FileExtension.VCF;
-        } else if (extension === 'eml') {
-            return FileExtension.EML;
         } else {
             return undefined;
         }
     }
 
-    private static isValideSize(file: Buffer): boolean {
+    private static isValidSize(file: Buffer): boolean {
         return (file.byteLength < Validator.MAX_BYTE_FILE_SIZE) && (file.byteLength > Validator.MIN_BYTE_FILE_SIZE);
     }
 
@@ -96,14 +103,14 @@ export class Validator {
      * @param file - file as buffer
      * @return TRUE if the file is valid, FALSE otherwise
      */
-    private static isValideFile(extension: FileExtension, file: Buffer): boolean {
-        if (Validator.isValideSize(file)) {
+    private static isValidFile(extension: FileExtension, file: Buffer): boolean {
+        if (Validator.isValidSize(file)) {
             switch (extension) {
                 case FileExtension.JSON:
                     return Validator.validateJSON(file);
                 case FileExtension.CSV:
                     return Validator.validateCSV(file);
-                case FileExtension.HTML:
+                case FileExtension.HTML || FileExtension.PDF || FileExtension.EML || FileExtension.ICS || FileExtension.TCX || FileExtension.MBOX || FileExtension.XML:
                     return true;
                 default:
                     return false;
@@ -130,7 +137,7 @@ export class Validator {
      */
     static validateCSV(file: Buffer): boolean {
         try {
-            return true;
+            return !!Parser.parseCSVfromBuffer(file);
         } catch (error) {
             return false;
         }
