@@ -45,14 +45,7 @@ function validatorAndProcessingInstagramTest() {
             if (err) throw err;
             const validZip = await Validator.validateZIP(data);
             const validationFE = await ValidatorInstagram.selectUsefulFilesFromZip(validZip);
-            //console.log(await Validator.getFilesPathsIntoZip(validZip));
-            if(validationFE) {
-                const validationBE = await Validator.validateZIP(validationFE);
-                if(validationBE) {
-                    //console.log(await Validator.getFilesPathsIntoZip(validationBE));
-                    console.log(await ProcessorInstagram.aggregatorFactory(validationBE as Uint8Array, 180));
-                }
-            }
+            console.log(await ProcessorInstagram.aggregatorFactory(validationFE as Uint8Array, 180));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
@@ -70,15 +63,8 @@ function validatorAndProcessingFacebookTest() {
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/zip_files/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            //console.log(await Validator.getFilesPathsIntoZip(data));
             const validationFE = await ValidatorFacebook.selectUsefulFilesFromZip(await Validator.validateZIP(data));
-            if(validationFE) {
-                const validationBE = await Validator.validateZIP(validationFE);
-                if(validationBE) {
-                    //console.log(await Validator.getFilesPathsIntoZip(validationBE));
-                    console.log(await ProcessorFacebook.aggregatorFactory(validationBE, 180));
-                }
-            }
+            console.log(await ProcessorFacebook.aggregatorFactory(validationFE!, 180));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
@@ -97,7 +83,6 @@ function validatorAndProcessingAmazonTest() {
             if (err) throw err;
             const validation1 = await Validator.validateZIP(data);
             const validation2 = await ValidatorAmazon.selectUsefulFilesFromZip(validation1);
-            //console.log(await Validator.getFilesPathsIntoZip(validation2!));
             console.log(await ProcessorAmazon.aggregatorFactory(validation2!, 180))
         });
     } catch (e: any) {
@@ -116,10 +101,7 @@ function validatorAndProcessingGoogleTest() {
         fs.readFile(path.join(__dirname,"../src/mock/zip_files/google_it.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validation1 = await Validator.validateZIP(data);
-            //console.log(validation1);
             const validation2 = await ValidatorGoogle.selectUsefulFilesFromZip(validation1);
-            //const list = await Validator.getFilesPathsIntoZip(validation2!);
-            //list.forEach((path) => console.log(path));
             console.log(await ProcessorGoogle.aggregatorFactory(validation2!, 180))
         });
     } catch (e: any) {

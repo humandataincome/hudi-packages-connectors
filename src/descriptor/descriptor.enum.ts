@@ -282,6 +282,8 @@ export enum FileCodeGoogle {
     CHROME_SYNC_SETTINGS = 'Chrome/SyncSettings.json',
     CLOUD_PRINT_JOBS = 'Cloud Print/Jobs metadata takeout.json',
     CLOUD_PRINT_PRINTERS = 'Cloud Print/Printers metadata takeout.json',
+    LOCATION_HISTORY_RECORDS = 'Location History/Records.json',
+    LOCATION_HISTORY_SETTINGS = 'Location History/Settings.json',
     FIT_ACTIVITY = 'Activities/(.*).tcx',
     FIT_DATA = 'All Data/((derived_com)|(raw_com))(.*).json',
     FIT_SESSION = 'All sessions/(.+)((WALKING)|(RUNNING)).json', //es. All sessions/2019-12-15T13_46_55+01_00_WALKING.json
@@ -289,7 +291,8 @@ export enum FileCodeGoogle {
     BUSINESS_PROFILE_PERSONALIZATION = 'Google Business Profile/businessPersonalization.json',
     BUSINESS_PROFILE_DATA = 'account-(//d+)/data.json',
     PAY_REMITTANCES_REQUESTS = 'Money remittances and requests/Money remittances and requests.csv',
-    PLAY_GAMES_ACTIVITY = '(.+)/Activity.html', //e.g. Asphalt 8 - Car Racing Game/Activity.html
+    PLAY_BOOK = 'Google Play Books/(.+)/(.+).html',
+    PLAY_GAMES_ACTIVITY = 'Games/(.+)/Activity.html', //e.g. Asphalt 8 - Car Racing Game/Activity.html
     PLAY_GAMES_PLAYER = 'Global/Player.html',
     PLAY_MOVIES_SERVICES = 'Google Play Movies _ TV/Linked Services.json',
     PLAY_MOVIES_NOTIFICATION = 'Google Play Movies _ TV/Notification Preferences.json',
