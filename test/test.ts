@@ -1,24 +1,25 @@
 import ErrnoException = NodeJS.ErrnoException;
 import {
-    ProcessorFacebook,
-    ValidatorFacebook,
+    AdvertiserAM,
+    AmazonService,
+    DataSourceCode,
+    DescriptorService,
     FacebookService,
+    FileExtension,
+    GoogleService,
     InstagramService,
     LanguageCode,
-    ProcessorInstagram,
-    Validator,
-    ValidatorInstagram,
-    DescriptorService,
-    DataSourceCode,
-    RetrievingProcedureType,
-    AmazonService,
-    AdvertiserAM,
     LinkedInService,
     NetflixService,
-    GoogleService,
-    ValidatorAmazon,
     ProcessorAmazon,
-    ProcessorGoogle
+    ProcessorFacebook,
+    ProcessorGoogle,
+    ProcessorInstagram,
+    RetrievingProcedureType,
+    Validator,
+    ValidatorAmazon,
+    ValidatorFacebook,
+    ValidatorInstagram
 } from "../src";
 import {ValidatorGoogle} from "../src/validator/validator.google";
 
@@ -100,7 +101,7 @@ function validatorAndProcessingGoogleTest() {
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/zip_files/google_it.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validation1 = await Validator.validateZIP(data);
+            const validation1 = await Validator.validateZIP(data, {permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML]});
             const validation2 = await ValidatorGoogle.selectUsefulFilesFromZip(validation1);
             console.log(await ProcessorGoogle.aggregatorFactory(validation2!, 180))
         });
