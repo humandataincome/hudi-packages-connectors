@@ -4,7 +4,7 @@ import {InputFileFormat} from "./index";
 
 export class ValidatorDatasource {
 
-    protected static async selectUsefulFilesFromZip(
+    public static async selectUsefulFilesFromZip(
         zipFile: InputFileFormat,
         fileList: FileCode[] = []): Promise<Buffer | undefined> {
         const JSZip = require("jszip");
