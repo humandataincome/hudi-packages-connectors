@@ -34,7 +34,7 @@ import {
     FriendRequestsSentFB, FriendActivityFB, RejectedFriendshipRequestsFB, RemovedFriendsFB, WhoYouFollowFB, FriendsFB,
 } from "../model";
 import {Decoding} from "../utils/decoding";
-import {Validator} from "../validator";
+import {ValidatorFiles} from "../validator";
 
 /**
  * Class used to parse most important files into the directory returned by Facebook in JSON format.
@@ -64,7 +64,7 @@ export class FacebookService{
             (document.profile_v2?.relationship?.status) && (relationshipModel.status = Decoding.decodeObject(document.profile_v2.relationship.status));
             (document.profile_v2?.relationship?.anniversary) && (relationshipModel.anniversary = document.profile_v2.relationship.anniversary);
             (document.profile_v2?.relationship?.timestamp) && (relationshipModel.dateAdded = new Date(1000 * document.profile_v2.relationship.timestamp));
-            (!Validator.objectIsEmpty(relationshipModel)) && (personalInfoModel.relationship = relationshipModel);
+            (!ValidatorFiles.objectIsEmpty(relationshipModel)) && (personalInfoModel.relationship = relationshipModel);
 
             (document.profile_v2?.education_experiences?.length > 0) && (personalInfoModel.educationExperiences =
                 document.profile_v2.education_experiences.map((value: any) => {
@@ -117,7 +117,7 @@ export class FacebookService{
             (document.profile_v2?.address?.country) && (addressModel.country = Decoding.decodeObject(document.profile_v2.address.country));
             (document.profile_v2?.address?.country_code) && (addressModel.countryCode = Decoding.decodeObject(document.profile_v2.address.country_code));
             (document.profile_v2?.address?.region) && (addressModel.region = Decoding.decodeObject(document.profile_v2.address.region));
-            (!Validator.objectIsEmpty(addressModel)) && (personalInfoModel.address = addressModel);
+            (!ValidatorFiles.objectIsEmpty(addressModel)) && (personalInfoModel.address = addressModel);
 
             (document.profile_v2?.phone_numbers?.length > 0) && (personalInfoModel.phoneNumbers = document.profile_v2.phone_numbers);
             (document.profile_v2?.places_lived?.length > 0) && (personalInfoModel.placesLived = document.profile_v2.places_lived.map((value: any) => {
@@ -137,7 +137,7 @@ export class FacebookService{
                 }));
             (document.profile_v2?.registration_timestamp) && (personalInfoModel.registrationDate = new Date(1000*document.profile_v2.registration_timestamp));
             (document.profile_v2?.profile_uri) && (personalInfoModel.profileUri = Decoding.decodeObject(document.profile_v2.profile_uri));
-            return !Validator.objectIsEmpty(personalInfoModel) ? personalInfoModel : undefined;
+            return !ValidatorFiles.objectIsEmpty(personalInfoModel) ? personalInfoModel : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`,'parsePersonalInformation');
             return undefined;
@@ -340,7 +340,7 @@ export class FacebookService{
             (participants.length > 0) && (conversationModel.participants = participants);
             (document.is_still_participant) && (conversationModel.isStillParticipant = document.is_still_participant);
 
-            return !Validator.objectIsEmpty(conversationModel) ? conversationModel : undefined;
+            return !ValidatorFiles.objectIsEmpty(conversationModel) ? conversationModel : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`,'parseMessages');
             return undefined;
@@ -358,7 +358,7 @@ export class FacebookService{
                 (document.language_and_locale_v2[0].children[0].entries[0].data?.value) && (model.settingsLanguage = Decoding.decodeObject(document.language_and_locale_v2[0].children[0].entries[0].data.value));
                 (document.language_and_locale_v2[1].entries) && (model.languagesKnown = document.language_and_locale_v2[1].entries.map((item: {"data": {"value": string}}) => Decoding.decodeObject(item.data.value)));
                 (document.language_and_locale_v2[2].entries[0].data?.value) && (model.favouriteLanguage = Decoding.decodeObject(document.language_and_locale_v2[2].entries[0].data.value));
-                return !Validator.objectIsEmpty(model) ? model : undefined;
+                return !ValidatorFiles.objectIsEmpty(model) ? model : undefined;
             }
             return undefined;
         } catch (error) {
@@ -465,7 +465,7 @@ export class FacebookService{
                         return model;
                     }));
                 }
-                return !Validator.objectIsEmpty(modelRecentlyViewed) ? modelRecentlyViewed : undefined;
+                return !ValidatorFiles.objectIsEmpty(modelRecentlyViewed) ? modelRecentlyViewed : undefined;
             }
             return undefined;
         } catch (error) {

@@ -58,14 +58,28 @@ import {DescriptorService} from '@humandataincome/connectors';
 let codes = DescriptorService.getAllDataSourcesCodes();
 ```
 
-## How to use Validator ##
+## How to use ValidatorFiles ##
 Example of **ValidatorService** usage:
 ```
 let validatedZip = await ValidatorService.validateZIP(zipFile);
 ```
-The function **validateZIP** take in input a zip file. The allowed types are: string, number[], Blob, NodeJS.ReadableStream, Uint8Array, ArrayBuffer.
-
-Validator class has two parameters to filter files based on their bytes sizes that can be changed:
+The method **validateZIP** take in input a zip file. The allowed types are: string, number[], Blob, NodeJS.ReadableStream, Uint8Array, ArrayBuffer.
+It also takes an optional parameter:
+```
+options: {
+    permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
+    filterDataSource: {
+        dataSourceCode: DataSourceCode.GOOGLE,
+        fileCodesIncluded: [
+            FileCodeGoogle.ACCOUNT_INFO,
+            FileCodeGoogle.SEMANTIC_LOCATION_HISTORY,
+            FileCodeGoogle.PLAY_STORE_REVIEWS,
+            FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS,
+        ]
+    }
+}
+```
+ValidatorFiles class has two parameters to filter files based on their bytes sizes that can be changed:
 ```
 ValidatorService.MAX_BYTE_FILE_SIZE = 7e10; //default value is 6 MB
 ValidatorService.MIN_BYTE_FILE_SIZE = 100;  //default value is 50 B
@@ -78,7 +92,7 @@ import {ValidatorInstagram} from '@humandataincome/connectors';
 ```
 let validatedZip = await ValidatorInstagram.selectUsefulFilesFromZip(zipFile);
 ```
-The function **selectUsefulFilesFromZip** can get in input an optional list of FilesCode to filter out from the zip the data source's unwanted files.
+The method **selectUsefulFilesFromZip** can get in input an optional list of FilesCode to filter out from the zip the data source's unwanted files.
 ## How to use Processor ##
 Example of **ProcessorInstagram** usage: 
 ```

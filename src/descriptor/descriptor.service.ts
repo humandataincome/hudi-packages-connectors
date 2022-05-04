@@ -4,7 +4,7 @@ import {
     SourceDescription
 } from "./descriptor.model";
 import {DataSourceCode, FileExtension, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
-import {Validator} from "../validator";
+import {ValidatorFiles} from "../validator";
 import {DescriptorErrorEnum} from "./descriptor.error";
 
 
@@ -111,7 +111,7 @@ export class DescriptorService {
                 ({procedureType}) => procedureType === retrievingProcedureType
             );
 
-            return !Validator.objectIsEmpty(procedure) ? procedure : undefined;
+            return !ValidatorFiles.objectIsEmpty(procedure) ? procedure : undefined;
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_PROCEDURE_ERROR}: ${error}`);
         }

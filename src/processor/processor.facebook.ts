@@ -14,8 +14,7 @@ import {
     ReactionsFB, RecentlyViewedFB, VisualizationFB, YourPostFB, YourPostsFB
 } from "../model";
 import {ProcessorUtils} from "./processor.utils";
-import {InputFileFormat, Validator} from "../validator";
-import {ProcessorErrorEnums} from "./processor.error";
+import {InputFileFormat, ValidatorFiles} from "../validator";
 import {FacebookDataAggregator} from "./processor.aggregator.model";
 
 export class ProcessorFacebook {
@@ -152,6 +151,6 @@ export class ProcessorFacebook {
                 });
             }
         }
-        return !Validator.objectIsEmpty(model) ? model : undefined;
+        return !ValidatorFiles.objectIsEmpty(model) ? model : undefined;
     }
 }

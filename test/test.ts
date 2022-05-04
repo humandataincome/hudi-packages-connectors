@@ -4,7 +4,7 @@ import {
     AmazonService,
     DataSourceCode,
     DescriptorService,
-    FacebookService,
+    FacebookService, FileCodeGoogle,
     FileExtension,
     GoogleService,
     InstagramService,
@@ -16,12 +16,11 @@ import {
     ProcessorGoogle,
     ProcessorInstagram,
     RetrievingProcedureType,
-    Validator,
+    ValidatorFiles,
     ValidatorAmazon,
     ValidatorFacebook,
     ValidatorInstagram
 } from "../src";
-import {ValidatorGoogle} from "../src/validator/validator.google";
 
 async function test(){
     //validatorAndProcessingInstagramTest();
@@ -43,10 +42,20 @@ function validatorAndProcessingInstagramTest() {
         const fs =  require('fs');
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/zip_files/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
-            if (err) throw err;
-            const validZip = await Validator.validateZIP(data);
-            const validationFE = await ValidatorInstagram.selectUsefulFilesFromZip(validZip);
-            console.log(await ProcessorInstagram.aggregatorFactory(validationFE as Uint8Array, 180));
+            if (err) throw err
+            /*
+            const validation1 = await ValidatorFiles.validateZIP(data,
+                {
+                    permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
+                    filterDataSource: {
+                        dataSourceCode: DataSourceCode.INSTAGRAM
+                    }
+                });
+
+             */
+            const validation1 = await ValidatorFiles.validateZIP(data);
+            const validation2 = await ValidatorInstagram.getInstance().filterFilesIntoZip(validation1);
+            console.log(await ProcessorInstagram.aggregatorFactory(validation2 as Uint8Array, 180));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
@@ -64,7 +73,7 @@ function validatorAndProcessingFacebookTest() {
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/zip_files/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validationFE = await ValidatorFacebook.selectUsefulFilesFromZip(await Validator.validateZIP(data));
+            const validationFE = await ValidatorFacebook.getInstance().filterFilesIntoZip(await ValidatorFiles.validateZIP(data));
             console.log(await ProcessorFacebook.aggregatorFactory(validationFE!, 180));
         });
     } catch (e: any) {
@@ -82,8 +91,8 @@ function validatorAndProcessingAmazonTest() {
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/zip_files/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validation1 = await Validator.validateZIP(data);
-            const validation2 = await ValidatorAmazon.selectUsefulFilesFromZip(validation1);
+            const validation1 = await ValidatorFiles.validateZIP(data);
+            const validation2 = await ValidatorAmazon.getInstance().filterFilesIntoZip(validation1);
             console.log(await ProcessorAmazon.aggregatorFactory(validation2!, 180))
         });
     } catch (e: any) {
@@ -101,9 +110,21 @@ function validatorAndProcessingGoogleTest() {
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/zip_files/google_it.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validation1 = await Validator.validateZIP(data, {permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML]});
-            const validation2 = await ValidatorGoogle.selectUsefulFilesFromZip(validation1);
-            console.log(await ProcessorGoogle.aggregatorFactory(validation2!, 180))
+            const validation = await ValidatorFiles.validateZIP(data,
+                {
+                    permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
+                    filterDataSource: {
+                        dataSourceCode: DataSourceCode.GOOGLE,
+                        fileCodesIncluded: [
+                            FileCodeGoogle.ACCOUNT_INFO,
+                            FileCodeGoogle.SEMANTIC_LOCATION_HISTORY,
+                            FileCodeGoogle.PLAY_STORE_REVIEWS,
+                            FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS,
+                        ]
+                    }
+                });
+            //validation = await ValidatorGoogle.getInstance().filterFilesIntoZip(validation);
+            console.log(await ProcessorGoogle.aggregatorFactory(validation!, 180))
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {

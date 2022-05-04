@@ -31,5 +31,15 @@ export class Decoding {
         }
         return obj;
     }
+
+
+    /**
+     * @param time - is the 17 digit timestamp of Google Chrome (Webkit Timestamp)
+     * @return a compatible Date format
+     */
+    static convertWebkitTimestamp(time: number): Date {
+        const dateInSeconds = Math.round(time / 1000000) - 11644473600;
+        return new Date(dateInSeconds * 1000);
+    }
 }
 

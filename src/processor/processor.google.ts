@@ -1,4 +1,4 @@
-import {InputFileFormat, Validator} from "../validator";
+import {InputFileFormat, ValidatorFiles} from "../validator";
 import { GoogleDataAggregator } from "./processor.aggregator.model";
 import {FileCodeGoogle} from "../descriptor";
 import {
@@ -127,7 +127,7 @@ export class ProcessorGoogle {
                     model.averageDistancesForActivityType.push(value[2]/value[1]);
                 }
             });
-        return !Validator.objectIsEmpty(model) ? model : undefined;
+        return !ValidatorFiles.objectIsEmpty(model) ? model : undefined;
     }
 
     static monthIsInRange(pathName: string, timeIntervalDays: number): boolean {

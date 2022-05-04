@@ -36,7 +36,7 @@ import {
     ViewingActivityAM,
     WishListAM
 } from "../model";
-import {Validator} from "../validator";
+import {ValidatorFiles} from "../validator";
 
 /**
  * Class used to parse most important files into the directory returned by Amazon in CSV and JSON format.
@@ -622,7 +622,7 @@ export class AmazonService {
                 (result['# titles purchased/rented'] !== '') && (model.titlesPurchasedRented = parseInt(result['# titles purchased/rented']));
                 (result['# titles watched'] !== '') && (model.titlesWatched = parseInt(result['# titles watched']));
                 (result['home country'] !== '') && (model.homeCountry = result['home country']);
-                return !Validator.objectIsEmpty(model) ? model : undefined;
+                return !ValidatorFiles.objectIsEmpty(model) ? model : undefined;
             }
             return undefined;
         } catch (error) {

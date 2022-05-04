@@ -1,14 +1,25 @@
-import {FileExtension} from "../descriptor";
+import {DataSourceCode, FileCode, FileExtension} from "../descriptor";
 import * as JSZip from "jszip";
 import {ValidationErrorEnums} from "./validator.error";
-import {InputFileFormat} from "./index";
+import {
+    InputFileFormat,
+    ValidatorAmazon,
+    ValidatorDatasource,
+    ValidatorFacebook,
+    ValidatorInstagram
+} from "./index";
 import {Parser} from "../utils/parser";
+import {ValidatorGoogle} from "./validator.google";
 
 export type ValidateZipOptions = {
-    permittedFileExtensions: FileExtension[];
+    permittedFileExtensions?: FileExtension[];
+    filterDataSource?: {
+        dataSourceCode: DataSourceCode;
+        fileCodesIncluded?: FileCode[];
+    }
 }
 
-export class Validator {
+export class ValidatorFiles {
     public static MAX_BYTE_FILE_SIZE = 6e6;
     public static MIN_BYTE_FILE_SIZE = 50;
 
@@ -41,19 +52,31 @@ export class Validator {
     private static async _validateZIP(zipFile: InputFileFormat, validatedFiles: JSZip, options?: ValidateZipOptions, prefix: string = ''): Promise<boolean> {
         const zip = await JSZip.loadAsync(zipFile);
         let hasAnyFile: boolean = false;
+        const validatorDatasource = (options && options.filterDataSource) ?
+            await ValidatorFiles.ValidatorSelector(options.filterDataSource.dataSourceCode) : undefined;
+        (validatorDatasource) && (validatorDatasource.LANGUAGE_CODE = undefined);
         for (let pathName of Object.keys(zip.files)) {
             const file = zip.files[pathName];
             if (!file.dir) {
                 const fileBuffer = await file.async('nodebuffer');
-                const fileExtension = Validator.getFileExtension(pathName);
-                if(fileExtension && (options ? options.permittedFileExtensions.includes(fileExtension) : true)) {
+                const fileExtension = ValidatorFiles.getFileExtension(pathName);
+                if(fileExtension && (options && options.permittedFileExtensions ? options.permittedFileExtensions.includes(fileExtension) : true)) {
                     if (fileExtension === FileExtension.ZIP) {
                         //remove .zip from the pathname and continue the execution recursively into the file
                         hasAnyFile = await this._validateZIP(fileBuffer, validatedFiles, options, pathName.slice(0, -4)) || hasAnyFile;
-                    } else if (Validator.isValidSize(fileBuffer) && Validator.isValidFile(fileExtension, fileBuffer)) {
-                        console.log(pathName);
-                        validatedFiles.file(prefix === '' ? pathName : prefix + '/' + pathName, fileBuffer, {comment: file.comment});
-                        (!hasAnyFile) && (hasAnyFile = true);
+                    } else if (ValidatorFiles.isValidSize(fileBuffer) && ValidatorFiles.isValidFile(fileExtension, fileBuffer)) {
+                        if(validatorDatasource) {
+                            const compatiblePathName = options && options.filterDataSource && options.filterDataSource.fileCodesIncluded
+                                ? await validatorDatasource.getValidPath(pathName, zip, options.filterDataSource.fileCodesIncluded)
+                                : await validatorDatasource.getValidPath(pathName, zip);
+                            if (compatiblePathName) {
+                                validatorDatasource.addFileToZip(validatedFiles, compatiblePathName, fileBuffer, file);
+                                (!hasAnyFile) && (hasAnyFile = true);
+                            }
+                        } else {
+                            validatedFiles.file(prefix === '' ? pathName : prefix + '/' + pathName, fileBuffer, {comment: file.comment});
+                            (!hasAnyFile) && (hasAnyFile = true);
+                        }
                     }
                 }
             }
@@ -76,7 +99,7 @@ export class Validator {
      * @param minSize - min file's size in bytes, MIN_BYTE_FILE_SIZE as default.
      * @return TRUE if the file's size is between the minSize and the maxSize, FALSE otherwise
      */
-    static isValidSize(file: Buffer, maxSize: number = Validator.MAX_BYTE_FILE_SIZE, minSize: number = Validator.MIN_BYTE_FILE_SIZE): boolean {
+    static isValidSize(file: Buffer, maxSize: number = ValidatorFiles.MAX_BYTE_FILE_SIZE, minSize: number = ValidatorFiles.MIN_BYTE_FILE_SIZE): boolean {
         return (file.byteLength < maxSize) && (file.byteLength > minSize);
     }
 
@@ -88,9 +111,9 @@ export class Validator {
     static isValidFile(extension: FileExtension, file: Buffer): boolean {
         switch (extension) {
             case FileExtension.JSON:
-                return Validator.validateJSON(file);
+                return ValidatorFiles.validateJSON(file);
             case FileExtension.CSV:
-                return Validator.validateCSV(file);
+                return ValidatorFiles.validateCSV(file);
             default:
                 return true;
         }
@@ -137,13 +160,19 @@ export class Validator {
         return true;
     }
 
-    /**
-     * @param time - is the 17 digit timestamp of Google Chrome (Webkit Timestamp)
-     * @return a compatible Date format
-     */
-    static convertWebkitTimestamp(time: number): Date {
-        const dateInSeconds = Math.round(time / 1000000) - 11644473600;
-        return new Date(dateInSeconds * 1000);
-    }
 
+    static ValidatorSelector(sourceCode: DataSourceCode): ValidatorDatasource | undefined {
+        switch (sourceCode) {
+            case DataSourceCode.INSTAGRAM:
+                return ValidatorInstagram.getInstance();
+            case DataSourceCode.FACEBOOK:
+                return ValidatorFacebook.getInstance();
+            case DataSourceCode.AMAZON:
+                return ValidatorAmazon.getInstance();
+            case DataSourceCode.GOOGLE:
+                return ValidatorGoogle.getInstance();
+            default:
+                return undefined;
+        }
+    }
 }

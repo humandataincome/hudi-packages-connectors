@@ -47,7 +47,7 @@ import {
 import Logger from "../utils/logger";
 import {Decoding} from "../utils/decoding";
 import {LanguageCode} from "../descriptor";
-import {Validator} from "../validator";
+import {ValidatorFiles} from "../validator";
 
 /**
  * Class used to parse most important files into the directory returned by Instagram in JSON format.
@@ -92,7 +92,7 @@ export class InstagramService {
             parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-8-gender`];
             (InstagramService.pathExists(parameterName, document)) && (personalInfoModel.gender = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
-            return !Validator.objectIsEmpty(personalInfoModel) ? personalInfoModel : undefined;
+            return !ValidatorFiles.objectIsEmpty(personalInfoModel) ? personalInfoModel : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`,'parsePersonalInformation');
             return undefined;
@@ -116,7 +116,7 @@ export class InstagramService {
                 document.inferred_data_primary_location[0].string_map_data[parameterName] &&
                 document.inferred_data_primary_location[0].string_map_data[parameterName].value) &&
             (model.basedIn = Decoding.decodeObject(document.inferred_data_primary_location[0].string_map_data[parameterName].value));
-            return !Validator.objectIsEmpty(model) ? model : undefined;
+            return !ValidatorFiles.objectIsEmpty(model) ? model : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`,'parseLocation');
             return undefined;
@@ -698,7 +698,7 @@ export class InstagramService {
                 if (document.monetization_eligibility[0].string_map_data[parameterName] && document.monetization_eligibility[0].string_map_data[parameterName].value) {
                     eligibility.reason = Decoding.decodeObject(document.monetization_eligibility[0].string_map_data[parameterName].value);
                 }
-                return !Validator.objectIsEmpty(eligibility) ? eligibility : undefined;
+                return !ValidatorFiles.objectIsEmpty(eligibility) ? eligibility : undefined;
             }
             return undefined;
         } catch (error) {
@@ -733,7 +733,7 @@ export class InstagramService {
             (participants) && (conversationModel.participants = participants);
             (document.is_still_participant) && (conversationModel.isStillParticipant = document.is_still_participant);
 
-            return !Validator.objectIsEmpty(conversationModel) ? conversationModel : undefined;
+            return !ValidatorFiles.objectIsEmpty(conversationModel) ? conversationModel : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`,'parseMessages');
             return undefined;

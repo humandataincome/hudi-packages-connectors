@@ -21,8 +21,7 @@ import {
     PostViewedIG, QuizIG, QuizzesIG, StoryIG, VideoWatchedIG
 } from "../model";
 import {ProcessorUtils} from "./processor.utils";
-import {InputFileFormat, Validator} from "../validator";
-import {ProcessorErrorEnums} from "./processor.error";
+import {InputFileFormat, ValidatorFiles} from "../validator";
 import {InstagramDataAggregator} from "./processor.aggregator.model";
 
 export class ProcessorInstagram {
@@ -132,6 +131,6 @@ export class ProcessorInstagram {
                 });
             }
         }
-        return !Validator.objectIsEmpty(model) ? model : undefined;
+        return !ValidatorFiles.objectIsEmpty(model) ? model : undefined;
     }
 }

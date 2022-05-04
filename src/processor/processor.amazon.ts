@@ -1,7 +1,6 @@
 import {AmazonDataAggregator} from "./processor.aggregator.model";
 import {FileCodeAmazon} from "../descriptor";
-import {ProcessorErrorEnums} from "./processor.error";
-import {InputFileFormat, Validator} from "../validator";
+import {InputFileFormat, ValidatorFiles} from "../validator";
 import {AmazonService} from "../service";
 import {
     AudibleLibraryAM,
@@ -123,6 +122,6 @@ export class ProcessorAmazon {
                 });
             }
         }
-        return !Validator.objectIsEmpty(model) ? model : undefined;
+        return !ValidatorFiles.objectIsEmpty(model) ? model : undefined;
     }
 }
