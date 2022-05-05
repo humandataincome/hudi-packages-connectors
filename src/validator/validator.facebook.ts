@@ -1,9 +1,9 @@
-import {FileCode, FileCodeFacebook} from "../descriptor";
+import {FileCodeFacebook} from "../descriptor";
 import {ValidatorDatasource} from "./validator.datasource";
 
 export class ValidatorFacebook extends ValidatorDatasource {
 
-    protected DEFAULT_FILE_CODES: FileCode[] = [
+    protected DEFAULT_FILE_CODES: FileCodeFacebook[] = [
         FileCodeFacebook.ADS_INTERACTED_WITH,
         FileCodeFacebook.COMMENTS,
         FileCodeFacebook.REACTIONS,

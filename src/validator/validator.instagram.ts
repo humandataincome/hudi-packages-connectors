@@ -4,7 +4,7 @@ import {InputFileFormat, ValidationErrorEnums} from "./index";
 
 export class ValidatorInstagram extends ValidatorDatasource {
 
-    protected DEFAULT_FILE_CODES: FileCode[] = [
+    protected DEFAULT_FILE_CODES: FileCodeInstagram[] = [
         FileCodeInstagram.ADS_CLICKED,
         FileCodeInstagram.ADS_VIEWED,
         FileCodeInstagram.POSTS_VIEWED,
@@ -42,7 +42,8 @@ export class ValidatorInstagram extends ValidatorDatasource {
         if(hasAnyFile) {
             return await filteredFiles.generateAsync({type: "nodebuffer"});
         } else {
-            throw new Error(`${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: File ZIP has not any useful file`);
+            ValidatorDatasource.logger.log('error', `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: Filtered file ZIP has not file`,'filterFilesIntoZip');
+            //throw new Error(`${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: File ZIP has not any useful file`);
         }
     }
 
@@ -56,7 +57,7 @@ export class ValidatorInstagram extends ValidatorDatasource {
         return undefined;
     }
 
-     async getLanguage(zip: any): Promise<void> {
+     public async getLanguage(zip: any): Promise<void> {
         for (let pathName of Object.keys(zip.files)) {
             const file = zip.files[pathName];
             const compatiblePath = this.extractCompatiblePath(pathName);

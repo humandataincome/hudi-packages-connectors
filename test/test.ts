@@ -4,7 +4,9 @@ import {
     AmazonService,
     DataSourceCode,
     DescriptorService,
-    FacebookService, FileCodeGoogle,
+    FacebookService,
+    FileCodeAmazon,
+    FileCodeGoogle,
     FileExtension,
     GoogleService,
     InstagramService,
@@ -16,13 +18,15 @@ import {
     ProcessorGoogle,
     ProcessorInstagram,
     RetrievingProcedureType,
-    ValidatorFiles,
     ValidatorAmazon,
     ValidatorFacebook,
+    ValidatorFiles,
     ValidatorInstagram
 } from "../src";
 
 async function test(){
+    //sequentialValidationsProcessingTest();
+
     //validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
     //validatorAndProcessingAmazonTest();
@@ -35,6 +39,33 @@ async function test(){
     //await netflixServiceTest();
     //await googleServiceTest();
     //await linkedInServiceTest();
+}
+
+function sequentialValidationsProcessingTest() {
+    try {
+        const fs =  require('fs');
+        const path =  require('path');
+        fs.readFile(path.join(__dirname,"../src/mock/zip_files/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
+            if (err) throw err
+            const validation1 = await ValidatorFiles.validateZIP(data,
+                {
+                    permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
+                    filterDataSource: {
+                        dataSourceCode: DataSourceCode.INSTAGRAM
+                    }
+                });
+            console.log(await ProcessorInstagram.aggregatorFactory(validation1, 180));
+
+            const validation2 = await ValidatorInstagram.getInstance().filterFilesIntoZip(await ValidatorFiles.validateZIP(data));
+            console.log(await ProcessorInstagram.aggregatorFactory(validation2!, 180));
+        });
+    } catch (e: any) {
+        if (e.code == 'MODULE_NOT_FOUND') {
+            console.log('[Error not founding module] ' + e);
+        } else {
+            console.log(e);
+        }
+    }
 }
 
 function validatorAndProcessingInstagramTest() {

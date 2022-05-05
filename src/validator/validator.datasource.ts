@@ -1,6 +1,7 @@
 import {FileCode, LanguageCode} from "../descriptor";
 import {ValidationErrorEnums} from "./validator.error";
 import {InputFileFormat} from "./index";
+import Logger from "../utils/logger";
 
 export class ValidatorDatasource {
     private static _instance: ValidatorDatasource;

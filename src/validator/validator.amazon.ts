@@ -1,9 +1,9 @@
-import {FileCode, FileCodeAmazon} from "../descriptor";
+import {FileCodeAmazon} from "../descriptor";
 import {ValidatorDatasource} from "./validator.datasource";
 
 export class ValidatorAmazon extends ValidatorDatasource  {
 
-    protected DEFAULT_FILE_CODES: FileCode[] = [
+    protected DEFAULT_FILE_CODES: FileCodeAmazon[] = [
         FileCodeAmazon.ADV_AUDIENCES,
         FileCodeAmazon.ADV_CLICKS,
         FileCodeAmazon.AUDIENCES,

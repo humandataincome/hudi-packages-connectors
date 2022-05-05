@@ -12,16 +12,16 @@ import {Parser} from "../utils/parser";
 import {ValidatorGoogle} from "./validator.google";
 
 export type ValidateZipOptions = {
-    permittedFileExtensions?: FileExtension[];
+    permittedFileExtensions?: FileExtension[]; //include only files with these extensions, if omitted includes everything
     filterDataSource?: {
         dataSourceCode: DataSourceCode;
-        fileCodesIncluded?: FileCode[];
+        fileCodesIncluded?: FileCode[];  //include only files with these Codes, if omitted includes everything
     }
 }
 
 export class ValidatorFiles {
-    public static MAX_BYTE_FILE_SIZE = 6e6;
-    public static MIN_BYTE_FILE_SIZE = 50;
+    public static MAX_BYTE_FILE_SIZE = 6e6; //6 MB
+    public static MIN_BYTE_FILE_SIZE = 50; //50 B
 
     /**
      * @param zipFile - file zip as BufferLike
@@ -52,25 +52,27 @@ export class ValidatorFiles {
     private static async _validateZIP(zipFile: InputFileFormat, validatedFiles: JSZip, options?: ValidateZipOptions, prefix: string = ''): Promise<boolean> {
         const zip = await JSZip.loadAsync(zipFile);
         let hasAnyFile: boolean = false;
-        const validatorDatasource = (options && options.filterDataSource) ?
+        const ValidatorDatasource = (options && options.filterDataSource) ?
             await ValidatorFiles.ValidatorSelector(options.filterDataSource.dataSourceCode) : undefined;
-        (validatorDatasource) && (validatorDatasource.LANGUAGE_CODE = undefined);
+        //ValidationDatasource is a singleton class and the ValidatorDatasource.LANGUAGE_CODE might be different from undefined
+        (ValidatorDatasource) && (ValidatorDatasource.LANGUAGE_CODE = undefined);
         for (let pathName of Object.keys(zip.files)) {
             const file = zip.files[pathName];
             if (!file.dir) {
                 const fileBuffer = await file.async('nodebuffer');
                 const fileExtension = ValidatorFiles.getFileExtension(pathName);
-                if(fileExtension && (options && options.permittedFileExtensions ? options.permittedFileExtensions.includes(fileExtension) : true)) {
+                console.log(fileExtension, pathName)
+                if (fileExtension && (options && options.permittedFileExtensions ? options.permittedFileExtensions.includes(fileExtension) : true)) {
                     if (fileExtension === FileExtension.ZIP) {
                         //remove .zip from the pathname and continue the execution recursively into the file
                         hasAnyFile = await this._validateZIP(fileBuffer, validatedFiles, options, pathName.slice(0, -4)) || hasAnyFile;
                     } else if (ValidatorFiles.isValidSize(fileBuffer) && ValidatorFiles.isValidFile(fileExtension, fileBuffer)) {
-                        if(validatorDatasource) {
+                        if (ValidatorDatasource) {
                             const compatiblePathName = options && options.filterDataSource && options.filterDataSource.fileCodesIncluded
-                                ? await validatorDatasource.getValidPath(pathName, zip, options.filterDataSource.fileCodesIncluded)
-                                : await validatorDatasource.getValidPath(pathName, zip);
+                                ? await ValidatorDatasource.getValidPath(pathName, zip, options.filterDataSource.fileCodesIncluded)
+                                : await ValidatorDatasource.getValidPath(pathName, zip);
                             if (compatiblePathName) {
-                                validatorDatasource.addFileToZip(validatedFiles, compatiblePathName, fileBuffer, file);
+                                ValidatorDatasource.addFileToZip(validatedFiles, compatiblePathName, fileBuffer, file);
                                 (!hasAnyFile) && (hasAnyFile = true);
                             }
                         } else {

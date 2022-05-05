@@ -11,7 +11,7 @@ export class ValidatorGoogle extends ValidatorDatasource  {
         FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS,
     ];
 
-    public extractCompatiblePath(path: string): string {
+    protected extractCompatiblePath(path: string): string {
         const x: string[] = path.split('/');
         let pathTranslation = ConfigGoogle.pathTranslation[`${x[x.length - 3]}`];
         if (pathTranslation) {
