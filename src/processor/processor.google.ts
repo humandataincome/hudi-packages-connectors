@@ -23,6 +23,7 @@ export class ProcessorGoogle {
         const JSZip = require("jszip");
         const model: GoogleDataAggregator = {};
         let result, regex;
+        let hasSemanticLocations = false;
         const zip = await JSZip.loadAsync(zipFile);
         let frequencyDistanceActivity: Array<[ActivityTypeGO, number, number]> = [
             //ActivityType, Frequency, Sum of Distances
@@ -94,6 +95,7 @@ export class ProcessorGoogle {
                                 result = <SemanticLocationsGO>await GoogleService.parseSemanticLocations(data);
                                 (result.listActivities.length > 0) && result.listActivities.forEach((item: ActivitySegmentGO) => {
                                     if (item.distance && item.activityType) {
+                                        (!hasSemanticLocations) && (hasSemanticLocations = true);
                                         frequencyDistanceActivity[parseInt(ActivityTypeGO[item.activityType])][1]++;
                                         frequencyDistanceActivity[parseInt(ActivityTypeGO[item.activityType])][2] += item.distance;
                                     }
@@ -104,30 +106,32 @@ export class ProcessorGoogle {
                 });
             }
         }
-        frequencyDistanceActivity
-            .sort((a,b) => {
-                if(a[2] > b[2]) {
-                    return -1;
-                }
-                if(a[2] < b[2]) {
-                    return 1;
-                }
-                return 0;
-            })
-            .slice(0,3)
-            .forEach((value) => {
-                if (!model.mostFrequentActivityTypes) {
-                    model.mostFrequentActivityTypes = [];
-                }
-                if (!model.averageDistancesForActivityType) {
-                    model.averageDistancesForActivityType = [];
-                }
-                if (value[2] > 0) {
-                    model.mostFrequentActivityTypes.push(value[0]);
-                    model.averageDistancesForActivityType.push(value[2]/value[1]);
-                }
-            });
-        return !ValidatorFiles.objectIsEmpty(model) ? model : undefined;
+        if (hasSemanticLocations) {
+            frequencyDistanceActivity
+                .sort((a,b) => {
+                    if(a[2] > b[2]) {
+                        return -1;
+                    }
+                    if(a[2] < b[2]) {
+                        return 1;
+                    }
+                    return 0;
+                })
+                .slice(0,3)
+                .forEach((value) => {
+                    if (!model.mostFrequentActivityTypes) {
+                        model.mostFrequentActivityTypes = [];
+                    }
+                    if (!model.averageDistancesForActivityType) {
+                        model.averageDistancesForActivityType = [];
+                    }
+                    if (value[2] > 0) {
+                        model.mostFrequentActivityTypes.push(value[0]);
+                        model.averageDistancesForActivityType.push(value[2]/value[1]);
+                    }
+                });
+        }
+        return !Validator.objectIsEmpty(model) ? model : undefined;
     }
 
     static monthIsInRange(pathName: string, timeIntervalDays: number): boolean {

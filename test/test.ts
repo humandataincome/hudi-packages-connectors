@@ -139,7 +139,7 @@ function validatorAndProcessingGoogleTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/zip_files/google_it.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/zip_files/google.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validation = await ValidatorFiles.validateZIP(data,
                 {
