@@ -42,8 +42,7 @@ export class ValidatorInstagram extends ValidatorDatasource {
         if(hasAnyFile) {
             return await filteredFiles.generateAsync({type: "nodebuffer"});
         } else {
-            ValidatorDatasource.logger.log('error', `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: Filtered file ZIP has not file`,'filterFilesIntoZip');
-            //throw new Error(`${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: File ZIP has not any useful file`);
+            throw new Error(`${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: File ZIP has not any useful file`);
         }
     }
 
