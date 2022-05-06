@@ -17,20 +17,20 @@ import {
     ProcessorFacebook,
     ProcessorGoogle,
     ProcessorInstagram,
-    RetrievingProcedureType,
+    RetrievingProcedureType, ValidationErrorEnums,
     ValidatorAmazon,
     ValidatorFacebook,
     ValidatorFiles,
-    ValidatorInstagram
+    ValidatorInstagram,
+    ValidatorGoogle
 } from "../src";
-
 async function test(){
-    //sequentialValidationsProcessingTest();
+    sequentialValidationsProcessingTest();
 
     //validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
     //validatorAndProcessingAmazonTest();
-    validatorAndProcessingGoogleTest();
+    //validatorAndProcessingGoogleTest();
 
     //await descriptorServiceTest();
     //await instagramServiceTest();
@@ -51,19 +51,26 @@ function sequentialValidationsProcessingTest() {
                 {
                     permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
                     filterDataSource: {
-                        dataSourceCode: DataSourceCode.INSTAGRAM
-                    }
+                        dataSourceCode: DataSourceCode.INSTAGRAM,
+                    },
+                    throwExceptions: true,
                 });
-            console.log(await ProcessorInstagram.aggregatorFactory(validation1, 180));
-
-            const validation2 = await ValidatorInstagram.getInstance().filterFilesIntoZip(await ValidatorFiles.validateZIP(data));
-            console.log(await ProcessorInstagram.aggregatorFactory(validation2!, 180));
+            console.log(await ProcessorInstagram.aggregatorFactory(validation1!, 180));
+        });
+        fs.readFile(path.join(__dirname,"../src/mock/zip_files/google.zip"),async function(err:ErrnoException, data: Buffer) {
+            const validation1 = await ValidatorFiles.validateZIP(data);
+            const validation2 = await ValidatorGoogle.getInstance().filterFilesIntoZip(validation1!, {throwExceptions: true});
+            console.log(await ProcessorGoogle.aggregatorFactory(validation2!, 180));
         });
     } catch (e: any) {
-        if (e.code == 'MODULE_NOT_FOUND') {
-            console.log('[Error not founding module] ' + e);
+        if(e.message === `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
+            console.error('The filtered ZIP has not any file');
+        } else if (`${ValidationErrorEnums.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
+            console.error('The ZIP file has not a recognizable Language to be corrected parsed');
+        } else if (e.code == 'MODULE_NOT_FOUND') {
+            console.error('[Error not founding module] ' + e);
         } else {
-            console.log(e);
+            console.error(e);
         }
     }
 }
@@ -74,19 +81,14 @@ function validatorAndProcessingInstagramTest() {
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/zip_files/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err
-            /*
-            const validation1 = await ValidatorFiles.validateZIP(data,
+            const validation = await ValidatorFiles.validateZIP(data,
                 {
                     permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
                     filterDataSource: {
-                        dataSourceCode: DataSourceCode.INSTAGRAM
+                        dataSourceCode: DataSourceCode.INSTAGRAM,
                     }
                 });
-
-             */
-            const validation1 = await ValidatorFiles.validateZIP(data);
-            const validation2 = await ValidatorInstagram.getInstance().filterFilesIntoZip(validation1);
-            console.log(await ProcessorInstagram.aggregatorFactory(validation2 as Uint8Array, 180));
+            console.log(await ProcessorInstagram.aggregatorFactory(validation as Uint8Array, 180));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
@@ -104,8 +106,9 @@ function validatorAndProcessingFacebookTest() {
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/zip_files/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validationFE = await ValidatorFacebook.getInstance().filterFilesIntoZip(await ValidatorFiles.validateZIP(data));
-            console.log(await ProcessorFacebook.aggregatorFactory(validationFE!, 180));
+            const validation1 = await ValidatorFiles.validateZIP(data);
+            const validation2 = await ValidatorFacebook.getInstance().filterFilesIntoZip(validation1!);
+            console.log(await ProcessorFacebook.aggregatorFactory(validation2!, 180));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
@@ -123,7 +126,7 @@ function validatorAndProcessingAmazonTest() {
         fs.readFile(path.join(__dirname,"../src/mock/zip_files/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validation1 = await ValidatorFiles.validateZIP(data);
-            const validation2 = await ValidatorAmazon.getInstance().filterFilesIntoZip(validation1);
+            const validation2 = await ValidatorAmazon.getInstance().filterFilesIntoZip(validation1!);
             console.log(await ProcessorAmazon.aggregatorFactory(validation2!, 180))
         });
     } catch (e: any) {
@@ -139,7 +142,7 @@ function validatorAndProcessingGoogleTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/zip_files/google.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/zip_files/google_it.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validation = await ValidatorFiles.validateZIP(data,
                 {
