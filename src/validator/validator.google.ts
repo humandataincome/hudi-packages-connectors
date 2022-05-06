@@ -1,8 +1,15 @@
 import {ValidatorDatasource} from "./validator.datasource";
-import {FileCodeGoogle} from "../descriptor";
+import {FileCode, FileCodeGoogle} from "../descriptor";
 import {ConfigGoogle} from "../config/config.google";
+import Logger from "../utils/logger";
+
+export type ValidatorGoogleOption = {
+    fileCodes?: FileCode[];
+    throwExceptions?: boolean;
+}
 
 export class ValidatorGoogle extends ValidatorDatasource  {
+    protected readonly logger = new Logger("Google Validator");
 
     protected DEFAULT_FILE_CODES: FileCodeGoogle[] = [
         FileCodeGoogle.ACCOUNT_INFO,

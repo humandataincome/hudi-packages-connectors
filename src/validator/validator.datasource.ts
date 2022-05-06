@@ -1,10 +1,14 @@
 import {FileCode, LanguageCode} from "../descriptor";
 import {ValidationErrorEnums} from "./validator.error";
-import {InputFileFormat} from "./index";
+import {InputFileFormat, ValidatorAmazonOption, ValidatorFacebookOption, ValidatorInstagramOption} from "./index";
+import {ValidatorGoogleOption} from "./validator.google";
 import Logger from "../utils/logger";
+
+export type  ValidatorDatasourceOption = ValidatorInstagramOption | ValidatorFacebookOption | ValidatorAmazonOption | ValidatorGoogleOption;
 
 export class ValidatorDatasource {
     private static _instance: ValidatorDatasource;
+    protected readonly logger = new Logger("Datasource Validator");
     protected DEFAULT_FILE_CODES: FileCode[] = [];
     //LANGUAGE_CODE is used by some validations. Its value is UNDEFINED at the beginning of every validation execution,
     // can be NULL or LanguageCode types only during the validation execution.
@@ -14,7 +18,7 @@ export class ValidatorDatasource {
         return this._instance || (this._instance = new this());
     }
 
-    public async filterFilesIntoZip(zipFile: InputFileFormat, fileCodes: FileCode[] = this.DEFAULT_FILE_CODES): Promise<Buffer | undefined> {
+    public async filterFilesIntoZip(zipFile: InputFileFormat, options?: ValidatorDatasourceOption): Promise<Buffer | undefined> {
         this.LANGUAGE_CODE = undefined;
         const JSZip = require("jszip");
         let hasAnyFile = false;
@@ -24,7 +28,7 @@ export class ValidatorDatasource {
             const file = zip.files[pathName];
             if (!file.dir) {
                 let data = await file.async('nodebuffer');
-                const compatiblePath = await this.getValidPath(pathName, fileCodes);
+                const compatiblePath = options && options.fileCodes ? await this.getValidPath(pathName, options) : await this.getValidPath(pathName);
                 if (compatiblePath) {
                     this.addFileToZip(filteredFiles, compatiblePath, data, file);
                     (!hasAnyFile) && (hasAnyFile = true);
@@ -34,7 +38,11 @@ export class ValidatorDatasource {
         if(hasAnyFile) {
             return await filteredFiles.generateAsync({type: "nodebuffer"});
         } else {
-            throw new Error(`${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: File ZIP has not any useful file`);
+            this.logger.log('error', `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`,'filterFilesIntoZip');
+            if (options && options.throwExceptions !== undefined && !options.throwExceptions) {
+                throw new Error(`${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`);
+            }
+            return undefined;
         }
     }
 
@@ -42,14 +50,16 @@ export class ValidatorDatasource {
         zip.file(path, data, {comment: this.LANGUAGE_CODE || file.comment});
     }
 
-    public async getValidPath(pathName: string, zip?: any, fileCodes: FileCode[] = this.DEFAULT_FILE_CODES): Promise<string | undefined> {
+    public async getValidPath(pathName: string, options?: ValidatorDatasourceOption): Promise<string | undefined> {
         const compatiblePath = this.extractCompatiblePath(pathName);
-        return this.isPathMatching(compatiblePath, fileCodes) ? compatiblePath : undefined;
+        return (options ? this.isPathMatching(compatiblePath, options) : this.isPathMatching(compatiblePath)) ? compatiblePath : undefined;
     }
 
-    protected isPathMatching(pathName: string, fileCodes: FileCode[]): boolean {
+    protected isPathMatching(pathName: string, options?: ValidatorDatasourceOption): boolean {
         let found = false;
-        fileCodes.forEach((code: FileCode) => (!found && RegExp('^'+code+'$').test(pathName)) && (found = true));
+        options && options.fileCodes
+            ? options.fileCodes.forEach((code: FileCode) => (!found && RegExp('^' + code + '$').test(pathName)) && (found = true))
+            : this.DEFAULT_FILE_CODES.forEach((code: FileCode) => (!found && RegExp('^' + code + '$').test(pathName)) && (found = true));
         return found;
     }
 
