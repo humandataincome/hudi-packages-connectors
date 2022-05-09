@@ -26,7 +26,6 @@ import {
 
 async function test(){
     validatingTest()
-
     //sequentialValidationsProcessingTest();
 
     //validatorAndProcessingInstagramTest();
@@ -47,12 +46,12 @@ function validatingTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/zip_files/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/zip_files/facebook_2.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err
             const validation1 = await ValidatorFiles.validateZIP(data,
                 {
                     filterDataSource: {
-                        dataSourceCode: DataSourceCode.INSTAGRAM,
+                        dataSourceCode: DataSourceCode.FACEBOOK,
                     },
                     throwExceptions: false,
                 });
@@ -141,9 +140,15 @@ function validatorAndProcessingFacebookTest() {
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/zip_files/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validation1 = await ValidatorFiles.validateZIP(data);
-            const validation2 = await ValidatorFacebook.getInstance().filterFilesIntoZip(validation1!);
-            console.log(await ProcessorFacebook.aggregatorFactory(validation2!, 180));
+            const validation1 = await ValidatorFiles.validateZIP(data,
+                {
+                    //permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
+                    filterDataSource: {
+                        dataSourceCode: DataSourceCode.FACEBOOK,
+                    },
+                    throwExceptions: true,
+                });
+            console.log(await ProcessorFacebook.aggregatorFactory(validation1!, 180));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {

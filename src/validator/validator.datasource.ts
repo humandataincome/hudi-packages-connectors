@@ -56,6 +56,7 @@ export class ValidatorDatasource {
 
     public async getValidPath(pathName: string, options?: ValidatorDatasourceOption): Promise<string | undefined> {
         const compatiblePath = this.extractCompatiblePath(pathName);
+        console.log(compatiblePath)
         return (options ? this.isPathMatching(compatiblePath, options) : this.isPathMatching(compatiblePath)) ? compatiblePath : undefined;
     }
 
