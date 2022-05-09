@@ -76,12 +76,13 @@ options: {
             FileCodeGoogle.PLAY_STORE_REVIEWS,
             FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS,
         ]
-    }
+    },
+    throwExceptions: true, //default is false
 }
 ```
 ValidatorFiles class has two parameters to filter files based on their bytes sizes that can be changed:
 ```
-ValidatorService.MAX_BYTE_FILE_SIZE = 7e10; //default value is 6 MB
+ValidatorService.MAX_BYTE_FILE_SIZE = 7e20; //default value is 6 MB
 ValidatorService.MIN_BYTE_FILE_SIZE = 100;  //default value is 50 B
 ```
 
@@ -90,7 +91,7 @@ Example of **ValidatorInstagram** usage:
 import {ValidatorInstagram} from '@humandataincome/connectors';
 ```
 ```
-let validatedZip = await ValidatorInstagram.selectUsefulFilesFromZip(zipFile);
+let validatedZip = await ValidatorInstagram.getInstance().filterFilesIntoZip(zipFile);
 ```
 The method **selectUsefulFilesFromZip** can get in input an optional list of FilesCode to filter out from the zip the data source's unwanted files.
 ## How to use Processor ##
