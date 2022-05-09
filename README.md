@@ -61,7 +61,7 @@ let codes = DescriptorService.getAllDataSourcesCodes();
 ## How to use ValidatorFiles ##
 Example of **ValidatorService** usage:
 ```
-let validatedZip = await ValidatorService.validateZIP(zipFile);
+let validatedZip = await ValidatorFiles.validateZIP(zipFile);
 ```
 The method **validateZIP** take in input a zip file. The allowed types are: string, number[], Blob, NodeJS.ReadableStream, Uint8Array, ArrayBuffer.
 It also takes an optional parameter:
