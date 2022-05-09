@@ -25,11 +25,11 @@ import {
 } from "../src";
 
 async function test(){
-    validatingTest()
+    //validatingTest()
     //sequentialValidationsProcessingTest();
 
     //validatorAndProcessingInstagramTest();
-    //validatorAndProcessingFacebookTest();
+    validatorAndProcessingFacebookTest();
     //validatorAndProcessingAmazonTest();
     //validatorAndProcessingGoogleTest();
 
@@ -46,7 +46,7 @@ function validatingTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/zip_files/facebook_2.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/zip_files/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err
             const validation1 = await ValidatorFiles.validateZIP(data,
                 {
