@@ -25,7 +25,7 @@ export class ValidatorFiles {
     private static readonly logger = new Logger("Files Validator");
 
     public static MAX_BYTE_FILE_SIZE = 6e6; //6 MB
-    public static MIN_BYTE_FILE_SIZE = 50; //50 B
+    public static MIN_BYTE_FILE_SIZE = 30; //30 B
 
     /**
      * @param zipFile - file zip as one of the Buffer-like types supported
