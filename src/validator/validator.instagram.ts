@@ -69,36 +69,41 @@ export class ValidatorInstagram extends ValidatorDatasource {
     ];
 
     public async filterFilesIntoZip(zipFile: InputFileFormat,  options: ValidatorInstagramOption = {}): Promise<Buffer | undefined> {
-        this.LANGUAGE_CODE = undefined;
-        const JSZip = require("jszip");
-        let hasAnyFile = false;
-        let filteredFiles = new JSZip();
-        const zip = await JSZip.loadAsync(zipFile);
-        for (let pathName of Object.keys(zip.files)) {
-            const file = zip.files[pathName];
-            if (!file.dir) {
-                let data = await file.async('nodebuffer');
-                let compatiblePath;
-                if (options) {
-                    options.externalZip = zip;
-                    compatiblePath = await this.getValidPath(pathName, options);
-                } else {
-                    compatiblePath = await this.getValidPath(pathName, {externalZip: zip});
-                }
-                if (compatiblePath) {
-                    this.addFileToZip(filteredFiles, compatiblePath, data, file);
-                    (!hasAnyFile) && (hasAnyFile = true);
+        try {
+            this.LANGUAGE_CODE = undefined;
+            const JSZip = require("jszip");
+            let hasAnyFile = false;
+            let filteredFiles = new JSZip();
+            const zip = await JSZip.loadAsync(zipFile);
+            for (let pathName of Object.keys(zip.files)) {
+                const file = zip.files[pathName];
+                if (!file.dir) {
+                    let data = await file.async('nodebuffer');
+                    let compatiblePath;
+                    if (options) {
+                        options.externalZip = zip;
+                        compatiblePath = await this.getValidPath(pathName, options);
+                    } else {
+                        compatiblePath = await this.getValidPath(pathName, {externalZip: zip});
+                    }
+                    if (compatiblePath) {
+                        this.addFileToZip(filteredFiles, compatiblePath, data, file);
+                        (!hasAnyFile) && (hasAnyFile = true);
+                    }
                 }
             }
-        }
-        if(hasAnyFile) {
-            return await filteredFiles.generateAsync({type: "nodebuffer"});
-        } else {
-            this.logger.log('info', `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`,'filterFilesIntoZip');
-            if (options && options.throwExceptions !== undefined && options.throwExceptions) {
+            if(hasAnyFile) {
+                return await filteredFiles.generateAsync({type: "nodebuffer"});
+            } else {
                 throw new Error(`${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`);
             }
+        } catch (error: any) {
+            (error && error.message) && (this.logger.log('error', error.message, 'filterFilesIntoZip'));
+            if (options && options.throwExceptions !== undefined && options.throwExceptions) {
+                throw error;
+            }
         }
+        return undefined;
     }
 
     public async getValidPath(pathName: string, options: ValidatorInstagramOption): Promise<string | undefined> {
@@ -147,7 +152,6 @@ export class ValidatorInstagram extends ValidatorDatasource {
                                 throw new Error(`${ValidationErrorEnums.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`);
                             }
                         }
-                        console.log(this.LANGUAGE_CODE)
                     }
                 }
             }

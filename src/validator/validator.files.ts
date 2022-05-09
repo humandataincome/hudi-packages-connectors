@@ -45,20 +45,24 @@ export class ValidatorFiles {
 
     /**
      * @param zipFile - file zip as one of the Buffer-like types supported
-     * @param options - OPTIONAL: can be used to filter the FileExtensions.
+     * @param options - OPTIONAL: a set of options described into ValidateZipOptions type.
      * @return zip file containing all the files from input that passed the zip_files
      */
     static async validateZIP(zipFile: InputFileFormat, options?: ValidateZipOptions): Promise<Buffer | undefined> {
-        const validatedFiles = new JSZip();
-        if (await this._validateZIP(zipFile, validatedFiles, options)) {
-            return await validatedFiles.generateAsync({type: 'nodebuffer'});
-        } else {
-            this.logger.log('info', `${ValidationErrorEnums.NOT_VALID_FILES_ERROR}: File ZIP has not any valid file`, 'validateZIP');
-            if (options && options.throwExceptions !== undefined && options.throwExceptions) {
+        try {
+            const validatedFiles = new JSZip();
+            if (await this._validateZIP(zipFile, validatedFiles, options)) {
+                return await validatedFiles.generateAsync({type: 'nodebuffer'});
+            } else {
                 throw new Error(`${ValidationErrorEnums.NOT_VALID_FILES_ERROR}: File ZIP has not any valid file`);
             }
-            return undefined;
+        } catch (error: any) {
+            (error && error.message) && (this.logger.log('error', error.message, 'validateZIP'));
+            if (options && options.throwExceptions !== undefined && options.throwExceptions) {
+                throw error;
+            }
         }
+        return undefined;
     }
 
     private static async _validateZIP(zipFile: InputFileFormat, validatedFiles: JSZip, options?: ValidateZipOptions, prefix: string = ''): Promise<boolean> {

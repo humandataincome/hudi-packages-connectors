@@ -19,31 +19,35 @@ export class ValidatorDatasource {
     }
 
     public async filterFilesIntoZip(zipFile: InputFileFormat, options?: ValidatorDatasourceOption): Promise<Buffer | undefined> {
-        this.LANGUAGE_CODE = undefined;
-        const JSZip = require("jszip");
-        let hasAnyFile = false;
-        let filteredFiles = new JSZip();
-        const zip = await JSZip.loadAsync(zipFile);
-        for (let pathName of Object.keys(zip.files)) {
-            const file = zip.files[pathName];
-            if (!file.dir) {
-                let data = await file.async('nodebuffer');
-                const compatiblePath = options && options.fileCodes ? await this.getValidPath(pathName, options) : await this.getValidPath(pathName);
-                if (compatiblePath) {
-                    this.addFileToZip(filteredFiles, compatiblePath, data, file);
-                    (!hasAnyFile) && (hasAnyFile = true);
+        try {
+            this.LANGUAGE_CODE = undefined;
+            const JSZip = require("jszip");
+            let hasAnyFile = false;
+            let filteredFiles = new JSZip();
+            const zip = await JSZip.loadAsync(zipFile);
+            for (let pathName of Object.keys(zip.files)) {
+                const file = zip.files[pathName];
+                if (!file.dir) {
+                    let data = await file.async('nodebuffer');
+                    const compatiblePath = options && options.fileCodes ? await this.getValidPath(pathName, options) : await this.getValidPath(pathName);
+                    if (compatiblePath) {
+                        this.addFileToZip(filteredFiles, compatiblePath, data, file);
+                        (!hasAnyFile) && (hasAnyFile = true);
+                    }
                 }
             }
-        }
-        if(hasAnyFile) {
-            return await filteredFiles.generateAsync({type: "nodebuffer"});
-        } else {
-            this.logger.log('info', `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`,'filterFilesIntoZip');
-            if (options && options.throwExceptions !== undefined && options.throwExceptions) {
+            if (hasAnyFile) {
+                return await filteredFiles.generateAsync({type: "nodebuffer"});
+            } else {
                 throw new Error(`${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`);
             }
-            return undefined;
+        } catch (error: any) {
+            (error && error.message) && (this.logger.log('error', error.message, 'filterFilesIntoZip'));
+            if (options && options.throwExceptions !== undefined && options.throwExceptions) {
+                throw error;
+            }
         }
+        return undefined;
     }
 
     public addFileToZip(zip: any, path: string, data: Buffer, file: any) {
