@@ -25,11 +25,11 @@ import {
 } from "../src";
 
 async function test(){
-    validatingTest()
+    //validatingTest()
 
     //sequentialValidationsProcessingTest();
 
-    //validatorAndProcessingInstagramTest();
+    validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
     //validatorAndProcessingAmazonTest();
     //validatorAndProcessingGoogleTest();
@@ -85,7 +85,7 @@ function sequentialValidationsProcessingTest() {
                     },
                     throwExceptions: true,
                 });
-            console.log(await ProcessorInstagram.aggregatorFactory(validation1!, 180));
+            console.log(await ProcessorInstagram.aggregatorFactory(validation1!, {timeIntervalDays: 180}));
         });
         fs.readFile(path.join(__dirname,"../src/mock/zip_files/google.zip"),async function(err:ErrnoException, data: Buffer) {
             const validation1 = await ValidatorFiles.validateZIP(data);
@@ -109,21 +109,18 @@ function validatorAndProcessingInstagramTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/zip_files/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/zip_files/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err
             const validation = await ValidatorFiles.validateZIP(data,
                 {
                     permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
                     filterDataSource: {
                         dataSourceCode: DataSourceCode.INSTAGRAM,
-                        fileCodesIncluded: [
-                            FileCodeGoogle.FIT_DAILY_ACTIVITIES
-                        ]
                     },
                     throwExceptions: true,
                 });
             //console.log(await ValidatorFiles.getPathsIntoZip(validation!));
-            console.log(await ProcessorInstagram.aggregatorFactory(validation!, 180));
+            console.log(await ProcessorInstagram.aggregatorFactory(validation!, {timeIntervalDays: 180}));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
