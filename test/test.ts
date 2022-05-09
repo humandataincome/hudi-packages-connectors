@@ -5,7 +5,6 @@ import {
     DataSourceCode,
     DescriptorService,
     FacebookService,
-    FileCodeAmazon,
     FileCodeGoogle,
     FileExtension,
     GoogleService,
@@ -17,17 +16,20 @@ import {
     ProcessorFacebook,
     ProcessorGoogle,
     ProcessorInstagram,
-    RetrievingProcedureType, ValidationErrorEnums,
+    RetrievingProcedureType,
+    ValidationErrorEnums,
     ValidatorAmazon,
     ValidatorFacebook,
     ValidatorFiles,
-    ValidatorInstagram,
     ValidatorGoogle
 } from "../src";
-async function test(){
-    sequentialValidationsProcessingTest();
 
-    //validatorAndProcessingInstagramTest();
+async function test(){
+    //validatingTest()
+
+    //sequentialValidationsProcessingTest();
+
+    validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
     //validatorAndProcessingAmazonTest();
     //validatorAndProcessingGoogleTest();
@@ -39,6 +41,34 @@ async function test(){
     //await netflixServiceTest();
     //await googleServiceTest();
     //await linkedInServiceTest();
+}
+
+function validatingTest() {
+    try {
+        const fs =  require('fs');
+        const path =  require('path');
+        fs.readFile(path.join(__dirname,"../src/mock/zip_files/ig_zh.zip"),async function(err:ErrnoException, data: Buffer) {
+            if (err) throw err
+            const validation1 = await ValidatorFiles.validateZIP(data,
+                {
+                    filterDataSource: {
+                        dataSourceCode: DataSourceCode.INSTAGRAM,
+                    },
+                    throwExceptions: false,
+                });
+            await (await ValidatorFiles.getPathsIntoZip(validation1!))!.forEach((pathName) => console.log(pathName));
+        });
+    } catch (e: any) {
+        if(e.message === `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
+            console.error('The filtered ZIP has not any file');
+        } else if (`${ValidationErrorEnums.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
+            console.error('The ZIP file has not a recognizable Language to be corrected parsed');
+        } else if (e.code == 'MODULE_NOT_FOUND') {
+            console.error('[Error not founding module] ' + e);
+        } else {
+            console.error(e);
+        }
+    }
 }
 
 function sequentialValidationsProcessingTest() {
@@ -79,16 +109,21 @@ function validatorAndProcessingInstagramTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/zip_files/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/zip_files/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err
             const validation = await ValidatorFiles.validateZIP(data,
                 {
                     permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
                     filterDataSource: {
                         dataSourceCode: DataSourceCode.INSTAGRAM,
-                    }
+                        fileCodesIncluded: [
+                            FileCodeGoogle.FIT_DAILY_ACTIVITIES
+                        ]
+                    },
+                    throwExceptions: true,
                 });
-            console.log(await ProcessorInstagram.aggregatorFactory(validation as Uint8Array, 180));
+            //console.log(await ValidatorFiles.getPathsIntoZip(validation!));
+            console.log(await ProcessorInstagram.aggregatorFactory(validation!, 180));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
@@ -208,7 +243,7 @@ async function instagramServiceTest() {
         console.log(await InstagramService.parseFollowingHashtags(Buffer.from(JSON.stringify(require(`../src/mock/datasources_IT/instagram_json/followers_and_following/following_hashtags.json`)))));
         console.log(await InstagramService.parseLikedPosts(Buffer.from(JSON.stringify(require(`../src/mock/datasources_IT/instagram_json/likes/liked_posts.json`)))));
         console.log(await InstagramService.parseLikedComments(Buffer.from(JSON.stringify(require(`../src/mock/datasources_IT/instagram_json/likes/liked_comments.json`)))));
-        console.log(await InstagramService.parseSearches(Buffer.from(JSON.stringify(require(`../src/mock/datasources_IT/instagram_json/recent_search/account_searches.json`)))));
+        console.log(await InstagramService.parseSearches(Buffer.from(JSON.stringify(require(`../src/mock/datasources_IT/instagram_json/recent_searches/account_searches.json`)))));
         console.log(await InstagramService.parseReelSentiments(Buffer.from(JSON.stringify(require(`../src/mock/datasources_IT/instagram_json/your_topics/your_reels_sentiments.json`)))));
         console.log(await InstagramService.parseReelTopics(Buffer.from(JSON.stringify(require(`../src/mock/datasources_IT/instagram_json/your_topics/your_reels_topics.json`)))));
         console.log(await InstagramService.parseTopics(Buffer.from(JSON.stringify(require(`../src/mock/datasources_IT/instagram_json/your_topics/your_topics.json`)))));

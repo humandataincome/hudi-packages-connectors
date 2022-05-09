@@ -38,8 +38,8 @@ export class ValidatorDatasource {
         if(hasAnyFile) {
             return await filteredFiles.generateAsync({type: "nodebuffer"});
         } else {
-            this.logger.log('error', `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`,'filterFilesIntoZip');
-            if (options && options.throwExceptions !== undefined && !options.throwExceptions) {
+            this.logger.log('info', `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`,'filterFilesIntoZip');
+            if (options && options.throwExceptions !== undefined && options.throwExceptions) {
                 throw new Error(`${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`);
             }
             return undefined;
@@ -65,6 +65,9 @@ export class ValidatorDatasource {
 
     protected extractCompatiblePath(path: string): string {
         const x: string[] = path.split('/');
-        return (x[x.length - 2] + '/' + x[x.length - 1]);
+        if (x.length > 1) {
+            return (x[x.length - 2] + '/' + x[x.length - 1]);
+        }
+        return path;
     }
 }

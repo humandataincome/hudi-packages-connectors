@@ -20,31 +20,36 @@ export class ValidatorGoogle extends ValidatorDatasource  {
 
     protected extractCompatiblePath(path: string): string {
         const x: string[] = path.split('/');
-        let pathTranslation = ConfigGoogle.pathTranslation[`${x[x.length - 3]}`];
-        if (pathTranslation) {
-            if (pathTranslation === 'Games') {
-                let pathTranslation2 = ConfigGoogle.pathTranslation[`${x[x.length - 1]}`];
-                if (pathTranslation2) {
-                    return pathTranslation + '/' + x[x.length - 2] + '/' + pathTranslation2;
-                } else {
+        let pathTranslation;
+        if(x.length > 2) {
+            pathTranslation = ConfigGoogle.pathTranslation[`${x[x.length - 3]}`];
+            if (pathTranslation) {
+                if (pathTranslation === 'Games') {
+                    let pathTranslation2 = ConfigGoogle.pathTranslation[`${x[x.length - 1]}`];
+                    if (pathTranslation2) {
+                        return pathTranslation + '/' + x[x.length - 2] + '/' + pathTranslation2;
+                    } else {
 
+                    }
+                }
+                if (pathTranslation === 'Google Play Books') {
+                    return pathTranslation + '/' + x[x.length - 2] + '/' + x[x.length - 1];
                 }
             }
-            if(pathTranslation === 'Google Play Books') {
-                return pathTranslation + '/' + x[x.length - 2] + '/' + x[x.length - 1];
+        }
+        if (x.length > 1) {
+            pathTranslation = ConfigGoogle.pathTranslation[`${x[x.length - 2]}`];
+            if (pathTranslation) {
+                return pathTranslation + '/' + x[x.length - 1];
             }
-        }
 
-        pathTranslation = ConfigGoogle.pathTranslation[`${x[x.length - 2]}`];
-        if (pathTranslation) {
-            return pathTranslation + '/' + x[x.length - 1];
-        }
+            pathTranslation = ConfigGoogle.pathTranslation[`${x[x.length - 2]}/${x[x.length - 1]}`];
+            if (pathTranslation) {
+                return pathTranslation;
+            }
 
-        pathTranslation = ConfigGoogle.pathTranslation[`${x[x.length - 2]}/${x[x.length - 1]}`];
-        if (pathTranslation) {
-            return pathTranslation;
+            return x[x.length - 2] + '/' + x[x.length - 1];
         }
-
-        return x[x.length - 2] + '/' + x[x.length - 1];
+        return path;
     }
 }

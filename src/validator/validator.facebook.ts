@@ -23,4 +23,18 @@ export class ValidatorFacebook extends ValidatorDatasource {
         FileCodeFacebook.YOUR_POSTS,
         FileCodeFacebook.FRIENDS,
     ];
+
+    protected extractCompatiblePath(path: string): string {
+        const x: string[] = path.split('/');
+        //messages/message_requests OR message/inbox cases
+        if (x.length > 3) {
+            if (x[x.length - 4] === 'messages') {
+                return x[x.length - 4] + '/' + x[x.length - 3] + '/' + x[x.length - 2] + '/' + x[x.length - 1];
+            }
+        }
+        if(x.length > 1) {
+            return x[x.length - 2] + '/' + x[x.length - 1];
+        }
+        return path;
+    }
 }

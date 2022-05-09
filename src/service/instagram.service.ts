@@ -536,7 +536,7 @@ export class InstagramService {
     }
 
     /**
-     * @param data - file 'recent_search/account_searches.json' in input as Buffer
+     * @param data - file 'recent_searches/account_searches.json' in input as Buffer
      */
     static async parseSearches(data: Buffer): Promise<SearchesIG | undefined> {
         try {
