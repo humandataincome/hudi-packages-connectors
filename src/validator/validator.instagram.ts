@@ -7,6 +7,7 @@ export type ValidatorInstagramOption = {
     fileCodes?: FileCode[];
     throwExceptions?: boolean;
     externalZip?: any;
+    languageCode?: undefined | null | LanguageCode;
 }
 
 export class ValidatorInstagram extends ValidatorDatasource {
@@ -70,26 +71,26 @@ export class ValidatorInstagram extends ValidatorDatasource {
 
     public async filterFilesIntoZip(zipFile: InputFileFormat,  options: ValidatorInstagramOption = {}): Promise<Buffer | undefined> {
         try {
-            this.LANGUAGE_CODE = undefined;
             const JSZip = require("jszip");
             let hasAnyFile = false;
             let filteredFiles = new JSZip();
             const zip = await JSZip.loadAsync(zipFile);
+            options.languageCode = await this.getLanguage({
+                externalZip: zip,
+                throwExceptions: options.throwExceptions!,
+            });
             for (let pathName of Object.keys(zip.files)) {
                 const file = zip.files[pathName];
                 if (!file.dir) {
                     let data = await file.async('nodebuffer');
-                    let compatiblePath;
-                    if (options) {
-                        options.externalZip = zip;
-                        compatiblePath = await this.getValidPath(pathName, options);
-                    } else {
-                        compatiblePath = await this.getValidPath(pathName, {externalZip: zip});
-                    }
+                    const compatiblePath = await this.getValidPath(pathName, options);
                     if (compatiblePath) {
-                        this.addFileToZip(filteredFiles, compatiblePath, data, file);
+                        (options.languageCode !== null && options.languageCode !== undefined)
+                            ? filteredFiles.file(compatiblePath, data, {comment: options.languageCode})
+                            : filteredFiles.file(compatiblePath, data, {comment: file.comment});
                         (!hasAnyFile) && (hasAnyFile = true);
                     }
+
                 }
             }
             if(hasAnyFile) {
@@ -107,21 +108,19 @@ export class ValidatorInstagram extends ValidatorDatasource {
     }
 
     public async getValidPath(pathName: string, options: ValidatorInstagramOption): Promise<string | undefined> {
-        if (options && options.externalZip) {
-            if (this.LANGUAGE_CODE === undefined) {
-                await this.getLanguage(options);
-            }
-            if (this.LANGUAGE_CODE !== null) {
-                const compatiblePath = this.extractCompatiblePath(pathName);
-                if (this.isPathMatching(compatiblePath, options)) {
-                    return compatiblePath;
-                }
+        if (options.languageCode === undefined) {
+            options.languageCode = await this.getLanguage(options);
+        }
+        if (options.languageCode !== undefined && options.languageCode !== null) {
+            const compatiblePath = this.extractCompatiblePath(pathName);
+            if (this.isPathMatching(compatiblePath, options)) {
+                return compatiblePath;
             }
         }
         return undefined;
     }
 
-     public async getLanguage(options: any): Promise<void> {
+     public async getLanguage(options: ValidatorInstagramOption): Promise<LanguageCode | null> {
         if(options.externalZip) {
             for (let pathName of Object.keys(options.externalZip.files)) {
                 const file = options.externalZip.files[pathName];
@@ -132,31 +131,32 @@ export class ValidatorInstagram extends ValidatorDatasource {
 
                         const document = data.toString();
                         if (document.match(/(Nome utente)|(Indirizzo e-mail)|(Data di nascita)/)) {
-                            this.LANGUAGE_CODE = LanguageCode.ITALIAN;
+                            return LanguageCode.ITALIAN;
                         } else if (document.match(/(Email address)|(Phone number confirmed)|(Username)/)) {
-                            this.LANGUAGE_CODE = LanguageCode.ENGLISH;
+                            return LanguageCode.ENGLISH;
                         } else if (document.match(/(Nombre de usuario)|(Cuenta privada)|(Correo electr\\u00c3\\u00b3nico)/)) {
-                            this.LANGUAGE_CODE = LanguageCode.SPANISH;
+                            return LanguageCode.SPANISH;
                         } else if (document.match(/(\\u00e0\\u00a4\\u0088\\u00e0\\u00a4\\u00ae\\u00e0\\u00a5\\u0087\\u00e0\\u00a4\\u00b2)|(\\u00e0\\u00a4\\u00aa\\u00e0\\u00a5\\u008d\\u00e0\\u00a4\\u00b0\\u00e0\\u00a4\\u00be\\u00e0\\u00a4\\u0087\\u00e0\\u00a4\\u00b5\\u00e0\\u00a5\\u0087\\u00e0\\u00a4\\u009f \\u00e0\\u00a4\\u0085\\u00e0\\u00a4\\u0095\\u00e0\\u00a4\\u00be\\u00e0\\u00a4\\u0089\\u00e0\\u00a4\\u0082\\u00e0\\u00a4\\u009f)|(\\u00e0\\u00a4\\u00af\\u00e0\\u00a5\\u0082\\u00e0\\u00a4\\u009c\\u00e0\\u00a4\\u00bc\\u00e0\\u00a4\\u00b0\\u00e0\\u00a4\\u00a8\\u00e0\\u00a5\\u0087\\u00e0\\u00a4\\u00ae)/)) {
-                            this.LANGUAGE_CODE = LanguageCode.HINDI;
+                            return LanguageCode.HINDI;
                         } else if (document.match(/(Adresse e-mail)|(Num\\u00c3\\u00a9ro de t\\u00c3\\u00a9l\\u00c3\\u00a9phone)|(Nom d\\u00e2\\u0080\\u0099utilisateur)/)) {
-                            this.LANGUAGE_CODE = LanguageCode.FRENCH;
+                            return LanguageCode.FRENCH;
                         } else if (document.match(/(Benutzername)|(E-Mail-Adresse)|(Telefonnummer)/)) {
-                            this.LANGUAGE_CODE = LanguageCode.GERMAN;
+                            return LanguageCode.GERMAN;
                         } else if (document.match(/(\\u00e5\\u00b8\\u0090\\u00e5\\u008f\\u00b7)|(\\u00e9\\u0082\\u00ae\\u00e7\\u00ae\\u00b1)|(\\u00e7\\u00a7\\u0081\\u00e5\\u00af\\u0086\\u00e5\\u00b8\\u0090\\u00e6\\u0088\\u00b7)/)) {
-                            this.LANGUAGE_CODE = LanguageCode.CHINESE_SIMPLIFIED;
+                            return LanguageCode.CHINESE_SIMPLIFIED;
                         } else {
-                            this.LANGUAGE_CODE = null;
                             this.logger.log('error', `${ValidationErrorEnums.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`, 'getLanguage');
                             if (options && options.throwExceptions !== undefined && !options.throwExceptions) {
                                 throw new Error(`${ValidationErrorEnums.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`);
                             }
+                            return null;
                         }
                     }
                 }
             }
-            (this.LANGUAGE_CODE === undefined) && (this.LANGUAGE_CODE = null);
+            return null;
         }
+        return null;
     }
 
     protected extractCompatiblePath(path: string): string {

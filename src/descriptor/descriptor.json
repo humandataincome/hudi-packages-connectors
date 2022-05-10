@@ -29,38 +29,48 @@
                                 },
                                 {
                                     "index": 2,
-                                    "description": "Click on the Menu Icon",
-                                    "attributeDescription": "<p>Click on the <b>Menu Icon</b></p>"
+                                    "description": "Click on the Settings Icon",
+                                    "attributeDescription": "<p>Click on the <b>Settings Icon</b></p>"
                                 },
                                 {
                                     "index": 3,
-                                    "description": "Click on Settings",
-                                    "attributeDescription": "<p>Click on <b>Settings</b></p>"
-                                },
-                                {
-                                    "index": 4,
                                     "description": "Click on Privacy and Security",
                                     "attributeDescription": "<p>Click on <b>Privacy</b> and <b>Security</b></p>"
                                 },
                                 {
-                                    "index": 5,
-                                    "description": "Click on Download Data",
-                                    "attributeDescription": "<p>Click on <b>Download Data</b></p>"
+                                    "index": 4,
+                                    "description": "Click on Request Download Data",
+                                    "attributeDescription": "<p>Click on <b>Request Download Data</b></p>"
                                 },
                                 {
-                                    "index": 6,
+                                    "index": 5,
                                     "description": "Insert your email",
                                     "attributeDescription": "<p>Insert your <b>email</b></p>"
                                 },
                                 {
+                                    "index": 6,
+                                    "description": "Select JSON format",
+                                    "attributeDescription": "<p>Select JSON format</p>"
+                                },
+                                {
                                     "index": 7,
-                                    "description": "Click on Request Download",
-                                    "attributeDescription": "<p>Click on Request Download</p>"
+                                    "description": "Click on Next",
+                                    "attributeDescription": "<p>Click on <b>Next</b></p>"
                                 },
                                 {
                                     "index": 8,
-                                    "description": "Select JSON format",
-                                    "attributeDescription": "<p>Select JSON format</p>"
+                                    "description": "Type your Instagram password",
+                                    "attributeDescription": "<p>Type your <b>Instagram password</b></p>"
+                                },
+                                {
+                                    "index": 9,
+                                    "description": "Click on Request Download",
+                                    "attributeDescription": "<p>Click on <b>Request Download</b></p>"
+                                },
+                                {
+                                    "index": 10,
+                                    "description": "Done, wait an email confirmation with attached data",
+                                    "attributeDescription": "<p>Done, wait an email confirmation with attached data</p>"
                                 }
                             ]
                         },
@@ -70,42 +80,47 @@
                                 {
                                     "index": 1,
                                     "description": "Go to your Profile",
-                                    "attributeDescription": "<p>Go to your <a href=\"\">Profile</a></p>"
+                                    "attributeDescription": "<p>Go to your <a href=\"\">https://instagram.com</a></p>"
                                 },
                                 {
                                     "index": 2,
-                                    "description": "Click on the Menu Icon",
-                                    "attributeDescription": "<p>Click on the <b>Menu Icon</b></p>"
+                                    "description": "Tap on the Menu Icon",
+                                    "attributeDescription": "<p>Tap on the <b>Menu Icon</b></p>"
                                 },
                                 {
                                     "index": 3,
-                                    "description": "Click on Settings",
-                                    "attributeDescription": "<p>Click on <b>Settings</b></p>"
+                                    "description": "Tap on Your activity",
+                                    "attributeDescription": "<p>Tap on <b>Your activity</b></p>"
                                 },
                                 {
                                     "index": 4,
-                                    "description": "Click on Security",
-                                    "attributeDescription": "<p>Click on <b>Security</b></p>"
+                                    "description": "Tap on Download your information",
+                                    "attributeDescription": "<p>Tap on <b>Download your information</b></p>"
                                 },
                                 {
                                     "index": 5,
-                                    "description": "Click on Download Data",
-                                    "attributeDescription": "<p>Click on <b>Download Data</b></p>"
+                                    "description": "Type your email",
+                                    "attributeDescription": "<p>Type your <b>email</b></p>"
                                 },
                                 {
                                     "index": 6,
-                                    "description": "Insert your email",
-                                    "attributeDescription": "<p>Insert your <b>email</b></p>"
+                                    "description": "Tap on Request Download",
+                                    "attributeDescription": "<p>Tap on <b>Request Download</b></p>"
                                 },
                                 {
                                     "index": 7,
-                                    "description": "Click on Request Download",
-                                    "attributeDescription": "<p>Click on <b>Request Download</b></p>"
+                                    "description": "Type your Instagram password",
+                                    "attributeDescription": "<p>Type your Instagram password</p>"
                                 },
                                 {
                                     "index": 8,
-                                    "description": "Select JSON format",
-                                    "attributeDescription": "<p>Select <b>JSON format</b></p>"
+                                    "description": "Tap on Next",
+                                    "attributeDescription": "<p>Tap on <b>Next</b></p>"
+                                },
+                                {
+                                    "index": 9,
+                                    "description": "Done, wait an email confirmation with attached data",
+                                    "attributeDescription": "<p>Done, wait an email confirmation with attached data</p>"
                                 }
                             ]
                         }
@@ -196,43 +211,53 @@
                             "retrievingSteps": [
                                 {
                                     "index": 1,
-                                    "description": "Vai al tuo profilo",
-                                    "attributeDescription": "<p>Vai al tuo <a href=\"\">Profilo</a></p>"
+                                    "description": "Vai sul tuo profilo",
+                                    "attributeDescription": "<p>Vai sul tuo <a href=\"\">https://instagram.com</a></p>"
                                 },
                                 {
                                     "index": 2,
-                                    "description": "Clicca sull'icona del menu",
-                                    "attributeDescription": "<p>Fai click sull'<b>icona del menu</b></p>"
+                                    "description": "Clicca sull'icona delle Impostazioni",
+                                    "attributeDescription": "<p>Fai click sull'<b>icona delle Impostazioni</b></p>"
                                 },
                                 {
                                     "index": 3,
-                                    "description": "Clicca su Impostazioni",
-                                    "attributeDescription": "<p>Fai click su <b>Impostazioni</b></p>"
-                                },
-                                {
-                                    "index": 4,
                                     "description": "Clicca su Privacy e Sicurezza",
                                     "attributeDescription": "<p>Fai click su <b>Privacy</b> e <b>Sicurezza</b></p>"
                                 },
                                 {
-                                    "index": 5,
-                                    "description": "Clicca su Scarica dati",
-                                    "attributeDescription": "<p>Fai click su <b>Scarica dati</b></p>"
+                                    "index": 4,
+                                    "description": "Clicca su Richiedi il download",
+                                    "attributeDescription": "<p>Fai click su <b>Richiedi il download</b></p>"
                                 },
                                 {
-                                    "index": 6,
+                                    "index": 5,
                                     "description": "Inserisci la tua email",
                                     "attributeDescription": "<p>Inserisci la tua <b>email</b></p>"
                                 },
                                 {
+                                    "index": 6,
+                                    "description": "Seleziona il formato JSON",
+                                    "attributeDescription": "<p>Seleziona il formato <b>JSON</b></p>"
+                                },
+                                {
                                     "index": 7,
+                                    "description": "Clicca su Avanti",
+                                    "attributeDescription": "<p>Clicca su <b>Avanti</b></p>"
+                                },
+                                {
+                                    "index": 8,
+                                    "description": "Inserisci la tua password di Instagram",
+                                    "attributeDescription": "<p>Inserisci la tua password di Instagram</p>"
+                                },
+                                {
+                                    "index": 9,
                                     "description": "Clicca su Richiedi download",
                                     "attributeDescription": "<p>Fai click su Richiedi download</p>"
                                 },
                                 {
-                                    "index": 8,
-                                    "description": "Seleziona il formato JSON",
-                                    "attributeDescription": "<p>Seleziona il formato JSON</p>"
+                                    "index": 10,
+                                    "description": "Finito, attendi l'email di conferma con i tuoi dati",
+                                    "attributeDescription": "<p>Finito, attendi l'email di conferma con i tuoi dati</p>"
                                 }
                             ]
                         },
@@ -242,7 +267,7 @@
                                 {
                                     "index": 1,
                                     "description": "Vai al tuo profilo",
-                                    "attributeDescription": "<p>vai al tuo <a href=\"\">Profilo</a></p>"
+                                    "attributeDescription": "<p>vai al tuo <a href=\"\">https://instagram.com</a></p>"
                                 },
                                 {
                                     "index": 2,
@@ -251,23 +276,18 @@
                                 },
                                 {
                                     "index": 3,
-                                    "description": "Clicca su Impostazioni",
-                                    "attributeDescription": "<p>Fai click su <b>Impostazioni</b></p>"
+                                    "description": "Clicca su lle tue Attività",
+                                    "attributeDescription": "<p>Fai click sulle tue <b>Attività</b></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Clicca su Download delle tue informazioni",
+                                    "attributeDescription": "<p>Fai click su <b>Download delle tue informazioni</b></p>"
                                 },
                                 {
                                     "index": 4,
-                                    "description": "Clicca su Sicurezza",
-                                    "attributeDescription": "<p>Fai click su <b>Sicurezza</b></p>"
-                                },
-                                {
-                                    "index": 5,
-                                    "description": "Clicca su Scarica dati",
-                                    "attributeDescription": "<p>Fai click su <b>Scarica dati</b></p>"
-                                },
-                                {
-                                    "index": 6,
-                                    "description": "Inserisci la tua email",
-                                    "attributeDescription": "<p>Inserisci la tua <b>email</b></p>"
+                                    "description": "Clicca sulla tua email",
+                                    "attributeDescription": "<p>Fai click sulla tua <b>email</b></p>"
                                 },
                                 {
                                     "index": 7,
@@ -276,8 +296,18 @@
                                 },
                                 {
                                     "index": 8,
-                                    "description": "Seleziona il formato JSON",
-                                    "attributeDescription": "<p>Seleziona <b>formato JSON</b></p>"
+                                    "description": "Inserisci la tua password di Instagram",
+                                    "attributeDescription": "<p>Inserisci la tua password di Instagram</p>"
+                                },
+                                {
+                                    "index": 9,
+                                    "description": "Clicca su Successivo",
+                                    "attributeDescription": "<p>Fai click su <b>Successivo</b></p>"
+                                },
+                                {
+                                    "index": 10,
+                                    "description": "Finito, attendi l'email di conferma con i tuoi dati",
+                                    "attributeDescription": "<p>Finito, attendi l'email di conferma con i tuoi dati</p>"
                                 }
                             ]
                         }

@@ -1,13 +1,7 @@
 import {DataSourceCode, FileCode, FileExtension} from "../descriptor";
 import * as JSZip from "jszip";
 import {ValidationErrorEnums} from "./validator.error";
-import {
-    InputFileFormat,
-    ValidatorAmazon,
-    ValidatorDatasource,
-    ValidatorFacebook,
-    ValidatorInstagram
-} from "./index";
+import {InputFileFormat, ValidatorAmazon, ValidatorDatasource, ValidatorFacebook, ValidatorInstagram} from "./index";
 import {Parser} from "../utils/parser";
 import {ValidatorGoogle} from "./validator.google";
 import Logger from "../utils/logger";
@@ -68,10 +62,9 @@ export class ValidatorFiles {
     private static async _validateZIP(zipFile: InputFileFormat, validatedFiles: JSZip, options?: ValidateZipOptions, prefix: string = ''): Promise<boolean> {
         const zip = await JSZip.loadAsync(zipFile);
         let hasAnyFile: boolean = false;
+        let languageCode = undefined;
         const ValidatorDatasource = (options && options.filterDataSource) ?
             await ValidatorFiles.validatorSelector(options.filterDataSource.dataSourceCode) : undefined;
-        //ValidationDatasource is a singleton class and the ValidatorDatasource.LANGUAGE_CODE might be different from undefined
-        (ValidatorDatasource) && (ValidatorDatasource.LANGUAGE_CODE = undefined);
         for (let pathName of Object.keys(zip.files)) {
             const file = zip.files[pathName];
             if (!file.dir) {
@@ -83,16 +76,26 @@ export class ValidatorFiles {
                         hasAnyFile = await this._validateZIP(fileBuffer, validatedFiles, options, pathName.slice(0, -4)) || hasAnyFile;
                     } else if (ValidatorFiles.isValidSize(fileBuffer, pathName) && ValidatorFiles.isValidFile(fileExtension, fileBuffer)) {
                         if (ValidatorDatasource) {
-                            const compatiblePathName = options && options.filterDataSource && options.filterDataSource.fileCodesIncluded
-                                ? await ValidatorDatasource.getValidPath(pathName,
-                                    {
-                                        fileCodes: options.filterDataSource.fileCodesIncluded,
-                                        externalZip: zip //only needed for IG validation, ignored otherwise
-                                    })
-                                : await ValidatorDatasource.getValidPath(pathName, {externalZip: zip});
-                            if (compatiblePathName) {
-                                ValidatorDatasource.addFileToZip(validatedFiles, compatiblePathName, fileBuffer, file);
-                                (!hasAnyFile) && (hasAnyFile = true);
+                            if (options && options.filterDataSource) {
+                                if (options.filterDataSource.dataSourceCode === DataSourceCode.INSTAGRAM) {
+                                    if (languageCode === undefined) {
+                                        languageCode = await ValidatorDatasource.getLanguage({
+                                            throwExceptions: options.throwExceptions!,
+                                            externalZip: zip,
+                                        });
+                                    }
+                                }
+                                const validPathName = await ValidatorDatasource.getValidPath(pathName, {
+                                    throwExceptions: options.throwExceptions!,
+                                    fileCodes: options.filterDataSource.fileCodesIncluded!,
+                                    languageCode: languageCode!,
+                                });
+                                if (validPathName) {
+                                    (languageCode !== null && languageCode !== undefined)
+                                        ? validatedFiles.file(validPathName, fileBuffer, {comment: languageCode})
+                                        : validatedFiles.file(validPathName, fileBuffer, {comment: file.comment});
+                                    (!hasAnyFile) && (hasAnyFile = true);
+                                }
                             }
                         } else {
                             validatedFiles.file(prefix === '' ? pathName : prefix + '/' + pathName, fileBuffer, {comment: file.comment});
