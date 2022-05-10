@@ -19,6 +19,7 @@ import {
     RetrievingProcedureType,
     ValidationErrorEnums,
     ValidatorAmazon,
+    ValidatorInstagram,
     ValidatorFacebook,
     ValidatorFiles,
     ValidatorGoogle
@@ -26,10 +27,10 @@ import {
 
 async function test(){
     //validatingTest()
-    //sequentialValidationsProcessingTest();
+    await sequentialValidationsProcessingTest();
 
     //validatorAndProcessingInstagramTest();
-    validatorAndProcessingFacebookTest();
+    //validatorAndProcessingFacebookTest();
     //validatorAndProcessingAmazonTest();
     //validatorAndProcessingGoogleTest();
 
@@ -46,15 +47,9 @@ function validatingTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/zip_files/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/zip_files/ig_ita.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err
-            const validation1 = await ValidatorFiles.validateZIP(data,
-                {
-                    filterDataSource: {
-                        dataSourceCode: DataSourceCode.FACEBOOK,
-                    },
-                    throwExceptions: false,
-                });
+            const validation1 = await ValidatorFiles.validateZIP(data,);
             await (await ValidatorFiles.getPathsIntoZip(validation1!))!.forEach((pathName) => console.log(pathName));
         });
     } catch (e: any) {
@@ -69,30 +64,37 @@ function validatingTest() {
         }
     }
 }
+async function sequentialValidationsProcessingTest() {
+    const x = [
+        "../src/mock/zip_files/ig_ita.zip",
+        "../src/mock/zip_files/ig_fr.zip",
+        "../src/mock/zip_files/ig_zh.zip",
+        "../src/mock/zip_files/ig_de.zip",
+        "../src/mock/zip_files/ig_en.zip"
+    ];
+    for (const path of x) {
+        await _sequentialValidationsProcessingTest(path);
+    }
+}
 
-function sequentialValidationsProcessingTest() {
+async function _sequentialValidationsProcessingTest(pathName: string) {
     try {
-        const fs =  require('fs');
-        const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/zip_files/instagram.zip"),async function(err:ErrnoException, data: Buffer) {
-            if (err) throw err
-            const validation1 = await ValidatorFiles.validateZIP(data,
+        const fs = require('fs');
+        const path = require('path');
+        fs.readFile(path.join(__dirname, pathName), async function (err: ErrnoException, data: Buffer) {
+            let validation1 = await ValidatorFiles.validateZIP(data,
                 {
-                    permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
                     filterDataSource: {
                         dataSourceCode: DataSourceCode.INSTAGRAM,
                     },
-                    throwExceptions: true,
-                });
+                    throwExceptions: false,
+                }
+                );
+            validation1 = await ValidatorInstagram.getInstance().filterFilesIntoZip(validation1!, {throwExceptions: false});
             console.log(await ProcessorInstagram.aggregatorFactory(validation1!, 180));
         });
-        fs.readFile(path.join(__dirname,"../src/mock/zip_files/google.zip"),async function(err:ErrnoException, data: Buffer) {
-            const validation1 = await ValidatorFiles.validateZIP(data);
-            const validation2 = await ValidatorGoogle.getInstance().filterFilesIntoZip(validation1!, {throwExceptions: true});
-            console.log(await ProcessorGoogle.aggregatorFactory(validation2!, 180));
-        });
     } catch (e: any) {
-        if(e.message === `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
+        if (e.message === `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
             console.error('The filtered ZIP has not any file');
         } else if (`${ValidationErrorEnums.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
             console.error('The ZIP file has not a recognizable Language to be corrected parsed');
@@ -108,20 +110,17 @@ function validatorAndProcessingInstagramTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/zip_files/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/zip_files/ig_zh.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err
-            const validation = await ValidatorFiles.validateZIP(data,
+            let validation = await ValidatorFiles.validateZIP(data,
                 {
                     permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
                     filterDataSource: {
                         dataSourceCode: DataSourceCode.INSTAGRAM,
-                        fileCodesIncluded: [
-                            FileCodeGoogle.FIT_DAILY_ACTIVITIES
-                        ]
                     },
                     throwExceptions: true,
                 });
-            //console.log(await ValidatorFiles.getPathsIntoZip(validation!));
+            validation = await ValidatorInstagram.getInstance().filterFilesIntoZip(validation!);
             console.log(await ProcessorInstagram.aggregatorFactory(validation!, 180));
         });
     } catch (e: any) {
