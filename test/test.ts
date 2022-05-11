@@ -19,15 +19,13 @@ import {
     RetrievingProcedureType,
     ValidationErrorEnums,
     ValidatorAmazon,
-    ValidatorInstagram,
-    ValidatorFacebook,
     ValidatorFiles,
-    ValidatorGoogle
+    ValidatorInstagram
 } from "../src";
 
 async function test(){
-    //validatingTest()
-    await sequentialValidationsProcessingTest();
+    validatingTest()
+    //await sequentialValidationsProcessingTest();
 
     //validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
@@ -47,9 +45,14 @@ function validatingTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/zip_files/ig_ita.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/zip_files/amazon_2.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err
-            const validation1 = await ValidatorFiles.validateZIP(data,);
+            const validation1 = await ValidatorFiles.validateZIP(data,
+                {
+                    filterDataSource: {
+                        dataSourceCode: DataSourceCode.AMAZON,
+                    },
+                });
             await (await ValidatorFiles.getPathsIntoZip(validation1!))!.forEach((pathName) => console.log(pathName));
         });
     } catch (e: any) {
