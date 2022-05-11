@@ -46,10 +46,6 @@ export class ValidatorDatasource {
         return undefined;
     }
 
-    public addFileToZip(zip: any, path: string, data: Buffer, file: any, languageCode?: LanguageCode) {
-        zip.file(path, data, {comment: languageCode || file.comment});
-    }
-
     public async getValidPath(pathName: string, options?: ValidatorDatasourceOption): Promise<string | undefined> {
         const compatiblePath = this.extractCompatiblePath(pathName);
         return (options ? this.isPathMatching(compatiblePath, options) : this.isPathMatching(compatiblePath)) ? compatiblePath : undefined;

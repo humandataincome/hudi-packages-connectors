@@ -79,17 +79,20 @@ export class ValidatorFiles {
                             if (options && options.filterDataSource) {
                                 if (options.filterDataSource.dataSourceCode === DataSourceCode.INSTAGRAM) {
                                     if (languageCode === undefined) {
-                                        languageCode = await ValidatorDatasource.getLanguage({
-                                            throwExceptions: options.throwExceptions!,
-                                            externalZip: zip,
-                                        });
+                                        languageCode = await ValidatorDatasource.getLanguage(
+                                            {
+                                                throwExceptions: options.throwExceptions!,
+                                                externalZip: zip,
+                                            });
                                     }
                                 }
-                                const validPathName = await ValidatorDatasource.getValidPath(pathName, {
-                                    throwExceptions: options.throwExceptions!,
-                                    fileCodes: options.filterDataSource.fileCodesIncluded!,
-                                    languageCode: languageCode!,
-                                });
+                                let validPathName = await ValidatorDatasource.getValidPath(
+                                    prefix === '' ? pathName : prefix + '/' + pathName,
+                                    {
+                                        throwExceptions: options.throwExceptions!,
+                                        fileCodes: options.filterDataSource.fileCodesIncluded!,
+                                        languageCode: languageCode!,
+                                    });
                                 if (validPathName) {
                                     (languageCode !== null && languageCode !== undefined)
                                         ? validatedFiles.file(validPathName, fileBuffer, {comment: languageCode})
