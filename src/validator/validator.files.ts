@@ -1,10 +1,18 @@
 import {DataSourceCode, FileCode, FileExtension} from "../descriptor";
 import * as JSZip from "jszip";
 import {ValidationErrorEnums} from "./validator.error";
-import {InputFileFormat, ValidatorAmazon, ValidatorDatasource, ValidatorFacebook, ValidatorInstagram} from "./index";
+import {
+    InputFileFormat,
+    ValidatorAmazon,
+    ValidatorDatasource,
+    ValidatorFacebook,
+    ValidatorInstagram,
+    ValidatorNetflix
+} from "./index";
 import {Parser} from "../utils/parser";
 import {ValidatorGoogle} from "./validator.google";
 import Logger from "../utils/logger";
+import {ValidatorLinkedIn} from "./validator.linkedin";
 
 export type ValidateZipOptions = {
     permittedFileExtensions?: FileExtension[]; //include only files with these extensions, if omitted includes everything
@@ -221,6 +229,10 @@ export class ValidatorFiles {
                 return ValidatorAmazon.getInstance();
             case DataSourceCode.GOOGLE:
                 return ValidatorGoogle.getInstance();
+            case DataSourceCode.NETFLIX:
+                return ValidatorNetflix.getInstance();
+            case DataSourceCode.LINKEDIN:
+                return ValidatorLinkedIn.getInstance();
             default:
                 this.logger.log('info', `${dataSourceCode} is not a valid DataSourceCode`, 'validatorSelector');
                 return undefined;

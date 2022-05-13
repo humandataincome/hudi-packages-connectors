@@ -43,7 +43,7 @@ export enum LanguageCode {
     ARABIC = 'AR',
 }
 
-export type FileCode = FileCodeInstagram | FileCodeFacebook | FileCodeAmazon | FileCodeGoogle;
+export type FileCode = FileCodeInstagram | FileCodeFacebook | FileCodeAmazon | FileCodeGoogle | FileCodeLinkedIn | FileCodeNetflix;
 
 export enum FileCodeInstagram {
     PERSONAL_INFO = 'account_information/personal_information.json',
@@ -399,4 +399,67 @@ export enum FileCodeGoogle {
     STADIA_USER_PROFILE = 'Takeout/Stadia/USER/USER_PROFILE.json',
     YOUTUBE_LIKED_VIDEOS = 'Takeout/YouTube and YouTube Music/playlists/Liked videos.csv',
     YOUTUBE_PLAYLIST_UPLOADS = 'Takeout/YouTube and YouTube Music/playlists/Uploads from (.*).csv',
+}
+
+export enum FileCodeLinkedIn {
+    JOBS_APPLICATIONS = 'Jobs/Job Applications.csv',
+    JOBS_SEEKER_PREFERENCES = 'Jobs/Job Seeker Preferences.csv',
+    JOBS_SAVED_JOBS = 'Jobs/Saved Jobs.csv',
+    ACCOUNT_STATUS_HISTORY = 'Account Status History.csv',
+    ADS_CLICKED = 'Ads Clicked.csv',
+    ADS_TARGETING = 'Ad_Targeting.csv',
+    COMPANY_FOLLOWS = 'Company Follows.csv',
+    CONNECTIONS = 'Connections.csv',
+    CONTACTS = 'Contacts.csv',
+    EDUCATION = 'Education.csv',
+    EMAIL_ADDRESSES = 'Email Addresses.csv',
+    ENDORSEMENT_RECEIVED_INFO_1 = 'Endorsement Received Info.csv',
+    ENDORSEMENT_RECEIVED_INFO_2 = 'Endorsement_Received_Info.csv',
+    INFERENCES_ABOUT_YOU = 'Inferences_about_you.csv',
+    INVITATIONS = 'Invitations.csv',
+    JOB_APPLICANT_SAVED_ANSWERS = 'Job Applicant Saved Answers.csv',
+    JOB_APPLICANT_SAVED_QUESTION_RESPONSES = 'Job Applicant Saved Screening Question Responses.csv',
+    LEARNING = 'Learning.csv',
+    LOGINS = 'Logins.csv',
+    MEMBER_FOLLOWS = 'Member_Follows.csv',
+    MESSAGE = 'messages.csv',
+    PHONE_NUMBERS = 'PhoneNumbers.csv',
+    POSITIONS = 'Positions.csv',
+    PROFILE = 'Profile.csv',
+    REACTIONS = 'Reactions.csv',
+    REGISTRATION = 'Registration.csv',
+    RICH_MEDIA = 'Rich Media.csv',
+    SAVED_JOBS_ALERTS = 'SavedJobAlerts.csv',
+    SEARCH_QUERIES = 'SearchQueries.csv',
+    SECURITY_CHALLENGES = 'Security Challenges.csv',
+    SKILLS = 'Skills.csv',
+    VOTES = 'Votes.csv',
+}
+
+export enum FileCodeNetflix {
+    ACCOUNT_DETAILS = 'ACCOUNT/AccountDetails.csv',
+    ACCOUNT_SUB_HISTORY = 'ACCOUNT/SubscriptionHistory.csv',
+    ACCOUNT_TERMS_OF_USE = 'ACCOUNT/TermsOfUse.csv',
+    CLICKSTREAM = 'CLICKSTREAM/Clickstream.csv',
+    CONTENT_INTERACTION_PREFERENCES = 'CONTENT_INTERACTION/IndicatedPreferences.csv',
+    CONTENT_INTERACTION_TITLES = 'CONTENT_INTERACTION/InteractiveTitles.txt',
+    CONTENT_INTERACTION_MY_LIST = 'CONTENT_INTERACTION/MyList.csv',
+    CONTENT_INTERACTION_PLAYBACK_EVENTS = 'CONTENT_INTERACTION/PlaybackRelatedEvents.csv',
+    CONTENT_INTERACTION_RATINGS = 'CONTENT_INTERACTION/Ratings.txt',
+    CONTENT_INTERACTION_SEARCH_HISTORY = 'CONTENT_INTERACTION/SearchHistory.csv',
+    CONTENT_INTERACTION_VIEWING_ACTIVITY = 'CONTENT_INTERACTION/ViewingActivity.csv',
+    CUSTOMER_SERVICE_CHAT_TRANSCRIPT = 'CUSTOMER_SERVICE/ChatTranscripts.txt',
+    CUSTOMER_SERVICE_CSCONTACT = 'CUSTOMER_SERVICE/CSContact.txt',
+    DEVICES = 'DEVICES/Devices.csv',
+    GAMES = 'GAMES/GamePlaySessions.txt',
+    IP_ADDRESSES_ACCOUNT = 'IP_ADDRESSES/IpAddressesAccountCreation.csv',
+    IP_ADDRESSES_LOGIN = 'IP_ADDRESSES/IpAddressesLogin.csv',
+    IP_ADDRESSES_STREAMING = 'IP_ADDRESSES/IpAddressesStreaming.csv',
+    MESSAGES_SENT_BY_NETFLIX = 'MESSAGES/MessagesSentByNetflix.csv',
+    PAYMENT_AND_BILLING_BILLING_HISTORY = 'PAYMENT_AND_BILLING/BillingHistory.csv',
+    PROFILES = 'PROFILES/Profiles.csv',
+    PROFILES_AVATAR_HISTORY = 'PROFILES/AvatarHistory.csv',
+    PROFILES_AVATAR_PARENTAL_CONTROL = 'PROFILES/ParentalControlsRestrictedTitles.txt',
+    SOCIAL_MEDIA_CONNECTIONS = 'SOCIAL_MEDIA_CONNECTIONS/SocialMediaConnections.txt',
+    SURVEYS_PRODUCT_CANCELLATION = 'SURVEYS/ProductCancellationSurvey.txt',
 }
