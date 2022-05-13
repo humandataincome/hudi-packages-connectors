@@ -4,3 +4,4 @@ export * from './amazon.model';
 export * from './netflix.model';
 export * from './google.model';
 export * from './linkedin.model';
+export * from './shopify.model';

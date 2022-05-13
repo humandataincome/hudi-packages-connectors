@@ -16,7 +16,7 @@ import {
     ProcessorFacebook,
     ProcessorGoogle,
     ProcessorInstagram,
-    RetrievingProcedureType,
+    RetrievingProcedureType, ShopifyService,
     ValidationErrorEnums,
     ValidatorAmazon,
     ValidatorFiles,
@@ -24,7 +24,7 @@ import {
 } from "../src";
 
 async function test(){
-    validatingTest()
+    //validatingTest()
     //await sequentialValidationsProcessingTest();
 
     //validatorAndProcessingInstagramTest();
@@ -39,6 +39,7 @@ async function test(){
     //await netflixServiceTest();
     //await googleServiceTest();
     //await linkedInServiceTest();
+    await shopifyServiceTest();
 }
 
 function validatingTest() {
@@ -47,7 +48,6 @@ function validatingTest() {
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/zip_files/google_en.zip"),async function(err:ErrnoException, data: Buffer) {
             //await (await ValidatorFiles.getPathsIntoZip(data))!.forEach((pathName) => console.log(pathName));
-            console.log();
             ValidatorFiles.MAX_BYTE_FILE_SIZE = 10e8;
             ValidatorFiles.MIN_BYTE_FILE_SIZE = -1;
             const validation1 = await ValidatorFiles.validateZIP(data,
@@ -419,6 +419,22 @@ async function netflixServiceTest() {
     }
 }
 
+async function shopifyServiceTest() {
+    try {
+        const path = require('path');
+        const {Parser} = require('./utils/parser');
+        //console.log(await ShopifyService.parseCustomersExport(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasources_IT/shopify/customers_export_1.csv`))));
+        //console.log(await ShopifyService.parseDiscountsExport(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasources_IT/shopify/discounts_export_1.csv`))));
+        //console.log(await ShopifyService.parseOrdersExport(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasources_IT/shopify/orders_export_1.csv`))));
+        console.log(await ShopifyService.parseProductsExport(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasources_IT/shopify/products_export_1.csv`))));
+    } catch (e: any) {
+        if (e.code == 'MODULE_NOT_FOUND') {
+            console.log('[Error not founding module] ' + e);
+        } else {
+            console.log(e);
+        }
+    }
+}
 
 async function googleServiceTest() {
     try {

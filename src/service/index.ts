@@ -4,3 +4,4 @@ export * from './google.service';
 export * from './instagram.service';
 export * from './linkedin.service';
 export * from './netflix.service';
+export * from './shopify.service';
