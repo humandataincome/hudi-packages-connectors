@@ -27,6 +27,7 @@ export class ConfigGoogle {
     }
 
     public static readonly pathTranslation: Record<string, string | FileCodeGoogle> = {
+        /*
         //ENGLISH
         'Maps (your places)/Reviews.json':`${FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS}`,
 
@@ -90,8 +91,10 @@ export class ConfigGoogle {
         'Save/Immagini preferite.csv':`${FileCodeGoogle.SAVED_FAVOURITE_IMAGES}`,
         'Save/Luoghi preferiti.csv':`${FileCodeGoogle.SAVED_FAVOURITE_PLACES}`,
         'Save/Pagine preferite.csv':`${FileCodeGoogle.SAVED_FAVOURITE_PAGES}`,
-        'Contributi di Ricerca/Cuori.json':`${FileCodeGoogle.SEARCH_CONTRIBUTIONS_HEARTS}`,
-        'Contributi di Ricerca/Valutazioni.json':`${FileCodeGoogle.SEARCH_CONTRIBUTIONS_THUMBS}`,
+        'Takeout/Contributi di Ricerca/Cuori.json':`${FileCodeGoogle.SEARCH_CONTRIBUTIONS_HEARTS}`,
+        'Takeout/Contributi di Ricerca/Valutazioni.json':`${FileCodeGoogle.SEARCH_CONTRIBUTIONS_THUMBS}`,
         'Attività/Tasks.json':`${FileCodeGoogle.TASKS}`,
+
+         */
     }
 }

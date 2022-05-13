@@ -89,7 +89,7 @@ export class ProcessorGoogle {
                                     model.averageMapsReviewsTI = sumRating / counterRating;
                                 }
                             }
-                        } else if ((regex = new RegExp(FileCodeGoogle.SEMANTIC_LOCATION_HISTORY)) && (regex.test(pathName))) {
+                        } else if ((regex = new RegExp(FileCodeGoogle.LOCATION_HISTORY_SEMANTIC)) && (regex.test(pathName))) {
                             result = <SemanticLocationsGO>await GoogleService.parseSemanticLocations(data);
                             if (result) {
                                 if (this.monthIsInRange(pathName, timeIntervalDays)) {

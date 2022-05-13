@@ -45,14 +45,18 @@ function validatingTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/zip_files/amazon_2.zip"),async function(err:ErrnoException, data: Buffer) {
-            if (err) throw err
+        fs.readFile(path.join(__dirname,"../src/mock/zip_files/google_en.zip"),async function(err:ErrnoException, data: Buffer) {
+            //await (await ValidatorFiles.getPathsIntoZip(data))!.forEach((pathName) => console.log(pathName));
+            console.log();
+            ValidatorFiles.MAX_BYTE_FILE_SIZE = 10e8;
+            ValidatorFiles.MIN_BYTE_FILE_SIZE = -1;
             const validation1 = await ValidatorFiles.validateZIP(data,
                 {
                     filterDataSource: {
-                        dataSourceCode: DataSourceCode.AMAZON,
-                    },
+                        dataSourceCode: DataSourceCode.GOOGLE,
+                    }
                 });
+            console.log();
             await (await ValidatorFiles.getPathsIntoZip(validation1!))!.forEach((pathName) => console.log(pathName));
         });
     } catch (e: any) {
@@ -193,7 +197,7 @@ function validatorAndProcessingGoogleTest() {
                         dataSourceCode: DataSourceCode.GOOGLE,
                         fileCodesIncluded: [
                             FileCodeGoogle.ACCOUNT_INFO,
-                            FileCodeGoogle.SEMANTIC_LOCATION_HISTORY,
+                            FileCodeGoogle.LOCATION_HISTORY_SEMANTIC,
                             FileCodeGoogle.PLAY_STORE_REVIEWS,
                             FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS,
                         ]
