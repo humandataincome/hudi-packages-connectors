@@ -7,7 +7,7 @@
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Instagram.\nDo not change the composition of the folders and files within them.",
+                    "descriptionText": "The Datasource contains all your personal information relating to your use of Instagram. Do not change the composition of the folders and files within them.",
                     "procedures": [
                         {
                             "procedureType": "DEFAULT",
@@ -125,76 +125,11 @@
                             ]
                         }
                     ],
-                    "filesDescription": [
-                        {
-                            "filePath": "account_information/personal_information.json",
-                            "fileContent": "Information about language files"
-                        },
-                        {
-                            "filePath": "ads_and_content/ads_clicked.json",
-                            "fileContent": "Counter of ADS clicked"
-                        },
-                        {
-                            "filePath": "ads_and_content/ads_viewed.json",
-                            "fileContent": "Counter of ADS viewed"
-                        },
-                        {
-                            "filePath": "comments/post_comments.json",
-                            "fileContent": "Counter of comments to posts"
-                        },
-                        {
-                            "filePath": "story_sticker_interactions/emoji_sliders.json",
-                            "fileContent": "Counter of emoji_sliders engagement"
-                        },
-                        {
-                            "filePath": "followers_and_following/followers.json",
-                            "fileContent": "Total of followers"
-                        },
-                        {
-                            "filePath": "followers_and_following/following.json",
-                            "fileContent": "Total of followings"
-                        },
-                        {
-                            "filePath": "likes/liked_comments.json",
-                            "fileContent": "Counter of likes to comments"
-                        },
-                        {
-                            "filePath": "likes/liked_posts.json",
-                            "fileContent": "Counter of likes to posts"
-                        },
-                        {
-                            "filePath": "monetization/eligibility.json",
-                            "fileContent": "If user can Monetize"
-                        },
-                        {
-                            "filePath": "story_sticker_interactions/polls.json",
-                            "fileContent": "Counter of polls engagement"
-                        },
-                        {
-                            "filePath": "content/post1.json",
-                            "fileContent": "Counter of posts created"
-                        },
-                        {
-                            "filePath": "ads_and_content/posts_viewed.json",
-                            "fileContent": "Counter of posts viewed"
-                        },
-                        {
-                            "filePath": "story_sticker_interactions/quizzes.json",
-                            "fileContent": "Counter of quizzes engagement"
-                        },
-                        {
-                            "filePath": "content/stories.json",
-                            "fileContent": "Counter of stories created"
-                        },
-                        {
-                            "filePath": "ads_and_content/videos_watched.json",
-                            "fileContent": "Counter of videos viewed"
-                        }
-                    ]
+                    "filesDescription": []
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Instagram.\nNon modificare la composizione delle cartelle e dei file al loro interno",
+                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Instagram. Non modificare la composizione delle cartelle e dei file al loro interno",
                     "procedures": [
                         {
                             "procedureType": "DEFAULT",
@@ -312,72 +247,7 @@
                             ]
                         }
                     ],
-                    "filesDescription": [
-                        {
-                            "filePath": "account_information/personal_information.json",
-                            "fileContent": "Informazioni sui file di lingua"
-                        },
-                        {
-                            "filePath": "ads_and_content/ads_clicked.json",
-                            "fileContent": "Numero di ADS cliccati"
-                        },
-                        {
-                            "filePath": "ads_and_content/ads_viewed.json",
-                            "fileContent": "Numero di ADS visualizzate"
-                        },
-                        {
-                            "filePath": "comments/post_comments.json",
-                            "fileContent": "Numero di commenti sotto ai posts"
-                        },
-                        {
-                            "filePath": "story_sticker_interactions/emoji_sliders.json",
-                            "fileContent": "Numero di interazioni per gli emoji_sliders"
-                        },
-                        {
-                            "filePath": "followers_and_following/followers.json",
-                            "fileContent": "Totale followers"
-                        },
-                        {
-                            "filePath": "followers_and_following/following.json",
-                            "fileContent": "Totale seguiti"
-                        },
-                        {
-                            "filePath": "likes/liked_comments.json",
-                            "fileContent": "Numero dei like ai commenti"
-                        },
-                        {
-                            "filePath": "likes/liked_posts.json",
-                            "fileContent": "Numero dei like ai posts"
-                        },
-                        {
-                            "filePath": "monetization/eligibility.json",
-                            "fileContent": "Se l'utente può monetizzare"
-                        },
-                        {
-                            "filePath": "story_sticker_interactions/polls.json",
-                            "fileContent": "Numero di interazioni nei sondaggi"
-                        },
-                        {
-                            "filePath": "content/post1.json",
-                            "fileContent": "Numero di posts creati"
-                        },
-                        {
-                            "filePath": "ads_and_content/posts_viewed.json",
-                            "fileContent": "Numero di posts visualizzati"
-                        },
-                        {
-                            "filePath": "story_sticker_interactions/quizzes.json",
-                            "fileContent": "Numero di interazioni ai quiz"
-                        },
-                        {
-                            "filePath": "content/stories.json",
-                            "fileContent": "Numero di storie create"
-                        },
-                        {
-                            "filePath": "ads_and_content/videos_watched.json",
-                            "fileContent": "Numero di video visualizzati"
-                        }
-                    ]
+                    "filesDescription": []
                 }
             ]
         },
@@ -390,7 +260,7 @@
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Facebook.\nDo not change the composition of the folders and files within them.",
+                    "descriptionText": "The Datasource contains all your personal information relating to your use of Facebook. Do not change the composition of the folders and files within them.",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",
@@ -418,56 +288,11 @@
                             ]
                         }
                     ],
-                    "filesDescription": [
-                        {
-                            "filePath": "ads_information/advertisers_you've_interacted_with.json",
-                            "fileContent": "Advertising that you have interacted with"
-                        },
-                        {
-                            "filePath": "comments_and_reactions/comments.json",
-                            "fileContent": "Your comments on posts"
-                        },
-                        {
-                            "filePath": "comments_and_reactions/posts_and_comments.json",
-                            "fileContent": "Your reactions to posts"
-                        },
-                        {
-                            "filePath": "friends_and_followers/friend_requests_sent.json",
-                            "fileContent": "Friendship requests sent"
-                        },
-                        {
-                            "filePath": "pages/page_you_follow.json",
-                            "fileContent": "Pages you follow"
-                        },
-                        {
-                            "filePath": "pages/page_you’ve_liked.json",
-                            "fileContent": "Page you like"
-                        },
-                        {
-                            "filePath": "pages/page_you’ve_recommended.json",
-                            "fileContent": "Page you have recommend"
-                        },
-                        {
-                            "filePath": "preferences/language_and_locale.json",
-                            "fileContent": "Languages you know"
-                        },
-                        {
-                            "filePath": "profile_information/profile_information.json",
-                            "fileContent": "Your profile information"
-                        },
-                        {
-                            "filePath": "your_interactions_on_facebook/recently_viewed.json",
-                            "fileContent": "Video recently viewed"
-                        },
-                        {
-                            "filePath": "posts/your_posts_1.json",
-                            "fileContent": "Your posts information"
-                        }
-                    ]
+                    "filesDescription": []
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Facebook.\nNon modificare la composizione delle cartelle e dei file al loro interno",
+                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Facebook. Non modificare la composizione delle cartelle e dei file al loro interno",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",
@@ -495,52 +320,7 @@
                             ]
                         }
                     ],
-                    "filesDescription": [
-                        {
-                            "filePath": "ads_information/advertisers_you've_interacted_with.json",
-                            "fileContent": "ADS con cui hai interagito"
-                        },
-                        {
-                            "filePath": "comments_and_reactions/comments.json",
-                            "fileContent": "I tuoi commenti sui post"
-                        },
-                        {
-                            "filePath": "comments_and_reactions/posts_and_comments.json",
-                            "fileContent": "Le tue reazioni ai post"
-                        },
-                        {
-                            "filePath": "friends_and_followers/friend_requests_sent.json",
-                            "fileContent": "Richieste di amicizia inviate"
-                        },
-                        {
-                            "filePath": "pages/page_you_follow.json",
-                            "fileContent": "Pagine che segui"
-                        },
-                        {
-                            "filePath": "pages/page_you’ve_liked.json",
-                            "fileContent": "Pagine a cui hai messo Mi Piace"
-                        },
-                        {
-                            "filePath": "pages/page_you’ve_recommended.json",
-                            "fileContent": "Pagine che consigli"
-                        },
-                        {
-                            "filePath": "preferences/language_and_locale.json",
-                            "fileContent": "Lingue che conosci"
-                        },
-                        {
-                            "filePath": "profile_information/profile_information.json",
-                            "fileContent": "Informazioni sul tuo profilo"
-                        },
-                        {
-                            "filePath": "your_interactions_on_facebook/recently_viewed.json",
-                            "fileContent": "Video recentemente visti"
-                        },
-                        {
-                            "filePath": "posts/your_posts_1.json",
-                            "fileContent": "Informazioni sui tuoi post"
-                        }
-                    ]
+                    "filesDescription": []
                 }
             ]
         },
@@ -553,7 +333,7 @@
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Amazon.\nDo not change the composition of the folders and files within them.",
+                    "descriptionText": "The Datasource contains all your personal information relating to your use of Amazon. Do not change the composition of the folders and files within them.",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",
@@ -586,56 +366,11 @@
                             ]
                         }
                     ],
-                    "filesDescription": [
-                        {
-                            "filePath": "Advertising.(\\d+)/Advertising.AdvertiserAudiences.csv",
-                            "fileContent": "Your ADV Audiences"
-                        },
-                        {
-                            "filePath": "Advertising.(\\d+)/Advertising.AdvertiserClicks.csv",
-                            "fileContent": "ADV you clicked on"
-                        },
-                        {
-                            "filePath": "Advertising.(\\d+)/Advertising.AmazonAudiences.csv",
-                            "fileContent": "ADV from Amazon"
-                        },
-                        {
-                            "filePath": "Advertising.(\\d+)/Advertising.3PAudiences.csv",
-                            "fileContent": "ADV from Third Parties"
-                        },
-                        {
-                            "filePath": "Audible.Library/Audible.Library.csv",
-                            "fileContent": "Your Audible Library"
-                        },
-                        {
-                            "filePath": "Digital.Subscriptions/Subscriptions.csv",
-                            "fileContent": "Records of your subscriptions plans"
-                        },
-                        {
-                            "filePath": "Digital.PrimeVideo.ViewCounts.2/Digital.PrimeVideo.ViewCounts.2.csv",
-                            "fileContent": "Prime Video counters of products you have seen or bought"
-                        },
-                        {
-                            "filePath": "LightWeightInteractions/LightWeightInteractions.csv",
-                            "fileContent": "Your interactions with other people's reviews"
-                        },
-                        {
-                            "filePath": "Retail.Seller-Feedback.2/Retail.Seller-Feedback.csv",
-                            "fileContent": "Your reviews history"
-                        },
-                        {
-                            "filePath": "Retail.OrderHistory.2/Retail.OrderHistory.2.csv",
-                            "fileContent": "Your orders history"
-                        },
-                        {
-                            "filePath": "Retail.RegionAuthority.2/Retail.RegionAuthority.2.csv",
-                            "fileContent": "Your addresses"
-                        }
-                    ]
+                    "filesDescription": []
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Amazon.\nNon modificare la composizione delle cartelle e dei file al loro interno",
+                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Amazon. Non modificare la composizione delle cartelle e dei file al loro interno",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",
@@ -668,52 +403,7 @@
                             ]
                         }
                     ],
-                    "filesDescription": [
-                        {
-                            "filePath": "Advertising.(\\d+)/Advertising.AdvertiserAudiences.csv",
-                            "fileContent": "La tua ADV audience"
-                        },
-                        {
-                            "filePath": "Advertising.(\\d+)/Advertising.AdvertiserClicks.csv",
-                            "fileContent": "ADV che hai cliccato"
-                        },
-                        {
-                            "filePath": "Advertising.(\\d+)/Advertising.AmazonAudiences.csv",
-                            "fileContent": "ADV da Amazon"
-                        },
-                        {
-                            "filePath": "Advertising.(\\d+)/Advertising.3PAudiences.csv",
-                            "fileContent": "ADV da terze parti"
-                        },
-                        {
-                            "filePath": "Audible.Library/Audible.Library.csv",
-                            "fileContent": "La tua libreria Audible"
-                        },
-                        {
-                            "filePath": "Digital.Subscriptions/Subscriptions.csv",
-                            "fileContent": "Il registro delle tue sottoscrizioni"
-                        },
-                        {
-                            "filePath": "Digital.PrimeVideo.ViewCounts.2/Digital.PrimeVideo.ViewCounts.2.csv",
-                            "fileContent": "Contatore dei programmi visti o comprati su Amazon Prime"
-                        },
-                        {
-                            "filePath": "LightWeightInteractions/LightWeightInteractions.csv",
-                            "fileContent": "Le tue interazioni con le recensioni altrui"
-                        },
-                        {
-                            "filePath": "Retail.Seller-Feedback.2/Retail.Seller-Feedback.csv",
-                            "fileContent": "Registro delle tue recensioni"
-                        },
-                        {
-                            "filePath": "Retail.OrderHistory.2/Retail.OrderHistory.2.csv",
-                            "fileContent": "Registro dei tuoi ordini"
-                        },
-                        {
-                            "filePath": "Retail.RegionAuthority.2/Retail.RegionAuthority.2.csv",
-                            "fileContent": "I tuoi indirizzi"
-                        }
-                    ]
+                    "filesDescription": []
                 }
             ]
         },
@@ -726,7 +416,7 @@
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Google.\nDo not change the composition of the folders and files within them.",
+                    "descriptionText": "The Datasource contains all your personal information relating to your use of Google. Do not change the composition of the folders and files within them.",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",
@@ -759,28 +449,11 @@
                             ]
                         }
                     ],
-                    "filesDescription": [
-                        {
-                            "filePath": "Google Account/(.+).SubscriberInfo.html",
-                            "fileContent": "Your Google Account information"
-                        },
-                        {
-                            "filePath": "(\\d{4})/(\\d{4})_((JANUARY)|(FEBRUARY)|(MARCH)|(APRIL)|(MAY)|(JUNE)|(JULY)|(AUGUST)|(SEPTEMBER)|(OCTOBER)|(NOVEMBER)|(DECEMBER)).json",
-                            "fileContent": "Your information about all your movements in a certain month"
-                        },
-                        {
-                            "filePath": "Google Play Store/Reviews.json",
-                            "fileContent": "Your reviews on Google Play Store"
-                        },
-                        {
-                            "filePath": "Maps your_places/Reviews.json",
-                            "fileContent": "Your reviews on Google Maps"
-                        }
-                    ]
+                    "filesDescription": []
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Google.\nNon modificare la composizione delle cartelle e dei file al loro interno",
+                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Google. Non modificare la composizione delle cartelle e dei file al loro interno",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",
@@ -813,202 +486,169 @@
                             ]
                         }
                     ],
+                    "filesDescription": []
+                }
+            ]
+        },
+        {
+            "sourceName": "Shopify Customers",
+            "sourceCode": "SHOPIFY_CUSTOMERS",
+            "supportedFormats": [
+                "csv"
+            ],
+            "retrievingProcedures": [
+                {
+                    "languageCode": "EN",
+                    "descriptionText": "The file contains all data about your Shopify business' customers. Do not invalidate the content or the name of the file.",
+                    "procedures": [
+                        {
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Go to the Customers page and click Export",
+                                    "attributeDescription": "<p>Go to the <b>Customer</b> page and click <b>Export</b></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Select All customers and Plain CSV file",
+                                    "attributeDescription": "<p>Select <b>All customers</b> and <b>Plain CSV file</b></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Click on Export customers",
+                                    "attributeDescription": "<p>Click on <b>Export customers</b></p>"
+                                }
+                            ]
+                        }
+                    ],
                     "filesDescription": [
                         {
-                            "filePath": "Google Account/(.+).SubscriberInfo.html",
-                            "fileContent": "Le tue informazioni sul tuo Account Google"
-                        },
-                        {
-                            "filePath": "(\\d{4})/(\\d{4})_((JANUARY)|(FEBRUARY)|(MARCH)|(APRIL)|(MAY)|(JUNE)|(JULY)|(AUGUST)|(SEPTEMBER)|(OCTOBER)|(NOVEMBER)|(DECEMBER)).json",
-                            "fileContent": "Le informazioni sui tutti i tuoi movimenti in un certo mese"
-                        },
-                        {
-                            "filePath": "Google Play Store/Reviews.json",
-                            "fileContent": "Le tue recensioni sul Play Store di Google"
-                        },
-                        {
-                            "filePath": "Maps your_places/Reviews.json",
-                            "fileContent": "Le tue recensioni sul Google Maps"
+                            "filePath": "customers_export_1.csv",
+                            "fileContent": "All data about your Shopify business' customers"
                         }
                     ]
                 }
             ]
         },
         {
-            "sourceDescriptions": [
+            "sourceName": "Shopify Orders",
+            "sourceCode": "SHOPIFY_ORDERS",
+            "supportedFormats": [
+                "csv"
+            ],
+            "retrievingProcedures": [
                 {
-                    "sourceName": "Shopify Customers",
-                    "sourceCode": "SHOPIFY_CUSTOMERS",
-                    "supportedFormats": [
-                        "csv"
-                    ],
-                    "retrievingProcedures": [
+                    "languageCode": "EN",
+                    "descriptionText": "The file contains all about your Shopify business' purchased data (orders). Do not invalidate the content or the name of the file.",
+                    "procedures": [
                         {
-                            "languageCode": "EN",
-                            "descriptionText": "The Customer File contains all data about your Shopify business' customers.\nDo not invalidate the content or the name of the file.",
-                            "procedures": [
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
                                 {
-                                    "procedureType": "DESKTOP",
-                                    "retrievingSteps": [
-                                        {
-                                            "index": 1,
-                                            "description": "Go to the Customers page and click Export",
-                                            "attributeDescription": "<p>Go to the <b>Customer</b> page and click <b>Export</b></p>"
-                                        },
-                                        {
-                                            "index": 2,
-                                            "description": "Select All customers and Plain CSV file",
-                                            "attributeDescription": "<p>Select <b>All customers</b> and <b>Plain CSV file</b></p>"
-                                        },
-                                        {
-                                            "index": 3,
-                                            "description": "Click on Export customers",
-                                            "attributeDescription": "<p>Click on <b>Export customers</b></p>"
-                                        }
-                                    ]
-                                }
-                            ],
-                            "filesDescription": [
+                                    "index": 1,
+                                    "description": "Go to the Orders page and click Export",
+                                    "attributeDescription": "<p>Go to the <b>Orders</b> page and click <b>Export</b></p>"
+                                },
                                 {
-                                    "filePath": "customers_export_1.csv",
-                                    "fileContent": "All data about your Shopify business' customers"
+                                    "index": 2,
+                                    "description": "Select All orders and Plain CSV file",
+                                    "attributeDescription": "<p>Select <b>All orders</b> and <b>Plain CSV file</b></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Click on Export orders",
+                                    "attributeDescription": "<p>Click on <b>Export orders</b></p>"
                                 }
                             ]
+                        }
+                    ],
+                    "filesDescription": [
+                        {
+                            "filePath": "orders_export_1.csv",
+                            "fileContent": "All about your Shopify business' purchased data (orders)"
                         }
                     ]
                 }
             ]
         },
         {
-            "sourceDescriptions": [
+            "sourceName": "Shopify Products",
+            "sourceCode": "SHOPIFY_PRODUCTS",
+            "supportedFormats": [
+                "csv"
+            ],
+            "retrievingProcedures": [
                 {
-                    "sourceName": "Shopify Orders",
-                    "sourceCode": "SHOPIFY_ORDERS",
-                    "supportedFormats": [
-                        "csv"
-                    ],
-                    "retrievingProcedures": [
+                    "languageCode": "EN",
+                    "descriptionText": "The file contains all data about your Shopify business' products. Do not invalidate the content or the name of the file.",
+                    "procedures": [
                         {
-                            "languageCode": "EN",
-                            "descriptionText": "The file contains all about your Shopify business' purchased data (orders).\nDo not invalidate the content or the name of the file.",
-                            "procedures": [
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
                                 {
-                                    "procedureType": "DESKTOP",
-                                    "retrievingSteps": [
-                                        {
-                                            "index": 1,
-                                            "description": "Go to the Orders page and click Export",
-                                            "attributeDescription": "<p>Go to the <b>Orders</b> page and click <b>Export</b></p>"
-                                        },
-                                        {
-                                            "index": 2,
-                                            "description": "Select All orders and Plain CSV file",
-                                            "attributeDescription": "<p>Select <b>All orders</b> and <b>Plain CSV file</b></p>"
-                                        },
-                                        {
-                                            "index": 3,
-                                            "description": "Click on Export orders",
-                                            "attributeDescription": "<p>Click on <b>Export orders</b></p>"
-                                        }
-                                    ]
-                                }
-                            ],
-                            "filesDescription": [
+                                    "index": 1,
+                                    "description": "Go to the Products page and click Export",
+                                    "attributeDescription": "<p>Go to the <b>Products</b> page and click <b>Export</b></p>"
+                                },
                                 {
-                                    "filePath": "orders_export_1.csv",
-                                    "fileContent": "All about your Shopify business' purchased data (orders)"
+                                    "index": 2,
+                                    "description": "Select All products and Plain CSV file",
+                                    "attributeDescription": "<p>Select <b>All products</b> and <b>Plain CSV file</b></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Click on Export products",
+                                    "attributeDescription": "<p>Click on <b>Export products</b></p>"
                                 }
                             ]
+                        }
+                    ],
+                    "filesDescription": [
+                        {
+                            "filePath": "products_export_1.csv",
+                            "fileContent": "All data about your Shopify business' products"
                         }
                     ]
                 }
             ]
         },
         {
-            "sourceDescriptions": [
+            "sourceName": "Shopify Discounts",
+            "sourceCode": "SHOPIFY_DISCOUNTS",
+            "supportedFormats": [
+                "csv"
+            ],
+            "retrievingProcedures": [
                 {
-                    "sourceName": "Shopify Products",
-                    "sourceCode": "SHOPIFY_PRODUCTS",
-                    "supportedFormats": [
-                        "csv"
-                    ],
-                    "retrievingProcedures": [
+                    "languageCode": "EN",
+                    "descriptionText": "The file contains all data about your Shopify business' discounts codes. Do not invalidate the content or the name of the file.",
+                    "procedures": [
                         {
-                            "languageCode": "EN",
-                            "descriptionText": "The file contains all data about your Shopify business' products.\nDo not invalidate the content or the name of the file.",
-                            "procedures": [
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
                                 {
-                                    "procedureType": "DESKTOP",
-                                    "retrievingSteps": [
-                                        {
-                                            "index": 1,
-                                            "description": "Go to the Products page and click Export",
-                                            "attributeDescription": "<p>Go to the <b>Products</b> page and click <b>Export</b></p>"
-                                        },
-                                        {
-                                            "index": 2,
-                                            "description": "Select All products and Plain CSV file",
-                                            "attributeDescription": "<p>Select <b>All products</b> and <b>Plain CSV file</b></p>"
-                                        },
-                                        {
-                                            "index": 3,
-                                            "description": "Click on Export products",
-                                            "attributeDescription": "<p>Click on <b>Export products</b></p>"
-                                        }
-                                    ]
-                                }
-                            ],
-                            "filesDescription": [
+                                    "index": 1,
+                                    "description": "Go to the Discounts page and click Export",
+                                    "attributeDescription": "<p>Go to the <b>Discounts</b> page and click <b>Export</b></p>"
+                                },
                                 {
-                                    "filePath": "products_export_1.csv",
-                                    "fileContent": "All data about your Shopify business' products"
+                                    "index": 2,
+                                    "description": "Select All discounts codes and Plain CSV file",
+                                    "attributeDescription": "<p>Select <b>All discounts codes</b> and <b>Plain CSV file</b></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Click on Export discounts codes",
+                                    "attributeDescription": "<p>Click on <b>Export discounts codes</b></p>"
                                 }
                             ]
                         }
-                    ]
-                }
-            ]
-        },
-        {
-            "sourceDescriptions": [
-                {
-                    "sourceName": "Shopify Discounts",
-                    "sourceCode": "SHOPIFY_DISCOUNTS",
-                    "supportedFormats": [
-                        "csv"
                     ],
-                    "retrievingProcedures": [
+                    "filesDescription": [
                         {
-                            "languageCode": "EN",
-                            "descriptionText": "The file contains all data about your Shopify business' discounts codes.\nDo not invalidate the content or the name of the file.",
-                            "procedures": [
-                                {
-                                    "procedureType": "DESKTOP",
-                                    "retrievingSteps": [
-                                        {
-                                            "index": 1,
-                                            "description": "Go to the Discounts page and click Export",
-                                            "attributeDescription": "<p>Go to the <b>Discounts</b> page and click <b>Export</b></p>"
-                                        },
-                                        {
-                                            "index": 2,
-                                            "description": "Select All discounts codes and Plain CSV file",
-                                            "attributeDescription": "<p>Select <b>All discounts codes</b> and <b>Plain CSV file</b></p>"
-                                        },
-                                        {
-                                            "index": 3,
-                                            "description": "Click on Export discounts codes",
-                                            "attributeDescription": "<p>Click on <b>Export discounts codes</b></p>"
-                                        }
-                                    ]
-                                }
-                            ],
-                            "filesDescription": [
-                                {
-                                    "filePath": "discounts_export_1.csv",
-                                    "fileContent": "All data about your Shopify business' discounts codes"
-                                }
-                            ]
+                            "filePath": "discounts_export_1.csv",
+                            "fileContent": "All data about your Shopify business' discounts codes"
                         }
                     ]
                 }
