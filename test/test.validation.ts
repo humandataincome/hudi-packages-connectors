@@ -63,7 +63,7 @@ async function _sequentialValidationsProcessingTest(pathName: string) {
                 }
             );
             validation1 = await ValidatorInstagram.getInstance().filterFilesIntoZip(validation1!, {throwExceptions: false});
-            console.log(await ProcessorInstagram.aggregatorFactory(validation1!, 180));
+            console.log(await ProcessorInstagram.aggregatorFactory(validation1!, { timeIntervalDays: 180}));
         });
     } catch (e: any) {
         if (e.message === `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
