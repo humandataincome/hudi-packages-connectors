@@ -175,11 +175,13 @@ export class ValidatorFiles {
      * @param pathName - evaluated file name
      * @return TRUE if the file is a valid JSON, FALSE otherwise
      */
-    static validateJSON(file: Buffer, pathName: string): boolean {
+    static validateJSON(file: Buffer, pathName?: string): boolean {
         try {
             return !!JSON.parse(file.toString());
         } catch (error) {
-            this.logger.log('info', `File \"${pathName}\" is not a valid JSON`, 'validateJSON');
+            (pathName)
+                ? this.logger.log('info', `File \"${pathName}\" is not a valid JSON`, 'validateJSON')
+                : this.logger.log('info', `File is not a valid JSON`, 'validateJSON');
             return false;
         }
     }
@@ -189,11 +191,13 @@ export class ValidatorFiles {
      * @param pathName - evaluated file name
      * @return TRUE if the file is a valid CSV, FALSE otherwise
      */
-    static validateCSV(file: Buffer, pathName: string): boolean {
+    static validateCSV(file: Buffer, pathName?: string): boolean {
         try {
             return !!Parser.parseCSVfromBuffer(file);
         } catch (error) {
-            this.logger.log('info', `File \"${pathName}\" is not a valid CSV`, 'validateCSV');
+            (pathName)
+                ? this.logger.log('info', `File \"${pathName}\" is not a valid CSV`, 'validateCSV')
+                : this.logger.log('info', `File is not a valid CSV`, 'validateCSV');
             return false;
         }
     }
