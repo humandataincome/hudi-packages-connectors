@@ -39,6 +39,12 @@ export class ConfigInstagram {
         'EN-35-productName':'Product name',
         'EN-36-decision':'Decision',
         'EN-37-reason':'Reason',
+        // 'shopping/recently_viewed_items.json'
+        'EN-38-productID':'',
+        'EN-39-productName':'',
+        'EN-40-handlerID':'',
+        'EN-41-handlerName':'',
+
         //ITALIAN
         'IT-1-username':'Nome utente',
         'IT-2-name':'Nome',
@@ -77,6 +83,10 @@ export class ConfigInstagram {
         'IT-35-productName':'Nome del prodotto',
         'IT-36-decision':'Decisione',
         'IT-37-reason':'Motivo',
+        'IT-38-productID':'',
+        'IT-39-productName':'',
+        'IT-40-handlerID':'',
+        'IT-41-handlerName':'',
         //HINDI
         'HI-1-username':'\u00e0\u00a4\u00af\u00e0\u00a5\u0082\u00e0\u00a4\u009c\u00e0\u00a4\u00bc\u00e0\u00a4\u00b0\u00e0\u00a4\u00a8\u00e0\u00a5\u0087\u00e0\u00a4\u00ae',
         'HI-2-name':'\u00e0\u00a4\u00a8\u00e0\u00a4\u00be\u00e0\u00a4\u00ae',
@@ -115,6 +125,10 @@ export class ConfigInstagram {
         'HI-35-productName':'\u00e0\u00a4\u00aa\u00e0\u00a5\u008d\u00e0\u00a4\u00b0\u00e0\u00a5\u008b\u00e0\u00a4\u00a1\u00e0\u00a4\u0095\u00e0\u00a5\u008d\u00e0\u00a4\u009f \u00e0\u00a4\u0095\u00e0\u00a4\u00be \u00e0\u00a4\u00a8\u00e0\u00a4\u00be\u00e0\u00a4\u00ae',
         'HI-36-decision':'\u00e0\u00a4\u00ab\u00e0\u00a4\u00bc\u00e0\u00a5\u0088\u00e0\u00a4\u00b8\u00e0\u00a4\u00b2\u00e0\u00a4\u00be',
         'HI-37-reason':'\u00e0\u00a4\u0095\u00e0\u00a4\u00be\u00e0\u00a4\u00b0\u00e0\u00a4\u00a3',
+        'HI-38-productID':'',
+        'HI-39-productName':'',
+        'HI-40-handlerID':'',
+        'HI-41-handlerName':'',
         //SPANISH
         'ES-1-username':'Nombre de usuario',
         'ES-2-name':'Nombre',
@@ -153,6 +167,10 @@ export class ConfigInstagram {
         'ES-35-productName':'Nombre del producto',
         'ES-36-decision':'Decisi\u00c3\u00b3n',
         'ES-37-reason':'Motivo',
+        'ES-38-productID':'',
+        'ES-39-productName':'',
+        'ES-40-handlerID':'',
+        'ES-41-handlerName':'',
         //FRENCH
         'FR-1-username':'Nom d\u00e2\u0080\u0099utilisateur',
         'FR-2-name':'Nom',
@@ -191,6 +209,10 @@ export class ConfigInstagram {
         'FR-35-productName':'Nom du produit',
         'FR-36-decision':'D\u00c3\u00a9cision',
         'FR-37-reason':'Motif',
+        'FR-38-productID':'',
+        'FR-39-productName':'',
+        'FR-40-handlerID':'',
+        'FR-41-handlerName':'',
         //GERMAN
         'DE-1-username':'Benutzername',
         'DE-2-name':'Name',
@@ -229,6 +251,10 @@ export class ConfigInstagram {
         'DE-35-productName':'Name des Produkts',
         'DE-36-decision':'Entscheidung',
         'DE-37-reason':'Grund',
+        'DE-38-productID':'Produkt-ID',
+        'DE-39-productName':'Name des Produkts',
+        'DE-40-handlerID':'H\u00c3\u00a4ndler-ID',
+        'DE-41-handlerName':'Name des H\u00c3\u00a4ndlers',
         //CHINESE_SIMPLIFIED
         'ZH-CN-1-username':'\u00e5\u00b8\u0090\u00e5\u008f\u00b7',
         'ZH-CN-2-name':'\u00e5\u00a7\u0093\u00e5\u0090\u008d',
@@ -267,6 +293,10 @@ export class ConfigInstagram {
         'ZH-CN-35-productName':'\u00e5\u0095\u0086\u00e5\u0093\u0081\u00e5\u0090\u008d\u00e7\u00a7\u00b0',
         'ZH-CN-36-decision':'\u00e5\u0086\u00b3\u00e5\u00ae\u009a',
         'ZH-CN-37-reason':'\u00e5\u008e\u009f\u00e5\u009b\u00a0',
+        'ZH-CN-38-productID':'',
+        'ZH-CN-39-productName':'',
+        'ZH-CN-40-handlerID':'',
+        'ZH-CN-41-handlerName':'',
     };
 
 }

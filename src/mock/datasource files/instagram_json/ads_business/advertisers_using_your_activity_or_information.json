@@ -1,0 +1,40 @@
+{
+    "ig_custom_audiences_all_types": [
+        {
+            "advertiser_name": "\u00d0\u0098\u00d0\u009a\u00d0\u0095\u00d0\u0090 \u00d0\u00a0\u00d0\u00be\u00d1\u0081\u00d1\u0081\u00d0\u00b8\u00d1\u008f - IKEA",
+            "has_data_file_custom_audience": false,
+            "has_remarketing_custom_audience": true,
+            "has_in_person_store_visit": false
+        },
+        {
+            "advertiser_name": "Manal A Rostom \u00d9\u0085\u00d9\u0086\u00d8\u00a7\u00d9\u0084 \u00d8\u00b9\u00d8\u00a7\u00d8\u00af\u00d9\u0084 \u00d8\u00b1\u00d8\u00b3\u00d8\u00aa\u00d9\u0085",
+            "has_data_file_custom_audience": false,
+            "has_remarketing_custom_audience": true,
+            "has_in_person_store_visit": false
+        },
+        {
+            "advertiser_name": "Karol\u00c3\u00adna Huvarov\u00c3\u00a1 - Personal Trainer & IFBB Bikini Fitness",
+            "has_data_file_custom_audience": false,
+            "has_remarketing_custom_audience": true,
+            "has_in_person_store_visit": false
+        },
+        {
+            "advertiser_name": "Meetsocial HK Digital Marketing Co.\u00ef\u00bc\u008cltd-1",
+            "has_data_file_custom_audience": true,
+            "has_remarketing_custom_audience": true,
+            "has_in_person_store_visit": false
+        },
+        {
+            "advertiser_name": "iafstore Italia \u00ef\u00bf\u00bd",
+            "has_data_file_custom_audience": true,
+            "has_remarketing_custom_audience": true,
+            "has_in_person_store_visit": false
+        },
+        {
+            "advertiser_name": "Carat Italy",
+            "has_data_file_custom_audience": true,
+            "has_remarketing_custom_audience": true,
+            "has_in_person_store_visit": false
+        }
+    ]
+}

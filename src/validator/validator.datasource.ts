@@ -1,10 +1,17 @@
 import {FileCode, LanguageCode} from "../descriptor";
 import {ValidationErrorEnums} from "./validator.error";
-import {InputFileFormat, ValidatorAmazonOption, ValidatorFacebookOption, ValidatorInstagramOption} from "./index";
+import {
+    InputFileFormat,
+    ValidatorAmazonOption,
+    ValidatorFacebookOption,
+    ValidatorInstagramOption,
+    ValidatorNetflixOption
+} from "./index";
 import {ValidatorGoogleOption} from "./validator.google";
 import Logger from "../utils/logger";
+import {ValidatorLinkedInOption} from "./validator.linkedin";
 
-export type  ValidatorDatasourceOption = ValidatorInstagramOption | ValidatorFacebookOption | ValidatorAmazonOption | ValidatorGoogleOption;
+export type  ValidatorDatasourceOption = ValidatorInstagramOption | ValidatorFacebookOption | ValidatorAmazonOption | ValidatorGoogleOption | ValidatorLinkedInOption | ValidatorNetflixOption;
 
 export class ValidatorDatasource {
     private static _instance: ValidatorDatasource;
@@ -44,10 +51,6 @@ export class ValidatorDatasource {
             }
         }
         return undefined;
-    }
-
-    public addFileToZip(zip: any, path: string, data: Buffer, file: any, languageCode?: LanguageCode) {
-        zip.file(path, data, {comment: languageCode || file.comment});
     }
 
     public async getValidPath(pathName: string, options?: ValidatorDatasourceOption): Promise<string | undefined> {

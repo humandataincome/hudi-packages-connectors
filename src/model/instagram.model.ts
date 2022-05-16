@@ -224,3 +224,49 @@ export interface QuizIG {
 export interface SentimentIG {
     value?: string;
 }
+
+export interface  AdsUsingYourInformationIG {
+    list: AdvUsingYourInformationIG[];
+}
+
+export interface AdvUsingYourInformationIG {
+    advertiserName?: string;
+    hasDataFileCustomAudience?: boolean;
+    hasRemarketingCustomAudience?: boolean;
+    hasInPersonStoreVisit?: boolean;
+}
+
+export interface ShoppingViewedItemsIG {
+    list: ShoppingViewedItemIG[];
+}
+
+export interface ShoppingViewedItemIG {
+    productID?: string;
+    productName?: string;
+    handlerID?: string;
+    handlerName?: string;
+}
+
+export interface AutofillInformationIG {
+    tel?: string;
+    telCountryCode?: string;
+    telNational?: string;
+    telAreaCode?: string;
+    telLocal?: string;
+    telLocalPrefix?: string;
+    telLocalSuffix?: string;
+    streetAddress?: string;
+    streetLine1?: string;
+    streetLine2?: string;
+    streetLine3?: string;
+    streetLevel1?: string;
+    streetLevel2?: string;
+    streetLevel3?: string;
+    streetLevel4?: string;
+    country?: string;
+    countryName?: string;
+    postalCode?: string;
+    email?: string;
+    familyName?: string;
+    givenName?: string;
+}

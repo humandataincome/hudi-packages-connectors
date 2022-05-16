@@ -1,10 +1,18 @@
 import {DataSourceCode, FileCode, FileExtension} from "../descriptor";
 import * as JSZip from "jszip";
 import {ValidationErrorEnums} from "./validator.error";
-import {InputFileFormat, ValidatorAmazon, ValidatorDatasource, ValidatorFacebook, ValidatorInstagram} from "./index";
+import {
+    InputFileFormat,
+    ValidatorAmazon,
+    ValidatorDatasource,
+    ValidatorFacebook,
+    ValidatorInstagram,
+    ValidatorNetflix
+} from "./index";
 import {Parser} from "../utils/parser";
 import {ValidatorGoogle} from "./validator.google";
 import Logger from "../utils/logger";
+import {ValidatorLinkedIn} from "./validator.linkedin";
 
 export type ValidateZipOptions = {
     permittedFileExtensions?: FileExtension[]; //include only files with these extensions, if omitted includes everything
@@ -40,7 +48,7 @@ export class ValidatorFiles {
     /**
      * @param zipFile - file zip as one of the Buffer-like types supported
      * @param options - OPTIONAL: a set of options described into ValidateZipOptions type.
-     * @return zip file containing all the files from input that passed the zip_files
+     * @return zip file containing all the files from input that passed the datasource zip files
      */
     static async validateZIP(zipFile: InputFileFormat, options?: ValidateZipOptions): Promise<Buffer | undefined> {
         try {
@@ -73,23 +81,26 @@ export class ValidatorFiles {
                 if (fileExtension && (options && options.permittedFileExtensions ? options.permittedFileExtensions.includes(fileExtension) : true)) {
                     if (fileExtension === FileExtension.ZIP) {
                         //remove .zip from the pathname and continue the execution recursively into the file
-                        hasAnyFile = await this._validateZIP(fileBuffer, validatedFiles, options, pathName.slice(0, -4)) || hasAnyFile;
-                    } else if (ValidatorFiles.isValidSize(fileBuffer, pathName) && ValidatorFiles.isValidFile(fileExtension, fileBuffer)) {
+                        hasAnyFile = await this._validateZIP(fileBuffer, validatedFiles, options, prefix === '' ? pathName.slice(0, -4) : prefix + '/' + pathName.slice(0, -4)) || hasAnyFile;
+                    } else if (ValidatorFiles.isValidSize(fileBuffer, pathName) && ValidatorFiles.isValidFile(fileExtension, fileBuffer, pathName)) {
                         if (ValidatorDatasource) {
                             if (options && options.filterDataSource) {
                                 if (options.filterDataSource.dataSourceCode === DataSourceCode.INSTAGRAM) {
                                     if (languageCode === undefined) {
-                                        languageCode = await ValidatorDatasource.getLanguage({
-                                            throwExceptions: options.throwExceptions!,
-                                            externalZip: zip,
-                                        });
+                                        languageCode = await ValidatorDatasource.getLanguage(
+                                            {
+                                                throwExceptions: options.throwExceptions!,
+                                                externalZip: zip,
+                                            });
                                     }
                                 }
-                                const validPathName = await ValidatorDatasource.getValidPath(pathName, {
-                                    throwExceptions: options.throwExceptions!,
-                                    fileCodes: options.filterDataSource.fileCodesIncluded!,
-                                    languageCode: languageCode!,
-                                });
+                                let validPathName = await ValidatorDatasource.getValidPath(
+                                    prefix === '' ? pathName : prefix + '/' + pathName,
+                                    {
+                                        throwExceptions: options.throwExceptions!,
+                                        fileCodes: options.filterDataSource.fileCodesIncluded!,
+                                        languageCode: languageCode!,
+                                    });
                                 if (validPathName) {
                                     (languageCode !== null && languageCode !== undefined)
                                         ? validatedFiles.file(validPathName, fileBuffer, {comment: languageCode})
@@ -123,7 +134,7 @@ export class ValidatorFiles {
 
     /**
      * @param file - file as Buffer
-     * @param pathName - optional evaluated file name
+     * @param pathName - evaluated file name
      * @param maxSize - max file's size in bytes, MAX_BYTE_FILE_SIZE as default.
      * @param minSize - min file's size in bytes, MIN_BYTE_FILE_SIZE as default.
      * @return TRUE if the file's size is between the minSize and the maxSize, FALSE otherwise
@@ -145,14 +156,15 @@ export class ValidatorFiles {
     /**
      * @param extension - extension of the file (e.g. json, csv, txt)
      * @param file - file as buffer
+     * @param pathName - evaluated file name
      * @return TRUE if the file is valid, FALSE otherwise
      */
-    static isValidFile(extension: FileExtension, file: Buffer): boolean {
+    static isValidFile(extension: FileExtension, file: Buffer, pathName: string): boolean {
         switch (extension) {
             case FileExtension.JSON:
-                return ValidatorFiles.validateJSON(file);
+                return ValidatorFiles.validateJSON(file, pathName);
             case FileExtension.CSV:
-                return ValidatorFiles.validateCSV(file);
+                return ValidatorFiles.validateCSV(file, pathName);
             default:
                 return true;
         }
@@ -160,26 +172,32 @@ export class ValidatorFiles {
 
     /**
      * @param file - file as buffer
+     * @param pathName - evaluated file name
      * @return TRUE if the file is a valid JSON, FALSE otherwise
      */
-    static validateJSON(file: Buffer): boolean {
+    static validateJSON(file: Buffer, pathName?: string): boolean {
         try {
             return !!JSON.parse(file.toString());
         } catch (error) {
-            this.logger.log('info', `File is not a valid JSON`, 'validateJSON');
+            (pathName)
+                ? this.logger.log('info', `File \"${pathName}\" is not a valid JSON`, 'validateJSON')
+                : this.logger.log('info', `File is not a valid JSON`, 'validateJSON');
             return false;
         }
     }
 
     /**
      * @param file - file as buffer
+     * @param pathName - evaluated file name
      * @return TRUE if the file is a valid CSV, FALSE otherwise
      */
-    static validateCSV(file: Buffer): boolean {
+    static validateCSV(file: Buffer, pathName?: string): boolean {
         try {
             return !!Parser.parseCSVfromBuffer(file);
         } catch (error) {
-            this.logger.log('info', `File is not a valid CSV`, 'validateCSV');
+            (pathName)
+                ? this.logger.log('info', `File \"${pathName}\" is not a valid CSV`, 'validateCSV')
+                : this.logger.log('info', `File is not a valid CSV`, 'validateCSV');
             return false;
         }
     }
@@ -215,6 +233,10 @@ export class ValidatorFiles {
                 return ValidatorAmazon.getInstance();
             case DataSourceCode.GOOGLE:
                 return ValidatorGoogle.getInstance();
+            case DataSourceCode.NETFLIX:
+                return ValidatorNetflix.getInstance();
+            case DataSourceCode.LINKEDIN:
+                return ValidatorLinkedIn.getInstance();
             default:
                 this.logger.log('info', `${dataSourceCode} is not a valid DataSourceCode`, 'validatorSelector');
                 return undefined;

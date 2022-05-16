@@ -1,11 +1,20 @@
 {
     "name": "@humandataincome/connectors",
-    "version": "0.5.2",
+    "version": "0.5.4",
     "description": "A set of connectors for data source",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "test": "ts-node test/test.ts",
+        "test-descriptor": "ts-node test/test.descriptor.ts",
+        "test-validation": "ts-node test/test.validation.ts",
+        "test-processing": "ts-node test/test.processing.ts",
+        "test-amazon": "ts-node test/test.amazon.ts",
+        "test-facebook": "ts-node test/test.facebook.ts",
+        "test-google": "ts-node test/test.google.ts",
+        "test-instagram": "ts-node test/test.instagram.ts",
+        "test-linkedin": "ts-node test/test.linkedin.ts",
+        "test-netflix": "ts-node test/test.netflix.ts",
+        "test-shopify": "ts-node test/test.shopify.ts",
         "build": "tsc -p .",
         "prepublish": "npm run build"
     },
