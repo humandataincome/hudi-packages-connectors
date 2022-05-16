@@ -36,9 +36,6 @@ export class ValidatorFacebook extends ValidatorDatasource {
         FileCodeFacebook.LOCATION_PRIMARY,
         FileCodeFacebook.LOCATION_PRIMARY_PUBLIC,
         FileCodeFacebook.LOCATION_TIMEZONE,
-        FileCodeFacebook.MESSAGE_FILTERED,
-        FileCodeFacebook.MESSAGE_CONVERSATION,
-        FileCodeFacebook.NOTIFICATIONS,
         FileCodeFacebook.OFF_ACTIVITIES,
         FileCodeFacebook.OTHER_FRIEND_PEER_GROUP,
         FileCodeFacebook.OTHER_YOUR_ADDRESS_BOOKS,
@@ -57,6 +54,16 @@ export class ValidatorFacebook extends ValidatorDatasource {
         FileCodeFacebook.RECENTLY_VIEWED,
         FileCodeFacebook.RECENTLY_VISITED,
         FileCodeFacebook.SAVED_ITEMS,
+        FileCodeFacebook.SEARCH_HISTORY,
+        FileCodeFacebook.STORIES_ARCHIVED,
+        FileCodeFacebook.STORIES_REACTION,
+        FileCodeFacebook.YOUR_TOPICS,
+        FileCodeFacebook.YOUR_POSTS,
+
+        /*
+        FileCodeFacebook.MESSAGE_FILTERED,
+        FileCodeFacebook.MESSAGE_CONVERSATION,
+        FileCodeFacebook.NOTIFICATIONS,
         FileCodeFacebook.SECURITY_ACCOUNT_ACTIVITY,
         FileCodeFacebook.SECURITY_ACTIVITY_HISTORY,
         FileCodeFacebook.SECURITY_BROWSER_COOKIES,
@@ -65,11 +72,7 @@ export class ValidatorFacebook extends ValidatorDatasource {
         FileCodeFacebook.SECURITY_LOGINS_LOGOUT,
         FileCodeFacebook.SECURITY_MOBILE_DEVICES,
         FileCodeFacebook.SECURITY_WHERE_LOGGED_IN,
-        FileCodeFacebook.SEARCH_HISTORY,
-        FileCodeFacebook.STORIES_ARCHIVED,
-        FileCodeFacebook.STORIES_REACTION,
-        FileCodeFacebook.YOUR_TOPICS,
-        FileCodeFacebook.YOUR_POSTS,
+         */
     ];
 
     protected extractCompatiblePath(path: string): string {
