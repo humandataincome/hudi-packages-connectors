@@ -10,14 +10,14 @@ A set of connectors to parse, describe, validate and process the data sources pr
 
 
 | Datasource Name | Parsing Support | Descriptor Support | Validator Support | Processor Support |
-|-----------------|-----------------|--------------------|-------------------|-------------------|
-| *Amazon*        | Partial         | &check;            | &check;           | &check;           |
-| *Facebook*      | Partial         | &check;            | &check;           | &check;           |
-| *Google*        | Partial         | &check;            | &check;           | &check;           |
-| *Instagram*     | Partial         | &check;            | &check;           | &check;           |
-| *LinkedIn*      | Partial         | &check;            | &check;           | &check;           |
-| *Netflix*       | Partial         | &check;            | &check;           | &check;           |
-| *Shopify*       | Full            | &check;            | &check;           |                   |
+|:----------------|:---------------:|:------------------:|:-----------------:|:-----------------:|
+| *Amazon*        |     Partial     |      &check;       |      &check;      |      &check;      |
+| *Facebook*      |     Partial     |      &check;       |      &check;      |      &check;      |
+| *Google*        |     Partial     |      &check;       |      &check;      |      &check;      |
+| *Instagram*     |     Partial     |      &check;       |      &check;      |      &check;      |
+| *LinkedIn*      |     Partial     |      &check;       |      &check;      |      &check;      |
+| *Netflix*       |     Partial     |      &check;       |      &check;      |      &check;      |
+| *Shopify*       |      Full       |      &check;       |      &check;      |                   |
 
 
 ## How to use the library:
