@@ -48,7 +48,7 @@ export class ValidatorFiles {
     /**
      * @param zipFile - file zip as one of the Buffer-like types supported
      * @param options - OPTIONAL: a set of options described into ValidateZipOptions type.
-     * @return zip file containing all the files from input that passed the zip_files
+     * @return zip file containing all the files from input that passed the datasource zip files
      */
     static async validateZIP(zipFile: InputFileFormat, options?: ValidateZipOptions): Promise<Buffer | undefined> {
         try {
