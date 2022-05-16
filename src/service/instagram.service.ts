@@ -42,7 +42,13 @@ import {
     PollsIG,
     PollIG,
     QuizIG,
-    QuizzesIG, PersonalStoriesIG, StoryIG
+    QuizzesIG,
+    PersonalStoriesIG,
+    StoryIG,
+    AdsUsingYourInformationIG,
+    AdvUsingYourInformationIG,
+    ShoppingViewedItemsIG,
+    ShoppingViewedItemIG, AutofillInformationIG
 } from "../model";
 import Logger from "../utils/logger";
 import {Decoding} from "../utils/decoding";
@@ -736,6 +742,100 @@ export class InstagramService {
             return !ValidatorFiles.objectIsEmpty(conversationModel) ? conversationModel : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`,'parseMessages');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - file 'ads_business/advertisers_using_your_activity_or_information.json' in input as Buffer
+     */
+    static async parseAdsUsingYourInformation(data: Buffer): Promise<AdsUsingYourInformationIG | undefined> {
+        try {
+            let document = JSON.parse(data.toString());
+            let model: AdsUsingYourInformationIG = {list: []};
+            model.list = document.ig_custom_audiences_all_types.map((value: any) => {
+                let newItem: AdvUsingYourInformationIG = {};
+                (value.advertiser_name) && (newItem.advertiserName = Decoding.decodeObject(value.advertiser_name));
+                (value.has_data_file_custom_audience !== undefined) && (newItem.hasDataFileCustomAudience = value.has_data_file_custom_audience);
+                (value.has_remarketing_custom_audience !== undefined) && (newItem.hasRemarketingCustomAudience = value.has_remarketing_custom_audience);
+                (value.has_in_person_store_visit !== undefined) && (newItem.hasInPersonStoreVisit = value.has_in_person_store_visit);
+                return newItem;
+            });
+            return model.list.length > 0 ? model : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`,'parseAdsUsingYourInformation');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - file 'shopping/recently_viewed_items.json' in input as Buffer
+     */
+    static async parseShoppingViewedItems(data: Buffer): Promise<ShoppingViewedItemsIG | undefined> {
+        try {
+            let document = JSON.parse(data.toString());
+            let model: ShoppingViewedItemsIG = {list: []};
+            let parameterName;
+            model.list = document.checkout_saved_recently_viewed_products.map((value: any) => {
+                let newItem: ShoppingViewedItemIG = {};
+                parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-38-productID`];
+                if (value.string_map_data[parameterName] && value.string_map_data[parameterName].value) {
+                    newItem.productID = Decoding.decodeObject(value.string_map_data[parameterName].value);
+                }
+                parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-39-productName`];
+                if (value.string_map_data[parameterName] && value.string_map_data[parameterName].value) {
+                    newItem.productName = Decoding.decodeObject(value.string_map_data[parameterName].value);
+                }
+                parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-40-handlerID`];
+                if (value.string_map_data[parameterName] && value.string_map_data[parameterName].value) {
+                    newItem.handlerID = Decoding.decodeObject(value.string_map_data[parameterName].value);
+                }
+                parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-41-handlerName`];
+                if (value.string_map_data[parameterName] && value.string_map_data[parameterName].value) {
+                    newItem.handlerName= Decoding.decodeObject(value.string_map_data[parameterName].value);
+                }
+                return newItem;
+            });
+            return model.list.length > 0 ? model : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`,'parseShoppingViewedItems');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - file 'autofill_information/autofill_information.json' in input as Buffer
+     */
+    static async parseAutofillInformation(data: Buffer): Promise<AutofillInformationIG | undefined> {
+        try {
+            let document = JSON.parse(data.toString());
+            let model: AutofillInformationIG = {};
+            if (document && document.ig_autofill_data) {
+                (document.ig_autofill_data.tel) && (model.tel = document.ig_autofill_data.tel);
+                (document.ig_autofill_data.tel_country_code) && (model.telCountryCode = document.ig_autofill_data.tel_country_code);
+                (document.ig_autofill_data.tel_national) && (model.telNational = document.ig_autofill_data.tel_national);
+                (document.ig_autofill_data.tel_area_code) && (model.telAreaCode = document.ig_autofill_data.tel_area_code);
+                (document.ig_autofill_data.tel_local) && (model.telLocal = document.ig_autofill_data.tel_local);
+                (document.ig_autofill_data.tel_local_prefix) && (model.telLocalPrefix = document.ig_autofill_data.tel_local_prefix);
+                (document.ig_autofill_data.tel_local_suffix) && (model.telLocalSuffix = document.ig_autofill_data.tel_local_suffix);
+                (document.ig_autofill_data.street_address) && (model.streetAddress = document.ig_autofill_data.street_address);
+                (document.ig_autofill_data.address_line1) && (model.streetLine1 = document.ig_autofill_data.address_line1);
+                (document.ig_autofill_data.address_line2) && (model.streetLine2 = document.ig_autofill_data.address_line2);
+                (document.ig_autofill_data.address_line3) && (model.streetLine3 = document.ig_autofill_data.address_line3);
+                (document.ig_autofill_data.address_level1) && (model.streetLevel1 = document.ig_autofill_data.address_level1);
+                (document.ig_autofill_data.address_level2) && (model.streetLevel2 = document.ig_autofill_data.address_level2);
+                (document.ig_autofill_data.address_level3) && (model.streetLevel3 = document.ig_autofill_data.address_level3);
+                (document.ig_autofill_data.address_level4) && (model.streetLevel4 = document.ig_autofill_data.address_level4);
+                (document.ig_autofill_data.country) && (model.country = document.ig_autofill_data.country);
+                (document.ig_autofill_data.country_name) && (model.countryName = document.ig_autofill_data.country_name);
+                (document.ig_autofill_data.postal_code) && (model.postalCode = document.ig_autofill_data.postal_code);
+                (document.ig_autofill_data.email) && (model.email = document.ig_autofill_data.email);
+                (document.ig_autofill_data.family_name) && (model.familyName = document.ig_autofill_data.family_name);
+                (document.ig_autofill_data.given_name) && (model.givenName = document.ig_autofill_data.given_name);
+            }
+            return !ValidatorFiles.objectIsEmpty(model) ? model : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`,'parseAutofillInformation');
             return undefined;
         }
     }

@@ -8,6 +8,7 @@ async function testInstagram(){
 async function testService() {
     try {
         InstagramService.languagePrefix = LanguageCode.ITALIAN;
+        /*
         console.log(await InstagramService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/instagram_json/account_information/personal_information.json`)))));
         console.log(await InstagramService.parseLocation(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/instagram_json/information_about_you/account_based_in.json`)))));
         console.log(await InstagramService.parseAdsClicked(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/instagram_json/ads_and_content/ads_clicked.json`)))));
@@ -36,6 +37,9 @@ async function testService() {
         console.log(await InstagramService.parsePolls(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/instagram_json/story_sticker_interactions/polls.json`)))));
         console.log(await InstagramService.parseQuizzes(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/instagram_json/story_sticker_interactions/quizzes.json`)))));
         console.log(await InstagramService.parsePersonalStories(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/instagram_json/content/stories.json`)))));
+        console.log(await InstagramService.parseAdsUsingYourInformation(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/instagram_json/ads_business/advertisers_using_your_activity_or_information.json`)))));
+        */
+        console.log(await InstagramService.parseAutofillInformation(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/instagram_json/autofill_information/autofill_information.json`)))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
