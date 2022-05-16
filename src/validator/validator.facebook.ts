@@ -48,9 +48,7 @@ export class ValidatorFacebook extends ValidatorDatasource {
         FileCodeFacebook.REACTIONS,
         FileCodeFacebook.RECENTLY_VIEWED,
         FileCodeFacebook.RECENTLY_VISITED,
-        FileCodeFacebook.SAVED_ITEMS,
         FileCodeFacebook.SEARCH_HISTORY,
-        FileCodeFacebook.STORIES_ARCHIVED,
         FileCodeFacebook.STORIES_REACTION,
         FileCodeFacebook.YOUR_TOPICS,
         FileCodeFacebook.YOUR_POSTS,
@@ -59,6 +57,7 @@ export class ValidatorFacebook extends ValidatorDatasource {
         FileCodeFacebook.MESSAGE_FILTERED,
         FileCodeFacebook.MESSAGE_CONVERSATION,
         FileCodeFacebook.NOTIFICATIONS,
+        FileCodeFacebook.SAVED_ITEMS,
         FileCodeFacebook.SECURITY_ACCOUNT_ACTIVITY,
         FileCodeFacebook.SECURITY_ACTIVITY_HISTORY,
         FileCodeFacebook.SECURITY_BROWSER_COOKIES,
@@ -67,6 +66,7 @@ export class ValidatorFacebook extends ValidatorDatasource {
         FileCodeFacebook.SECURITY_LOGINS_LOGOUT,
         FileCodeFacebook.SECURITY_MOBILE_DEVICES,
         FileCodeFacebook.SECURITY_WHERE_LOGGED_IN,
+        FileCodeFacebook.STORIES_ARCHIVED,
          */
     ];
 
