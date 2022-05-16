@@ -99,9 +99,12 @@ Example of **ProcessorInstagram** usage:
 ```ts
 import {ProcessorInstagram} from '@humandataincome/connectors';
 ```
-The **aggregatorFactory** method take in input the zipFile as Buffer and an optional parameter indicating the number of days from Today to consider an information valid (default is 365).
+The **aggregatorFactory** method take in input the zipFile as Buffer and an optional set of parameters like **timeIntervalDays** that indicates the number of days from Today to consider an information valid (default is 365).
 ```ts
-let aggregator = await ProcessorInstagram.aggregatorFactory(zipFile, 180);
+let aggregator = await ProcessorInstagram.aggregatorFactory(zipFile, {
+    timeIntervalDays: 180,
+    throwExceptions: false,
+});
 ```
 
 # How do I retrieve my personal data sources?
