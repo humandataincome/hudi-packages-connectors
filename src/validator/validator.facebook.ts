@@ -1,11 +1,6 @@
-import {FileCode, FileCodeFacebook} from "../descriptor";
+import {FileCodeFacebook} from "../descriptor";
 import {ValidatorDatasource} from "./validator.datasource";
 import Logger from "../utils/logger";
-
-export type ValidatorFacebookOption = {
-    fileCodes?: FileCode[];
-    throwExceptions?: boolean;
-}
 
 export class ValidatorFacebook extends ValidatorDatasource {
     protected readonly logger = new Logger("Facebook Validator");

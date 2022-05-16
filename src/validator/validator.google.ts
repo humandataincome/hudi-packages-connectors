@@ -1,11 +1,6 @@
 import {ValidatorDatasource} from "./validator.datasource";
-import {FileCode, FileCodeGoogle} from "../descriptor";
+import {FileCodeGoogle} from "../descriptor";
 import Logger from "../utils/logger";
-
-export type ValidatorGoogleOption = {
-    fileCodes?: FileCode[];
-    throwExceptions?: boolean;
-}
 
 export class ValidatorGoogle extends ValidatorDatasource  {
     protected readonly logger = new Logger("Google Validator");

@@ -1,11 +1,6 @@
-import {FileCode, FileCodeNetflix} from "../descriptor";
+import {FileCodeNetflix} from "../descriptor";
 import {ValidatorDatasource} from "./validator.datasource";
 import Logger from "../utils/logger";
-
-export type ValidatorNetflixOption = {
-    fileCodes?: FileCode[];
-    throwExceptions?: boolean;
-}
 
 export class ValidatorNetflix extends ValidatorDatasource  {
     protected readonly logger = new Logger("Netflix Validator");

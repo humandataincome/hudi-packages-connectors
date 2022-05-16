@@ -1,11 +1,9 @@
-import {FileCode, FileCodeInstagram, LanguageCode} from "../descriptor";
+import {FileCodeInstagram, LanguageCode} from "../descriptor";
 import {ValidatorDatasource} from "./validator.datasource";
-import {InputFileFormat, ValidationErrorEnums} from "./index";
+import {InputFileFormat, ValidationErrorEnums, ValidatorDatasourceOptions} from "./index";
 import Logger from "../utils/logger";
 
-export type ValidatorInstagramOption = {
-    fileCodes?: FileCode[];
-    throwExceptions?: boolean;
+export interface ValidatorInstagramOption extends ValidatorDatasourceOptions {
     externalZip?: any;
     languageCode?: undefined | null | LanguageCode;
 }
