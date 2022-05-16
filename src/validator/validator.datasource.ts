@@ -2,9 +2,11 @@ import {FileCode, LanguageCode} from "../descriptor";
 import {ValidationErrorEnums} from "./validator.error";
 import {
     InputFileFormat,
-    ValidatorDatasourceOptions,
+    ValidatorInstagramOption,
 } from "./index";
 import Logger from "../utils/logger";
+
+export type  ValidatorDatasourceOption = ValidatorInstagramOption;
 
 export class ValidatorDatasource {
     private static _instance: ValidatorDatasource;
@@ -15,7 +17,7 @@ export class ValidatorDatasource {
         return this._instance || (this._instance = new this());
     }
 
-    public async filterFilesIntoZip(zipFile: InputFileFormat, options?: ValidatorDatasourceOptions): Promise<Buffer | undefined> {
+    public async filterFilesIntoZip(zipFile: InputFileFormat, options?: ValidatorDatasourceOption): Promise<Buffer | undefined> {
         try {
             const JSZip = require("jszip");
             let hasAnyFile = false;
@@ -46,12 +48,12 @@ export class ValidatorDatasource {
         return undefined;
     }
 
-    public async getValidPath(pathName: string, options?: ValidatorDatasourceOptions): Promise<string | undefined> {
+    public async getValidPath(pathName: string, options?: ValidatorDatasourceOption): Promise<string | undefined> {
         const compatiblePath = this.extractCompatiblePath(pathName);
         return (options ? this.isPathMatching(compatiblePath, options) : this.isPathMatching(compatiblePath)) ? compatiblePath : undefined;
     }
 
-    protected isPathMatching(pathName: string, options?: ValidatorDatasourceOptions): boolean {
+    protected isPathMatching(pathName: string, options?: ValidatorDatasourceOption): boolean {
         let found = false;
         options && options.fileCodes
             ? options.fileCodes.forEach((code: FileCode) => (!found && RegExp('^' + code + '$').test(pathName)) && (found = true))
@@ -67,7 +69,7 @@ export class ValidatorDatasource {
         return path;
     }
 
-    public async getLanguage(options: ValidatorDatasourceOptions): Promise<LanguageCode | null> {
+    public async getLanguage(options: ValidatorDatasourceOption): Promise<LanguageCode | null> {
         return null;
     }
 }

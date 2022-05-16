@@ -9,11 +9,11 @@ import {
 import ErrnoException = NodeJS.ErrnoException;
 
 function testProcessing(){
-    //validatorAndProcessingInstagramTest();
+    validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
     //validatorAndProcessingAmazonTest();
     //validatorAndProcessingGoogleTest();
-    validatorAndProcessingShopifyTest();
+    //validatorAndProcessingShopifyTest();
 }
 
 function validatorAndProcessingInstagramTest() {
@@ -31,7 +31,10 @@ function validatorAndProcessingInstagramTest() {
                     throwExceptions: true,
                 });
             validation = await ValidatorInstagram.getInstance().filterFilesIntoZip(validation!);
-            console.log(await ProcessorInstagram.aggregatorFactory(validation!, 180));
+            console.log(await ProcessorInstagram.aggregatorFactory(validation!, {
+                timeIntervalDays: 180,
+                throwExceptions: false,
+            }));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
@@ -57,7 +60,10 @@ function validatorAndProcessingFacebookTest() {
                     },
                     throwExceptions: true,
                 });
-            console.log(await ProcessorFacebook.aggregatorFactory(validation1!, 180));
+            console.log(await ProcessorFacebook.aggregatorFactory(validation1!, {
+                timeIntervalDays: 180,
+                throwExceptions: false,
+            }));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
@@ -76,7 +82,10 @@ function validatorAndProcessingAmazonTest() {
             if (err) throw err;
             const validation1 = await ValidatorFiles.validateZIP(data);
             const validation2 = await ValidatorAmazon.getInstance().filterFilesIntoZip(validation1!);
-            console.log(await ProcessorAmazon.aggregatorFactory(validation2!, 180))
+            console.log(await ProcessorAmazon.aggregatorFactory(validation2!, {
+                timeIntervalDays: 180,
+                throwExceptions: false,
+            }))
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
@@ -101,7 +110,10 @@ function validatorAndProcessingGoogleTest() {
                     }
                 });
             //validation = await ValidatorGoogle.getInstance().filterFilesIntoZip(validation);
-            console.log(await ProcessorGoogle.aggregatorFactory(validation!, 180))
+            console.log(await ProcessorGoogle.aggregatorFactory(validation!, {
+                timeIntervalDays: 180,
+                throwExceptions: false,
+            }))
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {

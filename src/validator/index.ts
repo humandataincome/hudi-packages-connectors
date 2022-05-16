@@ -1,5 +1,3 @@
-import {FileCode} from "../descriptor";
-
 export * from './validator.files';
 export * from './validator.error';
 export * from './validator.datasource';
@@ -13,7 +11,3 @@ export * from './validator.linkedin';
 export type InputFileFormat = string | number[] | Blob | NodeJS.ReadableStream | Uint8Array | ArrayBuffer;
 export type OutputFileFormat = string | number[] | Blob | Buffer | Uint8Array | ArrayBuffer;
 
-export type ValidatorDatasourceOptions = {
-    fileCodes?: FileCode[];
-    throwExceptions?: boolean;
-}
