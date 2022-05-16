@@ -16,19 +16,36 @@ import {
 import {ProcessorUtils} from "./processor.utils";
 import {InputFileFormat, ValidatorFiles} from "../validator";
 import {FacebookDataAggregator} from "./processor.aggregator.model";
+import {ProcessorOptions} from "./index";
+import Logger from "../utils/logger";
 
 export class ProcessorFacebook {
+    private static readonly logger = new Logger("Processor Facebook");
+
     /**
      * @param zipFile - file zip as Buffer
-     * @param timeIntervalDays - optional days of interval wanted for TI parameters, default value is 365
+     * @param options - optional set of options
      * @return aggregation of data from Facebook data source
      */
-    static async aggregatorFactory(zipFile: InputFileFormat, timeIntervalDays: number = 365): Promise<FacebookDataAggregator | undefined> {
-        if (zipFile) {
+    static async aggregatorFactory(zipFile: InputFileFormat, options?: ProcessorOptions): Promise<FacebookDataAggregator | undefined> {
+        try {
             const JSZip = require("jszip");
+            const zip = await JSZip.loadAsync(zipFile);
+            return await ProcessorFacebook._aggregateFactory(zip, options);
+        } catch (error: any) {
+            (error && error.message) && (this.logger.log('error', error.message, 'aggregatorFactory'));
+            if (options && options.throwExceptions !== undefined && options.throwExceptions) {
+                throw error;
+            }
+        }
+        return undefined;
+    }
+
+    private static async _aggregateFactory(zip: any, options?: ProcessorOptions): Promise<FacebookDataAggregator | undefined> {
+        const timeIntervalDays = (options && options.timeIntervalDays) ? options.timeIntervalDays : 365;
+        if (zip) {
             const model: FacebookDataAggregator = {};
             let result, regex;
-            const zip = await JSZip.loadAsync(zipFile);
             for (let pathName of Object.keys(zip.files)) {
                 const file = zip.files[pathName];
                 if (!file.dir) {

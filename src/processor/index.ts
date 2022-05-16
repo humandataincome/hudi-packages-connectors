@@ -5,3 +5,10 @@ export * from './processor.amazon';
 export * from './processor.google';
 export * from './processor.utils';
 export * from './processor.error';
+
+export type ProcessorOptions = {
+    timeIntervalDays?: number;
+    throwExceptions?: boolean;
+}
+
+//export interface ProcessorInstagramOptions extends ProcessorOptions {}

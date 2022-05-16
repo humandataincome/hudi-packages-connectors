@@ -21,16 +21,17 @@ import {
     PostViewedIG, QuizIG, QuizzesIG, StoryIG, VideoWatchedIG
 } from "../model";
 import {ProcessorUtils} from "./processor.utils";
-import {InputFileFormat, ProcessorOptions, ValidatorFiles} from "../validator";
+import {InputFileFormat, ValidatorFiles} from "../validator";
 import {InstagramDataAggregator} from "./processor.aggregator.model";
 import Logger from "../utils/logger";
+import {ProcessorOptions} from "./index";
 
 export class ProcessorInstagram {
     private static readonly logger = new Logger("Processor Instagram");
 
     /**
      * @param zipFile - file zip as Buffer
-     * @param options - a set of options described into ProcessorOptions type
+     * @param options - optional set of options
      * @return aggregation of data from Instagram data source
      */
     static async aggregatorFactory(zipFile: InputFileFormat, options?: ProcessorOptions): Promise<InstagramDataAggregator | undefined> {
