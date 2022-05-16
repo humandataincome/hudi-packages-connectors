@@ -1,9 +1,9 @@
-# HUDI-PACKAGE-CONNECTORS #
+# HUDI-PACKAGE-CONNECTORS
 
-## What is this repository for? ##
+## What is this repository for?
 A set of connectors to parse, describe, validate and process the data sources provided by websites and social networks. Compatible with NodeJS and with Browsers.
 
-### Features included in the package ###
+### Features included in the package
 - A set of **Service Classes** to parse the files received by the data sources' zip files.
 - A set of **Validators** for the file received: a generic validation for raw zip files and a specific validator for each data source supported to filter that useful files from the others.
 - A set of **Processors** for each specific data source supported to aggregate the data contained into them.
