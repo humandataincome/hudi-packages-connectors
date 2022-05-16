@@ -833,6 +833,186 @@
                     ]
                 }
             ]
+        },
+        {
+            "sourceDescriptions": [
+                {
+                    "sourceName": "Shopify Customers",
+                    "sourceCode": "SHOPIFY_CUSTOMERS",
+                    "supportedFormats": [
+                        "csv"
+                    ],
+                    "retrievingProcedures": [
+                        {
+                            "languageCode": "EN",
+                            "descriptionText": "The Customer File contains all data about your Shopify business' customers.\nDo not invalidate the content or the name of the file.",
+                            "procedures": [
+                                {
+                                    "procedureType": "DESKTOP",
+                                    "retrievingSteps": [
+                                        {
+                                            "index": 1,
+                                            "description": "Go to the Customers page and click Export",
+                                            "attributeDescription": "<p>Go to the <b>Customer</b> page and click <b>Export</b></p>"
+                                        },
+                                        {
+                                            "index": 2,
+                                            "description": "Select All customers and Plain CSV file",
+                                            "attributeDescription": "<p>Select <b>All customers</b> and <b>Plain CSV file</b></p>"
+                                        },
+                                        {
+                                            "index": 3,
+                                            "description": "Click on Export customers",
+                                            "attributeDescription": "<p>Click on <b>Export customers</b></p>"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "filesDescription": [
+                                {
+                                    "filePath": "customers_export_1.csv",
+                                    "fileContent": "All data about your Shopify business' customers"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sourceDescriptions": [
+                {
+                    "sourceName": "Shopify Orders",
+                    "sourceCode": "SHOPIFY_ORDERS",
+                    "supportedFormats": [
+                        "csv"
+                    ],
+                    "retrievingProcedures": [
+                        {
+                            "languageCode": "EN",
+                            "descriptionText": "The file contains all about your Shopify business' purchased data (orders).\nDo not invalidate the content or the name of the file.",
+                            "procedures": [
+                                {
+                                    "procedureType": "DESKTOP",
+                                    "retrievingSteps": [
+                                        {
+                                            "index": 1,
+                                            "description": "Go to the Orders page and click Export",
+                                            "attributeDescription": "<p>Go to the <b>Orders</b> page and click <b>Export</b></p>"
+                                        },
+                                        {
+                                            "index": 2,
+                                            "description": "Select All orders and Plain CSV file",
+                                            "attributeDescription": "<p>Select <b>All orders</b> and <b>Plain CSV file</b></p>"
+                                        },
+                                        {
+                                            "index": 3,
+                                            "description": "Click on Export orders",
+                                            "attributeDescription": "<p>Click on <b>Export orders</b></p>"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "filesDescription": [
+                                {
+                                    "filePath": "orders_export_1.csv",
+                                    "fileContent": "All about your Shopify business' purchased data (orders)"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sourceDescriptions": [
+                {
+                    "sourceName": "Shopify Products",
+                    "sourceCode": "SHOPIFY_PRODUCTS",
+                    "supportedFormats": [
+                        "csv"
+                    ],
+                    "retrievingProcedures": [
+                        {
+                            "languageCode": "EN",
+                            "descriptionText": "The file contains all data about your Shopify business' products.\nDo not invalidate the content or the name of the file.",
+                            "procedures": [
+                                {
+                                    "procedureType": "DESKTOP",
+                                    "retrievingSteps": [
+                                        {
+                                            "index": 1,
+                                            "description": "Go to the Products page and click Export",
+                                            "attributeDescription": "<p>Go to the <b>Products</b> page and click <b>Export</b></p>"
+                                        },
+                                        {
+                                            "index": 2,
+                                            "description": "Select All products and Plain CSV file",
+                                            "attributeDescription": "<p>Select <b>All products</b> and <b>Plain CSV file</b></p>"
+                                        },
+                                        {
+                                            "index": 3,
+                                            "description": "Click on Export products",
+                                            "attributeDescription": "<p>Click on <b>Export products</b></p>"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "filesDescription": [
+                                {
+                                    "filePath": "products_export_1.csv",
+                                    "fileContent": "All data about your Shopify business' products"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sourceDescriptions": [
+                {
+                    "sourceName": "Shopify Discounts",
+                    "sourceCode": "SHOPIFY_DISCOUNTS",
+                    "supportedFormats": [
+                        "csv"
+                    ],
+                    "retrievingProcedures": [
+                        {
+                            "languageCode": "EN",
+                            "descriptionText": "The file contains all data about your Shopify business' discounts codes.\nDo not invalidate the content or the name of the file.",
+                            "procedures": [
+                                {
+                                    "procedureType": "DESKTOP",
+                                    "retrievingSteps": [
+                                        {
+                                            "index": 1,
+                                            "description": "Go to the Discounts page and click Export",
+                                            "attributeDescription": "<p>Go to the <b>Discounts</b> page and click <b>Export</b></p>"
+                                        },
+                                        {
+                                            "index": 2,
+                                            "description": "Select All discounts codes and Plain CSV file",
+                                            "attributeDescription": "<p>Select <b>All discounts codes</b> and <b>Plain CSV file</b></p>"
+                                        },
+                                        {
+                                            "index": 3,
+                                            "description": "Click on Export discounts codes",
+                                            "attributeDescription": "<p>Click on <b>Export discounts codes</b></p>"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "filesDescription": [
+                                {
+                                    "filePath": "discounts_export_1.csv",
+                                    "fileContent": "All data about your Shopify business' discounts codes"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

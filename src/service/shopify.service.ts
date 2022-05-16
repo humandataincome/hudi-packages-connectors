@@ -11,7 +11,7 @@ export class ShopifyService {
     private static readonly logger = new Logger("Shopify Service");
 
     /**
-     * @param data - file 'shopify/customers_export_1csv' in input as Buffer
+     * @param data - file 'shopify/customers_export_1.csv' in input as Buffer
      */
     static async parseCustomersExport(data: Buffer): Promise<CustomersExportsSH | undefined> {
         try {let result = Parser.parseCSVfromBuffer(data);
