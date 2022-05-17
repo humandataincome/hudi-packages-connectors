@@ -1,658 +1,694 @@
 {
-    "sourceDescriptions": [
+  "sourceDescriptions": [
+    {
+      "sourceName": "Instagram",
+      "sourceCode": "INSTAGRAM",
+      "supportedFormats": ["zip"],
+      "retrievingProcedures": [
         {
-            "sourceName": "Instagram",
-            "sourceCode": "INSTAGRAM",
-            "supportedFormats": [ "zip" ],
-            "retrievingProcedures": [
+          "languageCode": "EN",
+          "descriptionText": "The Datasource contains all your personal information relating to your use of Instagram. Do not change the composition of the folders and files within them.",
+          "procedures": [
+            {
+              "procedureType": "DEFAULT",
+              "retrievingSteps": [
                 {
-                    "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Instagram. Do not change the composition of the folders and files within them.",
-                    "procedures": [
-                        {
-                            "procedureType": "DEFAULT",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Follow the guide at this link",
-                                    "link": "https://help.instagram.com/181231772500920"
-                                }
-                            ]
-                        },
-                        {
-                            "procedureType": "DESKTOP",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Go to your Profile",
-                                    "attributeDescription": "<p>Go to your <a href=\"\">Profile</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Click on the Settings Icon",
-                                    "attributeDescription": "<p>Click on the <b>Settings Icon</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Click on Privacy and Security",
-                                    "attributeDescription": "<p>Click on <b>Privacy</b> and <b>Security</b></p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Click on Request Download Data",
-                                    "attributeDescription": "<p>Click on <b>Request Download Data</b></p>"
-                                },
-                                {
-                                    "index": 5,
-                                    "description": "Insert your email",
-                                    "attributeDescription": "<p>Insert your <b>email</b></p>"
-                                },
-                                {
-                                    "index": 6,
-                                    "description": "Select JSON format",
-                                    "attributeDescription": "<p>Select JSON format</p>"
-                                },
-                                {
-                                    "index": 7,
-                                    "description": "Click on Next",
-                                    "attributeDescription": "<p>Click on <b>Next</b></p>"
-                                },
-                                {
-                                    "index": 8,
-                                    "description": "Type your Instagram password",
-                                    "attributeDescription": "<p>Type your <b>Instagram password</b></p>"
-                                },
-                                {
-                                    "index": 9,
-                                    "description": "Click on Request Download",
-                                    "attributeDescription": "<p>Click on <b>Request Download</b></p>"
-                                },
-                                {
-                                    "index": 10,
-                                    "description": "Done, wait an email confirmation with attached data",
-                                    "attributeDescription": "<p>Done, wait an email confirmation with attached data</p>"
-                                }
-                            ]
-                        },
-                        {
-                            "procedureType": "MOBILE",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Go to your Profile",
-                                    "attributeDescription": "<p>Go to your <a href=\"\">https://instagram.com</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Tap on the Menu Icon",
-                                    "attributeDescription": "<p>Tap on the <b>Menu Icon</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Tap on Your activity",
-                                    "attributeDescription": "<p>Tap on <b>Your activity</b></p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Tap on Download your information",
-                                    "attributeDescription": "<p>Tap on <b>Download your information</b></p>"
-                                },
-                                {
-                                    "index": 5,
-                                    "description": "Type your email",
-                                    "attributeDescription": "<p>Type your <b>email</b></p>"
-                                },
-                                {
-                                    "index": 6,
-                                    "description": "Tap on Request Download",
-                                    "attributeDescription": "<p>Tap on <b>Request Download</b></p>"
-                                },
-                                {
-                                    "index": 7,
-                                    "description": "Type your Instagram password",
-                                    "attributeDescription": "<p>Type your Instagram password</p>"
-                                },
-                                {
-                                    "index": 8,
-                                    "description": "Tap on Next",
-                                    "attributeDescription": "<p>Tap on <b>Next</b></p>"
-                                },
-                                {
-                                    "index": 9,
-                                    "description": "Done, wait an email confirmation with attached data",
-                                    "attributeDescription": "<p>Done, wait an email confirmation with attached data</p>"
-                                }
-                            ]
-                        }
-                    ],
-                    "filesDescription": []
+                  "index": 1,
+                  "description": "Follow the guide at this link",
+                  "link": "https://help.instagram.com/181231772500920"
+                }
+              ]
+            },
+            {
+              "procedureType": "DESKTOP",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Go to your Profile",
+                  "attributeDescription": "<p>Go to your <a href=\"\">Profile</a></p>"
                 },
                 {
-                    "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Instagram. Non modificare la composizione delle cartelle e dei file al loro interno",
-                    "procedures": [
-                        {
-                            "procedureType": "DEFAULT",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Segui la guida a questo link",
-                                    "link": "https://help.instagram.com/181231772500920"
-                                }
-                            ]
-                        },
-                        {
-                            "procedureType": "DESKTOP",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Vai sul tuo profilo",
-                                    "attributeDescription": "<p>Vai sul tuo <a href=\"\">https://instagram.com</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Clicca sull'icona delle Impostazioni",
-                                    "attributeDescription": "<p>Fai click sull'<b>icona delle Impostazioni</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Clicca su Privacy e Sicurezza",
-                                    "attributeDescription": "<p>Fai click su <b>Privacy</b> e <b>Sicurezza</b></p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Clicca su Richiedi il download",
-                                    "attributeDescription": "<p>Fai click su <b>Richiedi il download</b></p>"
-                                },
-                                {
-                                    "index": 5,
-                                    "description": "Inserisci la tua email",
-                                    "attributeDescription": "<p>Inserisci la tua <b>email</b></p>"
-                                },
-                                {
-                                    "index": 6,
-                                    "description": "Seleziona il formato JSON",
-                                    "attributeDescription": "<p>Seleziona il formato <b>JSON</b></p>"
-                                },
-                                {
-                                    "index": 7,
-                                    "description": "Clicca su Avanti",
-                                    "attributeDescription": "<p>Clicca su <b>Avanti</b></p>"
-                                },
-                                {
-                                    "index": 8,
-                                    "description": "Inserisci la tua password di Instagram",
-                                    "attributeDescription": "<p>Inserisci la tua password di Instagram</p>"
-                                },
-                                {
-                                    "index": 9,
-                                    "description": "Clicca su Richiedi download",
-                                    "attributeDescription": "<p>Fai click su Richiedi download</p>"
-                                },
-                                {
-                                    "index": 10,
-                                    "description": "Finito, attendi l'email di conferma con i tuoi dati",
-                                    "attributeDescription": "<p>Finito, attendi l'email di conferma con i tuoi dati</p>"
-                                }
-                            ]
-                        },
-                        {
-                            "procedureType": "MOBILE",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Vai al tuo profilo",
-                                    "attributeDescription": "<p>vai al tuo <a href=\"\">https://instagram.com</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Clicca sull'icona del menu",
-                                    "attributeDescription": "<p>Fai click sull'<b>icona del menu</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Clicca su lle tue Attività",
-                                    "attributeDescription": "<p>Fai click sulle tue <b>Attività</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Clicca su Download delle tue informazioni",
-                                    "attributeDescription": "<p>Fai click su <b>Download delle tue informazioni</b></p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Clicca sulla tua email",
-                                    "attributeDescription": "<p>Fai click sulla tua <b>email</b></p>"
-                                },
-                                {
-                                    "index": 7,
-                                    "description": "Clicca su Richiedi download",
-                                    "attributeDescription": "<p>Fai click su <b>Richiedi download</b></p>"
-                                },
-                                {
-                                    "index": 8,
-                                    "description": "Inserisci la tua password di Instagram",
-                                    "attributeDescription": "<p>Inserisci la tua password di Instagram</p>"
-                                },
-                                {
-                                    "index": 9,
-                                    "description": "Clicca su Successivo",
-                                    "attributeDescription": "<p>Fai click su <b>Successivo</b></p>"
-                                },
-                                {
-                                    "index": 10,
-                                    "description": "Finito, attendi l'email di conferma con i tuoi dati",
-                                    "attributeDescription": "<p>Finito, attendi l'email di conferma con i tuoi dati</p>"
-                                }
-                            ]
-                        }
-                    ],
-                    "filesDescription": []
-                }
-            ]
-        },
-        {
-            "sourceName": "Facebook",
-            "sourceCode": "FACEBOOK",
-            "supportedFormats": [
-                "zip"
-            ],
-            "retrievingProcedures": [
-                {
-                    "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Facebook. Do not change the composition of the folders and files within them.",
-                    "procedures": [
-                        {
-                            "procedureType": "DESKTOP",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Click on this link https://www.facebook.com/dyi",
-                                    "attributeDescription": "<p>Click on this <a href='https://www.facebook.com/dyi'>link</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Select Format: JSON, Media Quality: High and Data Range: All Time",
-                                    "attributeDescription": "<p>Select Format <b>JSON</b>, Media Quality <b>High</b> and Data Range <b>All time</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Optional: uncheck Messages box",
-                                    "attributeDescription": "<p>Optional: Scroll down and uncheck <b>Messages</b> box</p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Scroll down at the bottom of the page and click Request a download bottom",
-                                    "attributeDescription": "<p>Scroll down at the bottom of the page and click on <b>Request a download</b> bottom</p>"
-                                }
-                            ]
-                        }
-                    ],
-                    "filesDescription": []
+                  "index": 2,
+                  "description": "Click on the Settings Icon",
+                  "attributeDescription": "<p>Click on the <b>Settings Icon</b></p>"
                 },
                 {
-                    "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Facebook. Non modificare la composizione delle cartelle e dei file al loro interno",
-                    "procedures": [
-                        {
-                            "procedureType": "DESKTOP",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Clicca su questo link: https://www.facebook.com/dyi",
-                                    "attributeDescription": "<p>Clicca su questo <a href='https://www.facebook.com/dyi'>link</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Seleziona Formato: JSON, Media Quality: Alto ed Intervallo di date: Tutti i miei dati",
-                                    "attributeDescription": "<p>Seleziona Formato <b>JSON</b>, Media Quality <b>Alto</b> ed Intervallo di date <b>Tutti i miei dati</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Opzionale: deseleziona la casella Messaggi",
-                                    "attributeDescription": "<p>Opzionale: deseleziona la casella <b>Messaggi</b></p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Scrolla fino a fondo pagina e clicca sul pulsante 'Richiedi download'",
-                                    "attributeDescription": "<p>Scrolla fino a fondo pagina e clicca sul pulsante <b>Richiedi download</b></p>"
-                                }
-                            ]
-                        }
-                    ],
-                    "filesDescription": []
-                }
-            ]
-        },
-        {
-            "sourceName": "Amazon",
-            "sourceCode": "AMAZON",
-            "supportedFormats": [
-                "zip"
-            ],
-            "retrievingProcedures": [
-                {
-                    "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Amazon. Do not change the composition of the folders and files within them.",
-                    "procedures": [
-                        {
-                            "procedureType": "DESKTOP",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Click on this link https://www.amazon.com/hz/privacy-central/data-requests/preview.html",
-                                    "attributeDescription": "<p>Click on this <a href='https://www.amazon.com/hz/privacy-central/data-requests/preview.html'>link</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Select \"Request All Your Data\" from the drop-down menu",
-                                    "attributeDescription": "<p>Select <b>Request All Your Data</b> from the drop-down menu</p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Click on \"Submit Request\"",
-                                    "attributeDescription": "<p>Click on <b>Submit Request</b></p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Check your email address, find the last amazon's email and click on \"Confirm Data Request\"",
-                                    "attributeDescription": "<p>Check your <b>Email Address</b>, find the last Amazon's <b>Email</b> and click on <b>Confirm Data Request</b></p>"
-                                },
-                                {
-                                    "index": 5,
-                                    "description": "Once you receive the files list, download and zip all of them into one single zip file",
-                                    "attributeDescription": "<p>Once you receive the <b>files list</b>,download and zip all of them into one <b>single zip file</b></p>"
-                                }
-                            ]
-                        }
-                    ],
-                    "filesDescription": []
+                  "index": 3,
+                  "description": "Click on Privacy and Security",
+                  "attributeDescription": "<p>Click on <b>Privacy</b> and <b>Security</b></p>"
                 },
                 {
-                    "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Amazon. Non modificare la composizione delle cartelle e dei file al loro interno",
-                    "procedures": [
-                        {
-                            "procedureType": "DESKTOP",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Clicca su questo link https://www.amazon.com/hz/privacy-central/data-requests/preview.html",
-                                    "attributeDescription": "<p>Clicca su questo <a href='https://www.amazon.com/hz/privacy-central/data-requests/preview.html'>link</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Seleziona \"Request All Your Data\" dal menu a tendina",
-                                    "attributeDescription": "<p>Seleziona <b>Request All Your Data</b> dal menu a tendina</p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Clicca su \"Submit Request\"",
-                                    "attributeDescription": "<p>Clicca su <b>Submit Request</b></p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Controlla il tuo indirizzo email, trova l'ultima email di Amazon e clicca su \"Confirm Data Request\"",
-                                    "attributeDescription": "<p>Controlla il tuo <b>Indirizzo Email</b>, trova l'ultima <b>Email</b> di Amazon e clicca su <b>Confirm Data Request</b></p>"
-                                },
-                                {
-                                    "index": 5,
-                                    "description": "Una volta ricevuta la lista dei file, scaricali tutti e zippali in un unico file zip",
-                                    "attributeDescription": "<p>Una volta ricevuta la <b>lista dei file</b>, scaricali tutti e zippali in un <b>unico file zip</b></p>"
-                                }
-                            ]
-                        }
-                    ],
-                    "filesDescription": []
-                }
-            ]
-        },
-        {
-            "sourceName": "Google",
-            "sourceCode": "GOOGLE",
-            "supportedFormats": [
-                "zip"
-            ],
-            "retrievingProcedures": [
-                {
-                    "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Google. Do not change the composition of the folders and files within them.",
-                    "procedures": [
-                        {
-                            "procedureType": "DESKTOP",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Click on this link https://takeout.google.com/",
-                                    "attributeDescription": "<p>Click on this <a href='https://takeout.google.com/'>link</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Unpin \"Drive\" and \"Google Photos\" from the list",
-                                    "attributeDescription": "<p>Unpin <b>Drive</b> and <b>Google Photos</b> from the list</p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Click on \"Next step\" button",
-                                    "attributeDescription": "<p>Click on <b>Next step</b> button</p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Select \"Export once\" from Frequency menu, \".zip\" and \"2 GB\" from File type & size menu",
-                                    "attributeDescription": "<p>Select <b>Export once</b> from Frequency menu, <b>.zip and 2 GB</b> from File type & size menu</p>"
-                                },
-                                {
-                                    "index": 5,
-                                    "description": "Click on \"Create export\" button",
-                                    "attributeDescription": "<p>Click on <b>Create export</b> button</p>"
-                                }
-                            ]
-                        }
-                    ],
-                    "filesDescription": []
+                  "index": 4,
+                  "description": "Click on Request Download Data",
+                  "attributeDescription": "<p>Click on <b>Request Download Data</b></p>"
                 },
                 {
-                    "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Google. Non modificare la composizione delle cartelle e dei file al loro interno",
-                    "procedures": [
-                        {
-                            "procedureType": "DESKTOP",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Clicca su questo link https://takeout.google.com/",
-                                    "attributeDescription": "<p>Clicca su questo <a href='https://takeout.google.com/'>link</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Deseleziona \"Drive\" and \"Google Foto\" dalla lista",
-                                    "attributeDescription": "<p>Deseleziona <b>Drive</b> e <b>Google Foto</b> dalla lista</p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Clicca sul pulsante \"Passaggio successivo\"",
-                                    "attributeDescription": "<p>Clicca sul pulsante <b>Passaggio successivo</b></p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Seleziona \"Esporta un archivio\" dal menu Frequenza, \".zip\" and \"2 GB\" dal menu Tipo di file e dimensioni",
-                                    "attributeDescription": "<p>Seleziona <b>Esporta un archivio</b> dal menu Frequenza, <b>.zip</b> and <b>2 GB</b> dal menu Tipo di file e dimensioni</p>"
-                                },
-                                {
-                                    "index": 5,
-                                    "description": "Clicca sul pulsante \"Crea esportazione\"",
-                                    "attributeDescription": "<p>Clicca sul pulsante <b>Crea esportazione</b></p>"
-                                }
-                            ]
-                        }
-                    ],
-                    "filesDescription": []
+                  "index": 5,
+                  "description": "Insert your email",
+                  "attributeDescription": "<p>Insert your <b>email</b></p>"
+                },
+                {
+                  "index": 6,
+                  "description": "Select JSON format",
+                  "attributeDescription": "<p>Select JSON format</p>"
+                },
+                {
+                  "index": 7,
+                  "description": "Click on Next",
+                  "attributeDescription": "<p>Click on <b>Next</b></p>"
+                },
+                {
+                  "index": 8,
+                  "description": "Type your Instagram password",
+                  "attributeDescription": "<p>Type your <b>Instagram password</b></p>"
+                },
+                {
+                  "index": 9,
+                  "description": "Click on Request Download",
+                  "attributeDescription": "<p>Click on <b>Request Download</b></p>"
+                },
+                {
+                  "index": 10,
+                  "description": "Done, wait an email confirmation with attached data",
+                  "attributeDescription": "<p>Done, wait an email confirmation with attached data</p>"
                 }
-            ]
+              ]
+            },
+            {
+              "procedureType": "MOBILE",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Go to your Profile",
+                  "attributeDescription": "<p>Go to your <a href=\"\">https://instagram.com</a></p>"
+                },
+                {
+                  "index": 2,
+                  "description": "Tap on the Menu Icon",
+                  "attributeDescription": "<p>Tap on the <b>Menu Icon</b></p>"
+                },
+                {
+                  "index": 3,
+                  "description": "Tap on Your activity",
+                  "attributeDescription": "<p>Tap on <b>Your activity</b></p>"
+                },
+                {
+                  "index": 4,
+                  "description": "Tap on Download your information",
+                  "attributeDescription": "<p>Tap on <b>Download your information</b></p>"
+                },
+                {
+                  "index": 5,
+                  "description": "Type your email",
+                  "attributeDescription": "<p>Type your <b>email</b></p>"
+                },
+                {
+                  "index": 6,
+                  "description": "Tap on Request Download",
+                  "attributeDescription": "<p>Tap on <b>Request Download</b></p>"
+                },
+                {
+                  "index": 7,
+                  "description": "Type your Instagram password",
+                  "attributeDescription": "<p>Type your Instagram password</p>"
+                },
+                {
+                  "index": 8,
+                  "description": "Tap on Next",
+                  "attributeDescription": "<p>Tap on <b>Next</b></p>"
+                },
+                {
+                  "index": 9,
+                  "description": "Done, wait an email confirmation with attached data",
+                  "attributeDescription": "<p>Done, wait an email confirmation with attached data</p>"
+                }
+              ]
+            }
+          ],
+          "filesDescription": []
         },
         {
-            "sourceName": "Shopify Customers",
-            "sourceCode": "SHOPIFY_CUSTOMERS",
-            "supportedFormats": [
-                "csv"
-            ],
-            "retrievingProcedures": [
+          "languageCode": "IT",
+          "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Instagram. Non modificare la composizione delle cartelle e dei file al loro interno",
+          "procedures": [
+            {
+              "procedureType": "DEFAULT",
+              "retrievingSteps": [
                 {
-                    "languageCode": "EN",
-                    "descriptionText": "The file contains all data about your Shopify business' customers. Do not invalidate the content or the name of the file.",
-                    "procedures": [
-                        {
-                            "procedureType": "DESKTOP",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Go to the Customers page and click Export",
-                                    "attributeDescription": "<p>Go to the <b>Customer</b> page and click <b>Export</b></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Select All customers and Plain CSV file",
-                                    "attributeDescription": "<p>Select <b>All customers</b> and <b>Plain CSV file</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Click on Export customers",
-                                    "attributeDescription": "<p>Click on <b>Export customers</b></p>"
-                                }
-                            ]
-                        }
-                    ],
-                    "filesDescription": [
-                        {
-                            "filePath": "customers_export_1.csv",
-                            "fileContent": "All data about your Shopify business' customers"
-                        }
-                    ]
+                  "index": 1,
+                  "description": "Segui la guida a questo link",
+                  "link": "https://help.instagram.com/181231772500920"
                 }
-            ]
-        },
-        {
-            "sourceName": "Shopify Orders",
-            "sourceCode": "SHOPIFY_ORDERS",
-            "supportedFormats": [
-                "csv"
-            ],
-            "retrievingProcedures": [
+              ]
+            },
+            {
+              "procedureType": "DESKTOP",
+              "retrievingSteps": [
                 {
-                    "languageCode": "EN",
-                    "descriptionText": "The file contains all about your Shopify business' purchased data (orders). Do not invalidate the content or the name of the file.",
-                    "procedures": [
-                        {
-                            "procedureType": "DESKTOP",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Go to the Orders page and click Export",
-                                    "attributeDescription": "<p>Go to the <b>Orders</b> page and click <b>Export</b></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Select All orders and Plain CSV file",
-                                    "attributeDescription": "<p>Select <b>All orders</b> and <b>Plain CSV file</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Click on Export orders",
-                                    "attributeDescription": "<p>Click on <b>Export orders</b></p>"
-                                }
-                            ]
-                        }
-                    ],
-                    "filesDescription": [
-                        {
-                            "filePath": "orders_export_1.csv",
-                            "fileContent": "All about your Shopify business' purchased data (orders)"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "sourceName": "Shopify Products",
-            "sourceCode": "SHOPIFY_PRODUCTS",
-            "supportedFormats": [
-                "csv"
-            ],
-            "retrievingProcedures": [
+                  "index": 1,
+                  "description": "Vai sul tuo profilo",
+                  "attributeDescription": "<p>Vai sul tuo <a href=\"\">https://instagram.com</a></p>"
+                },
                 {
-                    "languageCode": "EN",
-                    "descriptionText": "The file contains all data about your Shopify business' products. Do not invalidate the content or the name of the file.",
-                    "procedures": [
-                        {
-                            "procedureType": "DESKTOP",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Go to the Products page and click Export",
-                                    "attributeDescription": "<p>Go to the <b>Products</b> page and click <b>Export</b></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Select All products and Plain CSV file",
-                                    "attributeDescription": "<p>Select <b>All products</b> and <b>Plain CSV file</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Click on Export products",
-                                    "attributeDescription": "<p>Click on <b>Export products</b></p>"
-                                }
-                            ]
-                        }
-                    ],
-                    "filesDescription": [
-                        {
-                            "filePath": "products_export_1.csv",
-                            "fileContent": "All data about your Shopify business' products"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "sourceName": "Shopify Discounts",
-            "sourceCode": "SHOPIFY_DISCOUNTS",
-            "supportedFormats": [
-                "csv"
-            ],
-            "retrievingProcedures": [
+                  "index": 2,
+                  "description": "Clicca sull'icona delle Impostazioni",
+                  "attributeDescription": "<p>Fai click sull'<b>icona delle Impostazioni</b></p>"
+                },
                 {
-                    "languageCode": "EN",
-                    "descriptionText": "The file contains all data about your Shopify business' discounts codes. Do not invalidate the content or the name of the file.",
-                    "procedures": [
-                        {
-                            "procedureType": "DESKTOP",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Go to the Discounts page and click Export",
-                                    "attributeDescription": "<p>Go to the <b>Discounts</b> page and click <b>Export</b></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Select All discounts codes and Plain CSV file",
-                                    "attributeDescription": "<p>Select <b>All discounts codes</b> and <b>Plain CSV file</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Click on Export discounts codes",
-                                    "attributeDescription": "<p>Click on <b>Export discounts codes</b></p>"
-                                }
-                            ]
-                        }
-                    ],
-                    "filesDescription": [
-                        {
-                            "filePath": "discounts_export_1.csv",
-                            "fileContent": "All data about your Shopify business' discounts codes"
-                        }
-                    ]
+                  "index": 3,
+                  "description": "Clicca su Privacy e Sicurezza",
+                  "attributeDescription": "<p>Fai click su <b>Privacy</b> e <b>Sicurezza</b></p>"
+                },
+                {
+                  "index": 4,
+                  "description": "Clicca su Richiedi il download",
+                  "attributeDescription": "<p>Fai click su <b>Richiedi il download</b></p>"
+                },
+                {
+                  "index": 5,
+                  "description": "Inserisci la tua email",
+                  "attributeDescription": "<p>Inserisci la tua <b>email</b></p>"
+                },
+                {
+                  "index": 6,
+                  "description": "Seleziona il formato JSON",
+                  "attributeDescription": "<p>Seleziona il formato <b>JSON</b></p>"
+                },
+                {
+                  "index": 7,
+                  "description": "Clicca su Avanti",
+                  "attributeDescription": "<p>Clicca su <b>Avanti</b></p>"
+                },
+                {
+                  "index": 8,
+                  "description": "Inserisci la tua password di Instagram",
+                  "attributeDescription": "<p>Inserisci la tua password di Instagram</p>"
+                },
+                {
+                  "index": 9,
+                  "description": "Clicca su Richiedi download",
+                  "attributeDescription": "<p>Fai click su Richiedi download</p>"
+                },
+                {
+                  "index": 10,
+                  "description": "Finito, attendi l'email di conferma con i tuoi dati",
+                  "attributeDescription": "<p>Finito, attendi l'email di conferma con i tuoi dati</p>"
                 }
-            ]
+              ]
+            },
+            {
+              "procedureType": "MOBILE",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Vai al tuo profilo",
+                  "attributeDescription": "<p>Vai al tuo <a href=\"\">https://instagram.com</a></p>"
+                },
+                {
+                  "index": 2,
+                  "description": "Tap sull'icona del menu",
+                  "attributeDescription": "<p>Fai tap sull'<b>icona del menu</b></p>"
+                },
+                {
+                  "index": 3,
+                  "description": "Tap sulle tue Attività",
+                  "attributeDescription": "<p>Fai tap su le tue <b>Attività</b></p>"
+                },
+                {
+                  "index": 4,
+                  "description": "Tap su Download delle tue informazioni",
+                  "attributeDescription": "<p>Fai tap su <b>Download delle tue informazioni</b></p>"
+                },
+                {
+                  "index": 5,
+                  "description": "Inserisci la tua email",
+                  "attributeDescription": "<p>Inserisci la tua <b>email</b></p>"
+                },
+                {
+                  "index": 6,
+                  "description": "Tap su Richiedi download",
+                  "attributeDescription": "<p>Fai tap su <b>Richiedi download</b></p>"
+                },
+                {
+                  "index": 7,
+                  "description": "Inserisci la tua password di Instagram",
+                  "attributeDescription": "<p>Inserisci la tua password di Instagram</p>"
+                },
+                {
+                  "index": 8,
+                  "description": "Tap su Successivo",
+                  "attributeDescription": "<p>Fai tap su <b>Successivo</b></p>"
+                },
+                {
+                  "index": 9,
+                  "description": "Finito, attendi l'email di conferma con i tuoi dati",
+                  "attributeDescription": "<p>Finito, attendi l'email di conferma con i tuoi dati</p>"
+                }
+              ]
+            }
+          ],
+          "filesDescription": []
         }
-    ]
+      ]
+    },
+    {
+      "sourceName": "Facebook",
+      "sourceCode": "FACEBOOK",
+      "supportedFormats": ["zip"],
+      "retrievingProcedures": [
+        {
+          "languageCode": "EN",
+          "descriptionText": "The Datasource contains all your personal information relating to your use of Facebook. Do not change the composition of the folders and files within them.",
+          "procedures": [
+            {
+              "procedureType": "DESKTOP",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Click on this link https://www.facebook.com/dyi",
+                  "attributeDescription": "<p>Click on this <a href='https://www.facebook.com/dyi'>link</a></p>"
+                },
+                {
+                  "index": 2,
+                  "description": "Select Format: JSON, Media Quality: High and Data Range: All Time",
+                  "attributeDescription": "<p>Select Format <b>JSON</b>, Media Quality <b>High</b> and Data Range <b>All time</b></p>"
+                },
+                {
+                  "index": 3,
+                  "description": "Optional: uncheck Messages box",
+                  "attributeDescription": "<p>Optional: Scroll down and uncheck <b>Messages</b> box</p>"
+                },
+                {
+                  "index": 4,
+                  "description": "Scroll down at the bottom of the page and click Request a download bottom",
+                  "attributeDescription": "<p>Scroll down at the bottom of the page and click on <b>Request a download</b> bottom</p>"
+                }
+              ]
+            },
+            {
+              "procedureType": "MOBILE",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Click on this link https://www.facebook.com/dyi",
+                  "attributeDescription": "<p>Click on this <a href='https://www.facebook.com/dyi'>link</a></p>"
+                },
+                {
+                  "index": 2,
+                  "description": "Select Format: JSON, Media Quality: High and Data Range: All Time",
+                  "attributeDescription": "<p>Select Format <b>JSON</b>, Media Quality <b>High</b> and Data Range <b>All time</b></p>"
+                },
+                {
+                  "index": 3,
+                  "description": "Optional: uncheck Messages box",
+                  "attributeDescription": "<p>Optional: Scroll down and uncheck <b>Messages</b> box</p>"
+                },
+                {
+                  "index": 4,
+                  "description": "Scroll down at the bottom of the page and click Request a download bottom",
+                  "attributeDescription": "<p>Scroll down at the bottom of the page and click on <b>Request a download</b> bottom</p>"
+                }
+              ]
+            }
+          ],
+          "filesDescription": []
+        },
+        {
+          "languageCode": "IT",
+          "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Facebook. Non modificare la composizione delle cartelle e dei file al loro interno",
+          "procedures": [
+            {
+              "procedureType": "DESKTOP",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Clicca su questo link: https://www.facebook.com/dyi",
+                  "attributeDescription": "<p>Clicca su questo <a href='https://www.facebook.com/dyi'>link</a></p>"
+                },
+                {
+                  "index": 2,
+                  "description": "Seleziona Formato: JSON, Media Quality: Alto ed Intervallo di date: Tutti i miei dati",
+                  "attributeDescription": "<p>Seleziona Formato <b>JSON</b>, Media Quality <b>Alto</b> ed Intervallo di date <b>Sempre</b></p>"
+                },
+                {
+                  "index": 3,
+                  "description": "Opzionale: deseleziona la casella Messaggi",
+                  "attributeDescription": "<p>Opzionale: deseleziona la casella <b>Messaggi</b></p>"
+                },
+                {
+                  "index": 4,
+                  "description": "Scrolla fino a fondo pagina e clicca sul pulsante 'Richiedi download'",
+                  "attributeDescription": "<p>Scrolla fino a fondo pagina e clicca sul pulsante <b>Richiedi download</b></p>"
+                }
+              ]
+            },
+            {
+              "procedureType": "MOBILE",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Clicca su questo link: https://www.facebook.com/dyi",
+                  "attributeDescription": "<p>Clicca su questo <a href='https://www.facebook.com/dyi'>link</a></p>"
+                },
+                {
+                  "index": 2,
+                  "description": "Seleziona Formato: JSON, Media Quality: Alto ed Intervallo di date: Tutti i miei dati",
+                  "attributeDescription": "<p>Seleziona Formato <b>JSON</b>, Media Quality <b>Alto</b> ed Intervallo di date <b>Sempre</b></p>"
+                },
+                {
+                  "index": 3,
+                  "description": "Opzionale: deseleziona la casella Messaggi",
+                  "attributeDescription": "<p>Opzionale: deseleziona la casella <b>Messaggi</b></p>"
+                },
+                {
+                  "index": 4,
+                  "description": "Scrolla fino a fondo pagina e clicca sul pulsante 'Richiedi download'",
+                  "attributeDescription": "<p>Scrolla fino a fondo pagina e clicca sul pulsante <b>Richiedi download</b></p>"
+                }
+              ]
+            }
+          ],
+          "filesDescription": []
+        }
+      ]
+    },
+    {
+      "sourceName": "Amazon",
+      "sourceCode": "AMAZON",
+      "supportedFormats": ["zip"],
+      "retrievingProcedures": [
+        {
+          "languageCode": "EN",
+          "descriptionText": "The Datasource contains all your personal information relating to your use of Amazon. Do not change the composition of the folders and files within them.",
+          "procedures": [
+            {
+              "procedureType": "DESKTOP",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Click on this link https://www.amazon.com/hz/privacy-central/data-requests/preview.html",
+                  "attributeDescription": "<p>Click on this <a href='https://www.amazon.com/hz/privacy-central/data-requests/preview.html'>link</a></p>"
+                },
+                {
+                  "index": 2,
+                  "description": "Select \"Request All Your Data\" from the drop-down menu",
+                  "attributeDescription": "<p>Select <b>Request All Your Data</b> from the drop-down menu</p>"
+                },
+                {
+                  "index": 3,
+                  "description": "Click on \"Submit Request\"",
+                  "attributeDescription": "<p>Click on <b>Submit Request</b></p>"
+                },
+                {
+                  "index": 4,
+                  "description": "Check your email address, find the last amazon's email and click on \"Confirm Data Request\"",
+                  "attributeDescription": "<p>Check your <b>Email Address</b>, find the last Amazon's <b>Email</b> and click on <b>Confirm Data Request</b></p>"
+                },
+                {
+                  "index": 5,
+                  "description": "Once you receive the files list, download and zip all of them into one single zip file",
+                  "attributeDescription": "<p>Once you receive the <b>files list</b>,download and zip all of them into one <b>single zip file</b></p>"
+                }
+              ]
+            }
+          ],
+          "filesDescription": []
+        },
+        {
+          "languageCode": "IT",
+          "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Amazon. Non modificare la composizione delle cartelle e dei file al loro interno",
+          "procedures": [
+            {
+              "procedureType": "DESKTOP",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Clicca su questo link https://www.amazon.com/hz/privacy-central/data-requests/preview.html",
+                  "attributeDescription": "<p>Clicca su questo <a href='https://www.amazon.com/hz/privacy-central/data-requests/preview.html'>link</a></p>"
+                },
+                {
+                  "index": 2,
+                  "description": "Seleziona \"Request All Your Data\" dal menu a tendina",
+                  "attributeDescription": "<p>Seleziona <b>Request All Your Data</b> dal menu a tendina</p>"
+                },
+                {
+                  "index": 3,
+                  "description": "Clicca su \"Submit Request\"",
+                  "attributeDescription": "<p>Clicca su <b>Submit Request</b></p>"
+                },
+                {
+                  "index": 4,
+                  "description": "Controlla il tuo indirizzo email, trova l'ultima email di Amazon e clicca su \"Confirm Data Request\"",
+                  "attributeDescription": "<p>Controlla il tuo <b>Indirizzo Email</b>, trova l'ultima <b>Email</b> di Amazon e clicca su <b>Confirm Data Request</b></p>"
+                },
+                {
+                  "index": 5,
+                  "description": "Una volta ricevuta la lista dei file, scaricali tutti e zippali in un unico file zip",
+                  "attributeDescription": "<p>Una volta ricevuta la <b>lista dei file</b>, scaricali tutti e zippali in un <b>unico file zip</b></p>"
+                }
+              ]
+            }
+          ],
+          "filesDescription": []
+        }
+      ]
+    },
+    {
+      "sourceName": "Google",
+      "sourceCode": "GOOGLE",
+      "supportedFormats": ["zip"],
+      "retrievingProcedures": [
+        {
+          "languageCode": "EN",
+          "descriptionText": "The Datasource contains all your personal information relating to your use of Google. Do not change the composition of the folders and files within them.",
+          "procedures": [
+            {
+              "procedureType": "DESKTOP",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Click on this link https://takeout.google.com/",
+                  "attributeDescription": "<p>Click on this <a href='https://takeout.google.com/'>link</a></p>"
+                },
+                {
+                  "index": 2,
+                  "description": "Unpin \"Drive\" and \"Google Photos\" from the list",
+                  "attributeDescription": "<p>Unpin <b>Drive</b> and <b>Google Photos</b> from the list</p>"
+                },
+                {
+                  "index": 3,
+                  "description": "Click on \"Next step\" button",
+                  "attributeDescription": "<p>Click on <b>Next step</b> button</p>"
+                },
+                {
+                  "index": 4,
+                  "description": "Select \"Export once\" from Frequency menu, \".zip\" and \"2 GB\" from File type & size menu",
+                  "attributeDescription": "<p>Select <b>Export once</b> from Frequency menu, <b>.zip and 2 GB</b> from File type & size menu</p>"
+                },
+                {
+                  "index": 5,
+                  "description": "Click on \"Create export\" button",
+                  "attributeDescription": "<p>Click on <b>Create export</b> button</p>"
+                }
+              ]
+            }
+          ],
+          "filesDescription": []
+        },
+        {
+          "languageCode": "IT",
+          "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Google. Non modificare la composizione delle cartelle e dei file al loro interno",
+          "procedures": [
+            {
+              "procedureType": "DESKTOP",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Clicca su questo link https://takeout.google.com/",
+                  "attributeDescription": "<p>Clicca su questo <a href='https://takeout.google.com/'>link</a></p>"
+                },
+                {
+                  "index": 2,
+                  "description": "Deseleziona \"Drive\" and \"Google Foto\" dalla lista",
+                  "attributeDescription": "<p>Deseleziona <b>Drive</b> e <b>Google Foto</b> dalla lista</p>"
+                },
+                {
+                  "index": 3,
+                  "description": "Clicca sul pulsante \"Passaggio successivo\"",
+                  "attributeDescription": "<p>Clicca sul pulsante <b>Passaggio successivo</b></p>"
+                },
+                {
+                  "index": 4,
+                  "description": "Seleziona \"Esporta un archivio\" dal menu Frequenza, \".zip\" and \"2 GB\" dal menu Tipo di file e dimensioni",
+                  "attributeDescription": "<p>Seleziona <b>Esporta un archivio</b> dal menu Frequenza, <b>.zip</b> and <b>2 GB</b> dal menu Tipo di file e dimensioni</p>"
+                },
+                {
+                  "index": 5,
+                  "description": "Clicca sul pulsante \"Crea esportazione\"",
+                  "attributeDescription": "<p>Clicca sul pulsante <b>Crea esportazione</b></p>"
+                }
+              ]
+            }
+          ],
+          "filesDescription": []
+        }
+      ]
+    },
+    {
+      "sourceName": "Shopify Customers",
+      "sourceCode": "SHOPIFY_CUSTOMERS",
+      "supportedFormats": ["csv"],
+      "retrievingProcedures": [
+        {
+          "languageCode": "EN",
+          "descriptionText": "The file contains all data about your Shopify business' customers. Do not invalidate the content or the name of the file.",
+          "procedures": [
+            {
+              "procedureType": "DESKTOP",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Go to the Customers page and click Export",
+                  "attributeDescription": "<p>Go to the <b>Customer</b> page and click <b>Export</b></p>"
+                },
+                {
+                  "index": 2,
+                  "description": "Select All customers and Plain CSV file",
+                  "attributeDescription": "<p>Select <b>All customers</b> and <b>Plain CSV file</b></p>"
+                },
+                {
+                  "index": 3,
+                  "description": "Click on Export customers",
+                  "attributeDescription": "<p>Click on <b>Export customers</b></p>"
+                }
+              ]
+            }
+          ],
+          "filesDescription": [
+            {
+              "filePath": "customers_export_1.csv",
+              "fileContent": "All data about your Shopify business' customers"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sourceName": "Shopify Orders",
+      "sourceCode": "SHOPIFY_ORDERS",
+      "supportedFormats": ["csv"],
+      "retrievingProcedures": [
+        {
+          "languageCode": "EN",
+          "descriptionText": "The file contains all about your Shopify business' purchased data (orders). Do not invalidate the content or the name of the file.",
+          "procedures": [
+            {
+              "procedureType": "DESKTOP",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Go to the Orders page and click Export",
+                  "attributeDescription": "<p>Go to the <b>Orders</b> page and click <b>Export</b></p>"
+                },
+                {
+                  "index": 2,
+                  "description": "Select All orders and Plain CSV file",
+                  "attributeDescription": "<p>Select <b>All orders</b> and <b>Plain CSV file</b></p>"
+                },
+                {
+                  "index": 3,
+                  "description": "Click on Export orders",
+                  "attributeDescription": "<p>Click on <b>Export orders</b></p>"
+                }
+              ]
+            }
+          ],
+          "filesDescription": [
+            {
+              "filePath": "orders_export_1.csv",
+              "fileContent": "All about your Shopify business' purchased data (orders)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sourceName": "Shopify Products",
+      "sourceCode": "SHOPIFY_PRODUCTS",
+      "supportedFormats": ["csv"],
+      "retrievingProcedures": [
+        {
+          "languageCode": "EN",
+          "descriptionText": "The file contains all data about your Shopify business' products. Do not invalidate the content or the name of the file.",
+          "procedures": [
+            {
+              "procedureType": "DESKTOP",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Go to the Products page and click Export",
+                  "attributeDescription": "<p>Go to the <b>Products</b> page and click <b>Export</b></p>"
+                },
+                {
+                  "index": 2,
+                  "description": "Select All products and Plain CSV file",
+                  "attributeDescription": "<p>Select <b>All products</b> and <b>Plain CSV file</b></p>"
+                },
+                {
+                  "index": 3,
+                  "description": "Click on Export products",
+                  "attributeDescription": "<p>Click on <b>Export products</b></p>"
+                }
+              ]
+            }
+          ],
+          "filesDescription": [
+            {
+              "filePath": "products_export_1.csv",
+              "fileContent": "All data about your Shopify business' products"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sourceName": "Shopify Discounts",
+      "sourceCode": "SHOPIFY_DISCOUNTS",
+      "supportedFormats": ["csv"],
+      "retrievingProcedures": [
+        {
+          "languageCode": "EN",
+          "descriptionText": "The file contains all data about your Shopify business' discounts codes. Do not invalidate the content or the name of the file.",
+          "procedures": [
+            {
+              "procedureType": "DESKTOP",
+              "retrievingSteps": [
+                {
+                  "index": 1,
+                  "description": "Go to the Discounts page and click Export",
+                  "attributeDescription": "<p>Go to the <b>Discounts</b> page and click <b>Export</b></p>"
+                },
+                {
+                  "index": 2,
+                  "description": "Select All discounts codes and Plain CSV file",
+                  "attributeDescription": "<p>Select <b>All discounts codes</b> and <b>Plain CSV file</b></p>"
+                },
+                {
+                  "index": 3,
+                  "description": "Click on Export discounts codes",
+                  "attributeDescription": "<p>Click on <b>Export discounts codes</b></p>"
+                }
+              ]
+            }
+          ],
+          "filesDescription": [
+            {
+              "filePath": "discounts_export_1.csv",
+              "fileContent": "All data about your Shopify business' discounts codes"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
