@@ -136,6 +136,7 @@ export enum FileCodeFacebook {
     SEARCH_HISTORY = 'search/your_search_history.json',
     STORIES_REACTION = 'stories/story_reactions.json',
     RECENTLY_VIEWED = 'your_interactions_on_facebook/recently_viewed.json',
+    RECENTLY_VISITED = 'your_interactions_on_facebook/recently_visited.json',
     YOUR_TOPICS = 'your_topics/your_topics.json',
 
     //not parsed yet
@@ -170,7 +171,6 @@ export enum FileCodeFacebook {
     SECURITY_WHERE_LOGGED_IN = 'security_and_login_information/where_you\'re_logged_in.json',
     SECURITY_ACTIVITY_HISTORY = 'security_and_login_information/your_facebook_activity_history.json',
     STORIES_ARCHIVED = 'stories/archived_stories.json',
-    RECENTLY_VISITED = 'your_interactions_on_facebook/recently_visited.json',
 }
 
 export enum FileCodeAmazon {
