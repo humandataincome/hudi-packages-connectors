@@ -61,6 +61,10 @@ export interface PagesRecommendedFB {
     list: Array<PageFB>;
 }
 
+export interface PagesUnfollowedFB {
+    list: Array<PageFB>;
+}
+
  export interface AppsConnectedFB {
     list: Array<AppConnectedFB>;
  }
@@ -239,5 +243,42 @@ export interface DateAlternativeFB {
 
 export interface SearchFB {
     text?: string;
+    date?: Date;
+}
+
+export interface YourTopicsFB {
+    list: string[];
+}
+
+export interface AdsInterestsFB {
+    list: string[];
+}
+
+export interface InformationSubmittedAdsFB {
+    list: InformationAdsFB[];
+}
+
+export interface InformationAdsFB {
+    label?: string;
+    value?: string;
+}
+
+export interface StoriesReactionsFB {
+    list: StoryReactionFB[];
+}
+
+export interface StoryReactionFB {
+    title?: string;
+    date?: Date;
+}
+
+//profiles-pages-events-groups-marketplace
+export interface RecentlyVisitedFB {
+    listVisited: VisitedFB[][];
+}
+
+export interface VisitedFB {
+    name?: string;
+    uri?: string;
     date?: Date;
 }

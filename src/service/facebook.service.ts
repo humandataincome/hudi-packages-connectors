@@ -31,7 +31,19 @@ import {
     VisualizationFB,
     YourPostsFB,
     YourPostFB,
-    FriendRequestsSentFB, FriendActivityFB, RejectedFriendshipRequestsFB, RemovedFriendsFB, WhoYouFollowFB, FriendsFB,
+    FriendRequestsSentFB,
+    FriendActivityFB,
+    RejectedFriendshipRequestsFB,
+    RemovedFriendsFB,
+    WhoYouFollowFB,
+    FriendsFB,
+    PagesUnfollowedFB,
+    YourTopicsFB,
+    AdsInterestsFB,
+    InformationSubmittedAdsFB,
+    InformationAdsFB,
+    StoriesReactionsFB,
+    StoryReactionFB, RecentlyVisitedFB, VisitedFB,
 } from "../model";
 import {Decoding} from "../utils/decoding";
 import {ValidatorFiles} from "../validator";
@@ -51,92 +63,94 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             const personalInfoModel: PersonalInformationFB = {};
-            (document.profile_v2?.name?.first_name) && (personalInfoModel.firstName = Decoding.decodeObject(document.profile_v2.name.first_name));
-            (document.profile_v2?.name?.middle_name) && (personalInfoModel.middleName = Decoding.decodeObject(document.profile_v2.name.middle_name));
-            (document.profile_v2?.name?.last_name) && (personalInfoModel.lastName = Decoding.decodeObject(document.profile_v2.name.last_name));
-            (document.profile_v2?.emails?.emails) && (personalInfoModel.emails = Decoding.decodeObject(document.profile_v2.emails.emails));
-            (document.profile_v2?.birthday) && (personalInfoModel.birthdate = new Date(Date.UTC(document.profile_v2.birthday.year, document.profile_v2.birthday.month-1, document.profile_v2.birthday.day, 0, 0, 0)));
-            (document.profile_v2?.gender?.gender_option) && (personalInfoModel.gender = Decoding.decodeObject(document.profile_v2.gender.gender_option));
-            (document.profile_v2?.current_city?.name) && (personalInfoModel.currentCity = Decoding.decodeObject(document.profile_v2.current_city.name));
-            (document.profile_v2?.hometown?.name) && (personalInfoModel.homeTown = Decoding.decodeObject(document.profile_v2.hometown.name));
+            if (document) {
+                (document.profile_v2?.name?.first_name) && (personalInfoModel.firstName = Decoding.decodeObject(document.profile_v2.name.first_name));
+                (document.profile_v2?.name?.middle_name) && (personalInfoModel.middleName = Decoding.decodeObject(document.profile_v2.name.middle_name));
+                (document.profile_v2?.name?.last_name) && (personalInfoModel.lastName = Decoding.decodeObject(document.profile_v2.name.last_name));
+                (document.profile_v2?.emails?.emails) && (personalInfoModel.emails = Decoding.decodeObject(document.profile_v2.emails.emails));
+                (document.profile_v2?.birthday) && (personalInfoModel.birthdate = new Date(Date.UTC(document.profile_v2.birthday.year, document.profile_v2.birthday.month - 1, document.profile_v2.birthday.day, 0, 0, 0)));
+                (document.profile_v2?.gender?.gender_option) && (personalInfoModel.gender = Decoding.decodeObject(document.profile_v2.gender.gender_option));
+                (document.profile_v2?.current_city?.name) && (personalInfoModel.currentCity = Decoding.decodeObject(document.profile_v2.current_city.name));
+                (document.profile_v2?.hometown?.name) && (personalInfoModel.homeTown = Decoding.decodeObject(document.profile_v2.hometown.name));
 
-            const relationshipModel: RelationshipFB = {};
-            (document.profile_v2?.relationship?.status) && (relationshipModel.status = Decoding.decodeObject(document.profile_v2.relationship.status));
-            (document.profile_v2?.relationship?.anniversary) && (relationshipModel.anniversary = document.profile_v2.relationship.anniversary);
-            (document.profile_v2?.relationship?.timestamp) && (relationshipModel.dateAdded = new Date(1000 * document.profile_v2.relationship.timestamp));
-            (!ValidatorFiles.objectIsEmpty(relationshipModel)) && (personalInfoModel.relationship = relationshipModel);
+                const relationshipModel: RelationshipFB = {};
+                (document.profile_v2?.relationship?.status) && (relationshipModel.status = Decoding.decodeObject(document.profile_v2.relationship.status));
+                (document.profile_v2?.relationship?.anniversary) && (relationshipModel.anniversary = document.profile_v2.relationship.anniversary);
+                (document.profile_v2?.relationship?.timestamp) && (relationshipModel.dateAdded = new Date(1000 * document.profile_v2.relationship.timestamp));
+                (!ValidatorFiles.objectIsEmpty(relationshipModel)) && (personalInfoModel.relationship = relationshipModel);
 
-            (document.profile_v2?.education_experiences?.length > 0) && (personalInfoModel.educationExperiences =
-                document.profile_v2.education_experiences.map((value: any) => {
-                    const educationModel: EducationExperienceFB = {};
-                    (value.name) && (educationModel.name = Decoding.decodeObject(value.name));
-                    (value.start_timestamp) && (educationModel.startDate = new Date(1000 * value.start_timestamp));
-                    (value.end_timestamp) && (educationModel.endDate = new Date(1000 * value.end_timestamp));
-                    (value.graduated) && (educationModel.graduated = value.graduated);
-                    (value.description) && (educationModel.description = Decoding.decodeObject(value.description));
-                    (value.concentrations && value.concentrations.length > 0) && (educationModel.educationTopics = Decoding.decodeObject(value.concentrations));
-                    (value.degree) && (educationModel.degree = Decoding.decodeObject(value.degree));
-                    (value.school_type) && (educationModel.schoolType = Decoding.decodeObject(value.school_type));
-                    return educationModel;
+                (document.profile_v2?.education_experiences?.length > 0) && (personalInfoModel.educationExperiences =
+                    document.profile_v2.education_experiences.map((value: any) => {
+                        const educationModel: EducationExperienceFB = {};
+                        (value.name) && (educationModel.name = Decoding.decodeObject(value.name));
+                        (value.start_timestamp) && (educationModel.startDate = new Date(1000 * value.start_timestamp));
+                        (value.end_timestamp) && (educationModel.endDate = new Date(1000 * value.end_timestamp));
+                        (value.graduated) && (educationModel.graduated = value.graduated);
+                        (value.description) && (educationModel.description = Decoding.decodeObject(value.description));
+                        (value.concentrations && value.concentrations.length > 0) && (educationModel.educationTopics = Decoding.decodeObject(value.concentrations));
+                        (value.degree) && (educationModel.degree = Decoding.decodeObject(value.degree));
+                        (value.school_type) && (educationModel.schoolType = Decoding.decodeObject(value.school_type));
+                        return educationModel;
+                    }));
+
+                (document.profile_v2?.work_experiences?.length > 0) && (personalInfoModel.workExperience =
+                    document.profile_v2.work_experiences.map((value: any) => {
+                        const workModel: WorkExperienceFB = {};
+                        (value.employer) && (workModel.employer = Decoding.decodeObject(value.employer));
+                        (value.title) && (workModel.title = Decoding.decodeObject(value.title));
+                        (value.location) && (workModel.location = Decoding.decodeObject(value.location));
+                        (value.description) && (workModel.description = Decoding.decodeObject(value.description));
+                        (value.start_timestamp) && (workModel.startDate = new Date(1000 * value.start_timestamp));
+                        (value.end_timestamp) && (workModel.endDate = new Date(1000 * value.end_timestamp));
+                        return workModel;
+                    }));
+
+                (document.profile_v2?.languages?.length > 0) && (personalInfoModel.languages = document.profile_v2.languages.map((value: any) => Decoding.decodeObject(value.name)));
+                (document.profile_v2?.interested_in?.length > 0) && (personalInfoModel.gendersInterests = Decoding.decodeObject(document.profile_v2.interested_in));
+                (document.profile_v2?.political_view?.length > 0) && (personalInfoModel.politicalView = document.profile_v2.political_view.map((value: any) => {
+                    const viewModel: ViewFB = {};
+                    (value.name) && (viewModel.name = Decoding.decodeObject(value.name));
+                    (value.description) && (viewModel.description = Decoding.decodeObject(value.description));
+                    return viewModel;
+                }));
+                (document.profile_v2?.political_view?.length > 0) && (personalInfoModel.religiousView = document.profile_v2.religious_view.map((value: any) => {
+                    const viewModel: ViewFB = {};
+                    (value.name) && (viewModel.name = Decoding.decodeObject(value.name));
+                    (value.description) && (viewModel.description = Decoding.decodeObject(value.description));
+                    return viewModel;
+                }));
+                (document.profile_v2?.blood_donor_status) && (personalInfoModel.bloodInfo = Decoding.decodeObject(document.profile_v2.blood_info.blood_donor_status));
+                (document.profile_v2?.websites && document.profile_v2.websites.length > 0) && (personalInfoModel.websites = document.profile_v2.websites.map((value: any) => Decoding.decodeObject(value.address)));
+
+                const addressModel: AddressLocationFB = {};
+                (document.profile_v2?.address?.street) && (addressModel.street = Decoding.decodeObject(document.profile_v2.address.street));
+                (document.profile_v2?.address?.city) && (addressModel.city = Decoding.decodeObject(document.profile_v2.address.city));
+                (document.profile_v2?.address?.zipcode) && (addressModel.zipcode = Decoding.decodeObject(document.profile_v2.address.zipcode));
+                (document.profile_v2?.address?.neighborhood) && (addressModel.neighborhood = Decoding.decodeObject(document.profile_v2.address.neighborhood));
+                (document.profile_v2?.address?.country) && (addressModel.country = Decoding.decodeObject(document.profile_v2.address.country));
+                (document.profile_v2?.address?.country_code) && (addressModel.countryCode = Decoding.decodeObject(document.profile_v2.address.country_code));
+                (document.profile_v2?.address?.region) && (addressModel.region = Decoding.decodeObject(document.profile_v2.address.region));
+                (!ValidatorFiles.objectIsEmpty(addressModel)) && (personalInfoModel.address = addressModel);
+
+                (document.profile_v2?.phone_numbers?.length > 0) && (personalInfoModel.phoneNumbers = document.profile_v2.phone_numbers);
+                (document.profile_v2?.places_lived?.length > 0) && (personalInfoModel.placesLived = document.profile_v2.places_lived.map((value: any) => {
+                    const placeModel: PlaceLivedFB = {};
+                    (value.place) && (placeModel.place = Decoding.decodeObject(value.place));
+                    (value.start_timestamp) && (placeModel.startDate = new Date(1000 * value.start_timestamp));
+                    return placeModel;
                 }));
 
-            (document.profile_v2?.work_experiences?.length > 0) && (personalInfoModel.workExperience =
-                document.profile_v2.work_experiences.map((value: any) => {
-                    const workModel: WorkExperienceFB = {};
-                    (value.employer) && (workModel.employer = Decoding.decodeObject(value.employer));
-                    (value.title) && (workModel.title = Decoding.decodeObject(value.title));
-                    (value.location) && (workModel.location = Decoding.decodeObject(value.location));
-                    (value.description) && (workModel.description = Decoding.decodeObject(value.description));
-                    (value.start_timestamp) && (workModel.startDate = new Date(1000 * value.start_timestamp));
-                    (value.end_timestamp) && (workModel.endDate = new Date(1000 * value.end_timestamp));
-                    return workModel;
-                }));
 
-            (document.profile_v2?.languages?.length > 0) && (personalInfoModel.languages = document.profile_v2.languages.map((value: any) => Decoding.decodeObject(value.name)));
-            (document.profile_v2?.interested_in?.length > 0) && (personalInfoModel.gendersInterests = Decoding.decodeObject(document.profile_v2.interested_in));
-            (document.profile_v2?.political_view?.length > 0) && (personalInfoModel.politicalView = document.profile_v2.political_view.map((value: any) => {
-                const viewModel: ViewFB = {};
-                (value.name) && (viewModel.name = Decoding.decodeObject(value.name));
-                (value.description) && (viewModel.description = Decoding.decodeObject(value.description));
-                return viewModel;
-            }));
-            (document.profile_v2?.political_view?.length > 0) && (personalInfoModel.religiousView = document.profile_v2.religious_view.map((value: any) => {
-                const viewModel: ViewFB = {};
-                (value.name) && (viewModel.name = Decoding.decodeObject(value.name));
-                (value.description) && (viewModel.description = Decoding.decodeObject(value.description));
-                return viewModel;
-            }));
-            (document.profile_v2?.blood_donor_status) && (personalInfoModel.bloodInfo = Decoding.decodeObject(document.profile_v2.blood_info.blood_donor_status));
-            (document.profile_v2?.websites && document.profile_v2.websites.length > 0) && (personalInfoModel.websites = document.profile_v2.websites.map((value: any) => Decoding.decodeObject(value.address)));
-
-            const addressModel: AddressLocationFB = {};
-            (document.profile_v2?.address?.street) && (addressModel.street = Decoding.decodeObject(document.profile_v2.address.street));
-            (document.profile_v2?.address?.city) && (addressModel.city = Decoding.decodeObject(document.profile_v2.address.city));
-            (document.profile_v2?.address?.zipcode) && (addressModel.zipcode = Decoding.decodeObject(document.profile_v2.address.zipcode));
-            (document.profile_v2?.address?.neighborhood) && (addressModel.neighborhood = Decoding.decodeObject(document.profile_v2.address.neighborhood));
-            (document.profile_v2?.address?.country) && (addressModel.country = Decoding.decodeObject(document.profile_v2.address.country));
-            (document.profile_v2?.address?.country_code) && (addressModel.countryCode = Decoding.decodeObject(document.profile_v2.address.country_code));
-            (document.profile_v2?.address?.region) && (addressModel.region = Decoding.decodeObject(document.profile_v2.address.region));
-            (!ValidatorFiles.objectIsEmpty(addressModel)) && (personalInfoModel.address = addressModel);
-
-            (document.profile_v2?.phone_numbers?.length > 0) && (personalInfoModel.phoneNumbers = document.profile_v2.phone_numbers);
-            (document.profile_v2?.places_lived?.length > 0) && (personalInfoModel.placesLived = document.profile_v2.places_lived.map((value: any) => {
-                const placeModel: PlaceLivedFB = {};
-                (value.place) && (placeModel.place = Decoding.decodeObject(value.place));
-                (value.start_timestamp) && (placeModel.startDate = new Date(1000 * value.start_timestamp));
-                return placeModel;
-            }));
-
-
-            (document.profile_v2?.pages?.length > 0) && (personalInfoModel.pagesInterests =
-                document.profile_v2.pages.map((value: any) => {
-                    const pagesModel: PagesFB = {};
-                    (value.name) && (pagesModel.category = Decoding.decodeObject(value.name));
-                    (value.pages && value.pages.length > 0) && (pagesModel.pages = Decoding.decodeObject(value.pages));
-                    return pagesModel;
-                }));
-            (document.profile_v2?.registration_timestamp) && (personalInfoModel.registrationDate = new Date(1000*document.profile_v2.registration_timestamp));
-            (document.profile_v2?.profile_uri) && (personalInfoModel.profileUri = Decoding.decodeObject(document.profile_v2.profile_uri));
+                (document.profile_v2?.pages?.length > 0) && (personalInfoModel.pagesInterests =
+                    document.profile_v2.pages.map((value: any) => {
+                        const pagesModel: PagesFB = {};
+                        (value.name) && (pagesModel.category = Decoding.decodeObject(value.name));
+                        (value.pages && value.pages.length > 0) && (pagesModel.pages = Decoding.decodeObject(value.pages));
+                        return pagesModel;
+                    }));
+                (document.profile_v2?.registration_timestamp) && (personalInfoModel.registrationDate = new Date(1000 * document.profile_v2.registration_timestamp));
+                (document.profile_v2?.profile_uri) && (personalInfoModel.profileUri = Decoding.decodeObject(document.profile_v2.profile_uri));
+            }
             return !ValidatorFiles.objectIsEmpty(personalInfoModel) ? personalInfoModel : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`,'parsePersonalInformation');
@@ -151,7 +165,7 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             const adsModel: AdsInteractedWithFB = {list: []};
-            (document.history_v2 && document.history_v2.length > 0) && (adsModel.list = document.history_v2.map((value: any) => {
+            (document && document.history_v2 && document.history_v2.length > 0) && (adsModel.list = document.history_v2.map((value: any) => {
                 const model: AdvInteractionFB = {};
                 (value.title) && (model.title = Decoding.decodeObject(value.title));
                 (value.action) && (model.action = Decoding.decodeObject(value.action));
@@ -172,7 +186,7 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             const adsModel: AdsUsingYourInfoFB = {list:[]};
-            (document.custom_audiences_all_types_v2 && document.custom_audiences_all_types_v2.length > 0) && (adsModel.list = document.custom_audiences_all_types_v2.map((value: any) => {
+            (document && document.custom_audiences_all_types_v2 && document.custom_audiences_all_types_v2.length > 0) && (adsModel.list = document.custom_audiences_all_types_v2.map((value: any) => {
                 const model: AdvUsingYourInfoFB = {};
                 (value.advertiser_name) && (model.advertiserName = Decoding.decodeObject(value.advertiser_name));
                 (value.has_data_file_custom_audience) && (model.hasDataFileCustomAudience = value.has_data_file_custom_audience);
@@ -194,7 +208,7 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             const searchHistoryModel: SearchHistoryFB = {listSearches: []};
-            (document.searches_v2 && document.searches_v2.length > 0) && (searchHistoryModel.listSearches = document.searches_v2.map((value: any) => {
+            (document && document.searches_v2 && document.searches_v2.length > 0) && (searchHistoryModel.listSearches = document.searches_v2.map((value: any) => {
                 const model: SearchFB = {};
                 (value.data && value.data[0].text) && (model.text = Decoding.decodeObject(value.data[0].text));
                 (value.timestamp) && (model.date = new Date(1000*value.timestamp));
@@ -214,7 +228,7 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             const commentsPostedModel: CommentsPostedFB = {list: []};
-            (document.comments_v2 && document.comments_v2.length > 0) && (commentsPostedModel.list = document.comments_v2.map((value: any) => {
+            (document && document.comments_v2 && document.comments_v2.length > 0) && (commentsPostedModel.list = document.comments_v2.map((value: any) => {
                 const model: CommentPostedFB = {};
                 (value.data && value.data[0].comment?.comment) && (model.text = Decoding.decodeObject(value.data[0].comment.comment));
                 (value.data && value.data[0].comment?.author) && (model.author = Decoding.decodeObject(value.data[0].comment.author));
@@ -236,7 +250,7 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             const reactionsModel: ReactionsFB = {list: []};
-            (document.reactions_v2 && document.reactions_v2.length > 0) && (reactionsModel.list = document.reactions_v2.map((value: any) => {
+            (document && document.reactions_v2 && document.reactions_v2.length > 0) && (reactionsModel.list = document.reactions_v2.map((value: any) => {
                 const model: ReactionFB = {};
                 (value.data && value.data[0].reaction?.reaction) && (model.reaction = Decoding.decodeObject(value.data[0].reaction.reaction));
                 (value.data && value.data[0].reaction?.actor) && (model.actor = Decoding.decodeObject(value.data[0].reaction.actor));
@@ -257,7 +271,7 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             const modelPagesLiked: PagesLikedFB = {list: []};
-            (document.page_likes_v2 && document.page_likes_v2.length > 0) && (modelPagesLiked.list = document.page_likes_v2.map((value: any) => {
+            (document && document.page_likes_v2 && document.page_likes_v2.length > 0) && (modelPagesLiked.list = document.page_likes_v2.map((value: any) => {
                 const model: PageFB = {};
                 (value.name) && (model.name = Decoding.decodeObject(value.name));
                 (value.timestamp) && (model.date = new Date(1000 * value.timestamp));
@@ -277,7 +291,7 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             const modelPagesFollow: PagesFollowFB = {list: []};
-            (document.pages_followed_v2 && document.pages_followed_v2.length > 0) && (modelPagesFollow.list = document.pages_followed_v2.map((value: any) => {
+            (document && document.pages_followed_v2 && document.pages_followed_v2.length > 0) && (modelPagesFollow.list = document.pages_followed_v2.map((value: any) => {
                 const model: PageFB = {};
                 (value.title) && (model.name = Decoding.decodeObject(value.title));
                 (value.timestamp) && (model.date = new Date(1000 * value.timestamp));
@@ -297,7 +311,7 @@ export class FacebookService{
         try {
             let document = JSON.parse(data.toString());
             const modelAppsConnected: AppsConnectedFB = {list: []};
-            modelAppsConnected.list = document.installed_apps_v2.map((value: any) => {
+            (document) && (modelAppsConnected.list = document.installed_apps_v2.map((value: any) => {
                 const model: AppConnectedFB = {};
                 (value.name) && (model.name = Decoding.decodeObject(value.name));
                 (value.user_app_scoped_id) && (model.userAppScopedId = value.user_app_scoped_id);
@@ -306,7 +320,7 @@ export class FacebookService{
                 (value.added_timestamp) && (model.addedTimestamp = new Date(1000 * value.added_timestamp));
                 (value.removed_timestamp) && (model.removedTimestamp = new Date(1000 * value.removed_timestamp));
                 return model;
-            });
+            }));
             return modelAppsConnected.list.length > 0 ? modelAppsConnected : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`,'parseAppsConnected');
@@ -321,7 +335,7 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             let messages: Array<MessageFB> = [];
-            (document.messages) && (messages = document.messages.map((value: any) => {
+            (document && document.messages) && (messages = document.messages.map((value: any) => {
                 const model: MessageFB = {};
                 (value.sender_name) && (model.senderName = Decoding.decodeObject(value.sender_name));
                 (value.content) && (model.content = Decoding.decodeObject(value.content));
@@ -354,7 +368,7 @@ export class FacebookService{
         try{
             const document = JSON.parse(data.toString());
             const model: LanguagesFB = {};
-            if (document.language_and_locale_v2 && document.language_and_locale_v2.length > 0) {
+            if (document && document.language_and_locale_v2 && document.language_and_locale_v2.length > 0) {
                 (document.language_and_locale_v2[0].children[0].entries[0].data?.value) && (model.settingsLanguage = Decoding.decodeObject(document.language_and_locale_v2[0].children[0].entries[0].data.value));
                 (document.language_and_locale_v2[1].entries) && (model.languagesKnown = document.language_and_locale_v2[1].entries.map((item: {"data": {"value": string}}) => Decoding.decodeObject(item.data.value)));
                 (document.language_and_locale_v2[2].entries[0].data?.value) && (model.favouriteLanguage = Decoding.decodeObject(document.language_and_locale_v2[2].entries[0].data.value));
@@ -374,7 +388,7 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             const modelPages: PagesRecommendedFB = {list: []};
-            (document.recommended_pages_v2 && document.recommended_pages_v2.length > 0) && (modelPages.list = document.recommended_pages_v2.map((value: any) => {
+            (document) && (document.recommended_pages_v2 && document.recommended_pages_v2.length > 0) && (modelPages.list = document.recommended_pages_v2.map((value: any) => {
                 const model: PageFB = {};
                 (value.name) && (model.name = Decoding.decodeObject(value.name));
                 (value.timestamp) && (model.date = new Date(1000 * value.timestamp));
@@ -389,13 +403,33 @@ export class FacebookService{
     }
 
     /**
+     * @param data - file 'pages/pages_you've_unfollowed.json' in input as Buffer
+     */
+    static async parsePagesUnfollowed(data: Buffer): Promise<PagesUnfollowedFB | undefined> {
+        try {
+            const document = JSON.parse(data.toString());
+            const modelPages: PagesUnfollowedFB = {list: []};
+            (document) && (document.pages_unfollowed_v2 && document.pages_unfollowed_v2.length > 0) && (modelPages.list = document.pages_unfollowed_v2.map((value: any) => {
+                const model: PageFB = {};
+                (value.title) && (model.name = Decoding.decodeObject(value.title));
+                (value.timestamp) && (model.date = new Date(1000 * value.timestamp));
+                return model;
+            }));
+            return modelPages.list.length > 0 ? modelPages : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parsePagesUnfollowed');
+            return undefined;
+        }
+    }
+
+    /**
      * @param data - file 'your_interactions_on_facebook/recently_viewed.json' in input as Buffer
      */
     static async parseRecentlyViewed(data: Buffer): Promise<RecentlyViewedFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const modelRecentlyViewed: RecentlyViewedFB = {};
-            if (document.recently_viewed) {
+            if (document && document.recently_viewed) {
                 if(document.recently_viewed[0] && document.recently_viewed[0].children) {
                     if (document.recently_viewed[0].children[0] && document.recently_viewed[0].children[0].entries) {
                         modelRecentlyViewed.timeSpentOnPageVideos = document.recently_viewed[0].children[0].entries.map((entry: any) => {
@@ -481,7 +515,7 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             const modelPosts: YourPostsFB = {list: []};
-            modelPosts.list = document.map((item: any) => {
+            (document) && (modelPosts.list = document.map((item: any) => {
                 const model: YourPostFB = {};
                 (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
                 (item.attachments && item.attachments[0] && item.attachments[0].data && item.attachments[0].data[0]?.external_context?.url) && (model.url = Decoding.decodeObject(item.attachments[0].data[0].external_context.url));
@@ -489,7 +523,7 @@ export class FacebookService{
                 (item.data?.post) && (model.post = Decoding.decodeObject(item.data.post));
                 (item.data && item.data[0].update_timestamp) && (model.updateDate = new Date(1000 * item.data[0].update_timestamp));
                 return model;
-            });
+            }));
             return modelPosts.list.length > 0 ? modelPosts : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseYourPosts');
@@ -505,12 +539,12 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             const modelPosts: FriendRequestsSentFB = {list: []};
-            modelPosts.list = document.sent_requests_v2.map((item: any) => {
+            (document) && (modelPosts.list = document.sent_requests_v2.map((item: any) => {
                 const model: FriendActivityFB = {};
                 (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
                 (item.name) && (model.name = Decoding.decodeObject(item.name));
                 return model;
-            });
+            }));
             return modelPosts.list.length > 0 ? modelPosts : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseFriendRequestsSent');
@@ -525,12 +559,12 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             const modelPosts: FriendRequestsSentFB = {list: []};
-            modelPosts.list = document.rejected_requests_v2.map((item: any) => {
+            (document) && (modelPosts.list = document.rejected_requests_v2.map((item: any) => {
                 const model: FriendActivityFB = {};
                 (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
                 (item.name) && (model.name = Decoding.decodeObject(item.name));
                 return model;
-            });
+            }));
             return modelPosts.list.length > 0 ? modelPosts : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseRejectedFriendshipRequests');
@@ -545,12 +579,12 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             const modelPosts: FriendRequestsSentFB = {list: []};
-            modelPosts.list = document.deleted_friends_v2.map((item: any) => {
+            (document) && (modelPosts.list = document.deleted_friends_v2.map((item: any) => {
                 const model: FriendActivityFB = {};
                 (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
                 (item.name) && (model.name = Decoding.decodeObject(item.name));
                 return model;
-            });
+            }));
             return modelPosts.list.length > 0 ? modelPosts : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseRemovedFriends');
@@ -565,12 +599,12 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             const modelPosts: FriendRequestsSentFB = {list: []};
-            modelPosts.list = document.following_v2.map((item: any) => {
+            (document) && (modelPosts.list = document.following_v2.map((item: any) => {
                 const model: FriendActivityFB = {};
                 (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
                 (item.name) && (model.name = Decoding.decodeObject(item.name));
                 return model;
-            });
+            }));
             return modelPosts.list.length > 0 ? modelPosts : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseWhoYouFollow');
@@ -585,15 +619,122 @@ export class FacebookService{
         try {
             const document = JSON.parse(data.toString());
             const modelFriends: FriendsFB = {list: []};
-            modelFriends.list = document.friends_v2.map((item: any) => {
+            (document) && (modelFriends.list = document.friends_v2.map((item: any) => {
                 const model: FriendActivityFB = {};
                 (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
                 (item.name) && (model.name = Decoding.decodeObject(item.name));
                 return model;
-            });
+            }));
             return modelFriends.list.length > 0 ? modelFriends : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseFriends');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - file 'your_topics/your_topics.json' in input as Buffer
+     */
+    static async parseYourTopics(data: Buffer): Promise<YourTopicsFB | undefined> {
+        try {
+            const document = JSON.parse(data.toString());
+            const modelPosts: YourTopicsFB = {list: []};
+            if (document && document.inferred_topics_v2) {
+                modelPosts.list = document.inferred_topics_v2.map((item: string) => Decoding.decodeObject(item));
+            }
+            return modelPosts.list.length > 0 ? modelPosts : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseYourTopics');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - file 'other_logged_information/ads_interests.json' in input as Buffer
+     */
+    static async parseAdsInterests(data: Buffer): Promise<YourTopicsFB | undefined> {
+        try {
+            const document = JSON.parse(data.toString());
+            const modelPosts: AdsInterestsFB = {list: []};
+            if (document && document.topics_v2) {
+                modelPosts.list = document.topics_v2.map((item: string) => Decoding.decodeObject(item));
+            }
+            return modelPosts.list.length > 0 ? modelPosts : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseAdsInterests');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - file 'ads_information/information_you've_submitted_to_advertisers.json' in input as Buffer
+     */
+    static async parseInformationSubmittedAds(data: Buffer): Promise<InformationSubmittedAdsFB | undefined> {
+        try {
+            const document = JSON.parse(data.toString());
+            const modelInfo: InformationSubmittedAdsFB = {list: []};
+            if (document) {
+                modelInfo.list = document.lead_gen_info_v2.map((item: any) => {
+                    const model: InformationAdsFB = {};
+                    (item.label) && (model.label = Decoding.decodeObject(item.label));
+                    (item.value) && (model.value = Decoding.decodeObject(item.value));
+                    return model;
+                });
+            }
+            return modelInfo.list.length > 0 ? modelInfo : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseInformationSubmittedAds');
+            return undefined;
+        }
+    }
+    /**
+     * @param data - file 'stories/story_reactions.json' in input as Buffer
+     */
+    static async parseStoriesReactions(data: Buffer): Promise<StoriesReactionsFB | undefined> {
+        try {
+            const document = JSON.parse(data.toString());
+            const modelInfo: StoriesReactionsFB = {list: []};
+            if (document) {
+                modelInfo.list = document.stories_feedback_v2.map((item: any) => {
+                    const model: StoryReactionFB = {};
+                    (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
+                    (item.title) && (model.title = Decoding.decodeObject(item.title));
+                    return model;
+                });
+            }
+            return modelInfo.list.length > 0 ? modelInfo : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseStoriesReactions');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - file 'your_interactions_on_facebook/recently_visited.json' in input as Buffer
+     */
+    static async parseRecentlyVisited(data: Buffer): Promise<RecentlyVisitedFB | undefined> {
+        try {
+            const document = JSON.parse(data.toString());
+            const model: RecentlyVisitedFB = {
+                listVisited: [],
+            };
+            if (document && document.visited_things_v2) {
+                for (let i = 0; i < document.visited_things_v2.length; i++) {
+                    let modelList: VisitedFB[] = [];
+                    (document.visited_things_v2[i].entries) && (modelList = document.visited_things_v2[i].entries.map((item: any) => {
+                        const model: VisitedFB = {};
+                        (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
+                        (item.data && item.data.name) && (model.name = Decoding.decodeObject(item.data.name));
+                        (item.data && item.data.uri) && (model.uri = Decoding.decodeObject(item.data.uri));
+                        //last array of visits to marketplace with only date filed isn't parsed
+                        return model;
+                    }));
+                    (modelList.length > 0) && (model.listVisited.push(modelList));
+                }
+            }
+            return (model.listVisited.length > 0) ? model : undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseRecentlyVisited');
             return undefined;
         }
     }
