@@ -6,6 +6,7 @@ async function testFacebook(){
 
 async function testService() {
     try {
+        /*
         console.log(await FacebookService.parsePersonalInformation(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/profile_information/profile_information.json`)))));
         console.log(await FacebookService.parseAdsInteractedWith(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/ads_information/advertisers_you've_interacted_with.json`)))));
         console.log(await FacebookService.parseAdsUsingYourInfo(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/ads_information/advertisers_using_your_activity_or_information.json`)))));
@@ -24,6 +25,14 @@ async function testService() {
         console.log(await FacebookService.parseRecentlyViewed(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/your_interactions_on_facebook/recently_viewed.json`)))));
         console.log(await FacebookService.parseYourPosts(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/posts/your_posts_1.json`)))));
         console.log(await FacebookService.parseFriends(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/friends_and_followers/friends.json`)))));
+        console.log(await FacebookService.parsePagesUnfollowed(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/pages/pages_you've_unfollowed.json`)))));
+        console.log(await FacebookService.parseAdsInterests(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/other_logged_information/ads_interests.json`)))));
+        console.log(await FacebookService.parseYourTopics(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/your_topics/your_topics.json`)))));
+        console.log(await FacebookService.parseYourTopics(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/your_topics/your_topics.json`)))));
+        console.log(await FacebookService.parseInformationSubmittedAds(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/ads_information/information_you've_submitted_to_advertisers.json`))));
+        console.log(await FacebookService.parseStoriesReactions(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/stories/story_reactions.json`)))));
+        */
+        console.log(await FacebookService.parseRecentlyVisited(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/your_interactions_on_facebook/recently_visited.json`)))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);

@@ -38,8 +38,6 @@ export class ValidatorFacebook extends ValidatorDatasource {
         FileCodeFacebook.PAGES_LIKED,
         FileCodeFacebook.PAGES_RECOMMENDED,
         FileCodeFacebook.PAGES_UNFOLLOWED,
-        FileCodeFacebook.PAGES_YOU_FOLLOW,
-        FileCodeFacebook.PAGES_YOU_LIKE,
         FileCodeFacebook.PAYMENT_HISTORY,
         FileCodeFacebook.PREFERENCES_WATCH,
         FileCodeFacebook.PREFERENCES_LANGUAGE_LOCALE,
