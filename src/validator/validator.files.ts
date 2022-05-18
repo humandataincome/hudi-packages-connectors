@@ -30,17 +30,52 @@ export class ValidatorFiles {
     public static MIN_BYTE_FILE_SIZE = 30; //30 B
 
     /**
+     * @param zipFiles - list of 2 or more zip files that you want to merge
+     * @return a new file zip containing all the files from the zip given in input
+     */
+    static async mergeZipFiles(zipFiles: InputFileFormat[]): Promise<Buffer | undefined> {
+        try {
+            if (zipFiles.length > 1) {
+                const mergedZip = new JSZip();
+                for (const zipFile of zipFiles) {
+                    if (zipFile) {
+                        let zip = await JSZip.loadAsync(zipFile);
+                        if (zip) {
+                            for (let pathName of Object.keys(zip.files)) {
+                                const file = zip.files[pathName];
+                                const fileBuffer = await file.async('nodebuffer');
+                                mergedZip.file(pathName, fileBuffer, {comment: file.comment});
+                            }
+                        }
+                    }
+                }
+                return await mergedZip.generateAsync({type: 'nodebuffer'});
+            }
+            this.logger.log('error', `One or more zip files in input aren't valid`, 'mergeZipFiles');
+            return undefined;
+        } catch (error: any) {
+            (error && error.message) && (this.logger.log('error', error.message, 'mergeZipFiles'));
+        }
+        return undefined;
+    }
+
+    /**
      * @param zipFile - file zip as one of the Buffer-like types supported
      * @return get all the file paths from the directories paths
      */
     static async getPathsIntoZip(zipFile: InputFileFormat): Promise<string[] | undefined> {
-        if(zipFile) {
-            const zip = await JSZip.loadAsync(zipFile);
-            return Object.keys(zip.files)
-                .filter((pathName) => !zip.files[pathName].dir)
-                .map((pathName) => pathName);
+        try {
+            if(zipFile) {
+                const zip = await JSZip.loadAsync(zipFile);
+                return Object.keys(zip.files)
+                    .filter((pathName) => !zip.files[pathName].dir)
+                    .map((pathName) => pathName);
+            }
+            this.logger.log('error', `${ValidationErrorEnums.ZIPPING_FILE_ERROR}: Wrong ZIP file in input`, 'getPathsIntoZip');
+            return undefined;
+        } catch (error: any) {
+            (error && error.message) && (this.logger.log('error', error.message, 'getPathsIntoZip'));
         }
-        this.logger.log('info', `${ValidationErrorEnums.ZIPPING_FILE_ERROR}: Wrong ZIP file in input`, 'getPathsIntoZip');
         return undefined;
     }
 
@@ -163,6 +198,12 @@ export class ValidatorFiles {
         switch (extension) {
             case FileExtension.JSON:
                 return ValidatorFiles.validateJSON(file, pathName);
+            case FileExtension.JS:
+                const fileJson = Parser.extractJsonFromTwitterFile(file);
+                if (fileJson) {
+                    return ValidatorFiles.validateJSON(fileJson, pathName);
+                }
+                return false;
             case FileExtension.CSV:
                 return ValidatorFiles.validateCSV(file, pathName);
             default:

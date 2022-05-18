@@ -34,6 +34,7 @@ export enum FileExtension {
     GIF = 'gif',
     VCF = 'vcf',
     MP4 = 'mp4',
+    JS = 'js',
 }
 
 export enum LanguageCode {
