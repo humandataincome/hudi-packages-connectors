@@ -11,7 +11,13 @@ import {
     AudibleListeningListAM,
     AudibleMembershipBillingAM,
     AudibleMembershipBillingsAM,
-    AudioBookAM, DigitalItemAM, DigitalItemsAM,
+    AudioBookAM,
+    DigitalItemAM,
+    DigitalItemsAM,
+    DigitalOrderAM,
+    DigitalOrderMonetaryAM,
+    DigitalOrdersAM,
+    DigitalOrdersMonetaryAM,
     DigitalPrimeVideoViewCountsAM,
     DigitalSubscriptionAM,
     DigitalSubscriptionsAM,
@@ -20,7 +26,9 @@ import {
     LightWeightInteractionsAM,
     PrimeVideoViewingHistoryAM,
     PrimeVideoWatchlistAM,
-    PrimeVideoWatchlistHistoryAM, RetailCartItemAM, RetailCartItemsAM,
+    PrimeVideoWatchlistHistoryAM,
+    RetailCartItemAM,
+    RetailCartItemsAM,
     RetailOrderAM,
     RetailOrderHistoryAM,
     RetailRegionAuthoritiesAM,
@@ -908,6 +916,89 @@ export class AmazonService {
             }
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseDigitalItems');
+        }
+        return undefined;
+    }
+
+    /**
+     * @param data - file 'Digital-Ordering.2/Digital Orders.csv' in input as Buffer
+     */
+    static async parseDigitalOrders(data: Buffer): Promise<DigitalOrdersAM | undefined> {
+        try {
+            let result: any = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: DigitalOrdersAM = {list: []}
+                model.list = result.map((listItem: any) => {
+                    let newItem: DigitalOrderAM = {};
+                    ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}OrderId`]) && (newItem.orderId = listItem[`${this.INIT_CHAR}OrderId`]);
+                    ValidatorFiles.isCSVFieldValid(listItem['BillingAddress']) && (newItem.billingAddress = listItem['BillingAddress']);
+                    ValidatorFiles.isCSVFieldValid(listItem['ShippingAddress']) && (newItem.shippingAddress = listItem['ShippingAddress']);
+                    ValidatorFiles.isCSVFieldValid(listItem['CustomerDeclaredAddress']) && (newItem.customerDeclaredAddress = listItem['CustomerDeclaredAddress']);
+                    ValidatorFiles.isCSVFieldValid(listItem['OrderStatus']) && (newItem.orderStatus = listItem['OrderStatus']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Marketplace']) && (newItem.marketplace = listItem['Marketplace']);
+                    ValidatorFiles.isCSVFieldValid(listItem['IsOrderFreeReplacement']) && (newItem.isOrderFreeReplacement = listItem['IsOrderFreeReplacement'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['IsOrderAPreorder']) && (newItem.isOrderAPreorder = listItem['IsOrderAPreorder'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['DoesOrderDependOnAnotherOrder']) && (newItem.doesOrderDependOnAnotherOrder = listItem['DoesOrderDependOnAnotherOrder'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['OrderingLocationCountry']) && (newItem.orderingLocationCountry = listItem['OrderingLocationCountry']);
+                    if (ValidatorFiles.isCSVFieldValid(listItem['OrderDate'])) {
+                        let match = listItem['OrderDate'].match(/(\d+)-(\d+)-(\d+)/);
+                        (match) && (newItem.orderDate = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]))));
+                    }
+                    ValidatorFiles.isCSVFieldValid(listItem['RelatedPhysicalOrderId']) && (newItem.relatedPhysicalOrderId = listItem['RelatedPhysicalOrderId']);
+                    ValidatorFiles.isCSVFieldValid(listItem['ShoppingMarketplaceId']) && (newItem.shoppingMarketplaceId = listItem['ShoppingMarketplaceId']);
+                    ValidatorFiles.isCSVFieldValid(listItem['PaidByOtherCustomer']) && (newItem.paidByOtherCustomer = listItem['PaidByOtherCustomer']);
+                    ValidatorFiles.isCSVFieldValid(listItem['MultifactorAuthenticationStatus (depreciated)']) && (newItem.multifactorAuthenticationStatus = listItem['MultifactorAuthenticationStatus (depreciated)']);
+                    ValidatorFiles.isCSVFieldValid(listItem['SubscriptionOrderType']) && (newItem.subscriptionOrderType = listItem['SubscriptionOrderType']);
+                    ValidatorFiles.isCSVFieldValid(listItem['AlternativeOrderProvidingPayment']) && (newItem.alternativeOrderProvidingPayment = listItem['AlternativeOrderProvidingPayment']);
+                    ValidatorFiles.isCSVFieldValid(listItem['PaymentInformation']) && (newItem.paymentInformation = listItem['PaymentInformation']);
+                    ValidatorFiles.isCSVFieldValid(listItem['DeliveryPacketId']) && (newItem.deliveryPacketId = listItem['DeliveryPacketId']);
+                    ValidatorFiles.isCSVFieldValid(listItem['DeliveryStatus']) && (newItem.deliveryStatus = listItem['DeliveryStatus']);
+                    if(ValidatorFiles.isCSVFieldValid(listItem['DeliveryDate'])) {
+                        let match = listItem['DeliveryDate'].match(/(\d+)-(\d+)-(\d+)/);
+                        (match) && (newItem.deliveryDate = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]))));
+                    }
+                    if(ValidatorFiles.isCSVFieldValid(listItem['GiftClaimDate'])) {
+                        let match = listItem['GiftClaimDate'].match(/(\d+)-(\d+)-(\d+)/);
+                        (match) && (newItem.giftClaimDate = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]))));
+                    }
+                    ValidatorFiles.isCSVFieldValid(listItem['SessionId']) && (newItem.sessionId = listItem['SessionId']);
+                    ValidatorFiles.isCSVFieldValid(listItem['UniqueBrowserId']) && (newItem.uniqueBrowserId = listItem['UniqueBrowserId']);
+                    return newItem;
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseDigitalOrders');
+        }
+        return undefined;
+    }
+
+    /**
+     * @param data - file 'Digital-Ordering.2/Digital Orders Monetary.csv' in input as Buffer
+     */
+    static async parseDigitalOrdersMonetary(data: Buffer): Promise<DigitalOrdersMonetaryAM | undefined> {
+        try {
+            let result: any = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: DigitalOrdersMonetaryAM = {list: []}
+                model.list = result.map((listItem: any) => {
+                    let newItem: DigitalOrderMonetaryAM = {};
+                    ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}DigitalOrderItemId`]) && (newItem.digitalOrderItemId = listItem[`${this.INIT_CHAR}DigitalOrderItemId`]);
+                    ValidatorFiles.isCSVFieldValid(listItem['DeliveryPacketId']) && (newItem.deliveryPacketId = listItem['DeliveryPacketId']);
+                    ValidatorFiles.isCSVFieldValid(listItem['AffectedItemQuantity']) && (newItem.affectedItemQuantity = parseFloat(listItem['AffectedItemQuantity']));
+                    ValidatorFiles.isCSVFieldValid(listItem['TransactionAmount']) && (newItem.transactionAmount = parseFloat(listItem['TransactionAmount']));
+                    ValidatorFiles.isCSVFieldValid(listItem['BaseCurrencyCode']) && (newItem.baseCurrencyCode = listItem['BaseCurrencyCode']);
+                    ValidatorFiles.isCSVFieldValid(listItem['ClaimCode']) && (newItem.claimCode = listItem['ClaimCode']);
+                    ValidatorFiles.isCSVFieldValid(listItem['FXTransactionAmount']) && (newItem.FXTransactionAmount = listItem['FXTransactionAmount']);
+                    ValidatorFiles.isCSVFieldValid(listItem['FXCurrencyCode']) && (newItem.FXCurrencyCode = listItem['FXCurrencyCode']);
+                    ValidatorFiles.isCSVFieldValid(listItem['MonetaryComponentTypeCode']) && (newItem.monetaryComponentTypeCode = listItem['MonetaryComponentTypeCode']);
+                    ValidatorFiles.isCSVFieldValid(listItem['OfferTypeCode']) && (newItem.offerTypeCode = listItem['OfferTypeCode']);
+                    return newItem;
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseDigitalOrdersMonetary');
         }
         return undefined;
     }

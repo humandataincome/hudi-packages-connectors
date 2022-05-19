@@ -459,3 +459,51 @@ export interface DigitalItemAM {
     installmentOurPriceCurrencyCode?: string;
     installmentOurPricePlusTaxCurrencyCode?: string;
 }
+
+export interface DigitalOrdersAM {
+    list: DigitalOrderAM[];
+}
+
+export interface DigitalOrderAM {
+    orderId?: string;
+    billingAddress?: string;
+    shippingAddress?: string;
+    customerDeclaredAddress?: string;
+    orderStatus?: string;
+    marketplace?: string;
+    isOrderFreeReplacement?: boolean;
+    isOrderAPreorder?: boolean;
+    doesOrderDependOnAnotherOrder?: boolean;
+    orderingLocationCountry?: string;
+    orderDate?: Date;
+    relatedPhysicalOrderId?: string;
+    shoppingMarketplaceId?: string;
+    paidByOtherCustomer?: string;
+    multifactorAuthenticationStatus?: string;
+    subscriptionOrderType?: string;
+    alternativeOrderProvidingPayment?: string;
+    paymentInformation?: string;
+    deliveryPacketId?: string;
+    deliveryStatus?: string;
+    deliveryDate?: Date;
+    giftClaimDate?: Date;
+    sessionId?: string;
+    uniqueBrowserId?: string;
+}
+
+export interface DigitalOrdersMonetaryAM {
+    list: DigitalOrderMonetaryAM[];
+}
+
+export interface DigitalOrderMonetaryAM {
+    digitalOrderItemId?: string;
+    deliveryPacketId?: string;
+    affectedItemQuantity?: number;
+    transactionAmount?: number;
+    baseCurrencyCode?: string;
+    claimCode?: string;
+    FXTransactionAmount?: string;
+    FXCurrencyCode?: string;
+    monetaryComponentTypeCode?: string;
+    offerTypeCode?: string;
+}

@@ -46,9 +46,10 @@ async function testService() {
         console.log(await AmazonService.parseRetailSellerFeedback(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Retail.Seller-Feedback.2/Retail.Seller-Feedback.csv`))));
         console.log(await AmazonService.parseRetailRegionAuthorities(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Retail.RegionAuthority.2/Retail.RegionAuthority.2.csv`))));
         console.log(await AmazonService.parseRetailCartItems(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Retail.CartItems.2/Retail.CartItems.2.csv`))));
-
-         */
         console.log(await AmazonService.parseDigitalItems(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Digital-Ordering.2/Digital Items.csv`))));
+        console.log(await AmazonService.parseDigitalOrders(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Digital-Ordering.2/Digital Orders.csv`))));
+         */
+        console.log(await AmazonService.parseDigitalOrdersMonetary(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Digital-Ordering.2/Digital Orders Monetary.csv`))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
