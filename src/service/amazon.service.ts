@@ -64,9 +64,9 @@ export class AmazonService {
                 let model: PrimeVideoWatchlistAM = {list: []}
                 model.list = result.map((listItem: any) => {
                     let newItem: TitleAM = {}, match;
-                    (listItem.catalogTitle !== '') && (newItem.catalogTitle = listItem.catalogTitle);
-                    if (listItem[`${this.INIT_CHAR}"itemAddedDate"`] !== '') {
-                        (listItem[`${this.INIT_CHAR}"itemAddedDate"`] !== '') && (match = listItem[`${this.INIT_CHAR}"itemAddedDate"`].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/));
+                    ValidatorFiles.isCSVFieldValid(listItem.catalogTitle) && (newItem.catalogTitle = listItem.catalogTitle);
+                    if (ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}"itemAddedDate"`])) {
+                        match = listItem[`${this.INIT_CHAR}"itemAddedDate"`].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/);
                         (match) && (newItem.itemAddedDate = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), 0)));
                     }
                     return newItem;
@@ -90,12 +90,12 @@ export class AmazonService {
                 let model: PrimeVideoWatchlistHistoryAM = {list: []}
                 model.list = result.map((listItem: any) => {
                     let newItem: TitleAM = {}, match;
-                    (listItem[`${this.INIT_CHAR}"listId"`] !== '') && (newItem.listId = listItem[`${this.INIT_CHAR}"listId"`]);
-                    (listItem.itemAddedDate !== '') && (match = listItem.itemAddedDate.match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/));
-                    (listItem.itemAddedDate !== '') && (newItem.itemAddedDate = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), 0)));
-                    (listItem.itemType !== '') && (newItem.itemType = listItem.itemType);
-                    (listItem.deleted !== '') && (newItem.deleted = listItem.deleted == '1');
-                    (listItem.catalogTitle !== '') && (newItem.catalogTitle = listItem.catalogTitle);
+                    ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}"listId"`]) && (newItem.listId = listItem[`${this.INIT_CHAR}"listId"`]);
+                    ValidatorFiles.isCSVFieldValid(listItem.itemAddedDate) && (match = listItem.itemAddedDate.match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/));
+                    ValidatorFiles.isCSVFieldValid(listItem.itemAddedDate) && (newItem.itemAddedDate = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), 0)));
+                    ValidatorFiles.isCSVFieldValid(listItem.itemType) && (newItem.itemType = listItem.itemType);
+                    ValidatorFiles.isCSVFieldValid(listItem.deleted) && (newItem.deleted = listItem.deleted == '1');
+                    ValidatorFiles.isCSVFieldValid(listItem.catalogTitle) && (newItem.catalogTitle = listItem.catalogTitle);
                     return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
@@ -117,20 +117,22 @@ export class AmazonService {
                 let model: PrimeVideoViewingHistoryAM = {list: []}
                 model.list = result.map((listItem: any) => {
                     let newItem: ViewingActivityAM = {}, match;
-                    (listItem[`${this.INIT_CHAR}Playback Hour`]  !== '') && (match = listItem[`${this.INIT_CHAR}Playback Hour`].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/));
-                    (listItem[`${this.INIT_CHAR}Playback Hour`]  !== '') && (newItem.playbackHour = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
-                    (listItem['Operating System'] !== '') && (newItem.operatingSystem = listItem['Operating System']);
-                    (listItem['Browser'] !== '') && (newItem.browser = listItem['Browser']);
-                    (listItem['Delivery Type'] !== '') && (newItem.deliveryType = listItem['Delivery Type']);
-                    (listItem['City'] !== '') && (newItem.city = listItem['City']);
-                    (listItem['Country'] !== '') && (newItem.country = listItem['Country']);
-                    (listItem['ISP'] !== '') && (newItem.ISP = listItem['ISP']);
-                    (listItem['State'] !== '') && (newItem.state = listItem['State']);
-                    (listItem['Content Quality Entitled'] !== '') && (newItem.contentQuality = listItem['Content Quality Entitled']);
-                    (listItem['Entitlement Type'] !== '') && (newItem.entitlementType = listItem['Entitlement Type']);
-                    (listItem['Video Type'] !== '') && (newItem.videoType = listItem['Video Type']);
-                    (listItem['Audio Language'] !== '') && (newItem.audioLanguage = listItem['Audio Language']);
-                    (listItem['Title'] !== '') && (newItem.title = listItem['Title']);
+                    if (ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}Playback Hour`])) {
+                        (match = listItem[`${this.INIT_CHAR}Playback Hour`].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/));
+                        (match) && (newItem.playbackHour = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
+                    }
+                    ValidatorFiles.isCSVFieldValid(listItem['Operating System']) && (newItem.operatingSystem = listItem['Operating System']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Browser']) && (newItem.browser = listItem['Browser']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Delivery Type']) && (newItem.deliveryType = listItem['Delivery Type']);
+                    ValidatorFiles.isCSVFieldValid(listItem['City']) && (newItem.city = listItem['City']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Country']) && (newItem.country = listItem['Country']);
+                    ValidatorFiles.isCSVFieldValid(listItem['ISP']) && (newItem.ISP = listItem['ISP']);
+                    ValidatorFiles.isCSVFieldValid(listItem['State']) && (newItem.state = listItem['State']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Content Quality Entitled']) && (newItem.contentQuality = listItem['Content Quality Entitled']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Entitlement Type']) && (newItem.entitlementType = listItem['Entitlement Type']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Video Type']) && (newItem.videoType = listItem['Video Type']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Audio Language']) && (newItem.audioLanguage = listItem['Audio Language']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Title']) && (newItem.title = listItem['Title']);
                     return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
@@ -152,75 +154,77 @@ export class AmazonService {
                 let model: SearchDataCustomerEngagementAM = {list: []}
                 model.list = result.map((listItem: any) => {
                     let newItem: SearchAM = {}, match;
-                    (listItem[`${this.INIT_CHAR}First Search Time (GMT)`] !== '') && (match = listItem[`${this.INIT_CHAR}First Search Time (GMT)`].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/));
-                    (listItem[`${this.INIT_CHAR}First Search Time (GMT)`] !== '') && (newItem.firstSearchTime = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
-                    (listItem['Country ID'] !== '') && (newItem.countryID = listItem['Country ID']);
-                    (listItem['All Department (APS) or Category'] !== '') && (newItem.APSorCategory = listItem['All Department (APS) or Category']);
-                    (listItem['Site Variant'] !== '') && (newItem.siteVariant = listItem['Site Variant']);
-                    (listItem['Application / Browser Name'] !== '') && (newItem.appOrBrowser = listItem['Application / Browser Name']);
-                    (listItem['Device Model'] !== '') && (newItem.deviceModel = listItem['Device Model']);
-                    (listItem['Search Type (Keyword,Visual,Browse)'] !== '') && (newItem.searchType = listItem['Search Type (Keyword,Visual,Browse)']);
-                    (listItem['Session ID'] !== '') && (newItem.sessionID = listItem['Session ID']);
-                    (listItem['Query ID'] !== '') && (newItem.queryID = listItem['Query ID']);
-                    (listItem['Prime Customer (Y/N)'] !== '') && (newItem.primeCustomer = listItem['Prime Customer (Y/N)'] === '1');
-                    (listItem['Is From External Link (Y/N)'] !== '') && (newItem.isFromExternalLink = listItem['Is From External Link (Y/N)'] === '1');
-                    (listItem['Search From External Site (Y/N)'] !== '') && (newItem.searchFromExternalSite = listItem['Search From External Site (Y/N)'] === '1');
-                    (listItem['First Search Query String'] !== '') && (newItem.firstSearchQuery = listItem['First Search Query String']);
-                    (listItem['Application Name'] !== '') && (newItem.applicationName = listItem['Application Name']);
-                    (listItem['App Version'] !== '') && (newItem.appVersion = listItem['App Version']);
-                    (listItem['Operating System Name'] !== '') && (newItem.operatingSystemName = listItem['Operating System Name']);
-                    (listItem['Operating System Version'] !== '') && (newItem.operatingSystemVersion = listItem['Operating System Version']);
-                    (listItem['Device Type ID'] !== '') && (newItem.deviceTypeID = listItem['Device Type ID']);
-                    (listItem['Device Category'] !== '') && (newItem.deviceCategory = listItem['Device Category']);
-                    (listItem['Customer IP'] !== '') && (newItem.customerIP = listItem['Customer IP']);
-                    (listItem['Search Method'] !== '') && (newItem.searchMethod = listItem['Search Method']);
-                    (listItem['Keywords'] !== '') && (newItem.keywords = listItem['Keywords']);
-                    (listItem['Amazon Business Customer (Y/N)'] !== '') && (newItem.isBusinessCustomer = listItem['Amazon Business Customer (Y/N)'] === '1');
-                    (listItem['Language'] !== '') && (newItem.language = listItem['Language']);
-                    (listItem['Server'] !== '') && (newItem.server = listItem['Server']);
-                    (listItem['Amazon Fresh Customer (Y/N)'] !== '') && (newItem.isFreshCustomer = listItem['Amazon Fresh Customer (Y/N)'] === '1');
-                    (listItem['Music Subscriber (Y/N)'] !== '') && (newItem.isMusicSubscriber = listItem['Music Subscriber (Y/N)'] === '1');
-                    (listItem['First Browse Node'] !== '') && (newItem.firstBrowseNode = listItem['First Browse Node']);
-                    (listItem['Last search Time (GMT)'] !== '') && (match = listItem['Last search Time (GMT)'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+).0/));
-                    (listItem['Last search Time (GMT)'] !== '') && (newItem.lastSearchTime = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
-                    (listItem['Last Department'] !== '') && (newItem.lastDepartment = listItem['Last Department']);
-                    (listItem['Last Browse Node'] !== '') && (newItem.lastBrowseNode = listItem['Last Browse Node']);
-                    (listItem['Last Known Customer ID'] !== '') && (newItem.lastKnownCustomerID = listItem['Last Known Customer ID']);
-                    (listItem['First Added Item'] !== '') && (newItem.firstAddedItem = listItem['First Added Item']);
-                    (listItem['First Purchased Item'] !== '') && (newItem.firstPurchasedItem = listItem['First Purchased Item']);
-                    (listItem['First Consumed Item (Subscription)'] !== '') && (newItem.firstConsumedItem = listItem['First Consumed Item (Subscription)']);
-                    (listItem['Number of Clicked Items'] !== '') && (newItem.numberClickedItem = listItem['Number of Clicked Items']);
-                    (listItem['Number of Items Added to Cart'] !== '') && (newItem.numberItemsAddedCart = listItem['Number of Items Added to Cart']);
-                    (listItem['Number of Items Ordered'] !== '') && (newItem.numberItemsOrdered = listItem['Number of Items Ordered']);
-                    (listItem['Number of Paid Items Ordered'] !== '') && (newItem.numberPaidItemsOrdered = listItem['Number of Paid Items Ordered']);
-                    (listItem['Number of Free Items Ordered'] !== '') && (newItem.numberFreeItemsOrdered = listItem['Number of Free Items Ordered']);
-                    (listItem['Units Ordered'] !== '') && (newItem.unitsOrdered = listItem['Units Ordered']);
-                    (listItem['Paid Units Ordered'] !== '') && (newItem.paidUnitsOrdered = listItem['Paid Units Ordered']);
-                    (listItem['Free Units Ordered'] !== '') && (newItem.freeUnitsOrdered = listItem['Free Units Ordered']);
-                    (listItem['Maximum Purchase Price'] !== '') && (newItem.maximumPurchasePrice = listItem['Maximum Purchase Price']);
-                    (listItem['Clicked Any Item (Y/N)'] !== '') && (newItem.clickedAnyItem = listItem['Clicked Any Item (Y/N)'] === '1');
-                    (listItem['Added Any Item (Y/N)'] !== '') && (newItem.addedAnyItem = listItem['Added Any Item (Y/N)'] === '1');
-                    (listItem['Purchased Any Item (Y/N)'] !== '') && (newItem.purchasedAnyItem = listItem['Purchased Any Item (Y/N)'] === '1');
-                    (listItem['Department Count'] !== '') && (newItem.departmentCount = listItem['Department Count']);
-                    (listItem['Shopping Refinement'] !== '') && (newItem.shoppingRefinement = listItem['Shopping Refinement']);
-                    (listItem['Number of Shopping Refinements'] !== '') && (newItem.numberShoppingRefinements = listItem['Number of Shopping Refinements']);
-                    (listItem['Highest Number of Shopping Refinements'] !== '') && (newItem.highestNumberShoppingRefinements = listItem['Highest Number of Shopping Refinements']);
-                    (listItem['Items Consumed (Subscription)'] !== '') && (newItem.itemConsumed = listItem['Items Consumed (Subscription)']);
-                    (listItem['Shopping Refinement Pickers'] !== '') && (newItem.shoppingRefinementPickers = listItem['Shopping Refinement Pickers']);
-                    (listItem['Paid Purchase (Y/N)'] !== '') && (newItem.paidPurchase = listItem['Paid Purchase (Y/N)'] === '1');
-                    (listItem['Item Borrowed (Y/N)'] !== '') && (newItem.isItemBorrowed = listItem['Item Borrowed (Y/N)'] === '1');
-                    (listItem['Items Borrowed'] !== '') && (newItem.itemsBorrowed = listItem['Items Borrowed']);
-                    (listItem['Next Query Group via Click'] !== '') && (newItem.nextQueryGroupViaClick = listItem['Next Query Group via Click']);
-                    (listItem['Query Abandoned (Y/N)'] !== '') && (newItem.queryAbandoned = listItem['Query Abandoned (Y/N)'] === '1');
-                    (listItem['Query Reformulated (Y/N)'] !== '') && (newItem.queryReformulated = listItem['Query Reformulated (Y/N)'] === '1');
-                    (listItem['Amazon Fresh (Y/N)'] !== '') && (newItem.amazonFresh = listItem['Amazon Fresh (Y/N)'] === '1');
-                    (listItem['Store Visited'] !== '') && (newItem.storeVisited = listItem['Store Visited']);
-                    (listItem['Department'] !== '') && (newItem.department = listItem['Department']);
-                    (listItem['Browse Node'] !== '') && (newItem.browserNode = listItem['Browse Node']);
-                    (listItem['First Search Domain'] !== '') && (newItem.firstSearchDomain = listItem['First Search Domain']);
-                    (listItem['Is First Search From External Ad'] !== '') && (newItem.isFirstSearchFromExternalAd = listItem['Is First Search From External Ad'].toLowerCase() == 'yes');
-                    (listItem['User Agent Info Family'] !== '') && (newItem.userAgentInfoFamily = listItem['User Agent Info Family']);
-                    (listItem.LKCI !== '') && (newItem.LKCI = listItem['LKCI']);
+                    if (ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}First Search Time (GMT)`])) {
+                        match = listItem[`${this.INIT_CHAR}First Search Time (GMT)`].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+)/);
+                        (match) && (newItem.firstSearchTime = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
+                    }
+                    ValidatorFiles.isCSVFieldValid(listItem['Country ID']) && (newItem.countryID = listItem['Country ID']);
+                    ValidatorFiles.isCSVFieldValid(listItem['All Department (APS) or Category']) && (newItem.APSorCategory = listItem['All Department (APS) or Category']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Site Variant']) && (newItem.siteVariant = listItem['Site Variant']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Application / Browser Name']) && (newItem.appOrBrowser = listItem['Application / Browser Name']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Device Model']) && (newItem.deviceModel = listItem['Device Model']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Search Type (Keyword,Visual,Browse)']) && (newItem.searchType = listItem['Search Type (Keyword,Visual,Browse)']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Session ID']) && (newItem.sessionID = listItem['Session ID']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Query ID']) && (newItem.queryID = listItem['Query ID']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Prime Customer (Y/N)']) && (newItem.primeCustomer = listItem['Prime Customer (Y/N)'] === '1');
+                    ValidatorFiles.isCSVFieldValid(listItem['Is From External Link (Y/N)']) && (newItem.isFromExternalLink = listItem['Is From External Link (Y/N)'] === '1');
+                    ValidatorFiles.isCSVFieldValid(listItem['Search From External Site (Y/N)']) && (newItem.searchFromExternalSite = listItem['Search From External Site (Y/N)'] === '1');
+                    ValidatorFiles.isCSVFieldValid(listItem['First Search Query String']) && (newItem.firstSearchQuery = listItem['First Search Query String']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Application Name']) && (newItem.applicationName = listItem['Application Name']);
+                    ValidatorFiles.isCSVFieldValid(listItem['App Version']) && (newItem.appVersion = listItem['App Version']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Operating System Name']) && (newItem.operatingSystemName = listItem['Operating System Name']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Operating System Version']) && (newItem.operatingSystemVersion = listItem['Operating System Version']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Device Type ID']) && (newItem.deviceTypeID = listItem['Device Type ID']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Device Category']) && (newItem.deviceCategory = listItem['Device Category']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Customer IP']) && (newItem.customerIP = listItem['Customer IP']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Search Method']) && (newItem.searchMethod = listItem['Search Method']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Keywords']) && (newItem.keywords = listItem['Keywords']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Amazon Business Customer (Y/N)']) && (newItem.isBusinessCustomer = listItem['Amazon Business Customer (Y/N)'] === '1');
+                    ValidatorFiles.isCSVFieldValid(listItem['Language']) && (newItem.language = listItem['Language']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Server']) && (newItem.server = listItem['Server']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Amazon Fresh Customer (Y/N)']) && (newItem.isFreshCustomer = listItem['Amazon Fresh Customer (Y/N)'] === '1');
+                    ValidatorFiles.isCSVFieldValid(listItem['Music Subscriber (Y/N)']) && (newItem.isMusicSubscriber = listItem['Music Subscriber (Y/N)'] === '1');
+                    ValidatorFiles.isCSVFieldValid(listItem['First Browse Node']) && (newItem.firstBrowseNode = listItem['First Browse Node']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Last search Time (GMT)']) && (match = listItem['Last search Time (GMT)'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+).0/));
+                    ValidatorFiles.isCSVFieldValid(listItem['Last search Time (GMT)']) && (newItem.lastSearchTime = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
+                    ValidatorFiles.isCSVFieldValid(listItem['Last Department']) && (newItem.lastDepartment = listItem['Last Department']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Last Browse Node']) && (newItem.lastBrowseNode = listItem['Last Browse Node']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Last Known Customer ID']) && (newItem.lastKnownCustomerID = listItem['Last Known Customer ID']);
+                    ValidatorFiles.isCSVFieldValid(listItem['First Added Item']) && (newItem.firstAddedItem = listItem['First Added Item']);
+                    ValidatorFiles.isCSVFieldValid(listItem['First Purchased Item']) && (newItem.firstPurchasedItem = listItem['First Purchased Item']);
+                    ValidatorFiles.isCSVFieldValid(listItem['First Consumed Item (Subscription)']) && (newItem.firstConsumedItem = listItem['First Consumed Item (Subscription)']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Number of Clicked Items']) && (newItem.numberClickedItem = listItem['Number of Clicked Items']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Number of Items Added to Cart']) && (newItem.numberItemsAddedCart = listItem['Number of Items Added to Cart']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Number of Items Ordered']) && (newItem.numberItemsOrdered = listItem['Number of Items Ordered']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Number of Paid Items Ordered']) && (newItem.numberPaidItemsOrdered = listItem['Number of Paid Items Ordered']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Number of Free Items Ordered']) && (newItem.numberFreeItemsOrdered = listItem['Number of Free Items Ordered']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Units Ordered']) && (newItem.unitsOrdered = listItem['Units Ordered']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Paid Units Ordered']) && (newItem.paidUnitsOrdered = listItem['Paid Units Ordered']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Free Units Ordered']) && (newItem.freeUnitsOrdered = listItem['Free Units Ordered']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Maximum Purchase Price']) && (newItem.maximumPurchasePrice = listItem['Maximum Purchase Price']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Clicked Any Item (Y/N)']) && (newItem.clickedAnyItem = listItem['Clicked Any Item (Y/N)'] === '1');
+                    ValidatorFiles.isCSVFieldValid(listItem['Added Any Item (Y/N)']) && (newItem.addedAnyItem = listItem['Added Any Item (Y/N)'] === '1');
+                    ValidatorFiles.isCSVFieldValid(listItem['Purchased Any Item (Y/N)']) && (newItem.purchasedAnyItem = listItem['Purchased Any Item (Y/N)'] === '1');
+                    ValidatorFiles.isCSVFieldValid(listItem['Department Count']) && (newItem.departmentCount = listItem['Department Count']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Shopping Refinement']) && (newItem.shoppingRefinement = listItem['Shopping Refinement']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Number of Shopping Refinements']) && (newItem.numberShoppingRefinements = listItem['Number of Shopping Refinements']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Highest Number of Shopping Refinements']) && (newItem.highestNumberShoppingRefinements = listItem['Highest Number of Shopping Refinements']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Items Consumed (Subscription)']) && (newItem.itemConsumed = listItem['Items Consumed (Subscription)']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Shopping Refinement Pickers']) && (newItem.shoppingRefinementPickers = listItem['Shopping Refinement Pickers']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Paid Purchase (Y/N)']) && (newItem.paidPurchase = listItem['Paid Purchase (Y/N)'] === '1');
+                    ValidatorFiles.isCSVFieldValid(listItem['Item Borrowed (Y/N)']) && (newItem.isItemBorrowed = listItem['Item Borrowed (Y/N)'] === '1');
+                    ValidatorFiles.isCSVFieldValid(listItem['Items Borrowed']) && (newItem.itemsBorrowed = listItem['Items Borrowed']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Next Query Group via Click']) && (newItem.nextQueryGroupViaClick = listItem['Next Query Group via Click']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Query Abandoned (Y/N)']) && (newItem.queryAbandoned = listItem['Query Abandoned (Y/N)'] === '1');
+                    ValidatorFiles.isCSVFieldValid(listItem['Query Reformulated (Y/N)']) && (newItem.queryReformulated = listItem['Query Reformulated (Y/N)'] === '1');
+                    ValidatorFiles.isCSVFieldValid(listItem['Amazon Fresh (Y/N)']) && (newItem.amazonFresh = listItem['Amazon Fresh (Y/N)'] === '1');
+                    ValidatorFiles.isCSVFieldValid(listItem['Store Visited']) && (newItem.storeVisited = listItem['Store Visited']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Department']) && (newItem.department = listItem['Department']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Browse Node']) && (newItem.browserNode = listItem['Browse Node']);
+                    ValidatorFiles.isCSVFieldValid(listItem['First Search Domain']) && (newItem.firstSearchDomain = listItem['First Search Domain']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Is First Search From External Ad']) && (newItem.isFirstSearchFromExternalAd = listItem['Is First Search From External Ad'].toLowerCase() == 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['User Agent Info Family']) && (newItem.userAgentInfoFamily = listItem['User Agent Info Family']);
+                    ValidatorFiles.isCSVFieldValid(listItem.LKCI) && (newItem.LKCI = listItem['LKCI']);
                     return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
@@ -300,32 +304,32 @@ export class AmazonService {
                 let model: AudibleLibraryAM = {list: []}
                 model.list = result.map((listItem: any) => {
                     let newItem: AudioBookAM = {};
-                    if(listItem[`${this.INIT_CHAR}"DateAdded"`] !== '') {
+                    if(ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}"DateAdded"`])) {
                         let match = listItem[`${this.INIT_CHAR}"DateAdded"`].match(/(\d+)-(\w+)-(\d+)/);
                         let monthIndex = Months[match[2]];
                         (monthIndex) && (newItem.dateAdded = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
                     }
-                    (listItem.Title !== '') && (newItem.title = listItem.Title);
-                    (listItem.Asin !== '') && (newItem.asin = listItem.Asin);
-                    (listItem.IsDownloaded !== '') && (newItem.isDownloaded = listItem.IsDownloaded.toLowerCase() === 'y');
-                    (listItem.IsDeleted !== '') && (newItem.isDeleted = listItem.IsDeleted.toLowerCase() === 'y');
-                    (listItem.DeleteBy !== '') && (newItem.deleteBy = listItem.DeleteBy);
-                    if(listItem.DateDeleted !== '') {
+                    ValidatorFiles.isCSVFieldValid(listItem.Title) && (newItem.title = listItem.Title);
+                    ValidatorFiles.isCSVFieldValid(listItem.Asin) && (newItem.asin = listItem.Asin);
+                    ValidatorFiles.isCSVFieldValid(listItem.IsDownloaded) && (newItem.isDownloaded = listItem.IsDownloaded.toLowerCase() === 'y');
+                    ValidatorFiles.isCSVFieldValid(listItem.IsDeleted) && (newItem.isDeleted = listItem.IsDeleted.toLowerCase() === 'y');
+                    ValidatorFiles.isCSVFieldValid(listItem.DeleteBy) && (newItem.deleteBy = listItem.DeleteBy);
+                    if(ValidatorFiles.isCSVFieldValid(listItem.DateDeleted)) {
                         let match = listItem.DateDeleted.match(/(\d+)-(\w+)-(\d+)/);
                         let monthIndex = Months[match[2]];
                         (monthIndex) && (newItem.dateDeleted = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
                     }
-                    (listItem.IsPublic !== '') && (newItem.isPublic = listItem.IsPublic.toLowerCase() === 'y');
-                    (listItem.IsStreamed !== '') && (newItem.isStreamed = listItem.IsStreamed.toLowerCase() === 'y');
-                    (listItem.IsPreorder !== '') && (newItem.isPreorder = listItem.IsPreorder.toLowerCase() === 'y');
-                    (listItem.Downloads !== '') && (newItem.downloads = listItem.Downloads);
-                    if (listItem.DateFirstDownloaded !== '') {
+                    ValidatorFiles.isCSVFieldValid(listItem.IsPublic) && (newItem.isPublic = listItem.IsPublic.toLowerCase() === 'y');
+                    ValidatorFiles.isCSVFieldValid(listItem.IsStreamed) && (newItem.isStreamed = listItem.IsStreamed.toLowerCase() === 'y');
+                    ValidatorFiles.isCSVFieldValid(listItem.IsPreorder) && (newItem.isPreorder = listItem.IsPreorder.toLowerCase() === 'y');
+                    ValidatorFiles.isCSVFieldValid(listItem.Downloads) && (newItem.downloads = listItem.Downloads);
+                    if (ValidatorFiles.isCSVFieldValid(listItem.DateFirstDownloaded)) {
                         let match = listItem.DateFirstDownloaded.match(/(\d+)-(\w+)-(\d+)/);
                         let monthIndex = Months[match[2]];
                         (monthIndex) && (newItem.dateFirstDownloaded = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
                     }
-                    (listItem.OrderNumber !== '') && (newItem.orderNumber = listItem.OrderNumber);
-                    (listItem.OriginType !== '') && (newItem.originType = listItem.OriginType);
+                    ValidatorFiles.isCSVFieldValid(listItem.OrderNumber) && (newItem.orderNumber = listItem.OrderNumber);
+                    ValidatorFiles.isCSVFieldValid(listItem.OriginType) && (newItem.originType = listItem.OriginType);
                     return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
@@ -347,7 +351,7 @@ export class AmazonService {
                 let model: AdvertiserAudiencesAM = {list: []}
                 result.forEach((listItem: any) => {
                     let parameter = `${this.INIT_CHAR}Advertisers who brought audiences in which you are included`;
-                    (listItem[parameter] !== '') && (model.list.push({value: listItem[parameter]}));
+                    ValidatorFiles.isCSVFieldValid(listItem[parameter]) && (model.list.push({value: listItem[parameter]}));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -368,7 +372,7 @@ export class AmazonService {
                 let model: AdvertiserClickedAM = {list: []}
                 result.forEach((listItem: any) => {
                     let parameter = `${this.INIT_CHAR}Advertisers whose ads you clicked`;
-                    (listItem[parameter] !== '') && (model.list.push({value: listItem[parameter]}));
+                    ValidatorFiles.isCSVFieldValid(listItem[parameter]) && (model.list.push({value: listItem[parameter]}));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -389,7 +393,7 @@ export class AmazonService {
                 let model: ThirdPartyAudiencesAM = {list: []}
                 result.forEach((listItem: any) => {
                     let parameter = `${this.INIT_CHAR}Audiences in which you are included via 3rd Parties`;
-                    (listItem[parameter] !== '') && (model.list.push({value: listItem[parameter]}));
+                    ValidatorFiles.isCSVFieldValid(listItem[parameter]) && (model.list.push({value: listItem[parameter]}));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -410,7 +414,7 @@ export class AmazonService {
                 let model: AmazonAudiencesAM = {list: []}
                 result.forEach((listItem: any) => {
                     let parameter = `${this.INIT_CHAR}Amazon Audiences in which you are included`;
-                    (listItem[parameter] !== '') && (model.list.push({value: listItem[parameter]}));
+                    ValidatorFiles.isCSVFieldValid(listItem[parameter]) && (model.list.push({value: listItem[parameter]}));
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -431,18 +435,18 @@ export class AmazonService {
                 let model: TwitchPrimeSubscriptionsAM = {list: []}
                 model.list = result.map((listItem: any) => {
                     let newItem: TwitchPrimeSubscriptionAM = {}, match;
-                    (listItem[`${this.INIT_CHAR}Timestamp`] !== '') && (match = listItem[`${this.INIT_CHAR}Timestamp`].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/));
+                    ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}Timestamp`]) && (match = listItem[`${this.INIT_CHAR}Timestamp`].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/));
                     (match) && (newItem.date = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), 0)));
-                    (listItem.BalanceTrackerOperation !== '') && (newItem.balanceTrackerOperation = listItem.BalanceTrackerOperation);
-                    (listItem.SubscriptionCreditOperation !== '') && (newItem.subscriptionCreditOperation = listItem.SubscriptionCreditOperation);
-                    (listItem.SubscriptionCreditsSpent !== '') && (newItem.subscriptionCreditsSpent = listItem.SubscriptionCreditsSpent);
-                    (listItem.ProcessedSubscriptionCreditsSpent !== '') && (newItem.processedSubscriptionCreditsSpent = listItem.ProcessedSubscriptionCreditsSpent);
-                    (listItem.SubscriptionCreditBalanceChange !== '') && (newItem.subscriptionCreditBalanceChange = listItem.SubscriptionCreditBalanceChange);
-                    (listItem.RemainingSubscriptionCreditBalance !== '') && (newItem.remainingSubscriptionCreditBalance = listItem.RemainingSubscriptionCreditBalance);
-                    (listItem.StreamerName !== '') && (newItem.streamerName = listItem.StreamerName);
-                    (listItem.StreamerLinkedChannels !== '') && (newItem.streamerLinkedChannels = listItem.StreamerLinkedChannels);
-                    (listItem.SpenderTwitchUserID !== '') && (newItem.spenderTwitchUserID = listItem.SpenderTwitchUserID);
-                    (listItem.CustomerServiceNote !== '') && (newItem.customerServiceNote = listItem.CustomerServiceNote);
+                    ValidatorFiles.isCSVFieldValid(listItem.BalanceTrackerOperation) && (newItem.balanceTrackerOperation = listItem.BalanceTrackerOperation);
+                    ValidatorFiles.isCSVFieldValid(listItem.SubscriptionCreditOperation) && (newItem.subscriptionCreditOperation = listItem.SubscriptionCreditOperation);
+                    ValidatorFiles.isCSVFieldValid(listItem.SubscriptionCreditsSpent) && (newItem.subscriptionCreditsSpent = listItem.SubscriptionCreditsSpent);
+                    ValidatorFiles.isCSVFieldValid(listItem.ProcessedSubscriptionCreditsSpent) && (newItem.processedSubscriptionCreditsSpent = listItem.ProcessedSubscriptionCreditsSpent);
+                    ValidatorFiles.isCSVFieldValid(listItem.SubscriptionCreditBalanceChange) && (newItem.subscriptionCreditBalanceChange = listItem.SubscriptionCreditBalanceChange);
+                    ValidatorFiles.isCSVFieldValid(listItem.RemainingSubscriptionCreditBalance) && (newItem.remainingSubscriptionCreditBalance = listItem.RemainingSubscriptionCreditBalance);
+                    ValidatorFiles.isCSVFieldValid(listItem.StreamerName) && (newItem.streamerName = listItem.StreamerName);
+                    ValidatorFiles.isCSVFieldValid(listItem.StreamerLinkedChannels) && (newItem.streamerLinkedChannels = listItem.StreamerLinkedChannels);
+                    ValidatorFiles.isCSVFieldValid(listItem.SpenderTwitchUserID) && (newItem.spenderTwitchUserID = listItem.SpenderTwitchUserID);
+                    ValidatorFiles.isCSVFieldValid(listItem.CustomerServiceNote) && (newItem.customerServiceNote = listItem.CustomerServiceNote);
                     return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
@@ -464,35 +468,35 @@ export class AmazonService {
                 let model: RetailOrderHistoryAM = {list: []}
                 model.list = result.map((listItem: any) => {
                     let newItem: RetailOrderAM = {}, match;
-                    (listItem[`${this.INIT_CHAR}"Website"`] !== '') && (newItem.website = listItem[`${this.INIT_CHAR}"Website"`]);
-                    (listItem['Order ID'] !== '') && (newItem.orderID = listItem['Order ID']);
-                    (listItem['Order Date']  !== '') && (match = listItem['Order Date'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/));
-                    (listItem['Order Date']  !== '') && (newItem.orderDate = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
-                    (listItem['Purchase Order Number'] !== '') && (newItem.purchaseOrderNumber = listItem['Purchase Order Number']);
-                    (listItem['Currency'] !== '') && (newItem.currency = listItem['Currency']);
-                    (listItem['Unit Price'] !== '') && (newItem.unitPrice = parseFloat(listItem['Unit Price']));
-                    (listItem['Unit Price Tax'] !== '') && (newItem.unitPriceTax = parseFloat(listItem['Unit Price Tax']));
-                    (listItem['Shipping Charge'] !== '') && (newItem.shippingCharge = parseFloat(listItem['Shipping Charge']));
-                    (listItem['Total Discounts'] !== '') && (newItem.totalDiscounts = parseFloat(listItem['Total Discounts']));
-                    (listItem['Total Owed'] !== '') && (newItem.totalOwed = parseFloat(listItem['Total Owed']));
-                    (listItem['Shipment Item Subtotal'] !== '') && (newItem.shipmentItemSubtotal = parseFloat(listItem['Shipment Item Subtotal']));
-                    (listItem['Shipment Item Subtotal Tax'] !== '') && (newItem.shipmentItemSubtotalTax = parseFloat(listItem['Shipment Item Subtotal Tax']));
-                    (listItem['ASIN'] !== '') && (newItem.ASIN = listItem['ASIN']);
-                    (listItem['Product Condition'] !== '') && (newItem.productCondition = listItem['Product Condition']);
-                    (listItem['Quantity'] !== '') && (newItem.quantity = parseFloat(listItem['Quantity']));
-                    (listItem['Payment Instrument Type'] !== '') && (newItem.paymentInstrumentType = listItem['Payment Instrument Type']);
-                    (listItem['Order Status'] !== '') && (newItem.orderStatus = listItem['Order Status']);
-                    (listItem['Shipment Status'] !== '') && (newItem.shipmentStatus = listItem['Shipment Status']);
-                    (listItem['Ship Date']  !== '') && (match = listItem['Ship Date'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/));
-                    (listItem['Ship Date']  !== '') && (newItem.orderDate = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
-                    (listItem['Shipping Option'] !== '') && (newItem.shippingOption = listItem['Shipping Option']);
-                    (listItem['Shipping Address'] !== '') && (newItem.shippingAddress = listItem['Shipping Address']);
-                    (listItem['Billing Address'] !== '') && (newItem.billingAddress = listItem['Billing Address']);
-                    (listItem['Carrier Name & Tracking Number'] !== '') && (newItem.carrierNameAndTrackingNumber = listItem['Carrier Name & Tracking Number']);
-                    (listItem['Product Name'] !== '') && (newItem.productName = listItem['Product Name']);
-                    (listItem['Gift Message'] !== '') && (newItem.giftMessage = listItem['Gift Message']);
-                    (listItem['Gift Sender Name'] !== '') && (newItem.giftSenderName = listItem['Gift Sender Name']);
-                    (listItem['Gift Recipient Contact Details'] !== '') && (newItem.giftRecipientContactDetails = listItem['Gift Recipient Contact Details']);
+                    ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}"Website"`]) && (newItem.website = listItem[`${this.INIT_CHAR}"Website"`]);
+                    ValidatorFiles.isCSVFieldValid(listItem['Order ID']) && (newItem.orderID = listItem['Order ID']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Order Date'] ) && (match = listItem['Order Date'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/));
+                    ValidatorFiles.isCSVFieldValid(listItem['Order Date'] ) && (newItem.orderDate = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
+                    ValidatorFiles.isCSVFieldValid(listItem['Purchase Order Number']) && (newItem.purchaseOrderNumber = listItem['Purchase Order Number']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Currency']) && (newItem.currency = listItem['Currency']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Unit Price']) && (newItem.unitPrice = parseFloat(listItem['Unit Price']));
+                    ValidatorFiles.isCSVFieldValid(listItem['Unit Price Tax']) && (newItem.unitPriceTax = parseFloat(listItem['Unit Price Tax']));
+                    ValidatorFiles.isCSVFieldValid(listItem['Shipping Charge']) && (newItem.shippingCharge = parseFloat(listItem['Shipping Charge']));
+                    ValidatorFiles.isCSVFieldValid(listItem['Total Discounts']) && (newItem.totalDiscounts = parseFloat(listItem['Total Discounts']));
+                    ValidatorFiles.isCSVFieldValid(listItem['Total Owed']) && (newItem.totalOwed = parseFloat(listItem['Total Owed']));
+                    ValidatorFiles.isCSVFieldValid(listItem['Shipment Item Subtotal']) && (newItem.shipmentItemSubtotal = parseFloat(listItem['Shipment Item Subtotal']));
+                    ValidatorFiles.isCSVFieldValid(listItem['Shipment Item Subtotal Tax']) && (newItem.shipmentItemSubtotalTax = parseFloat(listItem['Shipment Item Subtotal Tax']));
+                    ValidatorFiles.isCSVFieldValid(listItem['ASIN']) && (newItem.ASIN = listItem['ASIN']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Product Condition']) && (newItem.productCondition = listItem['Product Condition']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Quantity']) && (newItem.quantity = parseFloat(listItem['Quantity']));
+                    ValidatorFiles.isCSVFieldValid(listItem['Payment Instrument Type']) && (newItem.paymentInstrumentType = listItem['Payment Instrument Type']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Order Status']) && (newItem.orderStatus = listItem['Order Status']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Shipment Status']) && (newItem.shipmentStatus = listItem['Shipment Status']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Ship Date'] ) && (match = listItem['Ship Date'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/));
+                    ValidatorFiles.isCSVFieldValid(listItem['Ship Date'] ) && (newItem.orderDate = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
+                    ValidatorFiles.isCSVFieldValid(listItem['Shipping Option']) && (newItem.shippingOption = listItem['Shipping Option']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Shipping Address']) && (newItem.shippingAddress = listItem['Shipping Address']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Billing Address']) && (newItem.billingAddress = listItem['Billing Address']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Carrier Name & Tracking Number']) && (newItem.carrierNameAndTrackingNumber = listItem['Carrier Name & Tracking Number']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Product Name']) && (newItem.productName = listItem['Product Name']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Gift Message']) && (newItem.giftMessage = listItem['Gift Message']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Gift Sender Name']) && (newItem.giftSenderName = listItem['Gift Sender Name']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Gift Recipient Contact Details']) && (newItem.giftRecipientContactDetails = listItem['Gift Recipient Contact Details']);
                     return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
@@ -514,32 +518,32 @@ export class AmazonService {
                 let model: AudibleListeningListAM = {list: []}
                 model.list = result.map((listItem: any) => {
                     let newItem: AudibleListeningAM = {};
-                    (listItem[`${this.INIT_CHAR}"DeviceType"`] !== '') && (newItem.deviceType = listItem[`${this.INIT_CHAR}"DeviceType"`]);
-                    if(listItem['StartDate'] !== '') {
+                    ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}"DeviceType"`]) && (newItem.deviceType = listItem[`${this.INIT_CHAR}"DeviceType"`]);
+                    if(ValidatorFiles.isCSVFieldValid(listItem['StartDate'])) {
                         let match = listItem['StartDate'].match(/(\d+)-(\w+)-(\d+)/);
                         let monthIndex = Months[match[2]];
                         (monthIndex) && (newItem.startDate = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
                     }
-                    if(listItem['EndDate'] !== '') {
+                    if(ValidatorFiles.isCSVFieldValid(listItem['EndDate'])) {
                         let match = listItem['EndDate'].match(/(\d+)-(\w+)-(\d+)/);
                         let monthIndex = Months[match[2]];
                         (monthIndex) && (newItem.endDate = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
                     }
-                    (listItem['EventDuration'] !== '') && (newItem.eventDuration = parseFloat(listItem['EventDuration']));
-                    (listItem['StartPosition'] !== '') && (newItem.startPosition = parseFloat(listItem['StartPosition']));
-                    (listItem['EndPosition'] !== '') && (newItem.endPosition = parseFloat(listItem['EndPosition']));
-                    (listItem['Title'] !== '') && (newItem.title = listItem['Title']);
-                    (listItem['Asin'] !== '') && (newItem.asin = listItem['Asin']);
-                    (listItem['BookLength'] !== '') && (newItem.bookLength = parseFloat(listItem['BookLength']));
-                    (listItem['DeliveryType'] !== '') && (newItem.deliveryType = listItem['DeliveryType']);
-                    (listItem['NarrationSpeed'] !== '') && (newItem.narrationSpeed = listItem['NarrationSpeed']);
-                    (listItem['Bookmark'] !== '') && (newItem.bookmark = parseFloat(listItem['Bookmark']));
-                    (listItem['AudioType'] !== '') && (newItem.audioType = listItem['AudioType']);
-                    (listItem['AsinOwned'] !== '') && (newItem.asinOwned = listItem['AsinOwned'].toLowerCase() == 'true');
-                    (listItem['ListeningMode'] !== '') && (newItem.listeningMode = listItem['ListeningMode']);
-                    (listItem['Store'] !== '') && (newItem.store = listItem['Store']);
-                    (listItem['AppVersion'] !== '') && (newItem.appVersion = listItem['AppVersion']);
-                    (listItem['LocalTimezone'] !== '') && (newItem.localTimezone = listItem['LocalTimezone']);
+                    ValidatorFiles.isCSVFieldValid(listItem['EventDuration']) && (newItem.eventDuration = parseFloat(listItem['EventDuration']));
+                    ValidatorFiles.isCSVFieldValid(listItem['StartPosition']) && (newItem.startPosition = parseFloat(listItem['StartPosition']));
+                    ValidatorFiles.isCSVFieldValid(listItem['EndPosition']) && (newItem.endPosition = parseFloat(listItem['EndPosition']));
+                    ValidatorFiles.isCSVFieldValid(listItem['Title']) && (newItem.title = listItem['Title']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Asin']) && (newItem.asin = listItem['Asin']);
+                    ValidatorFiles.isCSVFieldValid(listItem['BookLength']) && (newItem.bookLength = parseFloat(listItem['BookLength']));
+                    ValidatorFiles.isCSVFieldValid(listItem['DeliveryType']) && (newItem.deliveryType = listItem['DeliveryType']);
+                    ValidatorFiles.isCSVFieldValid(listItem['NarrationSpeed']) && (newItem.narrationSpeed = listItem['NarrationSpeed']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Bookmark']) && (newItem.bookmark = parseFloat(listItem['Bookmark']));
+                    ValidatorFiles.isCSVFieldValid(listItem['AudioType']) && (newItem.audioType = listItem['AudioType']);
+                    ValidatorFiles.isCSVFieldValid(listItem['AsinOwned']) && (newItem.asinOwned = listItem['AsinOwned'].toLowerCase() == 'true');
+                    ValidatorFiles.isCSVFieldValid(listItem['ListeningMode']) && (newItem.listeningMode = listItem['ListeningMode']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Store']) && (newItem.store = listItem['Store']);
+                    ValidatorFiles.isCSVFieldValid(listItem['AppVersion']) && (newItem.appVersion = listItem['AppVersion']);
+                    ValidatorFiles.isCSVFieldValid(listItem['LocalTimezone']) && (newItem.localTimezone = listItem['LocalTimezone']);
                     return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
@@ -561,42 +565,42 @@ export class AmazonService {
                 let model: AudibleMembershipBillingsAM = {list: []}
                 model.list = result.map((listItem: any) => {
                     let newItem: AudibleMembershipBillingAM = {};
-                    if(listItem[`${this.INIT_CHAR}"TaxCreateDate"`] !== '') {
+                    if(ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}"TaxCreateDate"`])) {
                         let match = listItem[`${this.INIT_CHAR}"TaxCreateDate"`].match(/(\d+)-(\w+)-(\d+)/);
                         let monthIndex = Months[match[2]];
                         (monthIndex) && (newItem.taxCreateDate = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
                     }
-                    if(listItem['BillingPeriodEndDate'] !== '') {
+                    if(ValidatorFiles.isCSVFieldValid(listItem['BillingPeriodEndDate'])) {
                         let match = listItem['BillingPeriodEndDate'].match(/(\d+)-(\w+)-(\d+)/);
                         let monthIndex = Months[match[2]];
                         (monthIndex) && (newItem.billingPeriodEndDate = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
                     }
-                    if(listItem['BillingPeriodStartDate'] !== '') {
+                    if(ValidatorFiles.isCSVFieldValid(listItem['BillingPeriodStartDate'])) {
                         let match = listItem['BillingPeriodStartDate'].match(/(\d+)-(\w+)-(\d+)/);
                         let monthIndex = Months[match[2]];
                         (monthIndex) && (newItem.billingPeriodStartDate = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
                     }
-                    if(listItem['StatusLastupdatedDate'] !== '') {
+                    if(ValidatorFiles.isCSVFieldValid(listItem['StatusLastupdatedDate'])) {
                         let match = listItem['StatusLastupdatedDate'].match(/(\d+)-(\w+)-(\d+)/);
                         let monthIndex = Months[match[2]];
                         (monthIndex) && (newItem.statusLastUpdatedDate = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1]), 0, 0, 0)));
                     }
-                    (listItem['BaseAmount'] !== '') && (newItem.baseAmount = parseFloat(listItem['BaseAmount']));
-                    (listItem['Tax'] !== '') && (newItem.tax = parseFloat(listItem['Tax']));
-                    (listItem['TotalAmount'] !== '') && (newItem.totalAmount = parseFloat(listItem['TotalAmount']));
-                    (listItem['Currency'] !== '') && (newItem.currency = listItem['Currency']);
-                    (listItem['Type'] !== '') && (newItem.type = listItem['Type']);
-                    (listItem['Plan'] !== '') && (newItem.plan = listItem['Plan']);
-                    (listItem['PlanBillingFreq'] !== '') && (newItem.planBillingFreq = parseFloat(listItem['PlanBillingFreq']));
-                    (listItem['PlanBillingFee'] !== '') && (newItem.planBillingFee = parseFloat(listItem['PlanBillingFee']));
-                    (listItem['OfferName'] !== '') && (newItem.offerName = listItem['OfferName']);
-                    (listItem['OfferType'] !== '') && (newItem.offerType = listItem['OfferType']);
-                    (listItem['TransactionId'] !== '') && (newItem.transactionId = listItem['TransactionId']);
-                    (listItem['SubscriptionIdentifier'] !== '') && (newItem.subscriptionIdentifier = listItem['SubscriptionIdentifier']);
-                    (listItem['PlanSelectionIdentifier'] !== '') && (newItem.planSelectionIdentifier = listItem['PlanSelectionIdentifier']);
-                    (listItem['MerchantName'] !== '') && (newItem.merchantName = listItem['MerchantName']);
-                    (listItem['TaxReason'] !== '') && (newItem.taxReason = listItem['TaxReason']);
-                    (listItem['Status'] !== '') && (newItem.status = listItem['Status']);
+                    ValidatorFiles.isCSVFieldValid(listItem['BaseAmount']) && (newItem.baseAmount = parseFloat(listItem['BaseAmount']));
+                    ValidatorFiles.isCSVFieldValid(listItem['Tax']) && (newItem.tax = parseFloat(listItem['Tax']));
+                    ValidatorFiles.isCSVFieldValid(listItem['TotalAmount']) && (newItem.totalAmount = parseFloat(listItem['TotalAmount']));
+                    ValidatorFiles.isCSVFieldValid(listItem['Currency']) && (newItem.currency = listItem['Currency']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Type']) && (newItem.type = listItem['Type']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Plan']) && (newItem.plan = listItem['Plan']);
+                    ValidatorFiles.isCSVFieldValid(listItem['PlanBillingFreq']) && (newItem.planBillingFreq = parseFloat(listItem['PlanBillingFreq']));
+                    ValidatorFiles.isCSVFieldValid(listItem['PlanBillingFee']) && (newItem.planBillingFee = parseFloat(listItem['PlanBillingFee']));
+                    ValidatorFiles.isCSVFieldValid(listItem['OfferName']) && (newItem.offerName = listItem['OfferName']);
+                    ValidatorFiles.isCSVFieldValid(listItem['OfferType']) && (newItem.offerType = listItem['OfferType']);
+                    ValidatorFiles.isCSVFieldValid(listItem['TransactionId']) && (newItem.transactionId = listItem['TransactionId']);
+                    ValidatorFiles.isCSVFieldValid(listItem['SubscriptionIdentifier']) && (newItem.subscriptionIdentifier = listItem['SubscriptionIdentifier']);
+                    ValidatorFiles.isCSVFieldValid(listItem['PlanSelectionIdentifier']) && (newItem.planSelectionIdentifier = listItem['PlanSelectionIdentifier']);
+                    ValidatorFiles.isCSVFieldValid(listItem['MerchantName']) && (newItem.merchantName = listItem['MerchantName']);
+                    ValidatorFiles.isCSVFieldValid(listItem['TaxReason']) && (newItem.taxReason = listItem['TaxReason']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Status']) && (newItem.status = listItem['Status']);
                     return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
@@ -616,20 +620,20 @@ export class AmazonService {
             let result: any = Parser.parseCSVfromBuffer(data)?.pop();
             if (result) {
                 let model: DigitalPrimeVideoViewCountsAM = {};
-                (result[`${this.INIT_CHAR}# TV shows watched`] !== '') && (model.showTVWatched = parseInt(result[`${this.INIT_CHAR}# TV shows watched`]));
-                (result['# kids titles watched'] !== '') && (model.kidsTitlesWatched = parseInt(result['# kids titles watched']));
-                (result['# movies watched'] !== '') && (model.moviesWatched = parseInt(result['# movies watched']));
-                (result['# non-kids titles watched'] !== '') && (model.nonKidsTitlesWatched = parseInt(result['# non-kids titles watched']));
-                (result['# prime TV titles watched'] !== '') && (model.primeTVTitlesWatched = parseInt(result['# prime TV titles watched']));
-                (result['# prime movie titles watched'] !== '') && (model.primeMovieTitlesWatched = parseInt(result['# prime movie titles watched']));
-                (result['# prime titles watched'] !== '') && (model.primeTitlesWatched = parseInt(result['# prime titles watched']));
-                (result['# rent/buy TV titles watched'] !== '') && (model.rentBuyTVTitlesWatched = parseInt(result['# rent/buy TV titles watched']));
-                (result['# rent/buy movies watched'] !== '') && (model.rentBuyMoviesWatched = parseInt(result['# rent/buy movies watched']));
-                (result['# rent/buy titles watched'] !== '') && (model.rentBuyTitlesWatched = parseInt(result['# rent/buy titles watched']));
-                (result['# titles added to watchlist'] !== '') && (model.titlesAddedToWatchlist = parseInt(result['# titles added to watchlist']));
-                (result['# titles purchased/rented'] !== '') && (model.titlesPurchasedRented = parseInt(result['# titles purchased/rented']));
-                (result['# titles watched'] !== '') && (model.titlesWatched = parseInt(result['# titles watched']));
-                (result['home country'] !== '') && (model.homeCountry = result['home country']);
+                ValidatorFiles.isCSVFieldValid(result[`${this.INIT_CHAR}# TV shows watched`]) && (model.showTVWatched = parseInt(result[`${this.INIT_CHAR}# TV shows watched`]));
+                ValidatorFiles.isCSVFieldValid(result['# kids titles watched']) && (model.kidsTitlesWatched = parseInt(result['# kids titles watched']));
+                ValidatorFiles.isCSVFieldValid(result['# movies watched']) && (model.moviesWatched = parseInt(result['# movies watched']));
+                ValidatorFiles.isCSVFieldValid(result['# non-kids titles watched']) && (model.nonKidsTitlesWatched = parseInt(result['# non-kids titles watched']));
+                ValidatorFiles.isCSVFieldValid(result['# prime TV titles watched']) && (model.primeTVTitlesWatched = parseInt(result['# prime TV titles watched']));
+                ValidatorFiles.isCSVFieldValid(result['# prime movie titles watched']) && (model.primeMovieTitlesWatched = parseInt(result['# prime movie titles watched']));
+                ValidatorFiles.isCSVFieldValid(result['# prime titles watched']) && (model.primeTitlesWatched = parseInt(result['# prime titles watched']));
+                ValidatorFiles.isCSVFieldValid(result['# rent/buy TV titles watched']) && (model.rentBuyTVTitlesWatched = parseInt(result['# rent/buy TV titles watched']));
+                ValidatorFiles.isCSVFieldValid(result['# rent/buy movies watched']) && (model.rentBuyMoviesWatched = parseInt(result['# rent/buy movies watched']));
+                ValidatorFiles.isCSVFieldValid(result['# rent/buy titles watched']) && (model.rentBuyTitlesWatched = parseInt(result['# rent/buy titles watched']));
+                ValidatorFiles.isCSVFieldValid(result['# titles added to watchlist']) && (model.titlesAddedToWatchlist = parseInt(result['# titles added to watchlist']));
+                ValidatorFiles.isCSVFieldValid(result['# titles purchased/rented']) && (model.titlesPurchasedRented = parseInt(result['# titles purchased/rented']));
+                ValidatorFiles.isCSVFieldValid(result['# titles watched']) && (model.titlesWatched = parseInt(result['# titles watched']));
+                ValidatorFiles.isCSVFieldValid(result['home country']) && (model.homeCountry = result['home country']);
                 return !ValidatorFiles.objectIsEmpty(model) ? model : undefined;
             }
             return undefined;
@@ -649,51 +653,51 @@ export class AmazonService {
                 let model: DigitalSubscriptionsAM = {list: []}
                 model.list = result.map((listItem: any) => {
                     let newItem: DigitalSubscriptionAM = {};
-                    (listItem[`${this.INIT_CHAR}SubscriptionId`] !== '' && listItem['${this.INIT_CHAR}SubscriptionId'] !== 'N/A') && (newItem.subscriptionId = listItem[`${this.INIT_CHAR}SubscriptionId`]);
-                    (listItem['BaseSubscriptionId'] !== '' && listItem['BaseSubscriptionId'] !== 'N/A') && (newItem.baseSubscriptionId = listItem['BaseSubscriptionId']);
-                    (listItem['ShippingAddress'] !== ''  && listItem['ShippingAddress'] !== 'N/A') && (newItem.shippingAddress = listItem['ShippingAddress']);
-                    (listItem['Marketplace'] !== '' && listItem['Marketplace'] !== 'N/A') && (newItem.marketplace = listItem['Marketplace']);
-                    (listItem['SubscriptionPlanId'] !== '' && listItem['SubscriptionPlanId'] !== 'N/A') && (newItem.subscriptionPlanId = listItem['SubscriptionPlanId']);
-                    (listItem['SubscriptionStatus'] !== '' && listItem['SubscriptionStatus'] !== 'N/A') && (newItem.subscriptionStatus = listItem['SubscriptionStatus']);
-                    if(listItem['SubscriptionStatusDate'] !== '' && listItem['SubscriptionStatusDate'] !== 'N/A') {
+                    ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}SubscriptionId`]) && (newItem.subscriptionId = listItem[`${this.INIT_CHAR}SubscriptionId`]);
+                    ValidatorFiles.isCSVFieldValid(listItem['BaseSubscriptionId']) && (newItem.baseSubscriptionId = listItem['BaseSubscriptionId']);
+                    ValidatorFiles.isCSVFieldValid(listItem['ShippingAddress']) && (newItem.shippingAddress = listItem['ShippingAddress']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Marketplace']) && (newItem.marketplace = listItem['Marketplace']);
+                    ValidatorFiles.isCSVFieldValid(listItem['SubscriptionPlanId']) && (newItem.subscriptionPlanId = listItem['SubscriptionPlanId']);
+                    ValidatorFiles.isCSVFieldValid(listItem['SubscriptionStatus']) && (newItem.subscriptionStatus = listItem['SubscriptionStatus']);
+                    if(ValidatorFiles.isCSVFieldValid(listItem['SubscriptionStatusDate'])) {
                         let match = listItem['SubscriptionStatusDate'].match(/(\d+)-(\d+)-(\d+)/);
                         (match) && (newItem.subscriptionStatusDate = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), 0, 0, 0)));
                     }
-                    (listItem['ActivePaymentPlanId'] !== '' && listItem['ActivePaymentPlanId'] !== 'N/A') && (newItem.activePaymentPlanId = listItem['ActivePaymentPlanId']);
-                    (listItem['Autorenew'] !== '' && listItem['Autorenew'] !== 'N/A') && (newItem.autoRenew = listItem['Autorenew'].toLowerCase() === 'yes');
-                    if(listItem['SubscriptionStartDate'] !== '' && listItem['SubscriptionStartDate'] !== 'N/A') {
+                    ValidatorFiles.isCSVFieldValid(listItem['ActivePaymentPlanId']) && (newItem.activePaymentPlanId = listItem['ActivePaymentPlanId']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Autorenew']) && (newItem.autoRenew = listItem['Autorenew'].toLowerCase() === 'yes');
+                    if(ValidatorFiles.isCSVFieldValid(listItem['SubscriptionStartDate'])) {
                         let match = listItem['SubscriptionStartDate'].match(/(\d+)-(\d+)-(\d+)/);
                         (match) && (newItem.subscriptionStartDate = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), 0, 0, 0)));
                     }
-                    (listItem['WalletCyclingPreferenceEnabled'] !== '' && listItem['WalletCyclingPreferenceEnabled'] !== 'N/A') && (newItem.walletCyclingPreferenceEnabled = listItem['WalletCyclingPreferenceEnabled'].toLowerCase() === 'yes');
-                    (listItem['ServiceProvider'] !== '' && listItem['ServiceProvider'] !== 'N/A') && (newItem.serviceProvider = listItem['ServiceProvider']);
-                    (listItem['RecordVersionNumber'] !== '' && listItem['RecordVersionNumber'] !== 'N/A') && (newItem.recordVersionNumber = listItem['RecordVersionNumber']);
-                    (listItem['ContractTimeInterval'] !== '' && listItem['ContractTimeInterval'] !== 'N/A') && (newItem.contractTimeInterval = listItem['ContractTimeInterval']);
-                    (listItem['HaveSubscriptionProblem'] !== '' && listItem['HaveSubscriptionProblem'] !== 'N/A') && (newItem.haveSubscriptionProblem = listItem['HaveSubscriptionProblem'].toLowerCase() === 'yes');
-                    (listItem['MaxNumOfBeneficiaries'] !== '' && listItem['MaxNumOfBeneficiaries'] !== 'N/A') && (newItem.maxNumOfBeneficiaries = parseFloat(listItem['MaxNumOfBeneficiaries']));
-                    if(listItem['ScheduledResumeDateForPausedSubscription'] !== '' && listItem['ScheduledResumeDateForPausedSubscription'] !== 'N/A') {
+                    ValidatorFiles.isCSVFieldValid(listItem['WalletCyclingPreferenceEnabled']) && (newItem.walletCyclingPreferenceEnabled = listItem['WalletCyclingPreferenceEnabled'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['ServiceProvider']) && (newItem.serviceProvider = listItem['ServiceProvider']);
+                    ValidatorFiles.isCSVFieldValid(listItem['RecordVersionNumber']) && (newItem.recordVersionNumber = listItem['RecordVersionNumber']);
+                    ValidatorFiles.isCSVFieldValid(listItem['ContractTimeInterval']) && (newItem.contractTimeInterval = listItem['ContractTimeInterval']);
+                    ValidatorFiles.isCSVFieldValid(listItem['HaveSubscriptionProblem']) && (newItem.haveSubscriptionProblem = listItem['HaveSubscriptionProblem'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['MaxNumOfBeneficiaries']) && (newItem.maxNumOfBeneficiaries = parseFloat(listItem['MaxNumOfBeneficiaries']));
+                    if(ValidatorFiles.isCSVFieldValid(listItem['ScheduledResumeDateForPausedSubscription'])) {
                         let match = listItem['ScheduledResumeDateForPausedSubscription'].match(/(\d+)-(\d+)-(\d+)/);
                         (match) && (newItem.scheduledResumeDateForPausedSubscription = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), 0, 0, 0)));
                     }
-                    (listItem['CurrentPlanGifted'] !== '' && listItem['CurrentPlanGifted'] !== 'N/A') && (newItem.currentPlanGifted = listItem['CurrentPlanGifted'].toLowerCase() === 'yes');
-                    (listItem['BillingScheduleId'] !== '' && listItem['BillingScheduleId'] !== 'N/A') && (newItem.billingScheduleId = listItem['BillingScheduleId']);
-                    if(listItem['NextBillDate'] !== '' && listItem['NextBillDate'] !== 'N/A') {
+                    ValidatorFiles.isCSVFieldValid(listItem['CurrentPlanGifted']) && (newItem.currentPlanGifted = listItem['CurrentPlanGifted'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['BillingScheduleId']) && (newItem.billingScheduleId = listItem['BillingScheduleId']);
+                    if(ValidatorFiles.isCSVFieldValid(listItem['NextBillDate'])) {
                         let match = listItem['NextBillDate'].match(/(\d+)-(\d+)-(\d+)/);
                         (match) && (newItem.nextBillDate = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), 0, 0, 0)));
                     }
-                    (listItem['NextBillAmount'] !== '' && listItem['NextBillAmount'] !== 'N/A') && (newItem.nextBillAmount = parseFloat(listItem['NextBillAmount']));
-                    (listItem['BaseCurrencyCode'] !== '' && listItem['BaseCurrencyCode'] !== 'N/A') && (newItem.baseCurrencyCode = listItem['BaseCurrencyCode']);
-                    (listItem['CurrentBillingPeriod'] !== '' && listItem['CurrentBillingPeriod'] !== 'N/A') && (newItem.currentBillingPeriod = parseFloat(listItem['CurrentBillingPeriod']));
-                    if(listItem['BillingPeriodStartDate'] !== '' && listItem['BillingPeriodStartDate'] !== 'N/A') {
+                    ValidatorFiles.isCSVFieldValid(listItem['NextBillAmount']) && (newItem.nextBillAmount = parseFloat(listItem['NextBillAmount']));
+                    ValidatorFiles.isCSVFieldValid(listItem['BaseCurrencyCode']) && (newItem.baseCurrencyCode = listItem['BaseCurrencyCode']);
+                    ValidatorFiles.isCSVFieldValid(listItem['CurrentBillingPeriod']) && (newItem.currentBillingPeriod = parseFloat(listItem['CurrentBillingPeriod']));
+                    if(ValidatorFiles.isCSVFieldValid(listItem['BillingPeriodStartDate'])) {
                         let match = listItem['BillingPeriodStartDate'].match(/(\d+)-(\d+)-(\d+)/);
                         (match) && (newItem.billingPeriodStartDate = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), 0, 0, 0)));
                     }
-                    (listItem['CurrentContractPeriod'] !== '' && listItem['CurrentContractPeriod'] !== 'N/A') && (newItem.currentContractPeriod = parseFloat(listItem['CurrentContractPeriod']));
-                    if(listItem['ContractPeriodStartDate'] !== '' && listItem['ContractPeriodStartDate'] !== 'N/A') {
+                    ValidatorFiles.isCSVFieldValid(listItem['CurrentContractPeriod']) && (newItem.currentContractPeriod = parseFloat(listItem['CurrentContractPeriod']));
+                    if(ValidatorFiles.isCSVFieldValid(listItem['ContractPeriodStartDate'])) {
                         let match = listItem['ContractPeriodStartDate'].match(/(\d+)-(\d+)-(\d+)/);
                         (match) && (newItem.contractPeriodStartDate = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), 0, 0, 0)));
                     }
-                    if(listItem['ContractEndDate'] !== '' && listItem['ContractEndDate'] !== 'N/A') {
+                    if(ValidatorFiles.isCSVFieldValid(listItem['ContractEndDate'])) {
                         let match = listItem['ContractEndDate'].match(/(\d+)-(\d+)-(\d+)/);
                         (match) && (newItem.contractEndDate = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]), 0, 0, 0)));
                     }
@@ -718,25 +722,25 @@ export class AmazonService {
                 let model: LightWeightInteractionsAM = {list: []}
                 model.list = result.map((listItem: any) => {
                     let newItem: LightWeightInteractionAM = {};
-                    if(listItem[`${this.INIT_CHAR}CreationTime`] !== '') {
+                    if(ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}CreationTime`])) {
                         let match = listItem[`${this.INIT_CHAR}CreationTime`].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+) UTC/);
                         (match) && (newItem.creationTime = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
                     }
-                    (listItem['InteractableType'] !== '') && (newItem.interactableType = listItem['InteractableType']);
-                    (listItem['InteractableURL'] !== '') && (newItem.interactableURL = listItem['InteractableURL']);
-                    if(listItem['InteractionTime'] !== '') {
+                    ValidatorFiles.isCSVFieldValid(listItem['InteractableType']) && (newItem.interactableType = listItem['InteractableType']);
+                    ValidatorFiles.isCSVFieldValid(listItem['InteractableURL']) && (newItem.interactableURL = listItem['InteractableURL']);
+                    if(ValidatorFiles.isCSVFieldValid(listItem['InteractionTime'])) {
                         let match = listItem['InteractionTime'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+) UTC/);
                         (match) && (newItem.interactionTime = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
                     }
-                    (listItem['InteractionType'] !== '') && (newItem.interactionType = listItem['InteractionType']);
-                    (listItem['InteractionValue'] !== '') && (newItem.interactionValue = listItem['InteractionValue']);
-                    (listItem['Marketplace'] !== '') && (newItem.marketplace = listItem['Marketplace']);
-                    if(listItem['ModificationTime'] !== '') {
+                    ValidatorFiles.isCSVFieldValid(listItem['InteractionType']) && (newItem.interactionType = listItem['InteractionType']);
+                    ValidatorFiles.isCSVFieldValid(listItem['InteractionValue']) && (newItem.interactionValue = listItem['InteractionValue']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Marketplace']) && (newItem.marketplace = listItem['Marketplace']);
+                    if(ValidatorFiles.isCSVFieldValid(listItem['ModificationTime'])) {
                         let match = listItem['ModificationTime'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+) UTC/);
                         (match) && (newItem.modificationTime = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
                     }
-                    (listItem['Suppressed'] !== '') && (newItem.suppressed = listItem['Suppressed'].toLowerCase() === 'true');
-                    (listItem['Version'] !== '') && (newItem.version = listItem['Version']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Suppressed']) && (newItem.suppressed = listItem['Suppressed'].toLowerCase() === 'true');
+                    ValidatorFiles.isCSVFieldValid(listItem['Version']) && (newItem.version = listItem['Version']);
                     return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
@@ -758,22 +762,22 @@ export class AmazonService {
                 let model: RetailSellerFeedbacksAM = {list: []}
                 model.list = result.map((listItem: any) => {
                     let newItem: RetailSellerFeedbackAM = {};
-                    (listItem[`${this.INIT_CHAR}OrderId`] !== '') && (newItem.orderId = listItem[`${this.INIT_CHAR}OrderId`]);
-                    (listItem['Marketplace'] !== '') && (newItem.marketplace = listItem['Marketplace']);
-                    if(listItem['FeedbackDate'] !== '') {
+                    ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}OrderId`]) && (newItem.orderId = listItem[`${this.INIT_CHAR}OrderId`]);
+                    ValidatorFiles.isCSVFieldValid(listItem['Marketplace']) && (newItem.marketplace = listItem['Marketplace']);
+                    if(ValidatorFiles.isCSVFieldValid(listItem['FeedbackDate'])) {
                         let match = listItem['FeedbackDate'].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/);
                         (match) && (newItem.feedbackDate = new Date(Date.UTC(parseInt(match[3]), parseInt(match[2]) - 1, parseInt(match[1]), parseInt(match[4]), parseInt(match[5]), 0)));
                     }
-                    (listItem['FeedbackText'] !== '') && (newItem.feedbackText = listItem['FeedbackText']);
-                    (listItem['FeedbackRating'] !== '') && (newItem.feedbackRating = parseInt(listItem['FeedbackRating']));
-                    (listItem['Deal Again'] !== '') && (newItem.dealAgain = listItem['Deal Again']);
-                    (listItem['Did Item Arrived OnTime'] !== '') && (newItem.didItemArrivedOnTime = listItem['Did Item Arrived OnTime'].toLowerCase() === 'yes');
-                    (listItem['Item as described by the seller'] !== '') && (newItem.itemAsDescribedBySeller = listItem['Item as described by the seller'].toLowerCase() === 'yes');
-                    (listItem['Prompt and courteous service'] !== '') && (newItem.promptAndCourteousService = listItem['Prompt and courteous service'].toLowerCase() === 'yes');
-                    (listItem['What Went Wrong'] !== '') && (newItem.whatWentWrong = listItem['What Went Wrong']);
-                    (listItem['Is feedback removed'] !== '') && (newItem.isFeedbackRemoved = listItem['Is feedback removed'].toLowerCase() === 'yes');
-                    (listItem['Feedback removed by'] !== '') && (newItem.feedbackRemovedBy = listItem['Feedback removed by']);
-                    (listItem['Reason for removal'] !== '') && (newItem.reasonForRemoval = listItem['Reason for removal']);
+                    ValidatorFiles.isCSVFieldValid(listItem['FeedbackText']) && (newItem.feedbackText = listItem['FeedbackText']);
+                    ValidatorFiles.isCSVFieldValid(listItem['FeedbackRating']) && (newItem.feedbackRating = parseInt(listItem['FeedbackRating']));
+                    ValidatorFiles.isCSVFieldValid(listItem['Deal Again']) && (newItem.dealAgain = listItem['Deal Again']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Did Item Arrived OnTime']) && (newItem.didItemArrivedOnTime = listItem['Did Item Arrived OnTime'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['Item as described by the seller']) && (newItem.itemAsDescribedBySeller = listItem['Item as described by the seller'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['Prompt and courteous service']) && (newItem.promptAndCourteousService = listItem['Prompt and courteous service'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['What Went Wrong']) && (newItem.whatWentWrong = listItem['What Went Wrong']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Is feedback removed']) && (newItem.isFeedbackRemoved = listItem['Is feedback removed'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['Feedback removed by']) && (newItem.feedbackRemovedBy = listItem['Feedback removed by']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Reason for removal']) && (newItem.reasonForRemoval = listItem['Reason for removal']);
                     return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;
@@ -795,13 +799,13 @@ export class AmazonService {
                 let model: RetailRegionAuthoritiesAM = {list: []}
                 model.list = result.map((listItem: any) => {
                     let newItem: RetailRegionAuthorityAM = {};
-                    (listItem[`${this.INIT_CHAR}Postal Code`] !== '') && (newItem.postalCode = listItem[`${this.INIT_CHAR}Postal Code`]);
-                    (listItem['District'] !== '') && (newItem.district = listItem['District']);
-                    (listItem['City'] !== '') && (newItem.city = listItem['City']);
-                    (listItem['State or Province'] !== '') && (newItem.stateOrProvince = listItem['State or Province']);
-                    (listItem['State Code'] !== '') && (newItem.stateCode = listItem['State Code']);
-                    (listItem['Country Code'] !== '') && (newItem.countryCode = listItem['Country Code']);
-                    (listItem['Timestamp'] !== '') && (newItem.date = new Date(listItem['Timestamp']));
+                    ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}Postal Code`]) && (newItem.postalCode = listItem[`${this.INIT_CHAR}Postal Code`]);
+                    ValidatorFiles.isCSVFieldValid(listItem['District']) && (newItem.district = listItem['District']);
+                    ValidatorFiles.isCSVFieldValid(listItem['City']) && (newItem.city = listItem['City']);
+                    ValidatorFiles.isCSVFieldValid(listItem['State or Province']) && (newItem.stateOrProvince = listItem['State or Province']);
+                    ValidatorFiles.isCSVFieldValid(listItem['State Code']) && (newItem.stateCode = listItem['State Code']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Country Code']) && (newItem.countryCode = listItem['Country Code']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Timestamp']) && (newItem.date = new Date(listItem['Timestamp']));
                     return newItem;
                 });
                 return model.list.length > 0 ? model : undefined;

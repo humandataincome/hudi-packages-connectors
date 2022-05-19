@@ -8,8 +8,9 @@ async function testService() {
         const {Parser} = require("./utils/parser");
         const path = require('path');
         const fs = require('fs');
-        /*
         console.log(await AmazonService.parsePrimeVideoWatchlist(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv`))));
+        /*
+
         console.log(await AmazonService.parsePrimeVideoWatchlistHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv`))));
         console.log(await AmazonService.parsePrimeVideoViewingHistory(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv`))));
         console.log(await AmazonService.parseSearchDataCustomerEngagement(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Search-Data/Search-Data.Customer-Engagement.csv`))));
@@ -43,13 +44,13 @@ async function testService() {
         console.log(await AmazonService.parseDigitalPrimeVideoViewCounts(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Digital.PrimeVideo.ViewCounts.2/Digital.PrimeVideo.ViewCounts.2.csv`))));
         console.log(await AmazonService.parseDigitalSubscriptions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Digital.Subscriptions/Subscriptions.csv`))));
         console.log(await AmazonService.parseLightWeightInteractions(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Retail.LightWeightInteractions/datasets/LightWeightInteractions/LightWeightInteractions.csv`))));
+        console.log(await AmazonService.parseRetailCartItems(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Retail.CartItems.2/Retail.CartItems.2.csv`))));
         console.log(await AmazonService.parseRetailSellerFeedback(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Retail.Seller-Feedback.2/Retail.Seller-Feedback.csv`))));
         console.log(await AmazonService.parseRetailRegionAuthorities(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Retail.RegionAuthority.2/Retail.RegionAuthority.2.csv`))));
-        console.log(await AmazonService.parseRetailCartItems(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Retail.CartItems.2/Retail.CartItems.2.csv`))));
         console.log(await AmazonService.parseDigitalItems(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Digital-Ordering.2/Digital Items.csv`))));
         console.log(await AmazonService.parseDigitalOrders(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Digital-Ordering.2/Digital Orders.csv`))));
-         */
         console.log(await AmazonService.parseDigitalOrdersMonetary(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/amazon/Digital-Ordering.2/Digital Orders Monetary.csv`))));
+         */
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);
