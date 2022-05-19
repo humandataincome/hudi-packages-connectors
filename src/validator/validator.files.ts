@@ -260,6 +260,14 @@ export class ValidatorFiles {
         return true;
     }
 
+    static isCSVFieldValid(value: any): boolean {
+        try {
+            return (value !== undefined && value !== '' && value !== 'N/A');
+        } catch {
+            return false;
+        }
+    }
+
     /**
      * @param dataSourceCode - a DataSourceCode
      * @return the corresponded instance of the DataSourceCode's Validation Class. E.g. DataSourceCode.INSTAGRAM -> ValidatorInstagram.getInstance(). Return undefined if none Validation class matches.

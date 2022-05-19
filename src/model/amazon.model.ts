@@ -386,6 +386,76 @@ export interface RetailRegionAuthorityAM {
     countryCode?: string;
     date?: Date;
 }
- export interface RegionAuthorityAM {
 
+ export interface RetailCartItemsAM {
+    list: RetailCartItemAM[];
  }
+
+ export interface RetailCartItemAM {
+     dateAddedToCart?: Date;
+     source?: string;
+     ASIN?: string;
+     cartDomain?: string;
+     cartList?: string;
+     quantity?: number;
+     oneClickBuyable?: boolean;
+     toBeGiftWrapped?: boolean;
+     primeSubscription?: boolean;
+     pantry?: boolean;
+     addOn?: boolean;
+ }
+
+export interface DigitalItemsAM {
+    list: DigitalItemAM[];
+}
+
+export interface DigitalItemAM {
+    ASIN?: string;
+    title?: string;
+    orderId?: string;
+    digitalOrderItemId?: string;
+    declaredCountryCode?: string;
+    baseCurrencyCode?: string;
+    fulfilledDate?: Date;
+    isFulfilled?: boolean;
+    marketplace?: string;
+    orderDate?: Date;
+    originalQuantity?: number;
+    ourPrice?: number;
+    ourPriceCurrencyCode?: string;
+    ourPriceTax?: number;
+    ourPriceTaxCurrencyCode?: string;
+    sellerOfRecord?: string;
+    publisher?: string;
+    thirdPartyDisplayPrice?: string;
+    thirdPartyDisplayCurrencyCode?: string;
+    listPriceAmount?: number;
+    listPriceCurrencyCode?: string;
+    listPriceTaxAmount?: number;
+    listPriceTaxCurrencyCode?: string;
+    giftItem?: boolean;
+    orderingCustomerNickname?: string;
+    giftCustomerNickname?: string;
+    giftMessage?: string;
+    giftEmail?: string;
+    recipientEmail?: string;
+    giftRedemption?: string;
+    itemMergedFromAnotherOrder?: string;
+    quantityOrdered?: number;
+    itemFulfilled?: boolean;
+    shipFrom?: string;
+    shipTo?: string;
+    isOrderEligibleForPrimeBenefit?: boolean;
+    offeringSKU?: string;
+    fulfillmentMobileNumber?: string;
+    rechargeAmount?: number;
+    rechargeAmountCurrencyCode?: string;
+    subscriptionOrderInfoList?: string;
+    previouslyPaidDigitalOrderItemId?: string;
+    previouslyPaidOrderId?: string;
+    installmentOurPrice?: string;
+    installmentOurPricePlusTax?: string;
+    digitalOrderItemAttributes?: string;
+    installmentOurPriceCurrencyCode?: string;
+    installmentOurPricePlusTaxCurrencyCode?: string;
+}

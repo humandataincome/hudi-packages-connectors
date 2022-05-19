@@ -11,7 +11,7 @@ import {
     AudibleListeningListAM,
     AudibleMembershipBillingAM,
     AudibleMembershipBillingsAM,
-    AudioBookAM,
+    AudioBookAM, DigitalItemAM, DigitalItemsAM,
     DigitalPrimeVideoViewCountsAM,
     DigitalSubscriptionAM,
     DigitalSubscriptionsAM,
@@ -20,7 +20,7 @@ import {
     LightWeightInteractionsAM,
     PrimeVideoViewingHistoryAM,
     PrimeVideoWatchlistAM,
-    PrimeVideoWatchlistHistoryAM,
+    PrimeVideoWatchlistHistoryAM, RetailCartItemAM, RetailCartItemsAM,
     RetailOrderAM,
     RetailOrderHistoryAM,
     RetailRegionAuthoritiesAM,
@@ -803,6 +803,113 @@ export class AmazonService {
             this.logger.log('error', `${error}`, 'parseRetailRegionAuthorities');
             return undefined;
         }
+    }
+
+    /**
+     * @param data - file 'Retail.CartItems.2/Retail.CartItems.2.csv' in input as Buffer
+     */
+    static async parseRetailCartItems(data: Buffer): Promise<RetailCartItemsAM | undefined> {
+        try {
+            let result: any = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: RetailCartItemsAM = {list: []}
+                model.list = result.map((listItem: any) => {
+                    let newItem: RetailCartItemAM = {};
+                    if(ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}"DateAddedToCart"`])) {
+                        let match = listItem[`${this.INIT_CHAR}"DateAddedToCart"`].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+) UTC/);
+                        (match) && (newItem.dateAddedToCart = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6]))));
+                    }
+                    ValidatorFiles.isCSVFieldValid(listItem['Source']) && (newItem.source = listItem['Source']);
+                    ValidatorFiles.isCSVFieldValid(listItem['CartDomain']) && (newItem.cartDomain = listItem['CartDomain']);
+                    ValidatorFiles.isCSVFieldValid(listItem['CartList']) && (newItem.cartList = listItem['CartList']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Quantity']) && (newItem.quantity = parseFloat(listItem['Quantity']));
+                    ValidatorFiles.isCSVFieldValid(listItem['OneClickBuyable']) && (newItem.oneClickBuyable = listItem['OneClickBuyable'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['ToBeGiftWrapped']) && (newItem.toBeGiftWrapped = listItem['ToBeGiftWrapped'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['PrimeSubscription']) && (newItem.primeSubscription = listItem['PrimeSubscription'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['Pantry']) && (newItem.pantry = listItem['Pantry'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['AddOn']) && (newItem.addOn = listItem['AddOn'].toLowerCase() === 'yes');
+                    return newItem;
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseRetailCartItems');
+        }
+        return undefined;
+    }
+
+    /**
+     * @param data - file 'Digital-Ordering.2/Digital Items.csv' in input as Buffer
+     */
+    static async parseDigitalItems(data: Buffer): Promise<DigitalItemsAM | undefined> {
+        try {
+            let result: any = Parser.parseCSVfromBuffer(data);
+            if (result) {
+                let model: DigitalItemsAM = {list: []}
+                model.list = result.map((listItem: any) => {
+                    let newItem: DigitalItemAM = {};
+                    ValidatorFiles.isCSVFieldValid(listItem[`${this.INIT_CHAR}ASIN`]) && (newItem.ASIN = listItem[`${this.INIT_CHAR}ASIN`]);
+                    ValidatorFiles.isCSVFieldValid(listItem['Title']) && (newItem.title = listItem['Title']);
+                    ValidatorFiles.isCSVFieldValid(listItem['OrderId']) && (newItem.orderId = listItem['OrderId']);
+                    ValidatorFiles.isCSVFieldValid(listItem['DigitalOrderItemId']) && (newItem.digitalOrderItemId = listItem['DigitalOrderItemId']);
+                    ValidatorFiles.isCSVFieldValid(listItem['DeclaredCountryCode']) && (newItem.declaredCountryCode = listItem['DeclaredCountryCode']);
+                    ValidatorFiles.isCSVFieldValid(listItem['BaseCurrencyCode']) && (newItem.baseCurrencyCode = listItem['BaseCurrencyCode']);
+                    if(ValidatorFiles.isCSVFieldValid(listItem['FulfilledDate'])) {
+                        let match = listItem['FulfilledDate'].match(/(\d+)-(\d+)-(\d+)/);
+                        (match) && (newItem.fulfilledDate = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]))));
+                    }
+                    ValidatorFiles.isCSVFieldValid(listItem['IsFulfilled']) && (newItem.isFulfilled = listItem['IsFulfilled'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['Marketplace']) && (newItem.marketplace = listItem['Marketplace']);
+                    if(ValidatorFiles.isCSVFieldValid(listItem['OrderDate'])) {
+                        let match = listItem['OrderDate'].match(/(\d+)-(\d+)-(\d+)/);
+                        (match) && (newItem.orderDate = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3]))));
+                    }
+                    ValidatorFiles.isCSVFieldValid(listItem['OriginalQuantity']) && (newItem.originalQuantity = parseFloat(listItem['OriginalQuantity']));
+                    ValidatorFiles.isCSVFieldValid(listItem['OurPrice']) && (newItem.ourPrice = parseFloat(listItem['OurPrice']));
+                    ValidatorFiles.isCSVFieldValid(listItem['OurPriceCurrencyCode']) && (newItem.ourPriceCurrencyCode = listItem['OurPriceCurrencyCode']);
+                    ValidatorFiles.isCSVFieldValid(listItem['OurPriceTax']) && (newItem.ourPriceTax = parseFloat(listItem['OurPriceTax']));
+                    ValidatorFiles.isCSVFieldValid(listItem['OurPriceTaxCurrencyCode']) && (newItem.ourPriceTaxCurrencyCode = listItem['OurPriceTaxCurrencyCode']);
+                    ValidatorFiles.isCSVFieldValid(listItem['SellerOfRecord']) && (newItem.sellerOfRecord = listItem['SellerOfRecord']);
+                    ValidatorFiles.isCSVFieldValid(listItem['Publisher']) && (newItem.publisher = listItem['Publisher']);
+                    ValidatorFiles.isCSVFieldValid(listItem['ThirdPartyDisplayPrice']) && (newItem.thirdPartyDisplayPrice = listItem['ThirdPartyDisplayPrice']);
+                    ValidatorFiles.isCSVFieldValid(listItem['ThirdPartyDisplayCurrencyCode']) && (newItem.thirdPartyDisplayCurrencyCode = listItem['ThirdPartyDisplayCurrencyCode']);
+                    ValidatorFiles.isCSVFieldValid(listItem['ListPriceAmount']) && (newItem.listPriceAmount = parseFloat(listItem['ListPriceAmount']));
+                    ValidatorFiles.isCSVFieldValid(listItem['ListPriceCurrencyCode']) && (newItem.listPriceCurrencyCode = listItem['ListPriceCurrencyCode']);
+                    ValidatorFiles.isCSVFieldValid(listItem['ListPriceTaxAmount']) && (newItem.listPriceTaxAmount = parseFloat(listItem['ListPriceTaxAmount']));
+                    ValidatorFiles.isCSVFieldValid(listItem['ListPriceTaxCurrencyCode']) && (newItem.listPriceTaxCurrencyCode = listItem['ListPriceTaxCurrencyCode']);
+                    ValidatorFiles.isCSVFieldValid(listItem['GiftItem']) && (newItem.giftItem = listItem['GiftItem'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['OrderingCustomerNickname']) && (newItem.orderingCustomerNickname = listItem['OrderingCustomerNickname']);
+                    ValidatorFiles.isCSVFieldValid(listItem['GiftCustomerNickname']) && (newItem.giftCustomerNickname = listItem['GiftCustomerNickname']);
+                    ValidatorFiles.isCSVFieldValid(listItem['GiftMessage']) && (newItem.giftMessage = listItem['GiftMessage']);
+                    ValidatorFiles.isCSVFieldValid(listItem['GiftEmail']) && (newItem.giftEmail = listItem['GiftEmail']);
+                    ValidatorFiles.isCSVFieldValid(listItem['RecipientEmail']) && (newItem.recipientEmail = listItem['RecipientEmail']);
+                    ValidatorFiles.isCSVFieldValid(listItem['GiftRedemption']) && (newItem.giftRedemption = listItem['GiftRedemption']);
+                    ValidatorFiles.isCSVFieldValid(listItem['ItemMergedFromAnotherOrder']) && (newItem.itemMergedFromAnotherOrder = listItem['ItemMergedFromAnotherOrder']);
+                    ValidatorFiles.isCSVFieldValid(listItem['QuantityOrdered']) && (newItem.quantityOrdered = parseFloat(listItem['QuantityOrdered']));
+                    ValidatorFiles.isCSVFieldValid(listItem['ItemFulfilled']) && (newItem.itemFulfilled = listItem['ItemFulfilled']);
+                    ValidatorFiles.isCSVFieldValid(listItem['ShipFrom']) && (newItem.shipFrom = listItem['ShipFrom']);
+                    ValidatorFiles.isCSVFieldValid(listItem['ShipTo']) && (newItem.shipTo = listItem['ShipTo']);
+                    ValidatorFiles.isCSVFieldValid(listItem['IsOrderEligibleForPrimeBenefit']) && (newItem.isOrderEligibleForPrimeBenefit = listItem['IsOrderEligibleForPrimeBenefit'].toLowerCase() === 'yes');
+                    ValidatorFiles.isCSVFieldValid(listItem['OfferingSKU']) && (newItem.offeringSKU = listItem['OfferingSKU']);
+                    ValidatorFiles.isCSVFieldValid(listItem['FulfillmentMobileNumber']) && (newItem.fulfillmentMobileNumber = listItem['FulfillmentMobileNumber']);
+                    ValidatorFiles.isCSVFieldValid(listItem['RechargeAmount']) && (newItem.rechargeAmount = parseFloat(listItem['RechargeAmount']));
+                    ValidatorFiles.isCSVFieldValid(listItem['RechargeAmountCurrencyCode']) && (newItem.rechargeAmountCurrencyCode = listItem['RechargeAmountCurrencyCode']);
+                    ValidatorFiles.isCSVFieldValid(listItem['SubscriptionOrderInfoList']) && (newItem.subscriptionOrderInfoList = listItem['SubscriptionOrderInfoList']);
+                    ValidatorFiles.isCSVFieldValid(listItem['PreviouslyPaidDigitalOrderItemId']) && (newItem.previouslyPaidDigitalOrderItemId = listItem['PreviouslyPaidDigitalOrderItemId']);
+                    ValidatorFiles.isCSVFieldValid(listItem['PreviouslyPaidOrderId']) && (newItem.previouslyPaidOrderId = listItem['PreviouslyPaidOrderId']);
+                    ValidatorFiles.isCSVFieldValid(listItem['InstallmentOurPrice']) && (newItem.installmentOurPrice = listItem['InstallmentOurPrice']);
+                    ValidatorFiles.isCSVFieldValid(listItem['InstallmentOurPricePlusTax']) && (newItem.installmentOurPricePlusTax = listItem['InstallmentOurPricePlusTax']);
+                    ValidatorFiles.isCSVFieldValid(listItem['DigitalOrderItemAttributes']) && (newItem.digitalOrderItemAttributes = listItem['DigitalOrderItemAttributes']);
+                    ValidatorFiles.isCSVFieldValid(listItem['InstallmentOurPriceCurrencyCode']) && (newItem.installmentOurPriceCurrencyCode = listItem['InstallmentOurPriceCurrencyCode']);
+                    ValidatorFiles.isCSVFieldValid(listItem['InstallmentOurPricePlusTaxCurrencyCode']) && (newItem.installmentOurPricePlusTaxCurrencyCode = listItem['InstallmentOurPricePlusTaxCurrencyCode']);
+                    return newItem;
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseDigitalItems');
+        }
+        return undefined;
     }
 }
 
