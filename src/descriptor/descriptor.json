@@ -25,7 +25,7 @@
                 {
                   "index": 1,
                   "description": "Go to your Profile",
-                  "attributeDescription": "<p>Go to your <a href=\"\">Profile</a></p>"
+                  "attributeDescription": "<p>Go to your <a href=\"https://instagram.com\">Profile</a></p>"
                 },
                 {
                   "index": 2,
@@ -80,7 +80,7 @@
                 {
                   "index": 1,
                   "description": "Go to your Profile",
-                  "attributeDescription": "<p>Go to your <a href=\"\">https://instagram.com</a></p>"
+                  "attributeDescription": "<p>Go to your <a href=\"https://instagram.com\">Profile</a></p>"
                 },
                 {
                   "index": 2,
@@ -147,7 +147,7 @@
                 {
                   "index": 1,
                   "description": "Vai sul tuo profilo",
-                  "attributeDescription": "<p>Vai sul tuo <a href=\"\">https://instagram.com</a></p>"
+                  "attributeDescription": "<p>Vai sul tuo <a href=\"https://instagram.com\">Profile</a></p>"
                 },
                 {
                   "index": 2,
@@ -202,7 +202,7 @@
                 {
                   "index": 1,
                   "description": "Vai al tuo profilo",
-                  "attributeDescription": "<p>Vai al tuo <a href=\"\">https://instagram.com</a></p>"
+                  "attributeDescription": "<p>Vai al tuo <a href=\"https://instagram.com\">Profile</a></p>"
                 },
                 {
                   "index": 2,
@@ -266,7 +266,7 @@
                 {
                   "index": 1,
                   "description": "Click on this link https://www.facebook.com/dyi",
-                  "attributeDescription": "<p>Click on this <a href='https://www.facebook.com/dyi'>link</a></p>"
+                  "attributeDescription": "<p>Click on this <a href=\"https://www.facebook.com/dyi\">link</a></p>"
                 },
                 {
                   "index": 2,
@@ -291,7 +291,7 @@
                 {
                   "index": 1,
                   "description": "Click on this link https://www.facebook.com/dyi",
-                  "attributeDescription": "<p>Click on this <a href='https://www.facebook.com/dyi'>link</a></p>"
+                  "attributeDescription": "<p>Click on this <a href=\"https://www.facebook.com/dyi\">link</a></p>"
                 },
                 {
                   "index": 2,
@@ -323,7 +323,7 @@
                 {
                   "index": 1,
                   "description": "Clicca su questo link: https://www.facebook.com/dyi",
-                  "attributeDescription": "<p>Clicca su questo <a href='https://www.facebook.com/dyi'>link</a></p>"
+                  "attributeDescription": "<p>Clicca su questo <a href=\"https://www.facebook.com/dyi\">link</a></p>"
                 },
                 {
                   "index": 2,
@@ -348,7 +348,7 @@
                 {
                   "index": 1,
                   "description": "Clicca su questo link: https://www.facebook.com/dyi",
-                  "attributeDescription": "<p>Clicca su questo <a href='https://www.facebook.com/dyi'>link</a></p>"
+                  "attributeDescription": "<p>Clicca su questo <a href=\"https://www.facebook.com/dyi\">link</a></p>"
                 },
                 {
                   "index": 2,
@@ -387,7 +387,7 @@
                 {
                   "index": 1,
                   "description": "Click on this link https://www.amazon.com/hz/privacy-central/data-requests/preview.html",
-                  "attributeDescription": "<p>Click on this <a href='https://www.amazon.com/hz/privacy-central/data-requests/preview.html'>link</a></p>"
+                  "attributeDescription": "<p>Click on this <a href=\"https://www.amazon.com/hz/privacy-central/data-requests/preview.html\">link</a></p>"
                 },
                 {
                   "index": 2,
@@ -424,7 +424,7 @@
                 {
                   "index": 1,
                   "description": "Clicca su questo link https://www.amazon.com/hz/privacy-central/data-requests/preview.html",
-                  "attributeDescription": "<p>Clicca su questo <a href='https://www.amazon.com/hz/privacy-central/data-requests/preview.html'>link</a></p>"
+                  "attributeDescription": "<p>Clicca su questo <a href=\"https://www.amazon.com/hz/privacy-central/data-requests/preview.html\">link</a></p>"
                 },
                 {
                   "index": 2,
@@ -468,7 +468,7 @@
                 {
                   "index": 1,
                   "description": "Click on this link https://takeout.google.com/",
-                  "attributeDescription": "<p>Click on this <a href='https://takeout.google.com/'>link</a></p>"
+                  "attributeDescription": "<p>Click on this <a href=\"https://takeout.google.com/\">link</a></p>"
                 },
                 {
                   "index": 2,
@@ -505,7 +505,7 @@
                 {
                   "index": 1,
                   "description": "Clicca su questo link https://takeout.google.com/",
-                  "attributeDescription": "<p>Clicca su questo <a href='https://takeout.google.com/'>link</a></p>"
+                  "attributeDescription": "<p>Clicca su questo <a href=\"https://takeout.google.com/\">link</a></p>"
                 },
                 {
                   "index": 2,
