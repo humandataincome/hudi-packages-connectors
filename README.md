@@ -5,7 +5,7 @@ A set of connectors to parse, describe, validate and process the data sources pr
 
 ### Features included in the package
 - A set of **Service Classes** to parse the files received by the data sources' zip files.
-- A set of **Validators** for the file received: a generic validation for raw zip files and a specific validator for each data source supported to filter that useful files from the others.
+- A set of **Validators** for the file received: a generic validation for raw zip files and a specific validator for each data source supported to filter wanted files from the others.
 - A set of **Processors** for each specific data source supported to aggregate the data contained into them.
 
 
