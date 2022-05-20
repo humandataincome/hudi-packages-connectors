@@ -14,13 +14,30 @@ import {ValidatorGoogle} from "./validator.google";
 import Logger from "../utils/logger";
 import {ValidatorLinkedIn} from "./validator.linkedin";
 
-export type ValidateZipOptions = {
+export interface ValidateZipOptions {
     permittedFileExtensions?: FileExtension[]; //include only files with these extensions, if omitted includes everything
     filterDataSource?: {
         dataSourceCode: DataSourceCode;
         fileCodesIncluded?: FileCode[];  //include only files with these Codes, if omitted includes everything
     }
     throwExceptions?: boolean;
+}
+
+export interface ValidationReturn {
+    zipFile: Buffer;
+    includedFiles: string[];
+    excludedFiles: string[];
+}
+
+interface ValidateZipOptionsSupport {
+    prefix: string;
+    includedFiles: string[];
+    excludedFiles: string[];
+}
+
+interface ValidationReturnSupport {
+    includedFiles: string[];
+    excludedFiles: string[];
 }
 
 export class ValidatorFiles {
@@ -85,11 +102,21 @@ export class ValidatorFiles {
      * @param options - OPTIONAL: a set of options described into ValidateZipOptions type.
      * @return zip file containing all the files from input that passed the datasource zip files
      */
-    static async validateZIP(zipFile: InputFileFormat, options?: ValidateZipOptions): Promise<Buffer | undefined> {
+    static async validateZip(zipFile: InputFileFormat, options?: ValidateZipOptions): Promise<ValidationReturn | undefined> {
         try {
             const validatedFiles = new JSZip();
-            if (await this._validateZIP(zipFile, validatedFiles, options)) {
-                return await validatedFiles.generateAsync({type: 'nodebuffer'});
+            const optionsSupport: ValidateZipOptionsSupport = {
+                prefix: '',
+                includedFiles: [],
+                excludedFiles: [],
+            }
+            const validationReturnSupport = await this._validateZip(zipFile, validatedFiles, optionsSupport, options);
+            if (validationReturnSupport && validationReturnSupport.includedFiles.length > 0) {
+                return {
+                    zipFile: await validatedFiles.generateAsync({type: 'nodebuffer'}),
+                    includedFiles: validationReturnSupport.includedFiles,
+                    excludedFiles: validationReturnSupport.excludedFiles,
+                };
             } else {
                 throw new Error(`${ValidationErrorEnums.NOT_VALID_FILES_ERROR}: File ZIP has not any valid file`);
             }
@@ -102,9 +129,8 @@ export class ValidatorFiles {
         return undefined;
     }
 
-    private static async _validateZIP(zipFile: InputFileFormat, validatedFiles: JSZip, options?: ValidateZipOptions, prefix: string = ''): Promise<boolean> {
+    private static async _validateZip(zipFile: InputFileFormat, validatedFiles: JSZip, optionsSupport: ValidateZipOptionsSupport, options?: ValidateZipOptions): Promise<ValidationReturnSupport> {
         const zip = await JSZip.loadAsync(zipFile);
-        let hasAnyFile: boolean = false;
         let languageCode = undefined;
         const ValidatorDatasource = (options && options.filterDataSource) ?
             await ValidatorFiles.validatorSelector(options.filterDataSource.dataSourceCode) : undefined;
@@ -116,8 +142,15 @@ export class ValidatorFiles {
                 if (fileExtension && (options && options.permittedFileExtensions ? options.permittedFileExtensions.includes(fileExtension) : true)) {
                     if (fileExtension === FileExtension.ZIP) {
                         //remove .zip from the pathname and continue the execution recursively into the file
-                        hasAnyFile = await this._validateZIP(fileBuffer, validatedFiles, options, prefix === '' ? pathName.slice(0, -4) : prefix + '/' + pathName.slice(0, -4)) || hasAnyFile;
-                    } else if (ValidatorFiles.isValidSize(fileBuffer, pathName) && ValidatorFiles.isValidFile(fileExtension, fileBuffer, pathName)) {
+                        const recursiveValidation = await this._validateZip(fileBuffer, validatedFiles,
+                            {
+                                prefix: optionsSupport.prefix === '' ? pathName.slice(0, -4) : optionsSupport.prefix + '/' + pathName.slice(0, -4),
+                                includedFiles: optionsSupport.includedFiles,
+                                excludedFiles: optionsSupport.excludedFiles,
+                            }, options);
+                        optionsSupport.includedFiles = recursiveValidation.includedFiles;
+                        optionsSupport.excludedFiles = recursiveValidation.excludedFiles;
+                    } else if (ValidatorFiles.isValidSize(fileBuffer, pathName) && ValidatorFiles.isValidContent(fileExtension, fileBuffer, pathName)) {
                         if (ValidatorDatasource) {
                             if (options && options.filterDataSource) {
                                 if (options.filterDataSource.dataSourceCode === DataSourceCode.INSTAGRAM) {
@@ -130,7 +163,7 @@ export class ValidatorFiles {
                                     }
                                 }
                                 let validPathName = await ValidatorDatasource.getValidPath(
-                                    prefix === '' ? pathName : prefix + '/' + pathName,
+                                    optionsSupport.prefix === '' ? pathName : optionsSupport.prefix + '/' + pathName,
                                     {
                                         throwExceptions: options.throwExceptions!,
                                         fileCodes: options.filterDataSource.fileCodesIncluded!,
@@ -140,18 +173,26 @@ export class ValidatorFiles {
                                     (languageCode !== null && languageCode !== undefined)
                                         ? validatedFiles.file(validPathName, fileBuffer, {comment: languageCode})
                                         : validatedFiles.file(validPathName, fileBuffer, {comment: file.comment});
-                                    (!hasAnyFile) && (hasAnyFile = true);
+                                    optionsSupport.includedFiles.push(validPathName);
+                                } else {
+                                    optionsSupport.excludedFiles.push(pathName);
                                 }
                             }
                         } else {
-                            validatedFiles.file(prefix === '' ? pathName : prefix + '/' + pathName, fileBuffer, {comment: file.comment});
-                            (!hasAnyFile) && (hasAnyFile = true);
+                            validatedFiles.file(optionsSupport.prefix === '' ? pathName : optionsSupport.prefix + '/' + pathName, fileBuffer, {comment: file.comment});
+                            optionsSupport.includedFiles.push(pathName);
                         }
+                    } else {
+                        //file isn't big enough or has a wrong content
+                        optionsSupport.excludedFiles.push(pathName);
                     }
                 }
             }
         }
-        return hasAnyFile;
+        return {
+            includedFiles: optionsSupport.includedFiles,
+            excludedFiles: optionsSupport.excludedFiles,
+        }
     }
 
     /**
@@ -194,7 +235,7 @@ export class ValidatorFiles {
      * @param pathName - evaluated file name
      * @return TRUE if the file is valid, FALSE otherwise
      */
-    static isValidFile(extension: FileExtension, file: Buffer, pathName: string): boolean {
+    static isValidContent(extension: FileExtension, file: Buffer, pathName: string): boolean {
         switch (extension) {
             case FileExtension.JSON:
                 return ValidatorFiles.validateJSON(file, pathName);
