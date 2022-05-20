@@ -2,8 +2,8 @@ import {DataSourceCode, ProcessorInstagram, ValidationErrorEnums, ValidatorFiles
 import ErrnoException = NodeJS.ErrnoException;
 
 async function testValidation(){
-    //validatingTest();
-    mergingTest();
+    validatingTest();
+    //mergingTest();
     //await sequentialValidationsProcessingTest();
 }
 
@@ -60,7 +60,7 @@ function validatingTest() {
             ValidatorFiles.MIN_BYTE_FILE_SIZE = 1;
             const x = await ValidatorFiles.validateZip(data, {
                 filterDataSource: {
-                    dataSourceCode: DataSourceCode.AMAZON,
+                    dataSourceCode: DataSourceCode.INSTAGRAM,
                 }
             });
             console.log(x);
