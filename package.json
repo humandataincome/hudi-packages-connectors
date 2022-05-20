@@ -41,7 +41,8 @@
         "amazon",
         "google",
         "linkedin",
-        "netflix"
+        "netflix",
+        "shopify"
     ],
     "dependencies": {
         "@types/node": "^16.11.12",
