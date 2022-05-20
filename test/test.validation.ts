@@ -2,8 +2,8 @@ import {DataSourceCode, ProcessorInstagram, ValidationErrorEnums, ValidatorFiles
 import ErrnoException = NodeJS.ErrnoException;
 
 async function testValidation(){
-    validatingTest();
-    //mergingTest();
+    //validatingTest();
+    mergingTest();
     //await sequentialValidationsProcessingTest();
 }
 
@@ -12,21 +12,29 @@ function mergingTest() {
         const fs =  require('fs');
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/google.zip"),async function(err:ErrnoException, data1: Buffer) {
-            const validation1 = await ValidatorFiles.validateZIP(data1,
+            const validation1 = await ValidatorFiles.validateZip(data1,
                 {
                     filterDataSource: {
                         dataSourceCode: DataSourceCode.GOOGLE,
                     }
                 });
             fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/instagram.zip"),async function(err:ErrnoException, data2: Buffer) {
-                const validation2 = await ValidatorFiles.validateZIP(data2,
+                const validation2 = await ValidatorFiles.validateZip(data2,
                     {
                         filterDataSource: {
                             dataSourceCode: DataSourceCode.INSTAGRAM,
                         }
                     });
-                const mergedFile = await ValidatorFiles.mergeZipFiles([validation1!, validation2!]);
-                console.log(await ValidatorFiles.getPathsIntoZip(mergedFile!));
+                fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/amazon.zip"),async function(err:ErrnoException, data3: Buffer) {
+                    const validation3 = await ValidatorFiles.validateZip(data3,
+                        {
+                            filterDataSource: {
+                                dataSourceCode: DataSourceCode.AMAZON,
+                            }
+                        });
+                    const mergedFile = await ValidatorFiles.mergeZipFiles([validation1!.zipFile, validation2!.zipFile, validation3!.zipFile]);
+                    console.log(await ValidatorFiles.getPathsIntoZip(mergedFile!));
+                });
             });
         });
     } catch (e: any) {
@@ -46,12 +54,17 @@ function validatingTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/twitter.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/ig_fr.zip"),async function(err:ErrnoException, data: Buffer) {
             //await (await ValidatorFiles.getPathsIntoZip(data))!.forEach((pathName) => console.log(pathName));
-            ValidatorFiles.MAX_BYTE_FILE_SIZE = 10e8;
-            ValidatorFiles.MIN_BYTE_FILE_SIZE = -1;
-            const validation1 = await ValidatorFiles.validateZIP(data);
-            await (await ValidatorFiles.getPathsIntoZip(validation1!))!.forEach((pathName) => console.log(pathName));
+            ValidatorFiles.MAX_BYTE_FILE_SIZE = 10e10;
+            ValidatorFiles.MIN_BYTE_FILE_SIZE = 1;
+            const x = await ValidatorFiles.validateZip(data, {
+                filterDataSource: {
+                    dataSourceCode: DataSourceCode.AMAZON,
+                }
+            });
+            console.log(x);
+            //console.log(await ValidatorFiles.getPathsIntoZip(x!.zipFile));
         });
     } catch (e: any) {
         if(e.message === `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
@@ -83,7 +96,7 @@ async function _sequentialValidationsProcessingTest(pathName: string) {
         const fs = require('fs');
         const path = require('path');
         fs.readFile(path.join(__dirname, pathName), async function (err: ErrnoException, data: Buffer) {
-            let validation1 = await ValidatorFiles.validateZIP(data,
+            let validationZip = await ValidatorFiles.validateZip(data,
                 {
                     filterDataSource: {
                         dataSourceCode: DataSourceCode.INSTAGRAM,
@@ -91,8 +104,8 @@ async function _sequentialValidationsProcessingTest(pathName: string) {
                     throwExceptions: false,
                 }
             );
-            validation1 = await ValidatorInstagram.getInstance().filterFilesIntoZip(validation1!, {throwExceptions: false});
-            console.log(await ProcessorInstagram.aggregatorFactory(validation1!, { timeIntervalDays: 180}));
+            const validation = await ValidatorInstagram.getInstance().filterFilesIntoZip(validationZip!.zipFile, {throwExceptions: false});
+            console.log(await ProcessorInstagram.aggregatorFactory(validation!, { timeIntervalDays: 180}));
         });
     } catch (e: any) {
         if (e.message === `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {

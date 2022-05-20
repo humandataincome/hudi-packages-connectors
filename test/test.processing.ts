@@ -22,7 +22,7 @@ function validatorAndProcessingInstagramTest() {
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/ig_zh.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err
-            let validation = await ValidatorFiles.validateZIP(data,
+            let validation = await ValidatorFiles.validateZip(data,
                 {
                     permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
                     filterDataSource: {
@@ -30,8 +30,8 @@ function validatorAndProcessingInstagramTest() {
                     },
                     throwExceptions: true,
                 });
-            validation = await ValidatorInstagram.getInstance().filterFilesIntoZip(validation!);
-            console.log(await ProcessorInstagram.aggregatorFactory(validation!, {
+            let validation2 = await ValidatorInstagram.getInstance().filterFilesIntoZip(validation!.zipFile);
+            console.log(await ProcessorInstagram.aggregatorFactory(validation2!, {
                 timeIntervalDays: 180,
                 throwExceptions: false,
             }));
@@ -52,7 +52,7 @@ function validatorAndProcessingFacebookTest() {
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validation1 = await ValidatorFiles.validateZIP(data,
+            const validation1 = await ValidatorFiles.validateZip(data,
                 {
                     //permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
                     filterDataSource: {
@@ -60,7 +60,7 @@ function validatorAndProcessingFacebookTest() {
                     },
                     throwExceptions: true,
                 });
-            console.log(await ProcessorFacebook.aggregatorFactory(validation1!, {
+            console.log(await ProcessorFacebook.aggregatorFactory(validation1!.zipFile, {
                 timeIntervalDays: 180,
                 throwExceptions: false,
             }));
@@ -80,8 +80,8 @@ function validatorAndProcessingAmazonTest() {
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validation1 = await ValidatorFiles.validateZIP(data);
-            const validation2 = await ValidatorAmazon.getInstance().filterFilesIntoZip(validation1!);
+            const validation1 = await ValidatorFiles.validateZip(data);
+            const validation2 = await ValidatorAmazon.getInstance().filterFilesIntoZip(validation1!.zipFile);
             console.log(await ProcessorAmazon.aggregatorFactory(validation2!, {
                 timeIntervalDays: 180,
                 throwExceptions: false,
@@ -102,7 +102,7 @@ function validatorAndProcessingGoogleTest() {
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/google.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validation = await ValidatorFiles.validateZIP(data,
+            const validation = await ValidatorFiles.validateZip(data,
                 {
                     permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
                     filterDataSource: {
@@ -110,7 +110,7 @@ function validatorAndProcessingGoogleTest() {
                     }
                 });
             //validation = await ValidatorGoogle.getInstance().filterFilesIntoZip(validation);
-            console.log(await ProcessorGoogle.aggregatorFactory(validation!, {
+            console.log(await ProcessorGoogle.aggregatorFactory(validation!.zipFile, {
                 timeIntervalDays: 180,
                 throwExceptions: false,
             }))
