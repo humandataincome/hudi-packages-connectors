@@ -50,7 +50,7 @@
                 {
                   "index": 6,
                   "description": "Select JSON format",
-                  "attributeDescription": "<p>Select JSON format</p>"
+                  "attributeDescription": "<p>Select <b>JSON</b> format</p>"
                 },
                 {
                   "index": 7,
@@ -70,7 +70,7 @@
                 {
                   "index": 10,
                   "description": "Done, wait an email confirmation with attached data",
-                  "attributeDescription": "<p>Done, wait an email confirmation with attached data</p>"
+                  "attributeDescription": "<p><b>Done</b>, wait an email confirmation with attached data</p>"
                 }
               ]
             },
@@ -120,7 +120,7 @@
                 {
                   "index": 9,
                   "description": "Done, wait an email confirmation with attached data",
-                  "attributeDescription": "<p>Done, wait an email confirmation with attached data</p>"
+                  "attributeDescription": "<p><b>Done</b>, wait an email confirmation with attached data</p>"
                 }
               ]
             }
@@ -192,7 +192,7 @@
                 {
                   "index": 10,
                   "description": "Finito, attendi l'email di conferma con i tuoi dati",
-                  "attributeDescription": "<p>Finito, attendi l'email di conferma con i tuoi dati</p>"
+                  "attributeDescription": "<p><b>Finito</b>, attendi l'email di conferma con i tuoi dati</p>"
                 }
               ]
             },
@@ -242,7 +242,7 @@
                 {
                   "index": 9,
                   "description": "Finito, attendi l'email di conferma con i tuoi dati",
-                  "attributeDescription": "<p>Finito, attendi l'email di conferma con i tuoi dati</p>"
+                  "attributeDescription": "<p><b>Finito</b>, attendi l'email di conferma con i tuoi dati</p>"
                 }
               ]
             }
