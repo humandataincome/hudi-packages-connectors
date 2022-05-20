@@ -1,4 +1,4 @@
-export enum DataSourceCode {
+export enum DataSou0rceCode {
     INSTAGRAM = 'INSTAGRAM',
     FACEBOOK = 'FACEBOOK',
     GOOGLE = 'GOOGLE',
@@ -48,7 +48,7 @@ export enum LanguageCode {
     ARABIC = 'AR',
 }
 
-export type FileCode = FileCodeInstagram | FileCodeFacebook | FileCodeAmazon | FileCodeGoogle | FileCodeLinkedIn | FileCodeNetflix;
+export type FileCode = FileCodeInstagram | FileCodeFacebook | FileCodeAmazon | FileCodeGoogle | FileCodeLinkedIn | FileCodeNetflix | FileCodeShopify;
 
 export enum FileCodeInstagram {
     PERSONAL_INFO = 'account_information/personal_information.json',
@@ -465,4 +465,11 @@ export enum FileCodeNetflix {
     PROFILES_AVATAR_PARENTAL_CONTROL = 'PROFILES/ParentalControlsRestrictedTitles.txt',
     SOCIAL_MEDIA_CONNECTIONS = 'SOCIAL_MEDIA_CONNECTIONS/SocialMediaConnections.txt',
     SURVEYS_PRODUCT_CANCELLATION = 'SURVEYS/ProductCancellationSurvey.txt',
+}
+
+export enum FileCodeShopify {
+    CUSTOMERS = 'customers_export_1.csv',
+    ORDERS = 'orders_export_1.csv',
+    PRODUCTS = 'products_export_1.csv',
+    DISCOUNTS = 'discounts_export_1.csv',
 }
