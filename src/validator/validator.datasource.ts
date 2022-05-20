@@ -56,8 +56,8 @@ export class ValidatorDatasource {
     protected isPathMatching(pathName: string, options?: ValidatorDatasourceOption): boolean {
         let found = false;
         options && options.fileCodes
-            ? options.fileCodes.forEach((code: FileCode) => (!found && RegExp('^' + code + '$').test(pathName)) && (found = true))
-            : this.DEFAULT_FILE_CODES.forEach((code: FileCode) => (!found && RegExp('^' + code + '$').test(pathName)) && (found = true));
+            ? options.fileCodes.forEach((code: FileCode | string) => (!found && RegExp('^' + code + '$').test(pathName)) && (found = true))
+            : this.DEFAULT_FILE_CODES.forEach((code: FileCode | string) => (!found && RegExp('^' + code + '$').test(pathName)) && (found = true));
         return found;
     }
 

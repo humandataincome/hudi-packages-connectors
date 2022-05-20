@@ -4,7 +4,7 @@ import {InputFileFormat, ValidationErrorEnums} from "./index";
 import Logger from "../utils/logger";
 
 export type ValidatorInstagramOption = {
-    fileCodes?: FileCode[];
+    fileCodes?: FileCode[] | string[];
     throwExceptions?: boolean;
     externalZip?: any;
     languageCode?: undefined | null | LanguageCode;
