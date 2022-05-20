@@ -65,7 +65,7 @@ const file = require('@humandataincome/connectors/src/descriptor/descriptor.json
 The method **validateZIP** take in input a zip file. The allowed types are: string, number[], Blob, NodeJS.ReadableStream, Uint8Array, ArrayBuffer.
 It also takes an optional parameter called **options**:
 ```ts
-let validatedZip = await ValidatorFiles.validateZIP(zipFile,
+let validatedZip: ValidationReturn = await ValidatorFiles.validateZip(zipFile,
     {
         permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
         filterDataSource: {
@@ -78,10 +78,17 @@ let validatedZip = await ValidatorFiles.validateZIP(zipFile,
         throwExceptions: true, //default is false
     });
 ```
+```ts
+interface ValidationReturn {
+    zipFile: Buffer;
+    includedFiles: (string | DataSourceCode)[];
+    excludedFiles: (string | DataSourceCode)[];
+}
+```
 ValidatorFiles class has two parameters to filter files based on their bytes sizes that can be changed:
 ```ts
 ValidatorService.MAX_BYTE_FILE_SIZE = 7e20; //default value is 6 MB
-ValidatorService.MIN_BYTE_FILE_SIZE = 100;  //default value is 50 B
+ValidatorService.MIN_BYTE_FILE_SIZE = 100;  //default value is 30 B
 ```
 
 Example of **ValidatorInstagram** usage:
