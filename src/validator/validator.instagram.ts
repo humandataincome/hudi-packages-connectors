@@ -4,7 +4,7 @@ import {InputFileFormat, ValidationErrorEnums} from "./index";
 import Logger from "../utils/logger";
 
 export type ValidatorInstagramOption = {
-    fileCodes?: FileCode[];
+    fileCodes?: FileCode[] | string[];
     throwExceptions?: boolean;
     externalZip?: any;
     languageCode?: undefined | null | LanguageCode;
@@ -18,13 +18,11 @@ export class ValidatorInstagram extends ValidatorDatasource {
         FileCodeInstagram.ACCOUNT_NOT_INTERESTED,
         FileCodeInstagram.ACCOUNT_SEARCHES,
         FileCodeInstagram.ACCOUNT_VIEWED,
-        FileCodeInstagram.APPS_EXPIRED,
         FileCodeInstagram.ADS_CLICKED,
         FileCodeInstagram.ADS_USING_YOUR_INFO,
         FileCodeInstagram.ADS_VIEWED,
         FileCodeInstagram.AUTOFILL_INFO,
         FileCodeInstagram.COMMENTS_ALLOWED,
-        FileCodeInstagram.CROSS_APP_MESSAGING,
         FileCodeInstagram.ELIGIBILITY,
         FileCodeInstagram.EMOJI_SLIDERS,
         FileCodeInstagram.FOLLOWERS,
@@ -32,7 +30,6 @@ export class ValidatorInstagram extends ValidatorDatasource {
         FileCodeInstagram.FOLLOWING_HASHTAGS,
         FileCodeInstagram.INFO_ACCOUNT_BASED_IN,
         FileCodeInstagram.INFO_ADS_INTERESTS,
-        FileCodeInstagram.INFO_POSSIBLE_PHONE,
         FileCodeInstagram.LIKE_COMMENTS,
         FileCodeInstagram.LIKE_POSTS,
         FileCodeInstagram.PERSONAL_INFO,
@@ -41,8 +38,6 @@ export class ValidatorInstagram extends ValidatorDatasource {
         FileCodeInstagram.POST_COMMENT,
         FileCodeInstagram.POSTS_ARCHIVED,
         FileCodeInstagram.POSTS_CREATED,
-        FileCodeInstagram.PROFILE_CHANGES,
-        FileCodeInstagram.PROFILE_PHOTOS,
         FileCodeInstagram.RECENT_FOLLOW_REQUESTS,
         FileCodeInstagram.RECENT_UNFOLLOWED_ACCOUNTS,
         FileCodeInstagram.REMOVED_SUGGESTIONS,
@@ -57,15 +52,20 @@ export class ValidatorInstagram extends ValidatorDatasource {
         FileCodeInstagram.YOUR_REEL_TOPICS,
         FileCodeInstagram.YOUR_TOPICS,
         /*
+        FileCodeInstagram.APPS_EXPIRED,
         FileCodeInstagram.BLOCKED_ACCOUNTS,
+        FileCodeInstagram.CROSS_APP_MESSAGING,
         FileCodeInstagram.DEVICE_INFO,
         FileCodeInstagram.DEVICES,
+        FileCodeInstagram.INFO_POSSIBLE_PHONE,
         FileCodeInstagram.LOGIN_SIGNUP_INFO,
         FileCodeInstagram.LOGIN_PRIVACY_CHANGES,
         FileCodeInstagram.LOGIN_LOGIN_ACTIVITY,
         FileCodeInstagram.LOGIN_LOGOUT_ACTIVITY,
         FileCodeInstagram.MESSAGE_CONVERSATION,
         FileCodeInstagram.MESSAGE_REQUESTS,
+        FileCodeInstagram.PROFILE_CHANGES,
+        FileCodeInstagram.PROFILE_PHOTOS,
         FileCodeInstagram.SECRET_GROUPS,
         FileCodeInstagram.SECRET_CONVERSATIONS,
          */

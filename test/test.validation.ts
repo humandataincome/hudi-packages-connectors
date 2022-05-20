@@ -1,4 +1,11 @@
-import {DataSourceCode, ProcessorInstagram, ValidationErrorEnums, ValidatorFiles, ValidatorInstagram} from "../src";
+import {
+    DataSourceCode,
+    FileCodeAmazon,
+    ProcessorInstagram,
+    ValidationErrorEnums,
+    ValidatorFiles,
+    ValidatorInstagram
+} from "../src";
 import ErrnoException = NodeJS.ErrnoException;
 
 async function testValidation(){
@@ -54,17 +61,19 @@ function validatingTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/ig_fr.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
             //await (await ValidatorFiles.getPathsIntoZip(data))!.forEach((pathName) => console.log(pathName));
             ValidatorFiles.MAX_BYTE_FILE_SIZE = 10e10;
             ValidatorFiles.MIN_BYTE_FILE_SIZE = 1;
-            const x = await ValidatorFiles.validateZip(data, {
+            const code = DataSourceCode.AMAZON;
+            const zip = await ValidatorFiles.validateZip(data, {
                 filterDataSource: {
-                    dataSourceCode: DataSourceCode.INSTAGRAM,
+                    dataSourceCode: code,
                 }
             });
-            console.log(x);
-            //console.log(await ValidatorFiles.getPathsIntoZip(x!.zipFile));
+            console.log(zip!.includedFiles);
+            const filteredZip = await ValidatorFiles.validatorSelector(code)!.filterFilesIntoZip(zip!.zipFile, {fileCodes: ['Advertising.3/Advertising.AdvertiserAudiences.csv', FileCodeAmazon.ADV_CLICKS]})
+            console.log(await ValidatorFiles.getPathsIntoZip(filteredZip!));
         });
     } catch (e: any) {
         if(e.message === `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
