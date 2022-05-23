@@ -2,25 +2,25 @@ import {DataSourceCode, FileExtension, LanguageCode, RetrievingProcedureType} fr
 
 export interface Descriptor {
     sourceDescriptions: SourceDescription[];
+    datasourceFilesDescriptions: DatasourceFilesDescriptions[];
 }
 
 export interface SourceDescription {
     sourceName: string;
     sourceCode: DataSourceCode;
-    supportedFormats: Array<FileExtension>;
-    retrievingProcedures: Array<RetrievingProcedure>;
+    supportedFormats: FileExtension[];
+    retrievingProcedures: RetrievingProcedure[];
 }
 
 export interface RetrievingProcedure {
     languageCode: LanguageCode;
     descriptionText: string;
-    procedures: Array<Procedure>;
-    filesDescription: Array<FileContent>;
+    procedures: Procedure[];
 }
 
 export interface Procedure {
     procedureType: RetrievingProcedureType;
-    retrievingSteps: Array<RetrievingStep>;
+    retrievingSteps: RetrievingStep[];
 }
 
 export interface RetrievingStep {
@@ -28,6 +28,16 @@ export interface RetrievingStep {
     description: string;
     attributeDescription?: string;
     link?: string;
+}
+
+export interface DatasourceFilesDescriptions {
+    sourceCode: DataSourceCode;
+    fileDescriptions: LocalFileDescription[];
+}
+
+export interface LocalFileDescription {
+    languageCode: LanguageCode;
+    filesDescription: FileContent[];
 }
 
 export interface FileContent {

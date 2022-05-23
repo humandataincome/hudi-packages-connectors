@@ -1,4 +1,4 @@
-export enum DataSou0rceCode {
+export enum DataSourceCode {
     INSTAGRAM = 'INSTAGRAM',
     FACEBOOK = 'FACEBOOK',
     GOOGLE = 'GOOGLE',

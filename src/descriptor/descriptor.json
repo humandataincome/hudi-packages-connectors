@@ -667,50 +667,156 @@
                     "languageCode": "EN",
                     "filesDescription": [
                         {
-                            "filePath": "ACCOUNT_INFO",
-                            "fileContent": ""
+                            "filePath": "account_information/account_information.json",
+                            "fileContent": "Country code, first and last login date"
                         },
                         {
                             "filePath": "account_information/personal_information.json",
-                            "fileContent": ""
-                        },
-                        {
-                            "filePath": "account_information/profile_changes.json",
-                            "fileContent": ""
+                            "fileContent": "Used for technical reasons (no personal info are used). It contains your Email, phone number, username, name, gender."
                         },
                         {
                             "filePath": "ads_and_businesses/advertisers_using_your_activity_or_information.json",
-                            "fileContent": ""
+                            "fileContent": "Advertisers that are using your instagram information"
                         },
                         {
                             "filePath": "ads_and_content/accounts_you\\'re_not_interested_in.json",
-                            "fileContent": ""
+                            "fileContent": "Accounts you are not interested in"
                         },
                         {
                             "filePath": "ads_and_content/ads_clicked.json",
-                            "fileContent": ""
+                            "fileContent": "Advertisers you have clicked on"
                         },
                         {
                             "filePath": "ads_and_content/ads_viewed.json",
-                            "fileContent": ""
+                            "fileContent": "Advertisers you have seen"
                         },
                         {
-                            "filePath": "",
-                            "fileContent": ""
+                            "filePath": "ads_and_content/post_viewed.json",
+                            "fileContent": "Posts you have seen"
                         },
                         {
-                            "filePath": "",
-                            "fileContent": ""
+                            "filePath": "ads_and_content/suggested_accounts_viewed.json",
+                            "fileContent": "Suggested accounts you have visited"
                         },
+                        {
+                            "filePath": "ads_and_content/videos_watched.json",
+                            "fileContent": "Videos you have watched"
+                        },
+                        {
+                            "filePath": "autofill_information/autofill_information.json",
+                            "fileContent": "Information you have submitted to instagram"
+                        },
+                        {
+                            "filePath": "comments/post_comments.json",
+                            "fileContent": "Your comments to posts"
+                        },
+                        {
+                            "filePath": "content/archived_posts.json",
+                            "fileContent": "Title, link and date of posts you have archived"
+                        },
+                        {
+                            "filePath": "content/posts_1.json",
+                            "fileContent": "Title, link and date of posts you have created"
+                        },
+                        {
+                            "filePath": "content/stories.json",
+                            "fileContent": "Link and date of stories you have created"
+                        },
+                        {
+                            "filePath": "followers_and_following/followers.json",
+                            "fileContent": "List of your followers accounts"
+                        },
+                        {
+                            "filePath": "followers_and_following/following.json",
+                            "fileContent": "List of accounts you follow"
+                        },
+                        {
+                            "filePath": "followers_and_following/following_hashtags.json",
+                            "fileContent": "List of hashtags you follow"
+                        },
+                        {
+                            "filePath": "followers_and_following/pending_follow_requests.json",
+                            "fileContent": "List of your follow requests that are still pending"
+                        },
+                        {
+                            "filePath": "followers_and_following/recent_follow_requests.json",
+                            "fileContent": "List of your follow requests that you sent out recently"
+                        },
+                        {
+                            "filePath": "followers_and_following/recently_unfollowed_accounts.jso",
+                            "fileContent": "List of account you have unfollowed recently"
+                        },
+                        {
+                            "filePath": "followers_and_following/removed_suggestions.json",
+                            "fileContent": "Accounts suggested by instagram that you have removed"
+                        },
+                        {
+                            "filePath": "information_about_you/ads_interests.json",
+                            "fileContent": "Advertisers you are interested in"
+                        },
+                        {
+                            "filePath": "information_about_you/account_based_in.json",
+                            "fileContent": "Your primary location"
+                        },
+                        {
+                            "filePath": "likes/liked_comments.json",
+                            "fileContent": "Comments you have liked"
+                        },
+                        {
+                            "filePath": "likes/liked_posts.json",
+                            "fileContent": "Posts you have liked"
+                        },
+                        {
+                            "filePath": "monetization/eligibility.json",
+                            "fileContent": "Information about your monetization eligibility"
+                        },
+                        {
+                            "filePath": "recent_searches/account_searches.json",
+                            "fileContent": "Searches you have made recently"
+                        },
+                        {
+                            "filePath": "shopping/recently_viewed_items.json",
+                            "fileContent": "Products that you have seen into marketplace"
+                        },
+                        {
+                            "filePath": "story_sticker_interactions/emoji_sliders.json",
+                            "fileContent": "Your reaction with emojies to stories"
+                        },
+                        {
+                            "filePath": "story_sticker_interactions/polls.json",
+                            "fileContent": "Polls in stories you have answered"
+                        },
+                        {
+                            "filePath": "story_sticker_interactions/quizzes.json",
+                            "fileContent": "Quizzes in stories you have answered"
+                        },
+                        {
+                            "filePath": "your_topics/your_reels_sentiments.json",
+                            "fileContent": "List of sentiments related to your reels"
+                        },
+                        {
+                            "filePath": "your_topics/your_reels_topics.json",
+                            "fileContent": "List of topics inherent to your reels"
+                        },
+                        {
+                            "filePath": "your_topics/your_topics.json",
+                            "fileContent": "List of topics related to you"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sourceCode": "FACEBOOK",
+            "fileDescriptions": [
+                {
+                    "languageCode": "EN",
+                    "filesDescription": [
                         {
                             "filePath": "",
                             "fileContent": ""
                         }
                     ]
-                },
-                {
-                    "languageCode": "IT",
-                    "filesDescription": []
                 }
             ]
         },

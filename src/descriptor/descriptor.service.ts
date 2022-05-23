@@ -1,5 +1,5 @@
 import {
-    Descriptor,
+    Descriptor, FileContent,
     Procedure,
     SourceDescription
 } from "./descriptor.model";
@@ -151,6 +151,23 @@ export class DescriptorService {
             return retrievingProcedure?.procedures?.map(({procedureType}) => procedureType);
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_ALL_PROCEDURES_ERROR}: ${error}`);
+        }
+    }
+
+    /**
+     * @param dataSourceCode - code of the data source
+     * @param language - language of the data source
+     * @return all the files descriptions for a given data source and language code
+     */
+    static getFilesDescription(dataSourceCode: DataSourceCode, language: LanguageCode): FileContent[] | undefined {
+        try {
+            const datasourceFilesDescriptors = descriptor?.datasourceFilesDescriptions?.find(
+                ({sourceCode, fileDescriptions}) => sourceCode === dataSourceCode && fileDescriptions.length);
+            const filesDescription = datasourceFilesDescriptors?.fileDescriptions?.find(
+                ({languageCode, filesDescription}) => languageCode === language && filesDescription.length);
+            return filesDescription?.filesDescription;
+        } catch (error) {
+            throw new Error(`${DescriptorErrorEnum.SOURCE_FILES_DESCRIPTION}: ${error}`);
         }
     }
 
