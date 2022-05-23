@@ -22,7 +22,6 @@ export class ValidatorInstagram extends ValidatorDatasource {
         FileCodeInstagram.ADS_USING_YOUR_INFO,
         FileCodeInstagram.ADS_VIEWED,
         FileCodeInstagram.AUTOFILL_INFO,
-        FileCodeInstagram.COMMENTS_ALLOWED,
         FileCodeInstagram.ELIGIBILITY,
         FileCodeInstagram.EMOJI_SLIDERS,
         FileCodeInstagram.FOLLOWERS,
@@ -42,7 +41,6 @@ export class ValidatorInstagram extends ValidatorDatasource {
         FileCodeInstagram.RECENT_UNFOLLOWED_ACCOUNTS,
         FileCodeInstagram.REMOVED_SUGGESTIONS,
         FileCodeInstagram.STORIES_CREATED,
-        FileCodeInstagram.SYNCED_CONTACTS,
         FileCodeInstagram.POSTS_VIEWED,
         FileCodeInstagram.VIDEO_VIEWED,
         FileCodeInstagram.QUIZZES,
@@ -54,6 +52,7 @@ export class ValidatorInstagram extends ValidatorDatasource {
         /*
         FileCodeInstagram.APPS_EXPIRED,
         FileCodeInstagram.BLOCKED_ACCOUNTS,
+        FileCodeInstagram.COMMENTS_ALLOWED,
         FileCodeInstagram.CROSS_APP_MESSAGING,
         FileCodeInstagram.DEVICE_INFO,
         FileCodeInstagram.DEVICES,
@@ -68,6 +67,7 @@ export class ValidatorInstagram extends ValidatorDatasource {
         FileCodeInstagram.PROFILE_PHOTOS,
         FileCodeInstagram.SECRET_GROUPS,
         FileCodeInstagram.SECRET_CONVERSATIONS,
+        FileCodeInstagram.SYNCED_CONTACTS,
          */
     ];
 

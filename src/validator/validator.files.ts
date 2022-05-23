@@ -13,6 +13,7 @@ import {Parser} from "../utils/parser";
 import {ValidatorGoogle} from "./validator.google";
 import Logger from "../utils/logger";
 import {ValidatorLinkedIn} from "./validator.linkedin";
+import {ValidatorShopify} from "./validator.shopify";
 
 export interface ValidateZipOptions {
     permittedFileExtensions?: FileExtension[]; //include only files with these extensions, if omitted includes everything
@@ -327,6 +328,14 @@ export class ValidatorFiles {
                 return ValidatorNetflix.getInstance();
             case DataSourceCode.LINKEDIN:
                 return ValidatorLinkedIn.getInstance();
+            case DataSourceCode.SHOPIFY_CUSTOMERS:
+                return ValidatorShopify.getInstance();
+            case DataSourceCode.SHOPIFY_DISCOUNTS:
+                return ValidatorShopify.getInstance();
+            case DataSourceCode.SHOPIFY_ORDERS:
+                return ValidatorShopify.getInstance();
+            case DataSourceCode.SHOPIFY_PRODUCTS:
+                return ValidatorShopify.getInstance();
             default:
                 this.logger.log('info', `${dataSourceCode} is not a valid DataSourceCode`, 'validatorSelector');
                 return undefined;
