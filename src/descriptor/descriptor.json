@@ -461,26 +461,31 @@
                             "retrievingSteps": [
                                 {
                                     "index": 1,
+                                    "description": "Set your Google Account Preferred Language to English (United Kingdom) at this link: https://myaccount.google.com/language",
+                                    "attributeDescription": "<p>Set your Google Account <b>Preferred Language</b> to <b>English (United Kingdom)</b> at this <a href=\"https://myaccount.google.com/language\" target=\"_blank\">link</a></p>"
+                                },
+                                {
+                                    "index": 2,
                                     "description": "Click on this link https://takeout.google.com/",
                                     "attributeDescription": "<p>Click on this <a href=\"https://takeout.google.com/\" target=\"_blank\">link</a></p>"
                                 },
                                 {
-                                    "index": 2,
+                                    "index": 3,
                                     "description": "Unpin \"Drive\" and \"Google Photos\" from the list",
                                     "attributeDescription": "<p>Unpin <b>Drive</b> and <b>Google Photos</b> from the list</p>"
                                 },
                                 {
-                                    "index": 3,
+                                    "index": 4,
                                     "description": "Click on \"Next step\" button",
                                     "attributeDescription": "<p>Click on <b>Next step</b> button</p>"
                                 },
                                 {
-                                    "index": 4,
+                                    "index": 5,
                                     "description": "Select \"Export once\" from Frequency menu, \".zip\" and \"2 GB\" from File type & size menu",
                                     "attributeDescription": "<p>Select <b>Export once</b> from Frequency menu, <b>.zip and 2 GB</b> from File type & size menu</p>"
                                 },
                                 {
-                                    "index": 5,
+                                    "index": 6,
                                     "description": "Click on \"Create export\" button",
                                     "attributeDescription": "<p>Click on <b>Create export</b> button</p>"
                                 }
@@ -497,26 +502,31 @@
                             "retrievingSteps": [
                                 {
                                     "index": 1,
+                                    "description": "Cambia la lingua preferita del tuo Account Google in English (United Kingdom) a questo link link: https://myaccount.google.com/language",
+                                    "attributeDescription": "<p>Cambia la <b>Lingua Preferita</b> del tuo Account Google in <b>English (United Kingdom)</b> a questo link <a href=\"https://myaccount.google.com/language\" target=\"_blank\">link</a></p>"
+                                },
+                                {
+                                    "index": 2,
                                     "description": "Clicca su questo link https://takeout.google.com/",
                                     "attributeDescription": "<p>Clicca su questo <a href=\"https://takeout.google.com/\" target=\"_blank\">link</a></p>"
                                 },
                                 {
-                                    "index": 2,
+                                    "index": 3,
                                     "description": "Deseleziona \"Drive\" and \"Google Foto\" dalla lista",
                                     "attributeDescription": "<p>Deseleziona <b>Drive</b> e <b>Google Foto</b> dalla lista</p>"
                                 },
                                 {
-                                    "index": 3,
+                                    "index": 4,
                                     "description": "Clicca sul pulsante \"Passaggio successivo\"",
                                     "attributeDescription": "<p>Clicca sul pulsante <b>Passaggio successivo</b></p>"
                                 },
                                 {
-                                    "index": 4,
+                                    "index": 5,
                                     "description": "Seleziona \"Esporta un archivio\" dal menu Frequenza, \".zip\" and \"2 GB\" dal menu Tipo di file e dimensioni",
                                     "attributeDescription": "<p>Seleziona <b>Esporta un archivio</b> dal menu Frequenza, <b>.zip</b> and <b>2 GB</b> dal menu Tipo di file e dimensioni</p>"
                                 },
                                 {
-                                    "index": 5,
+                                    "index": 6,
                                     "description": "Clicca sul pulsante \"Crea esportazione\"",
                                     "attributeDescription": "<p>Clicca sul pulsante <b>Crea esportazione</b></p>"
                                 }
