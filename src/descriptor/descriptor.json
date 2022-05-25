@@ -981,6 +981,28 @@
             ]
         },
         {
+            "sourceCode": "AMAZON",
+            "fileDescriptions": [
+                {
+                    "languageCode": "EN",
+                    "filesDescription": [
+                        {
+                            "filePath": "Advertising.(\\d+)/Advertising.3PAudiences.csv",
+                            "fileContent": "Third parties advertisers"
+                        },
+                        {
+                            "filePath": "Advertising.(\\d+)/Advertising.AdvertiserAudiences.csv",
+                            "fileContent": "Audience of advertisers"
+                        },
+                        {
+                            "filePath": "Advertising.(\\d+)/Advertising.AdvertiserClicks.csv",
+                            "fileContent": "Clicks on advertising Brands"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "sourceCode": "SHOPIFY_CUSTOMERS",
             "fileDescriptions": [
                 {
