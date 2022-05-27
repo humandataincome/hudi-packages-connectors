@@ -10,6 +10,7 @@ import ErrnoException = NodeJS.ErrnoException;
 
 async function testValidation(){
     validatingTest();
+    //validatingBigFileTest();
     //mergingTest();
     //await sequentialValidationsProcessingTest();
 }
@@ -56,22 +57,49 @@ function mergingTest() {
         }
     }
 }
+function validatingBigFileTest() {
+    const fs = require('fs');
+    const path =  require('path');
+    const readableStream = fs.createReadStream(path.join(__dirname,"../src/mock/datasource zip files/ds1.zip"));
+    let bufferChunks: Buffer[] = [];
+
+    readableStream.on('error', function (error: Error) {
+        console.log(`error: ${error.message}`);
+    });
+    readableStream.on('data', (chunk: Buffer) => {
+        bufferChunks.push(chunk);
+    });
+    readableStream.on('end', async () => {
+        const zipFile = Buffer.concat(bufferChunks);
+        ValidatorFiles.MAX_BYTE_FILE_SIZE = 10e10;
+        ValidatorFiles.MIN_BYTE_FILE_SIZE = 1;
+        const zip = await ValidatorFiles.validateZip(zipFile,
+            {
+            });
+        console.log(await ValidatorFiles.getPathsIntoZip(zip!.zipFile));
+    });
+
+}
 
 function validatingTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
-            //await (await ValidatorFiles.getPathsIntoZip(data))!.forEach((pathName) => console.log(pathName));
+        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
+            await (await ValidatorFiles.getPathsIntoZip(data))!.forEach((pathName) => console.log(pathName));
+            if (err) {
+                console.log(err)
+            }
             ValidatorFiles.MAX_BYTE_FILE_SIZE = 10e10;
             ValidatorFiles.MIN_BYTE_FILE_SIZE = 1;
-            const code = DataSourceCode.AMAZON;
-            const zip = await ValidatorFiles.validateZip(data, {
-                filterDataSource: {
-                    dataSourceCode: code,
-                }
-            });
-            console.log(zip!.includedFiles);
+            const code = DataSourceCode.FACEBOOK;
+            const zip = await ValidatorFiles.validateZip(data,
+                {
+                    filterDataSource: {
+                        dataSourceCode: code
+                    }
+                });
+            console.log(await ValidatorFiles.getPathsIntoZip(zip!.zipFile));
             const filteredZip = await ValidatorFiles.validatorSelector(code)!.filterFilesIntoZip(zip!.zipFile, {fileCodes: ['Advertising.3/Advertising.AdvertiserAudiences.csv', FileCodeAmazon.ADV_CLICKS]})
             console.log(await ValidatorFiles.getPathsIntoZip(filteredZip!));
         });
