@@ -97,6 +97,9 @@ export class ValidatorFiles {
         return undefined;
     }
 
+    static validateZipStream(zipFile:  NodeJS.ReadableStream) {
+
+    }
 
     /**
      * @param zipFile - file zip as one of the Buffer-like types supported

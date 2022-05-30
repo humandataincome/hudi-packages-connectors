@@ -37,6 +37,7 @@ export class ValidatorInstagram extends ValidatorDatasource {
         FileCodeInstagram.POST_COMMENT,
         FileCodeInstagram.POSTS_ARCHIVED,
         FileCodeInstagram.POSTS_CREATED,
+        FileCodeInstagram.PROFESSIONAL_INFO,
         FileCodeInstagram.RECENT_FOLLOW_REQUESTS,
         FileCodeInstagram.RECENT_UNFOLLOWED_ACCOUNTS,
         FileCodeInstagram.REMOVED_SUGGESTIONS,

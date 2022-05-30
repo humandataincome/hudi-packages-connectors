@@ -89,6 +89,7 @@ export enum FileCodeInstagram {
     //not parsed yet
     APPS_EXPIRED = 'apps_and_websites/expired_pps.json',
     ACCOUNT_INFO = 'account_information/account_information.json',
+    PROFESSIONAL_INFO = 'account_information/professional_information.json',
     PROFILE_CHANGES = 'account_information/profile_changes.json',
     COMMENTS_ALLOWED = 'comments_settings/comments_allowed_from.json',
     CROSS_APP_MESSAGING = 'comments_settings/use_cross-app_messaging.json',
