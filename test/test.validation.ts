@@ -7,12 +7,42 @@ import {
     ValidatorInstagram
 } from "../src";
 import ErrnoException = NodeJS.ErrnoException;
+import {StreamZipping} from "../src/streamZipping";
 
 async function testValidation(){
-    validatingTest();
+    validateStream();
+    //validatingTest();
     //validatingBigFileTest();
     //mergingTest();
     //await sequentialValidationsProcessingTest();
+}
+
+async function validateStream() {
+    const fs = require('fs');
+    const path = require('path');
+    const x = await StreamZipping.validateZipStream(path.join(__dirname,"../src/mock/datasource zip files/ds2.zip"));
+
+
+    //console.log(await ValidatorFiles.getPathsIntoZip(x))
+    /*
+    const fs = require('fs');
+    const path = require('path');
+    const writableStream = fs.createWriteStream(path.join(__dirname, "../src/mock/datasource zip files/ds3.zip"));
+
+    const readableStream = fs.createReadStream(path.join(__dirname,"../src/mock/datasource zip files/facebook.zip"));
+    let bufferChunks: Buffer[] = [];
+    readableStream.on('error', function (error: Error) {
+        console.log(`error: ${error.message}`);
+    });
+    readableStream.on('data', (chunk: Buffer) => {
+        bufferChunks.push(chunk);
+    });
+    readableStream.on('end', async () => {
+        const zip: JSZip = await JSZip.loadAsync(Buffer.concat(bufferChunks));
+        await StreamZipping.validateZipStream(zip, writableStream);
+    });
+
+     */
 }
 
 function mergingTest() {
