@@ -173,7 +173,6 @@ export class ValidatorFiles {
                                                 externalZip: zip,
                                             });
                                     }
-                                    console.log(languageCode)
                                 }
                                 let validPathName = await ValidatorDatasource.getValidPath(
                                     optionsSupport.prefix === '' ? pathName : optionsSupport.prefix + '/' + pathName,
