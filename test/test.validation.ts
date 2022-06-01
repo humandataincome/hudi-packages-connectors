@@ -20,8 +20,8 @@ async function testValidation(){
 async function validateStream() {
     const fs = require('fs');
     const path = require('path');
-    const x = await StreamZipping.validateZipStream(path.join(__dirname,"../src/mock/datasource zip files/ds2.zip"));
-
+    const x = await StreamZipping.validateZipStream(path.join(__dirname,"../src/mock/datasource zip files/facebook.zip"));
+    //console.log(await ValidatorFiles.getPathsIntoZip(x));
 
     //console.log(await ValidatorFiles.getPathsIntoZip(x))
     /*
