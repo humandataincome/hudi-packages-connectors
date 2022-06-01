@@ -41,31 +41,6 @@ export class ValidatorFacebook extends ValidatorDatasource {
         FileCodeFacebook.STORIES_REACTION,
         FileCodeFacebook.YOUR_TOPICS,
         FileCodeFacebook.YOUR_POSTS,
-
-        /*
-        FileCodeFacebook.FRIENDS_REJECTED_REQUESTS,
-        FileCodeFacebook.FRIENDS_REQUESTS_SENT,
-        FileCodeFacebook.FRIENDS_REMOVED,
-        FileCodeFacebook.GROUPS_COMMENTS,
-        FileCodeFacebook.MESSAGE_FILTERED,
-        FileCodeFacebook.MESSAGE_CONVERSATION,
-        FileCodeFacebook.NOTIFICATIONS,
-        FileCodeFacebook.OTHER_FRIEND_PEER_GROUP,
-        FileCodeFacebook.OTHER_YOUR_ADDRESS_BOOKS,
-        FileCodeFacebook.PAGES_UNFOLLOWED,
-        FileCodeFacebook.PREFERENCES_WATCH,
-        FileCodeFacebook.PROFILE_UPDATE_HISTORY,
-        FileCodeFacebook.SAVED_ITEMS,
-        FileCodeFacebook.SECURITY_ACCOUNT_ACTIVITY,
-        FileCodeFacebook.SECURITY_ACTIVITY_HISTORY,
-        FileCodeFacebook.SECURITY_BROWSER_COOKIES,
-        FileCodeFacebook.SECURITY_IP_ADDRESS,
-        FileCodeFacebook.SECURITY_LOGIN_PROTECTION_DATA,
-        FileCodeFacebook.SECURITY_LOGINS_LOGOUT,
-        FileCodeFacebook.SECURITY_MOBILE_DEVICES,
-        FileCodeFacebook.SECURITY_WHERE_LOGGED_IN,
-        FileCodeFacebook.STORIES_ARCHIVED,
-         */
     ];
 
     protected extractCompatiblePath(path: string): string {

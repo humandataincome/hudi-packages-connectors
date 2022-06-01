@@ -53,6 +53,13 @@ export class ValidatorFiles {
      */
     static async mergeZipFiles(zipFiles: InputFileFormat[]): Promise<Buffer | undefined> {
         try {
+            if (zipFiles.length === 1) {
+                if (zipFiles[0]) {
+                    return zipFiles[0] as Buffer;
+                } else {
+                    return undefined;
+                }
+            }
             if (zipFiles.length > 1) {
                 const mergedZip = new JSZip();
                 for (const zipFile of zipFiles) {
@@ -68,9 +75,10 @@ export class ValidatorFiles {
                     }
                 }
                 return await mergedZip.generateAsync({type: 'nodebuffer'});
+            } else {
+                this.logger.log('error', `Empty array in input`, 'mergeZipFiles');
+                return undefined;
             }
-            this.logger.log('error', `One or more zip files in input aren't valid`, 'mergeZipFiles');
-            return undefined;
         } catch (error: any) {
             (error && error.message) && (this.logger.log('error', error.message, 'mergeZipFiles'));
         }
@@ -97,6 +105,9 @@ export class ValidatorFiles {
         return undefined;
     }
 
+    static validateZipStream(zipFile:  NodeJS.ReadableStream) {
+
+    }
 
     /**
      * @param zipFile - file zip as one of the Buffer-like types supported

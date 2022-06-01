@@ -37,6 +37,7 @@ export class ValidatorInstagram extends ValidatorDatasource {
         FileCodeInstagram.POST_COMMENT,
         FileCodeInstagram.POSTS_ARCHIVED,
         FileCodeInstagram.POSTS_CREATED,
+        FileCodeInstagram.PROFESSIONAL_INFO,
         FileCodeInstagram.RECENT_FOLLOW_REQUESTS,
         FileCodeInstagram.RECENT_UNFOLLOWED_ACCOUNTS,
         FileCodeInstagram.REMOVED_SUGGESTIONS,
@@ -49,26 +50,6 @@ export class ValidatorInstagram extends ValidatorDatasource {
         FileCodeInstagram.YOUR_REEL_SENTIMENTS,
         FileCodeInstagram.YOUR_REEL_TOPICS,
         FileCodeInstagram.YOUR_TOPICS,
-        /*
-        FileCodeInstagram.APPS_EXPIRED,
-        FileCodeInstagram.BLOCKED_ACCOUNTS,
-        FileCodeInstagram.COMMENTS_ALLOWED,
-        FileCodeInstagram.CROSS_APP_MESSAGING,
-        FileCodeInstagram.DEVICE_INFO,
-        FileCodeInstagram.DEVICES,
-        FileCodeInstagram.INFO_POSSIBLE_PHONE,
-        FileCodeInstagram.LOGIN_SIGNUP_INFO,
-        FileCodeInstagram.LOGIN_PRIVACY_CHANGES,
-        FileCodeInstagram.LOGIN_LOGIN_ACTIVITY,
-        FileCodeInstagram.LOGIN_LOGOUT_ACTIVITY,
-        FileCodeInstagram.MESSAGE_CONVERSATION,
-        FileCodeInstagram.MESSAGE_REQUESTS,
-        FileCodeInstagram.PROFILE_CHANGES,
-        FileCodeInstagram.PROFILE_PHOTOS,
-        FileCodeInstagram.SECRET_GROUPS,
-        FileCodeInstagram.SECRET_CONVERSATIONS,
-        FileCodeInstagram.SYNCED_CONTACTS,
-         */
     ];
 
     public async filterFilesIntoZip(zipFile: InputFileFormat,  options: ValidatorInstagramOption = {}): Promise<Buffer | undefined> {
@@ -110,16 +91,10 @@ export class ValidatorInstagram extends ValidatorDatasource {
     }
 
     public async getValidPath(pathName: string, options: ValidatorInstagramOption): Promise<string | undefined> {
-        if (options.languageCode === undefined) {
-            options.languageCode = await this.getLanguage(options);
+        const compatiblePath = this.extractCompatiblePath(pathName);
+        if (this.isPathMatching(compatiblePath, options)) {
+            return compatiblePath;
         }
-        if (options.languageCode !== undefined && options.languageCode !== null) {
-            const compatiblePath = this.extractCompatiblePath(pathName);
-            if (this.isPathMatching(compatiblePath, options)) {
-                return compatiblePath;
-            }
-        }
-        return undefined;
     }
 
      public async getLanguage(options: ValidatorInstagramOption): Promise<LanguageCode | null> {

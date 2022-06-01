@@ -89,6 +89,7 @@ export enum FileCodeInstagram {
     //not parsed yet
     APPS_EXPIRED = 'apps_and_websites/expired_pps.json',
     ACCOUNT_INFO = 'account_information/account_information.json',
+    PROFESSIONAL_INFO = 'account_information/professional_information.json',
     PROFILE_CHANGES = 'account_information/profile_changes.json',
     COMMENTS_ALLOWED = 'comments_settings/comments_allowed_from.json',
     CROSS_APP_MESSAGING = 'comments_settings/use_cross-app_messaging.json',
@@ -268,8 +269,8 @@ export enum FileCodeAmazon {
     RETAIL_OUTBOUND_NOTIFICATION_METADATA = 'Retail.OutboundNotifications.notificationMetadata/Retail.OutboundNotifications.notificationMetadata.csv',
     RETAIL_OUTBOUND_NOTIFICATION_MOBILE = 'Retail.OutboundNotifications.MobileApplications/Retail.OutboundNotifications.MobileApplications.csv',
     RETAIL_PROMOTIONS = 'Retail.Promotions.(\\d+)/Retail.Promotions.csv',
-    RETAIL_SEARCH_PRODUCT_METRICS = 'Retail.Search-Data/Retail.Search-Data.Retail.Product-Metrics.csv',
-    RETAIL_SEARCH_CUSTOMER_ENGAGEMENT = 'Retail.Search-Data/Retail.Search-Data.Retail.Customer-Engagement.csv',
+    RETAIL_SEARCH_PRODUCT_METRICS = 'Retail.Search-Data/Search-Data.Retail.Product-Metrics.csv',
+    RETAIL_SEARCH_CUSTOMER_ENGAGEMENT = 'Retail.Search-Data/Search-Data.Retail.Customer-Engagement.csv',
     RETAIL_TRANSACTIONAL_INVOICING = 'Retail.TransactionalInvoicing.(\\d+)/Retail.TransactionalInvoicing.(\\d+).pdf',
     SUBSCRIPTION_BILLING_REFUNDS_DATA = 'Subscriptions.Digital-Billing-And-Refunds.(\\d+)/Billing and Refunds Data.csv',
 }
