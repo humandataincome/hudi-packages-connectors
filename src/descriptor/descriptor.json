@@ -1007,6 +1007,106 @@
                         {
                             "filePath": "Advertising.(\\d+)/Advertising.AdvertiserClicks.csv",
                             "fileContent": "Clicks on advertising Brands"
+                        },
+                        {
+                            "filePath": "Advertising.(\\d+)/Advertising.AmazonAudiences.csv",
+                            "fileContent": "Amazon Audiences in which you are included"
+                        },
+                        {
+                            "filePath": "Amazon.Lists.Wishlist.(\\d+).(\\d+)/Amazon.Lists.Wishlist.json",
+                            "fileContent": "Your amazon whishlists"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
+                        },
+                        {
+                            "filePath": "xxxxxxxx",
+                            "fileContent": "yyyyyyyy"
                         }
                     ]
                 }
