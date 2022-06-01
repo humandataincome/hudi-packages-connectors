@@ -269,8 +269,8 @@ export enum FileCodeAmazon {
     RETAIL_OUTBOUND_NOTIFICATION_METADATA = 'Retail.OutboundNotifications.notificationMetadata/Retail.OutboundNotifications.notificationMetadata.csv',
     RETAIL_OUTBOUND_NOTIFICATION_MOBILE = 'Retail.OutboundNotifications.MobileApplications/Retail.OutboundNotifications.MobileApplications.csv',
     RETAIL_PROMOTIONS = 'Retail.Promotions.(\\d+)/Retail.Promotions.csv',
-    RETAIL_SEARCH_PRODUCT_METRICS = 'Retail.Search-Data/Retail.Search-Data.Retail.Product-Metrics.csv',
-    RETAIL_SEARCH_CUSTOMER_ENGAGEMENT = 'Retail.Search-Data/Retail.Search-Data.Retail.Customer-Engagement.csv',
+    RETAIL_SEARCH_PRODUCT_METRICS = 'Retail.Search-Data/Search-Data.Retail.Product-Metrics.csv',
+    RETAIL_SEARCH_CUSTOMER_ENGAGEMENT = 'Retail.Search-Data/Search-Data.Retail.Customer-Engagement.csv',
     RETAIL_TRANSACTIONAL_INVOICING = 'Retail.TransactionalInvoicing.(\\d+)/Retail.TransactionalInvoicing.(\\d+).pdf',
     SUBSCRIPTION_BILLING_REFUNDS_DATA = 'Subscriptions.Digital-Billing-And-Refunds.(\\d+)/Billing and Refunds Data.csv',
 }

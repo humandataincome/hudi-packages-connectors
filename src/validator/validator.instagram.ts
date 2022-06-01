@@ -50,26 +50,6 @@ export class ValidatorInstagram extends ValidatorDatasource {
         FileCodeInstagram.YOUR_REEL_SENTIMENTS,
         FileCodeInstagram.YOUR_REEL_TOPICS,
         FileCodeInstagram.YOUR_TOPICS,
-        /*
-        FileCodeInstagram.APPS_EXPIRED,
-        FileCodeInstagram.BLOCKED_ACCOUNTS,
-        FileCodeInstagram.COMMENTS_ALLOWED,
-        FileCodeInstagram.CROSS_APP_MESSAGING,
-        FileCodeInstagram.DEVICE_INFO,
-        FileCodeInstagram.DEVICES,
-        FileCodeInstagram.INFO_POSSIBLE_PHONE,
-        FileCodeInstagram.LOGIN_SIGNUP_INFO,
-        FileCodeInstagram.LOGIN_PRIVACY_CHANGES,
-        FileCodeInstagram.LOGIN_LOGIN_ACTIVITY,
-        FileCodeInstagram.LOGIN_LOGOUT_ACTIVITY,
-        FileCodeInstagram.MESSAGE_CONVERSATION,
-        FileCodeInstagram.MESSAGE_REQUESTS,
-        FileCodeInstagram.PROFILE_CHANGES,
-        FileCodeInstagram.PROFILE_PHOTOS,
-        FileCodeInstagram.SECRET_GROUPS,
-        FileCodeInstagram.SECRET_CONVERSATIONS,
-        FileCodeInstagram.SYNCED_CONTACTS,
-         */
     ];
 
     public async filterFilesIntoZip(zipFile: InputFileFormat,  options: ValidatorInstagramOption = {}): Promise<Buffer | undefined> {
