@@ -101,7 +101,7 @@
     },
     "include": [
         "src",
-        "src/descriptor/*.json"
+        "src/descriptor/*.json",
     ],
     "exclude": [
         "node_modules",
