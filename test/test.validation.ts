@@ -9,9 +9,9 @@ import {
 import ErrnoException = NodeJS.ErrnoException;
 
 async function testValidation(){
-    validatingTest();
+    //validatingTest();
     //validatingBigFileTest();
-    //mergingTest();
+    mergingTest();
     //await sequentialValidationsProcessingTest();
 }
 
@@ -19,30 +19,24 @@ function mergingTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/google.zip"),async function(err:ErrnoException, data1: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/ig1.zip"),async function(err:ErrnoException, data1: Buffer) {
             const validation1 = await ValidatorFiles.validateZip(data1,
                 {
                     filterDataSource: {
-                        dataSourceCode: DataSourceCode.GOOGLE,
+                        dataSourceCode: DataSourceCode.INSTAGRAM,
                     }
                 });
-            fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/instagram.zip"),async function(err:ErrnoException, data2: Buffer) {
+            console.log(await ValidatorFiles.getPathsIntoZip(validation1!.zipFile));
+            fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/ig2.zip"),async function(err:ErrnoException, data2: Buffer) {
                 const validation2 = await ValidatorFiles.validateZip(data2,
                     {
                         filterDataSource: {
                             dataSourceCode: DataSourceCode.INSTAGRAM,
                         }
                     });
-                fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/amazon.zip"),async function(err:ErrnoException, data3: Buffer) {
-                    const validation3 = await ValidatorFiles.validateZip(data3,
-                        {
-                            filterDataSource: {
-                                dataSourceCode: DataSourceCode.AMAZON,
-                            }
-                        });
-                    const mergedFile = await ValidatorFiles.mergeZipFiles([validation1!.zipFile, validation2!.zipFile, validation3!.zipFile]);
-                    console.log(await ValidatorFiles.getPathsIntoZip(mergedFile!));
-                });
+                //console.log(await ValidatorFiles.getPathsIntoZip(validation2!.zipFile));
+                //const mergedFile = await ValidatorFiles.mergeZipFiles([validation1!.zipFile, validation2!.zipFile]);
+                //console.log(await ValidatorFiles.getPathsIntoZip(mergedFile!));
             });
         });
     } catch (e: any) {

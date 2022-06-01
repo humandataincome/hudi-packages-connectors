@@ -111,16 +111,10 @@ export class ValidatorInstagram extends ValidatorDatasource {
     }
 
     public async getValidPath(pathName: string, options: ValidatorInstagramOption): Promise<string | undefined> {
-        if (options.languageCode === undefined) {
-            options.languageCode = await this.getLanguage(options);
+        const compatiblePath = this.extractCompatiblePath(pathName);
+        if (this.isPathMatching(compatiblePath, options)) {
+            return compatiblePath;
         }
-        if (options.languageCode !== undefined && options.languageCode !== null) {
-            const compatiblePath = this.extractCompatiblePath(pathName);
-            if (this.isPathMatching(compatiblePath, options)) {
-                return compatiblePath;
-            }
-        }
-        return undefined;
     }
 
      public async getLanguage(options: ValidatorInstagramOption): Promise<LanguageCode | null> {
