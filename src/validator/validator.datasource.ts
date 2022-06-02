@@ -1,4 +1,4 @@
-import {FileCode, LanguageCode} from "../descriptor";
+import {FileCode, FileCodeInstagram, LanguageCode} from "../descriptor";
 import {ValidationErrorEnums} from "./validator.error";
 import {
     InputFileFormat,
@@ -15,6 +15,10 @@ export class ValidatorDatasource {
 
     public static getInstance(): ValidatorDatasource {
         return this._instance || (this._instance = new this());
+    }
+
+    get defaultFileCodes(): FileCode[] {
+        return this.DEFAULT_FILE_CODES;
     }
 
     public async filterFilesIntoZip(zipFile: InputFileFormat, options?: ValidatorDatasourceOption): Promise<Buffer | undefined> {
@@ -48,7 +52,7 @@ export class ValidatorDatasource {
         return undefined;
     }
 
-    public async getValidPath(pathName: string, options?: ValidatorDatasourceOption): Promise<string | undefined> {
+    public getValidPath(pathName: string, options?: ValidatorDatasourceOption): string | undefined {
         const compatiblePath = this.extractCompatiblePath(pathName);
         return (options ? this.isPathMatching(compatiblePath, options) : this.isPathMatching(compatiblePath)) ? compatiblePath : undefined;
     }

@@ -11,9 +11,10 @@ export type ValidatorInstagramOption = {
 }
 
 export class ValidatorInstagram extends ValidatorDatasource {
+
     protected readonly logger = new Logger("Instagram Validator");
 
-    protected DEFAULT_FILE_CODES: FileCodeInstagram[] = [
+    private _DEFAULT_FILE_CODES: FileCodeInstagram[] = [
         FileCodeInstagram.ACCOUNT_INFO,
         FileCodeInstagram.ACCOUNT_NOT_INTERESTED,
         FileCodeInstagram.ACCOUNT_SEARCHES,
@@ -90,7 +91,7 @@ export class ValidatorInstagram extends ValidatorDatasource {
         return undefined;
     }
 
-    public async getValidPath(pathName: string, options: ValidatorInstagramOption): Promise<string | undefined> {
+    public getValidPath(pathName: string, options: ValidatorInstagramOption): string | undefined {
         const compatiblePath = this.extractCompatiblePath(pathName);
         if (this.isPathMatching(compatiblePath, options)) {
             return compatiblePath;
