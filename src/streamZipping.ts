@@ -7,83 +7,150 @@ import {
     UnzipFileInfo,
     UnzipInflate,
     Unzipped,
-    Zip, Zippable, zipSync, AsyncZippable
+    AsyncZippable,
 } from "fflate";
-import {ValidatorFacebook} from "./validator";
+import {ValidateZipOptions, ValidatorFacebook} from "./validator";
 
-interface ValidationReturn {
+export interface ValidationReturn2 {
     zipFile: Uint8Array,
     includedFiles: string[],
     excludedFiles: string[],
 }
 
-export class StreamZipping {
-    private static mergeBuffers(buffer1: Uint8Array, buffer2: Uint8Array): Uint8Array {
-        const tmp = new Uint8Array(buffer1.length + buffer2.length);
-        tmp.set(buffer1, 0);
-        tmp.set(buffer2, buffer1.length);
-        return tmp;
-    }
+interface StreamingObjectsSupport {
+    readableStream: NodeJS.ReadableStream;
+    returnObject: ValidationReturn2;
+    validFiles: AsyncZippable;
+    options: ValidateZipOptions;
+}
 
-    static unzipStream(readableStream: NodeJS.ReadableStream): ValidationReturn {
-        const ret: ValidationReturn = {
-            zipFile: new Uint8Array(0),
+interface FileBuilder {
+    tmpChunks: Uint8Array[];
+    finalChunk: Uint8Array | undefined;
+    hasCorruptedChunk: boolean;
+}
+
+export class StreamZipping {
+
+    static async validateZip(readableStream: NodeJS.ReadableStream, options: ValidateZipOptions = {}): Promise<ValidationReturn2> {
+        const ret: ValidationReturn2 = {
+            zipFile: new Uint8Array(),
             includedFiles: [],
             excludedFiles: [],
         }
 
-        const validFiles: AsyncZippable = {};
-        let finalZip: Uint8Array;
-        let tmpChunk: Uint8Array = new Uint8Array();
+        const support: StreamingObjectsSupport = {
+            readableStream: readableStream,
+            returnObject: ret,
+            validFiles: {},
+            options: options,
+        };
 
-        const unzipStream = new Unzip((stream: UnzipFile) => {
-            stream.ondata = (err: FlateError | null, chunk: Uint8Array, final: boolean) => {
-                //if(err) console.log(err);
-                console.log(stream.name);
-                if (true) {
-                    if (final) {
-                        console.log(tmpChunk.length);
-                        tmpChunk = this.mergeBuffers(tmpChunk, chunk);
-                        console.log(chunk.length, tmpChunk.length);
-                        if (tmpChunk.length > 0) {
-                            validFiles[stream.name] = tmpChunk;
-                        }
-                        tmpChunk = new Uint8Array();
-                    } else {
-                        console.log(tmpChunk.length);
-                        tmpChunk = this.mergeBuffers(tmpChunk, chunk);
-                        console.log(chunk.length, tmpChunk.length);
-                    }
-                }
-            };
-            stream.start();
-            /*
-            //BUILD NEW ZIP
-            zip(validFiles,{},
-                (err:FlateError|null, data: Uint8Array) => {
-                    finalZip = data;
-                });
+        await this.unzipStream(support);
 
-             */
-        });
-        unzipStream.register(UnzipInflate); //AsyncUnzipInflate
-        console.log(validFiles);
-
-
-        readableStream.on('error', function (error: Error) {
-            console.log(`error: ${error.message}`);
-        });
-        readableStream.on('data', (chunk: Buffer) => {
-            unzipStream.push(chunk);
-        });
-        readableStream.on('end', async () => {
-            console.log('END READING');
-        });
+        //BUILD NEW ZIP
+        await zip(support.validFiles, {},
+            (err: FlateError | null, data: Uint8Array) => {
+                ret.zipFile = data;
+            });
         return ret;
-
     }
 
 
+    private static unzipStream(support: StreamingObjectsSupport) {
+        const unzipStream: Unzip = this.getUnzipStream(support);
+        unzipStream.register(UnzipInflate); //AsyncUnzipInflate
+
+        return new Promise((resolve, reject) => {
+            support.readableStream.on('error', function (error: Error) {
+                reject(`Error: ${error.message}`);
+            });
+            support.readableStream.on('data', (chunk: Buffer) => {
+                unzipStream.push(chunk);
+            });
+            support.readableStream.on('end', async () => {
+                resolve('Reading stream in input ended');
+            });
+        });
+    }
+
+
+    private static getUnzipStream(support: StreamingObjectsSupport): Unzip {
+        let fileBuilder: FileBuilder = {
+            tmpChunks: [],
+            finalChunk: undefined,
+            hasCorruptedChunk: false,
+        };
+
+         return new Unzip((stream: UnzipFile) => {
+            stream.ondata = (err: FlateError | null, chunk: Uint8Array, final: boolean) => {
+                if (err) {
+                    console.log('An error occurred on ' + stream.name + ' file');
+                }
+                if (!fileBuilder.hasCorruptedChunk) {
+                    this.composeFile(stream.name, chunk, final, fileBuilder);
+                }
+                if (final) {
+                    if (!fileBuilder.hasCorruptedChunk && fileBuilder.finalChunk) {
+                        support.returnObject.includedFiles.push(stream.name);
+                        if (support.options.filterDataSource) {
+                            const validaPathName = this.getValidPathName(stream.name, support.options);
+                            if (validaPathName) {
+                                support.validFiles[validaPathName] = fileBuilder.finalChunk;
+                            } else {
+                                support.returnObject.excludedFiles.push(stream.name);
+                            }
+                        } else {
+                            support.validFiles[stream.name] = fileBuilder.finalChunk;
+                        }
+                    } else {
+                        support.returnObject.excludedFiles.push(stream.name);
+                    }
+                    this.initFileBuilder(fileBuilder);
+                }
+            };
+            stream.start();
+        });
+    }
+
+    private static initFileBuilder(tmpSupport: FileBuilder): void {
+        tmpSupport.tmpChunks = [];
+        tmpSupport.finalChunk = undefined;
+        tmpSupport.hasCorruptedChunk = false;
+    }
+
+    private static composeFile (fileName: string, chunk: Uint8Array, finalChunk: boolean, tmpSupport: FileBuilder,  optionsValidation: ValidateZipOptions = {}){
+        if(chunk) {
+            if (!finalChunk) {
+                tmpSupport.tmpChunks.push(chunk);
+            } else {
+                //final chunk
+                if (!tmpSupport.hasCorruptedChunk) {
+                    tmpSupport.tmpChunks.push(chunk);
+                    tmpSupport.finalChunk = this.mergeBuffers(tmpSupport.tmpChunks);
+                }
+            }
+        } else {
+            tmpSupport.hasCorruptedChunk = true;
+        }
+    }
+
+    private static getValidPathName(pathName: string, optionsValidation: ValidateZipOptions): string | undefined {
+        return pathName;
+    }
+
+    private static mergeBuffers(buffers: Uint8Array[]): Uint8Array {
+        const finalBuffer = new Uint8Array(buffers.reduce(
+            (previousBufferLength: number, currentBuffer: Uint8Array) => previousBufferLength + currentBuffer.length,
+            0
+        ));
+        let lastOffset = 0;
+        buffers.forEach((buffer: Uint8Array) => {
+            finalBuffer.set(buffer, lastOffset);
+            lastOffset += buffer.length;
+        });
+        return finalBuffer;
+    }
 
     static async validateZipAsync(zipFile: Buffer): Promise<void> {
         const decompressed = await unzip(zipFile, {
