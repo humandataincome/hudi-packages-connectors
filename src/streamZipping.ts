@@ -51,18 +51,26 @@ export class StreamZipping {
         };
 
         await this._validateZip(support);
-
         //BUILD NEW ZIP
-        //console.log(support.validFiles);
-        await zip(support.validFiles, {},
-            (err: FlateError | null, data: Uint8Array) => {
-                ret.zipFile = data;
-            });
+        await this.zipFile(support);
         return ret;
     }
 
     private static async _validateZip(support: StreamingObjectsSupport) {
         await this.unzipFile(support);
+    }
+
+    private static zipFile(support: StreamingObjectsSupport) {
+        return new Promise((resolve, reject) => {
+            zip(support.validFiles, {},
+                (err: FlateError | null, data: Uint8Array) => {
+                    if(err) {
+                        reject(err);
+                    }
+                    support.returnObject.zipFile = data;
+                    resolve('Zipping ended');
+                });
+        });
     }
 
     private static unzipFile(support: StreamingObjectsSupport) {
@@ -118,7 +126,6 @@ export class StreamZipping {
                             if (!fileBuilder.hasCorruptedChunk) {
                                 if (support.options.filterDataSource) {
                                     const validaPathName = this.getValidPathName(stream.name, support.options);
-                                    console.log(validaPathName);
                                     if (validaPathName) {
                                         support.validFiles[validaPathName] = fileBuilder.finalChunk;
                                         support.returnObject.includedFiles.push(validaPathName);

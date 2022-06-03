@@ -21,8 +21,10 @@ async function validateStream() {
     const fs = require('fs');
     const path = require('path');
     const readableStream = fs.createReadStream(
-        path.join(__dirname,"../src/mock/datasource zip files/instagram.zip"));
-    console.log(await StreamZipping.validateZip(readableStream, {filterDataSource: {dataSourceCode: DataSourceCode.INSTAGRAM}}));
+        path.join(__dirname,"../src/mock/datasource zip files/amazon2.zip"));
+    let x;
+    console.log(x = await StreamZipping.validateZip(readableStream, {filterDataSource: {dataSourceCode: DataSourceCode.FACEBOOK}}));
+    //console.log(await ValidatorFiles.getPathsIntoZip(x!.zipFile));
 }
 
 function mergingTest() {
