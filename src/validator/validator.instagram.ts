@@ -14,7 +14,7 @@ export class ValidatorInstagram extends ValidatorDatasource {
 
     protected readonly logger = new Logger("Instagram Validator");
 
-    private _DEFAULT_FILE_CODES: FileCodeInstagram[] = [
+    protected DEFAULT_FILE_CODES: FileCodeInstagram[] = [
         FileCodeInstagram.ACCOUNT_INFO,
         FileCodeInstagram.ACCOUNT_NOT_INTERESTED,
         FileCodeInstagram.ACCOUNT_SEARCHES,

@@ -96,10 +96,10 @@ export class StreamZipping {
                     console.log('An error occurred on ' + stream.name + ' file');
                 }
                 if (!fileBuilder.hasCorruptedChunk) {
-                    this.composeFile(stream.name, chunk, final, fileBuilder);
+                    this.composeFile(chunk, final, fileBuilder);
                 }
-                if (final && fileBuilder.finalChunk && fileBuilder.finalChunk.length > 0) {
-                    if (this.isValidSize(fileBuilder.finalChunk, stream.name)) {
+                if (final && fileBuilder.finalChunk) {
+                    if (fileBuilder.finalChunk.length > 0 && this.isValidSize(fileBuilder.finalChunk, stream.name)) {
                         if (this.getFileExtension(stream.name) === FileExtension.ZIP) {
                             const {Readable} = require('stream');
                             const streamFile = Readable.from(fileBuilder.finalChunk.toString());
@@ -116,23 +116,27 @@ export class StreamZipping {
                             support.validFiles = supportRecursive.validFiles;
                         } else {
                             if (!fileBuilder.hasCorruptedChunk) {
-                                support.returnObject.includedFiles.push(stream.name);
                                 if (support.options.filterDataSource) {
                                     const validaPathName = this.getValidPathName(stream.name, support.options);
+                                    console.log(validaPathName);
                                     if (validaPathName) {
                                         support.validFiles[validaPathName] = fileBuilder.finalChunk;
+                                        support.returnObject.includedFiles.push(validaPathName);
                                     } else {
                                         support.returnObject.excludedFiles.push(stream.name);
                                     }
                                 } else {
                                     support.validFiles[stream.name] = fileBuilder.finalChunk;
+                                    support.returnObject.includedFiles.push(stream.name);
                                 }
                             } else {
                                 support.returnObject.excludedFiles.push(stream.name);
                             }
-                            this.initFileBuilder(fileBuilder);
                         }
+                    } else {
+                        support.returnObject.excludedFiles.push(stream.name);
                     }
+                    this.initFileBuilder(fileBuilder);
                 }
             };
             stream.start();
@@ -145,7 +149,7 @@ export class StreamZipping {
         tmpSupport.hasCorruptedChunk = false;
     }
 
-    private static composeFile (fileName: string, chunk: Uint8Array, finalChunk: boolean, tmpSupport: FileBuilder,  optionsValidation: ValidateZipOptions = {}){
+    private static composeFile (chunk: Uint8Array, finalChunk: boolean, tmpSupport: FileBuilder,  optionsValidation: ValidateZipOptions = {}){
         if(chunk) {
             if (!finalChunk) {
                 tmpSupport.tmpChunks.push(chunk);
@@ -193,7 +197,7 @@ export class StreamZipping {
         if (extension) {
             return FileExtension[extension.toUpperCase() as keyof typeof FileExtension];
         }
-        //this.logger.log('info', `Extension of \'${fileName}\' hasn't been recognized`, 'getFileExtension');
+        this.logger.log('info', `Extension of \'${fileName}\' hasn't been recognized`, 'getFileExtension');
         return undefined;
     }
 
@@ -205,15 +209,15 @@ export class StreamZipping {
      * @return TRUE if the file's size is between the minSize and the maxSize, FALSE otherwise
      */
     static isValidSize(file: Uint8Array, pathName: string, maxSize: number = this.MAX_BYTE_FILE_SIZE, minSize: number = this.MIN_BYTE_FILE_SIZE): boolean {
-        const size = file.byteLength;
+        const size = file.length;
         if (size < maxSize) {
             if (size > minSize) {
                 return true;
             } else {
-                //this.logger.log('info', `File \"${pathName}\" (${size} bytes) is too Small to be validated'`, 'isValidSize');
+                this.logger.log('info', `File \"${pathName}\" (${size} bytes) is too Small to be validated'`, 'isValidSize');
             }
         } else {
-            //this.logger.log('info', `File \"${pathName}\" (${size} bytes) is too Big to be validated'`, 'isValidSize');
+            this.logger.log('info', `File \"${pathName}\" (${size} bytes) is too Big to be validated'`, 'isValidSize');
         }
         return false;
     }
@@ -250,12 +254,9 @@ export class StreamZipping {
         try {
             return !!JSON.parse(file.toString());
         } catch (error) {
-            /*
             (pathName)
                 ? this.logger.log('info', `File \"${pathName}\" is not a valid JSON`, 'validateJSON')
                 : this.logger.log('info', `File is not a valid JSON`, 'validateJSON');
-
-             */
             return false;
         }
     }
@@ -269,12 +270,9 @@ export class StreamZipping {
         try {
             return !!Parser.parseCSVfromBuffer(file);
         } catch (error) {
-            /*
             (pathName)
                 ? this.logger.log('info', `File \"${pathName}\" is not a valid CSV`, 'validateCSV')
                 : this.logger.log('info', `File is not a valid CSV`, 'validateCSV');
-
-             */
             return false;
         }
     }
@@ -331,7 +329,7 @@ export class StreamZipping {
             case DataSourceCode.SHOPIFY_PRODUCTS:
                 return ValidatorShopify.getInstance();
             default:
-                //this.logger.log('info', `${dataSourceCode} is not a valid DataSourceCode`, 'validatorSelector');
+                this.logger.log('info', `${dataSourceCode} is not a valid DataSourceCode`, 'validatorSelector');
                 return undefined;
         }
     }

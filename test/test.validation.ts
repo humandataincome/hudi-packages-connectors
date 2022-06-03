@@ -21,7 +21,7 @@ async function validateStream() {
     const fs = require('fs');
     const path = require('path');
     const readableStream = fs.createReadStream(
-        path.join(__dirname,"../src/mock/datasource zip files/ds3.zip"));
+        path.join(__dirname,"../src/mock/datasource zip files/instagram.zip"));
     console.log(await StreamZipping.validateZip(readableStream, {filterDataSource: {dataSourceCode: DataSourceCode.INSTAGRAM}}));
 }
 
