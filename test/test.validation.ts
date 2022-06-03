@@ -8,6 +8,7 @@ import {
 } from "../src";
 import {StreamZipping} from "../src/streamZipping";
 import ErrnoException = NodeJS.ErrnoException;
+import {ProcessorFacebook} from "../dist";
 
 async function testValidation(){
     validateStream();
@@ -21,10 +22,23 @@ async function validateStream() {
     const fs = require('fs');
     const path = require('path');
     const readableStream = fs.createReadStream(
-        path.join(__dirname,"../src/mock/datasource zip files/amazon2.zip"));
+        path.join(__dirname,"../src/mock/datasource zip files/ds1.zip"));
     let x;
     console.log(x = await StreamZipping.validateZip(readableStream, {filterDataSource: {dataSourceCode: DataSourceCode.FACEBOOK}}));
     //console.log(await ValidatorFiles.getPathsIntoZip(x!.zipFile));
+
+    /*
+    fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/facebook.zip"),async function(err:ErrnoException, data1: Buffer) {
+        console.log(x = await ValidatorFiles.validateZip(data1,
+            {
+                filterDataSource: {
+                    dataSourceCode: DataSourceCode.FACEBOOK,
+                }
+            }));
+    });
+     */
+    //console.log(await ValidatorFiles.getPathsIntoZip(x!.zipFile));
+
 }
 
 function mergingTest() {

@@ -1,4 +1,15 @@
-import {AsyncZippable, FlateError, Unzip, unzip, UnzipFile, UnzipFileInfo, UnzipInflate, Unzipped, zip,} from "fflate";
+import {
+    AsyncUnzipInflate,
+    AsyncZippable,
+    FlateError,
+    Unzip,
+    unzip,
+    UnzipFile,
+    UnzipFileInfo,
+    UnzipInflate,
+    Unzipped,
+    zip,
+} from "fflate";
 import {
     ValidateZipOptions,
     ValidatorAmazon,
@@ -107,41 +118,49 @@ export class StreamZipping {
                     this.composeFile(chunk, final, fileBuilder);
                 }
                 if (final && fileBuilder.finalChunk) {
-                    if (fileBuilder.finalChunk.length > 0 && this.isValidSize(fileBuilder.finalChunk, stream.name)) {
-                        if (this.getFileExtension(stream.name) === FileExtension.ZIP) {
-                            const {Readable} = require('stream');
-                            const streamFile = Readable.from(fileBuilder.finalChunk.toString());
+                    if (fileBuilder.finalChunk.length > 0) {
+                        if (this.isValidSize(fileBuilder.finalChunk, stream.name)) {
+                            const extension = this.getFileExtension(stream.name);
+                            if (extension) {
+                                if (extension === FileExtension.ZIP) {
+                                    /*
+                                    const {Readable} = require('stream');
+                                    const streamFile = Readable.from(fileBuilder.finalChunk.toString());
 
-                            const supportRecursive: StreamingObjectsSupport = {
-                                readableStream: streamFile,
-                                returnObject: support.returnObject,
-                                validFiles: support.validFiles,
-                                options: support.options,
-                            };
-                            await this._validateZip(supportRecursive);
-                            support.returnObject.includedFiles = supportRecursive.returnObject.includedFiles;
-                            support.returnObject.excludedFiles = supportRecursive.returnObject.excludedFiles;
-                            support.validFiles = supportRecursive.validFiles;
-                        } else {
-                            if (!fileBuilder.hasCorruptedChunk) {
-                                if (support.options.filterDataSource) {
-                                    const validaPathName = this.getValidPathName(stream.name, support.options);
-                                    if (validaPathName) {
-                                        support.validFiles[validaPathName] = fileBuilder.finalChunk;
-                                        support.returnObject.includedFiles.push(validaPathName);
+                                    const supportRecursive: StreamingObjectsSupport = {
+                                        readableStream: streamFile,
+                                        returnObject: support.returnObject,
+                                        validFiles: support.validFiles,
+                                        options: support.options,
+                                    };
+                                    await this._validateZip(supportRecursive);
+                                    support.returnObject.includedFiles = supportRecursive.returnObject.includedFiles;
+                                    support.returnObject.excludedFiles = supportRecursive.returnObject.excludedFiles;
+                                    support.validFiles = supportRecursive.validFiles;
+                                     */
+                                } else {
+                                    if (!fileBuilder.hasCorruptedChunk && this.isValidContent(extension, fileBuilder.finalChunk, stream.name)) {
+                                        if (support.options.filterDataSource) {
+                                            const validaPathName = this.getValidPathName(stream.name, support.options);
+                                            if (validaPathName) {
+                                                support.validFiles[validaPathName] = fileBuilder.finalChunk;
+                                                support.returnObject.includedFiles.push(validaPathName);
+                                            } else {
+                                                support.returnObject.excludedFiles.push(stream.name);
+                                            }
+                                        } else {
+                                            support.validFiles[stream.name] = fileBuilder.finalChunk;
+                                            support.returnObject.includedFiles.push(stream.name);
+                                        }
                                     } else {
                                         support.returnObject.excludedFiles.push(stream.name);
                                     }
-                                } else {
-                                    support.validFiles[stream.name] = fileBuilder.finalChunk;
-                                    support.returnObject.includedFiles.push(stream.name);
                                 }
-                            } else {
-                                support.returnObject.excludedFiles.push(stream.name);
+                                //support.returnObject.excludedFiles.push(stream.name);
                             }
+                        } else {
+                            support.returnObject.excludedFiles.push(stream.name);
                         }
-                    } else {
-                        support.returnObject.excludedFiles.push(stream.name);
                     }
                     this.initFileBuilder(fileBuilder);
                 }
@@ -169,6 +188,7 @@ export class StreamZipping {
             }
         } else {
             tmpSupport.hasCorruptedChunk = true;
+            this.logger.log('info', `Corrupted chunk`, 'composeFile');
         }
     }
 
@@ -235,12 +255,12 @@ export class StreamZipping {
      * @param pathName - evaluated file name
      * @return TRUE if the file is valid, FALSE otherwise
      */
-    static isValidContent(extension: FileExtension, file: Buffer, pathName: string): boolean {
+    static isValidContent(extension: FileExtension, file: Uint8Array, pathName: string): boolean {
         switch (extension) {
             case FileExtension.JSON:
                 return this.validateJSON(file, pathName);
             case FileExtension.JS:
-                const fileJson = Parser.extractJsonFromTwitterFile(file);
+                const fileJson = Parser.extractJsonFromTwitterFile(Buffer.from(file, file.byteOffset, file.length));
                 if (fileJson) {
                     return this.validateJSON(fileJson, pathName);
                 }
@@ -257,9 +277,9 @@ export class StreamZipping {
      * @param pathName - evaluated file name
      * @return TRUE if the file is a valid JSON, FALSE otherwise
      */
-    static validateJSON(file: Buffer, pathName?: string): boolean {
+    static validateJSON(file: Uint8Array, pathName?: string): boolean {
         try {
-            return !!JSON.parse(file.toString());
+            return !!JSON.parse(new TextDecoder().decode(file));
         } catch (error) {
             (pathName)
                 ? this.logger.log('info', `File \"${pathName}\" is not a valid JSON`, 'validateJSON')
@@ -273,9 +293,9 @@ export class StreamZipping {
      * @param pathName - evaluated file name
      * @return TRUE if the file is a valid CSV, FALSE otherwise
      */
-    static validateCSV(file: Buffer, pathName?: string): boolean {
+    static validateCSV(file: Uint8Array, pathName?: string): boolean {
         try {
-            return !!Parser.parseCSVfromBuffer(file);
+            return !!Parser.parseCSVfromBuffer(Buffer.from(file, file.byteOffset, file.length));
         } catch (error) {
             (pathName)
                 ? this.logger.log('info', `File \"${pathName}\" is not a valid CSV`, 'validateCSV')
