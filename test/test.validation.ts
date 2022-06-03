@@ -6,8 +6,8 @@ import {
     ValidatorFiles,
     ValidatorInstagram
 } from "../src";
+import {StreamZipping} from "../src/streamZipping";
 import ErrnoException = NodeJS.ErrnoException;
-import {StreamZipping, ValidationReturn2} from "../src/streamZipping";
 
 async function testValidation(){
     validateStream();
@@ -21,9 +21,8 @@ async function validateStream() {
     const fs = require('fs');
     const path = require('path');
     const readableStream = fs.createReadStream(
-        path.join(__dirname,"../src/mock/datasource zip files/facebook.zip"));
-
-    console.log(await StreamZipping.validateZip(readableStream));
+        path.join(__dirname,"../src/mock/datasource zip files/ds3.zip"));
+    console.log(await StreamZipping.validateZip(readableStream, {filterDataSource: {dataSourceCode: DataSourceCode.INSTAGRAM}}));
 }
 
 function mergingTest() {
