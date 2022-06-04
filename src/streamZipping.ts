@@ -113,6 +113,7 @@ export class StreamZipping {
              stream.ondata = async (err: FlateError | null, chunk: Uint8Array, final: boolean) => {
                 if (err) {
                     console.log('An error occurred on ' + stream.name + ' file');
+                    support.returnObject.excludedFiles.push(stream.name);
                 }
                 if (!fileBuilder.hasCorruptedChunk) {
                     this.composeFile(chunk, final, fileBuilder);
@@ -120,24 +121,27 @@ export class StreamZipping {
                 if (final && fileBuilder.finalChunk) {
                     if (fileBuilder.finalChunk.length > 0) {
                         if (this.isValidSize(fileBuilder.finalChunk, stream.name)) {
+                            console.log(stream.name);
                             const extension = this.getFileExtension(stream.name);
                             if (extension) {
                                 if (extension === FileExtension.ZIP) {
-                                    /*
-                                    const {Readable} = require('stream');
-                                    const streamFile = Readable.from(fileBuilder.finalChunk.toString());
-
-                                    const supportRecursive: StreamingObjectsSupport = {
-                                        readableStream: streamFile,
-                                        returnObject: support.returnObject,
-                                        validFiles: support.validFiles,
-                                        options: support.options,
-                                    };
-                                    await this._validateZip(supportRecursive);
-                                    support.returnObject.includedFiles = supportRecursive.returnObject.includedFiles;
-                                    support.returnObject.excludedFiles = supportRecursive.returnObject.excludedFiles;
-                                    support.validFiles = supportRecursive.validFiles;
-                                     */
+                                    const recursiveValidation = new Promise(async (resolve, reject) => {
+                                        const {Readable} = require('stream');
+                                        const streamFile = Readable.from(fileBuilder.finalChunk);
+                                        console.log('zip')
+                                        const supportRecursive: StreamingObjectsSupport = {
+                                            readableStream: streamFile,
+                                            returnObject: support.returnObject,
+                                            validFiles: support.validFiles,
+                                            options: support.options,
+                                        };
+                                        await this._validateZip(supportRecursive);
+                                        support.returnObject.includedFiles = supportRecursive.returnObject.includedFiles;
+                                        support.returnObject.excludedFiles = supportRecursive.returnObject.excludedFiles;
+                                        support.validFiles = supportRecursive.validFiles;
+                                        resolve('End recursive zip validation');
+                                    });
+                                    await recursiveValidation;
                                 } else {
                                     if (!fileBuilder.hasCorruptedChunk && this.isValidContent(extension, fileBuilder.finalChunk, stream.name)) {
                                         if (support.options.filterDataSource) {
@@ -156,7 +160,6 @@ export class StreamZipping {
                                         support.returnObject.excludedFiles.push(stream.name);
                                     }
                                 }
-                                //support.returnObject.excludedFiles.push(stream.name);
                             }
                         } else {
                             support.returnObject.excludedFiles.push(stream.name);
