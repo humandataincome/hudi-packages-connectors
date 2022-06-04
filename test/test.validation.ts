@@ -7,11 +7,12 @@ import {
     ValidatorInstagram
 } from "../src";
 import ErrnoException = NodeJS.ErrnoException;
+import {ProcessorAmazon, ProcessorFacebook, ProcessorGoogle} from "../dist";
 
 async function testValidation(){
-    //validatingTest();
+    validatingTest();
     //validatingBigFileTest();
-    mergingTest();
+    //mergingTest();
     //await sequentialValidationsProcessingTest();
 }
 
@@ -79,23 +80,23 @@ function validatingTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
-            await (await ValidatorFiles.getPathsIntoZip(data))!.forEach((pathName) => console.log(pathName));
+        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/google.zip"),async function(err:ErrnoException, data: Buffer) {
+            //await (await ValidatorFiles.getPathsIntoZip(data))!.forEach((pathName) => console.log(pathName));
             if (err) {
                 console.log(err)
             }
             ValidatorFiles.MAX_BYTE_FILE_SIZE = 10e10;
             ValidatorFiles.MIN_BYTE_FILE_SIZE = 1;
-            const code = DataSourceCode.FACEBOOK;
+            const code = DataSourceCode.GOOGLE;
             const zip = await ValidatorFiles.validateZip(data,
                 {
                     filterDataSource: {
                         dataSourceCode: code
                     }
                 });
-            console.log(await ValidatorFiles.getPathsIntoZip(zip!.zipFile));
-            const filteredZip = await ValidatorFiles.validatorSelector(code)!.filterFilesIntoZip(zip!.zipFile, {fileCodes: ['Advertising.3/Advertising.AdvertiserAudiences.csv', FileCodeAmazon.ADV_CLICKS]})
-            console.log(await ValidatorFiles.getPathsIntoZip(filteredZip!));
+            console.log(await ProcessorGoogle.aggregatorFactory(zip!.zipFile, {throwExceptions: true}));
+            //const filteredZip = await ValidatorFiles.validatorSelector(code)!.filterFilesIntoZip(zip!.zipFile, {fileCodes: ['Advertising.3/Advertising.AdvertiserAudiences.csv', FileCodeAmazon.ADV_CLICKS]})
+            //console.log(await ValidatorFiles.getPathsIntoZip(filteredZip!));
         });
     } catch (e: any) {
         if(e.message === `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {

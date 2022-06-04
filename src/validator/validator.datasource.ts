@@ -2,11 +2,14 @@ import {FileCode, LanguageCode} from "../descriptor";
 import {ValidationErrorEnums} from "./validator.error";
 import {
     InputFileFormat,
-    ValidatorInstagramOption,
 } from "./index";
 import Logger from "../utils/logger";
 
-export type  ValidatorDatasourceOption = ValidatorInstagramOption;
+export type  ValidatorDatasourceOption = {
+    fileCodes?: FileCode[] | string[];
+    throwExceptions?: boolean;
+    externalZip?: any;
+}
 
 export class ValidatorDatasource {
     private static _instance: ValidatorDatasource;
@@ -69,7 +72,7 @@ export class ValidatorDatasource {
         return path;
     }
 
-    public async getLanguage(options: ValidatorDatasourceOption): Promise<LanguageCode | null> {
-        return null;
+    public async getLanguage(options: ValidatorDatasourceOption): Promise<LanguageCode | undefined> {
+        return undefined;
     }
 }

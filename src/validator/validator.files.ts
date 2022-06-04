@@ -165,26 +165,14 @@ export class ValidatorFiles {
                     } else if (ValidatorFiles.isValidSize(fileBuffer, pathName) && ValidatorFiles.isValidContent(fileExtension, fileBuffer, pathName)) {
                         if (ValidatorDatasource) {
                             if (options && options.filterDataSource) {
-                                if (options.filterDataSource.dataSourceCode === DataSourceCode.INSTAGRAM) {
-                                    if (languageCode === undefined) {
-                                        languageCode = await ValidatorDatasource.getLanguage(
-                                            {
-                                                throwExceptions: options.throwExceptions!,
-                                                externalZip: zip,
-                                            });
-                                    }
-                                }
                                 let validPathName = await ValidatorDatasource.getValidPath(
                                     optionsSupport.prefix === '' ? pathName : optionsSupport.prefix + '/' + pathName,
                                     {
                                         throwExceptions: options.throwExceptions!,
                                         fileCodes: options.filterDataSource.fileCodesIncluded!,
-                                        languageCode: languageCode!,
                                     });
                                 if (validPathName) {
-                                    (languageCode !== null && languageCode !== undefined)
-                                        ? validatedFiles.file(validPathName, fileBuffer, {comment: languageCode})
-                                        : validatedFiles.file(validPathName, fileBuffer, {comment: file.comment});
+                                    validatedFiles.file(validPathName, fileBuffer, {comment: file.comment});
                                     optionsSupport.includedFiles.push(validPathName);
                                 } else {
                                     optionsSupport.excludedFiles.push(pathName);

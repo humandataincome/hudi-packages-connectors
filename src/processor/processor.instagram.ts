@@ -21,7 +21,7 @@ import {
     PostViewedIG, QuizIG, QuizzesIG, StoryIG, VideoWatchedIG
 } from "../model";
 import {ProcessorUtils} from "./processor.utils";
-import {InputFileFormat, ValidatorFiles} from "../validator";
+import {InputFileFormat, ValidatorDatasourceOption, ValidatorFiles, ValidatorInstagram} from "../validator";
 import {InstagramDataAggregator} from "./processor.aggregator.model";
 import Logger from "../utils/logger";
 import {ProcessorOptions} from "./index";
@@ -54,12 +54,17 @@ export class ProcessorInstagram {
     private static async _aggregateFactory(zip: any, options?: ProcessorOptions): Promise<InstagramDataAggregator | undefined> {
         const timeIntervalDays = (options && options.timeIntervalDays) ? options.timeIntervalDays : 365;
         const model: InstagramDataAggregator = {};
+        const optionsValidator: ValidatorDatasourceOption =  (options && options.throwExceptions) ? {externalZip: zip,
+                throwExceptions: options!.throwExceptions} : {externalZip: zip};
+        //get language code if possible
+        let code = await ValidatorInstagram.getInstance().getLanguage(optionsValidator);
+        (code) && (InstagramService.languagePrefix = code);
+
         let result, regex;
         for (let pathName of Object.keys(zip.files)) {
             const file = zip.files[pathName];
             if (!file.dir) {
                 await file.async('nodebuffer').then(async (data: Buffer) => {
-                    InstagramService.languagePrefix = file.comment as LanguageCode;
                     if ((regex = new RegExp(FileCodeInstagram.ADS_CLICKED)) && (regex.test(pathName))) {
                         result = <AdsClickedIG>await InstagramService.parseAdsClicked(data);
                         if (result) {
