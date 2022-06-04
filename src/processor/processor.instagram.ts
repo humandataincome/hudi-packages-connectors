@@ -11,14 +11,20 @@ import {
     EmojiSlidersIG,
     FollowersIG,
     FollowingAccountsIG,
-    LikeIG,
     LikedCommentsIG,
-    LikedPostsIG, MediaIG,
-    PersonalPostsIG, PersonalStoriesIG,
+    LikedPostsIG,
+    LikeIG,
+    MediaIG,
+    PersonalPostsIG,
+    PersonalStoriesIG,
     PollIG,
     PollsIG,
     PostIG,
-    PostViewedIG, QuizIG, QuizzesIG, StoryIG, VideoWatchedIG
+    PostViewedIG,
+    QuizIG,
+    QuizzesIG,
+    StoryIG,
+    VideoWatchedIG
 } from "../model";
 import {ProcessorUtils} from "./processor.utils";
 import {InputFileFormat, ValidatorDatasourceOption, ValidatorFiles, ValidatorInstagram} from "../validator";
@@ -56,9 +62,10 @@ export class ProcessorInstagram {
         const model: InstagramDataAggregator = {};
         const optionsValidator: ValidatorDatasourceOption =  (options && options.throwExceptions) ? {externalZip: zip,
                 throwExceptions: options!.throwExceptions} : {externalZip: zip};
-        //get language code if possible
+        //get language code if possible, otherwise ENGLISH as default
         let code = await ValidatorInstagram.getInstance().getLanguage(optionsValidator);
-        (code) && (InstagramService.languagePrefix = code);
+        console.log(code);
+        InstagramService.languagePrefix = code ? code : LanguageCode.ENGLISH ;
 
         let result, regex;
         for (let pathName of Object.keys(zip.files)) {
