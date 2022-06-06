@@ -1,11 +1,9 @@
 import {
-    AsyncUnzipInflate,
     AsyncZippable,
     FlateError,
     Unzip,
     unzip,
     UnzipFile,
-    UnzipFileInfo,
     UnzipInflate,
     Unzipped,
     zip,
@@ -33,6 +31,7 @@ interface StreamingObjectsSupport {
     returnObject: ValidationReturn2;
     validFiles: AsyncZippable;
     options: ValidateZipOptions;
+    recursiveZipPrefix?: string;
 }
 
 interface FileBuilder {
@@ -46,25 +45,33 @@ export class StreamZipping {
 
     public static MAX_BYTE_FILE_SIZE = 6e6; //6 MB
     public static MIN_BYTE_FILE_SIZE = 30; //30 B
+    public static MAX_BYTE_ZIP = 1e9; //1 GB
 
-    static async validateZip(readableStream: NodeJS.ReadableStream, options: ValidateZipOptions = {}): Promise<ValidationReturn2> {
-        const ret: ValidationReturn2 = {
-            zipFile: new Uint8Array(),
-            includedFiles: [],
-            excludedFiles: [],
+    static async validateZip(readableStream: NodeJS.ReadableStream, options: ValidateZipOptions = {}): Promise<ValidationReturn2 | undefined> {
+        try {
+            const ret: ValidationReturn2 = {
+                zipFile: new Uint8Array(),
+                includedFiles: [],
+                excludedFiles: [],
+            }
+
+            const support: StreamingObjectsSupport = {
+                readableStream: readableStream,
+                returnObject: ret,
+                validFiles: {},
+                options: options,
+            };
+
+            await this._validateZip(support);
+            await this.zipFile(support);
+            return ret;
+        } catch(error: any) {
+            (error && error.message) && (this.logger.log('error', error.message, 'validateZIP'));
+            if (options && options.throwExceptions !== undefined && options.throwExceptions) {
+                throw error;
+            }
         }
-
-        const support: StreamingObjectsSupport = {
-            readableStream: readableStream,
-            returnObject: ret,
-            validFiles: {},
-            options: options,
-        };
-
-        await this._validateZip(support);
-        //BUILD NEW ZIP
-        await this.zipFile(support);
-        return ret;
+        return undefined;
     }
 
     private static async _validateZip(support: StreamingObjectsSupport) {
@@ -119,57 +126,69 @@ export class StreamZipping {
                     this.composeFile(chunk, final, fileBuilder);
                 }
                 if (final && fileBuilder.finalChunk) {
-                    if (fileBuilder.finalChunk.length > 0) {
-                        if (this.isValidSize(fileBuilder.finalChunk, stream.name)) {
-                            console.log(stream.name);
-                            const extension = this.getFileExtension(stream.name);
-                            if (extension) {
-                                if (extension === FileExtension.ZIP) {
-                                    const recursiveValidation = new Promise(async (resolve, reject) => {
-                                        const {Readable} = require('stream');
-                                        const streamFile = Readable.from(fileBuilder.finalChunk);
-                                        console.log('zip')
-                                        const supportRecursive: StreamingObjectsSupport = {
-                                            readableStream: streamFile,
-                                            returnObject: support.returnObject,
-                                            validFiles: support.validFiles,
-                                            options: support.options,
-                                        };
-                                        await this._validateZip(supportRecursive);
-                                        support.returnObject.includedFiles = supportRecursive.returnObject.includedFiles;
-                                        support.returnObject.excludedFiles = supportRecursive.returnObject.excludedFiles;
-                                        support.validFiles = supportRecursive.validFiles;
-                                        resolve('End recursive zip validation');
-                                    });
-                                    await recursiveValidation;
-                                } else {
-                                    if (!fileBuilder.hasCorruptedChunk && this.isValidContent(extension, fileBuilder.finalChunk, stream.name)) {
-                                        if (support.options.filterDataSource) {
-                                            const validaPathName = this.getValidPathName(stream.name, support.options);
-                                            if (validaPathName) {
-                                                support.validFiles[validaPathName] = fileBuilder.finalChunk;
-                                                support.returnObject.includedFiles.push(validaPathName);
-                                            } else {
-                                                support.returnObject.excludedFiles.push(stream.name);
-                                            }
-                                        } else {
-                                            support.validFiles[stream.name] = fileBuilder.finalChunk;
-                                            support.returnObject.includedFiles.push(stream.name);
-                                        }
-                                    } else {
-                                        support.returnObject.excludedFiles.push(stream.name);
-                                    }
-                                }
-                            }
-                        } else {
-                            support.returnObject.excludedFiles.push(stream.name);
-                        }
+                    if (!fileBuilder.hasCorruptedChunk) {
+                        await this.filterFile(fileBuilder.finalChunk, stream.name, support);
+                        this.initFileBuilder(fileBuilder);
+                    } else {
+                        support.returnObject.excludedFiles.push(stream.name);
                     }
-                    this.initFileBuilder(fileBuilder);
                 }
             };
             stream.start();
         });
+    }
+
+    private static async filterFile(fileContent: Uint8Array, fileName: string, support: StreamingObjectsSupport, recursiveZipPrefix?: string) {
+        console.log(fileName)
+        if (fileContent.length > 0) {
+            if (this.isValidSize(fileContent, fileName)) {
+                const extension = this.getFileExtension(fileName);
+                if (extension) {
+                    if (extension === FileExtension.ZIP) {
+                        console.log("AAAA");
+                        const recursiveZipFiles = await this.validateZipAsync(fileContent);
+                        console.log(recursiveZipFiles);
+                        for (let key in recursiveZipFiles) {
+                            await this.filterFile(recursiveZipFiles[key], key, support, recursiveZipPrefix ? recursiveZipPrefix+'/'+fileName.slice(0, -4) : fileName);
+                        }
+                        console.log("BBBBB");
+                    } else {
+                        if (this.isValidContent(extension, fileContent, fileName)) {
+                            if (support.options.filterDataSource) {
+                                const validaPathName = this.getValidPathName(fileName, support.options);
+                                if (validaPathName) {
+                                    support.validFiles[validaPathName] = fileContent;
+                                    support.returnObject.includedFiles.push(validaPathName);
+                                } else {
+                                    support.returnObject.excludedFiles.push(fileName);
+                                }
+                            } else {
+                                support.validFiles[fileName] = fileContent;
+                                support.returnObject.includedFiles.push(fileName);
+                            }
+                        }
+                    }
+                }
+            } else {
+                support.returnObject.excludedFiles.push(fileName);
+            }
+        }
+    }
+
+    private static async validateZipAsync(zipFile: Uint8Array): Promise<Unzipped> {
+        let result: Unzipped = {};
+        console.log(zipFile);
+        new Promise((resolve, reject) => {
+            unzip(zipFile, {},
+                (err: FlateError | null, data: Unzipped) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    result = data;
+                    resolve('Unzip ended');
+                });
+        });
+        return result;
     }
 
     private static initFileBuilder(tmpSupport: FileBuilder): void {
@@ -178,7 +197,7 @@ export class StreamZipping {
         tmpSupport.hasCorruptedChunk = false;
     }
 
-    private static composeFile (chunk: Uint8Array, finalChunk: boolean, tmpSupport: FileBuilder,  optionsValidation: ValidateZipOptions = {}){
+    private static composeFile (chunk: Uint8Array, finalChunk: boolean, tmpSupport: FileBuilder){
         if(chunk) {
             if (!finalChunk) {
                 tmpSupport.tmpChunks.push(chunk);
@@ -362,21 +381,5 @@ export class StreamZipping {
                 this.logger.log('info', `${dataSourceCode} is not a valid DataSourceCode`, 'validatorSelector');
                 return undefined;
         }
-    }
-
-
-    static async validateZipAsync(zipFile: Buffer): Promise<void> {
-        const decompressed = await unzip(zipFile, {
-                filter(file: UnzipFileInfo) {
-                    if (file.size > 0) {
-                        return ValidatorFacebook.getInstance().getValidPath(file.name) !== undefined;
-                    }
-                    return false;
-                }
-            },
-            (err: FlateError | null, data: Unzipped) => {
-                console.log(data);
-            });
-        console.log("AAAAA");
     }
 }
