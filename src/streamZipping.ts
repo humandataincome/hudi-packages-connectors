@@ -9,15 +9,15 @@ import {
     zip,
 } from "fflate";
 import {
-    ValidateZipOptions,
+    ValidateZipOptions, ValidationErrorEnums,
     ValidatorAmazon,
     ValidatorDatasource,
     ValidatorFacebook, ValidatorGoogle,
-    ValidatorInstagram, ValidatorLinkedIn, ValidatorNetflix
+    ValidatorInstagram, ValidatorLinkedIn, ValidatorNetflix, ValidatorShopify
 } from "./validator";
 import {DataSourceCode, FileExtension} from "./descriptor";
 import {Parser} from "./utils/parser";
-import {ValidatorShopify} from "./validator/validator.shopify";
+
 import Logger from "./utils/logger";
 
 export interface ValidationReturn2 {
@@ -32,6 +32,10 @@ interface StreamingObjectsSupport {
     validFiles: AsyncZippable;
     options: ValidateZipOptions;
     recursiveZipPrefix?: string;
+}
+
+interface FileBuilder {
+    [fileName: string]: {fileChunk: Uint8Array, isCorrupted: boolean};
 }
 
 export class StreamZipping {
@@ -56,8 +60,14 @@ export class StreamZipping {
                 options: options,
             };
 
-            await this._validateZip(support);
+            await this.unzipFileFromStream(support);
             await this.zipFile(support);
+            if (ret.zipFile.length > this.MAX_BYTE_ZIP) {
+                throw new Error(`${ValidationErrorEnums.VALIDATED_FILES_TOO_BIG}`);
+            }
+            if (ret.includedFiles.length === 0) {
+                throw new Error(`${ValidationErrorEnums.NOT_VALID_FILES_ERROR}`);
+            }
             return ret;
         } catch(error: any) {
             (error && error.message) && (this.logger.log('error', error.message, 'validateZIP'));
@@ -66,10 +76,6 @@ export class StreamZipping {
             }
         }
         return undefined;
-    }
-
-    private static async _validateZip(support: StreamingObjectsSupport) {
-        await this.unzipFile(support);
     }
 
     private static zipFile(support: StreamingObjectsSupport) {
@@ -85,48 +91,67 @@ export class StreamZipping {
         });
     }
 
-    private static unzipFile(support: StreamingObjectsSupport) {
+    private static unzipFileFromStream(support: StreamingObjectsSupport) {
         const unzipStream: Unzip = this.getUnzipStream(support);
         unzipStream.register(UnzipInflate); //can't be async
 
         return new Promise((resolve, reject) => {
-            support.readableStream.on('error', function (error: Error) {
+            support.readableStream.on('error', (error: Error) => {
                 reject(`Error: ${error.message}`);
             });
             support.readableStream.on('data', (chunk: Buffer) => {
                 unzipStream.push(chunk);
             });
-            support.readableStream.on('end', async () => {
+            support.readableStream.on('end', () => {
                 resolve('Reading stream in input ended');
             });
         });
     }
 
+    private static buildFile(file: FileBuilder, chunk: Uint8Array, fileName: string) {
+        if (chunk) {
+            if (file[fileName] && !file[fileName].isCorrupted && file[fileName].fileChunk.length > 0 ) {
+                const finalBuffer = new Uint8Array(file[fileName].fileChunk.length + chunk.length);
+                finalBuffer.set(new Uint8Array(file[fileName].fileChunk), 0);
+                finalBuffer.set(new Uint8Array(chunk), file[fileName].fileChunk.length);
+                file[fileName] = {fileChunk: finalBuffer, isCorrupted: file[fileName].isCorrupted};
+            } else {
+                file[fileName] = {fileChunk: chunk, isCorrupted: false};
+            }
+        } else {
+            file[fileName] = {fileChunk: new Uint8Array, isCorrupted: true}
+        }
+    }
 
     private static getUnzipStream(support: StreamingObjectsSupport): Unzip {
+        let file: FileBuilder = {};
         return new Unzip((stream: UnzipFile) => {
-            stream.ondata = async (err: FlateError | null, chunk: Uint8Array, final: boolean) => {
+            stream.ondata = (err: FlateError | null, chunk: Uint8Array, final: boolean) => {
                 if (err) {
                     console.log('An error occurred on ' + stream.name + ' file');
                 }
-                await this.filterFile(chunk, stream.name, support);
+                this.buildFile(file, chunk, stream.name);
+                //console.log(file)
+                if (final && !file[stream.name].isCorrupted) {
+                    this.filterFile(file[stream.name].fileChunk, stream.name, support);
+                    delete file[stream.name]; //= new Uint8Array()
+                }
             };
             stream.start();
         });
     }
 
-    private static async filterFile(fileContent: Uint8Array, fileName: string, support: StreamingObjectsSupport, recursiveZipPrefix?: string) {
+    private static filterFile(fileContent: Uint8Array, fileName: string, support: StreamingObjectsSupport, recursiveZipPrefix?: string) {
         if (!this.isDirectory(fileName)) {
-            if (fileContent.length > 0) {
+            if (fileContent && fileContent.length > 0) {
                 (recursiveZipPrefix) && (fileName = recursiveZipPrefix+'/'+fileName);
-                console.log(fileName);
                 if (this.isValidSize(fileContent, fileName)) {
                     const extension = this.getFileExtension(fileName);
                     if (extension) {
                         if (extension === FileExtension.ZIP) {
                             const recursiveZipFiles = unzipSync(fileContent); //await this.validateZipSync(fileContent);
                             for (let key in recursiveZipFiles) {
-                                await this.filterFile(recursiveZipFiles[key], key, support, recursiveZipPrefix ? recursiveZipPrefix+'/'+fileName.slice(0, -4) : fileName.slice(0, -4));
+                                this.filterFile(recursiveZipFiles[key], key, support, recursiveZipPrefix ? recursiveZipPrefix+'/'+fileName.slice(0, -4) : fileName.slice(0, -4));
                             }
                         } else {
                             if (this.isValidContent(extension, fileContent, fileName)) {
@@ -135,7 +160,7 @@ export class StreamZipping {
                                         ? (this.getValidPathName(fileName, support.options))
                                         : (this.getValidPathName(fileName, support.options));
                                     if (validPathName) {
-                                        support.validFiles[validPathName] = fileContent
+                                        support.validFiles[validPathName] = fileContent;
                                         support.returnObject.includedFiles.push(validPathName);
                                     } else {
                                         support.returnObject.excludedFiles.push(fileName);
@@ -167,47 +192,19 @@ export class StreamZipping {
     private static async validateZipSync(zipFile: Uint8Array): Promise<Unzipped> {
         let result: Unzipped = {};
         const unzipAsync = new Promise((resolve, reject) => {
-            try {
-                unzip(zipFile, {
-                        filter(file) {
-                            console.log(file)
-                            return true;
-                        }
-                    },
-                    (err: FlateError | null, data: Unzipped) => {
-                        if (err) {
-                            reject(err);
-                        }
-                        result = data;
-                        resolve('Unzip ended');
-                    });
-            } catch (error) {
-
-            }
+            unzip(zipFile, {},
+                (err: FlateError | null, data: Unzipped) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    result = data;
+                    resolve('Unzip ended');
+                });
         });
         await unzipAsync;
         return result;
     }
-/*
-    private static composeFile (chunk: Uint8Array, finalChunk: boolean, tmpSupport: FileBuilder){
-        if(chunk) {
-            if (!finalChunk) {
-                tmpSupport.tmpChunks.push(chunk);
-            } else {
-                //final chunk
-                if (!tmpSupport.hasCorruptedChunk) {
-                    tmpSupport.tmpChunks.push(chunk);
-                    tmpSupport.finalChunk = this.mergeBuffers(tmpSupport.tmpChunks);
-                }
-            }
-        } else {
-            tmpSupport.hasCorruptedChunk = true;
-            this.logger.log('info', `Corrupted chunk`, 'composeFile');
-        }
-    }
 
-
- */
     private static getValidPathName(pathName: string, optionsValidation: ValidateZipOptions): string | undefined {
         if (optionsValidation && optionsValidation.filterDataSource && optionsValidation.filterDataSource.dataSourceCode) {
             const datasource = this.validatorSelector(optionsValidation.filterDataSource?.dataSourceCode);
@@ -216,19 +213,6 @@ export class StreamZipping {
             }
         }
         return undefined;
-    }
-
-    private static mergeBuffers(buffers: Uint8Array[]): Uint8Array {
-        const finalBuffer = new Uint8Array(buffers.reduce(
-            (previousBufferLength: number, currentBuffer: Uint8Array) => previousBufferLength + currentBuffer.length,
-            0
-        ));
-        let lastOffset = 0;
-        buffers.forEach((buffer: Uint8Array) => {
-            finalBuffer.set(buffer, lastOffset);
-            lastOffset += buffer.length;
-        });
-        return finalBuffer;
     }
 
     /**
