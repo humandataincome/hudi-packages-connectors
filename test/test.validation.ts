@@ -2,13 +2,10 @@ import {
     DataSourceCode,
     FileCodeAmazon,
     ProcessorInstagram,
-    ValidationErrorEnums,
-    ValidatorFiles,
+    ValidationErrorEnums, ValidatorFiles,
     ValidatorInstagram
 } from "../src";
-import {StreamZipping} from "../src/streamZipping";
 import ErrnoException = NodeJS.ErrnoException;
-import {ProcessorFacebook} from "../dist";
 
 async function testValidation(){
     validateStream();
@@ -22,9 +19,9 @@ async function validateStream() {
     const fs = require('fs');
     const path = require('path');
     const readableStream = fs.createReadStream(
-        path.join(__dirname,"../src/mock/datasource zip files/amazon2.zip"));
+        path.join(__dirname,"../src/mock/datasource zip files/amazon.zip"));
     let x;
-    console.log(x = await StreamZipping.validateZipStream(readableStream, /*{filterDataSource: {dataSourceCode: DataSourceCode.FACEBOOK}}*/));
+    console.log(x = await ValidatorFiles.validateZipStream(readableStream, /*{filterDataSource: {dataSourceCode: DataSourceCode.FACEBOOK}}*/));
     //console.log(await ValidatorFiles.getPathsIntoZip(x!.zipFile));
 
     /*
@@ -37,7 +34,7 @@ async function validateStream() {
             }));
     });
      */
-    //console.log(await ValidatorFiles.getPathsIntoZip(x!.zipFile));
+    console.log(await ValidatorFiles.getPathsIntoZip(x!.zipFile));
 
 }
 

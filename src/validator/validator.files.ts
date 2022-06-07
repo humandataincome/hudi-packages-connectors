@@ -1,19 +1,26 @@
-import {DataSourceCode, FileCode, FileExtension} from "../descriptor";
-import * as JSZip from "jszip";
-import {ValidationErrorEnums} from "./validator.error";
+import {
+    AsyncZippable,
+    FlateError,
+    Unzip,
+    unzip,
+    UnzipFile,
+    UnzipInflate,
+    Unzipped, unzipSync,
+    zip,
+} from "fflate";
 import {
     InputFileFormat,
+    ValidationErrorEnums,
     ValidatorAmazon,
     ValidatorDatasource,
-    ValidatorFacebook,
-    ValidatorInstagram,
-    ValidatorNetflix
+    ValidatorFacebook, ValidatorGoogle,
+    ValidatorInstagram, ValidatorLinkedIn, ValidatorNetflix, ValidatorShopify
 } from "./index";
+import JSZip = require("jszip");
+import {DataSourceCode, FileCode, FileExtension} from "../descriptor";
 import {Parser} from "../utils/parser";
-import {ValidatorGoogle} from "./validator.google";
 import Logger from "../utils/logger";
-import {ValidatorLinkedIn} from "./validator.linkedin";
-import {ValidatorShopify} from "./validator.shopify";
+
 
 export interface ValidateZipOptions {
     permittedFileExtensions?: FileExtension[]; //include only files with these extensions, if omitted includes everything
@@ -21,13 +28,24 @@ export interface ValidateZipOptions {
         dataSourceCode: DataSourceCode;
         fileCodesIncluded?: FileCode[];  //include only files with these Codes, if omitted includes everything
     }
+    maxBytesPerFile?: number;
+    minBytesPerFile?: number;
+    maxBytesZipFile?: number;
     throwExceptions?: boolean;
 }
 
 export interface ValidationReturn {
-    zipFile: Buffer;
-    includedFiles: string[];
-    excludedFiles: string[];
+    zipFile: Uint8Array,
+    includedFiles: string[],
+    excludedFiles: string[],
+}
+
+interface StreamingObjectsSupport {
+    readableStream: NodeJS.ReadableStream;
+    returnObject: ValidationReturn;
+    validFiles: AsyncZippable;
+    options: ValidateZipOptions;
+    recursiveZipPrefix?: string;
 }
 
 interface ValidateZipOptionsSupport {
@@ -41,98 +59,42 @@ interface ValidationReturnSupport {
     excludedFiles: string[];
 }
 
+interface FileBuilder {
+    [fileName: string]: {fileChunk: Uint8Array, isCorrupted: boolean};
+}
+
 export class ValidatorFiles {
     private static readonly logger = new Logger("Files Validator");
 
     public static MAX_BYTE_FILE_SIZE = 6e6; //6 MB
     public static MIN_BYTE_FILE_SIZE = 30; //30 B
+    public static MAX_BYTE_ZIP = 1e9; //1 GB
 
-    /**
-     * @param zipFiles - list of 2 or more zip files that you want to merge
-     * @return a new file zip containing all the files from the zip given in input
-     */
-    static async mergeZipFiles(zipFiles: InputFileFormat[]): Promise<Buffer | undefined> {
+    static async validateZipStream(readableStream: NodeJS.ReadableStream, options: ValidateZipOptions = {}): Promise<ValidationReturn | undefined> {
         try {
-            if (zipFiles.length === 1) {
-                if (zipFiles[0]) {
-                    return zipFiles[0] as Buffer;
-                } else {
-                    return undefined;
-                }
-            }
-            if (zipFiles.length > 1) {
-                const mergedZip = new JSZip();
-                for (const zipFile of zipFiles) {
-                    if (zipFile) {
-                        let zip = await JSZip.loadAsync(zipFile);
-                        if (zip) {
-                            for (let pathName of Object.keys(zip.files)) {
-                                const file = zip.files[pathName];
-                                const fileBuffer = await file.async('nodebuffer');
-                                mergedZip.file(pathName, fileBuffer, {comment: file.comment});
-                            }
-                        }
-                    }
-                }
-                return await mergedZip.generateAsync({type: 'nodebuffer'});
-            } else {
-                this.logger.log('error', `Empty array in input`, 'mergeZipFiles');
-                return undefined;
-            }
-        } catch (error: any) {
-            (error && error.message) && (this.logger.log('error', error.message, 'mergeZipFiles'));
-        }
-        return undefined;
-    }
-
-    /**
-     * @param zipFile - file zip as one of the Buffer-like types supported
-     * @return get all the file paths from the directories paths
-     */
-    static async getPathsIntoZip(zipFile: InputFileFormat): Promise<string[] | undefined> {
-        try {
-            if(zipFile) {
-                const zip = await JSZip.loadAsync(zipFile);
-                return Object.keys(zip.files)
-                    .filter((pathName) => !zip.files[pathName].dir)
-                    .map((pathName) => pathName);
-            }
-            this.logger.log('error', `${ValidationErrorEnums.ZIPPING_FILE_ERROR}: Wrong ZIP file in input`, 'getPathsIntoZip');
-            return undefined;
-        } catch (error: any) {
-            (error && error.message) && (this.logger.log('error', error.message, 'getPathsIntoZip'));
-        }
-        return undefined;
-    }
-
-    static validateZipStream(zipFile:  NodeJS.ReadableStream) {
-
-    }
-
-    /**
-     * @param zipFile - file zip as one of the Buffer-like types supported
-     * @param options - OPTIONAL: a set of options described into ValidateZipOptions type.
-     * @return zip file containing all the files from input that passed the datasource zip files
-     */
-    static async validateZip(zipFile: InputFileFormat, options?: ValidateZipOptions): Promise<ValidationReturn | undefined> {
-        try {
-            const validatedFiles = new JSZip();
-            const optionsSupport: ValidateZipOptionsSupport = {
-                prefix: '',
+            const ret: ValidationReturn = {
+                zipFile: new Uint8Array(),
                 includedFiles: [],
                 excludedFiles: [],
             }
-            const validationReturnSupport = await this._validateZip(zipFile, validatedFiles, optionsSupport, options);
-            if (validationReturnSupport && validationReturnSupport.includedFiles.length > 0) {
-                return {
-                    zipFile: await validatedFiles.generateAsync({type: 'nodebuffer'}),
-                    includedFiles: validationReturnSupport.includedFiles,
-                    excludedFiles: validationReturnSupport.excludedFiles,
-                };
-            } else {
-                throw new Error(`${ValidationErrorEnums.NOT_VALID_FILES_ERROR}: File ZIP has not any valid file`);
+
+            const support: StreamingObjectsSupport = {
+                readableStream: readableStream,
+                returnObject: ret,
+                validFiles: {},
+                options: options,
+            };
+
+            await this.unzipFileFromStream(support);
+            await this.zipFile(support);
+            if (ret.zipFile.length > this.MAX_BYTE_ZIP) {
+                throw new Error(`${ValidationErrorEnums.VALIDATED_FILES_TOO_BIG}`);
             }
-        } catch (error: any) {
+            if (ret.includedFiles.length === 0) {
+                throw new Error(`${ValidationErrorEnums.NOT_VALID_FILES_ERROR}`);
+            }
+            return ret;
+        } catch(error: any) {
             (error && error.message) && (this.logger.log('error', error.message, 'validateZIP'));
             if (options && options.throwExceptions !== undefined && options.throwExceptions) {
                 throw error;
@@ -141,70 +103,141 @@ export class ValidatorFiles {
         return undefined;
     }
 
-    private static async _validateZip(zipFile: InputFileFormat, validatedFiles: JSZip, optionsSupport: ValidateZipOptionsSupport, options?: ValidateZipOptions): Promise<ValidationReturnSupport> {
-        const zip = await JSZip.loadAsync(zipFile);
-        let languageCode = undefined;
-        const ValidatorDatasource = (options && options.filterDataSource) ?
-            await ValidatorFiles.validatorSelector(options.filterDataSource.dataSourceCode) : undefined;
-        for (let pathName of Object.keys(zip.files)) {
-            const file = zip.files[pathName];
-            if (!file.dir) {
-                const fileBuffer = await file.async('nodebuffer');
-                const fileExtension = ValidatorFiles.getFileExtension(pathName);
-                if (fileExtension && (options && options.permittedFileExtensions ? options.permittedFileExtensions.includes(fileExtension) : true)) {
-                    if (fileExtension === FileExtension.ZIP) {
-                        //remove .zip from the pathname and continue the execution recursively into the file
-                        const recursiveValidation = await this._validateZip(fileBuffer, validatedFiles,
-                            {
-                                prefix: optionsSupport.prefix === '' ? pathName.slice(0, -4) : optionsSupport.prefix + '/' + pathName.slice(0, -4),
-                                includedFiles: optionsSupport.includedFiles,
-                                excludedFiles: optionsSupport.excludedFiles,
-                            }, options);
-                        optionsSupport.includedFiles = recursiveValidation.includedFiles;
-                        optionsSupport.excludedFiles = recursiveValidation.excludedFiles;
-                    } else if (ValidatorFiles.isValidSize(fileBuffer, pathName) && ValidatorFiles.isValidContent(fileExtension, fileBuffer, pathName)) {
-                        if (ValidatorDatasource) {
-                            if (options && options.filterDataSource) {
-                                if (options.filterDataSource.dataSourceCode === DataSourceCode.INSTAGRAM) {
-                                    if (languageCode === undefined) {
-                                        languageCode = await ValidatorDatasource.getLanguage(
-                                            {
-                                                throwExceptions: options.throwExceptions!,
-                                                externalZip: zip,
-                                            });
-                                    }
-                                }
-                                let validPathName = await ValidatorDatasource.getValidPath(
-                                    optionsSupport.prefix === '' ? pathName : optionsSupport.prefix + '/' + pathName,
-                                    {
-                                        throwExceptions: options.throwExceptions!,
-                                        fileCodes: options.filterDataSource.fileCodesIncluded!,
-                                        languageCode: languageCode!,
-                                    });
-                                if (validPathName) {
-                                    (languageCode !== null && languageCode !== undefined)
-                                        ? validatedFiles.file(validPathName, fileBuffer, {comment: languageCode})
-                                        : validatedFiles.file(validPathName, fileBuffer, {comment: file.comment});
-                                    optionsSupport.includedFiles.push(validPathName);
-                                } else {
-                                    optionsSupport.excludedFiles.push(pathName);
-                                }
+    private static zipFile(support: StreamingObjectsSupport) {
+        return new Promise((resolve, reject) => {
+            zip(support.validFiles, {},
+                (err: FlateError | null, data: Uint8Array) => {
+                    if(err) {
+                        reject(err);
+                    }
+                    support.returnObject.zipFile = data;
+                    resolve('Zipping ended');
+                });
+        });
+    }
+
+    private static unzipFileFromStream(support: StreamingObjectsSupport) {
+        const unzipStream: Unzip = this.getUnzipStream(support);
+        unzipStream.register(UnzipInflate); //can't be async
+
+        return new Promise((resolve, reject) => {
+            support.readableStream.on('error', (error: Error) => {
+                reject(`Error: ${error.message}`);
+            });
+            support.readableStream.on('data', (chunk: Buffer) => {
+                unzipStream.push(chunk);
+            });
+            support.readableStream.on('end', () => {
+                resolve('Reading stream in input ended');
+            });
+        });
+    }
+
+    private static buildFile(file: FileBuilder, chunk: Uint8Array, fileName: string) {
+        if (chunk) {
+            if (file[fileName] && !file[fileName].isCorrupted && file[fileName].fileChunk.length > 0 ) {
+                const finalBuffer = new Uint8Array(file[fileName].fileChunk.length + chunk.length);
+                finalBuffer.set(new Uint8Array(file[fileName].fileChunk), 0);
+                finalBuffer.set(new Uint8Array(chunk), file[fileName].fileChunk.length);
+                file[fileName] = {fileChunk: finalBuffer, isCorrupted: file[fileName].isCorrupted};
+            } else {
+                file[fileName] = {fileChunk: chunk, isCorrupted: false};
+            }
+        } else {
+            file[fileName] = {fileChunk: new Uint8Array, isCorrupted: true}
+        }
+    }
+
+    private static getUnzipStream(support: StreamingObjectsSupport): Unzip {
+        let file: FileBuilder = {};
+        return new Unzip((stream: UnzipFile) => {
+            stream.ondata = (err: FlateError | null, chunk: Uint8Array, final: boolean) => {
+                if (err) {
+                    console.log('An error occurred on ' + stream.name + ' file');
+                }
+                this.buildFile(file, chunk, stream.name);
+                //console.log(file)
+                if (final && !file[stream.name].isCorrupted) {
+                    this.filterFile(file[stream.name].fileChunk, stream.name, support);
+                    delete file[stream.name]; //= new Uint8Array()
+                }
+            };
+            stream.start();
+        });
+    }
+
+    private static filterFile(fileContent: Uint8Array, fileName: string, support: StreamingObjectsSupport, recursiveZipPrefix?: string) {
+        if (!this.isDirectory(fileName)) {
+            if (fileContent && fileContent.length > 0) {
+                (recursiveZipPrefix) && (fileName = recursiveZipPrefix+'/'+fileName);
+                if (this.isValidSize(fileContent, fileName)) {
+                    const extension = this.getFileExtension(fileName);
+                    if (extension) {
+                        if (extension === FileExtension.ZIP) {
+                            const recursiveZipFiles = unzipSync(fileContent); //await this.validateZipSync(fileContent);
+                            for (let key in recursiveZipFiles) {
+                                this.filterFile(recursiveZipFiles[key], key, support, recursiveZipPrefix ? recursiveZipPrefix+'/'+fileName.slice(0, -4) : fileName.slice(0, -4));
                             }
                         } else {
-                            validatedFiles.file(optionsSupport.prefix === '' ? pathName : optionsSupport.prefix + '/' + pathName, fileBuffer, {comment: file.comment});
-                            optionsSupport.includedFiles.push(pathName);
+                            if (this.isValidContent(extension, fileContent, fileName)) {
+                                if (support.options.filterDataSource) {
+                                    let validPathName = (recursiveZipPrefix)
+                                        ? (this.getValidPathName(fileName, support.options))
+                                        : (this.getValidPathName(fileName, support.options));
+                                    if (validPathName) {
+                                        support.validFiles[validPathName] = fileContent;
+                                        support.returnObject.includedFiles.push(validPathName);
+                                    } else {
+                                        support.returnObject.excludedFiles.push(fileName);
+                                    }
+                                } else {
+                                    support.validFiles[fileName] = fileContent;
+                                    support.returnObject.includedFiles.push(fileName);
+                                }
+                            } else {
+                                support.returnObject.excludedFiles.push(fileName);
+                            }
                         }
                     } else {
-                        //file isn't big enough or has a wrong content
-                        optionsSupport.excludedFiles.push(pathName);
+                        support.returnObject.excludedFiles.push(fileName);
                     }
+                } else {
+                    support.returnObject.excludedFiles.push(fileName);
                 }
+            } else {
+                support.returnObject.excludedFiles.push(fileName);
             }
         }
-        return {
-            includedFiles: optionsSupport.includedFiles,
-            excludedFiles: optionsSupport.excludedFiles,
+    }
+
+    private static isDirectory(path: string): boolean {
+        return path.endsWith('/');
+    }
+
+    private static async validateZipSync(zipFile: Uint8Array): Promise<Unzipped> {
+        let result: Unzipped = {};
+        const unzipAsync = new Promise((resolve, reject) => {
+            unzip(zipFile, {},
+                (err: FlateError | null, data: Unzipped) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    result = data;
+                    resolve('Unzip ended');
+                });
+        });
+        await unzipAsync;
+        return result;
+    }
+
+    private static getValidPathName(pathName: string, optionsValidation: ValidateZipOptions): string | undefined {
+        if (optionsValidation && optionsValidation.filterDataSource && optionsValidation.filterDataSource.dataSourceCode) {
+            const datasource = this.validatorSelector(optionsValidation.filterDataSource?.dataSourceCode);
+            if (datasource) {
+                return datasource.getValidPath(pathName, optionsValidation);
+            }
         }
+        return undefined;
     }
 
     /**
@@ -227,8 +260,8 @@ export class ValidatorFiles {
      * @param minSize - min file's size in bytes, MIN_BYTE_FILE_SIZE as default.
      * @return TRUE if the file's size is between the minSize and the maxSize, FALSE otherwise
      */
-    static isValidSize(file: Buffer, pathName: string, maxSize: number = ValidatorFiles.MAX_BYTE_FILE_SIZE, minSize: number = ValidatorFiles.MIN_BYTE_FILE_SIZE): boolean {
-        const size = file.byteLength;
+    static isValidSize(file: Uint8Array, pathName: string, maxSize: number = this.MAX_BYTE_FILE_SIZE, minSize: number = this.MIN_BYTE_FILE_SIZE): boolean {
+        const size = file.length;
         if (size < maxSize) {
             if (size > minSize) {
                 return true;
@@ -247,18 +280,18 @@ export class ValidatorFiles {
      * @param pathName - evaluated file name
      * @return TRUE if the file is valid, FALSE otherwise
      */
-    static isValidContent(extension: FileExtension, file: Buffer, pathName: string): boolean {
+    static isValidContent(extension: FileExtension, file: Uint8Array, pathName: string): boolean {
         switch (extension) {
             case FileExtension.JSON:
-                return ValidatorFiles.validateJSON(file, pathName);
+                return this.validateJSON(file, pathName);
             case FileExtension.JS:
-                const fileJson = Parser.extractJsonFromTwitterFile(file);
+                const fileJson = Parser.extractJsonFromTwitterFile(Buffer.from(file, file.byteOffset, file.length));
                 if (fileJson) {
-                    return ValidatorFiles.validateJSON(fileJson, pathName);
+                    return this.validateJSON(fileJson, pathName);
                 }
                 return false;
             case FileExtension.CSV:
-                return ValidatorFiles.validateCSV(file, pathName);
+                return this.validateCSV(file, pathName);
             default:
                 return true;
         }
@@ -269,9 +302,9 @@ export class ValidatorFiles {
      * @param pathName - evaluated file name
      * @return TRUE if the file is a valid JSON, FALSE otherwise
      */
-    static validateJSON(file: Buffer, pathName?: string): boolean {
+    static validateJSON(file: Uint8Array, pathName?: string): boolean {
         try {
-            return !!JSON.parse(file.toString());
+            return !!JSON.parse(new TextDecoder().decode(file));
         } catch (error) {
             (pathName)
                 ? this.logger.log('info', `File \"${pathName}\" is not a valid JSON`, 'validateJSON')
@@ -285,9 +318,9 @@ export class ValidatorFiles {
      * @param pathName - evaluated file name
      * @return TRUE if the file is a valid CSV, FALSE otherwise
      */
-    static validateCSV(file: Buffer, pathName?: string): boolean {
+    static validateCSV(file: Uint8Array, pathName?: string): boolean {
         try {
-            return !!Parser.parseCSVfromBuffer(file);
+            return !!Parser.parseCSVfromBuffer(Buffer.from(file, file.byteOffset, file.length));
         } catch (error) {
             (pathName)
                 ? this.logger.log('info', `File \"${pathName}\" is not a valid CSV`, 'validateCSV')
@@ -352,4 +385,164 @@ export class ValidatorFiles {
                 return undefined;
         }
     }
+
+    /**
+     * @param zipFiles - list of 2 or more zip files that you want to merge
+     * @return a new file zip containing all the files from the zip given in input
+     */
+    static async mergeZipFiles(zipFiles: InputFileFormat[]): Promise<Buffer | undefined> {
+        try {
+            if (zipFiles.length === 1) {
+                if (zipFiles[0]) {
+                    return zipFiles[0] as Buffer;
+                } else {
+                    return undefined;
+                }
+            }
+            if (zipFiles.length > 1) {
+                const mergedZip = new JSZip();
+                for (const zipFile of zipFiles) {
+                    if (zipFile) {
+                        let zip = await JSZip.loadAsync(zipFile);
+                        if (zip) {
+                            for (let pathName of Object.keys(zip.files)) {
+                                const file = zip.files[pathName];
+                                const fileBuffer = await file.async('nodebuffer');
+                                mergedZip.file(pathName, fileBuffer, {comment: file.comment});
+                            }
+                        }
+                    }
+                }
+                const finalZip = await mergedZip.generateAsync({type: 'nodebuffer'});
+                if (finalZip.length > this.MAX_BYTE_ZIP) {
+                    throw new Error(`${ValidationErrorEnums.VALIDATED_FILES_TOO_BIG}`);
+                }
+            } else {
+                this.logger.log('error', `Empty array in input`, 'mergeZipFiles');
+                return undefined;
+            }
+        } catch (error: any) {
+            (error && error.message) && (this.logger.log('error', error.message, 'mergeZipFiles'));
+        }
+        return undefined;
+    }
+
+    /**
+     * @param zipFile - file zip as one of the Buffer-like types supported
+     * @return get all the file paths from the directories paths
+     */
+    static async getPathsIntoZip(zipFile: InputFileFormat): Promise<string[] | undefined> {
+        try {
+            if(zipFile) {
+                const zip = await JSZip.loadAsync(zipFile);
+                return Object.keys(zip.files)
+                    .filter((pathName) => !zip.files[pathName].dir)
+                    .map((pathName) => pathName);
+            }
+            this.logger.log('error', `${ValidationErrorEnums.ZIPPING_FILE_ERROR}: Wrong ZIP file in input`, 'getPathsIntoZip');
+            return undefined;
+        } catch (error: any) {
+            (error && error.message) && (this.logger.log('error', error.message, 'getPathsIntoZip'));
+        }
+        return undefined;
+    }
+
+    /**
+     * @param zipFile - file zip as one of the Buffer-like types supported
+     * @param options - OPTIONAL: a set of options described into ValidateZipOptions type.
+     * @return zip file containing all the files from input that passed the datasource zip files
+     */
+    static async validateZip(zipFile: InputFileFormat, options?: ValidateZipOptions): Promise<ValidationReturn | undefined> {
+        try {
+            const validatedFiles = new JSZip();
+            const optionsSupport: ValidateZipOptionsSupport = {
+                prefix: '',
+                includedFiles: [],
+                excludedFiles: [],
+            }
+            const validationReturnSupport = await this._validateZip(zipFile, validatedFiles, optionsSupport, options);
+            if (validationReturnSupport && validationReturnSupport.includedFiles.length > 0) {
+                return {
+                    zipFile: await validatedFiles.generateAsync({type: 'nodebuffer'}),
+                    includedFiles: validationReturnSupport.includedFiles,
+                    excludedFiles: validationReturnSupport.excludedFiles,
+                };
+            } else {
+                throw new Error(`${ValidationErrorEnums.NOT_VALID_FILES_ERROR}: File ZIP has not any valid file`);
+            }
+        } catch (error: any) {
+            (error && error.message) && (this.logger.log('error', error.message, 'validateZIP'));
+            if (options && options.throwExceptions !== undefined && options.throwExceptions) {
+                throw error;
+            }
+        }
+        return undefined;
+    }
+
+    private static async _validateZip(zipFile: InputFileFormat, validatedFiles: JSZip, optionsSupport: ValidateZipOptionsSupport, options?: ValidateZipOptions): Promise<ValidationReturnSupport> {
+        const zip = await JSZip.loadAsync(zipFile);
+        let languageCode = undefined;
+        const ValidatorDatasource = (options && options.filterDataSource) ?
+            await this.validatorSelector(options.filterDataSource.dataSourceCode) : undefined;
+        for (let pathName of Object.keys(zip.files)) {
+            const file = zip.files[pathName];
+            if (!file.dir) {
+                const fileBuffer = await file.async('nodebuffer');
+                const fileExtension = this.getFileExtension(pathName);
+                if (fileExtension && (options && options.permittedFileExtensions ? options.permittedFileExtensions.includes(fileExtension) : true)) {
+                    if (fileExtension === FileExtension.ZIP) {
+                        //remove .zip from the pathname and continue the execution recursively into the file
+                        const recursiveValidation = await this._validateZip(fileBuffer, validatedFiles,
+                            {
+                                prefix: optionsSupport.prefix === '' ? pathName.slice(0, -4) : optionsSupport.prefix + '/' + pathName.slice(0, -4),
+                                includedFiles: optionsSupport.includedFiles,
+                                excludedFiles: optionsSupport.excludedFiles,
+                            }, options);
+                        optionsSupport.includedFiles = recursiveValidation.includedFiles;
+                        optionsSupport.excludedFiles = recursiveValidation.excludedFiles;
+                    } else if (this.isValidSize(fileBuffer, pathName) && this.isValidContent(fileExtension, fileBuffer, pathName)) {
+                        if (ValidatorDatasource) {
+                            if (options && options.filterDataSource) {
+                                if (options.filterDataSource.dataSourceCode === DataSourceCode.INSTAGRAM) {
+                                    if (languageCode === undefined) {
+                                        languageCode = await ValidatorDatasource.getLanguage(
+                                            {
+                                                throwExceptions: options.throwExceptions!,
+                                                externalZip: zip,
+                                            });
+                                    }
+                                }
+                                let validPathName = await ValidatorDatasource.getValidPath(
+                                    optionsSupport.prefix === '' ? pathName : optionsSupport.prefix + '/' + pathName,
+                                    {
+                                        throwExceptions: options.throwExceptions!,
+                                        fileCodes: options.filterDataSource.fileCodesIncluded!,
+                                        languageCode: languageCode!,
+                                    });
+                                if (validPathName) {
+                                    (languageCode !== null && languageCode !== undefined)
+                                        ? validatedFiles.file(validPathName, fileBuffer, {comment: languageCode})
+                                        : validatedFiles.file(validPathName, fileBuffer, {comment: file.comment});
+                                    optionsSupport.includedFiles.push(validPathName);
+                                } else {
+                                    optionsSupport.excludedFiles.push(pathName);
+                                }
+                            }
+                        } else {
+                            validatedFiles.file(optionsSupport.prefix === '' ? pathName : optionsSupport.prefix + '/' + pathName, fileBuffer, {comment: file.comment});
+                            optionsSupport.includedFiles.push(pathName);
+                        }
+                    } else {
+                        //file isn't big enough or has a wrong content
+                        optionsSupport.excludedFiles.push(pathName);
+                    }
+                }
+            }
+        }
+        return {
+            includedFiles: optionsSupport.includedFiles,
+            excludedFiles: optionsSupport.excludedFiles,
+        }
+    }
+
 }
