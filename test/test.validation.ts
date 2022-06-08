@@ -1,6 +1,6 @@
 import {
     DataSourceCode,
-    FileCodeAmazon,
+    FileCodeAmazon, ProcessorFacebook,
     ProcessorInstagram,
     ValidationErrorEnums, ValidatorFiles,
     ValidatorInstagram
@@ -8,7 +8,7 @@ import {
 import ErrnoException = NodeJS.ErrnoException;
 
 async function testValidation(){
-    validateStream();
+    await validateStream();
     //validatingTest();
     //validatingBigFileTest();
     //mergingTest();
@@ -19,13 +19,20 @@ async function validateStream() {
     const fs = require('fs');
     const path = require('path');
     const readableStream = fs.createReadStream(
-        path.join(__dirname,"../src/mock/datasource zip files/amazon.zip"));
-    let x;
-    console.log(x = await ValidatorFiles.validateZipStream(readableStream, /*{filterDataSource: {dataSourceCode: DataSourceCode.FACEBOOK}}*/));
+        path.join(__dirname,"../src/mock/datasource zip files/ds2.zip"));
+    let x = await ValidatorFiles.validateZipStream(readableStream, {filterDataSource: {dataSourceCode: DataSourceCode.FACEBOOK}});
+    /*
+    const readableStream2 = fs.createReadStream(
+        path.join(__dirname,"../src/mock/datasource zip files/ds3.zip"));
+    let y = await ValidatorFiles.validateZipStream(readableStream2, {filterDataSource: {dataSourceCode: DataSourceCode.FACEBOOK}});
+
+     */
+    console.log(await ProcessorFacebook.aggregatorFactory(x!.zipFile));
     //console.log(await ValidatorFiles.getPathsIntoZip(x!.zipFile));
 
     /*
     fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/facebook.zip"),async function(err:ErrnoException, data1: Buffer) {
+
         console.log(x = await ValidatorFiles.validateZip(data1,
             {
                 filterDataSource: {
@@ -33,8 +40,8 @@ async function validateStream() {
                 }
             }));
     });
-     */
-    console.log(await ValidatorFiles.getPathsIntoZip(x!.zipFile));
+    */
+    //console.log(await ValidatorFiles.getPathsIntoZip(x!.zipFile));
 
 }
 
@@ -63,7 +70,8 @@ function mergingTest() {
                                 dataSourceCode: DataSourceCode.AMAZON,
                             }
                         });
-                    const mergedFile = await ValidatorFiles.mergeZipFiles([validation1!.zipFile, validation2!.zipFile, validation3!.zipFile]);
+                    //console.log(validation1!.zipFile, validation2!.zipFile, validation3!.zipFile)
+                    const mergedFile = await ValidatorFiles.mergeZipFiles([validation1!.zipFile, validation2!.zipFile, validation3!.zipFile], {throwExceptions: true});
                     console.log(await ValidatorFiles.getPathsIntoZip(mergedFile!));
                 });
             });

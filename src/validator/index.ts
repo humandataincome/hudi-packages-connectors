@@ -9,6 +9,5 @@ export * from './validator.netflix';
 export * from './validator.linkedin';
 export * from './validator.shopify';
 
-export type InputFileFormat = string | number[] | Blob | NodeJS.ReadableStream | Uint8Array | ArrayBuffer;
-export type OutputFileFormat = string | number[] | Blob | Buffer | Uint8Array | ArrayBuffer;
+export type InputFileFormat = string | number[] | Blob | Uint8Array | ArrayBuffer;
 
