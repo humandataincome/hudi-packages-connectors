@@ -1,17 +1,9 @@
-import {FileCode, FileCodeInstagram, LanguageCode} from "../descriptor";
-import {ValidatorDatasource} from "./validator.datasource";
-import {InputFileFormat, ValidationErrorEnums} from "./index";
+import {FileCodeInstagram, LanguageCode} from "../descriptor";
+import {ValidatorDatasource, ValidatorDatasourceOption} from "./validator.datasource";
+import {ValidationErrorEnums} from "./index";
 import Logger from "../utils/logger";
 
-export type ValidatorInstagramOption = {
-    fileCodes?: FileCode[] | string[];
-    throwExceptions?: boolean;
-    externalZip?: any;
-    languageCode?: undefined | null | LanguageCode;
-}
-
 export class ValidatorInstagram extends ValidatorDatasource {
-
     protected readonly logger = new Logger("Instagram Validator");
 
     protected DEFAULT_FILE_CODES: FileCodeInstagram[] = [
@@ -53,52 +45,27 @@ export class ValidatorInstagram extends ValidatorDatasource {
         FileCodeInstagram.YOUR_TOPICS,
     ];
 
-    public async filterFilesIntoZip(zipFile: InputFileFormat,  options: ValidatorInstagramOption = {}): Promise<Buffer | undefined> {
-        try {
-            const JSZip = require("jszip");
-            let hasAnyFile = false;
-            let filteredFiles = new JSZip();
-            const zip = await JSZip.loadAsync(zipFile);
-            options.languageCode = await this.getLanguage({
-                externalZip: zip,
-                throwExceptions: options.throwExceptions!,
-            });
-            for (let pathName of Object.keys(zip.files)) {
-                const file = zip.files[pathName];
-                if (!file.dir) {
-                    let data = await file.async('nodebuffer');
-                    const compatiblePath = await this.getValidPath(pathName, options);
-                    if (compatiblePath) {
-                        (options.languageCode !== null && options.languageCode !== undefined)
-                            ? filteredFiles.file(compatiblePath, data, {comment: options.languageCode})
-                            : filteredFiles.file(compatiblePath, data, {comment: file.comment});
-                        (!hasAnyFile) && (hasAnyFile = true);
-                    }
-
-                }
-            }
-            if(hasAnyFile) {
-                return await filteredFiles.generateAsync({type: "nodebuffer"});
-            } else {
-                throw new Error(`${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`);
-            }
-        } catch (error: any) {
-            (error && error.message) && (this.logger.log('error', error.message, 'filterFilesIntoZip'));
-            if (options && options.throwExceptions !== undefined && options.throwExceptions) {
-                throw error;
+    protected extractCompatiblePath(path: string): string {
+        const x: string[] = path.split('/');
+        //messages/message_requests OR message/inbox cases
+        if (x.length > 3) {
+            if (x[x.length - 4] === 'messages') {
+                return x[x.length - 4] + '/' + x[x.length - 3] + '/' + x[x.length - 2] + '/' + x[x.length - 1];
             }
         }
-        return undefined;
-    }
-
-    public getValidPath(pathName: string, options: ValidatorInstagramOption): string | undefined {
-        const compatiblePath = this.extractCompatiblePath(pathName);
-        if (this.isPathMatching(compatiblePath, options)) {
-            return compatiblePath;
+        //media case
+        if (x.length > 2) {
+            if (x[x.length - 3] === 'media') {
+                return x[x.length - 3] + '/' + x[x.length - 2] + '/' + x[x.length - 1];
+            }
         }
+        if(x.length > 1) {
+            return x[x.length - 2] + '/' + x[x.length - 1];
+        }
+        return path;
     }
 
-     public async getLanguage(options: ValidatorInstagramOption): Promise<LanguageCode | null> {
+     public async getLanguage(options: ValidatorDatasourceOption): Promise<LanguageCode | undefined> {
         if(options.externalZip) {
             for (let pathName of Object.keys(options.externalZip.files)) {
                 const file = options.externalZip.files[pathName];
@@ -127,33 +94,13 @@ export class ValidatorInstagram extends ValidatorDatasource {
                             if (options && options.throwExceptions !== undefined && !options.throwExceptions) {
                                 throw new Error(`${ValidationErrorEnums.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`);
                             }
-                            return null;
+                            return undefined;
                         }
                     }
                 }
             }
-            return null;
+            return undefined;
         }
-        return null;
-    }
-
-    protected extractCompatiblePath(path: string): string {
-        const x: string[] = path.split('/');
-        //messages/message_requests OR message/inbox cases
-        if (x.length > 3) {
-            if (x[x.length - 4] === 'messages') {
-                return x[x.length - 4] + '/' + x[x.length - 3] + '/' + x[x.length - 2] + '/' + x[x.length - 1];
-            }
-        }
-        //media case
-        if (x.length > 2) {
-            if (x[x.length - 3] === 'media') {
-                return x[x.length - 3] + '/' + x[x.length - 2] + '/' + x[x.length - 1];
-            }
-        }
-        if(x.length > 1) {
-            return x[x.length - 2] + '/' + x[x.length - 1];
-        }
-        return path;
+        return undefined;
     }
 }
