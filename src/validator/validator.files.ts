@@ -2,11 +2,10 @@ import {
     AsyncZippable,
     FlateError,
     Unzip,
-    unzip,
     UnzipFile,
     UnzipInflate,
-    Unzipped, unzipSync,
-    zip, zipSync,
+    unzipSync,
+    zipSync,
 } from "fflate";
 import {
     InputFileFormat,
