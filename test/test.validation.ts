@@ -6,6 +6,9 @@ import {
     ValidatorInstagram
 } from "../src";
 import ErrnoException = NodeJS.ErrnoException;
+import {
+    ReadableStream
+} from 'node:stream/web';
 
 async function testValidation(){
     await validateStream();
@@ -18,9 +21,21 @@ async function testValidation(){
 async function validateStream() {
     const fs = require('fs');
     const path = require('path');
-    const readableStream = fs.createReadStream(
-        path.join(__dirname,"../src/mock/datasource zip files/ds2.zip"));
-    let x = await ValidatorFiles.validateZipStream(readableStream, {filterDataSource: {dataSourceCode: DataSourceCode.FACEBOOK}});
+    const readStream = fs.createReadStream(
+        path.join(__dirname,"../src/mock/datasource zip files/facebook.zip"));
+    const readableStream = new ReadableStream({
+        async start(controller) {
+            readStream.on("data", (chunk: Buffer|string) => controller.enqueue(chunk));
+            readStream.on("end", () => controller.close());
+            readStream.on("error", () => controller.error())
+        }
+    });
+    let x = await ValidatorFiles.validateZipStream(readableStream, {
+        filterDataSource: {
+            dataSourceCode: DataSourceCode.FACEBOOK
+        },
+    throwExceptions: true});
+    //console.log(x)
     /*
     const readableStream2 = fs.createReadStream(
         path.join(__dirname,"../src/mock/datasource zip files/ds3.zip"));

@@ -45,7 +45,7 @@ export interface ValidationReturn {
 }
 
 interface StreamingObjectsSupport {
-    readableStream: NodeJS.ReadableStream;
+    readableStream: ReadableStream;
     returnObject: ValidationReturn;
     validFiles: AsyncZippable;
     options: ValidateZipOptions;
@@ -78,7 +78,7 @@ export class ValidatorFiles {
      * @param readableStream - streaming in input
      * @param options - optional parameters defined into ValidateZipOptions interface
      */
-    static async validateZipStream(readableStream: NodeJS.ReadableStream, options: ValidateZipOptions = {}): Promise<ValidationReturn | undefined> {
+    static async validateZipStream(readableStream: ReadableStream, options: ValidateZipOptions = {}): Promise<ValidationReturn | undefined> {
         try {
             const validationReturn: ValidationReturn = {
                 zipFile: new Uint8Array(),
@@ -112,21 +112,17 @@ export class ValidatorFiles {
         return undefined;
     }
 
-    private static unzipFileFromStream(support: StreamingObjectsSupport) {
+    private static async unzipFileFromStream(support: StreamingObjectsSupport) {
         const unzipStream: Unzip = this.getUnzipStream(support);
         unzipStream.register(UnzipInflate); //can't be async
 
-        return new Promise((resolve, reject) => {
-            support.readableStream.on('error', (error: Error) => {
-                reject(`Error: ${error.message}`);
-            });
-            support.readableStream.on('data', (chunk: Buffer) => {
-                unzipStream.push(chunk);
-            });
-            support.readableStream.on('end', () => {
-                resolve('Reading stream in input ended');
-            });
-        });
+        const reader = support.readableStream.getReader();
+        for (let finished = false; !finished;) {
+            const {done, value} = await reader.read();
+            if (value)
+                unzipStream.push(value);
+            finished = done;
+        }
     }
 
     private static buildFile(file: FileBuilder, chunk: Uint8Array, fileName: string) {
@@ -467,7 +463,6 @@ export class ValidatorFiles {
 
     private static async _validateZip(zipFile: InputFileFormat, validatedFiles: JSZip, optionsSupport: ValidateZipOptionsSupport, options: ValidateZipOptions = {}): Promise<ValidationReturnSupport> {
         const zip = await JSZip.loadAsync(zipFile);
-        let languageCode = undefined;
         const ValidatorDatasource = (options && options.filterDataSource) ?
             await this.validatorSelector(options.filterDataSource.dataSourceCode) : undefined;
         for (let pathName of Object.keys(zip.files)) {
