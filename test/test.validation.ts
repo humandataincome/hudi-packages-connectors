@@ -1,6 +1,6 @@
 import {
     DataSourceCode,
-    FileCodeAmazon, ProcessorFacebook,
+    FileCodeAmazon, ProcessorAmazon, ProcessorFacebook, ProcessorGoogle,
     ProcessorInstagram,
     ValidationErrorEnums, ValidatorFiles,
     ValidatorInstagram
@@ -64,13 +64,10 @@ function mergingTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/google.zip"),async function(err:ErrnoException, data1: Buffer) {
-            const validation1 = await ValidatorFiles.validateZip(data1,
-                {
-                    filterDataSource: {
-                        dataSourceCode: DataSourceCode.GOOGLE,
-                    }
-                });
+        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/ds2.zip"),async function(err:ErrnoException, data1: Buffer) {
+            const validation1 = await ValidatorFiles.validateZip(data1,{maxBytesZipFile: 3e9, filterDataSource: {
+                    dataSourceCode: DataSourceCode.FACEBOOK,
+                }});
             fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/instagram.zip"),async function(err:ErrnoException, data2: Buffer) {
                 const validation2 = await ValidatorFiles.validateZip(data2,
                     {
@@ -86,8 +83,9 @@ function mergingTest() {
                             }
                         });
                     //console.log(validation1!.zipFile, validation2!.zipFile, validation3!.zipFile)
-                    const mergedFile = await ValidatorFiles.mergeZipFiles([validation1!.zipFile, validation2!.zipFile, validation3!.zipFile], {throwExceptions: true});
+                    const mergedFile = await ValidatorFiles.mergeZipFiles([validation1!.zipFile, validation2!.zipFile, validation3!.zipFile], {throwExceptions: true, maxBytesZipFile: 3e9});
                     console.log(await ValidatorFiles.getPathsIntoZip(mergedFile!));
+                    //console.log(await ProcessorFacebook.aggregatorFactory(mergedFile!))
                 });
             });
         });

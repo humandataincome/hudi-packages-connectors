@@ -1,4 +1,4 @@
-import {InputFileFormat, ValidatorFiles} from "../validator";
+import {ValidatorFiles} from "../validator";
 import {GoogleDataAggregator} from "./processor.aggregator.model";
 import {FileCodeGoogle} from "../descriptor";
 import {
@@ -14,21 +14,21 @@ import {ProcessorUtils} from "./processor.utils";
 import {MonthsFull} from "../utils/utils.enum";
 import {ProcessorOptions} from "./index";
 import Logger from "../utils/logger";
+import {Unzipped, unzipSync} from "fflate";
 
 export class ProcessorGoogle {
     private static readonly logger = new Logger("Processor Google");
 
     /**
-     * @param zipFile - file zip as Buffer
+     * @param zipFile - file zip as Uint8Array
      * @param options - optional set of options
      * @return aggregation of data from Google data source
      */
-    static async aggregatorFactory(zipFile: InputFileFormat, options?: ProcessorOptions): Promise<GoogleDataAggregator | undefined> {
+    static async aggregatorFactory(zipFile: Uint8Array, options?: ProcessorOptions): Promise<GoogleDataAggregator | undefined> {
         try {
             if (zipFile) {
-                const JSZip = require("jszip");
-                const zip = await JSZip.loadAsync(zipFile);
-                return await ProcessorGoogle._aggregateFactory(zip, options);
+                const files: Unzipped = unzipSync(zipFile);
+                return await this._aggregateFactory(files, options);
             }
         } catch (error: any) {
             (error && error.message) && (this.logger.log('error', error.message, 'aggregatorFactory'));
@@ -39,7 +39,7 @@ export class ProcessorGoogle {
         return undefined;
     }
 
-    private static async _aggregateFactory(zip: any, options?: ProcessorOptions): Promise<GoogleDataAggregator | undefined> {
+    private static async _aggregateFactory(files: Unzipped, options?: ProcessorOptions): Promise<GoogleDataAggregator | undefined> {
         const timeIntervalDays = (options && options.timeIntervalDays) ? options.timeIntervalDays : 365;
         const model: GoogleDataAggregator = {};
         let result, regex;
@@ -63,66 +63,65 @@ export class ProcessorGoogle {
             [ActivityTypeGO.IN_VEHICLE, 0, 0],
             [ActivityTypeGO.UNKNOWN_ACTIVITY_TYPE, 0, 0],
         ];
-        for (let pathName of Object.keys(zip.files)) {
-            const file = zip.files[pathName];
-            if (!file.dir) {
-                await file.async('nodebuffer').then(async (data: Buffer) => {
-                    if ((regex = new RegExp(FileCodeGoogle.ACCOUNT_INFO)) && (regex.test(pathName))) {
-                        result = <AccountGO>await GoogleService.parseGoogleAccount(data);
-                        if (result) {
-                            (result.contactEmail) && (model.email = result.contactEmail);
-                            (result.recoveryEmail) && (model.recoveryEmail = result.recoveryEmail);
-                            (result.recoverySMS) && (model.recoverySMS = result.recoverySMS);
-                            (result.creationDate) && (model.creationAccount = result.creationDate);
-                        }
-                    } else if ((regex = new RegExp(FileCodeGoogle.PLAY_STORE_REVIEWS)) && (regex.test(pathName))) {
-                        result = <PlayStoreReviewsGO>await GoogleService.parsePlayStoreReviews(data);
-                        if (result) {
-                            let sumRating = 0;
-                            let counterRating = 0;
-                            result.list.forEach((item: PlayStoreReviewGO) => {
-                                if (item.creationTime && item.starRating && ProcessorUtils.daysDifference(item.creationTime) < timeIntervalDays) {
-                                    counterRating++;
-                                    sumRating += item.starRating;
-                                }
-                            });
-                            if (counterRating > 0) {
-                                model.counterPlayStoreReviewsTI = counterRating;
-                                model.averagePlayStoreReviewsTI = sumRating / counterRating;
+        for (let pathName in files) {
+            const file = files[pathName];
+            const data = Buffer.from(file, file.byteOffset, file.length);
+            if (!ValidatorFiles.isDirectory(pathName)) {
+                if ((regex = new RegExp(FileCodeGoogle.ACCOUNT_INFO)) && (regex.test(pathName))) {
+                    result = <AccountGO>await GoogleService.parseGoogleAccount(data);
+                    if (result) {
+                        (result.contactEmail) && (model.email = result.contactEmail);
+                        (result.recoveryEmail) && (model.recoveryEmail = result.recoveryEmail);
+                        (result.recoverySMS) && (model.recoverySMS = result.recoverySMS);
+                        (result.creationDate) && (model.creationAccount = result.creationDate);
+                    }
+                } else if ((regex = new RegExp(FileCodeGoogle.PLAY_STORE_REVIEWS)) && (regex.test(pathName))) {
+                    result = <PlayStoreReviewsGO>await GoogleService.parsePlayStoreReviews(data);
+                    if (result) {
+                        let sumRating = 0;
+                        let counterRating = 0;
+                        result.list.forEach((item: PlayStoreReviewGO) => {
+                            if (item.creationTime && item.starRating && ProcessorUtils.daysDifference(item.creationTime) < timeIntervalDays) {
+                                counterRating++;
+                                sumRating += item.starRating;
                             }
-                        }
-                    } else if ((regex = new RegExp(FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS)) && (regex.test(pathName))) {
-                        result = <MapsReviewsGO>await GoogleService.parseMapsReviews(data);
-                        if (result) {
-                            let sumRating = 0;
-                            let counterRating = 0;
-                            result.list.forEach((item: MapsReviewGO) => {
-                                if (item.published && (item.starRating) && ProcessorUtils.daysDifference(item.published) < timeIntervalDays) {
-                                    counterRating++;
-                                    sumRating += item.starRating;
-                                }
-                            });
-                            if (counterRating > 0) {
-                                model.counterMapsReviewsTI = counterRating;
-                                model.averageMapsReviewsTI = sumRating / counterRating;
-                            }
-                        }
-                    } else if ((regex = new RegExp(FileCodeGoogle.LOCATION_HISTORY_SEMANTIC)) && (regex.test(pathName))) {
-                        result = <SemanticLocationsGO>await GoogleService.parseSemanticLocations(data);
-                        if (result) {
-                            if (this.monthIsInRange(pathName, timeIntervalDays)) {
-                                result = <SemanticLocationsGO>await GoogleService.parseSemanticLocations(data);
-                                (result.listActivities.length > 0) && result.listActivities.forEach((item: ActivitySegmentGO) => {
-                                    if (item.distance && item.activityType) {
-                                        (!hasSemanticLocations) && (hasSemanticLocations = true);
-                                        frequencyDistanceActivity[parseInt(ActivityTypeGO[item.activityType])][1]++;
-                                        frequencyDistanceActivity[parseInt(ActivityTypeGO[item.activityType])][2] += item.distance;
-                                    }
-                                });
-                            }
+                        });
+                        if (counterRating > 0) {
+                            model.counterPlayStoreReviewsTI = counterRating;
+                            model.averagePlayStoreReviewsTI = sumRating / counterRating;
                         }
                     }
-                });
+                } else if ((regex = new RegExp(FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS)) && (regex.test(pathName))) {
+                    result = <MapsReviewsGO>await GoogleService.parseMapsReviews(data);
+                    if (result) {
+                        let sumRating = 0;
+                        let counterRating = 0;
+                        result.list.forEach((item: MapsReviewGO) => {
+                            if (item.published && (item.starRating) && ProcessorUtils.daysDifference(item.published) < timeIntervalDays) {
+                                counterRating++;
+                                sumRating += item.starRating;
+                            }
+                        });
+                        if (counterRating > 0) {
+                            model.counterMapsReviewsTI = counterRating;
+                            model.averageMapsReviewsTI = sumRating / counterRating;
+                        }
+                    }
+                } else if ((regex = new RegExp(FileCodeGoogle.LOCATION_HISTORY_SEMANTIC)) && (regex.test(pathName))) {
+                    result = <SemanticLocationsGO>await GoogleService.parseSemanticLocations(data);
+                    if (result) {
+                        if (this.monthIsInRange(pathName, timeIntervalDays)) {
+                            result = <SemanticLocationsGO>await GoogleService.parseSemanticLocations(data);
+                            (result.listActivities.length > 0) && result.listActivities.forEach((item: ActivitySegmentGO) => {
+                                if (item.distance && item.activityType) {
+                                    (!hasSemanticLocations) && (hasSemanticLocations = true);
+                                    frequencyDistanceActivity[parseInt(ActivityTypeGO[item.activityType])][1]++;
+                                    frequencyDistanceActivity[parseInt(ActivityTypeGO[item.activityType])][2] += item.distance;
+                                }
+                            });
+                        }
+                    }
+                }
             }
         }
         if (hasSemanticLocations) {
