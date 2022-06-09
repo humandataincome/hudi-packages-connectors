@@ -1,8 +1,8 @@
 import {FileCode, LanguageCode} from "../descriptor";
-import {ValidationErrorEnums} from "./validator.error";
 import { ValidatorFiles } from "./index";
 import Logger from "../utils/logger";
 import {Unzipped, unzipSync, zipSync} from "fflate";
+import {ValidationErrorEnum} from "../utils";
 
 export type  ValidatorDatasourceOption = {
     fileCodes?: FileCode[] | string[];
@@ -41,7 +41,7 @@ export class ValidatorDatasource {
             if (hasAnyFile) {
                 return zipSync(filteredFiles);
             } else {
-                throw new Error(`${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: the filtered zip file has not any valid file`);
+                throw new Error(`${ValidationErrorEnum.NO_USEFUL_FILES_ERROR}: the filtered zip file has not any valid file`);
             }
         } catch (error: any) {
             (error && error.message) && (this.logger.log('error', error.message, 'filterFilesIntoZip'));

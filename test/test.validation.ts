@@ -2,7 +2,7 @@ import {
     DataSourceCode,
     FileCodeAmazon, ProcessorAmazon, ProcessorFacebook, ProcessorGoogle,
     ProcessorInstagram,
-    ValidationErrorEnums, ValidatorFiles,
+    ValidationErrorEnum, ValidatorFiles,
     ValidatorInstagram
 } from "../src";
 import ErrnoException = NodeJS.ErrnoException;
@@ -90,9 +90,9 @@ function mergingTest() {
             });
         });
     } catch (e: any) {
-        if(e.message === `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
+        if(e.message === `${ValidationErrorEnum.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
             console.error('The filtered ZIP has not any file');
-        } else if (`${ValidationErrorEnums.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
+        } else if (`${ValidationErrorEnum.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
             console.error('The ZIP file has not a recognizable Language to be corrected parsed');
         } else if (e.code == 'MODULE_NOT_FOUND') {
             console.error('[Error not founding module] ' + e);
@@ -148,9 +148,9 @@ function validatingTest() {
             console.log(await ValidatorFiles.getPathsIntoZip(filteredZip!));
         });
     } catch (e: any) {
-        if(e.message === `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
+        if(e.message === `${ValidationErrorEnum.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
             console.error('The filtered ZIP has not any file');
-        } else if (`${ValidationErrorEnums.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
+        } else if (`${ValidationErrorEnum.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
             console.error('The ZIP file has not a recognizable Language to be corrected parsed');
         } else if (e.code == 'MODULE_NOT_FOUND') {
             console.error('[Error not founding module] ' + e);
@@ -189,9 +189,9 @@ async function _sequentialValidationsProcessingTest(pathName: string) {
             console.log(await ProcessorInstagram.aggregatorFactory(validation!, { timeIntervalDays: 180}));
         });
     } catch (e: any) {
-        if (e.message === `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
+        if (e.message === `${ValidationErrorEnum.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
             console.error('The filtered ZIP has not any file');
-        } else if (`${ValidationErrorEnums.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
+        } else if (`${ValidationErrorEnum.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
             console.error('The ZIP file has not a recognizable Language to be corrected parsed');
         } else if (e.code == 'MODULE_NOT_FOUND') {
             console.error('[Error not founding module] ' + e);

@@ -5,7 +5,7 @@ import {
 } from "./descriptor.model";
 import {DataSourceCode, FileExtension, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
 import {ValidatorFiles} from "../validator";
-import {DescriptorErrorEnum} from "./descriptor.error";
+import {DescriptorErrorEnum} from "../utils";
 
 
 const descriptor: Descriptor = require('./descriptor.json');

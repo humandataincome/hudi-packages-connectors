@@ -1,8 +1,9 @@
 import {FileCodeInstagram, LanguageCode} from "../descriptor";
 import {ValidatorDatasource, ValidatorDatasourceOption} from "./validator.datasource";
-import {ValidationErrorEnums, ValidatorFiles} from "./index";
+import {ValidatorFiles} from "./index";
 import Logger from "../utils/logger";
 import {Unzipped} from "fflate";
+import {ValidationErrorEnum} from "../utils";
 
 export class ValidatorInstagram extends ValidatorDatasource {
     protected readonly logger = new Logger("Instagram Validator");
@@ -90,9 +91,9 @@ export class ValidatorInstagram extends ValidatorDatasource {
                      } else if (document.match(/(\\u00e5\\u00b8\\u0090\\u00e5\\u008f\\u00b7)|(\\u00e9\\u0082\\u00ae\\u00e7\\u00ae\\u00b1)|(\\u00e7\\u00a7\\u0081\\u00e5\\u00af\\u0086\\u00e5\\u00b8\\u0090\\u00e6\\u0088\\u00b7)/)) {
                          return LanguageCode.CHINESE_SIMPLIFIED;
                      } else {
-                         this.logger.log('error', `${ValidationErrorEnums.LANGUAGE_ERROR}: the zip file has not a recognizable language to be corrected parsed`, 'getLanguage');
+                         this.logger.log('error', `${ValidationErrorEnum.LANGUAGE_ERROR}: the zip file has not a recognizable language to be corrected parsed`, 'getLanguage');
                          if (options && options.throwExceptions !== undefined && options.throwExceptions) {
-                             throw new Error(`${ValidationErrorEnums.LANGUAGE_ERROR}: the zip file has not a recognizable language to be corrected parsed`);
+                             throw new Error(`${ValidationErrorEnum.LANGUAGE_ERROR}: the zip file has not a recognizable language to be corrected parsed`);
                          }
                      }
                  }

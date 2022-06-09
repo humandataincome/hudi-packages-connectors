@@ -8,7 +8,6 @@ import {
     zipSync,
 } from "fflate";
 import {
-    ValidationErrorEnums,
     ValidatorAmazon,
     ValidatorDatasource,
     ValidatorFacebook, ValidatorGoogle,
@@ -17,6 +16,7 @@ import {
 import {DataSourceCode, FileCode, FileExtension} from "../descriptor";
 import {Parser} from "../utils/parser";
 import Logger from "../utils/logger";
+import {ValidationErrorEnum} from "../utils";
 
 
 export interface ValidateZipOptions {
@@ -96,10 +96,10 @@ export class ValidatorFiles {
             validationReturn.zipFile = zipSync(support.validFiles);
             const maxBytesZip = (options && options.maxBytesZipFile) ? options.maxBytesZipFile : this.MAX_BYTE_ZIP;
             if (validationReturn.zipFile.length > maxBytesZip) {
-                throw new Error(`${ValidationErrorEnums.VALIDATED_FILES_TOO_BIG}: expected zip file containing valid files is exceeding bytes limit (${maxBytesZip/1e9} GB)`);
+                throw new Error(`${ValidationErrorEnum.VALIDATED_FILES_TOO_BIG}: expected zip file containing valid files is exceeding bytes limit (${maxBytesZip/1e9} GB)`);
             }
             if (validationReturn.includedFiles.length === 0) {
-                throw new Error(`${ValidationErrorEnums.NOT_VALID_FILES_ERROR}: file zip has not any valid file`);
+                throw new Error(`${ValidationErrorEnum.NOT_VALID_FILES_ERROR}: file zip has not any valid file`);
             }
             return validationReturn;
         } catch(error: any) {
@@ -374,7 +374,7 @@ export class ValidatorFiles {
         try {
             const maxBytesZip = (options && options.maxBytesZipFile) ? options.maxBytesZipFile : this.MAX_BYTE_ZIP;
             if (zipFiles.reduce((partialSum: number, currentValue:Uint8Array) => currentValue.length+partialSum, 0) > maxBytesZip) {
-                throw new Error(`${ValidationErrorEnums.VALIDATED_FILES_TOO_BIG}: expected merged zip file is exceeding bytes limit (${maxBytesZip/1e9} GB)`);
+                throw new Error(`${ValidationErrorEnum.VALIDATED_FILES_TOO_BIG}: expected merged zip file is exceeding bytes limit (${maxBytesZip/1e9} GB)`);
             } else {
                 if (zipFiles.length === 1 && zipFiles[0]) {
                     return zipFiles[0];
@@ -406,7 +406,7 @@ export class ValidatorFiles {
                 const files: Unzipped = unzipSync(zipFile);
                 return Object.keys(files);
             }
-            this.logger.log('error', `${ValidationErrorEnums.ZIPPING_FILE_ERROR}: error in zip file given in input`, 'getPathsIntoZip');
+            this.logger.log('error', `${ValidationErrorEnum.ZIPPING_FILE_ERROR}: error in zip file given in input`, 'getPathsIntoZip');
         } catch (error: any) {
             (error && error.message) && (this.logger.log('error', error.message, 'getPathsIntoZip'));
         }
@@ -434,7 +434,7 @@ export class ValidatorFiles {
                     excludedFiles: validationReturnSupport.excludedFiles,
                 };
             } else {
-                throw new Error(`${ValidationErrorEnums.NOT_VALID_FILES_ERROR}: file zip has not any valid file`);
+                throw new Error(`${ValidationErrorEnum.NOT_VALID_FILES_ERROR}: file zip has not any valid file`);
             }
         } catch (error: any) {
             (error && error.message) && (this.logger.log('error', error.message, 'validateZip'));
