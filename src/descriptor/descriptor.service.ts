@@ -7,8 +7,8 @@ import {
     RetrievingProcedureType
 } from "./descriptor.enum";
 import {ValidatorFiles} from "../validator";
-import {DescriptorErrorEnum} from "./descriptor.error";
 import {FileCodeInstagram} from "../../dist";
+import {DescriptorErrorEnum} from "../utils";
 
 
 const descriptor: Descriptor = require('./descriptor.json');

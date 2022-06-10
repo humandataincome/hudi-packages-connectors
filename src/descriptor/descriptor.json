@@ -1211,7 +1211,7 @@
                     "languageCode": "EN",
                     "filesDescription": [
                         {
-                            "fileCode": "customers_export_1.csv",
+                            "fileCode": "CUSTOMERS",
                             "fileContent": "All data about your Shopify business' customers"
                         }
                     ]
@@ -1225,7 +1225,7 @@
                     "languageCode": "EN",
                     "filesDescription": [
                         {
-                            "fileCode": "orders_export_1.csv",
+                            "fileCode": "ORDERS",
                             "fileContent": "All about your Shopify business' purchased data (orders)"
                         }
                     ]
@@ -1239,7 +1239,7 @@
                     "languageCode": "EN",
                     "filesDescription": [
                         {
-                            "fileCode": "products_export_1.csv",
+                            "fileCode": "PRODUCTS",
                             "fileContent": "All data about your Shopify business' products"
                         }
                     ]
@@ -1253,7 +1253,7 @@
                     "languageCode": "EN",
                     "filesDescription": [
                         {
-                            "fileCode": "discounts_export_1.csv",
+                            "fileCode": "DISCOUNTS",
                             "fileContent": "All data about your Shopify business' discounts codes"
                         }
                     ]
