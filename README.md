@@ -62,10 +62,12 @@ const file = require('@humandataincome/connectors/src/descriptor/descriptor.json
 ```
 
 ### How to use ValidatorFiles
-The method **validateZIP** take in input a zip file. The allowed types are: string, number[], Blob, NodeJS.ReadableStream, Uint8Array, ArrayBuffer.
+The method **validateZip** takes in input a zip file as Uint8Array.
+
+The method **validateZipStream** is very useful when dealing with huge zip files in input and takes in input a ReadableStream.
 It also takes an optional parameter called **options**:
 ```ts
-let validatedZip: ValidationReturn = await ValidatorFiles.validateZip(zipFile,
+const validatedZip: ValidationReturn = await ValidatorFiles.validateZip(zipFile,
     {
         permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
         filterDataSource: {
@@ -76,11 +78,32 @@ let validatedZip: ValidationReturn = await ValidatorFiles.validateZip(zipFile,
             ]
         },
         throwExceptions: true, //default is false
+        maxBytesPerFile: 20e6,
+        minBytesPerFile: 2e3,
+        maxBytesZipFile: 30e9,
     });
 ```
 ```ts
+import { ReadableStream } from 'node:stream/web';
+
+const readStream = fs.createReadStream(path.join(__dirname,"../src/mock/datasource zip files/facebook.zip"));
+
+const readableStream = new ReadableStream({
+    async start(controller) {
+        readStream.on("data", (chunk: Buffer|string) => controller.enqueue(chunk));
+        readStream.on("end", () => controller.close());
+        readStream.on("error", () => controller.error())
+    }
+});
+
+const validatedZip: ValidationReturn = await ValidatorFiles.validateZipStream(readableStream, {
+    filterDataSource: {
+        dataSourceCode: DataSourceCode.FACEBOOK,
+    }});
+```
+```ts
 interface ValidationReturn {
-    zipFile: Buffer;
+    zipFile: Uint8Array;
     includedFiles: (string | DataSourceCode)[];
     excludedFiles: (string | DataSourceCode)[];
 }
@@ -89,6 +112,7 @@ ValidatorFiles class has two parameters to filter files based on their bytes siz
 ```ts
 ValidatorService.MAX_BYTE_FILE_SIZE = 7e20; //default value is 6 MB
 ValidatorService.MIN_BYTE_FILE_SIZE = 100;  //default value is 30 B
+ValidatorService.MAX_BYTE_ZIP = 2e9; //default value is 1 GB
 ```
 
 Example of **ValidatorInstagram** usage:
