@@ -1,7 +1,9 @@
 import {FileCodeInstagram, LanguageCode} from "../descriptor";
 import {ValidatorDatasource, ValidatorDatasourceOption} from "./validator.datasource";
-import {ValidationErrorEnums} from "./index";
+import {ValidatorFiles} from "./index";
 import Logger from "../utils/logger";
+import {Unzipped} from "fflate";
+import {ValidationErrorEnum} from "../utils";
 
 export class ValidatorInstagram extends ValidatorDatasource {
     protected readonly logger = new Logger("Instagram Validator");
@@ -65,42 +67,38 @@ export class ValidatorInstagram extends ValidatorDatasource {
         return path;
     }
 
-     public async getLanguage(options: ValidatorDatasourceOption): Promise<LanguageCode | undefined> {
-        if(options.externalZip) {
-            for (let pathName of Object.keys(options.externalZip.files)) {
-                const file = options.externalZip.files[pathName];
-                if (!file.dir) {
-                    const compatiblePath = this.extractCompatiblePath(pathName);
-                    if (compatiblePath === FileCodeInstagram.PERSONAL_INFO) {
-                        let data = await file.async('nodebuffer');
+     public async getLanguage(files: Unzipped, options: ValidatorDatasourceOption = {}): Promise<LanguageCode | undefined> {
+         for (let pathName in files) {
+             const file = files[pathName];
+             if (!ValidatorFiles.isDirectory(pathName)) {
+                 const compatiblePath = this.extractCompatiblePath(pathName);
+                 if (compatiblePath === FileCodeInstagram.PERSONAL_INFO) {
+                     let data = Buffer.from(file, file.byteOffset, file.length);
 
-                        const document = data.toString();
-                        if (document.match(/(Nome utente)|(Indirizzo e-mail)|(Data di nascita)/)) {
-                            return LanguageCode.ITALIAN;
-                        } else if (document.match(/(Email address)|(Phone number confirmed)|(Username)/)) {
-                            return LanguageCode.ENGLISH;
-                        } else if (document.match(/(Nombre de usuario)|(Cuenta privada)|(Correo electr\\u00c3\\u00b3nico)/)) {
-                            return LanguageCode.SPANISH;
-                        } else if (document.match(/(\\u00e0\\u00a4\\u0088\\u00e0\\u00a4\\u00ae\\u00e0\\u00a5\\u0087\\u00e0\\u00a4\\u00b2)|(\\u00e0\\u00a4\\u00aa\\u00e0\\u00a5\\u008d\\u00e0\\u00a4\\u00b0\\u00e0\\u00a4\\u00be\\u00e0\\u00a4\\u0087\\u00e0\\u00a4\\u00b5\\u00e0\\u00a5\\u0087\\u00e0\\u00a4\\u009f \\u00e0\\u00a4\\u0085\\u00e0\\u00a4\\u0095\\u00e0\\u00a4\\u00be\\u00e0\\u00a4\\u0089\\u00e0\\u00a4\\u0082\\u00e0\\u00a4\\u009f)|(\\u00e0\\u00a4\\u00af\\u00e0\\u00a5\\u0082\\u00e0\\u00a4\\u009c\\u00e0\\u00a4\\u00bc\\u00e0\\u00a4\\u00b0\\u00e0\\u00a4\\u00a8\\u00e0\\u00a5\\u0087\\u00e0\\u00a4\\u00ae)/)) {
-                            return LanguageCode.HINDI;
-                        } else if (document.match(/(Adresse e-mail)|(Num\\u00c3\\u00a9ro de t\\u00c3\\u00a9l\\u00c3\\u00a9phone)|(Nom d\\u00e2\\u0080\\u0099utilisateur)/)) {
-                            return LanguageCode.FRENCH;
-                        } else if (document.match(/(Benutzername)|(E-Mail-Adresse)|(Telefonnummer)/)) {
-                            return LanguageCode.GERMAN;
-                        } else if (document.match(/(\\u00e5\\u00b8\\u0090\\u00e5\\u008f\\u00b7)|(\\u00e9\\u0082\\u00ae\\u00e7\\u00ae\\u00b1)|(\\u00e7\\u00a7\\u0081\\u00e5\\u00af\\u0086\\u00e5\\u00b8\\u0090\\u00e6\\u0088\\u00b7)/)) {
-                            return LanguageCode.CHINESE_SIMPLIFIED;
-                        } else {
-                            this.logger.log('error', `${ValidationErrorEnums.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`, 'getLanguage');
-                            if (options && options.throwExceptions !== undefined && !options.throwExceptions) {
-                                throw new Error(`${ValidationErrorEnums.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`);
-                            }
-                            return undefined;
-                        }
-                    }
-                }
-            }
-            return undefined;
-        }
-        return undefined;
-    }
+                     const document = data.toString();
+                     if (document.match(/(Nome utente)|(Indirizzo e-mail)|(Data di nascita)/)) {
+                         return LanguageCode.ITALIAN;
+                     } else if (document.match(/(Email address)|(Phone number confirmed)|(Username)/)) {
+                         return LanguageCode.ENGLISH;
+                     } else if (document.match(/(Nombre de usuario)|(Cuenta privada)|(Correo electr\\u00c3\\u00b3nico)/)) {
+                         return LanguageCode.SPANISH;
+                     } else if (document.match(/(\\u00e0\\u00a4\\u0088\\u00e0\\u00a4\\u00ae\\u00e0\\u00a5\\u0087\\u00e0\\u00a4\\u00b2)|(\\u00e0\\u00a4\\u00aa\\u00e0\\u00a5\\u008d\\u00e0\\u00a4\\u00b0\\u00e0\\u00a4\\u00be\\u00e0\\u00a4\\u0087\\u00e0\\u00a4\\u00b5\\u00e0\\u00a5\\u0087\\u00e0\\u00a4\\u009f \\u00e0\\u00a4\\u0085\\u00e0\\u00a4\\u0095\\u00e0\\u00a4\\u00be\\u00e0\\u00a4\\u0089\\u00e0\\u00a4\\u0082\\u00e0\\u00a4\\u009f)|(\\u00e0\\u00a4\\u00af\\u00e0\\u00a5\\u0082\\u00e0\\u00a4\\u009c\\u00e0\\u00a4\\u00bc\\u00e0\\u00a4\\u00b0\\u00e0\\u00a4\\u00a8\\u00e0\\u00a5\\u0087\\u00e0\\u00a4\\u00ae)/)) {
+                         return LanguageCode.HINDI;
+                     } else if (document.match(/(Adresse e-mail)|(Num\\u00c3\\u00a9ro de t\\u00c3\\u00a9l\\u00c3\\u00a9phone)|(Nom d\\u00e2\\u0080\\u0099utilisateur)/)) {
+                         return LanguageCode.FRENCH;
+                     } else if (document.match(/(Benutzername)|(E-Mail-Adresse)|(Telefonnummer)/)) {
+                         return LanguageCode.GERMAN;
+                     } else if (document.match(/(\\u00e5\\u00b8\\u0090\\u00e5\\u008f\\u00b7)|(\\u00e9\\u0082\\u00ae\\u00e7\\u00ae\\u00b1)|(\\u00e7\\u00a7\\u0081\\u00e5\\u00af\\u0086\\u00e5\\u00b8\\u0090\\u00e6\\u0088\\u00b7)/)) {
+                         return LanguageCode.CHINESE_SIMPLIFIED;
+                     } else {
+                         this.logger.log('error', `${ValidationErrorEnum.LANGUAGE_ERROR}: the zip file has not a recognizable language to be corrected parsed`, 'getLanguage');
+                         if (options && options.throwExceptions !== undefined && options.throwExceptions) {
+                             throw new Error(`${ValidationErrorEnum.LANGUAGE_ERROR}: the zip file has not a recognizable language to be corrected parsed`);
+                         }
+                     }
+                 }
+             }
+         }
+         return undefined;
+     }
 }

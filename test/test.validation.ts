@@ -1,8 +1,8 @@
 import {
     DataSourceCode,
-    FileCodeAmazon, ProcessorFacebook,
+    FileCodeAmazon, ProcessorAmazon, ProcessorFacebook, ProcessorGoogle,
     ProcessorInstagram,
-    ValidationErrorEnums, ValidatorFiles,
+    ValidationErrorEnum, ValidatorFiles,
     ValidatorInstagram
 } from "../src";
 import ErrnoException = NodeJS.ErrnoException;
@@ -64,13 +64,10 @@ function mergingTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/google.zip"),async function(err:ErrnoException, data1: Buffer) {
-            const validation1 = await ValidatorFiles.validateZip(data1,
-                {
-                    filterDataSource: {
-                        dataSourceCode: DataSourceCode.GOOGLE,
-                    }
-                });
+        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/ds2.zip"),async function(err:ErrnoException, data1: Buffer) {
+            const validation1 = await ValidatorFiles.validateZip(data1,{maxBytesZipFile: 3e9, filterDataSource: {
+                    dataSourceCode: DataSourceCode.FACEBOOK,
+                }});
             fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/instagram.zip"),async function(err:ErrnoException, data2: Buffer) {
                 const validation2 = await ValidatorFiles.validateZip(data2,
                     {
@@ -86,15 +83,16 @@ function mergingTest() {
                             }
                         });
                     //console.log(validation1!.zipFile, validation2!.zipFile, validation3!.zipFile)
-                    const mergedFile = await ValidatorFiles.mergeZipFiles([validation1!.zipFile, validation2!.zipFile, validation3!.zipFile], {throwExceptions: true});
+                    const mergedFile = await ValidatorFiles.mergeZipFiles([validation1!.zipFile, validation2!.zipFile, validation3!.zipFile], {throwExceptions: true, maxBytesZipFile: 3e9});
                     console.log(await ValidatorFiles.getPathsIntoZip(mergedFile!));
+                    //console.log(await ProcessorFacebook.aggregatorFactory(mergedFile!))
                 });
             });
         });
     } catch (e: any) {
-        if(e.message === `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
+        if(e.message === `${ValidationErrorEnum.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
             console.error('The filtered ZIP has not any file');
-        } else if (`${ValidationErrorEnums.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
+        } else if (`${ValidationErrorEnum.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
             console.error('The ZIP file has not a recognizable Language to be corrected parsed');
         } else if (e.code == 'MODULE_NOT_FOUND') {
             console.error('[Error not founding module] ' + e);
@@ -150,9 +148,9 @@ function validatingTest() {
             console.log(await ValidatorFiles.getPathsIntoZip(filteredZip!));
         });
     } catch (e: any) {
-        if(e.message === `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
+        if(e.message === `${ValidationErrorEnum.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
             console.error('The filtered ZIP has not any file');
-        } else if (`${ValidationErrorEnums.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
+        } else if (`${ValidationErrorEnum.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
             console.error('The ZIP file has not a recognizable Language to be corrected parsed');
         } else if (e.code == 'MODULE_NOT_FOUND') {
             console.error('[Error not founding module] ' + e);
@@ -191,9 +189,9 @@ async function _sequentialValidationsProcessingTest(pathName: string) {
             console.log(await ProcessorInstagram.aggregatorFactory(validation!, { timeIntervalDays: 180}));
         });
     } catch (e: any) {
-        if (e.message === `${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
+        if (e.message === `${ValidationErrorEnum.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
             console.error('The filtered ZIP has not any file');
-        } else if (`${ValidationErrorEnums.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
+        } else if (`${ValidationErrorEnum.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
             console.error('The ZIP file has not a recognizable Language to be corrected parsed');
         } else if (e.code == 'MODULE_NOT_FOUND') {
             console.error('[Error not founding module] ' + e);

@@ -1,9 +1,8 @@
-import {FileCode, FileCodeInstagram, LanguageCode} from "../descriptor";
-import {ValidationErrorEnums} from "./validator.error";
-import {
-    InputFileFormat,
-} from "./index";
+import {FileCode, LanguageCode} from "../descriptor";
+import { ValidatorFiles } from "./index";
 import Logger from "../utils/logger";
+import {Unzipped, unzipSync, zipSync} from "fflate";
+import {ValidationErrorEnum} from "../utils";
 
 export type  ValidatorDatasourceOption = {
     fileCodes?: FileCode[] | string[];
@@ -24,27 +23,25 @@ export class ValidatorDatasource {
         return this.DEFAULT_FILE_CODES;
     }
 
-    public async filterFilesIntoZip(zipFile: InputFileFormat, options?: ValidatorDatasourceOption): Promise<Buffer | undefined> {
+    public async filterFilesIntoZip(zipFile: Uint8Array, options?: ValidatorDatasourceOption): Promise<Uint8Array | undefined> {
         try {
-            const JSZip = require("jszip");
             let hasAnyFile = false;
-            let filteredFiles = new JSZip();
-            const zip = await JSZip.loadAsync(zipFile);
-            for (let pathName of Object.keys(zip.files)) {
-                const file = zip.files[pathName];
-                if (!file.dir) {
-                    let data = await file.async('nodebuffer');
+            let filteredFiles: Unzipped = {};
+            const files = unzipSync(zipFile);
+            for (let pathName in files) {
+                const file = files[pathName];
+                if (!ValidatorFiles.isDirectory(pathName)) {
                     const compatiblePath = options && options.fileCodes ? await this.getValidPath(pathName, options) : await this.getValidPath(pathName);
                     if (compatiblePath) {
-                        filteredFiles.file(compatiblePath, data, {comment: file.comment});
+                        filteredFiles = {...filteredFiles, ...{[pathName]:file}};
                         (!hasAnyFile) && (hasAnyFile = true);
                     }
                 }
             }
             if (hasAnyFile) {
-                return await filteredFiles.generateAsync({type: "nodebuffer"});
+                return zipSync(filteredFiles);
             } else {
-                throw new Error(`${ValidationErrorEnums.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`);
+                throw new Error(`${ValidationErrorEnum.NO_USEFUL_FILES_ERROR}: the filtered zip file has not any valid file`);
             }
         } catch (error: any) {
             (error && error.message) && (this.logger.log('error', error.message, 'filterFilesIntoZip'));
@@ -76,7 +73,7 @@ export class ValidatorDatasource {
         return path;
     }
 
-    public async getLanguage(options: ValidatorDatasourceOption): Promise<LanguageCode | undefined> {
+    public async getLanguage(files: Unzipped, options: ValidatorDatasourceOption = {}): Promise<LanguageCode | undefined> {
         return undefined;
     }
 }

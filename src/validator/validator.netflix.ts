@@ -21,16 +21,5 @@ export class ValidatorNetflix extends ValidatorDatasource  {
         FileCodeNetflix.PROFILES_AVATAR_PARENTAL_CONTROL,
         FileCodeNetflix.SOCIAL_MEDIA_CONNECTIONS,
         FileCodeNetflix.SURVEYS_PRODUCT_CANCELLATION,
-        /*
-        FileCodeNetflix.ACCOUNT_TERMS_OF_USE,
-        FileCodeNetflix.CLICKSTREAM,
-        FileCodeNetflix.CUSTOMER_SERVICE_CHAT_TRANSCRIPT,
-        FileCodeNetflix.CUSTOMER_SERVICE_CSCONTACT,
-        FileCodeNetflix.IP_ADDRESSES_ACCOUNT,
-        FileCodeNetflix.IP_ADDRESSES_LOGIN,
-        FileCodeNetflix.IP_ADDRESSES_STREAMING,
-        FileCodeNetflix.MESSAGES_SENT_BY_NETFLIX,
-        FileCodeNetflix.PROFILES_AVATAR_HISTORY,
-         */
     ];
 }

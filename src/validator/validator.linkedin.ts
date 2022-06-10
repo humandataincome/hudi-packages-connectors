@@ -31,15 +31,6 @@ export class ValidatorLinkedIn extends ValidatorDatasource  {
         FileCodeLinkedIn.SEARCH_QUERIES,
         FileCodeLinkedIn.SKILLS,
         FileCodeLinkedIn.VOTES,
-        /*
-        FileCodeLinkedIn.CONTACTS,
-        FileCodeLinkedIn.LOGINS,
-        FileCodeLinkedIn.MESSAGE,
-        FileCodeLinkedIn.REACTIONS,
-        FileCodeLinkedIn.REGISTRATION,
-        FileCodeLinkedIn.RICH_MEDIA,
-        FileCodeLinkedIn.SECURITY_CHALLENGES,
-         */
     ];
 
     protected extractCompatiblePath(path: string): string {
