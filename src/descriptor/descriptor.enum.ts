@@ -63,7 +63,7 @@ export enum FileCodeInstagram {
     POST_COMMENT = 'comments/post_comments.json',
     SYNCED_CONTACTS = 'contacts/synced_contacts.json',
     POSTS_ARCHIVED = 'content/archived_posts.json',
-    POSTS_CREATED = 'content/posts_1.json',
+    POSTS_CREATED = 'content/posts_(\\d+).json',
     STORIES_CREATED = 'content/stories.json',
     FOLLOWERS = 'followers_and_following/followers.json',
     FOLLOWING_ACCOUNTS = 'followers_and_following/following.json',

@@ -41,6 +41,6 @@ export interface LocalFileDescription {
 }
 
 export interface FileContent {
-    filePath: string;
+    fileCode: string;
     fileContent: string;
 }

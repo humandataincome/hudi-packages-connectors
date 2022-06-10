@@ -1,11 +1,14 @@
+import {Descriptor, FileContent, Procedure, SourceDescription} from "./descriptor.model";
 import {
-    Descriptor, FileContent,
-    Procedure,
-    SourceDescription
-} from "./descriptor.model";
-import {DataSourceCode, FileExtension, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
+    DataSourceCode, FileCodeAmazon,
+    FileCodeFacebook, FileCodeGoogle, FileCodeLinkedIn, FileCodeNetflix, FileCodeShopify,
+    FileExtension,
+    LanguageCode,
+    RetrievingProcedureType
+} from "./descriptor.enum";
 import {ValidatorFiles} from "../validator";
 import {DescriptorErrorEnum} from "./descriptor.error";
+import {FileCodeInstagram} from "../../dist";
 
 
 const descriptor: Descriptor = require('./descriptor.json');
@@ -155,20 +158,63 @@ export class DescriptorService {
     }
 
     /**
+     * @param filePath
      * @param dataSourceCode - code of the data source
      * @param language - language of the data source
      * @return all the files descriptions for a given data source and language code
      */
-    static getFilesDescription(dataSourceCode: DataSourceCode, language: LanguageCode): FileContent[] | undefined {
+    static getFileDescription(filePath: string, dataSourceCode: DataSourceCode, language: LanguageCode): string | undefined {
         try {
             const datasourceFilesDescriptors = descriptor?.datasourceFilesDescriptions?.find(
                 ({sourceCode, fileDescriptions}) => sourceCode === dataSourceCode && fileDescriptions.length);
-            const filesDescription = datasourceFilesDescriptors?.fileDescriptions?.find(
-                ({languageCode, filesDescription}) => languageCode === language && filesDescription.length);
-            return filesDescription?.filesDescription;
+            if (datasourceFilesDescriptors) {
+                const filesDescription = datasourceFilesDescriptors.fileDescriptions?.find(
+                    ({languageCode, filesDescription}) => languageCode === language && filesDescription.length);
+                if (filesDescription) {
+                    const enumInstance = this.getRespectiveFileCodeEnum(dataSourceCode);
+                    if (enumInstance) {
+                        const found = filesDescription.filesDescription.find((description: FileContent) => {
+                            const indexOfPath = Object.keys(enumInstance).indexOf(description.fileCode);
+                            if (indexOfPath !== -1) {
+                                const regex = <RegExp>Object.values(enumInstance)[indexOfPath];
+                                if (regex && filePath.match(regex)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        });
+                        if (found) {
+                            return found.fileContent;
+                        }
+                    }
+                }
+            }
+            return undefined;
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_FILES_DESCRIPTION}: ${error}`);
         }
     }
 
+    private static getRespectiveFileCodeEnum(dataSourceCode: DataSourceCode): any | undefined {
+        if (dataSourceCode === DataSourceCode.INSTAGRAM) {
+            return FileCodeInstagram;
+        } else if (dataSourceCode === DataSourceCode.FACEBOOK) {
+            return FileCodeFacebook;
+        } else if (dataSourceCode === DataSourceCode.AMAZON) {
+            return FileCodeAmazon;
+        } else if (dataSourceCode === DataSourceCode.GOOGLE) {
+            return FileCodeGoogle;
+        } else if (dataSourceCode === DataSourceCode.LINKEDIN) {
+            return FileCodeLinkedIn;
+        } else if (dataSourceCode === DataSourceCode.NETFLIX) {
+            return FileCodeNetflix;
+        } else if (dataSourceCode === DataSourceCode.SHOPIFY_PRODUCTS
+            || dataSourceCode === DataSourceCode.SHOPIFY_ORDERS
+            || dataSourceCode === DataSourceCode.SHOPIFY_DISCOUNTS
+            || dataSourceCode === DataSourceCode.SHOPIFY_CUSTOMERS) {
+            return FileCodeShopify;
+        } else {
+            return undefined;
+        }
+    }
 }

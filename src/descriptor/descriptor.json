@@ -677,252 +677,148 @@
                     "languageCode": "EN",
                     "filesDescription": [
                         {
-                            "filePath": "account_information/account_information.json",
+                            "fileCode": "ACCOUNT_INFO",
                             "fileContent": "Country code, first and last login date"
                         },
                         {
-                            "filePath": "account_information/personal_information.json",
+                            "fileCode": "PERSONAL_INFO",
                             "fileContent": "Used for technical reasons (no personal info are used). It contains your Email, phone number, username, name, gender."
                         },
                         {
-                            "filePath": "ads_and_businesses/advertisers_using_your_activity_or_information.json",
+                            "fileCode": "ADS_USING_YOUR_INFO",
                             "fileContent": "Advertisers that are using your instagram information"
                         },
                         {
-                            "filePath": "ads_and_content/accounts_you\\'re_not_interested_in.json",
+                            "fileCode": "ACCOUNT_NOT_INTERESTED",
                             "fileContent": "Accounts you are not interested in"
                         },
                         {
-                            "filePath": "ads_and_content/ads_clicked.json",
+                            "fileCode": "ADS_CLICKED",
                             "fileContent": "Advertisers you have clicked on"
                         },
                         {
-                            "filePath": "ads_and_content/ads_viewed.json",
+                            "fileCode": "ADS_VIEWED",
                             "fileContent": "Advertisers you have seen"
                         },
                         {
-                            "filePath": "ads_and_content/post_viewed.json",
+                            "fileCode": "POSTS_VIEWED",
                             "fileContent": "Posts you have seen"
                         },
                         {
-                            "filePath": "ads_and_content/suggested_accounts_viewed.json",
+                            "fileCode": "ACCOUNT_VIEWED",
                             "fileContent": "Suggested accounts you have visited"
                         },
                         {
-                            "filePath": "ads_and_content/videos_watched.json",
+                            "fileCode": "VIDEO_VIEWED",
                             "fileContent": "Videos you have watched"
                         },
                         {
-                            "filePath": "autofill_information/autofill_information.json",
+                            "fileCode": "AUTOFILL_INFO",
                             "fileContent": "Information you have submitted to instagram"
                         },
                         {
-                            "filePath": "comments/post_comments.json",
+                            "fileCode": "POST_COMMENT",
                             "fileContent": "Your comments to posts"
                         },
                         {
-                            "filePath": "content/archived_posts.json",
+                            "fileCode": "POSTS_ARCHIVED",
                             "fileContent": "Title, link and date of posts you have archived"
                         },
                         {
-                            "filePath": "content/posts_1.json",
+                            "fileCode": "POSTS_CREATED",
                             "fileContent": "Title, link and date of posts you have created"
                         },
                         {
-                            "filePath": "content/stories.json",
+                            "fileCode": "STORIES_CREATED",
                             "fileContent": "Link and date of stories you have created"
                         },
                         {
-                            "filePath": "followers_and_following/followers.json",
+                            "fileCode": "FOLLOWERS",
                             "fileContent": "List of your followers accounts"
                         },
                         {
-                            "filePath": "followers_and_following/following.json",
+                            "fileCode": "FOLLOWING_ACCOUNTS",
                             "fileContent": "List of accounts you follow"
                         },
                         {
-                            "filePath": "followers_and_following/following_hashtags.json",
+                            "fileCode": "FOLLOWING_HASHTAGS",
                             "fileContent": "List of hashtags you follow"
                         },
                         {
-                            "filePath": "followers_and_following/pending_follow_requests.json",
+                            "fileCode": "PENDING_FOLLOW_REQUESTS",
                             "fileContent": "List of your follow requests that are still pending"
                         },
                         {
-                            "filePath": "followers_and_following/recent_follow_requests.json",
+                            "fileCode": "RECENT_FOLLOW_REQUESTS",
                             "fileContent": "List of your follow requests that you sent out recently"
                         },
                         {
-                            "filePath": "followers_and_following/recently_unfollowed_accounts.jso",
+                            "fileCode": "RECENT_UNFOLLOWED_ACCOUNTS",
                             "fileContent": "List of account you have unfollowed recently"
                         },
                         {
-                            "filePath": "followers_and_following/removed_suggestions.json",
+                            "fileCode": "REMOVED_SUGGESTIONS",
                             "fileContent": "Accounts suggested by instagram that you have removed"
                         },
                         {
-                            "filePath": "information_about_you/ads_interests.json",
+                            "fileCode": "INFO_ADS_INTERESTS",
                             "fileContent": "Advertisers you are interested in"
                         },
                         {
-                            "filePath": "information_about_you/account_based_in.json",
+                            "fileCode": "INFO_ACCOUNT_BASED_IN",
                             "fileContent": "Your primary location"
                         },
                         {
-                            "filePath": "likes/liked_comments.json",
+                            "fileCode": "LIKE_COMMENTS",
                             "fileContent": "Comments you have liked"
                         },
                         {
-                            "filePath": "likes/liked_posts.json",
+                            "fileCode": "LIKE_POSTS",
                             "fileContent": "Posts you have liked"
                         },
                         {
-                            "filePath": "monetization/eligibility.json",
+                            "fileCode": "ELIGIBILITY",
                             "fileContent": "Information about your monetization eligibility"
                         },
                         {
-                            "filePath": "recent_searches/account_searches.json",
+                            "fileCode": "ACCOUNT_SEARCHES",
                             "fileContent": "Searches you have made recently"
                         },
                         {
-                            "filePath": "shopping/recently_viewed_items.json",
+                            "fileCode": "SHOPPING_VIEWED_ITEMS",
                             "fileContent": "Products that you have seen into marketplace"
                         },
                         {
-                            "filePath": "story_sticker_interactions/emoji_sliders.json",
+                            "fileCode": "EMOJI_SLIDERS",
                             "fileContent": "Your reaction with emojies to stories"
                         },
                         {
-                            "filePath": "story_sticker_interactions/polls.json",
+                            "fileCode": "POLLS",
                             "fileContent": "Polls in stories you have answered"
                         },
                         {
-                            "filePath": "story_sticker_interactions/quizzes.json",
+                            "fileCode": "QUIZZES",
                             "fileContent": "Quizzes in stories you have answered"
                         },
                         {
-                            "filePath": "your_topics/your_reels_sentiments.json",
+                            "fileCode": "YOUR_REEL_SENTIMENTS",
                             "fileContent": "List of sentiments related to your reels"
                         },
                         {
-                            "filePath": "your_topics/your_reels_topics.json",
+                            "fileCode": "YOUR_REEL_TOPICS",
                             "fileContent": "List of topics inherent to your reels"
                         },
                         {
-                            "filePath": "your_topics/your_topics.json",
+                            "fileCode": "YOUR_TOPICS",
                             "fileContent": "List of topics related to you"
                         },
                         {
-                            "filePath": "pages/pages_you\\'ve_recommended.json",
-                            "fileContent": "List of pages that have been recommended to you"
+                            "fileCode": "SAVED_POSTS",
+                            "fileContent": ""
                         },
                         {
-                            "filePath": "pages/pages_you_follow.json",
-                            "fileContent": "List of pages you follow"
-                        },
-                        {
-                            "filePath": "pages/pages_you\\'ve_unfollowed.json",
-                            "fileContent": "List of pages you have unfollowed"
-                        },
-                        {
-                            "filePath": "preferences/language_and_locale.json",
-                            "fileContent": "Your language preferences"
-                        },
-                        {
-                            "filePath": "profile_information/profile_information.json",
-                            "fileContent": "Public information you have submitted into your personal facebook profile"
-                        },
-                        {
-                            "filePath": "posts/your_posts_1.json",
-                            "fileContent": "Information about your posts"
-                        },
-                        {
-                            "filePath": "search/your_search_history.json",
-                            "fileContent": "List of people you have searched for in facebook"
-                        },
-                        {
-                            "filePath": "stories/story_reactions.json",
-                            "fileContent": "Reactions to stories (Like, Love, etc)"
-                        },
-                        {
-                            "filePath": "your_interactions_on_facebook/recently_viewed.json",
-                            "fileContent": "Video, pag and marketplace articles you have interacted with recently"
-                        },
-                        {
-                            "filePath": "your_interactions_on_facebook/recently_visited.json",
-                            "fileContent": "Profiles and pages recently visited"
-                        },
-                        {
-                            "filePath": "your_topics/your_topics.json",
-                            "fileContent": "List of topics inherent to you"
-                        },
-                        {
-                            "filePath": "activity_messages/group_interactions.json",
-                            "fileContent": "Counter of your interactions of any kind into your groups"
-                        },
-                        {
-                            "filePath": "activity_messages/people_and_friends.json",
-                            "fileContent": "Your interactions with other people"
-                        },
-                        {
-                            "filePath": "apps_and_websites_off_of_facebook/your_off-facebook_activity.json",
-                            "fileContent": "Your activity with external apps linked to your facebook account"
-                        },
-                        {
-                            "filePath": "events/event_invitations.json",
-                            "fileContent": "Invitation for events you have received"
-                        },
-                        {
-                            "filePath": "events/your_event_responses.json",
-                            "fileContent": "Your responses to event invitation you have received"
-                        },
-                        {
-                            "filePath": "facebook_accounts_center/accounts_center.json",
-                            "fileContent": "Other Meta accounts linked to you"
-                        },
-                        {
-                            "filePath": "facebook_gaming/instant_games.json",
-                            "fileContent": "Games you have played"
-                        },
-                        {
-                            "filePath": "facebook_payments/payment_history.json",
-                            "fileContent": "Payments history"
-                        },
-                        {
-                            "filePath": "feed/feed.json",
-                            "fileContent": "Facebook feeds"
-                        },
-                        {
-                            "filePath": "groups/your_comments_in_groups.json",
-                            "fileContent": "Your comments into groups"
-                        },
-                        {
-                            "filePath": "groups/your_group_membership_activity.json",
-                            "fileContent": "Your activity in groups"
-                        },
-                        {
-                            "filePath": "location/last_location.json",
-                            "fileContent": "Coordinates of your last location registered"
-                        },
-                        {
-                            "filePath": "location/primary_location.json",
-                            "fileContent": "Coordinates of your primary location"
-                        },
-                        {
-                            "filePath": "location/primary_public_location.json",
-                            "fileContent": "Coordinates of your public location"
-                        },
-                        {
-                            "filePath": "location/timezone.json",
-                            "fileContent": "Your timezone (like Europe/Rome)"
-                        },
-                        {
-                            "filePath": "notifications/notifications.json",
-                            "fileContent": "Notifications received"
-                        },
-                        {
-                            "filePath": "preferences/language_and_locale.json",
-                            "fileContent": "Selected language and languages that you might know"
+                            "fileCode": "PROFESSIONAL_INFO",
+                            "fileContent": ""
                         }
                     ]
                 }
@@ -935,56 +831,168 @@
                     "languageCode": "EN",
                     "filesDescription": [
                         {
-                            "filePath": "ads_information/advertisers_you\\'ve_interacted_with.json",
+                            "fileCode": "ADS_INTERACTED_WITH",
                             "fileContent": "Title, action and date of advertisements you have interacted with"
                         },
                         {
-                            "filePath": "ads_information/advertisers_using_your_activity_or_information.json",
+                            "fileCode": "ADS_USING_YOUR_ACTIVITY",
                             "fileContent": "List of advertisements using your information"
                         },
                         {
-                            "filePath": "ads_information/information_you\\'ve_submitted_to_advertisers.json",
+                            "fileCode": "INFO_SUBMITTED_ADS",
                             "fileContent": "Information that you have submitted to advertisers (like name or address)"
                         },
                         {
-                            "filePath": "apps_and_websites_off_of_facebook/apps_and_websites.json",
+                            "fileCode": "APP_WEBSITES",
                             "fileContent": "Information about external app and websites in which you used your facebook account to register"
                         },
                         {
-                            "filePath": "comments_and_reactions/comments.json",
+                            "fileCode": "COMMENTS",
                             "fileContent": "Comments posted"
                         },
                         {
-                            "filePath": "comments_and_reactions/posts_and_comments.json",
+                            "fileCode": "REACTIONS",
                             "fileContent": "Reactions to posts (LIKE, LOVE, WOW, etc)"
                         },
                         {
-                            "filePath": "friends_and_followers/friends.json",
+                            "fileCode": "FRIENDS",
                             "fileContent": "List of friends"
                         },
                         {
-                            "filePath": "friends_and_followers/friend_requests_sent.json",
+                            "fileCode": "FRIENDS_REQUESTS_SENT",
                             "fileContent": "List of friendship requests sent"
                         },
                         {
-                            "filePath": "friends_and_followers/rejected_friend_requests.json",
+                            "fileCode": "FRIENDS_REJECTED_REQUESTS",
                             "fileContent": "List of rejected friends"
                         },
                         {
-                            "filePath": "friends_and_followers/removed_friends.json",
+                            "fileCode": "FRIENDS_REMOVED",
                             "fileContent": "List of removed friends"
                         },
                         {
-                            "filePath": "friends_and_followers/who_you_follow.json",
+                            "fileCode": "FRIENDS_WHO_YOU_FOLLOW",
                             "fileContent": "List of people that you follow"
                         },
                         {
-                            "filePath": "other_logged_information/ads_interests.json",
+                            "fileCode": "ADS_INTERESTS",
                             "fileContent": "List of advertisements interests"
                         },
                         {
-                            "filePath": "pages/pages_you\\'ve_liked.json",
+                            "fileCode": "PAGES_LIKED",
                             "fileContent": "List of pages you like"
+                        },
+                        {
+                            "fileCode": "PAGES_RECOMMENDED",
+                            "fileContent": "List of pages that have been recommended to you"
+                        },
+                        {
+                            "fileCode": "PAGES_FOLLOWED",
+                            "fileContent": "List of pages you follow"
+                        },
+                        {
+                            "fileCode": "PAGES_UNFOLLOWED",
+                            "fileContent": "List of pages you have unfollowed"
+                        },
+                        {
+                            "fileCode": "LANGUAGE",
+                            "fileContent": "Your language preferences"
+                        },
+                        {
+                            "fileCode": "PROFILE_INFO",
+                            "fileContent": "Public information you have submitted into your personal facebook profile"
+                        },
+                        {
+                            "fileCode": "YOUR_POSTS",
+                            "fileContent": "Information about your posts"
+                        },
+                        {
+                            "fileCode": "SEARCH_HISTORY",
+                            "fileContent": "List of people you have searched for in facebook"
+                        },
+                        {
+                            "fileCode": "STORIES_REACTION",
+                            "fileContent": "Reactions to stories (Like, Love, etc)"
+                        },
+                        {
+                            "fileCode": "RECENTLY_VIEWED",
+                            "fileContent": "Video, pag and marketplace articles you have interacted with recently"
+                        },
+                        {
+                            "fileCode": "RECENTLY_VISITED",
+                            "fileContent": "Profiles and pages recently visited"
+                        },
+                        {
+                            "fileCode": "YOUR_TOPICS",
+                            "fileContent": "List of topics inherent to you"
+                        },
+                        {
+                            "fileCode": "ACTIVITY_GROUP_INTERACTIONS",
+                            "fileContent": "Counter of your interactions of any kind into your groups"
+                        },
+                        {
+                            "fileCode": "ACTIVITY_PEOPLE_FRIENDS",
+                            "fileContent": "Your interactions with other people"
+                        },
+                        {
+                            "fileCode": "OFF_ACTIVITIES",
+                            "fileContent": "Your activity with external apps linked to your facebook account"
+                        },
+                        {
+                            "fileCode": "EVENT_INVITATION",
+                            "fileContent": "Invitation for events you have received"
+                        },
+                        {
+                            "fileCode": "EVENT_RESPONSES",
+                            "fileContent": "Your responses to event invitation you have received"
+                        },
+                        {
+                            "fileCode": "ACCOUNT_CENTER",
+                            "fileContent": "Other Meta accounts linked to you"
+                        },
+                        {
+                            "fileCode": "INSTANT_GAMES",
+                            "fileContent": "Games you have played"
+                        },
+                        {
+                            "fileCode": "PAYMENT_HISTORY",
+                            "fileContent": "Payments history"
+                        },
+                        {
+                            "fileCode": "FEED",
+                            "fileContent": "Facebook feeds"
+                        },
+                        {
+                            "fileCode": "GROUPS_COMMENTS",
+                            "fileContent": "Your comments into groups"
+                        },
+                        {
+                            "fileCode": "GROUPS_MEMBERSHIP_ACTIVITY",
+                            "fileContent": "Your activity in groups"
+                        },
+                        {
+                            "fileCode": "LOCATION_LAST",
+                            "fileContent": "Coordinates of your last location registered"
+                        },
+                        {
+                            "fileCode": "LOCATION_PRIMARY",
+                            "fileContent": "Coordinates of your primary location"
+                        },
+                        {
+                            "fileCode": "LOCATION_PRIMARY_PUBLIC",
+                            "fileContent": "Coordinates of your public location"
+                        },
+                        {
+                            "fileCode": "LOCATION_TIMEZONE",
+                            "fileContent": "Your timezone (like Europe/Rome)"
+                        },
+                        {
+                            "fileCode": "NOTIFICATIONS",
+                            "fileContent": "Notifications received"
+                        },
+                        {
+                            "fileCode": "PREFERENCES_LANGUAGE_LOCALE",
+                            "fileContent": "Selected language and languages that you might know"
                         }
                     ]
                 }
@@ -997,116 +1005,200 @@
                     "languageCode": "EN",
                     "filesDescription": [
                         {
-                            "filePath": "Advertising.(\\d+)/Advertising.3PAudiences.csv",
+                            "fileCode": "ADV_THIRDPARTIES",
                             "fileContent": "Third parties advertisers"
                         },
                         {
-                            "filePath": "Advertising.(\\d+)/Advertising.AdvertiserAudiences.csv",
+                            "fileCode": "ADV_AUDIENCES",
                             "fileContent": "Audience of advertisers"
                         },
                         {
-                            "filePath": "Advertising.(\\d+)/Advertising.AdvertiserClicks.csv",
+                            "fileCode": "ADV_CLICKS",
                             "fileContent": "Clicks on advertising Brands"
                         },
                         {
-                            "filePath": "Advertising.(\\d+)/Advertising.AmazonAudiences.csv",
+                            "fileCode": "AUDIENCES",
                             "fileContent": "Amazon Audiences in which you are included"
                         },
                         {
-                            "filePath": "Amazon.Lists.Wishlist.(\\d+).(\\d+)/Amazon.Lists.Wishlist.json",
-                            "fileContent": "Your amazon whishlists"
+                            "fileCode": "WISHLIST",
+                            "fileContent": "Your amazon wishlists"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "GAMES_TWITCHPRIME_SUB_HISTORY",
+                            "fileContent": "History of you Twitch subscriptions"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "AUDIBLE_LIBRARY",
+                            "fileContent": "All the audio-books listened on Audible"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "AUDIBLE_LISTENING",
+                            "fileContent": "All the listening sessions records on Audible"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "AUDIBLE_MEMBERSHIP_BILLINGS",
+                            "fileContent": "All the bills received by Audible"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "PRIMEVIDEO_WATCHLIST",
+                            "fileContent": "Your Prime Video watchlist"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "PRIMEVIDEO_WATCHLIST_HISTORY",
+                            "fileContent": "All the titles that ever have been into your Prime Video watchlist"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "PRIMEVIDEO_VIEW_COUNT",
+                            "fileContent": "A counter, for each category of titles, representing the number of titles of that category that you have seen "
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "PRIMEVIDEO_VIEWINGHISTORY",
+                            "fileContent": "Records of all the times you have seen a title"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "DIGITAL_ORDERING_ITEM",
+                            "fileContent": "Data related to each Item that was part of a Digital Order"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "DIGITAL_ORDERING_ORDERS",
+                            "fileContent": "An overview of your digital orders purchased through Amazon"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "DIGITAL_ORDERING_MONETARY",
+                            "fileContent": "Data related to the monetary information about each item purchased"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "DIGITAL_SUBSCRIPTION",
+                            "fileContent": "An overview of the subscriptions that you own"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "RETAIL_LIGHT_WEIGHT_INTERACTIONS",
+                            "fileContent": "Interactions with other people reviews"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "RETAIL_ORDER_HISTORY",
+                            "fileContent": "List of orders from Amazon"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "RETAIL_REGION_AUTHORITY",
+                            "fileContent": "Addresses registered"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "RETAIL_SELLER_FEEDBACK",
+                            "fileContent": "Your feedbacks on products bought"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "CUSTOMER_ENGAGEMENT",
+                            "fileContent": "You searches on Amazon"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "GAMES_EGRESS_IDENTITY",
+                            "fileContent": "Contains Twitch Id"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "GAMES_TWITCHPRIME_ACCOUNT_HISTORY",
+                            "fileContent": "Twitch Prime information"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "GAMES_TWITCHPRIME_LINKED_ACCOUNT",
+                            "fileContent": "Twitch account linked to Amazon Prime"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "MUSIC_ACCOUNT",
+                            "fileContent": "Account creation and territory"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "APPSTORE_SUB_PERIOD",
+                            "fileContent": "Prime subscription periods"
                         },
                         {
-                            "filePath": "xxxxxxxx",
-                            "fileContent": "yyyyyyyy"
+                            "fileCode": "APPSTORE_SUB_TRANSACTION",
+                            "fileContent": "Transactions details for each  subscription periods"
+                        },
+                        {
+                            "fileCode": "AUDIBLE_DEVICES_ACTIVATIONS",
+                            "fileContent": "Devices used with Audible"
+                        },
+                        {
+                            "fileCode": "AUDIBLE_MEMBERSHIP_EVENT",
+                            "fileContent": "Membership events (like Subscription Cancelled)"
+                        },
+                        {
+                            "fileCode": "DIGITAL_CUSTOMER_ATTRIBUTES",
+                            "fileContent": "Customer attributes (like country of residence)"
+                        },
+                        {
+                            "fileCode": "DIGITAL_ORDERS_RETURNS_MONETARY",
+                            "fileContent": "This file has monetary amount details of your order returns and refunds"
+                        },
+                        {
+                            "fileCode": "DIGITAL_ORDERS_RETURNS_TRANSACTION",
+                            "fileContent": "This file has transaction details of your order returns and refunds"
+                        },
+                        {
+                            "fileCode": "DIGITAL_SUBSCRIPTION_BENEFICIARIES",
+                            "fileContent": "All details about the beneficiaries of your subscriptions (like Amazon or Audible)"
+                        },
+                        {
+                            "fileCode": "DIGITAL_SUBSCRIPTION_BILLING_ITEMS",
+                            "fileContent": "This file has an itemized view of the charges that occurred for your billing schedules"
+                        },
+                        {
+                            "fileCode": "DIGITAL_SUBSCRIPTION_BILLING_SCHEDULE",
+                            "fileContent": "Information about billing periods (frequency of charges) of your subscriptions and benefits related to those subscriptions"
+                        },
+                        {
+                            "fileCode": "DIGITAL_SUBSCRIPTION_PERIODS",
+                            "fileContent": "Information regarding the contract periods (subscription benefit length) and billing periods (frequency of charges) of your subscriptions"
+                        },
+                        {
+                            "fileCode": "DIGITAL_SUBSCRIPTION_PROBLEMS",
+                            "fileContent": "This file has the problem history of your subscriptions"
+                        },
+                        {
+                            "fileCode": "DIGITAL_SUBSCRIPTION_STATUS_HISTORY",
+                            "fileContent": "This file has the status history of your subscriptions"
+                        },
+                        {
+                            "fileCode": "DIGITAL_ORDERING_PAYMENT_INFO",
+                            "fileContent": "This file contains additional payment information that is not captured in the Digital Orders.csv"
+                        },
+                        {
+                            "fileCode": "PAYMENT_OPTIONS_INSTRUMENTS",
+                            "fileContent": "Payment options associated to Amazon"
+                        },
+                        {
+                            "fileCode": "RETAIL_COMMUNITY_CONTRIBUTION_ELIGIBILITY",
+                            "fileContent": "Meets community content participation requirements on amazon"
+                        },
+                        {
+                            "fileCode": "RETAIL_CUSTOMER_PROFILE_ATTRIBUTES",
+                            "fileContent": "Information about Customer Profile"
+                        },
+                        {
+                            "fileCode": "RETAIL_CUSTOMER_RETURNS",
+                            "fileContent": "Returns information (i.e reasons, returend amount, order id)"
+                        },
+                        {
+                            "fileCode": "RETAIL_CUSTOMER_REVIEWS",
+                            "fileContent": "Information about reviews to products (i.e ASIN product, stars)"
+                        },
+                        {
+                            "fileCode": "RETAIL_ORDER_RETURNED",
+                            "fileContent": "Orders returned"
+                        },
+                        {
+                            "fileCode": "RETAIL_ORDER_RETURNED_PAYMENTS",
+                            "fileContent": "Payments for returned orders"
+                        },
+                        {
+                            "fileCode": "RETAIL_SEARCH_CUSTOMER_ENGAGEMENT",
+                            "fileContent": "Keywords, category and date of searches"
+                        },
+                        {
+                            "fileCode": "SUBSCRIPTION_BILLING_REFUNDS_DATA",
+                            "fileContent": "Contains billing details of subscriptions that you own"
                         }
                     ]
                 }
@@ -1119,7 +1211,7 @@
                     "languageCode": "EN",
                     "filesDescription": [
                         {
-                            "filePath": "customers_export_1.csv",
+                            "fileCode": "customers_export_1.csv",
                             "fileContent": "All data about your Shopify business' customers"
                         }
                     ]
@@ -1133,7 +1225,7 @@
                     "languageCode": "EN",
                     "filesDescription": [
                         {
-                            "filePath": "orders_export_1.csv",
+                            "fileCode": "orders_export_1.csv",
                             "fileContent": "All about your Shopify business' purchased data (orders)"
                         }
                     ]
@@ -1147,7 +1239,7 @@
                     "languageCode": "EN",
                     "filesDescription": [
                         {
-                            "filePath": "products_export_1.csv",
+                            "fileCode": "products_export_1.csv",
                             "fileContent": "All data about your Shopify business' products"
                         }
                     ]
@@ -1161,7 +1253,7 @@
                     "languageCode": "EN",
                     "filesDescription": [
                         {
-                            "filePath": "discounts_export_1.csv",
+                            "fileCode": "discounts_export_1.csv",
                             "fileContent": "All data about your Shopify business' discounts codes"
                         }
                     ]
