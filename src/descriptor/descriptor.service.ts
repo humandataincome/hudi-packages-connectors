@@ -1,13 +1,12 @@
 import {Descriptor, FileContent, Procedure, SourceDescription} from "./descriptor.model";
 import {
     DataSourceCode, FileCodeAmazon,
-    FileCodeFacebook, FileCodeGoogle, FileCodeLinkedIn, FileCodeNetflix, FileCodeShopify,
+    FileCodeFacebook, FileCodeGoogle, FileCodeInstagram, FileCodeLinkedIn, FileCodeNetflix, FileCodeShopify,
     FileExtension,
     LanguageCode,
     RetrievingProcedureType
 } from "./descriptor.enum";
 import {ValidatorFiles} from "../validator";
-import {FileCodeInstagram} from "../../dist";
 import {DescriptorErrorEnum} from "../utils";
 
 
