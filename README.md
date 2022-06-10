@@ -104,8 +104,8 @@ const validatedZip: ValidationReturn = await ValidatorFiles.validateZipStream(re
 ```ts
 interface ValidationReturn {
     zipFile: Uint8Array;
-    includedFiles: (string | DataSourceCode)[];
-    excludedFiles: (string | DataSourceCode)[];
+    includedFiles: string[];
+    excludedFiles: string[];
 }
 ```
 ValidatorFiles class has two parameters to filter files based on their bytes sizes that can be changed:
