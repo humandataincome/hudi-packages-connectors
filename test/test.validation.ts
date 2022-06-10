@@ -22,7 +22,7 @@ async function validateStream() {
     const fs = require('fs');
     const path = require('path');
     const readStream = fs.createReadStream(
-        path.join(__dirname,"../src/mock/datasource zip files/facebook.zip"));
+        path.join(__dirname,"../src/mock/datasource zip files/amazon2.zip"));
     const readableStream = new ReadableStream({
         async start(controller) {
             readStream.on("data", (chunk: Buffer|string) => controller.enqueue(chunk));
@@ -32,17 +32,17 @@ async function validateStream() {
     });
     let x = await ValidatorFiles.validateZipStream(readableStream, {
         filterDataSource: {
-            dataSourceCode: DataSourceCode.FACEBOOK
+            dataSourceCode: DataSourceCode.AMAZON
         },
     throwExceptions: true});
-    //console.log(x)
+    console.log(x)
     /*
     const readableStream2 = fs.createReadStream(
         path.join(__dirname,"../src/mock/datasource zip files/ds3.zip"));
     let y = await ValidatorFiles.validateZipStream(readableStream2, {filterDataSource: {dataSourceCode: DataSourceCode.FACEBOOK}});
 
      */
-    console.log(await ProcessorFacebook.aggregatorFactory(x!.zipFile));
+    //console.log(await ProcessorFacebook.aggregatorFactory(x!.zipFile));
     //console.log(await ValidatorFiles.getPathsIntoZip(x!.zipFile));
 
     /*

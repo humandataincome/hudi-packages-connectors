@@ -142,13 +142,21 @@ export class ValidatorFiles {
     private static getUnzipStream(support: StreamingObjectsSupport): Unzip {
         let file: FileBuilder = {};
         return new Unzip((stream: UnzipFile) => {
-            stream.ondata = (err: FlateError | null, chunk: Uint8Array, final: boolean) => {
-                if (err) {
-                    console.log('An error occurred on ' + stream.name + ' file');
+            stream.ondata = (error: FlateError | null, chunk: Uint8Array, final: boolean) => {
+                if (error && !file[stream.name]) {
+                    this.logger.log('error', 'An error occurred while streaming: ' + stream.name, 'getUnzipStream');
+                    file[stream.name] = {
+                        fileChunk: new Uint8Array(),
+                        isCorrupted: true
+                    };
+                } else if (error && file[stream.name] && !file[stream.name].isCorrupted) {
+                    file[stream.name].isCorrupted = true;
                 }
                 this.buildFile(file, chunk, stream.name);
-                if (final && !file[stream.name].isCorrupted) {
-                    this.filterFile(file[stream.name].fileChunk, stream.name, support);
+                if (final) {
+                    if (!file[stream.name].isCorrupted) {
+                        this.filterFile(file[stream.name].fileChunk, stream.name, support);
+                    }
                     delete file[stream.name];
                 }
             };
@@ -160,15 +168,15 @@ export class ValidatorFiles {
         if (!this.isDirectory(fileName)) {
             if (fileContent && fileContent.length > 0) {
                 (recursiveZipPrefix) && (fileName = recursiveZipPrefix+'/'+fileName);
-                if (this.isValidSize(fileContent, fileName, support.options)) {
-                    const extension = this.getFileExtension(fileName);
-                    if (extension) {
-                        if (extension === FileExtension.ZIP) {
-                            const recursiveZipFiles = unzipSync(fileContent);
-                            for (let key in recursiveZipFiles) {
-                                this.filterFile(recursiveZipFiles[key], key, support, recursiveZipPrefix ? recursiveZipPrefix+'/'+fileName.slice(0, -4) : fileName.slice(0, -4));
-                            }
-                        } else {
+                const extension = this.getFileExtension(fileName);
+                if (extension) {
+                    if (extension === FileExtension.ZIP) {
+                        const recursiveZipFiles = unzipSync(fileContent);
+                        for (let key in recursiveZipFiles) {
+                            this.filterFile(recursiveZipFiles[key], key, support, recursiveZipPrefix ? recursiveZipPrefix+'/'+fileName.slice(0, -4) : fileName.slice(0, -4));
+                        }
+                    } else {
+                        if (this.isValidSize(fileContent, fileName, support.options)) {
                             if (this.isValidContent(extension, fileContent, fileName)) {
                                 if (support.options.filterDataSource) {
                                     let validPathName = (recursiveZipPrefix)
@@ -187,13 +195,14 @@ export class ValidatorFiles {
                             } else {
                                 support.returnObject.excludedFiles.push(fileName);
                             }
+                        } else {
+                            support.returnObject.excludedFiles.push(fileName);
                         }
-                    } else {
-                        support.returnObject.excludedFiles.push(fileName);
                     }
                 } else {
                     support.returnObject.excludedFiles.push(fileName);
                 }
+
             } else {
                 support.returnObject.excludedFiles.push(fileName);
             }
