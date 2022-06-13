@@ -62,7 +62,7 @@ interface ValidationReturnSupport {
     excludedFiles: string[];
 }
 
-interface FileBuilder {
+interface FilesBuilder {
     [fileName: string]: {fileChunk: Uint8Array, isCorrupted: boolean, isTooLarge?: boolean};
 }
 
@@ -113,7 +113,7 @@ export class ValidatorFiles {
 
     private static async unzipFileFromStream(support: StreamingObjectsSupport) {
         const unzipStream: Unzip = this.getUnzipStream(support);
-        unzipStream.register(UnzipInflate); //can't be async otherwise the RAM usage is too much
+        unzipStream.register(UnzipInflate); //can't be async otherwise the RAM usage would be too much
 
         const reader = support.readableStream.getReader();
         for (let finished = false; !finished;) {
@@ -124,13 +124,26 @@ export class ValidatorFiles {
         }
     }
 
-    private static buildFile(file: FileBuilder, chunk: Uint8Array, fileName: string) {
+    private static buildFile(file: FilesBuilder, chunk: Uint8Array, fileName: string, maxBytesFile: number) {
         if (chunk) {
-            if (file[fileName] && !file[fileName].isCorrupted && file[fileName].fileChunk.length > 0 ) {
-                const finalBuffer = new Uint8Array(file[fileName].fileChunk.length + chunk.length);
-                finalBuffer.set(new Uint8Array(file[fileName].fileChunk), 0);
-                finalBuffer.set(new Uint8Array(chunk), file[fileName].fileChunk.length);
-                file[fileName] = {fileChunk: finalBuffer, isCorrupted: file[fileName].isCorrupted};
+            if (file[fileName]) {
+                if (!file[fileName].isCorrupted) {
+                    if (!file[fileName].isTooLarge) {
+                        if (file[fileName].fileChunk.length > 0) {
+                            const finalBuffer = new Uint8Array(file[fileName].fileChunk.length + chunk.length);
+                            finalBuffer.set(new Uint8Array(file[fileName].fileChunk), 0);
+                            finalBuffer.set(new Uint8Array(chunk), file[fileName].fileChunk.length);
+                            file[fileName] = {fileChunk: finalBuffer, isCorrupted: file[fileName].isCorrupted};
+                            if (file[fileName].fileChunk.length > maxBytesFile) {
+                                file[fileName] = {
+                                    fileChunk: new Uint8Array,
+                                    isCorrupted: file[fileName].isCorrupted,
+                                    isTooLarge: true
+                                };
+                            }
+                        }
+                    }
+                }
             } else {
                 file[fileName] = {fileChunk: chunk, isCorrupted: false};
             }
@@ -140,21 +153,19 @@ export class ValidatorFiles {
     }
 
     private static getUnzipStream(support: StreamingObjectsSupport): Unzip {
-        let file: FileBuilder = {};
+        let file: FilesBuilder = {};
         return new Unzip((stream: UnzipFile) => {
             stream.ondata = (error: FlateError | null, chunk: Uint8Array, final: boolean) => {
-                if (error && !file[stream.name]) {
+                if (error) {
                     this.logger.log('error', 'An error occurred while streaming: ' + stream.name, 'getUnzipStream');
                     file[stream.name] = {
                         fileChunk: new Uint8Array(),
                         isCorrupted: true
                     };
-                } else if (error && file[stream.name] && !file[stream.name].isCorrupted) {
-                    file[stream.name].isCorrupted = true;
                 }
-                this.buildFile(file, chunk, stream.name);
+                this.buildFile(file, chunk, stream.name, (support.options && support.options.maxBytesZipFile) ? support.options.maxBytesZipFile : this.MAX_BYTE_ZIP);
                 if (final) {
-                    if (!file[stream.name].isCorrupted) {
+                    if (!file[stream.name].isCorrupted && !file[stream.name].isTooLarge) {
                         this.filterFile(file[stream.name].fileChunk, stream.name, support);
                     }
                     delete file[stream.name];
