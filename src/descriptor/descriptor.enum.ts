@@ -287,6 +287,7 @@ export enum FileCodeGoogle {
     PLAY_STORE_REVIEWS = 'Takeout/Google Play Store/Reviews.json',
     PROFILE = 'Takeout/Profile/Profile.json',
     LOCATION_HISTORY_SEMANTIC = 'Takeout/Location History/Semantic Location History/(\\d{4})/(\\d{4})_((JANUARY)|(FEBRUARY)|(MARCH)|(APRIL)|(MAY)|(JUNE)|(JULY)|(AUGUST)|(SEPTEMBER)|(OCTOBER)|(NOVEMBER)|(DECEMBER)).json',
+    MAPS_YOUR_PLACES_REVIEWS = 'Takeout/Maps \\(your places\\)/Reviews.json',
     TASKS = 'Takeout/Tasks/Tasks.json',
     //not parsed yet
     ACTIVITY_ADS = 'Takeout/My Activity/Ads/My Activity.json',
@@ -349,7 +350,6 @@ export enum FileCodeGoogle {
     MAPS_QUESTIONS_ANSWERS = 'Takeout/Maps/Questions and answers/Questions and answers.json',
     MAPS_REQUESTS_SERVICES = 'Takeout/Maps/Requests for services/Requests for services.json',
     MAPS_PERSONAL_FEEDBACK = 'Takeout/Maps/Your personalisation feedback/Your personalisation feedback.csv',
-    MAPS_YOUR_PLACES_REVIEWS = 'Takeout/Maps \\(your places\\)/Reviews.json', //originally:  'Maps (your places)/Reviews.json'
     MY_CONTACTS = 'Takeout/Contacts/My Contacts/My Contacts.csv',
     NEWS_ARTICLES = 'Takeout/News/articles.txt',
     NEWS_FOLLOWED_LOCATIONS = 'Takeout/News/followed_locations.txt',
@@ -469,8 +469,8 @@ export enum FileCodeNetflix {
 }
 
 export enum FileCodeShopify {
-    CUSTOMERS = 'customers_export_1.csv',
-    ORDERS = 'orders_export_1.csv',
-    PRODUCTS = 'products_export_1.csv',
-    DISCOUNTS = 'discounts_export_1.csv',
+    CUSTOMERS = 'customers_export_(\\d+).csv',
+    ORDERS = 'orders_export_(\\d+).csv',
+    PRODUCTS = 'products_export_(\\d+).csv',
+    DISCOUNTS = 'discounts_export_(\\d+)..csv',
 }

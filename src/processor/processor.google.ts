@@ -11,7 +11,7 @@ import {
 } from "../model";
 import {GoogleService} from "../service";
 import {ProcessorUtils} from "./processor.utils";
-import {MonthsFull} from "../utils/utils.enum";
+import {MonthsFull} from "../utils";
 import {ProcessorOptions} from "./index";
 import Logger from "../utils/logger";
 import {Unzipped, unzipSync} from "fflate";

@@ -1205,6 +1205,196 @@
             ]
         },
         {
+            "sourceCode": "GOOGLE",
+            "fileDescriptions": [
+                {
+                    "languageCode": "EN",
+                    "filesDescription": [
+                        {
+                            "fileCode": "ACCOUNT_INFO",
+                            "fileContent": "Account ID, Emails, IP address and the creation date account"
+                        },
+                        {
+                            "fileCode": "PLAY_STORE_REVIEWS",
+                            "fileContent": "Your Play Store app reviews and ratings"
+                        },
+                        {
+                            "fileCode": "LOCATION_HISTORY_SEMANTIC",
+                            "fileContent": "Log of your movements (by car, by train, flying, in car, walking, etc) of that month"
+                        },
+                        {
+                            "fileCode": "ACTIVITY_ADS",
+                            "fileContent": "List of links to Ads proposed to you"
+                        },
+                        {
+                            "fileCode": "ACTIVITY_APPS",
+                            "fileContent": "Your Google apps activities"
+                        },
+                        {
+                            "fileCode": "ACTIVITY_CHROME",
+                            "fileContent": "List of activities on Google Chrome"
+                        },
+                        {
+                            "fileCode": "ACTIVITY_DISCOVER",
+                            "fileContent": "List of cards in your feed"
+                        },
+                        {
+                            "fileCode": "ACTIVITY_NEWS",
+                            "fileContent": "List of news yu have seen on Google News"
+                        },
+                        {
+                            "fileCode": "ACTIVITY_SEARCH",
+                            "fileContent": "List of searches on Google"
+                        },
+                        {
+                            "fileCode": "ACTIVITY_MAPS",
+                            "fileContent": "List of activities on Google Maps"
+                        },
+                        {
+                            "fileCode": "ACTIVITY_VIDEO_SEARCH",
+                            "fileContent": "List of video watched on Google"
+                        },
+                        {
+                            "fileCode": "ACTIVITY_SHOPPING",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "ACTIVITY_TAKEOUT",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "ACTIVITY_YOUTUBE",
+                            "fileContent": "List of YouTube video watched on YouTube"
+                        },
+                        {
+                            "fileCode": "APP_HOME_HISTORY",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "BLOGGER_PROFILE_CSV",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "BLOGGER_PROFILE_JSON",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "BUSINESS_PERSONALIZATION",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "CHROME_AUTOFILL",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "FIT_SESSION",
+                            "fileContent": "Data about running and walking session"
+                        },
+                        {
+                            "fileCode": "FIT_DAILY_ACTIVITIES",
+                            "fileContent": "Data about daily fitness activity sessions"
+                        },
+                        {
+                            "fileCode": "LOCATION_HISTORY_RECORDS",
+                            "fileContent": "All your movements records into one file"
+                        },
+                        {
+                            "fileCode": "PAY_TRANSACTIONS",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "CHROME_BROWSER_HISTORY",
+                            "fileContent": "Your browser history from Chrome"
+                        },
+                        {
+                            "fileCode": "PLAY_STORE_LIBRARY",
+                            "fileContent": "List of books, songs, apps, documents in your libraries"
+                        },
+                        {
+                            "fileCode": "PLAY_STORE_ORDER_HISTORY",
+                            "fileContent": "List of orders you made on the Play Store"
+                        },
+                        {
+                            "fileCode": "PLAY_STORE_PURCHASE_HISTORY",
+                            "fileContent": "List of purchases you made on the Play Store"
+                        },
+                        {
+                            "fileCode": "PROFILE",
+                            "fileContent": "Your names, emails, birthdate, gender, etc."
+                        },
+                        {
+                            "fileCode": "MAPS_YOUR_PLACES_REVIEWS",
+                            "fileContent": "All your reviews of locations on Google Maps"
+                        },
+                        {
+                            "fileCode": "PLAY_MOVIES_WATCHLIST",
+                            "fileContent": "Your watchlist on Google Play Movies"
+                        },
+                        {
+                            "fileCode": "SAVED_DEFAULT_LIST",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "SAVED_FAVOURITE_PAGES",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "SAVED_FAVOURITE_PLACES",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "SHOPPING_ADDRESSES",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "SHOPPING_COLLECTION_POINTS",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "SHOPPING_LOYALTY",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "SHOPPING_MERCHANT_REVIEWS",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "SHOPPING_CONTACT_EMAILS",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "SHOPPING_ORDERS",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "SHOPPING_PERSON_COLLECTING",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "SHOPPING_PRODUCT_REVIEWS",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "STADIA_GAMING_DATA_HISTORY",
+                            "fileContent": "Data about the game you have played"
+                        },
+                        {
+                            "fileCode": "STADIA_GAMING_DATA_LIBRARY",
+                            "fileContent": "Games in your Stadia Library"
+                        },
+                        {
+                            "fileCode": "YOUTUBE_LIKED_VIDEOS",
+                            "fileContent": "List of video on Youtube that you have liked"
+                        },
+                        {
+                            "fileCode": "YOUTUBE_PLAYLIST_UPLOADS",
+                            "fileContent": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "sourceCode": "SHOPIFY_CUSTOMERS",
             "fileDescriptions": [
                 {
