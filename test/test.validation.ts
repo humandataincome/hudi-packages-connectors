@@ -11,23 +11,39 @@ import {
 } from 'node:stream/web';
 
 async function testValidation(){
-    await validateStream();
-    //validatingTest();
+    //await validateStream();
+    //await validateZippingFiles();
+    validatingTest();
     //validatingBigFileTest();
     //mergingTest();
     //await sequentialValidationsProcessingTest();
+}
+
+async function validateZippingFiles() {
+    const fs = require('fs');
+    const path = require('path');
+    fs.readFile(path.join(__dirname,"../src/mock/datasource files/amazon/Advertising.2/Advertising.AdvertiserAudiences.csv"),async function(err:ErrnoException, data1: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/datasource files/amazon/Digital-Ordering.2/Digital Items.csv"),async function(err:ErrnoException, data2: Buffer) {
+            console.log(await ValidatorFiles.getPathsIntoZip(ValidatorFiles.zipFiles({
+                'amazon/Advertising.2/Advertising.AdvertiserAudiences.csv': data1,
+                'amazon/Digital-Ordering.2/Digital Items.csv': data2
+            })));
+        });
+    });
 }
 
 async function validateStream() {
     const fs = require('fs');
     const path = require('path');
     const readStream = fs.createReadStream(
-        path.join(__dirname,"../src/mock/datasource zip files/amazon2.zip"));
+        path.join(__dirname,"../src/mock/datasource zip files/film2.zip"));
     const readableStream = new ReadableStream({
         async start(controller) {
-            readStream.on("data", (chunk: Buffer|string) => controller.enqueue(chunk));
+            readStream.on("data", (chunk: Buffer|string) => {
+                controller.enqueue(chunk);
+            });
             readStream.on("end", () => controller.close());
-            readStream.on("error", () => controller.error())
+            readStream.on("error", () => controller.error());
         }
     });
     let x = await ValidatorFiles.validateZipStream(readableStream, {
@@ -35,29 +51,7 @@ async function validateStream() {
             dataSourceCode: DataSourceCode.AMAZON
         },
     throwExceptions: true});
-    console.log(x)
-    /*
-    const readableStream2 = fs.createReadStream(
-        path.join(__dirname,"../src/mock/datasource zip files/ds3.zip"));
-    let y = await ValidatorFiles.validateZipStream(readableStream2, {filterDataSource: {dataSourceCode: DataSourceCode.FACEBOOK}});
-
-     */
-    //console.log(await ProcessorFacebook.aggregatorFactory(x!.zipFile));
-    //console.log(await ValidatorFiles.getPathsIntoZip(x!.zipFile));
-
-    /*
-    fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/facebook.zip"),async function(err:ErrnoException, data1: Buffer) {
-
-        console.log(x = await ValidatorFiles.validateZip(data1,
-            {
-                filterDataSource: {
-                    dataSourceCode: DataSourceCode.FACEBOOK,
-                }
-            }));
-    });
-    */
-    //console.log(await ValidatorFiles.getPathsIntoZip(x!.zipFile));
-
+    console.log(x);
 }
 
 function mergingTest() {
@@ -82,10 +76,8 @@ function mergingTest() {
                                 dataSourceCode: DataSourceCode.AMAZON,
                             }
                         });
-                    //console.log(validation1!.zipFile, validation2!.zipFile, validation3!.zipFile)
                     const mergedFile = await ValidatorFiles.mergeZipFiles([validation1!.zipFile, validation2!.zipFile, validation3!.zipFile], {throwExceptions: true, maxBytesZipFile: 3e9});
                     console.log(await ValidatorFiles.getPathsIntoZip(mergedFile!));
-                    //console.log(await ProcessorFacebook.aggregatorFactory(mergedFile!))
                 });
             });
         });
@@ -129,23 +121,22 @@ function validatingTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
-            await (await ValidatorFiles.getPathsIntoZip(data))!.forEach((pathName) => console.log(pathName));
+        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/ds2.zip"),async function(err:ErrnoException, data: Buffer) {
+            //await (await ValidatorFiles.getPathsIntoZip(data))!.forEach((pathName) => console.log(pathName));
             if (err) {
                 console.log(err)
             }
             ValidatorFiles.MAX_BYTE_FILE_SIZE = 10e10;
             ValidatorFiles.MIN_BYTE_FILE_SIZE = 1;
-            const code = DataSourceCode.FACEBOOK;
+            const code = DataSourceCode.AMAZON;
             const zip = await ValidatorFiles.validateZip(data,
                 {
                     filterDataSource: {
                         dataSourceCode: code
                     }
-                });
-            console.log(await ValidatorFiles.getPathsIntoZip(zip!.zipFile));
-            const filteredZip = await ValidatorFiles.validatorSelector(code)!.filterFilesIntoZip(zip!.zipFile, {fileCodes: ['Advertising.3/Advertising.AdvertiserAudiences.csv', FileCodeAmazon.ADV_CLICKS]})
-            console.log(await ValidatorFiles.getPathsIntoZip(filteredZip!));
+                }
+                );
+            console.log(zip);
         });
     } catch (e: any) {
         if(e.message === `${ValidationErrorEnum.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
