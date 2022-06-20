@@ -1395,6 +1395,118 @@
             ]
         },
         {
+            "sourceCode": "LINKEDIN",
+            "fileDescriptions": [
+                {
+                    "languageCode": "EN",
+                    "filesDescription": [
+                        {
+                            "fileCode": "JOBS_APPLICATIONS",
+                            "fileContent": "Your job applications"
+                        },
+                        {
+                            "fileCode": "JOBS_SEEKER_PREFERENCES",
+                            "fileContent": "Your preferences over job seeking"
+                        },
+                        {
+                            "fileCode": "ADS_CLICKED",
+                            "fileContent": "Ads IDs that you have clicked"
+                        },
+                        {
+                            "fileCode": "ADS_TARGETING",
+                            "fileContent": "Your data given to Advertisers to promote their Adv"
+                        },
+                        {
+                            "fileCode": "COMPANY_FOLLOWS",
+                            "fileContent": "List of companies that you follow"
+                        },
+                        {
+                            "fileCode": "CONNECTIONS",
+                            "fileContent": "List of people connected to you"
+                        },
+                        {
+                            "fileCode": "EDUCATION",
+                            "fileContent": "Records of your studies"
+                        },
+                        {
+                            "fileCode": "EMAIL_ADDRESSES",
+                            "fileContent": "Your email address linked to your LinkedIn profile"
+                        },
+                        {
+                            "fileCode": "ENDORSEMENT_RECEIVED_INFO_1",
+                            "fileContent": "Your skills endorsed by other people"
+                        },
+                        {
+                            "fileCode": "INFERENCES_ABOUT_YOU",
+                            "fileContent": "Information inferred by LinkedIn over you"
+                        },
+                        {
+                            "fileCode": "LEARNING",
+                            "fileContent": "Your learning courses"
+                        },
+                        {
+                            "fileCode": "POSITIONS",
+                            "fileContent": "Your working positions"
+                        },
+                        {
+                            "fileCode": "PROFILE",
+                            "fileContent": "Your names, birthdate, headline, summary, industry, geo location"
+                        },
+                        {
+                            "fileCode": "SEARCH_QUERIES",
+                            "fileContent": "Your searches on LinkedIn"
+                        },
+                        {
+                            "fileCode": "SKILLS",
+                            "fileContent": "Skills you have submitted on your profile"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sourceCode": "NETFLIX",
+            "fileDescriptions": [
+                {
+                    "languageCode": "EN",
+                    "filesDescription": [
+                        {
+                            "fileCode": "ACCOUNT_DETAILS",
+                            "fileContent": "The file contains your names, your email, your country code"
+                        },
+                        {
+                            "fileCode": "ACCOUNT_SUB_HISTORY",
+                            "fileContent": "Details about your subscriptions history"
+                        },
+                        {
+                            "fileCode": "CONTENT_INTERACTION_PREFERENCES",
+                            "fileContent": "Preferred titles and categories for each account’s profile"
+                        },
+                        {
+                            "fileCode": "CONTENT_INTERACTION_MY_LIST",
+                            "fileContent": "List of titles each account’s profile has seen"
+                        },
+                        {
+                            "fileCode": "CONTENT_INTERACTION_SEARCH_HISTORY",
+                            "fileContent": "List of searches your account’s profile have made"
+                        },
+                        {
+                            "fileCode": "CONTENT_INTERACTION_VIEWING_ACTIVITY  ",
+                            "fileContent": "All your account’s viewing session they have made"
+                        },
+                        {
+                            "fileCode": "PAYMENT_AND_BILLING_BILLING_HISTORY",
+                            "fileContent": "All payments and billings details"
+                        },
+                        {
+                            "fileCode": "PROFILES",
+                            "fileContent": "Details about all the profiles associated to your account"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "sourceCode": "SHOPIFY_CUSTOMERS",
             "fileDescriptions": [
                 {

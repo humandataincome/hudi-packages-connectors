@@ -36,7 +36,7 @@ async function validateStream() {
     const fs = require('fs');
     const path = require('path');
     const readStream = fs.createReadStream(
-        path.join(__dirname,"../src/mock/datasource zip files/film2.zip"));
+        path.join(__dirname,"../src/mock/datasource zip files/ds2.zip"));
     const readableStream = new ReadableStream({
         async start(controller) {
             readStream.on("data", (chunk: Buffer|string) => {
@@ -126,8 +126,6 @@ function validatingTest() {
             if (err) {
                 console.log(err)
             }
-            ValidatorFiles.MAX_BYTE_FILE_SIZE = 10e10;
-            ValidatorFiles.MIN_BYTE_FILE_SIZE = 1;
             const code = DataSourceCode.AMAZON;
             const zip = await ValidatorFiles.validateZip(data,
                 {
