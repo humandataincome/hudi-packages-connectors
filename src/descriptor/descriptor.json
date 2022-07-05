@@ -7,7 +7,7 @@
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Instagram. Do not change the composition of the folders and files within them. File zip size shall not exceed 2 GB.",
+                    "descriptionText": "The Datasource contains all your personal information relating to your use of Instagram. Do not change the composition of the folders and files within them.",
                     "procedures": [
                         {
                             "procedureType": "DEFAULT",
@@ -128,7 +128,7 @@
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Instagram. Non modificare la composizione delle cartelle e dei file al loro interno. La dimensione del file Zip non deve superare i 2 GB.",
+                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Instagram. Non modificare la composizione delle cartelle e dei file al loro interno.",
                     "procedures": [
                         {
                             "procedureType": "DEFAULT",
@@ -256,7 +256,7 @@
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Facebook. Do not change the composition of the folders and files within them. File zip size shall not exceed 2 GB.",
+                    "descriptionText": "The Datasource contains all your personal information relating to your use of Facebook. Do not change the composition of the folders and files within them.",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",
@@ -312,7 +312,7 @@
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Facebook. Non modificare la composizione delle cartelle e dei file al loro interno. La dimensione del file Zip non deve superare i 2 GB.",
+                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Facebook. Non modificare la composizione delle cartelle e dei file al loro interno.",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",
@@ -375,7 +375,7 @@
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Amazon. Do not change the composition of the folders and files within them. File zip size shall not exceed 2 GB.",
+                    "descriptionText": "The Datasource contains all your personal information relating to your use of Amazon. Do not change the composition of the folders and files within them.",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",
@@ -454,7 +454,7 @@
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Google. Do not change the composition of the folders and files within them. File zip size shall not exceed 2 GB.",
+                    "descriptionText": "The Datasource contains all your personal information relating to your use of Google. Do not change the composition of the folders and files within them.",
                     "procedures": [
                         {
                             "procedureType": "DESKTOP",
