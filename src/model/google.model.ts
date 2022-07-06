@@ -196,22 +196,22 @@ export interface ProbableActivityGO {
 }
 
 export enum ActivityTypeGO {
-    IN_PASSENGER_VEHICLE,
-    MOTORCYCLING,
-    STILL,
-    IN_BUS,
-    WALKING,
-    CYCLING,
-    IN_TRAIN,
-    IN_SUBWAY,
-    RUNNING,
-    FLYING,
-    IN_FERRY,
-    SAILING,
-    SKIING,
-    IN_TRAM,
-    IN_VEHICLE,
-    UNKNOWN_ACTIVITY_TYPE
+    UNKNOWN_ACTIVITY_TYPE = 'UNKNOWN_ACTIVITY_TYPE',
+    IN_PASSENGER_VEHICLE = 'IN_PASSENGER_VEHICLE',
+    MOTORCYCLING = 'MOTORCYCLING',
+    STILL = 'STILL',
+    IN_BUS = 'IN_BUS',
+    WALKING = 'WALKING',
+    CYCLING = 'CYCLING',
+    IN_TRAIN = 'IN_TRAIN',
+    IN_SUBWAY = 'IN_SUBWAY',
+    RUNNING = 'RUNNING',
+    FLYING = 'FLYING',
+    IN_FERRY = 'IN_FERRY',
+    SAILING = 'SAILING',
+    SKIING = 'SKIING',
+    IN_TRAM = 'IN_TRAM',
+    IN_VEHICLE = 'IN_VEHICLE'
 }
 
 export interface PointGO {
