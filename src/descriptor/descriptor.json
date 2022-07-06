@@ -403,7 +403,7 @@
                                 {
                                     "index": 5,
                                     "description": "Once you receive the files list, download and zip all of them into one single zip file",
-                                    "attributeDescription": "<p>Once you receive the <b>files list</b>,download and zip all of them into one <b>single zip file</b></p>"
+                                    "attributeDescription": "<p>Once you receive the files, download and zip all of them into one single zip file or upload each file one by one></p>"
                                 }
                             ]
                         }
@@ -439,7 +439,7 @@
                                 {
                                     "index": 5,
                                     "description": "Una volta ricevuta la lista dei file, scaricali tutti e zippali in un unico file zip",
-                                    "attributeDescription": "<p>Una volta ricevuta la <b>lista dei file</b>, scaricali tutti e zippali in un <b>unico file zip</b></p>"
+                                    "attributeDescription": "<p>Una volta ricevuta la lista dei file, scaricali tutti e zippali in un unico file oppure carica tutti i file uno alla volta</p>"
                                 }
                             ]
                         }
@@ -482,7 +482,7 @@
                                 {
                                     "index": 5,
                                     "description": "Select \"Export once\" from Frequency menu, \".zip\" and \"2 GB\" from File type & size menu",
-                                    "attributeDescription": "<p>Select <b>Export once</b> from Frequency menu, <b>.zip and 2 GB</b> from File type & size menu</p>"
+                                    "attributeDescription": "<p>Select <b>Export once</b> from Frequency menu, <b>.zip</b> and <b>2 GB</b> from File type & size menu</p>"
                                 },
                                 {
                                     "index": 6,
