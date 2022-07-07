@@ -44,25 +44,24 @@ export class ProcessorGoogle {
         const model: GoogleDataAggregator = {};
         let result, regex;
         let hasSemanticLocations = false;
-        let frequencyDistanceActivity: Array<[ActivityTypeGO, number, number]> = [
-            //ActivityType, Frequency, Sum of Distances
-            [ActivityTypeGO.IN_PASSENGER_VEHICLE, 0, 0],
-            [ActivityTypeGO.MOTORCYCLING, 0, 0],
-            [ActivityTypeGO.STILL, 0, 0],
-            [ActivityTypeGO.IN_BUS, 0, 0],
-            [ActivityTypeGO.WALKING, 0, 0],
-            [ActivityTypeGO.CYCLING, 0, 0],
-            [ActivityTypeGO.IN_TRAIN, 0, 0],
-            [ActivityTypeGO.IN_SUBWAY, 0, 0],
-            [ActivityTypeGO.RUNNING, 0, 0],
-            [ActivityTypeGO.FLYING, 0, 0],
-            [ActivityTypeGO.IN_FERRY, 0, 0],
-            [ActivityTypeGO.SAILING, 0, 0],
-            [ActivityTypeGO.SKIING, 0, 0],
-            [ActivityTypeGO.IN_TRAM, 0, 0],
-            [ActivityTypeGO.IN_VEHICLE, 0, 0],
-            [ActivityTypeGO.UNKNOWN_ACTIVITY_TYPE, 0, 0],
-        ];
+        let frequencyDistanceActivities: Record<ActivityTypeGO, [number, number]> = {
+            'IN_PASSENGER_VEHICLE': [0, 0],
+            'MOTORCYCLING': [0, 0],
+            'STILL': [0, 0],
+            'IN_BUS': [0, 0],
+            'WALKING': [0, 0],
+            'CYCLING': [0, 0],
+            'IN_TRAIN': [0, 0],
+            'IN_SUBWAY': [0, 0],
+            'RUNNING': [0, 0],
+            'FLYING': [0, 0],
+            'IN_FERRY': [0, 0],
+            'SAILING': [0, 0],
+            'SKIING': [0, 0],
+            'IN_TRAM': [0, 0],
+            'IN_VEHICLE': [0, 0],
+            'UNKNOWN_ACTIVITY_TYPE': [0, 0],
+        };
         for (let pathName in files) {
             const file = files[pathName];
             const data = Buffer.from(file, file.byteOffset, file.length);
@@ -112,43 +111,19 @@ export class ProcessorGoogle {
                     if (result) {
                         if (this.monthIsInRange(pathName, timeIntervalDays)) {
                             result = <SemanticLocationsGO>await GoogleService.parseSemanticLocations(data);
-                            (result.listActivities.length > 0) && result.listActivities.forEach((item: ActivitySegmentGO) => {
-                                if (item.distance && item.activityType) {
+                            (result.listActivities && result.listActivities.length > 0) && (result.listActivities.forEach((item: ActivitySegmentGO) => {
+                                if (item.distance && item.activityType && ActivityTypeGO[item.activityType]) {
                                     (!hasSemanticLocations) && (hasSemanticLocations = true);
-                                    frequencyDistanceActivity[parseInt(ActivityTypeGO[item.activityType])][1]++;
-                                    frequencyDistanceActivity[parseInt(ActivityTypeGO[item.activityType])][2] += item.distance;
+                                    frequencyDistanceActivities[ActivityTypeGO[item.activityType]][0]++;
+                                    frequencyDistanceActivities[ActivityTypeGO[item.activityType]][1] += item.distance;
                                 }
-                            });
+                            }));
                         }
                     }
                 }
             }
         }
-        if (hasSemanticLocations) {
-            frequencyDistanceActivity
-                .sort((a, b) => {
-                    if (a[2] > b[2]) {
-                        return -1;
-                    }
-                    if (a[2] < b[2]) {
-                        return 1;
-                    }
-                    return 0;
-                })
-                .slice(0, 3)
-                .forEach((value) => {
-                    if (!model.mostFrequentActivityTypes) {
-                        model.mostFrequentActivityTypes = [];
-                    }
-                    if (!model.averageDistancesForActivityType) {
-                        model.averageDistancesForActivityType = [];
-                    }
-                    if (value[2] > 0) {
-                        model.mostFrequentActivityTypes.push(value[0]);
-                        model.averageDistancesForActivityType.push(value[2] / value[1]);
-                    }
-                });
-        }
+        (hasSemanticLocations) && (model.frequencyDistanceActivities = frequencyDistanceActivities);
         return !ValidatorFiles.objectIsEmpty(model) ? model : undefined;
     }
 

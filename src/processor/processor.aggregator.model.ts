@@ -118,9 +118,8 @@ export interface GoogleDataAggregator {
     recoveryEmail?: string;
     recoverySMS?: string;
     creationAccount?: Date;
-    //from all SEMANTIC_LOCATION_HISTORY
-    mostFrequentActivityTypes?: Array<ActivityTypeGO>;
-    averageDistancesForActivityType?: Array<number>;
+    //from all SEMANTIC_LOCATION_HISTORY, it returns corresponding number of times and km for each activity type
+    frequencyDistanceActivities?: Record<ActivityTypeGO, [number, number]>;
     //from PLAY_STORE_REVIEWS
     counterPlayStoreReviewsTI?: number;
     averagePlayStoreReviewsTI?: number;
