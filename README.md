@@ -18,7 +18,8 @@ A set of connectors to parse, describe, validate and process the data sources pr
 | *LinkedIn*      |     Partial     |      &check;       |       &check;        |         &cross;         |
 | *Netflix*       |     Partial     |      &check;       |       &check;        |         &cross;         |
 | *Shopify*       |     &check;     |      &check;       |       &check;        |         &cross;         |
-| *Twitter*       |     &cross;     |      &cross;       |       &cross;        |         &cross;         |
+| *Twitter*       |     &cross;     |      &check;       |       &check;        |         &cross;         |
+| *TikTok*        |     &cross;     |      &cross;       |       &cross;        |         &cross;         |
 | *Twitch*        |     &cross;     |      &cross;       |       &cross;        |         &cross;         |
 
 ## How to use the library:
