@@ -1,4 +1,5 @@
 import {
+    ActivityTypeGO,
     DataSourceCode,
     FileExtension, ProcessorAmazon,
     ProcessorFacebook, ProcessorGoogle,
@@ -9,10 +10,10 @@ import {
 import ErrnoException = NodeJS.ErrnoException;
 
 function testProcessing(){
-    validatorAndProcessingInstagramTest();
+    //validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
     //validatorAndProcessingAmazonTest();
-    //validatorAndProcessingGoogleTest();
+    validatorAndProcessingGoogleTest();
     //validatorAndProcessingShopifyTest();
 }
 
@@ -100,7 +101,7 @@ function validatorAndProcessingGoogleTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/google.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/google_en.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validation = await ValidatorFiles.validateZip(data,
                 {
@@ -110,10 +111,11 @@ function validatorAndProcessingGoogleTest() {
                     }
                 });
             //validation = await ValidatorGoogle.getInstance().filterFilesIntoZip(validation);
-            console.log(await ProcessorGoogle.aggregatorFactory(validation!.zipFile, {
-                timeIntervalDays: 180,
+            const x = await ProcessorGoogle.aggregatorFactory(validation!.zipFile, {
+                timeIntervalDays: 365,
                 throwExceptions: false,
-            }))
+            });
+            console.log(x);
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {

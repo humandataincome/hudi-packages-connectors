@@ -667,9 +667,74 @@
                     ]
                 }
             ]
+        },
+        {
+            "sourceName": "Instagram",
+            "sourceCode": "INSTAGRAM",
+            "supportedFormats": [
+                "zip"
+            ],
+            "retrievingProcedures": [
+                {
+                    "languageCode": "EN",
+                    "descriptionText": "The Datasource contains all your personal information relating to your use of Twitter. Do not change the composition of the folders and files within them.",
+                    "procedures": [
+                        {
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Go to this page",
+                                    "attributeDescription": "<p>Go to this <a href=\"https://twitter.com/settings/download_your_data\" target=\"_blank\">page</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Click on the Request archive button under the Twitter data section",
+                                    "attributeDescription": "<p>Click on the <b>Request archive</b> button under the <b>Twitter data</b> section</p>"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "languageCode": "IT",
+                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Twitter. Non modificare la composizione delle cartelle e dei file al loro interno",
+                    "procedures": [
+                        {
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Vai a questa pagina",
+                                    "attributeDescription": "<p>Vai a questa <a href=\"https://twitter.com/settings/download_your_data\" target=\"_blank\">pagina</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "",
+                                    "attributeDescription": "<p></p>"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "datasourceFilesDescriptions": [
+        {
+            "sourceCode": "TWITTER",
+            "fileDescriptions": [
+                {
+                    "languageCode": "EN",
+                    "filesDescription": [
+                        {
+                            "fileCode": "",
+                            "fileContent": ""
+                        }
+                    ]
+                }
+            ]
+        },
         {
             "sourceCode": "INSTAGRAM",
             "fileDescriptions": [
