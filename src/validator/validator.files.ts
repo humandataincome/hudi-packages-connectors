@@ -17,6 +17,7 @@ import {DataSourceCode, FileCode, FileExtension} from "../descriptor";
 import {Parser} from "../utils/parser";
 import Logger from "../utils/logger";
 import {ValidationErrorEnum} from "../utils";
+import {ValidatorTwitter} from "./validator.twitter";
 
 
 export interface ValidateZipOptions {
@@ -194,7 +195,7 @@ export class ValidatorFiles {
                                         : (this.getValidPathName(fileName, support.options));
                                     if (validPathName) {
                                         support.validFiles[validPathName] = fileContent;
-                                        support.returnObject.includedFiles.push(validPathName);
+                                        support.returnObject.includedFiles.push(fileName);
                                     } else {
                                         support.returnObject.excludedFiles.push(fileName);
                                     }
@@ -378,6 +379,8 @@ export class ValidatorFiles {
                 return ValidatorShopify.getInstance();
             case DataSourceCode.SHOPIFY_PRODUCTS:
                 return ValidatorShopify.getInstance();
+            case DataSourceCode.TWITTER:
+                return ValidatorTwitter.getInstance();
             default:
                 this.logger.log('info', `${dataSourceCode} is not a valid DataSourceCode`, 'validatorSelector');
                 return undefined;

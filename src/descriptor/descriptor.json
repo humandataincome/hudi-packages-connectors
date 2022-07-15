@@ -669,8 +669,8 @@
             ]
         },
         {
-            "sourceName": "Instagram",
-            "sourceCode": "INSTAGRAM",
+            "sourceName": "Twitter",
+            "sourceCode": "TWITTER",
             "supportedFormats": [
                 "zip"
             ],

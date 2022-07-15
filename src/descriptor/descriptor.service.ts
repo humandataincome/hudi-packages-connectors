@@ -1,7 +1,14 @@
 import {Descriptor, FileContent, Procedure, SourceDescription} from "./descriptor.model";
 import {
-    DataSourceCode, FileCodeAmazon,
-    FileCodeFacebook, FileCodeGoogle, FileCodeInstagram, FileCodeLinkedIn, FileCodeNetflix, FileCodeShopify,
+    DataSourceCode,
+    FileCodeAmazon,
+    FileCodeFacebook,
+    FileCodeGoogle,
+    FileCodeInstagram,
+    FileCodeLinkedIn,
+    FileCodeNetflix,
+    FileCodeShopify,
+    FileCodeTwitter,
     FileExtension,
     LanguageCode,
     RetrievingProcedureType
@@ -212,6 +219,8 @@ export class DescriptorService {
             || dataSourceCode === DataSourceCode.SHOPIFY_DISCOUNTS
             || dataSourceCode === DataSourceCode.SHOPIFY_CUSTOMERS) {
             return FileCodeShopify;
+        } else if (dataSourceCode === DataSourceCode.TWITTER) {
+            return FileCodeTwitter;
         } else {
             return undefined;
         }

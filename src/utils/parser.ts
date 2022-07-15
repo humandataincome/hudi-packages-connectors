@@ -24,8 +24,6 @@ export class Parser {
                 if (match && match[1]) {
                     if (match[1] !== '[ ]') {
                         return Buffer.from(match[1]);
-                    } else {
-                        //this.logger.log('info', `Empty file`,'extractJsonFromTwitterFile');
                     }
                 }
             }

@@ -121,16 +121,15 @@ function validatingTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/ds2.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/twitter.zip"),async function(err:ErrnoException, data: Buffer) {
             //await (await ValidatorFiles.getPathsIntoZip(data))!.forEach((pathName) => console.log(pathName));
             if (err) {
                 console.log(err)
             }
-            const code = DataSourceCode.AMAZON;
             const zip = await ValidatorFiles.validateZip(data,
                 {
                     filterDataSource: {
-                        dataSourceCode: code
+                        dataSourceCode: DataSourceCode.TWITTER,
                     }
                 }
                 );

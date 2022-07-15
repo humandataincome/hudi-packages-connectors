@@ -2,7 +2,7 @@ import {ValidatorDatasource} from "./validator.datasource";
 import Logger from "../utils/logger";
 import {FileCodeTwitter} from "../descriptor";
 
-export class ValidatorFTwitter extends ValidatorDatasource {
+export class ValidatorTwitter extends ValidatorDatasource {
     protected readonly logger = new Logger("Twitter Validator");
 
     protected DEFAULT_FILE_CODES: FileCodeTwitter[] = [
@@ -33,7 +33,7 @@ export class ValidatorFTwitter extends ValidatorDatasource {
         const x: string[] = path.split('/');
         //messages/message_requests OR message/inbox cases
         if (x[x.length - 2] === 'data') {
-            return + x[x.length - 2] + '/' + x[x.length - 1];
+            return x[x.length - 2] + '/' + x[x.length - 1];
         }
         //TODO: media files path validation
         return path;

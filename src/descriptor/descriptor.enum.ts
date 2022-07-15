@@ -10,6 +10,7 @@ export enum DataSourceCode {
     SHOPIFY_ORDERS = 'SHOPIFY_ORDERS',
     SHOPIFY_PRODUCTS = 'SHOPIFY_PRODUCTS',
     SHOPIFY_DISCOUNTS = 'SHOPIFY_DISCOUNTS',
+    TWITTER = 'TWITTER'
 }
 
 export enum RetrievingProcedureType {
