@@ -8,7 +8,6 @@ export class ValidatorTwitter extends ValidatorDatasource {
     protected DEFAULT_FILE_CODES: FileCodeTwitter[] = [
         FileCodeTwitter.PROFILE,
         FileCodeTwitter.ACCOUNT,
-        FileCodeTwitter.ACCOUNT_CREATION,
         FileCodeTwitter.AD_ENGAGEMENTS,
         FileCodeTwitter.AD_IMPRESSIONS,
         FileCodeTwitter.AD_MOBILE_CONVERSIONS_ATTRIBUTED,

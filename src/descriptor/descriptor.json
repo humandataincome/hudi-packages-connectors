@@ -728,8 +728,80 @@
                     "languageCode": "EN",
                     "filesDescription": [
                         {
-                            "fileCode": "",
+                            "fileCode": "ACCOUNT",
+                            "fileContent": "Your account email, username, ID and creation date"
+                        },
+                        {
+                            "fileCode": "AD_ENGAGEMENTS",
                             "fileContent": ""
+                        },
+                        {
+                            "fileCode": "AD_IMPRESSIONS",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "AD_MOBILE_CONVERSIONS_ATTRIBUTED",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "AD_MOBILE_CONVERSIONS_UNATTRIBUTED",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "AD_ONLINE_CONVERSIONS_ATTRIBUTED",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "AD_ONLINE_CONVERSIONS_UNATTRIBUTED",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "AGE_INFO",
+                            "fileContent": "Information about your age"
+                        },
+                        {
+                            "fileCode": "FOLLOWER",
+                            "fileContent": "IDs and links of your followers"
+                        },
+                        {
+                            "fileCode": "FOLLOWING",
+                            "fileContent": "IDs and links of you are following"
+                        },
+                        {
+                            "fileCode": "LIKE",
+                            "fileContent": "Your likes to tweets"
+                        },
+                        {
+                            "fileCode": "LIST_CREATED",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "LIST_MEMBER",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "LIST_SUBSCRIBED",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "PERSONALIZATION",
+                            "fileContent": "Info about language, gender, interests, location history, shows, estimated age"
+                        },
+                        {
+                            "fileCode": "PROFILE",
+                            "fileContent": "Your profile bio, avatar, header, website and location"
+                        },
+                        {
+                            "fileCode": "SAVED_SEARCH",
+                            "fileContent": ""
+                        },
+                        {
+                            "fileCode": "TWEET",
+                            "fileContent": "Your tweets id, text and other info"
+                        },
+                        {
+                            "fileCode": "VERIFIED",
+                            "fileContent": "Information if your account has been verified or not"
                         }
                     ]
                 }
