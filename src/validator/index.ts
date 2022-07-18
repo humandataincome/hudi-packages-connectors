@@ -7,4 +7,4 @@ export * from './validator.google';
 export * from './validator.netflix';
 export * from './validator.linkedin';
 export * from './validator.shopify';
-
+export * from './validator.twitter';
