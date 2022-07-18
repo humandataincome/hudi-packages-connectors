@@ -1,6 +1,6 @@
 import Logger from "../utils/logger";
 import {ValidatorFiles} from "../validator";
-import {UserDataTK} from "../model/tiktok.model";
+import {UserDataTK} from "../model";
 
 export class TikTokService {
     private static readonly logger = new Logger("TikTok Service");
