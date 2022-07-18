@@ -10,7 +10,8 @@ export enum DataSourceCode {
     SHOPIFY_ORDERS = 'SHOPIFY_ORDERS',
     SHOPIFY_PRODUCTS = 'SHOPIFY_PRODUCTS',
     SHOPIFY_DISCOUNTS = 'SHOPIFY_DISCOUNTS',
-    TWITTER = 'TWITTER'
+    TWITTER = 'TWITTER',
+    TIKTOK = 'TIKTOK'
 }
 
 export enum RetrievingProcedureType {
@@ -50,7 +51,7 @@ export enum LanguageCode {
     ARABIC = 'AR',
 }
 
-export type FileCode = FileCodeInstagram | FileCodeFacebook | FileCodeAmazon | FileCodeGoogle | FileCodeLinkedIn | FileCodeNetflix | FileCodeShopify | FileCodeTwitter;
+export type FileCode = FileCodeInstagram | FileCodeFacebook | FileCodeAmazon | FileCodeGoogle | FileCodeLinkedIn | FileCodeNetflix | FileCodeShopify | FileCodeTwitter | FileCodeTikTok;
 
 export enum FileCodeInstagram {
     PERSONAL_INFO = 'account_information/personal_information.json',
@@ -547,4 +548,8 @@ export enum FileCodeTwitter {
     TWEETDECK = 'data/tweetdeck.js',
     USER_LINK_CLICKS = 'data/user-link-clicks.js',
     VERIFIED = 'data/verified.js',
+}
+
+export enum FileCodeTikTok {
+    USER_DATA = 'user_data.json'
 }

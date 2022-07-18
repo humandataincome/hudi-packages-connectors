@@ -18,6 +18,7 @@ import {Parser} from "../utils/parser";
 import Logger from "../utils/logger";
 import {ValidationErrorEnum} from "../utils";
 import {ValidatorTwitter} from "./validator.twitter";
+import {ValidatorTikTok} from "./validator.tiktok";
 
 
 export interface ValidateZipOptions {
@@ -381,6 +382,8 @@ export class ValidatorFiles {
                 return ValidatorShopify.getInstance();
             case DataSourceCode.TWITTER:
                 return ValidatorTwitter.getInstance();
+            case DataSourceCode.TIKTOK:
+                return ValidatorTikTok.getInstance();
             default:
                 this.logger.log('info', `${dataSourceCode} is not a valid DataSourceCode`, 'validatorSelector');
                 return undefined;
