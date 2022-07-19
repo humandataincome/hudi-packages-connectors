@@ -15,6 +15,7 @@
         "test-linkedin": "ts-node test/test.linkedin.ts",
         "test-netflix": "ts-node test/test.netflix.ts",
         "test-shopify": "ts-node test/test.shopify.ts",
+        "test-twitter": "ts-node test/test.twitter.ts",
         "build": "tsc -p .",
         "prepublish": "npm run build"
     },
