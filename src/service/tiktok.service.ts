@@ -1,6 +1,6 @@
 import Logger from "../utils/logger";
 import {ValidatorFiles} from "../validator";
-import {UserDataTK} from "../model";
+import {FollowerListTK, FollowerTK, UserDataTK} from "../model";
 
 export class TikTokService {
     private static readonly logger = new Logger("TikTok Service");
@@ -9,7 +9,7 @@ export class TikTokService {
      * @param data - file 'user_data.json' in input as Buffer
      */
     static async parseUserData(data: Buffer): Promise<UserDataTK | undefined> {
-        let userDataModel: UserDataTK = {};
+        let model: UserDataTK = {};
         try {
             let document = JSON.parse(data.toString());
             if (document && document['Activity']) {
@@ -32,7 +32,9 @@ export class TikTokService {
                 }
                 //subsection: Follower List
                 if (document['Follower List']) {
-
+                    if (document['Follower List'].FansList) {
+                        model.followerList = this.buildFollowersModel(document['Follower List'].FansList);
+                    }
                 }
                 //subsection: Following List
                 if (document['Following List']) {
@@ -95,10 +97,23 @@ export class TikTokService {
 
                 }
             }
-            return !ValidatorFiles.objectIsEmpty(userDataModel) ? userDataModel : undefined;
+            return !ValidatorFiles.objectIsEmpty(model) ? model : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseUserData');
             return undefined;
         }
+    }
+
+    private static buildFollowersModel(list: any[]): FollowerListTK | undefined {
+        const model: FollowerListTK = {followers: []};
+        list.map((follower: any) => {
+            if (follower && follower.Date && follower.UserName) {
+                model.followers.push({
+                    date: new Date(follower.Date),
+                    username: follower.UserName
+                });
+            }
+        });
+        return (model.followers.length > 0) ? model : undefined;
     }
 }
