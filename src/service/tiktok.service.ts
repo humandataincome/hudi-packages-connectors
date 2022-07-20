@@ -14,91 +14,92 @@ export class TikTokService {
         try {
             let document = JSON.parse(data.toString());
             if (document && document['Activity']) {
-                document = document['Activity'];
+                const activity = document['Activity'];
                 //subsection: Favorite Effects
-                if (document['Favorite Effects']) {
+                if (activity['Favorite Effects']) {
 
                 }
                 //subsection: Favorite Hashtags
-                if (document['Favorite Hashtags']) {
+                if (activity['Favorite Hashtags']) {
 
                 }
                 //subsection: Favorite Sounds
-                if (document['Favorite Sounds']) {
+                if (activity['Favorite Sounds']) {
 
                 }
                 //subsection: Favorite Videos
-                if (document['Favorite Videos']) {
+                if (activity['Favorite Videos']) {
 
                 }
                 //subsection: Follower List
-                if (document['Follower List']) {
-                    if (document['Follower List'].FansList) {
-                        model.followerList = this.buildFollowersModel(document['Follower List'].FansList);
+                if (activity['Follower List']) {
+                    if (activity['Follower List'].FansList) {
+                        model.followerList = this.buildFollowersModel(activity['Follower List'].FansList);
                     }
                 }
                 //subsection: Following List
-                if (document['Following List']) {
-                    if (document['Following List'].Following) {
-                        model.followingList = this.buildFollowingModel(document['Following List'].Following);
+                if (activity['Following List']) {
+                    if (activity['Following List'].Following) {
+                        model.followingList = this.buildFollowingModel(activity['Following List'].Following);
                     }
                 }
                 //subsection: Hashtag
-                if (document['Hashtag']) {
+                if (activity['Hashtag']) {
 
                 }
                 //subsection: Like List
-                if (document['Like List']) {
+                if (activity['Like List']) {
 
                 }
                 //subsection: Login History
-                if (document['Login History']) {
+                if (activity['Login History']) {
 
                 }
                 //subsection: Share History
-                if (document['Share History']) {
+                if (activity['Share History']) {
 
                 }
                 //subsection: Status
-                if (document['Status']) {
+                if (activity['Status']) {
 
                 }
                 //subsection: Video Browsing History
-                if (document['Video Browsing History']) {
+                if (activity['Video Browsing History']) {
 
                 }
                 //subsection: Ads and data
-                if (document['Ads and data']) {
+                if (activity['Ads and data']) {
 
                 }
-                //subsection: App Settings
-                if (document['App Settings']) {
+            }
+            //subsection: App Settings
+            if (document['App Settings']) {
 
-                }
-                //subsection: Comment
-                if (document['Comment']) {
+            }
+            //subsection: Comment
+            if (document['Comment']) {
 
-                }
-                //subsection: Direct Messages
-                if (document['Direct Messages']) {
+            }
+            //subsection: Direct Messages
+            if (document['Direct Messages']) {
 
-                }
-                //subsection: Profile
-                if (document['Profile']) {
-                    model.profile = this.buildProfileModel(document['Profile']);
-                }
-                //subsection: Tiktok Live
-                if (document['Tiktok Live']) {
+            }
+            //subsection: Profile
+            if (document['Profile']) {
 
-                }
-                //subsection: Tiktok Shopping
-                if (document['Tiktok Shopping']) {
+                model.profile = this.buildProfileModel(document['Profile']);
+            }
+            //subsection: Tiktok Live
+            if (document['Tiktok Live']) {
 
-                }
-                //subsection: Video
-                if (document['Video']) {
+            }
+            //subsection: Tiktok Shopping
+            if (document['Tiktok Shopping']) {
 
-                }
+            }
+            //subsection: Video
+            if (document['Video']) {
+
             }
             return !ValidatorFiles.objectIsEmpty(model) ? model : undefined;
         } catch (error) {
@@ -137,11 +138,11 @@ export class TikTokService {
         const model: ProfileTK = {};
         if (profile && profile['Profile Information'] && profile['Profile Information'].ProfileMap) {
             const profileMap = profile['Profile Information'].ProfileMap;
-            if (profileMap.PlatformInfo) {
-                (profileMap.PlatformInfo.Description) && (model.description = profileMap.PlatformInfo.Description);
-                (profileMap.PlatformInfo.Name) && (model.name = profileMap.PlatformInfo.Name);
-                (profileMap.PlatformInfo.Platform) && (model.platform = profileMap.PlatformInfo.Platform);
-                (profileMap.PlatformInfo['Profile Photo']) && (model.profilePhoto = profileMap.PlatformInfo['Profile Photo']);
+            if (profileMap.PlatformInfo && profileMap.PlatformInfo[0]) {
+                (profileMap.PlatformInfo[0].Description) && (model.description = profileMap.PlatformInfo[0].Description);
+                (profileMap.PlatformInfo[0].Name) && (model.name = profileMap.PlatformInfo[0].Name);
+                (profileMap.PlatformInfo[0].Platform) && (model.platform = profileMap.PlatformInfo[0].Platform);
+                (profileMap.PlatformInfo[0]['Profile Photo']) && (model.profilePhoto = profileMap.PlatformInfo[0]['Profile Photo']);
             }
             (profileMap.bioDescription) && (model.bioDescription = profileMap.bioDescription);
             if (profileMap.birthDate) {
