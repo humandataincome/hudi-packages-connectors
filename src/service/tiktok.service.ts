@@ -1,6 +1,7 @@
 import Logger from "../utils/logger";
 import {ValidatorFiles} from "../validator";
-import {FollowerListTK, FollowerTK, UserDataTK} from "../model";
+import {FollowerListTK, FollowingListTK, ProfileTK, UserDataTK} from "../model";
+import {Months} from "../utils";
 
 export class TikTokService {
     private static readonly logger = new Logger("TikTok Service");
@@ -38,7 +39,9 @@ export class TikTokService {
                 }
                 //subsection: Following List
                 if (document['Following List']) {
-
+                    if (document['Following List'].Following) {
+                        model.followingList = this.buildFollowingModel(document['Following List'].Following);
+                    }
                 }
                 //subsection: Hashtag
                 if (document['Hashtag']) {
@@ -82,7 +85,7 @@ export class TikTokService {
                 }
                 //subsection: Profile
                 if (document['Profile']) {
-
+                    model.profile = this.buildProfileModel(document['Profile']);
                 }
                 //subsection: Tiktok Live
                 if (document['Tiktok Live']) {
@@ -104,9 +107,9 @@ export class TikTokService {
         }
     }
 
-    private static buildFollowersModel(list: any[]): FollowerListTK | undefined {
+    private static buildFollowersModel<T extends { Date: string, UserName: string }>(list: T[]): FollowerListTK | undefined {
         const model: FollowerListTK = {followers: []};
-        list.map((follower: any) => {
+        list.map((follower: T) => {
             if (follower && follower.Date && follower.UserName) {
                 model.followers.push({
                     date: new Date(follower.Date),
@@ -115,5 +118,44 @@ export class TikTokService {
             }
         });
         return (model.followers.length > 0) ? model : undefined;
+    }
+
+    private static buildFollowingModel<T extends { Date: string, UserName: string }>(list: T[]): FollowingListTK | undefined {
+        const model: FollowingListTK = {followingList: []};
+        list.map((follower: T) => {
+            if (follower && follower.Date && follower.UserName) {
+                model.followingList.push({
+                    date: new Date(follower.Date),
+                    username: follower.UserName
+                });
+            }
+        });
+        return (model.followingList.length > 0) ? model : undefined;
+    }
+
+    private static buildProfileModel(profile: any): ProfileTK | undefined {
+        const model: ProfileTK = {};
+        if (profile && profile['Profile Information'] && profile['Profile Information'].ProfileMap) {
+            const profileMap = profile['Profile Information'].ProfileMap;
+            if (profileMap.PlatformInfo) {
+                (profileMap.PlatformInfo.Description) && (model.description = profileMap.PlatformInfo.Description);
+                (profileMap.PlatformInfo.Name) && (model.name = profileMap.PlatformInfo.Name);
+                (profileMap.PlatformInfo.Platform) && (model.platform = profileMap.PlatformInfo.Platform);
+                (profileMap.PlatformInfo['Profile Photo']) && (model.profilePhoto = profileMap.PlatformInfo['Profile Photo']);
+            }
+            (profileMap.bioDescription) && (model.bioDescription = profileMap.bioDescription);
+            if (profileMap.birthDate) {
+                const match = profileMap.birthDate.match(/(\d+)-(\w+)-(\d+)/);
+                const monthIndex = Months[match[2].toUpperCase()];
+                model.birthDate = new Date (Date.UTC(parseInt(match[3]), parseInt(monthIndex)-1, parseInt(match[1])));
+            }
+            (profileMap.emailAddress) && (model.emailAddress = profileMap.emailAddress);
+            (profileMap.likesReceived) && (model.likesReceived = profileMap.likesReceived);
+            (profileMap.profilePhoto) && (model.profilePhoto = profileMap.profilePhoto);
+            (profileMap.profileVideo) && (model.profileVideo = profileMap.profileVideo);
+            (profileMap.telephoneNumber) && (model.telephoneNumber = profileMap.telephoneNumber);
+            (profileMap.userName) && (model.userName = profileMap.userName);
+        }
+        return !ValidatorFiles.objectIsEmpty(model) ? model : undefined;
     }
 }

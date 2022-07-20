@@ -70,14 +70,14 @@ export interface VideoBrowsingHistoryTK {
 }
 
 export interface AdsAndDataTK {
-    adInterests: AdInterestsTK[];
-    adsBasedOnData: AdsBasedOnDataTK[];
-    usageDataFrom3PartyApps: UsageDataFrom3PartyAppsTK[];
+    adInterests?: AdInterestsTK[];
+    adsBasedOnData?: AdsBasedOnDataTK[];
+    usageDataFrom3PartyApps?: UsageDataFrom3PartyAppsTK[];
 }
 
 export interface AppSettingsTK {
-    blocks: BlocksTK;
-    settings: SettingsTK;
+    blocks?: BlocksTK;
+    settings?: SettingsTK;
 }
 
 export interface CommentsTK {
@@ -92,14 +92,14 @@ export interface ProfileTK {
     name?: string;
     description?: string;
     platform?: string;
-    bioDescription: string;
-    birthDate: Date;
-    emailAddress: string;
-    likesReceived: string;
-    profilePhoto: string;
-    profileVideo: string;
-    telephoneNumber: string;
-    userName: string;
+    bioDescription?: string;
+    birthDate?: Date;
+    emailAddress?: string;
+    likesReceived?: string;
+    profilePhoto?: string;
+    profileVideo?: string;
+    telephoneNumber?: string;
+    userName?: string;
 }
 
 export interface TiktokLiveTK {
@@ -142,7 +142,7 @@ export interface FollowerTK {
 
 export interface FollowingTK {
     date?: Date;
-    link?: string;
+    username?: string;
 }
 
 export interface VideoTK {
