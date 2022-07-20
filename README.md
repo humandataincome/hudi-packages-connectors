@@ -174,4 +174,4 @@ Go to https://privacyportal.onetrust.com/webform/0e674578-2f0b-4638-8943-97e3c80
 Go to https://twitter.com/settings/download_your_data.
 
 ### TikTok Data Source
-Go to https://www.tiktok.com/setting and follow the procedure after clicking Download your data,
+Go to https://www.tiktok.com/setting and follow the procedure after clicking Download your data.
