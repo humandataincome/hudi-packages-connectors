@@ -6,3 +6,4 @@ export * from './linkedin.service';
 export * from './netflix.service';
 export * from './shopify.service';
 export * from './twitter.service';
+export * from './tiktok.service';

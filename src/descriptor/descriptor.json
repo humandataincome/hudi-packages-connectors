@@ -718,6 +718,87 @@
                     ]
                 }
             ]
+        },
+        {
+            "sourceName": "TikTok",
+            "sourceCode": "TIKTOK",
+            "supportedFormats": [
+                "zip"
+            ],
+            "retrievingProcedures": [
+                {
+                    "languageCode": "EN",
+                    "descriptionText": "The Datasource contains all your personal information relating to your use of TikTok. Do not change the composition of the folders and files within them.",
+                    "procedures": [
+                        {
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Go to Profile",
+                                    "attributeDescription": "<p>Go to <b>Profile</b></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Tap the 3-line icon in the top right",
+                                    "attributeDescription": "<p>Tap the <b>3-line icon</b> in the top right</p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Tap Settings and Privacy",
+                                    "attributeDescription": "<p>Tap <b>Settings and Privacy</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Tap Privacy, then tap Download your data",
+                                    "attributeDescription": "<p>Tap <b>Privacy</b>, then tap <b>Download your data</b></p>"
+                                },
+                                {
+                                    "index": 5,
+                                    "description": "Follow the instructions provided",
+                                    "attributeDescription": "<p>Follow the instructions provided</p>"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "languageCode": "IT",
+                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di TikTok. Non modificare la composizione delle cartelle e dei file al loro interno",
+                    "procedures": [
+                        {
+                            "procedureType": "DESKTOP",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Vai su Me",
+                                    "attributeDescription": "<p>Vai su <b>Me</b></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Tocca l'icona delle 3 linee in alto a destra",
+                                    "attributeDescription": "<p>Tocca l'<b>icona delle 3 linee</b> in alto a destra</p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Tocca Impostazioni e Privacy",
+                                    "attributeDescription": "<p>Tocca <b>Impostazioni e Privacy</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Tocca Privacy, quindi tocca Scarica tuoi dati",
+                                    "attributeDescription": "<p>Tocca <b>Privacy</b>, quindi tocca <b>Scarica tuoi dati</b></p>"
+                                },
+                                {
+                                    "index": 5,
+                                    "description": "Segui le istruzioni fornite>",
+                                    "attributeDescription": "<p>Segui le istruzioni fornite</p>"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "datasourceFilesDescriptions": [
@@ -802,6 +883,20 @@
                         {
                             "fileCode": "VERIFIED",
                             "fileContent": "Information if your account has been verified or not"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sourceCode": "TIKTOK",
+            "fileDescriptions": [
+                {
+                    "languageCode": "EN",
+                    "filesDescription": [
+                        {
+                            "fileCode": "USER_DATA",
+                            "fileContent": "All your data collected in one file"
                         }
                     ]
                 }

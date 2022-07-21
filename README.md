@@ -19,7 +19,7 @@ A set of connectors to parse, describe, validate and process the data sources pr
 | *Netflix*       |     Partial     |      &check;       |       &check;        |         &cross;         |
 | *Shopify*       |     &check;     |      &check;       |       &check;        |         &cross;         |
 | *Twitter*       |     &cross;     |      &check;       |       &check;        |         &cross;         |
-| *TikTok*        |     &cross;     |      &cross;       |       &cross;        |         &cross;         |
+| *TikTok*        |     &cross;     |      &check;       |       &check;        |         &cross;         |
 | *Twitch*        |     &cross;     |      &cross;       |       &cross;        |         &cross;         |
 
 ## How to use the library:
@@ -172,3 +172,6 @@ Go to https://privacyportal.onetrust.com/webform/0e674578-2f0b-4638-8943-97e3c80
 
 ### Twitter Data Source
 Go to https://twitter.com/settings/download_your_data.
+
+### TikTok Data Source
+Go to https://www.tiktok.com/setting and follow the procedure after clicking Download your data.

@@ -16,6 +16,7 @@
         "test-netflix": "ts-node test/test.netflix.ts",
         "test-shopify": "ts-node test/test.shopify.ts",
         "test-twitter": "ts-node test/test.twitter.ts",
+        "test-tiktok": "ts-node test/test.tiktok.ts",
         "build": "tsc -p .",
         "prepublish": "npm run build"
     },
