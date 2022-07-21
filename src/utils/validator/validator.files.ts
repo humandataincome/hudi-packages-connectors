@@ -20,7 +20,7 @@ import {
     ValidatorLinkedIn,
     ValidatorShopify, ValidatorTikTok, ValidatorTwitter
 } from "../../source";
-import {ValidatorNetflix} from "../../source/netflix/validator.netflix";
+import {ValidatorNetflix} from "../../source";
 import {ValidatorObject} from "./validator.object";
 
 export interface ValidateZipOptions {
@@ -341,13 +341,7 @@ export class ValidatorFiles {
                 return ValidatorNetflix.getInstance();
             case DataSourceCode.LINKEDIN:
                 return ValidatorLinkedIn.getInstance();
-            case DataSourceCode.SHOPIFY_CUSTOMERS:
-                return ValidatorShopify.getInstance();
-            case DataSourceCode.SHOPIFY_DISCOUNTS:
-                return ValidatorShopify.getInstance();
-            case DataSourceCode.SHOPIFY_ORDERS:
-                return ValidatorShopify.getInstance();
-            case DataSourceCode.SHOPIFY_PRODUCTS:
+            case DataSourceCode.SHOPIFY_CUSTOMERS || DataSourceCode.SHOPIFY_DISCOUNTS || DataSourceCode.SHOPIFY_ORDERS || DataSourceCode.SHOPIFY_PRODUCTS:
                 return ValidatorShopify.getInstance();
             case DataSourceCode.TWITTER:
                 return ValidatorTwitter.getInstance();
