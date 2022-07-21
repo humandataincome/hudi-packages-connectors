@@ -34,16 +34,16 @@ import * as Connector from '@humandataincome/connectors';
 
 ### How to use a Service
 ```ts
-import {InstagramService} from '@humandataincome/connectors';
+import {ServiceInstagram} from '@humandataincome/connectors';
 ```
 ```ts
 //fileBuffer is the file 'account_information/personal_information.json' into the Instagram data source, as Buffer
 
-let result = await InstagramService.parsePersonalInformation(fileBuffer);
+let result = await ServiceInstagram.parsePersonalInformation(fileBuffer);
 ```
 Instagram in particular needs the **language** of the files given in input to parse some files, it can be changed with one of the supported languages codes (default is ENGLISH):
 ```ts
-InstagramService.languagePrefix = LanguageCode.ITALIAN;
+ServiceInstagram.languagePrefix = LanguageCode.ITALIAN;
 ```
 At the moment the **languages supported** for the Instagram service are: **ENGLISH**, **ITALIAN**, **SPANISH**, **GERMAN**, **FRENCH**, **HINDI** and **CHINESE SIMPLIFIED**.
 

@@ -1,4 +1,4 @@
-import {TwitterService} from "../../src";
+import {ServiceTwitter} from "../../src";
 
 async function testTwitter(){
     await testService();
@@ -9,7 +9,7 @@ async function testService() {
         const fs = require('fs');
         const path = require("path");
         fs.readFile(path.join(__dirname, `../src/mock/datasource files/twitter/data/account.js`), async function (err: any, buffer: Buffer) {
-            console.log(await TwitterService.parseAccount(buffer));
+            console.log(await ServiceTwitter.parseAccount(buffer));
         });
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
