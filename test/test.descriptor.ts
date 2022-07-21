@@ -1,5 +1,4 @@
-import {DataSourceCode, DescriptorService} from "../src";
-import {FileCodeInstagram, LanguageCode} from "../dist";
+import {DataSourceCode, DescriptorService, LanguageCode} from "../src";
 
 async function testDescriptor(){
     await descriptorServiceTest();

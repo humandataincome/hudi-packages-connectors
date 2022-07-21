@@ -8,7 +8,7 @@ async function testService() {
     try {
         const fs = require('fs');
         const path = require("path");
-        fs.readFile(path.join(__dirname, `../src/mock/datasource files/twitter/data/account.js`), async function (err: any, buffer: Buffer) {
+        fs.readFile(path.join(__dirname, `../../src/mock/datasource files/twitter/data/account.js`), async function (err: any, buffer: Buffer) {
             console.log(await ServiceTwitter.parseAccount(buffer));
         });
     } catch (e: any) {

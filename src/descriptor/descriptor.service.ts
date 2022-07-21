@@ -13,8 +13,8 @@ import {
     LanguageCode,
     RetrievingProcedureType
 } from "./descriptor.enum";
-import {ValidatorFiles} from "../validator";
 import {DescriptorErrorEnum} from "../utils";
+import {ValidatorObject} from "../utils/validator/validator.object";
 
 
 const descriptor: Descriptor = require('./descriptor.json');
@@ -120,7 +120,7 @@ export class DescriptorService {
                 ({procedureType}) => procedureType === retrievingProcedureType
             );
 
-            return !ValidatorFiles.objectIsEmpty(procedure) ? procedure : undefined;
+            return !ValidatorObject.objectIsEmpty(procedure) ? procedure : undefined;
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_PROCEDURE_ERROR}: ${error}`);
         }

@@ -3,7 +3,7 @@ import {
     DataSourceCode,
     FileExtension, ProcessorAmazon,
     ProcessorFacebook, ProcessorGoogle,
-    ProcessorInstagram, ShopifyService, ValidatorAmazon,
+    ProcessorInstagram, ServiceShopify, ValidatorAmazon,
     ValidatorFiles,
     ValidatorInstagram
 } from "../src";
@@ -133,25 +133,25 @@ function validatorAndProcessingShopifyTest() {
         fs.readFile(path.join(__dirname,"../src/mock/datasource files/shopify/customers_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             if(ValidatorFiles.validateCSV(data)) {
-                console.log(await ShopifyService.parseCustomersExport(data));
+                console.log(await ServiceShopify.parseCustomersExport(data));
             }
         });
         fs.readFile(path.join(__dirname,"../src/mock/datasource files/shopify/discounts_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             if(ValidatorFiles.validateCSV(data)) {
-                console.log(await ShopifyService.parseDiscountsExport(data));
+                console.log(await ServiceShopify.parseDiscountsExport(data));
             }
         });
         fs.readFile(path.join(__dirname,"../src/mock/datasource files/shopify/orders_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             if(ValidatorFiles.validateCSV(data)) {
-                console.log(await ShopifyService.parseOrdersExport(data));
+                console.log(await ServiceShopify.parseOrdersExport(data));
             }
         });
         fs.readFile(path.join(__dirname,"../src/mock/datasource files/shopify/products_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             if(ValidatorFiles.validateCSV(data)) {
-                console.log(await ShopifyService.parseProductsExport(data));
+                console.log(await ServiceShopify.parseProductsExport(data));
             }
         });
     } catch (e: any) {
