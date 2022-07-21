@@ -46,7 +46,8 @@
         "linkedin",
         "netflix",
         "shopify",
-        "twitter"
+        "twitter",
+        "tiktok"
     ],
     "dependencies": {
         "@types/node": "^17.0.41",
