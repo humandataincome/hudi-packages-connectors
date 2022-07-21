@@ -1,4 +1,4 @@
-import {FacebookService} from "../src";
+import {FacebookService} from "../../src";
 
 async function testFacebook(){
     await testService();
@@ -32,7 +32,7 @@ async function testService() {
         console.log(await FacebookService.parseInformationSubmittedAds(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/ads_information/information_you've_submitted_to_advertisers.json`))));
         console.log(await FacebookService.parseStoriesReactions(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/stories/story_reactions.json`)))));
         */
-        console.log(await FacebookService.parseRecentlyVisited(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/facebook_json/your_interactions_on_facebook/recently_visited.json`)))));
+        console.log(await FacebookService.parseRecentlyVisited(Buffer.from(JSON.stringify(require(`src/mock/datasource files/facebook_json/your_interactions_on_facebook/recently_visited.json`)))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);

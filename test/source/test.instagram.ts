@@ -1,4 +1,4 @@
-import {InstagramService, LanguageCode} from "../src";
+import {InstagramService, LanguageCode} from "../../src";
 
 
 async function testInstagram(){
@@ -39,7 +39,7 @@ async function testService() {
         console.log(await InstagramService.parsePersonalStories(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/instagram_json/content/stories.json`)))));
         console.log(await InstagramService.parseAdsUsingYourInformation(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/instagram_json/ads_business/advertisers_using_your_activity_or_information.json`)))));
         */
-        console.log(await InstagramService.parseAutofillInformation(Buffer.from(JSON.stringify(require(`../src/mock/datasource files/instagram_json/autofill_information/autofill_information.json`)))));
+        console.log(await InstagramService.parseAutofillInformation(Buffer.from(JSON.stringify(require(`src/mock/datasource files/instagram_json/autofill_information/autofill_information.json`)))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);

@@ -1,4 +1,4 @@
-import {NetflixService} from "../src";
+import {NetflixService} from "../../src";
 
 async function testNetflix(){
     await testService();
@@ -7,7 +7,7 @@ async function testNetflix(){
 async function testService() {
     try {
         const path = require('path');
-        const {Parser} = require('./utils/parser');
+        const {Parser} = require('../utils/parser');
         console.log(await NetflixService.parsePersonalInformation(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/netflix/ACCOUNT/AccountDetails.csv`))));
         console.log(await NetflixService.parsePreferences(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/netflix/CONTENT_INTERACTION/IndicatedPreferences.csv`))));
         console.log(await NetflixService.parseMyList(await Parser.CSVToBuffer(path.join(__dirname, `../src/mock/datasource files/netflix/CONTENT_INTERACTION/MyList.csv`))));

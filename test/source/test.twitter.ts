@@ -1,4 +1,4 @@
-import {TwitterService} from "../src";
+import {TwitterService} from "../../src";
 
 async function testTwitter(){
     await testService();
