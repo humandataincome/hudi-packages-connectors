@@ -51,7 +51,7 @@ export enum LanguageCode {
     ARABIC = 'AR',
 }
 
-export type FileCode = FileCodeInstagram | FileCodeFacebook | FileCodeAmazon | FileCodeGoogle | FileCodeLinkedIn | FileCodeNetflix | FileCodeShopify | FileCodeTwitter | FileCodeTikTok;
+export type FileCode = FileCodeInstagram | FileCodeFacebook | FileCodeAmazon | FileCodeGoogle | FileCodeLinkedIn | FileCodeNetflix | FileCodeShopify | FileCodeTwitter | FileCodeTikTok | FileCodeReddit;
 
 export enum FileCodeInstagram {
     PERSONAL_INFO = 'account_information/personal_information.json',
@@ -552,4 +552,38 @@ export enum FileCodeTwitter {
 
 export enum FileCodeTikTok {
     USER_DATA = 'user_data.json'
+}
+
+export enum FileCodeReddit {
+    ACCOUNT_GENDER = 'account_gender.csv',
+    APPROVED_SUBREDDITS = 'approved_submitter_subreddits.csv',
+    CHAT_HISTORY = 'chat_history.csv',
+    CHECKFILE = 'checkfile.csv',
+    COMMENT_HEADERS = 'comment_headers.csv',
+    COMMENTS = 'comments.csv',
+    COMMENT_VOTES = 'comment_votes.csv',
+    DRAFTS = 'drafts.csv',
+    FRIENDS = 'friends.csv',
+    GILDED_COMMENTS = 'gilded_comments.csv',
+    GILDED_POSTS = 'gilded_posts.csv',
+    HIDDEN_POSTS = 'hidden_posts.csv',
+    IP_LOGS = 'ip_logs.csv',
+    LINKED_IDENTITIES = 'linked_identities.csv',
+    LIVE_STREAM_POSTS = 'live_stream_posts.csv',
+    MESSAGE_HEADERS = 'message_headers.csv',
+    MESSAGES = 'messages.csv',
+    MODERATED_SUBREDDITS = 'moderated_subreddits.csv',
+    MULTIREDDITS = 'multireddits.csv',
+    POLL_VOTES = 'poll_votes.csv',
+    POST_HEADERS = 'post_headers.csv',
+    POSTS = 'posts.csv',
+    POSTS_VOTES = 'post_votes.csv',
+    REDDIT_GOLD_INFO = 'reddit_gold_information.csv',
+    SAVED_COMMENTS = 'saved_comments.csv',
+    SAVED_POSTS = 'saved_posts.csv',
+    SCHEDULED_POSTS = 'scheduled_posts.csv',
+    STATISTICS = 'statistics.csv',
+    SUBSCRIBED_SUBREDDITS = 'subscribed_subreddits.csv',
+    TWITTER = 'twitter.csv',
+    USER_PREFERENCES = 'user_preferences.csv',
 }

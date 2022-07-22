@@ -26,6 +26,10 @@ export * from './netflix/model.netflix';
 export * from './netflix/service.netflix';
 export * from './netflix/validator.netflix';
 
+export * from './reddit/model.reddit';
+export * from './reddit/service.reddit';
+export * from './reddit/validator.reddit';
+
 export * from './shopify/model.shopify';
 export * from './shopify/service.shopify';
 export * from './shopify/validator.shopify';

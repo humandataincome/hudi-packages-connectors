@@ -15,6 +15,7 @@
         "test-instagram": "ts-node test/source/test.instagram.ts",
         "test-linkedin": "ts-node test/source/test.linkedin.ts",
         "test-netflix": "ts-node test/source/test.netflix.ts",
+        "test-reddit": "ts-node test/source/test.reddit.ts",
         "test-shopify": "ts-node test/source/test.shopify.ts",
         "test-twitter": "ts-node test/source/test.twitter.ts",
         "test-tiktok": "ts-node test/source/test.tiktok.ts",
