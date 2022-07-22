@@ -11,7 +11,8 @@ export enum DataSourceCode {
     SHOPIFY_PRODUCTS = 'SHOPIFY_PRODUCTS',
     SHOPIFY_DISCOUNTS = 'SHOPIFY_DISCOUNTS',
     TWITTER = 'TWITTER',
-    TIKTOK = 'TIKTOK'
+    TIKTOK = 'TIKTOK',
+    REDDIT = 'REDDIT',
 }
 
 export enum RetrievingProcedureType {
