@@ -12,6 +12,7 @@ import {
 } from "./model.netflix";
 import Logger from "../../utils/logger";
 import {Parser} from "../../utils/parser";
+import {FileCodeNetflix} from "../../descriptor";
 
 /**
  * Class used to parse most important files into the directory returned by Netflix in CSV format.
@@ -20,6 +21,32 @@ import {Parser} from "../../utils/parser";
  */
 export class ServiceNetflix {
     private static readonly logger = new Logger("Netflix Service");
+
+    /**
+     * Abstraction to parse a Netflix file regardless its respective parsing function
+     * @param fileCode - code of the file to parse
+     * @param data - file to parse as Buffer
+     */
+    static async parseFile(fileCode: FileCodeNetflix, data: Buffer) {
+        switch (fileCode) {
+            case FileCodeNetflix.ACCOUNT_DETAILS:
+                return this.parsePersonalInformation(data);
+            case FileCodeNetflix.CONTENT_INTERACTION_PREFERENCES:
+                return this.parsePreferences(data);
+            case FileCodeNetflix.CONTENT_INTERACTION_MY_LIST:
+                return this.parseMyList(data);
+            case FileCodeNetflix.CONTENT_INTERACTION_PLAYBACK_EVENTS:
+                return this.parsePlaybackEvents(data);
+            case FileCodeNetflix.CONTENT_INTERACTION_SEARCH_HISTORY:
+                return this.parseSearchHistory(data);
+            case FileCodeNetflix.CONTENT_INTERACTION_VIEWING_ACTIVITY:
+                return this.parseViewingActivity(data);
+            case FileCodeNetflix.PROFILES:
+                return this.parseProfiles(data);
+            default:
+                return undefined;
+        }
+    }
 
     /**
      * @param data - file 'ACCOUNT/AccountDetails.csv' in input as Buffer

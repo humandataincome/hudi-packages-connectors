@@ -51,6 +51,7 @@ import {
 import {Parser} from "../../utils/parser";
 import {Months} from "../../utils";
 import {ValidatorObject} from "../../utils/validator/validator.object";
+import {FileCodeLinkedIn} from "../../descriptor";
 
 /**
  * Class used to parse most important files into the directory returned by LinkedIn in CSV format.
@@ -59,6 +60,76 @@ import {ValidatorObject} from "../../utils/validator/validator.object";
  */
 export class ServiceLinkedin {
     private static readonly logger = new Logger("Linkedin Service");
+
+    /**
+     * Abstraction to parse a LinkedIn file regardless its respective parsing function
+     * @param fileCode - code of the file to parse
+     * @param data - file to parse as Buffer
+     */
+    static async parseFile(fileCode: FileCodeLinkedIn, data: Buffer) {
+        switch (fileCode) {
+            case FileCodeLinkedIn.JOBS_APPLICATIONS:
+                return this.parseJobApplications(data);
+            case FileCodeLinkedIn.JOBS_SEEKER_PREFERENCES:
+                return this.parseJobSeekerPreferences(data);
+            case FileCodeLinkedIn.JOBS_SAVED_JOBS:
+                return this.parseSavedJobs(data);
+            case FileCodeLinkedIn.ACCOUNT_STATUS_HISTORY:
+                return this.parseAccountStatusHistory(data);
+            case FileCodeLinkedIn.ADS_CLICKED:
+                return this.parseAdsClicked(data);
+            case FileCodeLinkedIn.COMPANY_FOLLOWS:
+                return this.parseCompaniesFollowed(data);
+            case FileCodeLinkedIn.CONNECTIONS:
+                return this.parseConnections(data);
+            case FileCodeLinkedIn.CONTACTS:
+                return this.parseContacts(data);
+            case FileCodeLinkedIn.EDUCATION:
+                return this.parseEducationHistory(data);
+            case FileCodeLinkedIn.EMAIL_ADDRESSES:
+                return this.parseEmails(data);
+            case FileCodeLinkedIn.ENDORSEMENT_RECEIVED_INFO_2:
+                return this.parseEndorsementsReceived(data);
+            case FileCodeLinkedIn.INFERENCES_ABOUT_YOU:
+                return this.parseInferencesAboutYou(data);
+            case FileCodeLinkedIn.INVITATIONS:
+                return this.parseInvitations(data);
+            case FileCodeLinkedIn.JOB_APPLICANT_SAVED_ANSWERS:
+                return this.parseJobApplicantSavedInfo(data);
+            case FileCodeLinkedIn.JOB_APPLICANT_SAVED_QUESTION_RESPONSES:
+                return this.parseJobApplicantSavedScreeningQuestionInfo(data);
+            case FileCodeLinkedIn.LEARNING:
+                return this.parseLearnings(data);
+            case FileCodeLinkedIn.LOGINS:
+                return this.parseLogins(data);
+            case FileCodeLinkedIn.MEMBER_FOLLOWS:
+                return this.parseMembersFollowed(data);
+            case FileCodeLinkedIn.PHONE_NUMBERS:
+                return this.parsePhoneNumbers(data);
+            case FileCodeLinkedIn.POSITIONS:
+                return this.parseWorkingPositions(data);
+            case FileCodeLinkedIn.PROFILE:
+                return this.parseProfile(data);
+            case FileCodeLinkedIn.REACTIONS:
+                return this.parseReactions(data);
+            case FileCodeLinkedIn.REGISTRATION:
+                return this.parseRegistration(data);
+            case FileCodeLinkedIn.RICH_MEDIA:
+                return this.parseRichMediaList(data);
+            case FileCodeLinkedIn.SAVED_JOBS_ALERTS:
+                return this.parseSavedJobAlerts(data);
+            case FileCodeLinkedIn.SEARCH_QUERIES:
+                return this.parseSearchQueries(data);
+            case FileCodeLinkedIn.SECURITY_CHALLENGES:
+                return this.parseSecurityChallenges(data);
+            case FileCodeLinkedIn.SKILLS:
+                return this.parseSkills(data);
+            case FileCodeLinkedIn.VOTES:
+                return this.parseVotes(data);
+            default:
+                return undefined;
+        }
+    }
 
     /**
      * @param data - file 'Account Status History.csv' in input as Buffer

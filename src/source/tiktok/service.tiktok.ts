@@ -2,9 +2,24 @@ import Logger from "../../utils/logger";
 import {FollowerListTK, FollowingListTK, ProfileTK, UserDataTK} from "./model.tiktok";
 import {Months} from "../../utils";
 import {ValidatorObject} from "../../utils/validator/validator.object";
+import {FileCodeTikTok} from "../../descriptor";
 
 export class ServiceTiktok {
     private static readonly logger = new Logger("TikTok Service");
+
+    /**
+     * Abstraction to parse a TikTok file regardless its respective parsing function
+     * @param fileCode - code of the file to parse
+     * @param data - file to parse as Buffer
+     */
+    static async parseFile(fileCode: FileCodeTikTok, data: Buffer) {
+        switch (fileCode) {
+            case FileCodeTikTok.USER_DATA:
+                return this.parseUserData(data);
+            default:
+                return undefined;
+        }
+    }
 
     /**
      * @param data - file 'user_data.json' in input as Buffer

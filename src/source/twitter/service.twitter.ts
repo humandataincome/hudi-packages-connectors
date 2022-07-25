@@ -2,6 +2,7 @@ import Logger from "../../utils/logger";
 import {Parser} from "../../utils/parser";
 import {AccountTW} from "./model.twitter";
 import {ValidatorObject} from "../../utils/validator/validator.object";
+import {FileCodeTwitter} from "../../descriptor";
 
 /**
  * Class used to parse most important files into the directory returned by Twitter in JS format.
@@ -10,6 +11,20 @@ import {ValidatorObject} from "../../utils/validator/validator.object";
  */
 export class ServiceTwitter {
     private static readonly logger = new Logger("Twitter Service");
+
+    /**
+     * Abstraction to parse a Twitter file regardless its respective parsing function
+     * @param fileCode - code of the file to parse
+     * @param data - file to parse as Buffer
+     */
+    static async parseFile(fileCode: FileCodeTwitter, data: Buffer) {
+        switch (fileCode) {
+            case FileCodeTwitter.ACCOUNT:
+                return this.parseAccount(data);
+            default:
+                return undefined;
+        }
+    }
 
     /**
      * @param data - file 'data/account.js' in input as Buffer

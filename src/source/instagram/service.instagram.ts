@@ -52,7 +52,7 @@ import {
 } from "./model.instagram";
 import Logger from "../../utils/logger";
 import {Decoding} from "../../utils/decoding";
-import {LanguageCode} from "../../descriptor";
+import {FileCodeInstagram, LanguageCode} from "../../descriptor";
 import {ValidatorObject} from "../../utils/validator/validator.object";
 
 /**
@@ -63,6 +63,76 @@ import {ValidatorObject} from "../../utils/validator/validator.object";
 export class ServiceInstagram {
     private static readonly logger = new Logger("Instagram Service");
     public static languagePrefix: LanguageCode = LanguageCode.ENGLISH;
+
+    /**
+     * Abstraction to parse an Instagram file regardless its respective parsing function
+     * @param fileCode - code of the file to parse
+     * @param data - file to parse as Buffer
+     */
+    static async parseFile(fileCode: FileCodeInstagram, data: Buffer) {
+        switch (fileCode) {
+            case FileCodeInstagram.PERSONAL_INFO:
+                return this.parsePersonalInformation(data);
+            case FileCodeInstagram.ACCOUNT_NOT_INTERESTED:
+                return this.parseAccountYouAreNotInterested(data);
+            case FileCodeInstagram.ADS_CLICKED:
+                return this.parseAdsClicked(data);
+            case FileCodeInstagram.ADS_USING_YOUR_INFO:
+                return this.parseAdsUsingYourInformation(data);
+            case FileCodeInstagram.ADS_VIEWED:
+                return this.parseAdsViewed(data);
+            case FileCodeInstagram.POSTS_VIEWED:
+                return this.parsePostViewed(data);
+            case FileCodeInstagram.ACCOUNT_VIEWED:
+                return this.parseSuggestedAccountViewed(data);
+            case FileCodeInstagram.VIDEO_VIEWED:
+                return this.parseVideoWatched(data);
+            case FileCodeInstagram.AUTOFILL_INFO:
+                return this.parseAutofillInformation(data);
+            case FileCodeInstagram.POST_COMMENT:
+                return this.parseCommentsPosted(data);
+            case FileCodeInstagram.SYNCED_CONTACTS:
+                return this.parseSyncedContracts(data);
+            case FileCodeInstagram.POSTS_ARCHIVED:
+                return this.parseArchivedPost(data);
+            case FileCodeInstagram.POSTS_CREATED:
+                return this.parsePersonalPost(data);
+            case FileCodeInstagram.STORIES_CREATED:
+                return this.parsePersonalStories(data);
+            case FileCodeInstagram.FOLLOWERS:
+                return this.parsePersonalInformation(data);
+            case FileCodeInstagram.FOLLOWING_ACCOUNTS:
+                return this.parsePersonalInformation(data);
+            case FileCodeInstagram.FOLLOWING_HASHTAGS:
+                return this.parsePersonalInformation(data);
+            case FileCodeInstagram.INFO_ADS_INTERESTS:
+                return this.parseAdsUsingYourInformation(data);
+            case FileCodeInstagram.INFO_ACCOUNT_BASED_IN:
+                return this.parseLocation(data);
+            case FileCodeInstagram.LIKE_COMMENTS:
+                return this.parseLikedComments(data);
+            case FileCodeInstagram.MESSAGE_REQUESTS || FileCodeInstagram.MESSAGE_CONVERSATION:
+                return this.parseMessages(data);
+            case FileCodeInstagram.ELIGIBILITY:
+                return this.parseEligibility(data);
+            case FileCodeInstagram.ACCOUNT_SEARCHES:
+                return this.parseSearches(data);
+            case FileCodeInstagram.EMOJI_SLIDERS:
+                return this.parseEmojiSliders(data);
+            case FileCodeInstagram.POLLS:
+                return this.parsePolls(data);
+            case FileCodeInstagram.QUIZZES:
+                return this.parseQuizzes(data);
+            case FileCodeInstagram.YOUR_REEL_SENTIMENTS:
+                return this.parseReelSentiments(data);
+            case FileCodeInstagram.YOUR_REEL_TOPICS:
+                return this.parseReelTopics(data);
+            case FileCodeInstagram.YOUR_TOPICS:
+                return this.parseTopics(data);
+            default:
+                return undefined;
+        }
+    }
 
     /**
      * @param data - file 'account_information/personal_information.json' in input as Buffer

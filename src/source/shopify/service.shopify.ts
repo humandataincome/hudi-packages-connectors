@@ -6,9 +6,30 @@ import {
     OrdersExportsSH, ProductExportSH, ProductsExportsSH
 } from "./model.shopify";
 import {Parser} from "../../utils/parser";
+import {FileCodeShopify} from "../../descriptor";
 
 export class ServiceShopify {
     private static readonly logger = new Logger("Shopify Service");
+
+    /**
+     * Abstraction to parse a Shopify file regardless its respective parsing function
+     * @param fileCode - code of the file to parse
+     * @param data - file to parse as Buffer
+     */
+    static async parseFile(fileCode: FileCodeShopify, data: Buffer) {
+        switch (fileCode) {
+            case FileCodeShopify.CUSTOMERS:
+                return this.parseCustomersExport(data);
+            case FileCodeShopify.ORDERS:
+                return this.parseOrdersExport(data);
+            case FileCodeShopify.PRODUCTS:
+                return this.parseProductsExport(data);
+            case FileCodeShopify.DISCOUNTS:
+                return this.parseDiscountsExport(data);
+            default:
+                return undefined;
+        }
+    }
 
     /**
      * @param data - file 'shopify/customers_export_1.csv' in input as Buffer

@@ -45,6 +45,7 @@ import {
     WishListAM
 } from './model.amazon';
 import { ValidatorObject } from '../../utils/validator/validator.object';
+import {FileCodeAmazon} from "../../descriptor";
 
 /**
  * Class used to parse most important files into the directory returned by Amazon in CSV and JSON format.
@@ -54,6 +55,63 @@ import { ValidatorObject } from '../../utils/validator/validator.object';
 export class ServiceAmazon {
     private static readonly logger = new Logger("Amazon Service");
     private static readonly INIT_CHAR = '﻿';
+
+    /**
+     * Abstraction to parse an Amazon file regardless its respective parsing function
+     * @param fileCode - code of the file to parse
+     * @param data - file to parse as Buffer
+     */
+    static async parseFile(fileCode: FileCodeAmazon, data: Buffer) {
+        switch (fileCode) {
+            case FileCodeAmazon.ADV_THIRDPARTIES:
+                return this.parseThirdPartyAudiences(data);
+            case FileCodeAmazon.ADV_AUDIENCES:
+                return this.parseAdvertiserAudiences(data);
+            case FileCodeAmazon.ADV_CLICKS:
+                return this.parseAdvertiserClicked(data);
+            case FileCodeAmazon.AUDIENCES:
+                return this.parseAmazonAudiences(data);
+            case FileCodeAmazon.WISHLIST:
+                return this.parseAmazonWishlists(data);
+            case FileCodeAmazon.AUDIBLE_LIBRARY:
+                return this.parseAudibleLibrary(data);
+            case FileCodeAmazon.AUDIBLE_LISTENING:
+                return this.parseAudibleListening(data);
+            case FileCodeAmazon.AUDIBLE_MEMBERSHIP_BILLINGS:
+                return this.parseAudibleMembershipBillings(data);
+            case FileCodeAmazon.PRIMEVIDEO_WATCHLIST:
+                return this.parsePrimeVideoWatchlist(data);
+            case FileCodeAmazon.PRIMEVIDEO_WATCHLIST_HISTORY:
+                return this.parsePrimeVideoWatchlistHistory(data);
+            case FileCodeAmazon.PRIMEVIDEO_VIEW_COUNT:
+                return this.parseDigitalPrimeVideoViewCounts(data);
+            case FileCodeAmazon.PRIMEVIDEO_VIEWINGHISTORY:
+                return this.parsePrimeVideoViewingHistory(data);
+            case FileCodeAmazon.DIGITAL_ORDERING_ITEM:
+                return this.parseDigitalItems(data);
+            case FileCodeAmazon.DIGITAL_ORDERING_ORDERS:
+                return this.parseDigitalOrders(data);
+            case FileCodeAmazon.DIGITAL_ORDERING_MONETARY:
+                return this.parseDigitalOrdersMonetary(data);
+            case FileCodeAmazon.DIGITAL_SUBSCRIPTION:
+                return this.parseDigitalSubscriptions(data);
+            case FileCodeAmazon.RETAIL_LIGHT_WEIGHT_INTERACTIONS:
+                return this.parseLightWeightInteractions(data);
+            case FileCodeAmazon.RETAIL_CART_ITEMS:
+                return this.parseRetailCartItems(data);
+            case FileCodeAmazon.RETAIL_ORDER_HISTORY:
+                return this.parseRetailOrderHistory(data);
+            case FileCodeAmazon.RETAIL_REGION_AUTHORITY:
+                return this.parseRetailRegionAuthorities(data);
+            case FileCodeAmazon.RETAIL_SELLER_FEEDBACK:
+                return this.parseRetailSellerFeedback(data);
+            case FileCodeAmazon.CUSTOMER_ENGAGEMENT:
+                return this.parseSearchDataCustomerEngagement(data);
+            default:
+                return undefined;
+        }
+    }
+
     /**
      * @param data - file 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv' in input as Buffer
      */

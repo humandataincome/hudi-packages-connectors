@@ -18,7 +18,7 @@ import {
 } from "./model.google";
 import {Parser} from "../../utils/parser";
 import {Months} from "../../utils";
-import {LanguageCode} from "../../descriptor";
+import {FileCodeGoogle, LanguageCode} from "../../descriptor";
 import {ConfigGoogle} from "../../config/config.google";
 import {Decoding} from "../../utils/decoding";
 import {ValidatorObject} from "../../utils/validator/validator.object";
@@ -31,6 +31,42 @@ import {ValidatorObject} from "../../utils/validator/validator.object";
 export class ServiceGoogle {
     private static readonly logger = new Logger("Google Service");
     public static prefixLanguage: LanguageCode = LanguageCode.ITALIAN;
+
+    /**
+     * Abstraction to parse a Google file regardless its respective parsing function
+     * @param fileCode - code of the file to parse
+     * @param data - file to parse as Buffer
+     */
+    static async parseFile(fileCode: FileCodeGoogle, data: Buffer) {
+        switch (fileCode) {
+            case FileCodeGoogle.ACCOUNT_INFO:
+                return this.parseGoogleAccount(data);
+            case FileCodeGoogle.CHROME_BROWSER_HISTORY:
+                return this.parseBrowseHistory(data);
+            case FileCodeGoogle.CHROME_SEARCH_ENGINES:
+                return this.parseSearchEngines(data);
+            case FileCodeGoogle.PAY_TRANSACTIONS:
+                return this.parseTransactions(data);
+            case FileCodeGoogle.PLAY_STORE_LIBRARY:
+                return this.parseDocLibrary(data);
+            case FileCodeGoogle.PLAY_STORE_ORDER_HISTORY:
+                return this.parseOrderHistory(data);
+            case FileCodeGoogle.PLAY_STORE_PURCHASE_HISTORY:
+                return this.parsePurchaseHistory(data);
+            case FileCodeGoogle.PLAY_STORE_REVIEWS:
+                return this.parsePlayStoreReviews(data);
+            case FileCodeGoogle.PROFILE:
+                return this.parseProfile(data);
+            case FileCodeGoogle.LOCATION_HISTORY_SEMANTIC:
+                return this.parseSemanticLocations(data);
+            case FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS:
+                return this.parseMapsReviews(data);
+            case FileCodeGoogle.BOOK:
+                return undefined;
+            default:
+                return undefined;
+        }
+    }
 
     /**
      * @param data - file 'Takeout/Profile/Profile.json' in input as Buffer
@@ -325,7 +361,7 @@ export class ServiceGoogle {
     }
 
     /**
-     * @param data - file 'Takeout/GooglePlayStore/Library.json' in input as Buffer
+     * @param data - file 'Takeout/Google Play Store/Library.json' in input as Buffer
      */
     static async parseDocLibrary(data: Buffer): Promise<DocLibraryGO | undefined> {
         try {

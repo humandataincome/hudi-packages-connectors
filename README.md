@@ -15,7 +15,7 @@ A set of connectors to parse, describe, validate and process the data sources pr
 | *Facebook*      |     Partial     |      &check;       |       &check;        |         &check;         |
 | *Google*        |     Partial     |      &check;       |       &check;        |         &check;         |
 | *Instagram*     |     Partial     |      &check;       |       &check;        |         &check;         |
-| *LinkedIn*      |     Partial     |      &check;       |       &check;        |         &cross;         |
+| *LinkedIn*      |     &check;     |      &check;       |       &check;        |         &cross;         |
 | *Netflix*       |     Partial     |      &check;       |       &check;        |         &cross;         |
 | *Shopify*       |     &check;     |      &check;       |       &check;        |         &cross;         |
 | *Twitter*       |     Partial     |      &check;       |       &check;        |         &cross;         |

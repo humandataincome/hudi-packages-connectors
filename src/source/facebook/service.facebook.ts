@@ -48,6 +48,7 @@ import {
 } from "./model.facebook";
 import {Decoding} from "../../utils/decoding";
 import {ValidatorObject} from "../../utils/validator/validator.object";
+import {FileCodeFacebook} from "../../descriptor";
 
 /**
  * Class used to parse most important files into the directory returned by Facebook in JSON format.
@@ -56,6 +57,68 @@ import {ValidatorObject} from "../../utils/validator/validator.object";
  */
 export class ServiceFacebook {
     private static readonly logger = new Logger("Facebook Service");
+
+    /**
+     * Abstraction to parse a Facebook file regardless its respective parsing function
+     * @param fileCode - code of the file to parse
+     * @param data - file to parse as Buffer
+     */
+    static async parseFile(fileCode: FileCodeFacebook, data: Buffer) {
+        switch (fileCode) {
+            case FileCodeFacebook.ADS_INTERACTED_WITH:
+                return this.parseAdsInteractedWith(data);
+            case FileCodeFacebook.ADS_USING_YOUR_ACTIVITY:
+                return this.parseAdsUsingYourInfo(data);
+            case FileCodeFacebook.INFO_SUBMITTED_ADS:
+                return this.parseInformationSubmittedAds(data);
+            case FileCodeFacebook.APP_WEBSITES:
+                return this.parseAppsConnected(data);
+            case FileCodeFacebook.COMMENTS:
+                return this.parseComments(data);
+            case FileCodeFacebook.REACTIONS:
+                return this.parseReactions(data);
+            case FileCodeFacebook.FRIENDS:
+                return this.parseFriends(data);
+            case FileCodeFacebook.FRIENDS_REQUESTS_SENT:
+                return this.parseFriendRequestsSent(data);
+            case FileCodeFacebook.FRIENDS_REJECTED_REQUESTS:
+                return this.parseRejectedFriendshipRequests(data);
+            case FileCodeFacebook.FRIENDS_REMOVED:
+                return this.parseRemovedFriends(data);
+            case FileCodeFacebook.FRIENDS_WHO_YOU_FOLLOW:
+                return this.parseWhoYouFollow(data);
+            case FileCodeFacebook.MESSAGE_FILTERED || FileCodeFacebook.MESSAGE_CONVERSATION :
+                return this.parseMessages(data);
+            case FileCodeFacebook.ADS_INTERESTS:
+                return this.parseAdsInterests(data);
+            case FileCodeFacebook.PAGES_LIKED:
+                return this.parsePagesLiked(data);
+            case FileCodeFacebook.PAGES_RECOMMENDED:
+                return this.parsePagesRecommended(data);
+            case FileCodeFacebook.PAGES_FOLLOWED:
+                return this.parsePagesFollowed(data);
+            case FileCodeFacebook.PAGES_UNFOLLOWED:
+                return this.parsePagesUnfollowed(data);
+            case FileCodeFacebook.LANGUAGE:
+                return this.parseLanguages(data);
+            case FileCodeFacebook.PROFILE_INFO:
+                return this.parsePersonalInformation(data);
+            case FileCodeFacebook.YOUR_POSTS:
+                return this.parseYourPosts(data);
+            case FileCodeFacebook.SEARCH_HISTORY:
+                return this.parseSearchHistory(data);
+            case FileCodeFacebook.STORIES_REACTION:
+                return this.parseStoriesReactions(data);
+            case FileCodeFacebook.RECENTLY_VIEWED:
+                return this.parseRecentlyViewed(data);
+            case FileCodeFacebook.RECENTLY_VISITED:
+                return this.parseRecentlyVisited(data);
+            case FileCodeFacebook.YOUR_TOPICS:
+                return this.parseYourTopics(data);
+            default:
+                return undefined;
+        }
+    }
 
     /**
      * @param data - file 'profile_information/profile_information.json' in input as Buffer

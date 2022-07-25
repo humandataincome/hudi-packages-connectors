@@ -292,7 +292,6 @@ export enum FileCodeGoogle {
     PROFILE = 'Takeout/Profile/Profile.json',
     LOCATION_HISTORY_SEMANTIC = 'Takeout/Location History/Semantic Location History/(\\d{4})/(\\d{4})_((JANUARY)|(FEBRUARY)|(MARCH)|(APRIL)|(MAY)|(JUNE)|(JULY)|(AUGUST)|(SEPTEMBER)|(OCTOBER)|(NOVEMBER)|(DECEMBER)).json',
     MAPS_YOUR_PLACES_REVIEWS = 'Takeout/Maps \\(your places\\)/Reviews.json',
-    TASKS = 'Takeout/Tasks/Tasks.json',
     //not parsed yet
     ACTIVITY_ADS = 'Takeout/My Activity/Ads/My Activity.json',
     ACTIVITY_APPS = 'Takeout/My Activity/Google Apps/My Activity.json',
@@ -405,6 +404,7 @@ export enum FileCodeGoogle {
     STADIA_SOCIAL_GRAPH = 'Takeout/Stadia/SOCIAL/SOCIAL_GRAPH.json',
     STADIA_USER_PARENTAL = 'Takeout/Stadia/USER/PARENTAL_CONTROL.json',
     STADIA_USER_PROFILE = 'Takeout/Stadia/USER/USER_PROFILE.json',
+    TASKS = 'Takeout/Tasks/Tasks.json',
     YOUTUBE_LIKED_VIDEOS = 'Takeout/YouTube and YouTube Music/playlists/Liked videos.csv',
     YOUTUBE_PLAYLIST_UPLOADS = 'Takeout/YouTube and YouTube Music/playlists/Uploads from (.*).csv',
 }
@@ -421,7 +421,6 @@ export enum FileCodeLinkedIn {
     CONTACTS = 'Contacts.csv',
     EDUCATION = 'Education.csv',
     EMAIL_ADDRESSES = 'Email Addresses.csv',
-    ENDORSEMENT_RECEIVED_INFO_1 = 'Endorsement Received Info.csv',
     ENDORSEMENT_RECEIVED_INFO_2 = 'Endorsement_Received_Info.csv',
     INFERENCES_ABOUT_YOU = 'Inferences_about_you.csv',
     INVITATIONS = 'Invitations.csv',
@@ -442,20 +441,25 @@ export enum FileCodeLinkedIn {
     SECURITY_CHALLENGES = 'Security Challenges.csv',
     SKILLS = 'Skills.csv',
     VOTES = 'Votes.csv',
+    //not parsed yet
+    ENDORSEMENT_RECEIVED_INFO_1 = 'Endorsement Received Info.csv',
 }
 
 export enum FileCodeNetflix {
     ACCOUNT_DETAILS = 'ACCOUNT/AccountDetails.csv',
+    CONTENT_INTERACTION_PREFERENCES = 'CONTENT_INTERACTION/IndicatedPreferences.csv',
+    CONTENT_INTERACTION_MY_LIST = 'CONTENT_INTERACTION/MyList.csv',
+    CONTENT_INTERACTION_PLAYBACK_EVENTS = 'CONTENT_INTERACTION/PlaybackRelatedEvents.csv',
+    CONTENT_INTERACTION_SEARCH_HISTORY = 'CONTENT_INTERACTION/SearchHistory.csv',
+    CONTENT_INTERACTION_VIEWING_ACTIVITY = 'CONTENT_INTERACTION/ViewingActivity.csv',
+    PROFILES = 'PROFILES/Profiles.csv',
+
+    //not parsed yet
     ACCOUNT_SUB_HISTORY = 'ACCOUNT/SubscriptionHistory.csv',
     ACCOUNT_TERMS_OF_USE = 'ACCOUNT/TermsOfUse.csv',
     CLICKSTREAM = 'CLICKSTREAM/Clickstream.csv',
-    CONTENT_INTERACTION_PREFERENCES = 'CONTENT_INTERACTION/IndicatedPreferences.csv',
     CONTENT_INTERACTION_TITLES = 'CONTENT_INTERACTION/InteractiveTitles.txt',
-    CONTENT_INTERACTION_MY_LIST = 'CONTENT_INTERACTION/MyList.csv',
-    CONTENT_INTERACTION_PLAYBACK_EVENTS = 'CONTENT_INTERACTION/PlaybackRelatedEvents.csv',
     CONTENT_INTERACTION_RATINGS = 'CONTENT_INTERACTION/Ratings.txt',
-    CONTENT_INTERACTION_SEARCH_HISTORY = 'CONTENT_INTERACTION/SearchHistory.csv',
-    CONTENT_INTERACTION_VIEWING_ACTIVITY = 'CONTENT_INTERACTION/ViewingActivity.csv',
     CUSTOMER_SERVICE_CHAT_TRANSCRIPT = 'CUSTOMER_SERVICE/ChatTranscripts.txt',
     CUSTOMER_SERVICE_CSCONTACT = 'CUSTOMER_SERVICE/CSContact.txt',
     DEVICES = 'DEVICES/Devices.csv',
@@ -465,7 +469,6 @@ export enum FileCodeNetflix {
     IP_ADDRESSES_STREAMING = 'IP_ADDRESSES/IpAddressesStreaming.csv',
     MESSAGES_SENT_BY_NETFLIX = 'MESSAGES/MessagesSentByNetflix.csv',
     PAYMENT_AND_BILLING_BILLING_HISTORY = 'PAYMENT_AND_BILLING/BillingHistory.csv',
-    PROFILES = 'PROFILES/Profiles.csv',
     PROFILES_AVATAR_HISTORY = 'PROFILES/AvatarHistory.csv',
     PROFILES_AVATAR_PARENTAL_CONTROL = 'PROFILES/ParentalControlsRestrictedTitles.txt',
     SOCIAL_MEDIA_CONNECTIONS = 'SOCIAL_MEDIA_CONNECTIONS/SocialMediaConnections.txt',
@@ -481,6 +484,9 @@ export enum FileCodeShopify {
 }
 
 export enum FileCodeTwitter {
+    ACCOUNT = 'data/account.js',
+
+    //not parsed yet
     MEDIA_COMMUNITY_TWEET = 'community_tweet_media/(.*)',
     MEDIA_DIRECT_MESSAGES_GROUPS = 'direct_messages_group_media/(.*)',
     MEDIA_DIRECT_MESSAGES = 'direct_messages_media/(.*)',
@@ -488,7 +494,6 @@ export enum FileCodeTwitter {
     MEDIA_MOMENTS_TWEETS = 'moments_tweets_media/(.*)',
     MEDIA_PROFILE = 'profile_media/(.*)',
     MEDIA_TWEET = 'tweet_media/(.*)',
-    ACCOUNT = 'data/account.js',
     ACCOUNT_CREATION = 'data/account-creation-ip.js',
     ACCOUNT_LABEL = 'data/account-label.js',
     ACCOUNT_SUSPENSION = 'data/account-suspension.js',
@@ -556,6 +561,9 @@ export enum FileCodeTikTok {
 }
 
 export enum FileCodeReddit {
+    SUBSCRIBED_SUBREDDITS = 'subscribed_subreddits.csv',
+
+    //not parsed yet
     ACCOUNT_GENDER = 'account_gender.csv',
     APPROVED_SUBREDDITS = 'approved_submitter_subreddits.csv',
     CHAT_HISTORY = 'chat_history.csv',
@@ -584,7 +592,6 @@ export enum FileCodeReddit {
     SAVED_POSTS = 'saved_posts.csv',
     SCHEDULED_POSTS = 'scheduled_posts.csv',
     STATISTICS = 'statistics.csv',
-    SUBSCRIBED_SUBREDDITS = 'subscribed_subreddits.csv',
     TWITTER = 'twitter.csv',
     USER_PREFERENCES = 'user_preferences.csv',
 }
