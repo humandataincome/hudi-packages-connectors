@@ -6,7 +6,6 @@ export class ValidatorReddit extends ValidatorDatasource {
     protected readonly logger = new Logger("Reddit Validator");
 
     protected DEFAULT_FILE_CODES: FileCodeReddit[] = [
-        FileCodeReddit.DRAFTS,
         FileCodeReddit.FRIENDS,
         FileCodeReddit.POSTS,
         FileCodeReddit.STATISTICS,

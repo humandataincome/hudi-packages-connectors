@@ -17,7 +17,7 @@ import {
     ValidatorFacebook,
     ValidatorGoogle,
     ValidatorInstagram,
-    ValidatorLinkedIn,
+    ValidatorLinkedIn, ValidatorReddit,
     ValidatorShopify, ValidatorTikTok, ValidatorTwitter
 } from "../../source";
 import {ValidatorNetflix} from "../../source";
@@ -347,6 +347,8 @@ export class ValidatorFiles {
                 return ValidatorTwitter.getInstance();
             case DataSourceCode.TIKTOK:
                 return ValidatorTikTok.getInstance();
+            case DataSourceCode.REDDIT:
+                return ValidatorReddit.getInstance();
             default:
                 this.logger.log('info', `${dataSourceCode} is not a valid DataSourceCode`, 'validatorSelector');
                 return undefined;

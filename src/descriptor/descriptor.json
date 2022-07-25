@@ -982,6 +982,22 @@
                         {
                             "fileCode": "ACCOUNT_GENDER",
                             "fileContent": "Your gender"
+                        },
+                        {
+                            "fileCode": "FRIENDS",
+                            "fileContent": "Your friends list"
+                        },
+                        {
+                            "fileCode": "POSTS",
+                            "fileContent": "Your posts"
+                        },
+                        {
+                            "fileCode": "STATISTICS",
+                            "fileContent": "Your statistics"
+                        },
+                        {
+                            "fileCode": "SUBSCRIBED_SUBREDDITS",
+                            "fileContent": "List of subreddits you are subscribed to"
                         }
                     ]
                 }

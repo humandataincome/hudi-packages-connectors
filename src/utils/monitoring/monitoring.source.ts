@@ -5,7 +5,7 @@ import {
     FileCodeGoogle,
     FileCodeInstagram,
     FileCodeLinkedIn,
-    FileCodeNetflix,
+    FileCodeNetflix, FileCodeReddit,
     FileCodeShopify,
     FileCodeTikTok,
     FileCodeTwitter,
@@ -80,6 +80,8 @@ export class MonitorSource {
                 return Object.values(FileCodeTikTok);
             case DataSourceCode.TWITTER:
                 return Object.values(FileCodeTwitter);
+            case DataSourceCode.REDDIT:
+                return Object.values(FileCodeReddit);
             default:
                 return [];
         }
