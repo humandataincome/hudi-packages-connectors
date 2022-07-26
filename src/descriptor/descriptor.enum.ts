@@ -79,7 +79,7 @@ export enum FileCodeInstagram {
     MESSAGE_REQUESTS = `messages/message_requests/(.*)/message_1.json`,
     MESSAGE_CONVERSATION = `messages/inbox/(.*)/message_1.json`,
     ELIGIBILITY = 'monetization/eligibility.json',
-    ACCOUNT_SEARCHES = 'recent_searches/account_searches.json',
+    ACCOUNT_SEARCHES = 'recent_search/account_searches.json',
     EMOJI_SLIDERS = 'story_sticker_interactions/emoji_sliders.json',
     POLLS = 'story_sticker_interactions/polls.json',
     QUIZZES = 'story_sticker_interactions/quizzes.json',

@@ -101,4 +101,9 @@ export class ValidatorInstagram extends ValidatorDatasource {
          }
          return undefined;
      }
+
+    public getFileCode(pathName: string): string | undefined {
+        const compatiblePath = this.extractCompatiblePath(pathName);
+        return Object.values(FileCodeInstagram).find((code: string) => RegExp('^' + code + '$').test(compatiblePath));
+    }
 }

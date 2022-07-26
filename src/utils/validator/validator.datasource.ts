@@ -76,4 +76,8 @@ export class ValidatorDatasource {
     public async getLanguage(files: Unzipped, options: ValidatorDatasourceOption = {}): Promise<LanguageCode | undefined> {
         return undefined;
     }
+
+    public getFileCode(pathName: string): string | undefined {
+        return undefined;
+    }
 }

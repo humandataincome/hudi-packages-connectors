@@ -70,6 +70,7 @@ export class ServiceInstagram {
      * @param data - file to parse as Buffer
      */
     static async parseFile(fileCode: FileCodeInstagram, data: Buffer) {
+        console.log('NAME: '+ fileCode)
         switch (fileCode) {
             case FileCodeInstagram.PERSONAL_INFO:
                 return this.parsePersonalInformation(data);
@@ -112,6 +113,7 @@ export class ServiceInstagram {
             case FileCodeInstagram.LIKE_COMMENTS:
                 return this.parseLikedComments(data);
             case FileCodeInstagram.MESSAGE_REQUESTS || FileCodeInstagram.MESSAGE_CONVERSATION:
+                console.log('OHHHHHHH')
                 return this.parseMessages(data);
             case FileCodeInstagram.ELIGIBILITY:
                 return this.parseEligibility(data);

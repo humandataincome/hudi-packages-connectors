@@ -1,4 +1,4 @@
-import {ValidatorDatasource} from "../../utils";
+import {ValidatorDatasource} from "../../utils/validator/validator.datasource";
 import Logger from "../../utils/logger";
 import {FileCodeReddit} from "../../descriptor";
 

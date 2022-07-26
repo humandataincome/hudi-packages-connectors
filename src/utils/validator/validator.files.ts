@@ -394,7 +394,7 @@ export class ValidatorFiles {
         try {
             if(zipFile) {
                 const files: Unzipped = unzipSync(zipFile);
-                return Object.keys(files);
+                return Object.keys(files).filter(file => !ValidatorObject.isDirectory(file));
             }
             this.logger.log('error', `${ValidationErrorEnum.ZIPPING_FILE_ERROR}: error in zip file given in input`, 'getPathsIntoZip');
         } catch (error: any) {
