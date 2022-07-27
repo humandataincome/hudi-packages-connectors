@@ -61,8 +61,6 @@ export class ServiceGoogle {
                 return this.parseSemanticLocations(data);
             case FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS:
                 return this.parseMapsReviews(data);
-            case FileCodeGoogle.BOOK:
-                return undefined;
             default:
                 return undefined;
         }

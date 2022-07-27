@@ -39,6 +39,8 @@ export enum FileExtension {
     VCF = 'vcf',
     MP4 = 'mp4',
     JS = 'js',
+    WEBP = 'webp',
+    BIN = 'bin',
 }
 
 export enum LanguageCode {
@@ -79,7 +81,7 @@ export enum FileCodeInstagram {
     MESSAGE_REQUESTS = `messages/message_requests/(.*)/message_1.json`,
     MESSAGE_CONVERSATION = `messages/inbox/(.*)/message_1.json`,
     ELIGIBILITY = 'monetization/eligibility.json',
-    ACCOUNT_SEARCHES = 'recent_search/account_searches.json',
+    ACCOUNT_SEARCHES = 'recent_searches/account_searches.json',
     EMOJI_SLIDERS = 'story_sticker_interactions/emoji_sliders.json',
     POLLS = 'story_sticker_interactions/polls.json',
     QUIZZES = 'story_sticker_interactions/quizzes.json',
@@ -91,10 +93,11 @@ export enum FileCodeInstagram {
     MUSIC_HEARD_HISTORY = 'ads_and_content/music_heard_in_stories.json',
     MUSIC_USED_HISTORY = 'ads_and_content/music_recently_used_in_stories.json',
     //not parsed yet
-    APPS_EXPIRED = 'apps_and_websites/expired_pps.json',
+    META_ACCOUNTS = 'account_information/linked_meta_accounts.json',
     ACCOUNT_INFO = 'account_information/account_information.json',
     PROFESSIONAL_INFO = 'account_information/professional_information.json',
     PROFILE_CHANGES = 'account_information/profile_changes.json',
+    APPS_EXPIRED = 'apps_and_websites/expired_pps.json',
     COMMENTS_ALLOWED = 'comments_settings/comments_allowed_from.json',
     CROSS_APP_MESSAGING = 'comments_settings/use_cross-app_messaging.json',
     PROFILE_PHOTOS = 'content/profile_photos.json',
@@ -112,7 +115,9 @@ export enum FileCodeInstagram {
     LOGIN_LOGOUT_ACTIVITY = 'login_and_account_creation/logout_activity.json',
     LOGIN_LOGIN_ACTIVITY = 'login_and_account_creation/login_activity.json',
     LOGIN_PRIVACY_CHANGES = 'login_and_account_creation/account_privacy_changes.json',
+    PASSWORD_CHANGE_ACTIVITY = 'password_change_activity.json',
     SAVED_POSTS = 'saved/saved_posts.json',
+    SAVED_COLLECTION = 'saved/saved_collections.json',
     //cannot be parsed
     MEDIA = 'media/(\w+)/(.+).(jpg|map4|webp)',
 }
@@ -164,6 +169,9 @@ export enum FileCodeFacebook {
     NOTIFICATIONS = 'notifications/notifications.json',
     OTHER_FRIEND_PEER_GROUP = 'other_logged_information/friend_peer_group.json',
     OTHER_YOUR_ADDRESS_BOOKS = 'other_personal_information/your_address_books.json',
+    POSTS_VIDEOS = 'posts/your_videos.json',
+    POSTS_ALBUM = 'album/(\\d+).json',
+    POSTS_UNCATEGORIZED_PHOTOS = 'posts/your_uncategorized_photos.json',
     PREFERENCES_WATCH = 'preferences/facebook_watch.json',
     PREFERENCES_LANGUAGE_LOCALE = 'preferences/language_and_locale.json',
     PROFILE_UPDATE_HISTORY = 'profile_information/profile_update_history.json',
@@ -281,7 +289,6 @@ export enum FileCodeAmazon {
 
 export enum FileCodeGoogle {
     ACCOUNT_INFO = 'Takeout/Google Account/(.+).SubscriberInfo.html',
-    BOOK = 'Takeout/Google Play Books/(.+)/(.+).html',
     CHROME_BROWSER_HISTORY = 'Takeout/Chrome/BrowserHistory.json',
     CHROME_SEARCH_ENGINES = 'Takeout/Chrome/SearchEngines.json',
     PAY_TRANSACTIONS = 'Takeout/Google Pay/Google transactions/transactions_(\\d+).csv',
@@ -334,7 +341,7 @@ export enum FileCodeGoogle {
     CHROME_SYNC_SETTINGS = 'Takeout/Chrome/SyncSettings.json',
     DRIVE_FILE = 'Takeout/Drive/(.+)',
     FIT_ACTIVITY = 'Takeout/Activities/(.*).tcx',
-    FIT_DATA = 'Takeout/Fit/All Data/(.*).json',
+    FIT_DATA = 'Takeout/Fit/All data/(.*).json',
     FIT_SESSION = 'Takeout/Fit/All sessions/(.+)((WALKING)|(RUNNING)).json', //es. All sessions/2019-12-15T13_46_55+01_00_WALKING.json
     FIT_DAILY_ACTIVITIES = 'Takeout/Fit/Daily activity metrics/(\\d+)-(\\d+)-(\\d+).csv', //es. Daily activity metrics/2020-01-13.csv
     GROUPS_RECENT_VIEWED_DISCUSSIONS = 'Takeout/Groups/googlegroups.com/user data/recent activity/recently viewed discussions.csv',
@@ -342,7 +349,7 @@ export enum FileCodeGoogle {
     HANGOUTS = 'Takeout/Hangouts/Hangouts.json',
     KEEP_FILE_JSON = 'Takeout/Keep/(.+).json',
     KEEP_FILE_HTML = 'Takeout/Keep/(.+).html',
-    MAIL_BLOCKED_ADDRESSES = 'Takeout/Mail/User Settings/Blocked addresses.json',
+    MAIL_BLOCKED_ADDRESSES = 'Takeout/Mail/User settings/Blocked addresses.json',
     MAIL_ALL = 'Takeout/Mail/All mail Including Spam and Trash.mbox',
     LOCATION_HISTORY_RECORDS = 'Takeout/Location History/Records.json',
     LOCATION_HISTORY_SETTINGS = 'Takeout/Location History/Settings.json',
@@ -386,7 +393,7 @@ export enum FileCodeGoogle {
     SAVED_FAVOURITE_PLACES = 'Takeout/Saved/Favourite places.csv',
     SEARCH_CONTRIBUTIONS_HEARTS = 'Takeout/Search Contributions/Hearts.json',
     SEARCH_CONTRIBUTIONS_THUMBS = 'Takeout/Search Contributions/Thumbs.json',
-    SEARCH_CONTRIBUTIONS_ACCOUNT = 'Takeout/Search Contributions/(.+)/Account.json',
+    SEARCH_CONTRIBUTIONS_ACCOUNT = 'Takeout/Search Contributions/(.+)/Accounts.json',
     SHOPPING_ADDRESSES = 'Takeout/Google Shopping/Addresses/Addresses.txt',
     SHOPPING_COLLECTION_POINTS = 'Takeout/Google Shopping/Collection Point/Collection Point.txt',
     SHOPPING_LOYALTY = 'Takeout/Google Shopping/Loyalty/Loyalty.txt',
@@ -407,6 +414,9 @@ export enum FileCodeGoogle {
     TASKS = 'Takeout/Tasks/Tasks.json',
     YOUTUBE_LIKED_VIDEOS = 'Takeout/YouTube and YouTube Music/playlists/Liked videos.csv',
     YOUTUBE_PLAYLIST_UPLOADS = 'Takeout/YouTube and YouTube Music/playlists/Uploads from (.*).csv',
+    //cannot be parsed
+    BOOK_HTML = 'Takeout/Google Play Books/(.+)/(.+).html',
+    BOOK_JSON = 'Takeout/Google Play Books/(.+)/(.+).json',
 }
 
 export enum FileCodeLinkedIn {
