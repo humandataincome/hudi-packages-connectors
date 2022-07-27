@@ -341,7 +341,10 @@ export class ValidatorFiles {
                 return ValidatorNetflix.getInstance();
             case DataSourceCode.LINKEDIN:
                 return ValidatorLinkedIn.getInstance();
-            case DataSourceCode.SHOPIFY_CUSTOMERS || DataSourceCode.SHOPIFY_DISCOUNTS || DataSourceCode.SHOPIFY_ORDERS || DataSourceCode.SHOPIFY_PRODUCTS:
+            case DataSourceCode.SHOPIFY_CUSTOMERS:
+            case DataSourceCode.SHOPIFY_ORDERS:
+            case DataSourceCode.SHOPIFY_PRODUCTS:
+            case DataSourceCode.SHOPIFY_DISCOUNTS:
                 return ValidatorShopify.getInstance();
             case DataSourceCode.TWITTER:
                 return ValidatorTwitter.getInstance();

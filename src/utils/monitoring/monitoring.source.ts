@@ -76,7 +76,10 @@ export class MonitoringService {
                                     case DataSourceCode.REDDIT:
                                         parsingResult = await ServiceReddit.parseFile(<FileCodeReddit>fileCode, data);
                                         break;
-                                    case DataSourceCode.SHOPIFY_CUSTOMERS || DataSourceCode.SHOPIFY_ORDERS || DataSourceCode.SHOPIFY_PRODUCTS || DataSourceCode.SHOPIFY_DISCOUNTS:
+                                    case DataSourceCode.SHOPIFY_CUSTOMERS:
+                                    case DataSourceCode.SHOPIFY_ORDERS:
+                                    case DataSourceCode.SHOPIFY_PRODUCTS:
+                                    case DataSourceCode.SHOPIFY_DISCOUNTS:
                                         parsingResult = await ServiceShopify.parseFile(<FileCodeShopify>fileCode, data);
                                         break;
                                     case DataSourceCode.TIKTOK:
@@ -166,7 +169,10 @@ export class MonitoringService {
                 return Object.values(FileCodeLinkedIn);
             case DataSourceCode.NETFLIX:
                 return Object.values(FileCodeNetflix);
-            case DataSourceCode.SHOPIFY_ORDERS || DataSourceCode.SHOPIFY_DISCOUNTS || DataSourceCode.SHOPIFY_PRODUCTS || DataSourceCode.SHOPIFY_CUSTOMERS:
+            case DataSourceCode.SHOPIFY_CUSTOMERS:
+            case DataSourceCode.SHOPIFY_ORDERS:
+            case DataSourceCode.SHOPIFY_PRODUCTS:
+            case DataSourceCode.SHOPIFY_DISCOUNTS:
                 return Object.values(FileCodeShopify);
             case DataSourceCode.TIKTOK:
                 return Object.values(FileCodeTikTok);

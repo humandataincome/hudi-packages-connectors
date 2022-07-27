@@ -70,7 +70,6 @@ export class ServiceInstagram {
      * @param data - file to parse as Buffer
      */
     static async parseFile(fileCode: FileCodeInstagram, data: Buffer) {
-        console.log('NAME: '+ fileCode)
         switch (fileCode) {
             case FileCodeInstagram.PERSONAL_INFO:
                 return this.parsePersonalInformation(data);
@@ -101,19 +100,21 @@ export class ServiceInstagram {
             case FileCodeInstagram.STORIES_CREATED:
                 return this.parsePersonalStories(data);
             case FileCodeInstagram.FOLLOWERS:
-                return this.parsePersonalInformation(data);
+                return this.parseFollowers(data);
             case FileCodeInstagram.FOLLOWING_ACCOUNTS:
-                return this.parsePersonalInformation(data);
+                return this.parseFollowingAccounts(data);
             case FileCodeInstagram.FOLLOWING_HASHTAGS:
-                return this.parsePersonalInformation(data);
+                return this.parseFollowingHashtags(data);
             case FileCodeInstagram.INFO_ADS_INTERESTS:
-                return this.parseAdsUsingYourInformation(data);
+                return this.parseAdsInterests(data);
             case FileCodeInstagram.INFO_ACCOUNT_BASED_IN:
                 return this.parseLocation(data);
             case FileCodeInstagram.LIKE_COMMENTS:
                 return this.parseLikedComments(data);
-            case FileCodeInstagram.MESSAGE_REQUESTS || FileCodeInstagram.MESSAGE_CONVERSATION:
-                console.log('OHHHHHHH')
+            case FileCodeInstagram.LIKE_POSTS:
+                return this.parseLikedPosts(data);
+            case FileCodeInstagram.MESSAGE_REQUESTS:
+            case FileCodeInstagram.MESSAGE_CONVERSATION:
                 return this.parseMessages(data);
             case FileCodeInstagram.ELIGIBILITY:
                 return this.parseEligibility(data);
@@ -131,6 +132,10 @@ export class ServiceInstagram {
                 return this.parseReelTopics(data);
             case FileCodeInstagram.YOUR_TOPICS:
                 return this.parseTopics(data);
+            case FileCodeInstagram.MUSIC_HEARD_HISTORY:
+                return this.parseMusicHeardInStories(data);
+            case FileCodeInstagram.MUSIC_USED_HISTORY:
+                return this.parseMusicRecentlyUsedInStories(data);
             default:
                 return undefined;
         }

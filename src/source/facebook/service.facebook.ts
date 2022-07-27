@@ -87,7 +87,8 @@ export class ServiceFacebook {
                 return this.parseRemovedFriends(data);
             case FileCodeFacebook.FRIENDS_WHO_YOU_FOLLOW:
                 return this.parseWhoYouFollow(data);
-            case FileCodeFacebook.MESSAGE_FILTERED || FileCodeFacebook.MESSAGE_CONVERSATION :
+            case FileCodeFacebook.MESSAGE_FILTERED:
+            case FileCodeFacebook.MESSAGE_CONVERSATION:
                 return this.parseMessages(data);
             case FileCodeFacebook.ADS_INTERESTS:
                 return this.parseAdsInterests(data);
