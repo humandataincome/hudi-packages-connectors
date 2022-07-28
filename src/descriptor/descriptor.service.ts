@@ -164,12 +164,12 @@ export class DescriptorService {
     }
 
     /**
-     * @param filePath
+     * @param filePath - file pathname already validated
      * @param dataSourceCode - code of the data source
      * @param language - language of the data source
-     * @return all the files descriptions for a given data source and language code
+     * @return the description of a file given a file pathname validated, a Datasource code and the language code
      */
-    static getFileDescription(filePath: string, dataSourceCode: DataSourceCode, language: LanguageCode): string | undefined {
+    static getFileDescription(filePath: string, dataSourceCode: DataSourceCode, language: LanguageCode = LanguageCode.ENGLISH): string | undefined {
         try {
             const datasourceFilesDescriptors = descriptor?.datasourceFilesDescriptions?.find(
                 ({sourceCode, fileDescriptions}) => sourceCode === dataSourceCode && fileDescriptions.length);
