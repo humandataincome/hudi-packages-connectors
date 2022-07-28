@@ -177,7 +177,7 @@ export class DescriptorService {
                 const filesDescription = datasourceFilesDescriptors.fileDescriptions?.find(
                     ({languageCode, filesDescription}) => languageCode === language && filesDescription.length);
                 if (filesDescription) {
-                    const enumInstance = this.getRespectiveFileCodeEnum(dataSourceCode);
+                    const enumInstance = this.getFileCodeEnumFromDatasourceCode(dataSourceCode);
                     if (enumInstance) {
                         const found = filesDescription.filesDescription.find((description: FileContent) => {
                             const indexOfPath = Object.keys(enumInstance).indexOf(description.fileCode);
@@ -201,28 +201,33 @@ export class DescriptorService {
         }
     }
 
-    private static getRespectiveFileCodeEnum(dataSourceCode: DataSourceCode): any | undefined {
-        if (dataSourceCode === DataSourceCode.INSTAGRAM) {
-            return FileCodeInstagram;
-        } else if (dataSourceCode === DataSourceCode.FACEBOOK) {
-            return FileCodeFacebook;
-        } else if (dataSourceCode === DataSourceCode.AMAZON) {
-            return FileCodeAmazon;
-        } else if (dataSourceCode === DataSourceCode.GOOGLE) {
-            return FileCodeGoogle;
-        } else if (dataSourceCode === DataSourceCode.LINKEDIN) {
-            return FileCodeLinkedIn;
-        } else if (dataSourceCode === DataSourceCode.NETFLIX) {
-            return FileCodeNetflix;
-        } else if (dataSourceCode === DataSourceCode.SHOPIFY_PRODUCTS
-            || dataSourceCode === DataSourceCode.SHOPIFY_ORDERS
-            || dataSourceCode === DataSourceCode.SHOPIFY_DISCOUNTS
-            || dataSourceCode === DataSourceCode.SHOPIFY_CUSTOMERS) {
-            return FileCodeShopify;
-        } else if (dataSourceCode === DataSourceCode.TWITTER) {
-            return FileCodeTwitter;
-        } else {
-            return undefined;
+    private static getFileCodeEnumFromDatasourceCode(code: DataSourceCode): any | undefined {
+        switch (code) {
+            case DataSourceCode.INSTAGRAM:
+                return FileCodeInstagram;
+            case DataSourceCode.FACEBOOK:
+                return FileCodeFacebook;
+            case DataSourceCode.AMAZON:
+                return FileCodeAmazon;
+            case DataSourceCode.GOOGLE:
+                return FileCodeGoogle;
+            case DataSourceCode.LINKEDIN:
+                return FileCodeLinkedIn;
+            case DataSourceCode.NETFLIX:
+                return FileCodeNetflix;
+            case DataSourceCode.SHOPIFY_PRODUCTS:
+            case DataSourceCode.SHOPIFY_ORDERS:
+            case DataSourceCode.SHOPIFY_DISCOUNTS:
+            case DataSourceCode.SHOPIFY_CUSTOMERS:
+                return FileCodeShopify;
+            case DataSourceCode.TWITTER:
+                return FileCodeTwitter;
+            case DataSourceCode.REDDIT:
+                return FileCodeTwitter;
+            case DataSourceCode.TIKTOK:
+                return FileCodeTwitter;
+            default:
+                return undefined;
         }
     }
 }
