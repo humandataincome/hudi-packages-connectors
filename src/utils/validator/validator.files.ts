@@ -98,28 +98,35 @@ export class ValidatorFiles {
                     options: options,
                 };
 
-                const x = this.unzipFileFromStream(subscriber, support);
-                x.then(() => {
-                    console.log(support);
-                    subscriber.next(
-                        {
-                            status: ValidationStatus.ZIPPING
-                        });
-                    validationReturn.zipFile = ValidatorFiles.zipFiles(support.validFiles);
-                    const maxBytesZip = (options && options.maxBytesZipFile) ? options.maxBytesZipFile : this.MAX_BYTE_ZIP;
-                    if (validationReturn.zipFile.length > maxBytesZip) {
-                        throw Error(`${ValidationErrorEnum.VALIDATED_FILES_TOO_BIG}: expected zip file containing valid files is exceeding bytes limit (${maxBytesZip / 1e9} GB)`);
+                const unzipStream$ = from(this.unzipFileFromStream(subscriber, support)).subscribe({
+                        error(err) {
+                            console.error('ERROR: ' + err);
+                        },
+                        complete() {
+                            console.log('PROMISE IS DONE: ')
+                            subscriber.next(
+                                {
+                                    status: ValidationStatus.ZIPPING
+                                });
+                            validationReturn.zipFile = ValidatorFiles.zipFiles(support.validFiles);
+                            const maxBytesZip = (options && options.maxBytesZipFile) ? options.maxBytesZipFile : ValidatorFiles.MAX_BYTE_ZIP;
+                            if (validationReturn.zipFile.length > maxBytesZip) {
+                                throw Error(`${ValidationErrorEnum.VALIDATED_FILES_TOO_BIG}: expected zip file containing valid files is exceeding bytes limit (${maxBytesZip / 1e9} GB)`);
+                            }
+                            if (validationReturn.includedFiles.length === 0) {
+                                throw Error(`${ValidationErrorEnum.NOT_VALID_FILES_ERROR}: file zip has not any valid file`);
+                            }
+                            subscriber.next(
+                                {
+                                    status: ValidationStatus.DONE,
+                                    validationResult: validationReturn
+                                });
+                            subscriber.complete();
+                        }
                     }
-                    if (validationReturn.includedFiles.length === 0) {
-                        throw Error(`${ValidationErrorEnum.NOT_VALID_FILES_ERROR}: file zip has not any valid file`);
-                    }
-                    subscriber.next(
-                        {
-                            status: ValidationStatus.DONE,
-                            validationResult: validationReturn
-                        });
-                    subscriber.complete();
-                });
+                );
+
+
 
             } catch(error: any) {
                 subscriber.next(
@@ -141,7 +148,6 @@ export class ValidatorFiles {
         if (support.readableStream) {
             const reader = support.readableStream.getReader();
             for (let finished = false; !finished;) {
-                console.log('---------VAL---------')
                 const {done, value} = await reader.read();
                 if (value) {
                     bytesRead = bytesRead + (<Uint8Array>value).byteLength;

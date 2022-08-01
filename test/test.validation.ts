@@ -53,13 +53,11 @@ async function validateStream() {
         },
     throwExceptions: true});
 
-    console.log('just before subscribe');
     validation$.subscribe({
-        next(x) { console.log('ITERATION: ' + x.status); },
+        next(x) { console.log('ITERATION: ', x.status, x.bytesRead, x.validationResult); },
         error(err) { console.error('ERROR: ' + err); },
         complete() { console.log('DONE'); }
     });
-    console.log('just after subscribe');
 }
 
 function mergingTest() {
