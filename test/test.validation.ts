@@ -1,15 +1,15 @@
 import {
     DataSourceCode,
-    FileCodeAmazon, ProcessorAmazon, ProcessorFacebook, ProcessorGoogle,
-    ProcessorInstagram, ValidateZipStatus,
-    ValidationErrorEnum, ValidatorFiles,
+    ProcessorInstagram,
+    ValidateZipStatus,
+    ValidationErrorEnum,
+    ValidationStatus,
+    ValidatorFiles,
     ValidatorInstagram
 } from "../src";
-import ErrnoException = NodeJS.ErrnoException;
-import {
-    ReadableStream
-} from 'node:stream/web';
+import {ReadableStream} from 'node:stream/web';
 import {Observable} from "rxjs";
+import ErrnoException = NodeJS.ErrnoException;
 
 async function testValidation(){
     await validateStream();
@@ -36,8 +36,11 @@ async function validateZippingFiles() {
 async function validateStream() {
     const fs = require('fs');
     const path = require('path');
+    const pathToZip = "../src/mock/datasource zip files/amazon.zip";
+    fs.readFile(path.join(__dirname, pathToZip),(err: ErrnoException, data: Buffer) => console.log("TOTAL SIZE: " + data.byteLength));
+
     const readStream = fs.createReadStream(
-        path.join(__dirname,"../src/mock/datasource zip files/google_en.zip"));
+        path.join(__dirname, pathToZip));
     const readableStream = new ReadableStream({
         async start(controller) {
             readStream.on("data", (chunk: Buffer|string) => {
@@ -49,12 +52,21 @@ async function validateStream() {
     });
     let validation$: Observable<ValidateZipStatus> = ValidatorFiles.validateZipStream(readableStream, {
         filterDataSource: {
-            dataSourceCode: DataSourceCode.GOOGLE
-        },
-    throwExceptions: true});
+            dataSourceCode: DataSourceCode.AMAZON
+        }, throwExceptions: true});
 
     validation$.subscribe({
-        next(x) { console.log('ITERATION: ', x.status, x.bytesRead, x.validationResult); },
+        next(x) {
+            if(x.status === ValidationStatus.VALIDATING) {
+                //console.log('Iteration: ', x.bytesRead);
+            }
+            if(x.status === ValidationStatus.ZIPPING) {
+                console.log('Iteration: ', x.bytesRead);
+            }
+            if (x.status === ValidationStatus.DONE) {
+                //console.log('Last iteration: ', x.validationResult);
+            }
+            },
         error(err) { console.error('ERROR: ' + err); },
         complete() { console.log('DONE'); }
     });
@@ -127,7 +139,7 @@ function validatingTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/tiktok.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
             //await (await ValidatorFiles.getPathsIntoZip(data))!.forEach((pathName) => console.log(pathName));
             if (err) {
                 console.log(err)
@@ -135,7 +147,7 @@ function validatingTest() {
             const zip = await ValidatorFiles.validateZip(data,
                 {
                     filterDataSource: {
-                        dataSourceCode: DataSourceCode.TIKTOK,
+                        dataSourceCode: DataSourceCode.AMAZON,
                     }
                 }
                 );

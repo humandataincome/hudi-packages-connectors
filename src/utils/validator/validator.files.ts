@@ -97,13 +97,11 @@ export class ValidatorFiles {
                     validFiles: {},
                     options: options,
                 };
-
-                const unzipStream$ = from(this.unzipFileFromStream(subscriber, support)).subscribe({
-                        error(err) {
-                            console.error('ERROR: ' + err);
+                from(this.unzipFileFromStream(subscriber, support)).subscribe({
+                        error(error) {
+                            subscriber.error(error);
                         },
                         complete() {
-                            console.log('PROMISE IS DONE: ')
                             subscriber.next(
                                 {
                                     status: ValidationStatus.ZIPPING
@@ -125,37 +123,25 @@ export class ValidatorFiles {
                         }
                     }
                 );
-
-
-
             } catch(error: any) {
                 subscriber.next(
                     {
                         status: ValidationStatus.ERROR
                     });
                 (error && error.message) && (this.logger.log('error', error.message, 'validateZipStream'));
-                if (options && options.throwExceptions !== undefined && options.throwExceptions) {
-                    subscriber.error(error);
-                }
+                subscriber.error(error);
             }
         });
     }
 
     private static async unzipFileFromStream(subscriber: Subscriber<ValidateZipStatus>, support: ValidateObjectSupport) {
-        const unzipStream: Unzip = this.getUnzipStream(support);
-        let bytesRead = 0;
+        const unzipStream: Unzip = this.getUnzipStream(subscriber, support);
         unzipStream.register(UnzipInflate); //can't be async otherwise the RAM usage would be too much
         if (support.readableStream) {
             const reader = support.readableStream.getReader();
             for (let finished = false; !finished;) {
                 const {done, value} = await reader.read();
                 if (value) {
-                    bytesRead = bytesRead + (<Uint8Array>value).byteLength;
-                    subscriber.next(
-                        {
-                            bytesRead: bytesRead + value,
-                            status: ValidationStatus.VALIDATING
-                        });
                     unzipStream.push(value);
                 }
                 finished = done;
@@ -201,7 +187,8 @@ export class ValidatorFiles {
         return zipSync(files);
     }
 
-    private static getUnzipStream(support: ValidateObjectSupport): Unzip {
+    private static getUnzipStream(subscriber: Subscriber<ValidateZipStatus>, support: ValidateObjectSupport): Unzip {
+        let bytesRead = 0;
         let file: FilesBuilder = {};
         return new Unzip((stream: UnzipFile) => {
             stream.ondata = (error: FlateError | null, chunk: Uint8Array, final: boolean) => {
@@ -214,6 +201,12 @@ export class ValidatorFiles {
                 }
                 this.buildFile(file, chunk, stream.name, (support.options && support.options.maxBytesZipFile) ? support.options.maxBytesZipFile : this.MAX_BYTE_ZIP);
                 if (final) {
+                    bytesRead = (chunk && chunk.byteLength) ? bytesRead + chunk.byteLength : bytesRead;
+                    subscriber.next(
+                        {
+                            bytesRead: bytesRead,
+                            status: ValidationStatus.VALIDATING
+                        });
                     if (!file[stream.name].isCorrupted && !file[stream.name].isTooLarge) {
                         this.filterFile(file[stream.name].fileChunk, stream.name, support);
                     }
