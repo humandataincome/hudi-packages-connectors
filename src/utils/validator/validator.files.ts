@@ -22,6 +22,7 @@ import {
 } from "../../source";
 import {ValidatorNetflix} from "../../source";
 import {ValidatorObject} from "./validator.object";
+import {from, Observable, Subscriber} from 'rxjs';
 
 export interface ValidateZipOptions {
     permittedFileExtensions?: FileExtension[]; //include only files with these extensions, if omitted includes everything
@@ -33,6 +34,18 @@ export interface ValidateZipOptions {
     minBytesPerFile?: number;
     maxBytesZipFile?: number;
     throwExceptions?: boolean;
+}
+
+export enum ValidationStatus {
+    VALIDATING = 'VALIDATING',
+    ZIPPING = 'ZIPPING',
+    DONE = 'DONE',
+    ERROR = 'ERROR'
+}
+export interface ValidateZipStatus {
+    status: ValidationStatus;
+    bytesRead?: number;
+    validationResult?: ValidationReturn | undefined;
 }
 
 export interface MergingOptions {
@@ -69,49 +82,76 @@ export class ValidatorFiles {
      * @param readableStream - streaming in input
      * @param options - optional parameters defined into ValidateZipOptions interface
      */
-    static async validateZipStream(readableStream: ReadableStream, options: ValidateZipOptions = {}): Promise<ValidationReturn | undefined> {
-        try {
-            const validationReturn: ValidationReturn = {
-                zipFile: new Uint8Array(),
-                includedFiles: [],
-                excludedFiles: [],
-            }
+    static validateZipStream(readableStream: ReadableStream, options: ValidateZipOptions = {}): Observable<ValidateZipStatus> {
+        return new Observable<ValidateZipStatus>((subscriber: Subscriber<ValidateZipStatus>) => {
+            try {
+                const validationReturn: ValidationReturn = {
+                    zipFile: new Uint8Array(),
+                    includedFiles: [],
+                    excludedFiles: [],
+                }
 
-            const support: ValidateObjectSupport = {
-                readableStream: readableStream,
-                returnObject: validationReturn,
-                validFiles: {},
-                options: options,
-            };
+                const support: ValidateObjectSupport = {
+                    readableStream: readableStream,
+                    returnObject: validationReturn,
+                    validFiles: {},
+                    options: options,
+                };
 
-            await this.unzipFileFromStream(support);
-            validationReturn.zipFile = this.zipFiles(support.validFiles);
-            const maxBytesZip = (options && options.maxBytesZipFile) ? options.maxBytesZipFile : this.MAX_BYTE_ZIP;
-            if (validationReturn.zipFile.length > maxBytesZip) {
-                throw new Error(`${ValidationErrorEnum.VALIDATED_FILES_TOO_BIG}: expected zip file containing valid files is exceeding bytes limit (${maxBytesZip/1e9} GB)`);
+                const x = this.unzipFileFromStream(subscriber, support);
+                x.then(() => {
+                    console.log(support);
+                    subscriber.next(
+                        {
+                            status: ValidationStatus.ZIPPING
+                        });
+                    validationReturn.zipFile = ValidatorFiles.zipFiles(support.validFiles);
+                    const maxBytesZip = (options && options.maxBytesZipFile) ? options.maxBytesZipFile : this.MAX_BYTE_ZIP;
+                    if (validationReturn.zipFile.length > maxBytesZip) {
+                        throw Error(`${ValidationErrorEnum.VALIDATED_FILES_TOO_BIG}: expected zip file containing valid files is exceeding bytes limit (${maxBytesZip / 1e9} GB)`);
+                    }
+                    if (validationReturn.includedFiles.length === 0) {
+                        throw Error(`${ValidationErrorEnum.NOT_VALID_FILES_ERROR}: file zip has not any valid file`);
+                    }
+                    subscriber.next(
+                        {
+                            status: ValidationStatus.DONE,
+                            validationResult: validationReturn
+                        });
+                    subscriber.complete();
+                });
+
+            } catch(error: any) {
+                subscriber.next(
+                    {
+                        status: ValidationStatus.ERROR
+                    });
+                (error && error.message) && (this.logger.log('error', error.message, 'validateZipStream'));
+                if (options && options.throwExceptions !== undefined && options.throwExceptions) {
+                    subscriber.error(error);
+                }
             }
-            if (validationReturn.includedFiles.length === 0) {
-                throw new Error(`${ValidationErrorEnum.NOT_VALID_FILES_ERROR}: file zip has not any valid file`);
-            }
-            return validationReturn;
-        } catch(error: any) {
-            (error && error.message) && (this.logger.log('error', error.message, 'validateZipStream'));
-            if (options && options.throwExceptions !== undefined && options.throwExceptions) {
-                throw error;
-            }
-        }
-        return undefined;
+        });
     }
 
-    private static async unzipFileFromStream(support: ValidateObjectSupport) {
+    private static async unzipFileFromStream(subscriber: Subscriber<ValidateZipStatus>, support: ValidateObjectSupport) {
         const unzipStream: Unzip = this.getUnzipStream(support);
+        let bytesRead = 0;
         unzipStream.register(UnzipInflate); //can't be async otherwise the RAM usage would be too much
         if (support.readableStream) {
             const reader = support.readableStream.getReader();
             for (let finished = false; !finished;) {
+                console.log('---------VAL---------')
                 const {done, value} = await reader.read();
-                if (value)
+                if (value) {
+                    bytesRead = bytesRead + (<Uint8Array>value).byteLength;
+                    subscriber.next(
+                        {
+                            bytesRead: bytesRead + value,
+                            status: ValidationStatus.VALIDATING
+                        });
                     unzipStream.push(value);
+                }
                 finished = done;
             }
         }

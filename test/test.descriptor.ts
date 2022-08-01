@@ -1,4 +1,4 @@
-import {DataSourceCode, DescriptorService, LanguageCode} from "../src";
+import {DataSourceCode, DescriptorService, FileCodeInstagram, LanguageCode} from "../src";
 
 async function testDescriptor(){
     await descriptorServiceTest();
@@ -13,7 +13,7 @@ async function descriptorServiceTest() {
         //console.log(DescriptorService.getAllProcedureTypes(DataSourceCode.AMAZON, LanguageCode.ENGLISH));
         //console.log(DescriptorService.getProcedure(DataSourceCode.SHOPIFY_CUSTOMERS, LanguageCode.ENGLISH, RetrievingProcedureType.DESKTOP));
         //console.log(DescriptorService.getAllLanguages(DataSourceCode.INSTAGRAM));
-        console.log(DescriptorService.getFileDescription('Retail.OrdersReturned.Payments.4/Retail.OrdersReturned.Payments.4.csv', DataSourceCode.AMAZON, LanguageCode.ENGLISH));
+        console.log(DescriptorService.getFileDescription(FileCodeInstagram.SAVED_POSTS, DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);

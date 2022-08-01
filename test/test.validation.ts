@@ -1,7 +1,7 @@
 import {
     DataSourceCode,
     FileCodeAmazon, ProcessorAmazon, ProcessorFacebook, ProcessorGoogle,
-    ProcessorInstagram,
+    ProcessorInstagram, ValidateZipStatus,
     ValidationErrorEnum, ValidatorFiles,
     ValidatorInstagram
 } from "../src";
@@ -9,11 +9,12 @@ import ErrnoException = NodeJS.ErrnoException;
 import {
     ReadableStream
 } from 'node:stream/web';
+import {Observable} from "rxjs";
 
 async function testValidation(){
-    //await validateStream();
+    await validateStream();
     //await validateZippingFiles();
-    validatingTest();
+    //validatingTest();
     //validatingBigFileTest();
     //mergingTest();
     //await sequentialValidationsProcessingTest();
@@ -36,7 +37,7 @@ async function validateStream() {
     const fs = require('fs');
     const path = require('path');
     const readStream = fs.createReadStream(
-        path.join(__dirname,"../src/mock/datasource zip files/ds2.zip"));
+        path.join(__dirname,"../src/mock/datasource zip files/google_en.zip"));
     const readableStream = new ReadableStream({
         async start(controller) {
             readStream.on("data", (chunk: Buffer|string) => {
@@ -46,12 +47,19 @@ async function validateStream() {
             readStream.on("error", () => controller.error());
         }
     });
-    let x = await ValidatorFiles.validateZipStream(readableStream, {
+    let validation$: Observable<ValidateZipStatus> = ValidatorFiles.validateZipStream(readableStream, {
         filterDataSource: {
-            dataSourceCode: DataSourceCode.AMAZON
+            dataSourceCode: DataSourceCode.GOOGLE
         },
     throwExceptions: true});
-    console.log(x);
+
+    console.log('just before subscribe');
+    validation$.subscribe({
+        next(x) { console.log('ITERATION: ' + x.status); },
+        error(err) { console.error('ERROR: ' + err); },
+        complete() { console.log('DONE'); }
+    });
+    console.log('just after subscribe');
 }
 
 function mergingTest() {
@@ -136,15 +144,7 @@ function validatingTest() {
             console.log(zip);
         });
     } catch (e: any) {
-        if(e.message === `${ValidationErrorEnum.NO_USEFUL_FILES_ERROR}: The filtered ZIP has not any file`) {
-            console.error('The filtered ZIP has not any file');
-        } else if (`${ValidationErrorEnum.LANGUAGE_ERROR}: The ZIP file has not a recognizable Language to be corrected parsed`) {
-            console.error('The ZIP file has not a recognizable Language to be corrected parsed');
-        } else if (e.code == 'MODULE_NOT_FOUND') {
-            console.error('[Error not founding module] ' + e);
-        } else {
-            console.error(e);
-        }
+        console.error(e);
     }
 }
 async function sequentialValidationsProcessingTest() {
