@@ -24,7 +24,7 @@ import {ValidatorNetflix} from "../../source";
 import {ValidatorObject} from "./validator.object";
 import {from, Observable, Subscriber} from 'rxjs';
 
-export interface ValidateZipOptions {
+export interface ValidationZipOptions {
     permittedFileExtensions?: FileExtension[]; //include only files with these extensions, if omitted includes everything
     filterDataSource?: {
         dataSourceCode: DataSourceCode;
@@ -42,7 +42,7 @@ export enum ValidationStatus {
     DONE = 'DONE',
     ERROR = 'ERROR'
 }
-export interface ValidateZipStatus {
+export interface ValidationZipStatus {
     status: ValidationStatus;
     bytesRead?: number;
     validationResult?: ValidationReturn | undefined;
@@ -59,11 +59,13 @@ export interface ValidationReturn {
     excludedFiles: string[],
 }
 
-interface ValidateObjectSupport {
+interface ValidationObjectSupport {
     readableStream?: ReadableStream;
     returnObject: ValidationReturn;
     validFiles: AsyncZippable;
-    options: ValidateZipOptions;
+    options: ValidationZipOptions;
+    bytesRead?: number;
+    subscriber?: Subscriber<ValidationZipStatus>
     recursiveZipPrefix?: string;
 }
 
@@ -79,11 +81,13 @@ export class ValidatorFiles {
     public static MAX_BYTE_ZIP = 1e9; //1 GB
 
     /**
+     * An observable taking in input a zip file as ReadableStream. Every time a file is read and validated the observable emits an event containing a status:
+     * if the status is VALIDATING the event contains also the number of bytes read until that moment, if the event is DONE the event return an object of ValidationReturn type
      * @param readableStream - streaming in input
-     * @param options - optional parameters defined into ValidateZipOptions interface
+     * @param options - optional parameters defined into ValidationZipOptions interface
      */
-    static validateZipStream(readableStream: ReadableStream, options: ValidateZipOptions = {}): Observable<ValidateZipStatus> {
-        return new Observable<ValidateZipStatus>((subscriber: Subscriber<ValidateZipStatus>) => {
+    static validateZipStream(readableStream: ReadableStream, options: ValidationZipOptions = {}): Observable<ValidationZipStatus> {
+        return new Observable<ValidationZipStatus>((subscriber: Subscriber<ValidationZipStatus>) => {
             try {
                 const validationReturn: ValidationReturn = {
                     zipFile: new Uint8Array(),
@@ -91,13 +95,15 @@ export class ValidatorFiles {
                     excludedFiles: [],
                 }
 
-                const support: ValidateObjectSupport = {
+                const support: ValidationObjectSupport = {
                     readableStream: readableStream,
                     returnObject: validationReturn,
                     validFiles: {},
+                    bytesRead: 0,
+                    subscriber: subscriber,
                     options: options,
                 };
-                from(this.unzipFileFromStream(subscriber, support)).subscribe({
+                from(this.unzipFileFromStream(support)).subscribe({
                         error(error) {
                             subscriber.error(error);
                         },
@@ -134,8 +140,8 @@ export class ValidatorFiles {
         });
     }
 
-    private static async unzipFileFromStream(subscriber: Subscriber<ValidateZipStatus>, support: ValidateObjectSupport) {
-        const unzipStream: Unzip = this.getUnzipStream(subscriber, support);
+    private static async unzipFileFromStream(support: ValidationObjectSupport) {
+        const unzipStream: Unzip = this.getUnzipStream(support);
         unzipStream.register(UnzipInflate); //can't be async otherwise the RAM usage would be too much
         if (support.readableStream) {
             const reader = support.readableStream.getReader();
@@ -149,12 +155,13 @@ export class ValidatorFiles {
         }
     }
 
-    private static buildFile(file: FilesBuilder, chunk: Uint8Array, fileName: string, maxBytesFile: number) {
+    private static buildFile(file: FilesBuilder, chunk: Uint8Array, fileName: string, support: ValidationObjectSupport) {
         if (chunk) {
             if (file[fileName]) {
                 if (!file[fileName].isCorrupted) {
                     if (!file[fileName].isTooLarge) {
                         if (file[fileName].fileChunk.length > 0) {
+                            const maxBytesFile = (support.options && support.options.maxBytesZipFile) ? support.options.maxBytesZipFile : this.MAX_BYTE_ZIP;
                             const fileLength = file[fileName].fileChunk.length;
                             const chunkLength = chunk.length;
                             const finalBuffer = new Uint8Array(fileLength + chunkLength);
@@ -187,26 +194,30 @@ export class ValidatorFiles {
         return zipSync(files);
     }
 
-    private static getUnzipStream(subscriber: Subscriber<ValidateZipStatus>, support: ValidateObjectSupport): Unzip {
-        let bytesRead = 0;
+    private static getUnzipStream(support: ValidationObjectSupport): Unzip {
         let file: FilesBuilder = {};
         return new Unzip((stream: UnzipFile) => {
             stream.ondata = (error: FlateError | null, chunk: Uint8Array, final: boolean) => {
                 if (error) {
-                    this.logger.log('error', 'An error occurred while streaming: ' + stream.name, 'getUnzipStream');
-                    file[stream.name] = {
-                        fileChunk: new Uint8Array(),
-                        isCorrupted: true
-                    };
+                    if ((!file[stream.name]) || (file[stream.name] && !file[stream.name].isCorrupted)) {
+                        this.logger.log('error', 'An error occurred while streaming: ' + stream.name, 'getUnzipStream');
+                        file[stream.name] = {
+                            fileChunk: new Uint8Array(),
+                            isCorrupted: true
+                        };
+                        support.returnObject.excludedFiles.push(stream.name);
+                    }
                 }
-                this.buildFile(file, chunk, stream.name, (support.options && support.options.maxBytesZipFile) ? support.options.maxBytesZipFile : this.MAX_BYTE_ZIP);
+                this.buildFile(file, chunk, stream.name, support);
                 if (final) {
-                    bytesRead = (chunk && chunk.byteLength) ? bytesRead + chunk.byteLength : bytesRead;
-                    subscriber.next(
-                        {
-                            bytesRead: bytesRead,
-                            status: ValidationStatus.VALIDATING
-                        });
+                    if (support.subscriber && support.bytesRead !== undefined) {
+                        support.bytesRead = support.bytesRead + file[stream.name].fileChunk.byteLength;
+                        support.subscriber.next(
+                            {
+                                bytesRead: support.bytesRead,
+                                status: ValidationStatus.VALIDATING
+                            });
+                    }
                     if (!file[stream.name].isCorrupted && !file[stream.name].isTooLarge) {
                         this.filterFile(file[stream.name].fileChunk, stream.name, support);
                     }
@@ -217,7 +228,7 @@ export class ValidatorFiles {
         });
     }
 
-    private static filterFile(fileContent: Uint8Array, fileName: string, support: ValidateObjectSupport, recursiveZipPrefix?: string) {
+    private static filterFile(fileContent: Uint8Array, fileName: string, support: ValidationObjectSupport, recursiveZipPrefix?: string) {
         if (!ValidatorObject.isDirectory(fileName)) {
             if (fileContent && fileContent.length > 0) {
                 (recursiveZipPrefix) && (fileName = recursiveZipPrefix+'/'+fileName);
@@ -262,7 +273,7 @@ export class ValidatorFiles {
         }
     }
 
-    private static getValidPathName(pathName: string, optionsValidation: ValidateZipOptions): string | undefined {
+    private static getValidPathName(pathName: string, optionsValidation: ValidationZipOptions): string | undefined {
         if (optionsValidation && optionsValidation.filterDataSource && optionsValidation.filterDataSource.dataSourceCode) {
             const datasource = this.validatorSelector(optionsValidation.filterDataSource?.dataSourceCode);
             if (datasource) {
@@ -291,7 +302,7 @@ export class ValidatorFiles {
      * @param options - used if parameter maxBytesPerFile or minBytesPerFile are defined into it
      * @return TRUE if the file's size is between the minSize and the maxSize, FALSE otherwise
      */
-    static isValidSize(file: Uint8Array, pathName: string, options: ValidateZipOptions = {}): boolean {
+    static isValidSize(file: Uint8Array, pathName: string, options: ValidationZipOptions = {}): boolean {
         const maxSize = (options && options.maxBytesPerFile) ? options.maxBytesPerFile : this.MAX_BYTE_FILE_SIZE;
         const minSize = (options && options.minBytesPerFile) ? options.minBytesPerFile : this.MIN_BYTE_FILE_SIZE;
         const size = file.length;
@@ -447,17 +458,17 @@ export class ValidatorFiles {
 
     /**
      * @param zipFile - file zip as one of the Buffer-like types supported
-     * @param options - OPTIONAL: a set of options described into ValidateZipOptions type.
+     * @param options - OPTIONAL: a set of options described into ValidationZipOptions type.
      * @return zip file containing all the files from input that passed the datasource zip files
      */
-    static validateZip(zipFile: Uint8Array, options: ValidateZipOptions = {}): ValidationReturn | undefined {
+    static validateZip(zipFile: Uint8Array, options: ValidationZipOptions = {}): ValidationReturn | undefined {
         try {
             const validationReturn: ValidationReturn = {
                 zipFile: new Uint8Array(),
                 includedFiles: [],
                 excludedFiles: [],
             }
-            const optionsSupport: ValidateObjectSupport = {
+            const optionsSupport: ValidationObjectSupport = {
                 returnObject: validationReturn,
                 validFiles: {},
                 options: options,

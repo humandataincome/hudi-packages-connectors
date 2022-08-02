@@ -13,7 +13,7 @@ async function descriptorServiceTest() {
         //console.log(DescriptorService.getAllProcedureTypes(DataSourceCode.AMAZON, LanguageCode.ENGLISH));
         //console.log(DescriptorService.getProcedure(DataSourceCode.SHOPIFY_CUSTOMERS, LanguageCode.ENGLISH, RetrievingProcedureType.DESKTOP));
         //console.log(DescriptorService.getAllLanguages(DataSourceCode.INSTAGRAM));
-        console.log(DescriptorService.getFileDescription(FileCodeInstagram.SAVED_POSTS, DataSourceCode.INSTAGRAM, LanguageCode.ENGLISH));
+        console.log(DescriptorService.getFileDescription('amazon/PrimeVideo.WatchEvent.2.1.zip', DataSourceCode.AMAZON, LanguageCode.ENGLISH));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);

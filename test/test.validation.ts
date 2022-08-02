@@ -1,9 +1,9 @@
 import {
     DataSourceCode,
     ProcessorInstagram,
-    ValidateZipStatus,
     ValidationErrorEnum,
     ValidationStatus,
+    ValidationZipStatus,
     ValidatorFiles,
     ValidatorInstagram
 } from "../src";
@@ -50,25 +50,20 @@ async function validateStream() {
             readStream.on("error", () => controller.error());
         }
     });
-    let validation$: Observable<ValidateZipStatus> = ValidatorFiles.validateZipStream(readableStream, {
-        filterDataSource: {
-            dataSourceCode: DataSourceCode.AMAZON
-        }, throwExceptions: true});
-
+    let validation$: Observable<ValidationZipStatus> = ValidatorFiles.validateZipStream(readableStream, /*{filterDataSource: {dataSourceCode: DataSourceCode.AMAZON}}*/);
     validation$.subscribe({
-        next(x) {
+        next(x: ValidationZipStatus) {
             if(x.status === ValidationStatus.VALIDATING) {
-                //console.log('Iteration: ', x.bytesRead);
-            }
-            if(x.status === ValidationStatus.ZIPPING) {
                 console.log('Iteration: ', x.bytesRead);
             }
             if (x.status === ValidationStatus.DONE) {
-                //console.log('Last iteration: ', x.validationResult);
+                console.log('Last iteration: ', x.validationResult);
             }
             },
         error(err) { console.error('ERROR: ' + err); },
-        complete() { console.log('DONE'); }
+        complete() {
+            console.log('END of Validation');
+        }
     });
 }
 
