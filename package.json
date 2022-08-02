@@ -52,7 +52,6 @@
         "reddit"
     ],
     "dependencies": {
-        "@types/node": "^17.0.41",
         "@types/papaparse": "^5.3.2",
         "fflate": "^0.7.3",
         "papaparse": "^5.3.2",

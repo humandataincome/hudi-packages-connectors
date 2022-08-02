@@ -99,10 +99,10 @@ export class ValidatorFiles {
                     readableStream: readableStream,
                     returnObject: validationReturn,
                     validFiles: {},
-                    bytesRead: 0,
                     subscriber: subscriber,
                     options: options,
-                };
+                }
+
                 from(this.unzipFileFromStream(support)).subscribe({
                         error(error) {
                             subscriber.error(error);
@@ -142,12 +142,21 @@ export class ValidatorFiles {
 
     private static async unzipFileFromStream(support: ValidationObjectSupport) {
         const unzipStream: Unzip = this.getUnzipStream(support);
+        let bytesTotal = 0;
         unzipStream.register(UnzipInflate); //can't be async otherwise the RAM usage would be too much
         if (support.readableStream) {
             const reader = support.readableStream.getReader();
             for (let finished = false; !finished;) {
                 const {done, value} = await reader.read();
                 if (value) {
+                    bytesTotal =  bytesTotal + (<Uint8Array>value).byteLength;
+                    if (support.subscriber) {
+                        support.subscriber.next(
+                            {
+                                bytesRead: bytesTotal,
+                                status: ValidationStatus.VALIDATING
+                            });
+                    }
                     unzipStream.push(value);
                 }
                 finished = done;
@@ -210,14 +219,6 @@ export class ValidatorFiles {
                 }
                 this.buildFile(file, chunk, stream.name, support);
                 if (final) {
-                    if (support.subscriber && support.bytesRead !== undefined) {
-                        support.bytesRead = support.bytesRead + file[stream.name].fileChunk.byteLength;
-                        support.subscriber.next(
-                            {
-                                bytesRead: support.bytesRead,
-                                status: ValidationStatus.VALIDATING
-                            });
-                    }
                     if (!file[stream.name].isCorrupted && !file[stream.name].isTooLarge) {
                         this.filterFile(file[stream.name].fileChunk, stream.name, support);
                     }
