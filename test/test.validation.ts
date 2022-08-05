@@ -36,9 +36,10 @@ async function validateZippingFiles() {
 async function validateStream() {
     const fs = require('fs');
     const path = require('path');
-    const pathToZip = "../src/mock/datasource zip files/amazon.zip";
+    const pathToZip = "../src/mock/datasource zip files/linkedin.zip";
     fs.readFile(path.join(__dirname, pathToZip),(err: ErrnoException, data: Buffer) => {
-        const fileZippedBytes = data.byteLength;const readStream = fs.createReadStream(path.join(__dirname, pathToZip));
+        const fileZippedBytes = data.byteLength;
+        const readStream = fs.createReadStream(path.join(__dirname, pathToZip));
         const readableStream = new ReadableStream({
             async start(controller) {
                 readStream.on("data", (chunk: Buffer|string) => {
@@ -49,7 +50,7 @@ async function validateStream() {
             }
         });
         let fileUnzippedBytes = 0;
-        const validation$: Observable<ValidationZipStatus> = ValidatorFiles.validateZipStream(readableStream);
+        const validation$: Observable<ValidationZipStatus> = ValidatorFiles.validateZipStream(readableStream, {throwExceptions: false, filterDataSource: {dataSourceCode: DataSourceCode.LINKEDIN }});
         validation$.subscribe({
             next(x: ValidationZipStatus) {
                 if(x.status === ValidationStatus.VALIDATING) {
@@ -64,7 +65,6 @@ async function validateStream() {
             },
             complete() {
                 console.log(fileUnzippedBytes, fileZippedBytes)
-                console.log(Math.round((100 * fileUnzippedBytes) / fileZippedBytes));
             }
         });
     });

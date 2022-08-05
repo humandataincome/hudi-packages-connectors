@@ -24,6 +24,15 @@ import {ValidatorNetflix} from "../../source";
 import {ValidatorObject} from "./validator.object";
 import {from, Observable, Subscriber} from 'rxjs';
 
+/**
+ * @permittedFileExtensions list of extensions of file that we want to include exclusively.
+ * @dataSourceCode code of the datasource we want to validate using its specific validation instance.
+ * @fileCodesIncluded list of files codes we want to admit during the validation. This overwrites the default one given by its specific validation instance.
+ * @maxBytesPerFile max dimension (in bytes) that a single file into the zip can have
+ * @minBytesPerFile min dimension (in bytes) that a single file into the zip can have
+ * @maxBytesZipFile max dimension (in bytes) that the final zip validated can have
+ * @throwException TRUE and the function will throw an error when occurred, FALSE and it won't. This field doesn't affect validateZipStream function execution.
+ */
 export interface ValidationZipOptions {
     permittedFileExtensions?: FileExtension[]; //include only files with these extensions, if omitted includes everything
     filterDataSource?: {
@@ -88,26 +97,26 @@ export class ValidatorFiles {
      */
     static validateZipStream(readableStream: ReadableStream, options: ValidationZipOptions = {}): Observable<ValidationZipStatus> {
         return new Observable<ValidationZipStatus>((subscriber: Subscriber<ValidationZipStatus>) => {
-            try {
-                const validationReturn: ValidationReturn = {
-                    zipFile: new Uint8Array(),
-                    includedFiles: [],
-                    excludedFiles: [],
-                }
+            const validationReturn: ValidationReturn = {
+                zipFile: new Uint8Array(),
+                includedFiles: [],
+                excludedFiles: [],
+            }
 
-                const support: ValidationObjectSupport = {
-                    readableStream: readableStream,
-                    returnObject: validationReturn,
-                    validFiles: {},
-                    subscriber: subscriber,
-                    options: options,
-                }
+            const support: ValidationObjectSupport = {
+                readableStream: readableStream,
+                returnObject: validationReturn,
+                validFiles: {},
+                subscriber: subscriber,
+                options: options,
+            }
 
-                from(this.unzipFileFromStream(support)).subscribe({
-                        error(error) {
-                            subscriber.error(error);
-                        },
-                        complete() {
+            from(this.unzipFileFromStream(support)).subscribe({
+                    error(error) {
+                        subscriber.error(error);
+                    },
+                    complete() {
+                        try {
                             subscriber.next(
                                 {
                                     status: ValidationStatus.ZIPPING
@@ -126,17 +135,21 @@ export class ValidatorFiles {
                                     validationResult: validationReturn
                                 });
                             subscriber.complete();
+                        } catch(error: any) {
+                            subscriber.next(
+                                {
+                                    status: ValidationStatus.ERROR,
+                                });
+                            (error && error.message) && (ValidatorFiles.logger.log('error', error.message, 'validateZipStream'));
+                            if (options.throwExceptions != undefined && options.throwExceptions) {
+                                throw Error(error);
+                            } else {
+                                subscriber.error(error);
+                            }
                         }
                     }
-                );
-            } catch(error: any) {
-                subscriber.next(
-                    {
-                        status: ValidationStatus.ERROR
-                    });
-                (error && error.message) && (this.logger.log('error', error.message, 'validateZipStream'));
-                subscriber.error(error);
-            }
+                }
+            );
         });
     }
 
