@@ -21,126 +21,15 @@ A set of connectors to parse, describe, validate and process the data sources pr
 | *Twitter*       |     Partial     |      &check;       |       &check;        |         &cross;         |
 | *TikTok*        |     Partial     |      &check;       |       &check;        |         &cross;         |
 | *Reddit*        |     Partial     |      &check;       |       &check;        |         &cross;         |
-| *Pinterest*     |     &cross;     |      &cross;       |       &cross;        |         &cross;         |
-| *Twitch*        |     &cross;     |      &cross;       |       &cross;        |         &cross;         |
 
 ## How to use the library:
 ### How to install the library
 ```sh
 npm i @humandataincome/connectors
 ```
-### How to import the library
-```ts
-import * as Connector from '@humandataincome/connectors';
-```
 
-### How to use a Service
-```ts
-import {ServiceInstagram} from '@humandataincome/connectors';
-```
-```ts
-//fileBuffer is the file 'account_information/personal_information.json' into the Instagram data source, as Buffer
+# Read the Wiki for a better documentation
 
-let result = await ServiceInstagram.parsePersonalInformation(fileBuffer);
-```
-Instagram in particular needs the **language** of the files given in input to parse some files, it can be changed with one of the supported languages codes (default is ENGLISH):
-```ts
-ServiceInstagram.languagePrefix = LanguageCode.ITALIAN;
-```
-At the moment the **languages supported** for the Instagram service are: **ENGLISH**, **ITALIAN**, **SPANISH**, **GERMAN**, **FRENCH**, **HINDI** and **CHINESE SIMPLIFIED**.
-
-
-### How to use Descriptor
-```ts
-import {DescriptorService} from '@humandataincome/connectors';
-```
-```ts
-const codes = DescriptorService.getAllCodes();
-const instagramDescription = DescriptorService.getDescription(DataSourceCode.INSTAGRAM);
-const instagramProcedure = DescriptorService.getProcedure(DataSourceCode.SHOPIFY_CUSTOMERS, LanguageCode.ENGLISH, RetrievingProcedureType.DESKTOP);
-```
-How to retrieve the **descriptor.json** file containing the description of the supported sources:
-```ts
-const file = require('@humandataincome/connectors/src/descriptor/descriptor.json');
-```
-
-### How to use ValidatorFiles
-The method **validateZip** takes in input a zip file as Uint8Array.
-
-The method **validateZipStream** is very useful when dealing with huge zip files in input and takes in input a ReadableStream.
-It also takes an optional parameter called **options**:
-```ts
-const validatedZip: ValidationReturn = await ValidatorFiles.validateZip(zipFile,
-    {
-        permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
-        filterDataSource: {
-            dataSourceCode: DataSourceCode.GOOGLE,
-            fileCodesIncluded: [
-                FileCodeGoogle.ACCOUNT_INFO,
-                FileCodeGoogle.SEMANTIC_LOCATION_HISTORY,
-            ]
-        },
-        throwExceptions: true, //default is false
-        maxBytesPerFile: 20e6,
-        minBytesPerFile: 2e3,
-        maxBytesZipFile: 30e9,
-    });
-```
-```ts
-import { ReadableStream } from 'node:stream/web';
-
-const readStream = fs.createReadStream(path.join(__dirname,"../src/mock/datasource zip files/facebook.zip"));
-
-const readableStream = new ReadableStream({
-    async start(controller) {
-        readStream.on("data", (chunk: Buffer|string) => controller.enqueue(chunk));
-        readStream.on("end", () => controller.close());
-        readStream.on("error", () => controller.error())
-    }
-});
-
-const validatedZip: ValidationReturn = await ValidatorFiles.validateZipStream(readableStream, {
-    filterDataSource: {
-        dataSourceCode: DataSourceCode.FACEBOOK,
-    }});
-```
-```ts
-interface ValidationReturn {
-    zipFile: Uint8Array;
-    includedFiles: string[];
-    excludedFiles: string[];
-}
-```
-ValidatorFiles class has two parameters to filter files based on their bytes sizes that can be changed:
-```ts
-ValidatorService.MAX_BYTE_FILE_SIZE = 7e20; //default value is 6 MB
-ValidatorService.MIN_BYTE_FILE_SIZE = 100;  //default value is 30 B
-ValidatorService.MAX_BYTE_ZIP = 2e9; //default value is 1 GB
-```
-
-Example of **ValidatorInstagram** usage:
-```ts
-import {ValidatorInstagram} from '@humandataincome/connectors';
-```
-
-The method **filterFilesIntoZip** can get in input an optional list of FilesCode to filter out from the zip the data source's unwanted files, otherwise it will use a default list.
-```ts
-let validatedZip = await ValidatorInstagram.getInstance().filterFilesIntoZip(zipFile);
-```
-
-
-### How to use Processor
-Example of **ProcessorInstagram** usage: 
-```ts
-import {ProcessorInstagram} from '@humandataincome/connectors';
-```
-The **aggregatorFactory** method take in input the zipFile as Buffer and an optional set of parameters like **timeIntervalDays** that indicates the number of days from Today to consider an information valid (default is 365).
-```ts
-let aggregator = await ProcessorInstagram.aggregatorFactory(zipFile, {
-    timeIntervalDays: 180,
-    throwExceptions: false,
-});
-```
 
 # How do I retrieve my personal data sources?
 
