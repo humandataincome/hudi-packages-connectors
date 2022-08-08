@@ -28,10 +28,13 @@ A set of connectors to parse, describe, validate and process the data sources pr
 npm i @humandataincome/connectors
 ```
 
-# Read the Wiki for a better documentation
+***
 
+## Read the [Wiki](https://github.com/humandataincome/hudi-packages-connectors/wiki) for a better documentation
 
-# How do I retrieve my personal data sources?
+***
+
+## How do I retrieve my personal data sources?
 
 ### Instagram
 You can find the guide at this link: https://help.instagram.com/181231772500920 under the section **Downloading a copy of your data on Instagram**.
