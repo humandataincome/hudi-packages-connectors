@@ -1,7 +1,7 @@
 import {ConfigInstagram} from "../../config/config.instagram";
 import {
     AccountIG,
-    AccountYouAreNotInterestedIG,
+    AccountsYouAreNotInterestedIG,
     AdsClickedIG,
     AdsInterestsIG,
     AdsViewedIG,
@@ -30,9 +30,9 @@ import {
     ReelSentimentsIG,
     ReelTopicsIG,
     SearchesIG,
-    SuggestedAccountViewedIG,
+    SuggestedAccountsViewedIG,
     SyncedContractsIG,
-    TopicsIG,
+    YourTopicsIG,
     VideoWatchedIG,
     SentimentIG,
     TopicIG,
@@ -48,7 +48,7 @@ import {
     AdsUsingYourInformationIG,
     AdvUsingYourInformationIG,
     ShoppingViewedItemsIG,
-    ShoppingViewedItemIG, AutofillInformationIG
+    ShoppingViewedItemIG, AutofillInformationIG,
 } from "./model.instagram";
 import Logger from "../../utils/logger";
 import {Decoding} from "../../utils/decoding";
@@ -124,14 +124,14 @@ export class ServiceInstagram {
                 return this.parseEmojiSliders(data);
             case FileCodeInstagram.POLLS:
                 return this.parsePolls(data);
+            case FileCodeInstagram.SHOPPING_VIEWED_ITEMS:
+                return this.parseShoppingViewedItems(data);
             case FileCodeInstagram.QUIZZES:
                 return this.parseQuizzes(data);
             case FileCodeInstagram.YOUR_REEL_SENTIMENTS:
                 return this.parseReelSentiments(data);
             case FileCodeInstagram.YOUR_REEL_TOPICS:
                 return this.parseReelTopics(data);
-            case FileCodeInstagram.YOUR_TOPICS:
-                return this.parseTopics(data);
             case FileCodeInstagram.MUSIC_HEARD_HISTORY:
                 return this.parseMusicHeardInStories(data);
             case FileCodeInstagram.MUSIC_USED_HISTORY:
@@ -142,7 +142,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'account_information/personal_information.json' in input as Buffer
+     * @param data - FileCodeInstagram.PERSONAL_INFO file in input as Buffer
      */
     static async parsePersonalInformation(data: Buffer): Promise<PersonalInformationIG | undefined> {
         let personalInfoModel: PersonalInformationIG = {};
@@ -187,7 +187,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'information_about_you/account_based_in.json' in input as Buffer
+     * @param data - FileCodeInstagram.INFO_ACCOUNT_BASED_IN file in input as Buffer
      */
     static async parseLocation(data: Buffer): Promise<LocationInformationIG | undefined>{
         try {
@@ -207,7 +207,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'ads_and_content/ads_clicked.json' in input as Buffer
+     * @param data - FileCodeInstagram.ADS_CLICKED file in input as Buffer
      */
     static async parseAdsClicked(data: Buffer): Promise<AdsClickedIG | undefined> {
         try {
@@ -227,7 +227,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'ads_and_content/ads_viewed.json' in input as Buffer
+     * @param data - FileCodeInstagram.ADS_VIEWED file in input as Buffer
      */
     static async parseAdsViewed(data: Buffer): Promise<AdsViewedIG | undefined> {
         try {
@@ -249,7 +249,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'information_about_you/ads_interests.json' in input as Buffer
+     * @param data - FileCodeInstagram.INFO_ADS_INTERESTS file in input as Buffer
      */
     static async parseAdsInterests(data: Buffer): Promise<AdsInterestsIG | undefined> {
         try {
@@ -269,7 +269,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'ads_and_content/music_heard_in_stories.json' in input as Buffer
+     * @param data - FileCodeInstagram.MUSIC_HEARD_HISTORY file in input as Buffer
      */
     static async parseMusicHeardInStories(data: Buffer): Promise<MusicHeardInStoriesIG | undefined> {
         try {
@@ -293,7 +293,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'ads_and_content/music_recently_used_in_stories.json' in input as Buffer
+     * @param data - file FileCodeInstagram.MUSIC_USED_HISTORY in input as Buffer
      */
     static async parseMusicRecentlyUsedInStories(data: Buffer): Promise<MusicRecentlyUsedInStoriesIG | undefined> {
         try {
@@ -317,7 +317,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'ads_and_content/posts_viewed.json' in input as Buffer
+     * @param data - FileCodeInstagram.POSTS_VIEWED file in input as Buffer
      */
     static async parsePostViewed(data: Buffer): Promise<PostViewedIG | undefined> {
         try {
@@ -339,7 +339,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'ads_and_content/videos_watched.json' in input as Buffer
+     * @param data - FileCodeInstagram.VIDEO_VIEWED file in input as Buffer
      */
     static async parseVideoWatched(data: Buffer): Promise<VideoWatchedIG | undefined> {
         try {
@@ -361,14 +361,14 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'ads_and_content/suggested_accounts_viewed.json' in input as Buffer
+     * @param data - FileCodeInstagram.ACCOUNT_VIEWED file in input as Buffer
      */
-    static async parseSuggestedAccountViewed(data: Buffer): Promise<SuggestedAccountViewedIG | undefined> {
+    static async parseSuggestedAccountViewed(data: Buffer): Promise<SuggestedAccountsViewedIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
             let parameterName1 = ConfigInstagram.keyTranslation[`${this.languagePrefix}-23-username`];
             let parameterName2 = ConfigInstagram.keyTranslation[`${this.languagePrefix}-24-time`];
-            let model: SuggestedAccountViewedIG = {list: []};
+            let model: SuggestedAccountsViewedIG = {list: []};
             model.list = document.impressions_history_chaining_seen.map((value: any) => {
                 let newItem: AccountIG = {};
                 (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.name = Decoding.decodeObject(value.string_map_data[parameterName1].value));
@@ -383,14 +383,14 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'ads_and_content/accounts_you're_not_interested_in.json' in input as Buffer
+     * @param data - FileCodeInstagram.ACCOUNT_NOT_INTERESTED file in input as Buffer
      */
-    static async parseAccountYouAreNotInterested(data: Buffer): Promise<AccountYouAreNotInterestedIG | undefined> {
+    static async parseAccountYouAreNotInterested(data: Buffer): Promise<AccountsYouAreNotInterestedIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
             let parameterName1 = ConfigInstagram.keyTranslation[`${this.languagePrefix}-25-username`];
             let parameterName2 = ConfigInstagram.keyTranslation[`${this.languagePrefix}-26-dateAndTime`];
-            let model: SuggestedAccountViewedIG = {list: []};
+            let model: AccountsYouAreNotInterestedIG = {list: []};
             model.list = document.impressions_history_recs_hidden_authors.map((value: any) => {
                 let newItem: AccountIG = {};
                 (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.name = Decoding.decodeObject(value.string_map_data[parameterName1].value));
@@ -405,7 +405,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'comments/post_comments.json' in input as Buffer
+     * @param data - FileCodeInstagram.POST_COMMENT file in input as Buffer
      */
     static async parseCommentsPosted(data: Buffer): Promise<CommentsPostedIG | undefined> {
         try {
@@ -426,7 +426,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'contacts/synced_contacts.json' in input as Buffer
+     * @param data - FileCodeInstagram.SYNCED_CONTACTS file in input as Buffer
      */
     static async parseSyncedContracts(data: Buffer): Promise<SyncedContractsIG | undefined> {
         try {
@@ -450,7 +450,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'content/archived_posts.json' in input as Buffer
+     * @param data - FileCodeInstagram.POSTS_ARCHIVED file in input as Buffer
      */
     static async parseArchivedPost(data: Buffer): Promise<ArchivedPostsIG | undefined> {
         try {
@@ -470,7 +470,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'content/posts_1.json' in input as Buffer
+     * @param data - FileCodeInstagram.POSTS_CREATED file in input as Buffer
      */
     static async parsePersonalPost(data: Buffer): Promise<PersonalPostsIG | undefined> {
         try {
@@ -491,7 +491,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'content/stories.json' in input as Buffer
+     * @param data - FileCodeInstagram.STORIES_CREATED file in input as Buffer
      */
     static async parsePersonalStories(data: Buffer): Promise<PersonalStoriesIG | undefined> {
         try {
@@ -512,7 +512,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'followers_and_following/followers.json' in input as Buffer
+     * @param data - FileCodeInstagram.FOLLOWERS file in input as Buffer
      */
     static async parseFollowers(data: Buffer): Promise<FollowersIG | undefined> {
         try {
@@ -533,7 +533,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'followers_and_following/following.json' in input as Buffer
+     * @param data - FileCodeInstagram.FOLLOWING_ACCOUNTS file in input as Buffer
      */
     static async parseFollowingAccounts(data: Buffer): Promise<FollowingAccountsIG | undefined> {
         try {
@@ -575,7 +575,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'likes/liked_posts.json' in input as Buffer
+     * @param data - FileCodeInstagram.LIKE_POSTS file in input as Buffer
      */
     static async parseLikedPosts(data: Buffer): Promise<LikedPostsIG | undefined> {
         try {
@@ -597,12 +597,12 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'likes/liked_comments.json' in input as Buffer
+     * @param data - FileCodeInstagram.LIKE_COMMENTS file in input as Buffer
      */
     static async parseLikedComments(data: Buffer): Promise<LikedCommentsIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
-            let model: LikedPostsIG = {list: []};
+            let model: LikedCommentsIG = {list: []};
             model.list = document.likes_comment_likes.map((value: any) => {
                 let newItem: LikeIG = {};
                 (value.title) && (newItem.title = Decoding.decodeObject(value.title));
@@ -619,7 +619,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'recent_searches/account_searches.json' in input as Buffer
+     * @param data - FileCodeInstagram.ACCOUNT_SEARCHES file in input as Buffer
      */
     static async parseSearches(data: Buffer): Promise<SearchesIG | undefined> {
         try {
@@ -641,7 +641,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'your_topics/your_reels_sentiments.json' in input as Buffer
+     * @param data - FileCodeInstagram.YOUR_REEL_SENTIMENTS file in input as Buffer
      */
     static async parseReelSentiments(data: Buffer): Promise<ReelSentimentsIG | undefined> {
         try {
@@ -661,7 +661,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'your_topics/your_reels_topics.json' in input as Buffer
+     * @param data - FileCodeInstagram.YOUR_REEL_TOPICS file in input as Buffer
      */
     static async parseReelTopics(data: Buffer): Promise<ReelTopicsIG | undefined> {
         try {
@@ -681,13 +681,13 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'your_topics/your_topics.json' in input as Buffer
+     * @param data - FileCodeInstagram.YOUR_TOPICS file in input as Buffer
      */
-    static async parseTopics(data: Buffer): Promise<TopicsIG | undefined> {
+    static async parseYourTopics(data: Buffer): Promise<YourTopicsIG | undefined> {
         try {
             let document = JSON.parse(data.toString());
             let parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-34-name`];
-            let model: TopicsIG = {list: []};
+            let model: YourTopicsIG = {list: []};
             model.list = document.topics_your_topics.map((value: any) => {
                 let newItem: TopicIG = {};
                 (value.string_map_data && value.string_map_data[parameterName].value) && (newItem.value = Decoding.decodeObject(value.string_map_data[parameterName].value));
@@ -701,7 +701,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'story_sticker_interactions/emoji_sliders.json' in input as Buffer
+     * @param data - FileCodeInstagram.EMOJI_SLIDERS file in input as Buffer
      */
     static async parseEmojiSliders(data: Buffer): Promise<EmojiSlidersIG | undefined> {
         try {
@@ -721,7 +721,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'story_sticker_interactions/polls.json' in input as Buffer
+     * @param data - FileCodeInstagram.POLLS file in input as Buffer
      */
     static async parsePolls(data: Buffer): Promise<PollsIG | undefined> {
         try {
@@ -741,7 +741,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'story_sticker_interactions/quizzes.json' in input as Buffer
+     * @param data - FileCodeInstagram.QUIZZES file in input as Buffer
      */
     static async parseQuizzes(data: Buffer): Promise<QuizzesIG | undefined> {
         try {
@@ -761,7 +761,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'monetization/eligibility.json' in input as Buffer
+     * @param data - FileCodeInstagram.ELIGIBILITY file in input as Buffer
      */
     static async parseEligibility(data: Buffer): Promise<EligibilityIG | undefined> {
         try {
@@ -791,7 +791,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'messages/inbox/{chat_directory_name}/message_1.json' in input as Buffer
+     * @param data - file FileCodeInstagram.MESSAGE_REQUESTS or FileCodeInstagram.MESSAGE_CONVERSATION in input as Buffer
      */
     static async parseMessages(data: Buffer): Promise<ConversationIG | undefined> {
         try {
@@ -824,7 +824,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'ads_business/advertisers_using_your_activity_or_information.json' in input as Buffer
+     * @param data - FileCodeInstagram.ADS_USING_YOUR_INFO file in input as Buffer
      */
     static async parseAdsUsingYourInformation(data: Buffer): Promise<AdsUsingYourInformationIG | undefined> {
         try {
@@ -846,7 +846,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'shopping/recently_viewed_items.json' in input as Buffer
+     * @param data - file FileCodeInstagram.SHOPPING_VIEWED_ITEMS in input as Buffer
      */
     static async parseShoppingViewedItems(data: Buffer): Promise<ShoppingViewedItemsIG | undefined> {
         try {
@@ -881,7 +881,7 @@ export class ServiceInstagram {
     }
 
     /**
-     * @param data - file 'autofill_information/autofill_information.json' in input as Buffer
+     * @param data - FileCodeInstagram.AUTOFILL_INFO file in input as Buffer
      */
     static async parseAutofillInformation(data: Buffer): Promise<AutofillInformationIG | undefined> {
         try {
