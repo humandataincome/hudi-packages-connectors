@@ -4,7 +4,6 @@ import {
     FileCodeAmazon,
     FileCodeFacebook,
     FileCodeGoogle,
-    FileCodeInstagram,
     FileCodeLinkedIn,
     FileCodeNetflix,
     FileCodeShopify,
@@ -15,6 +14,7 @@ import {
 } from "./descriptor.enum";
 import {DescriptorErrorEnum} from "../utils";
 import {ValidatorObject} from "../utils/validator/validator.object";
+import {FileCodeInstagram} from "../source";
 
 
 const descriptor: Descriptor = require('./descriptor.json');

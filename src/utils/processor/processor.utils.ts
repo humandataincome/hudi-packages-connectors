@@ -12,7 +12,13 @@ export class ProcessorUtils {
      }
  }
 
- export type ProcessorOptions = {
+/**
+ * timeIntervalDays: set the number of days for the data relevance's time interval. Default is 3654 days.
+ * maxEntitiesPerArray: set the max length for arrays of objects.
+ * throwExceptions: TRUE to throw exception outside the Processor method, FALSE otherwise. Default is False.
+ */
+export type ProcessorOptions = {
     timeIntervalDays?: number;
+    maxEntitiesPerArray?: number;
     throwExceptions?: boolean;
 }

@@ -325,10 +325,6 @@ export interface InstagramDataAggregator {
     autofillInfo?: AutofillInformationIG;
     //from FileCodeInstagram.POST_COMMENT model
     commentsPosted?: CommentsPostedIG;
-    //from FileCodeInstagram.FOLLOWERS model
-    followers?: FollowersIG;
-    //from FileCodeInstagram.FOLLOWING_ACCOUNTS model
-    followingAccounts?: FollowingAccountsIG;
     //from FileCodeInstagram.FOLLOWING_HASHTAGS model
     followingHashtags?: FollowingHashtagsIG;
     //from FileCodeInstagram.INFO_ADS_INTERESTS model
@@ -346,37 +342,46 @@ export interface InstagramDataAggregator {
     //from FileCodeInstagram.SHOPPING_VIEWED_ITEMS
     shoppingItemsViewed?: ShoppingViewedItemsIG;
     engagement?: EngagementIG;
+    creationDate?: Date;
 }
 
 export interface EngagementIG {
-    //from INSTAGRAM_POST_COMMENT model
-    commentsPosts?: number;
-    commentsPostsTI?: number;
-    //from INSTAGRAM_EMOJI_SLIDERS model
+    //interval of time in Days. Default is 365 days
+    timeInterval?: number;
+    //from FileCodeInstagram.POST_COMMENT model
+    commentsPosted?: number;
+    commentsPostedTI?: number;
+    //from FileCodeInstagram.FOLLOWING_HASHTAGS model
+    followingHashtagsCounter?: number;
+    //from FileCodeInstagram.FOLLOWING_ACCOUNTS model
+    followingCounter?: number;
+    ////from FileCodeInstagram.FOLLOWERS model
+    followersCounter?: number;
+    //from FileCodeInstagram.EMOJI_SLIDERS model
     emojiSliders?: number;
     emojiSlidersTI?: number;
-    //from INSTAGRAM_LIKE_COMMENTS model
+    //from FileCodeInstagram.LIKE_COMMENTS model
     likesComments?: number;
     likesCommentsTI?: number;
-    //from INSTAGRAM_LIKE_POSTS model
+    //from FileCodeInstagram.LIKE_POSTS model
     likesPosts?: number;
     likesPostsTI?: number;
-    //from INSTAGRAM_POLLS model
+    //from FileCodeInstagram.POLLS model
     polls?: number;
     pollsTI?: number;
-    //from INSTAGRAM_POSTS_CREATED model
+    //from FileCodeInstagram.POSTS_CREATED model
     postsCreated?: number;
     postsCreatedTI?: number;
-    //from INSTAGRAM_POSTS_VIEWED model
+    //from FileCodeInstagram.POSTS_VIEWED model
     postsViewed?: number;
     postsViewedTI?: number;
-    //from INSTAGRAM_QUIZZES model
+    //from FileCodeInstagram.QUIZZES model
     quizzes?: number;
     quizzesTI?: number;
-    //from INSTAGRAM_STORIES_CREATED model
+    //from FileCodeInstagram.STORIES_CREATED model
     storiesCreated?: number;
     storiesCreatedTI?: number;
-    //from INSTAGRAM_VIDEO_VIEWED model
+    //from FileCodeInstagram.VIDEO_VIEWED model
     videosViewed?: number;
     videosViewedTI?: number;
 }

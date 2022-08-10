@@ -5,15 +5,16 @@ import {
     ProcessorFacebook, ProcessorGoogle,
     ProcessorInstagram, ServiceShopify, ValidatorAmazon,
     ValidatorFiles,
-    ValidatorInstagram
+    ValidatorInstagram,
+    InstagramDataAggregator
 } from "../src";
 import ErrnoException = NodeJS.ErrnoException;
 
 function testProcessing(){
-    //validatorAndProcessingInstagramTest();
+    validatorAndProcessingInstagramTest();
     //validatorAndProcessingFacebookTest();
     //validatorAndProcessingAmazonTest();
-    validatorAndProcessingGoogleTest();
+    //validatorAndProcessingGoogleTest();
     //validatorAndProcessingShopifyTest();
 }
 
@@ -21,28 +22,24 @@ function validatorAndProcessingInstagramTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/ig_zh.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/datasource/zip files/instagram.zip"),async function(err:ErrnoException, data: Uint8Array) {
             if (err) throw err
-            let validation = await ValidatorFiles.validateZip(data,
+            const validation = await ValidatorFiles.validateZip(data,
                 {
-                    permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
                     filterDataSource: {
                         dataSourceCode: DataSourceCode.INSTAGRAM,
                     },
-                    throwExceptions: true,
                 });
-            let validation2 = await ValidatorInstagram.getInstance().filterFilesIntoZip(validation!.zipFile);
-            console.log(await ProcessorInstagram.aggregatorFactory(validation2!, {
-                timeIntervalDays: 180,
-                throwExceptions: false,
-            }));
+            const processed = await ProcessorInstagram.aggregatorFactory(validation!.zipFile, {
+                timeIntervalDays: 365,
+                maxEntitiesPerArray: 1000,
+            });
+            let str = JSON.stringify(processed, null, 2);
+            fs.writeFileSync(path.join(__dirname,'../src/mock/datasource/processing/aggregator_instagram.json'), str);
+            console.log('File size: ',new TextEncoder().encode(str).length);
         });
-    } catch (e: any) {
-        if (e.code == 'MODULE_NOT_FOUND') {
-            console.log('[Error not founding module] ' + e);
-        } else {
-            console.log(e);
-        }
+    } catch (e) {
+        console.log(e);
     }
 }
 
@@ -51,7 +48,7 @@ function validatorAndProcessingFacebookTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/zip files/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validation1 = await ValidatorFiles.validateZip(data,
                 {
@@ -79,7 +76,7 @@ function validatorAndProcessingAmazonTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/zip files/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validation1 = await ValidatorFiles.validateZip(data);
             const validation2 = await ValidatorAmazon.getInstance().filterFilesIntoZip(validation1!.zipFile);
@@ -101,7 +98,7 @@ function validatorAndProcessingGoogleTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource zip files/google_en.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/zip files/google_en.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validation = await ValidatorFiles.validateZip(data,
                 {
@@ -130,25 +127,25 @@ function validatorAndProcessingShopifyTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/datasource files/shopify/customers_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/raw files/shopify/customers_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             if(ValidatorFiles.validateCSV(data)) {
                 console.log(await ServiceShopify.parseCustomersExport(data));
             }
         });
-        fs.readFile(path.join(__dirname,"../src/mock/datasource files/shopify/discounts_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/raw files/shopify/discounts_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             if(ValidatorFiles.validateCSV(data)) {
                 console.log(await ServiceShopify.parseDiscountsExport(data));
             }
         });
-        fs.readFile(path.join(__dirname,"../src/mock/datasource files/shopify/orders_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/raw files/shopify/orders_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             if(ValidatorFiles.validateCSV(data)) {
                 console.log(await ServiceShopify.parseOrdersExport(data));
             }
         });
-        fs.readFile(path.join(__dirname,"../src/mock/datasource files/shopify/products_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/raw files/shopify/products_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             if(ValidatorFiles.validateCSV(data)) {
                 console.log(await ServiceShopify.parseProductsExport(data));

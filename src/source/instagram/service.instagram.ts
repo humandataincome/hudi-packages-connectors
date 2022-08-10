@@ -52,8 +52,9 @@ import {
 } from "./model.instagram";
 import Logger from "../../utils/logger";
 import {Decoding} from "../../utils/decoding";
-import {FileCodeInstagram, LanguageCode} from "../../descriptor";
+import {LanguageCode} from "../../descriptor";
 import {ValidatorObject} from "../../utils/validator/validator.object";
+import {FileCodeInstagram} from "./enum.instagram";
 
 /**
  * Class used to parse most important files into the directory returned by Instagram in JSON format.

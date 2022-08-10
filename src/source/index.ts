@@ -13,10 +13,13 @@ export * from './google/service.google';
 export * from './google/processor.google';
 export * from './google/validator.google';
 
+
+export * from './instagram/enum.instagram';
 export * from './instagram/model.instagram';
 export * from './instagram/service.instagram';
 export * from './instagram/processor.instagram';
 export * from './instagram/validator.instagram';
+
 
 export * from './linkedin/model.linkedin';
 export * from './linkedin/service.linkedin';

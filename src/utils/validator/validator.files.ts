@@ -473,7 +473,7 @@ export class ValidatorFiles {
     /**
      * @param zipFile - file zip as one of the Buffer-like types supported
      * @param options - OPTIONAL: a set of options described into ValidationZipOptions type.
-     * @return zip file containing all the files from input that passed the datasource zip files
+     * @return zip file containing all the files from input that passed the zip files
      */
     static validateZip(zipFile: Uint8Array, options: ValidationZipOptions = {}): ValidationReturn | undefined {
         try {
