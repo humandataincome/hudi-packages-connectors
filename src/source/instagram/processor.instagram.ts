@@ -79,6 +79,8 @@ export class ProcessorInstagram {
                 } else if ((regex = new RegExp(FileCodeInstagram.ADS_CLICKED)) && (regex.test(pathName))) {
                     result = await ServiceInstagram.parseAdsClicked(data);
                     if (result) {
+                        modelEngagement.adsClicked = result.list.length;
+                        modelEngagement.adsClickedTI = result.list.filter((item: PostIG) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
                         (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
                             ? (model.adsClicked = {list: result.list.slice(0,options.maxEntitiesPerArray)})
                             : (model.adsClicked = result);
@@ -93,6 +95,8 @@ export class ProcessorInstagram {
                 } else if ((regex = new RegExp(FileCodeInstagram.ADS_VIEWED)) && (regex.test(pathName))) {
                     result = await ServiceInstagram.parseAdsViewed(data);
                     if (result) {
+                        modelEngagement.adsViewedTI = result.list.length;
+                        modelEngagement.adsViewedTI = result.list.filter((item: PostIG) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
                         (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
                             ? (model.adsViewed = {list: result.list.slice(0,options.maxEntitiesPerArray)})
                             : (model.adsViewed = result);

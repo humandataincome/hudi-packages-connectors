@@ -348,6 +348,12 @@ export interface InstagramDataAggregator {
 export interface EngagementIG {
     //interval of time in Days. Default is 365 days
     timeInterval?: number;
+    //from FileCodeInstagram.ADS_CLICKED model
+    adsClicked?: number;
+    adsClickedTI?: number;
+    //from FileCodeInstagram.ADS_VIEWED model
+    adsViewed?: number;
+    adsViewedTI?: number;
     //from FileCodeInstagram.POST_COMMENT model
     commentsPosted?: number;
     commentsPostedTI?: number;
