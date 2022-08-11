@@ -48,7 +48,7 @@ function validatorAndProcessingFacebookTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/zip files/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/datasource/zip files/facebook.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validation1 = await ValidatorFiles.validateZip(data,
                 {
@@ -76,7 +76,7 @@ function validatorAndProcessingAmazonTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/zip files/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/datasource/zip files/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validation1 = await ValidatorFiles.validateZip(data);
             const validation2 = await ValidatorAmazon.getInstance().filterFilesIntoZip(validation1!.zipFile);
@@ -98,7 +98,7 @@ function validatorAndProcessingGoogleTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/zip files/google_en.zip"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/datasource/zip files/google_en.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             const validation = await ValidatorFiles.validateZip(data,
                 {
@@ -127,25 +127,25 @@ function validatorAndProcessingShopifyTest() {
     try {
         const fs =  require('fs');
         const path =  require('path');
-        fs.readFile(path.join(__dirname,"../src/mock/raw files/shopify/customers_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/datasource/raw files/shopify/customers_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             if(ValidatorFiles.validateCSV(data)) {
                 console.log(await ServiceShopify.parseCustomersExport(data));
             }
         });
-        fs.readFile(path.join(__dirname,"../src/mock/raw files/shopify/discounts_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/datasource/raw files/shopify/discounts_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             if(ValidatorFiles.validateCSV(data)) {
                 console.log(await ServiceShopify.parseDiscountsExport(data));
             }
         });
-        fs.readFile(path.join(__dirname,"../src/mock/raw files/shopify/orders_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/datasource/raw files/shopify/orders_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             if(ValidatorFiles.validateCSV(data)) {
                 console.log(await ServiceShopify.parseOrdersExport(data));
             }
         });
-        fs.readFile(path.join(__dirname,"../src/mock/raw files/shopify/products_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
+        fs.readFile(path.join(__dirname,"../src/mock/datasource/raw files/shopify/products_export_1.csv"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
             if(ValidatorFiles.validateCSV(data)) {
                 console.log(await ServiceShopify.parseProductsExport(data));

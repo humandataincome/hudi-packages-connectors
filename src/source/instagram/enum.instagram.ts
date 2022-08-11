@@ -33,7 +33,7 @@ export enum FileCodeInstagram {
     YOUR_REEL_SENTIMENTS = 'your_topics/your_reels_sentiments.json',
     YOUR_REEL_TOPICS = 'your_topics/your_reels_topics.json',
     YOUR_TOPICS = 'your_topics/your_topics.json',
-    //not parsed yet
+    //TODO: not parsed yet
     META_ACCOUNTS = 'account_information/linked_meta_accounts.json',
     ACCOUNT_INFO = 'account_information/account_information.json',
     PROFESSIONAL_INFO = 'account_information/professional_information.json',

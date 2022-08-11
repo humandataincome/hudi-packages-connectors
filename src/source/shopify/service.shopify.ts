@@ -6,7 +6,7 @@ import {
     OrdersExportsSH, ProductExportSH, ProductsExportsSH
 } from "./model.shopify";
 import {Parser} from "../../utils/parser";
-import {FileCodeShopify} from "../../descriptor";
+import {FileCodeShopify} from "./enum.shopify";
 
 export class ServiceShopify {
     private static readonly logger = new Logger("Shopify Service");

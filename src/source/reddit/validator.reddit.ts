@@ -1,6 +1,6 @@
 import {ValidatorDatasource} from "../../utils/validator/validator.datasource";
 import Logger from "../../utils/logger";
-import {FileCodeReddit} from "../../descriptor";
+import {FileCodeReddit} from "./enum.reddit";
 
 export class ValidatorReddit extends ValidatorDatasource {
     protected readonly logger = new Logger("Reddit Validator");

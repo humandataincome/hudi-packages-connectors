@@ -51,7 +51,7 @@ import {
 import {Parser} from "../../utils/parser";
 import {Months} from "../../utils";
 import {ValidatorObject} from "../../utils/validator/validator.object";
-import {FileCodeLinkedIn} from "../../descriptor";
+import {FileCodeLinkedIn} from "./enum.linkedin";
 
 /**
  * Class used to parse most important files into the directory returned by LinkedIn in CSV format.

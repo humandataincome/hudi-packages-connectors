@@ -1,6 +1,7 @@
-import {FileCodeAmazon} from "../../descriptor";
+
 import {ValidatorDatasource} from "../../utils/validator/validator.datasource";
 import Logger from "../../utils/logger";
+import {FileCodeAmazon} from "./enum.amazon";
 
 export class ValidatorAmazon extends ValidatorDatasource  {
     protected readonly logger = new Logger("Amazon Validator");

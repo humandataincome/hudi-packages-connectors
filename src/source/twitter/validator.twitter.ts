@@ -1,6 +1,6 @@
 import {ValidatorDatasource} from "../../utils/validator/validator.datasource";
 import Logger from "../../utils/logger";
-import {FileCodeTwitter} from "../../descriptor";
+import {FileCodeTwitter} from "./enum.twitter";
 
 export class ValidatorTwitter extends ValidatorDatasource {
     protected readonly logger = new Logger("Twitter Validator");

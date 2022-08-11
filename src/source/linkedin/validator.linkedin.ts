@@ -1,6 +1,6 @@
-import {FileCodeLinkedIn} from "../../descriptor";
 import {ValidatorDatasource} from "../../utils/validator/validator.datasource";
 import Logger from "../../utils/logger";
+import {FileCodeLinkedIn} from "./enum.linkedin";
 
 export class ValidatorLinkedIn extends ValidatorDatasource  {
     protected readonly logger = new Logger("Netflix Validator");

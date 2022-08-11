@@ -45,7 +45,7 @@ import {
     WishListAM
 } from './model.amazon';
 import { ValidatorObject } from '../../utils/validator/validator.object';
-import {FileCodeAmazon} from "../../descriptor";
+import {FileCodeAmazon} from "./enum.amazon";
 
 /**
  * Class used to parse most important files into the directory returned by Amazon in CSV and JSON format.

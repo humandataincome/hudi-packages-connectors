@@ -1,6 +1,6 @@
-import {FileCodeFacebook} from "../../descriptor";
 import {ValidatorDatasource} from "../../utils/validator/validator.datasource";
 import Logger from "../../utils/logger";
+import {FileCodeFacebook} from "./enum.facebook";
 
 export class ValidatorFacebook extends ValidatorDatasource {
     protected readonly logger = new Logger("Facebook Validator");

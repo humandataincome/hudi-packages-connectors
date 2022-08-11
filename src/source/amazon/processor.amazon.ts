@@ -1,6 +1,5 @@
-import {AmazonDataAggregator} from "../../utils/processor/processor.aggregator.model";
-import {FileCodeAmazon} from "../../descriptor";
 import {
+    AmazonDataAggregator,
     AudibleLibraryAM,
     DigitalSubscriptionAM,
     DigitalSubscriptionsAM,
@@ -15,6 +14,7 @@ import Logger from "../../utils/logger";
 import {Unzipped, unzipSync} from "fflate";
 import {ValidatorObject} from "../../utils/validator/validator.object";
 import {ServiceAmazon} from "./service.amazon";
+import {FileCodeAmazon} from "./enum.amazon";
 
 export class ProcessorAmazon {
     private static readonly logger = new Logger("Processor Amazon");

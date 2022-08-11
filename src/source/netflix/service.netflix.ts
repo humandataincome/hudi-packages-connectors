@@ -12,7 +12,7 @@ import {
 } from "./model.netflix";
 import Logger from "../../utils/logger";
 import {Parser} from "../../utils/parser";
-import {FileCodeNetflix} from "../../descriptor";
+import {FileCodeNetflix} from "./enum.netflix";
 
 /**
  * Class used to parse most important files into the directory returned by Netflix in CSV format.

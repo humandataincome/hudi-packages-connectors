@@ -48,7 +48,7 @@ import {
 } from "./model.facebook";
 import {Decoding} from "../../utils/decoding";
 import {ValidatorObject} from "../../utils/validator/validator.object";
-import {FileCodeFacebook} from "../../descriptor";
+import {FileCodeFacebook} from "./enum.facebook";
 
 /**
  * Class used to parse most important files into the directory returned by Facebook in JSON format.

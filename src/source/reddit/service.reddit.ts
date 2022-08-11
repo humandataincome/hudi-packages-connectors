@@ -1,7 +1,7 @@
 import Logger from "../../utils/logger";
 import {Parser} from "../../utils/parser";
 import {SubscribedSubredditRE} from "./model.reddit";
-import {FileCodeReddit} from "../../descriptor";
+import {FileCodeReddit} from "./enum.reddit";
 
 /**
  * Class used to parse most important files into the directory returned by Reddit in CSV format.

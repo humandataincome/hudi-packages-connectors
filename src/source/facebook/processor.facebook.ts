@@ -1,9 +1,8 @@
-import {FileCodeFacebook} from "../../descriptor";
 import {
     AdsInteractedWithFB,
     AdvInteractionFB,
     CommentPostedFB,
-    CommentsPostedFB, FriendRequestsSentFB,
+    CommentsPostedFB, FacebookDataAggregator, FriendRequestsSentFB,
     LanguagesFB, PagesFB,
     PagesFollowFB,
     PagesLikedFB,
@@ -13,11 +12,11 @@ import {
     ReactionsFB, RecentlyViewedFB, VisualizationFB, YourPostFB, YourPostsFB
 } from "./model.facebook";
 import {ProcessorOptions, ProcessorUtils} from "../../utils/processor/processor.utils";
-import {FacebookDataAggregator} from "../../utils/processor/processor.aggregator.model";
 import Logger from "../../utils/logger";
 import {Unzipped, unzipSync} from "fflate";
 import {ValidatorObject} from "../../utils/validator/validator.object";
 import {ServiceFacebook} from "./service.facebook";
+import {FileCodeFacebook} from "./enum.facebook";
 
 export class ProcessorFacebook {
     private static readonly logger = new Logger("Processor Facebook");

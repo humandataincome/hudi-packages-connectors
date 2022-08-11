@@ -2,7 +2,7 @@ import Logger from "../../utils/logger";
 import {FollowerListTK, FollowingListTK, ProfileTK, UserDataTK} from "./model.tiktok";
 import {Months} from "../../utils";
 import {ValidatorObject} from "../../utils/validator/validator.object";
-import {FileCodeTikTok} from "../../descriptor";
+import {FileCodeTikTok} from "./enum.tiktok";
 
 export class ServiceTiktok {
     private static readonly logger = new Logger("TikTok Service");

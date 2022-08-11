@@ -1,7 +1,5 @@
-import {GoogleDataAggregator} from "../../utils/processor/processor.aggregator.model";
-import {FileCodeGoogle} from "../../descriptor";
 import {
-    AccountGO, ActivitySegmentGO, ActivityTypeGO,
+    AccountGO, ActivitySegmentGO, ActivityTypeGO, GoogleDataAggregator,
     MapsReviewGO,
     MapsReviewsGO,
     PlayStoreReviewGO,
@@ -14,6 +12,7 @@ import {MonthsFull} from "../../utils";
 import Logger from "../../utils/logger";
 import {Unzipped, unzipSync} from "fflate";
 import {ValidatorObject} from "../../utils/validator/validator.object";
+import {FileCodeGoogle} from "./enum.google";
 
 export class ProcessorGoogle {
     private static readonly logger = new Logger("Processor Google");

@@ -1,6 +1,6 @@
 import {ValidatorDatasource} from "../../utils/validator/validator.datasource";
 import Logger from "../../utils/logger";
-import {FileCodeShopify} from "../../descriptor";
+import {FileCodeShopify} from "./enum.shopify";
 
 export class ValidatorShopify extends ValidatorDatasource {
     protected readonly logger = new Logger("Shopify Validator");

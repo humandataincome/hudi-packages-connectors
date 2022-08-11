@@ -1,27 +1,28 @@
 import {
     DataSourceCode,
-    FileCodeAmazon,
-    FileCodeFacebook,
-    FileCodeGoogle,
-    FileCodeInstagram,
-    FileCodeLinkedIn,
-    FileCodeNetflix,
-    FileCodeReddit,
-    FileCodeShopify,
-    FileCodeTikTok,
-    FileCodeTwitter,
     FileExtension
 } from "../../descriptor";
 import {ValidatorFiles} from "../validator/validator.files";
 import Logger from "../logger";
 import {Unzipped, unzipSync} from "fflate";
 import {
+    FileCodeAmazon,
+    FileCodeFacebook,
+    FileCodeGoogle,
+    FileCodeInstagram,
+    FileCodeLinkedIn,
+    FileCodeNetflix,
+    FileCodeReddit, FileCodeShopify, FileCodeTikTok, FileCodeTwitter,
     ServiceAmazon,
     ServiceFacebook,
     ServiceGoogle,
     ServiceInstagram,
     ServiceLinkedin,
-    ServiceNetflix, ServiceReddit, ServiceShopify, ServiceTiktok, ServiceTwitter
+    ServiceNetflix,
+    ServiceReddit,
+    ServiceShopify,
+    ServiceTiktok,
+    ServiceTwitter
 } from "../../source";
 import {ValidatorObject} from "../validator/validator.object";
 
@@ -45,58 +46,56 @@ export class MonitoringService {
                 const validation = ValidatorFiles.validatorSelector(code);
                 const filesNotParsed: string[] = [];
                 for (let filename in files) {
-                    if (!ValidatorObject.isDirectory(filename)) {
-                        if (validation) {
-                            const fileCode = validation.getFileCode(filename);
-                            if (fileCode) {
-                                const file = files[filename];
-                                const data = Buffer.from(file, file.byteOffset, file.length);
-                                let parsingResult;
-                                switch (code) {
-                                    case DataSourceCode.AMAZON:
-                                        parsingResult = await ServiceAmazon.parseFile(<FileCodeAmazon>fileCode, data);
-                                        break;
-                                    case DataSourceCode.FACEBOOK:
-                                        parsingResult = await ServiceFacebook.parseFile(<FileCodeFacebook>fileCode, data);
-                                        break;
-                                    case DataSourceCode.GOOGLE:
-                                        parsingResult = await ServiceGoogle.parseFile(<FileCodeGoogle>fileCode, data);
-                                        break;
-                                    case DataSourceCode.INSTAGRAM:
-                                        const language = await validation.getLanguage(files);
-                                        (language) && (ServiceInstagram.languagePrefix = language);
-                                        parsingResult = await ServiceInstagram.parseFile(<FileCodeInstagram>fileCode, data);
-                                        break;
-                                    case DataSourceCode.LINKEDIN:
-                                        parsingResult = await ServiceLinkedin.parseFile(<FileCodeLinkedIn>fileCode, data);
-                                        break;
-                                    case DataSourceCode.NETFLIX:
-                                        parsingResult = await ServiceNetflix.parseFile(<FileCodeNetflix>fileCode, data);
-                                        break;
-                                    case DataSourceCode.REDDIT:
-                                        parsingResult = await ServiceReddit.parseFile(<FileCodeReddit>fileCode, data);
-                                        break;
-                                    case DataSourceCode.SHOPIFY_CUSTOMERS:
-                                    case DataSourceCode.SHOPIFY_ORDERS:
-                                    case DataSourceCode.SHOPIFY_PRODUCTS:
-                                    case DataSourceCode.SHOPIFY_DISCOUNTS:
-                                        parsingResult = await ServiceShopify.parseFile(<FileCodeShopify>fileCode, data);
-                                        break;
-                                    case DataSourceCode.TIKTOK:
-                                        parsingResult = await ServiceTiktok.parseFile(<FileCodeTikTok>fileCode, data);
-                                        break;
-                                    case DataSourceCode.TWITTER:
-                                        parsingResult = await ServiceTwitter.parseFile(<FileCodeTwitter>fileCode, data);
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                if (!parsingResult) {
-                                    this.logger.log('info', `File \'${filename}\' can't be parsed`, 'findChangesIntoFiles');
-                                    filesNotParsed.push(filename);
-                                } else {
-                                    //TODO: must detect little changes into the file structure
-                                }
+                    if (!ValidatorObject.isDirectory(filename) && validation) {
+                        const fileCode = validation.getFileCode(filename);
+                        if (fileCode) {
+                            const file = files[filename];
+                            const data = Buffer.from(file, file.byteOffset, file.length);
+                            let parsingResult;
+                            switch (code) {
+                                case DataSourceCode.AMAZON:
+                                    parsingResult = await ServiceAmazon.parseFile(<FileCodeAmazon>fileCode, data);
+                                    break;
+                                case DataSourceCode.FACEBOOK:
+                                    parsingResult = await ServiceFacebook.parseFile(<FileCodeFacebook>fileCode, data);
+                                    break;
+                                case DataSourceCode.GOOGLE:
+                                    parsingResult = await ServiceGoogle.parseFile(<FileCodeGoogle>fileCode, data);
+                                    break;
+                                case DataSourceCode.INSTAGRAM:
+                                    const language = await validation.getLanguage(files);
+                                    (language) && (ServiceInstagram.languagePrefix = language);
+                                    parsingResult = await ServiceInstagram.parseFile(<FileCodeInstagram>fileCode, data);
+                                    break;
+                                case DataSourceCode.LINKEDIN:
+                                    parsingResult = await ServiceLinkedin.parseFile(<FileCodeLinkedIn>fileCode, data);
+                                    break;
+                                case DataSourceCode.NETFLIX:
+                                    parsingResult = await ServiceNetflix.parseFile(<FileCodeNetflix>fileCode, data);
+                                    break;
+                                case DataSourceCode.REDDIT:
+                                    parsingResult = await ServiceReddit.parseFile(<FileCodeReddit>fileCode, data);
+                                    break;
+                                case DataSourceCode.SHOPIFY_CUSTOMERS:
+                                case DataSourceCode.SHOPIFY_ORDERS:
+                                case DataSourceCode.SHOPIFY_PRODUCTS:
+                                case DataSourceCode.SHOPIFY_DISCOUNTS:
+                                    parsingResult = await ServiceShopify.parseFile(<FileCodeShopify>fileCode, data);
+                                    break;
+                                case DataSourceCode.TIKTOK:
+                                    parsingResult = await ServiceTiktok.parseFile(<FileCodeTikTok>fileCode, data);
+                                    break;
+                                case DataSourceCode.TWITTER:
+                                    parsingResult = await ServiceTwitter.parseFile(<FileCodeTwitter>fileCode, data);
+                                    break;
+                                default:
+                                    break;
+                            }
+                            if (!parsingResult) {
+                                this.logger.log('info', `File \'${filename}\' can't be parsed`, 'findChangesIntoFiles');
+                                filesNotParsed.push(filename);
+                            } else {
+                                //TODO: must detect little changes into the file structure
                             }
                         }
                     }

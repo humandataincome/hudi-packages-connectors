@@ -18,10 +18,11 @@ import {
 } from "./model.google";
 import {Parser} from "../../utils/parser";
 import {Months} from "../../utils";
-import {FileCodeGoogle, LanguageCode} from "../../descriptor";
 import {ConfigGoogle} from "../../config/config.google";
 import {Decoding} from "../../utils/decoding";
 import {ValidatorObject} from "../../utils/validator/validator.object";
+import {LanguageCode} from "../../descriptor";
+import {FileCodeGoogle} from "./enum.google";
 
 /**
  * Class used to parse most important files into the directory returned by Google in CSV and JSON formats.

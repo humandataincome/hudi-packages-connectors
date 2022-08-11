@@ -2,7 +2,7 @@ import Logger from "../../utils/logger";
 import {Parser} from "../../utils/parser";
 import {AccountTW} from "./model.twitter";
 import {ValidatorObject} from "../../utils/validator/validator.object";
-import {FileCodeTwitter} from "../../descriptor";
+import {FileCodeTwitter} from "./enum.twitter";
 
 /**
  * Class used to parse most important files into the directory returned by Twitter in JS format.

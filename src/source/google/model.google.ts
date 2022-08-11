@@ -313,3 +313,19 @@ export interface MapsReviewGO {
     published?: Date;
     starRating?: number;
 }
+
+export interface GoogleDataAggregator {
+    //from ACCOUNT_INFO
+    email?: string;
+    recoveryEmail?: string;
+    recoverySMS?: string;
+    creationAccount?: Date;
+    //from all SEMANTIC_LOCATION_HISTORY, it returns corresponding number of times and km for each activity type
+    frequencyDistanceActivities?: Record<ActivityTypeGO, [number, number]>;
+    //from PLAY_STORE_REVIEWS
+    counterPlayStoreReviewsTI?: number;
+    averagePlayStoreReviewsTI?: number;
+    //from MAPS_YOUR_PLACES_REVIEWS
+    counterMapsReviewsTI?: number;
+    averageMapsReviewsTI?: number;
+}

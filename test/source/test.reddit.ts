@@ -9,7 +9,7 @@ async function testService() {
     try {
         const path = require('path');
         const {Parser} = require('../utils/parser');
-        console.log(await ServiceReddit.parseSubscribedSubreddit(await Parser.CSVToBuffer(path.join(__dirname, `../../src/mock/datasource files/reddit/subscribed_subreddits.csv`))));
+        console.log(await ServiceReddit.parseSubscribedSubreddit(await Parser.CSVToBuffer(path.join(__dirname, `../../src/mock/datasource/raw files/reddit/subscribed_subreddits.csv`))));
     } catch (e: any) {
         if (e.code == 'MODULE_NOT_FOUND') {
             console.log('[Error not founding module] ' + e);

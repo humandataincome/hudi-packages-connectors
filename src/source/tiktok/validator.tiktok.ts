@@ -1,6 +1,6 @@
 import {ValidatorDatasource} from "../../utils/validator/validator.datasource";
 import Logger from "../../utils/logger";
-import {FileCodeTikTok} from "../../descriptor";
+import {FileCodeTikTok} from "./enum.tiktok";
 
 export class ValidatorTikTok extends ValidatorDatasource {
     protected readonly logger = new Logger("TikTok Validator");
