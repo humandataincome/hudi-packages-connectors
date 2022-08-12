@@ -1,20 +1,20 @@
 import {Descriptor, FileContent, Procedure, SourceDescription} from "./descriptor.model";
 import {
     DataSourceCode,
-    FileCodeAmazon,
-    FileCodeFacebook,
-    FileCodeGoogle,
-    FileCodeLinkedIn,
-    FileCodeNetflix,
-    FileCodeShopify,
-    FileCodeTwitter,
     FileExtension,
     LanguageCode,
     RetrievingProcedureType
 } from "./descriptor.enum";
 import {DescriptorErrorEnum} from "../utils";
 import {ValidatorObject} from "../utils/validator/validator.object";
-import {FileCodeInstagram} from "../source";
+import {
+    FileCodeAmazon,
+    FileCodeFacebook,
+    FileCodeGoogle,
+    FileCodeInstagram,
+    FileCodeLinkedIn,
+    FileCodeNetflix, FileCodeReddit, FileCodeShopify, FileCodeTikTok, FileCodeTwitter
+} from "../source";
 
 
 const descriptor: Descriptor = require('./descriptor.json');
@@ -224,9 +224,9 @@ export class DescriptorService {
             case DataSourceCode.TWITTER:
                 return FileCodeTwitter;
             case DataSourceCode.REDDIT:
-                return FileCodeTwitter;
+                return FileCodeReddit;
             case DataSourceCode.TIKTOK:
-                return FileCodeTwitter;
+                return FileCodeTikTok;
             default:
                 return undefined;
         }

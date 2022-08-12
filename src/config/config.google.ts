@@ -1,4 +1,5 @@
-import {FileCodeGoogle} from "../descriptor";
+import {FileCodeGoogle} from "../source";
+
 
 export class ConfigGoogle {
     public static readonly keyTranslation: Record<string, string> = {

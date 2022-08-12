@@ -1,3 +1,102 @@
+/**
+ * Aggregation of information from Instagram's models
+ */
+export interface InstagramDataAggregator {
+    //from FileCodeInstagram.PERSONAL_INFO model
+    username?: string;
+    name?: string;
+    /**
+     * @email
+     */
+    email?: string;
+    birthdate?: Date;
+    phoneNumber?: string;
+    gender?: string;
+    //from FileCodeInstagram.ACCOUNT_NOT_INTERESTED model
+    accountsNotInterestedIn?: AccountsYouAreNotInterestedIG;
+    //from FileCodeInstagram.ADS_CLICKED model
+    adsClicked?: AdsClickedIG;
+    //from FileCodeInstagram.ADS_USING_YOUR_INFO model
+    adsUsingYourInfo?: AdsUsingYourInformationIG;
+    //from FileCodeInstagram.ADS_VIEWED model
+    adsViewed?: AdsViewedIG;
+    //from FileCodeInstagram.POSTS_VIEWED model
+    postsViewed?: PostViewedIG;
+    //from FileCodeInstagram.ACCOUNT_VIEWED model
+    suggestedAccountsViewed?: SuggestedAccountsViewedIG;
+    //from FileCodeInstagram.AUTOFILL_INFO model
+    autofillInfo?: AutofillInformationIG;
+    //from FileCodeInstagram.POST_COMMENT model
+    commentsPosted?: CommentsPostedIG;
+    //from FileCodeInstagram.FOLLOWING_HASHTAGS model
+    followingHashtags?: FollowingHashtagsIG;
+    //from FileCodeInstagram.INFO_ADS_INTERESTS model
+    adsInterests?: AdsInterestsIG;
+    //from FileCodeInstagram.INFO_ACCOUNT_BASED_IN model
+    locations?: LocationInformationIG;
+    //from FileCodeInstagram.ELIGIBILITY in model
+    eligibility?: EligibilityIG;
+    //from FileCodeInstagram.ACCOUNT_SEARCHES in model
+    searches?: SearchesIG;
+    //from FileCodeInstagram.YOUR_REEL_TOPICS model
+    reelTopics?: ReelTopicsIG;
+    //from FileCodeInstagram.YOUR_TOPICS model
+    yourTopics?: YourTopicsIG;
+    //from FileCodeInstagram.SHOPPING_VIEWED_ITEMS
+    shoppingItemsViewed?: ShoppingViewedItemsIG;
+    engagement?: EngagementIG;
+    creationDate?: Date;
+}
+
+export interface EngagementIG {
+    /**
+     * Interval of Time in days
+     * @default 365
+     */
+    timeInterval?: number;
+    //from FileCodeInstagram.ADS_CLICKED model
+    adsClicked?: number;
+    adsClickedTI?: number;
+    //from FileCodeInstagram.ADS_VIEWED model
+    adsViewed?: number;
+    adsViewedTI?: number;
+    //from FileCodeInstagram.POST_COMMENT model
+    commentsPosted?: number;
+    commentsPostedTI?: number;
+    //from FileCodeInstagram.FOLLOWING_HASHTAGS model
+    followingHashtagsCounter?: number;
+    //from FileCodeInstagram.FOLLOWING_ACCOUNTS model
+    followingCounter?: number;
+    ////from FileCodeInstagram.FOLLOWERS model
+    followersCounter?: number;
+    //from FileCodeInstagram.EMOJI_SLIDERS model
+    emojiSliders?: number;
+    emojiSlidersTI?: number;
+    //from FileCodeInstagram.LIKE_COMMENTS model
+    likesComments?: number;
+    likesCommentsTI?: number;
+    //from FileCodeInstagram.LIKE_POSTS model
+    likesPosts?: number;
+    likesPostsTI?: number;
+    //from FileCodeInstagram.POLLS model
+    polls?: number;
+    pollsTI?: number;
+    //from FileCodeInstagram.POSTS_CREATED model
+    postsCreated?: number;
+    postsCreatedTI?: number;
+    //from FileCodeInstagram.POSTS_VIEWED model
+    postsViewed?: number;
+    postsViewedTI?: number;
+    //from FileCodeInstagram.QUIZZES model
+    quizzes?: number;
+    quizzesTI?: number;
+    //from FileCodeInstagram.STORIES_CREATED model
+    storiesCreated?: number;
+    storiesCreatedTI?: number;
+    //from FileCodeInstagram.VIDEO_VIEWED model
+    videosViewed?: number;
+    videosViewedTI?: number;
+}
 
 //FileCodeInstagram.PERSONAL_INFO model
 export interface PersonalInformationIG {
@@ -25,24 +124,24 @@ export interface LocationInformationIG {
 
 //FileCodeInstagram.ADS_CLICKED model
 export interface AdsClickedIG {
-    list: Array<AdvIG>;
+    list: AdvIG[];
 }
 
 //FileCodeInstagram.ADS_VIEWED model
 export interface AdsViewedIG {
-    list: Array<AdvIG>;
+    list: AdvIG[];
 }
 
 export interface AdsInterestsIG {
-    list: Array<AdvIG>;
+    list: AdvIG[];
 }
 
 export interface MusicHeardInStoriesIG {
-    list: Array<MediaIG>;
+    list: MediaIG[];
 }
 
 export interface MusicRecentlyUsedInStoriesIG {
-    list: Array<MediaIG>;
+    list: MediaIG[];
 }
 
 /*
@@ -57,22 +156,22 @@ export interface PostIG {
 
 //FileCodeInstagram.POSTS_VIEWED model
 export interface PostViewedIG {
-    list: Array<PostIG>;
+    list: PostIG[];
 }
 
 //FileCodeInstagram.POSTS_ARCHIVED model
 export interface ArchivedPostsIG {
-    list: Array<PostIG>;
+    list: PostIG[];
 }
 
 //FileCodeInstagram.POSTS_CREATED model
 export interface PersonalPostsIG {
-    list: Array<PostIG>;
+    list: PostIG[];
 }
 
 //FileCodeInstagram.VIDEO_VIEWED model
 export interface VideoWatchedIG {
-    list: Array<MediaIG>;
+    list: MediaIG[];
 }
 
 export interface AccountIG {
@@ -83,89 +182,92 @@ export interface AccountIG {
 
 //FileCodeInstagram.ACCOUNT_VIEWED model
 export interface SuggestedAccountsViewedIG {
-    list: Array<AccountIG>;
+    list: AccountIG[];
 }
 
 //FileCodeInstagram.ACCOUNT_NOT_INTERESTED model
 export interface AccountsYouAreNotInterestedIG {
-    list: Array<AccountIG>;
+    list: AccountIG[];
 }
 
 //FileCodeInstagram.FOLLOWERS model
 export interface FollowersIG {
-    list: Array<AccountIG>;
+    list: AccountIG[];
 }
 
 //FileCodeInstagram.FOLLOWING_ACCOUNTS model
 export interface FollowingAccountsIG {
-    list: Array<AccountIG>;
+    list: AccountIG[];
 }
 
 //FileCodeInstagram.FOLLOWING_HASHTAGS model
 export interface FollowingHashtagsIG {
-    list: Array<AccountIG>;
+    list: AccountIG[];
 }
 
 //FileCodeInstagram.POST_COMMENT model
 export interface CommentsPostedIG {
-    list: Array<CommentPostedIG>;
+    list: CommentPostedIG[];
 }
 
 //FileCodeInstagram.SYNCED_CONTACTS model
 export interface SyncedContractsIG {
-    list: Array<ContactSyncedIG>;
+    list: ContactSyncedIG[];
 }
 
 //FileCodeInstagram.STORIES_CREATED model
 export interface PersonalStoriesIG {
-    list: Array<StoryIG>;
+    list: StoryIG[];
 }
 
 //FileCodeInstagram.LIKE_POSTS model
 export interface LikedPostsIG {
-    list: Array<LikeIG>;
+    list: LikeIG[];
 }
 
 //FileCodeInstagram.LIKE_COMMENTS model
 export interface LikedCommentsIG {
-    list: Array<LikeIG>;
+    list: LikeIG[];
 }
 
 //FileCodeInstagram.ACCOUNT_SEARCHES model
 export interface SearchesIG {
-    list: Array<SearchIG>;
+    list: SearchIG[];
 }
 
+//FileCodeInstagram.YOUR_REEL_SENTIMENTS model
 export interface ReelSentimentsIG {
-    list: Array<SentimentIG>;
+    list: SentimentIG[];
 }
 
 //FileCodeInstagram.YOUR_REEL_TOPICS model
 export interface ReelTopicsIG {
-    list: Array<TopicIG>;
+    list: TopicIG[];
 }
 
 //FileCodeInstagram.YOUR_TOPICS model
 export interface YourTopicsIG {
-    list: Array<TopicIG>;
+    list: TopicIG[];
 }
 
 //FileCodeInstagram.EMOJI_SLIDERS model
 export interface EmojiSlidersIG {
-    list: Array<EmojiSliderIG>;
+    list: EmojiSliderIG[];
 }
 
 //FileCodeInstagram.POLLS model
 export interface PollsIG {
-    list: Array<PollIG>;
+    list: PollIG[];
 }
 
+//from FileCodeInstagram.QUIZZES model
 export interface QuizzesIG {
-    list: Array<QuizIG>;
+    list: QuizIG[];
 }
 
+//FileCodeInstagram.MESSAGE_REQUESTS and FileCodeInstagram.MESSAGE_CONVERSATION models
 export interface ConversationsIG {
-    listInbox?: Array<ConversationIG>;
+    listInbox?: ConversationIG[];
 }
 
 export interface StoryIG {
@@ -200,8 +302,8 @@ export interface SearchIG {
 
 export interface ConversationIG {
     title?: string;
-    listMessages?: Array<MessageIG>;
-    participants?: Array<string>;
+    listMessages?: MessageIG[];
+    participants?: string[];
     isStillParticipant?: boolean;
 }
 
@@ -296,98 +398,4 @@ export interface AutofillInformationIG {
     email?: string;
     familyName?: string;
     givenName?: string;
-}
-
-/**
- * Aggregation of information from Instagram's models
- */
-export interface InstagramDataAggregator {
-    //from FileCodeInstagram.PERSONAL_INFO model
-    username?: string;
-    name?: string;
-    email?: string;
-    birthdate?: Date;
-    phoneNumber?: string;
-    gender?: string;
-    //from FileCodeInstagram.ACCOUNT_NOT_INTERESTED model
-    accountsNotInterestedIn?: AccountsYouAreNotInterestedIG;
-    //from FileCodeInstagram.ADS_CLICKED model
-    adsClicked?: AdsClickedIG;
-    //from FileCodeInstagram.ADS_USING_YOUR_INFO model
-    adsUsingYourInfo?: AdsUsingYourInformationIG;
-    //from FileCodeInstagram.ADS_VIEWED model
-    adsViewed?: AdsViewedIG;
-    //from FileCodeInstagram.POSTS_VIEWED model
-    postsViewed?: PostViewedIG;
-    //from FileCodeInstagram.ACCOUNT_VIEWED model
-    suggestedAccountsViewed?: SuggestedAccountsViewedIG;
-    //from FileCodeInstagram.AUTOFILL_INFO model
-    autofillInfo?: AutofillInformationIG;
-    //from FileCodeInstagram.POST_COMMENT model
-    commentsPosted?: CommentsPostedIG;
-    //from FileCodeInstagram.FOLLOWING_HASHTAGS model
-    followingHashtags?: FollowingHashtagsIG;
-    //from FileCodeInstagram.INFO_ADS_INTERESTS model
-    adsInterests?: AdsInterestsIG;
-    //from FileCodeInstagram.INFO_ACCOUNT_BASED_IN model
-    locations?: LocationInformationIG;
-    //from FileCodeInstagram.ELIGIBILITY in model
-    eligibility?: EligibilityIG;
-    //from FileCodeInstagram.ACCOUNT_SEARCHES in model
-    searches?: SearchesIG;
-    //from FileCodeInstagram.YOUR_REEL_TOPICS model
-    reelTopics?: ReelTopicsIG;
-    //from FileCodeInstagram.YOUR_TOPICS model
-    yourTopics?: YourTopicsIG;
-    //from FileCodeInstagram.SHOPPING_VIEWED_ITEMS
-    shoppingItemsViewed?: ShoppingViewedItemsIG;
-    engagement?: EngagementIG;
-    creationDate?: Date;
-}
-
-export interface EngagementIG {
-    //interval of time in Days. Default is 365 days
-    timeInterval?: number;
-    //from FileCodeInstagram.ADS_CLICKED model
-    adsClicked?: number;
-    adsClickedTI?: number;
-    //from FileCodeInstagram.ADS_VIEWED model
-    adsViewed?: number;
-    adsViewedTI?: number;
-    //from FileCodeInstagram.POST_COMMENT model
-    commentsPosted?: number;
-    commentsPostedTI?: number;
-    //from FileCodeInstagram.FOLLOWING_HASHTAGS model
-    followingHashtagsCounter?: number;
-    //from FileCodeInstagram.FOLLOWING_ACCOUNTS model
-    followingCounter?: number;
-    ////from FileCodeInstagram.FOLLOWERS model
-    followersCounter?: number;
-    //from FileCodeInstagram.EMOJI_SLIDERS model
-    emojiSliders?: number;
-    emojiSlidersTI?: number;
-    //from FileCodeInstagram.LIKE_COMMENTS model
-    likesComments?: number;
-    likesCommentsTI?: number;
-    //from FileCodeInstagram.LIKE_POSTS model
-    likesPosts?: number;
-    likesPostsTI?: number;
-    //from FileCodeInstagram.POLLS model
-    polls?: number;
-    pollsTI?: number;
-    //from FileCodeInstagram.POSTS_CREATED model
-    postsCreated?: number;
-    postsCreatedTI?: number;
-    //from FileCodeInstagram.POSTS_VIEWED model
-    postsViewed?: number;
-    postsViewedTI?: number;
-    //from FileCodeInstagram.QUIZZES model
-    quizzes?: number;
-    quizzesTI?: number;
-    //from FileCodeInstagram.STORIES_CREATED model
-    storiesCreated?: number;
-    storiesCreatedTI?: number;
-    //from FileCodeInstagram.VIDEO_VIEWED model
-    videosViewed?: number;
-    videosViewedTI?: number;
 }

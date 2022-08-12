@@ -35,7 +35,6 @@ function validatorAndProcessingInstagramTest() {
                 maxEntitiesPerArray: 1000,
             });
             let str = JSON.stringify(processed, null, 2);
-            fs.writeFileSync(path.join(__dirname,'../src/mock/datasource/processing/aggregator_instagram.json'), str);
             console.log('File size: ',new TextEncoder().encode(str).length);
         });
     } catch (e) {

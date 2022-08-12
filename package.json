@@ -19,6 +19,7 @@
         "test-shopify": "ts-node test/source/test.shopify.ts",
         "test-twitter": "ts-node test/source/test.twitter.ts",
         "test-tiktok": "ts-node test/source/test.tiktok.ts",
+        "generate-schemas": "ts-node schema/schema.generator.ts",
         "build": "tsc -p .",
         "prepublish": "npm run build"
     },
@@ -33,7 +34,8 @@
     },
     "homepage": "https://github.com/humandataincome/hudi-packages-connectors#readme",
     "devDependencies": {
-        "ts-node": "^10.5.0"
+        "ts-node": "^10.5.0",
+        "typescript-json-schema": "^0.54.0"
     },
     "keywords": [
         "connectors",
