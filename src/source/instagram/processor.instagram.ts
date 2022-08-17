@@ -31,7 +31,7 @@ export class ProcessorInstagram {
         try {
             if (zipFile) {
                 const files: Unzipped = unzipSync(zipFile);
-                return await this._aggregateFactory(files, options);
+                return await this._aggregatorFactory(files, options);
             }
         } catch (error: any) {
             (error && error.message) && (this.logger.log('error', error.message, 'aggregatorFactory'));
@@ -43,13 +43,13 @@ export class ProcessorInstagram {
     }
 
 
-    private static async _aggregateFactory(files: Unzipped, options: ProcessorOptions = {}): Promise<InstagramDataAggregator | undefined> {
+    private static async _aggregatorFactory(files: Unzipped, options: ProcessorOptions = {}): Promise<InstagramDataAggregator | undefined> {
         const timeIntervalDays = (options.timeIntervalDays) ? options.timeIntervalDays : 365;
         const model: InstagramDataAggregator = {};
         const modelEngagement: EngagementIG = {};
         //get language code if possible, otherwise ENGLISH as default
-        let code = (options && options.throwExceptions) ? await ValidatorInstagram.getInstance().getLanguage(files, {throwExceptions: options.throwExceptions}) : await ValidatorInstagram.getInstance().getLanguage(files);
-        ServiceInstagram.languagePrefix = code ? code : LanguageCode.ENGLISH;
+        let languageCode = (options && options.throwExceptions) ? await ValidatorInstagram.getInstance().getLanguage(files, {throwExceptions: options.throwExceptions}) : await ValidatorInstagram.getInstance().getLanguage(files);
+        ServiceInstagram.languagePrefix = languageCode ? languageCode : LanguageCode.ENGLISH;
         let result, regex;
         for (let pathName in files) {
             const file = files[pathName];

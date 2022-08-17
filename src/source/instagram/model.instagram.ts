@@ -5,9 +5,6 @@ export interface InstagramDataAggregator {
     //from FileCodeInstagram.PERSONAL_INFO model
     username?: string;
     name?: string;
-    /**
-     * @email
-     */
     email?: string;
     birthdate?: Date;
     phoneNumber?: string;
