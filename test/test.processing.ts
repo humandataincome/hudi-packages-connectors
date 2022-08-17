@@ -11,8 +11,8 @@ import {
 import ErrnoException = NodeJS.ErrnoException;
 
 function testProcessing(){
-    validatorAndProcessingInstagramTest();
-    //validatorAndProcessingFacebookTest();
+    //validatorAndProcessingInstagramTest();
+    validatorAndProcessingFacebookTest();
     //validatorAndProcessingAmazonTest();
     //validatorAndProcessingGoogleTest();
     //validatorAndProcessingShopifyTest();
@@ -35,6 +35,7 @@ function validatorAndProcessingInstagramTest() {
                 maxEntitiesPerArray: 1000,
             });
             let str = JSON.stringify(processed, null, 2);
+            fs.writeFile(path.join(__dirname,"../src/mock/datasource/processing/aggregator_instagram.json"), str, (err: any) => { if (err) throw err; });
             console.log('File size: ',new TextEncoder().encode(str).length);
         });
     } catch (e) {
@@ -57,17 +58,16 @@ function validatorAndProcessingFacebookTest() {
                     },
                     throwExceptions: true,
                 });
-            console.log(await ProcessorFacebook.aggregatorFactory(validation1!.zipFile, {
+            const processed = await ProcessorFacebook.aggregatorFactory(validation1!.zipFile, {
                 timeIntervalDays: 180,
                 throwExceptions: false,
-            }));
+            });
+            let str = JSON.stringify(processed, null, 2);
+            fs.writeFile(path.join(__dirname,"../src/mock/datasource/processing/aggregator_facebook.json"), str, (err: any) => { if (err) throw err; });
+            console.log('File size: ', new TextEncoder().encode(str).length);
         });
-    } catch (e: any) {
-        if (e.code == 'MODULE_NOT_FOUND') {
-            console.log('[Error not founding module] ' + e);
-        } else {
-            console.log(e);
-        }
+    } catch (e) {
+        console.log(e);
     }
 }
 
