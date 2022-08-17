@@ -19,14 +19,12 @@ export interface FacebookDataAggregator {
     pagesLiked?: PagesLikedFB;
     //from FileCodeFacebook.PAGES_FOLLOWED model
     pagesFollowed?: PagesFollowFB;
-
     //from FileCodeFacebook.PAGES_RECOMMENDED model
     pagesRecommended?: PagesRecommendedFB;
     //from FileCodeFacebook.PAGES_UNFOLLOWED model
     pagesUnfollowed?: PagesUnfollowedFB;
     //from FileCodeFacebook.YOUR_POSTS model
     postsCreated?: YourPostsFB;
-
     //from FileCodeFacebook.YOUR_TOPICS model
     yourTopics?: YourTopicsFB;
     //from FileCodeFacebook.RECENTLY_VIEWED model
