@@ -32,7 +32,7 @@ function validatorAndProcessingInstagramTest() {
                 });
             const processed = await ProcessorInstagram.aggregatorFactory(validation!.zipFile, {
                 timeIntervalDays: 365,
-                maxEntitiesPerArray: 1000,
+                maxEntitiesPerArray: Infinity,
             });
             let str = JSON.stringify(processed, null, 2);
             fs.writeFile(path.join(__dirname,"../src/mock/datasource/processing/aggregator_instagram.json"), str, (err: any) => { if (err) throw err; });
@@ -60,6 +60,7 @@ function validatorAndProcessingFacebookTest() {
                 });
             const processed = await ProcessorFacebook.aggregatorFactory(validation1!.zipFile, {
                 timeIntervalDays: 180,
+                maxEntitiesPerArray: Infinity,
                 throwExceptions: false,
             });
             let str = JSON.stringify(processed, null, 2);

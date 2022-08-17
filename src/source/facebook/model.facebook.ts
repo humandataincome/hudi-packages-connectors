@@ -1,3 +1,6 @@
+/**
+ * Aggregation of information from Facebook's models
+ */
 export interface FacebookDataAggregator {
     //from FileCodeFacebook.PROFILE_INFO model
     personalInfo?: PersonalInformationFB;
