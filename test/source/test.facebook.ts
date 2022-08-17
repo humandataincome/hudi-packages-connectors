@@ -27,18 +27,13 @@ async function testService() {
         console.log(await ServiceFacebook.parseFriends(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/facebook_json/friends_and_followers/friends.json`)))));
         console.log(await ServiceFacebook.parsePagesUnfollowed(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/facebook_json/pages/pages_you've_unfollowed.json`)))));
         console.log(await ServiceFacebook.parseAdsInterests(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/facebook_json/other_logged_information/ads_interests.json`)))));
-        console.log(await ServiceFacebook.parseYourTopics(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/facebook_json/your_topics/your_topics.json`)))));
-        console.log(await ServiceFacebook.parseYourTopics(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/facebook_json/your_topics/your_topics.json`)))));
         console.log(await ServiceFacebook.parseInformationSubmittedAds(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/facebook_json/ads_information/information_you've_submitted_to_advertisers.json`))));
         console.log(await ServiceFacebook.parseStoriesReactions(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/facebook_json/stories/story_reactions.json`)))));
-        */
         console.log(await ServiceFacebook.parseRecentlyVisited(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/facebook_json/your_interactions_on_facebook/recently_visited.json`)))));
-    } catch (e: any) {
-        if (e.code == 'MODULE_NOT_FOUND') {
-            console.log('[Error not founding module] ' + e);
-        } else {
-            console.log(e);
-        }
+         */
+        console.log(await ServiceFacebook.parseYourTopics(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/facebook_json/your_topics/your_topics.json`)))));
+    } catch (error) {
+        console.log(error);
     }
 }
 

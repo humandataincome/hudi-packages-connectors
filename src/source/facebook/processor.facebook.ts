@@ -1,15 +1,13 @@
 import {
-    AdsInteractedWithFB,
     AdvInteractionFB,
     CommentPostedFB,
-    CommentsPostedFB, FacebookDataAggregator, FriendRequestsSentFB,
-    LanguagesFB, PagesFB,
-    PagesFollowFB,
-    PagesLikedFB,
-    PagesRecommendedFB,
-    PersonalInformationFB,
+    EngagementFB,
+    FacebookDataAggregator,
+    PageFB,
     ReactionFB,
-    ReactionsFB, RecentlyViewedFB, VisualizationFB, YourPostFB, YourPostsFB
+    ReactionsFB,
+    VisualizationFB,
+    YourPostFB
 } from "./model.facebook";
 import {ProcessorOptions, ProcessorUtils} from "../../utils/processor/processor.utils";
 import Logger from "../../utils/logger";
@@ -29,7 +27,7 @@ export class ProcessorFacebook {
     static async aggregatorFactory(zipFile: Uint8Array, options?: ProcessorOptions): Promise<FacebookDataAggregator | undefined> {
         try {
             const files: Unzipped = unzipSync(zipFile);
-            return await this._aggregateFactory(files, options);
+            return await this._aggregatorFactory(files, options);
         } catch (error: any) {
             (error && error.message) && (this.logger.log('error', error.message, 'aggregatorFactory'));
             if (options && options.throwExceptions !== undefined && options.throwExceptions) {
@@ -39,132 +37,202 @@ export class ProcessorFacebook {
         return undefined;
     }
 
-    private static async _aggregateFactory(files: Unzipped, options?: ProcessorOptions): Promise<FacebookDataAggregator | undefined> {
+    private static async _aggregatorFactory(files: Unzipped, options: ProcessorOptions = {}): Promise<FacebookDataAggregator | undefined> {
         const timeIntervalDays = (options && options.timeIntervalDays) ? options.timeIntervalDays : 365;
         const model: FacebookDataAggregator = {};
+        const modelEngagement: EngagementFB = {};
+
         let result, regex;
         for (let pathName in files) {
             const file = files[pathName];
             const data = Buffer.from(file, file.byteOffset, file.length);
             if (!ValidatorObject.isDirectory(pathName)) {
-                if ((regex = new RegExp(FileCodeFacebook.ADS_INTERACTED_WITH)) && (regex.test(pathName))) {
-                    result = <AdsInteractedWithFB>await ServiceFacebook.parseAdsInteractedWith(data);
+                if ((regex = new RegExp(FileCodeFacebook.PROFILE_INFO)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parsePersonalInformation(data);
                     if (result) {
-                        model.adsClick = result.list.length;
-                        model.adsClickTI = result.list.filter((item: AdvInteractionFB) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
+                        model.personalInfo = result;
+                    }
+                } else if ((regex = new RegExp(FileCodeFacebook.LANGUAGE)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parseLanguages(data);
+                    if (result && result.languagesKnown) {
+                        model.languagesKnown = result.languagesKnown;
+                    }
+                } else if ((regex = new RegExp(FileCodeFacebook.ADS_INTERACTED_WITH)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parseAdsInteractedWith(data);
+                    if (result) {
+                        modelEngagement.adsInteractions = result.list.length;
+                        modelEngagement.adsInteractionsTI = result.list.filter((item: AdvInteractionFB) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
+                        (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
+                            ? (model.adsInteractedWith = {list: result.list.slice(0,options.maxEntitiesPerArray)})
+                            : (model.adsInteractedWith = result);
+                    }
+                } else if ((regex = new RegExp(FileCodeFacebook.ADS_USING_YOUR_ACTIVITY)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parseAdsUsingYourInfo(data);
+                    if (result) {
+                        (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
+                            ? (model.adsUsingYourInfo = {list: result.list.slice(0,options.maxEntitiesPerArray)})
+                            : (model.adsUsingYourInfo = result);
+                    }
+                } else if ((regex = new RegExp(FileCodeFacebook.ADS_INTERESTS)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parseAdsInterests(data);
+                    if (result) {
+                        (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
+                            ? (model.adsInterests = {list: result.list.slice(0,options.maxEntitiesPerArray)})
+                            : (model.adsInterests = result);
+                    }
+                } else if ((regex = new RegExp(FileCodeFacebook.INFO_SUBMITTED_ADS)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parseInformationSubmittedAds(data);
+                    if (result) {
+                        (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
+                            ? (model.infoSubmittedToAds = {list: result.list.slice(0,options.maxEntitiesPerArray)})
+                            : (model.infoSubmittedToAds = result);
+                    }
+                } else if ((regex = new RegExp(FileCodeFacebook.SEARCH_HISTORY)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parseSearchHistory(data);
+                    if (result) {
+                        (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
+                            ? (model.searchHistory = {list: result.list.slice(0,options.maxEntitiesPerArray)})
+                            : (model.searchHistory = result);
                     }
                 } else if ((regex = new RegExp(FileCodeFacebook.COMMENTS)) && (regex.test(pathName))) {
-                    result = <CommentsPostedFB>await ServiceFacebook.parseComments(data);
+                    result = await ServiceFacebook.parseComments(data);
                     if (result) {
-                        model.commentsPosts = result.list.length;
-                        model.commentsPostsTI = result.list.filter((item: CommentPostedFB) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
+                        modelEngagement.commentsPosts = result.list.length;
+                        modelEngagement.commentsPostsTI = result.list.filter((item: CommentPostedFB) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
+                        (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
+                            ? (model.commentsPosted = {list: result.list.slice(0,options.maxEntitiesPerArray)})
+                            : (model.commentsPosted = result);
+                    }
+                } else if ((regex = new RegExp(FileCodeFacebook.PAGES_LIKED)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parsePagesLiked(data);
+                    if (result) {
+                        modelEngagement.pagesLiked = result.list.length;
+                        modelEngagement.pagesLikedTI = result.list.filter((item: PageFB) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
+                        (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
+                            ? (model.pagesLiked = {list: result.list.slice(0,options.maxEntitiesPerArray)})
+                            : (model.pagesLiked = result);
+                    }
+                } else if ((regex = new RegExp(FileCodeFacebook.PAGES_FOLLOWED)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parsePagesFollowed(data);
+                    if (result) {
+                        modelEngagement.pagesFollowed = result.list.length;
+                        modelEngagement.pagesFollowedTI = result.list.filter((item: PageFB) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
+                        (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
+                            ? (model.pagesFollowed = {list: result.list.slice(0,options.maxEntitiesPerArray)})
+                            : (model.pagesFollowed = result);
+                    }
+                } else if ((regex = new RegExp(FileCodeFacebook.PAGES_RECOMMENDED)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parsePagesRecommended(data);
+                    if (result) {
+                        modelEngagement.pagesRecommended = result.list.length;
+                        modelEngagement.pagesRecommendedTI = result.list.filter((item: PageFB) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
+                        (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
+                            ? (model.pagesRecommended = {list: result.list.slice(0,options.maxEntitiesPerArray)})
+                            : (model.pagesRecommended = result);
+                    }
+                } else if ((regex = new RegExp(FileCodeFacebook.PAGES_UNFOLLOWED)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parsePagesUnfollowed(data);
+                    if (result) {
+                        (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
+                            ? (model.pagesUnfollowed = {list: result.list.slice(0,options.maxEntitiesPerArray)})
+                            : (model.pagesUnfollowed = result);
+                    }
+                } else if ((regex = new RegExp(FileCodeFacebook.YOUR_POSTS)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parseYourPosts(data);
+                    if (result) {
+                        modelEngagement.postsCreated = result.list.length;
+                        modelEngagement.postsCreatedTI = result.list.filter((item: YourPostFB) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
+                        (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
+                            ? (model.postsCreated = {list: result.list.slice(0,options.maxEntitiesPerArray)})
+                            : (model.postsCreated = result);
+                    }
+                } else if ((regex = new RegExp(FileCodeFacebook.YOUR_TOPICS)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parseYourTopics(data);
+                    if (result) {
+                        (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
+                            ? (model.yourTopics = {list: result.list.slice(0,options.maxEntitiesPerArray)})
+                            : (model.yourTopics = result);
+                    }
+                } else if ((regex = new RegExp(FileCodeFacebook.RECENTLY_VIEWED)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parseRecentlyViewed(data);
+                    if (result) {
+                        if (result.videoWatched) {
+                            modelEngagement.videoWatched = result.videoWatched.length;
+                            modelEngagement.videoWatchedTI = result.videoWatched.filter((item: VisualizationFB) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
+                        }
+                        model.recentlyViewed = result;
+                    }
+                } else if ((regex = new RegExp(FileCodeFacebook.RECENTLY_VISITED)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parseRecentlyVisited(data);
+                    if (result) {
+                        (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
+                            ? (model.recentlyVisited = {list: result.list.slice(0,options.maxEntitiesPerArray)})
+                            : (model.recentlyVisited = result);
                     }
                 } else if ((regex = new RegExp(FileCodeFacebook.REACTIONS)) && (regex.test(pathName))) {
                     result = <ReactionsFB>await ServiceFacebook.parseReactions(data);
                     if (result) {
-                        let counterLIKE = 0,
-                            counterANGRY = 0,
-                            counterHUG = 0,
-                            counterLAUGH = 0,
-                            counterLOVE = 0,
-                            counterSAD = 0,
-                            counterWOW = 0;
+                        modelEngagement.likeReactions = 0;
+                        modelEngagement.angryReactions = 0;
+                        modelEngagement.hugReactions = 0;
+                        modelEngagement.laughReactions = 0;
+                        modelEngagement.loveReactions = 0;
+                        modelEngagement.sadReactions = 0;
+                        modelEngagement.wowReactions = 0;
+                        modelEngagement.likeReactionsTI = 0;
+                        modelEngagement.angryReactionsTI = 0;
+                        modelEngagement.hugReactionsTI = 0;
+                        modelEngagement.laughReactionsTI = 0;
+                        modelEngagement.loveReactionsTI = 0;
+                        modelEngagement.sadReactionsTI = 0;
+                        modelEngagement.wowReactionsTI = 0;
                         result.list.forEach((item: ReactionFB) => {
                             if (item.reaction === 'LIKE') {
-                                counterLIKE++;
+                                modelEngagement.likeReactions!++;
+                                (item.date && ProcessorUtils.daysDifference(item.date) < timeIntervalDays) && (modelEngagement.likeReactionsTI!++);
                             } else if (item.reaction === 'ANGER') {
-                                counterANGRY++;
+                                modelEngagement.angryReactions!++;
+                                (item.date && ProcessorUtils.daysDifference(item.date) < timeIntervalDays) && (modelEngagement.angryReactionsTI!++);
                             } else if (item.reaction === 'SUPPORT') {
-                                counterHUG++;
+                                modelEngagement.hugReactions!++;
+                                (item.date && ProcessorUtils.daysDifference(item.date) < timeIntervalDays) && (modelEngagement.hugReactionsTI!++);
                             } else if (item.reaction === 'HAHA') {
-                                counterLAUGH++;
+                                modelEngagement.laughReactions!++;
+                                (item.date && ProcessorUtils.daysDifference(item.date) < timeIntervalDays) && (modelEngagement.laughReactionsTI!++);
                             } else if (item.reaction === 'LOVE') {
-                                counterLOVE++;
+                                modelEngagement.loveReactions!++;
+                                (item.date && ProcessorUtils.daysDifference(item.date) < timeIntervalDays) && (modelEngagement.loveReactionsTI!++);
                             } else if (item.reaction === 'SORRY') {
-                                counterSAD++;
+                                modelEngagement.sadReactions!++;
+                                (item.date && ProcessorUtils.daysDifference(item.date) < timeIntervalDays) && (modelEngagement.sadReactionsTI!++);
                             } else if (item.reaction === 'WOW') {
-                                counterWOW++;
+                                modelEngagement.wowReactions!++;
+                                (item.date && ProcessorUtils.daysDifference(item.date) < timeIntervalDays) && (modelEngagement.wowReactionsTI!++);
                             }
                         });
-                        model.likeReactions = counterLIKE;
-                        model.angryReactions = counterANGRY;
-                        model.hugReaction = counterHUG;
-                        model.laughReactions = counterLAUGH;
-                        model.loveReactions = counterLOVE;
-                        model.sadReactions = counterSAD;
-                        model.wowReactions = counterWOW;
-                    }
-                } else if ((regex = new RegExp(FileCodeFacebook.LANGUAGE)) && (regex.test(pathName))) {
-                    result = <LanguagesFB>await ServiceFacebook.parseLanguages(data);
-                    if (result && result.languagesKnown) {
-                        model.languages = result.languagesKnown.length;
-                        model.languagesList = result.languagesKnown;
-                    }
-                } else if ((regex = new RegExp(FileCodeFacebook.PAGES_FOLLOWED)) && (regex.test(pathName))) {
-                    result = <PagesFollowFB>await ServiceFacebook.parsePagesFollowed(data);
-                    if (result) {
-                        if (model.pages) {
-                            model.pages = model.pages + result.list.length;
-                        } else {
-                            model.pages = result.list.length;
-                        }
-                    }
-                } else if ((regex = new RegExp(FileCodeFacebook.PAGES_LIKED)) && (regex.test(pathName))) {
-                    result = <PagesLikedFB>await ServiceFacebook.parsePagesLiked(data);
-                    if (result) {
-                        if (model.pages) {
-                            model.pages = model.pages + result.list.length;
-                        } else {
-                            model.pages = result.list.length;
-                        }
-                    }
-                } else if ((regex = new RegExp(FileCodeFacebook.PAGES_RECOMMENDED)) && (regex.test(pathName))) {
-                    result = <PagesRecommendedFB>await ServiceFacebook.parsePagesRecommended(data);
-                    if (result) {
-                        if (model.pages) {
-                            model.pages = model.pages + result.list.length;
-                        } else {
-                            model.pages = result.list.length;
-                        }
-                    }
-                } else if ((regex = new RegExp(FileCodeFacebook.PROFILE_INFO)) && (regex.test(pathName))) {
-                    result = <PersonalInformationFB>await ServiceFacebook.parsePersonalInformation(data);
-                    if (result) {
-                        (result.gendersInterests) && (model.genderPreferences = result.gendersInterests);
-                        let bestCategoryName = '';
-                        let bestCategoryCounter = 0;
-                        if (result.pagesInterests) {
-                            result.pagesInterests.forEach((item: PagesFB) => {
-                                if (item.category && item.pages) {
-                                    if (item.pages.length > bestCategoryCounter) {
-                                        bestCategoryName = item.category;
-                                        bestCategoryCounter = item.pages.length;
-                                    }
-                                }
-                            });
-                            model.mainPageCategory = bestCategoryName;
-                        }
-                    }
-                } else if ((regex = new RegExp(FileCodeFacebook.RECENTLY_VIEWED)) && (regex.test(pathName))) {
-                    result = <RecentlyViewedFB>await ServiceFacebook.parseRecentlyViewed(data);
-                    if (result && result.videoWatched) {
-                        model.videosViewed = result.videoWatched.length;
-                        model.videosViewedTI = result.videoWatched.filter((item: VisualizationFB) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
-                    }
-                } else if ((regex = new RegExp(FileCodeFacebook.YOUR_POSTS)) && (regex.test(pathName))) {
-                    result = <YourPostsFB>await ServiceFacebook.parseYourPosts(data);
-                    if (result) {
-                        model.postsCreated = result.list.length;
-                        model.postsCreatedTI = result.list.filter((item: YourPostFB) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
                     }
                 } else if ((regex = new RegExp(FileCodeFacebook.FRIENDS)) && (regex.test(pathName))) {
-                    result = <FriendRequestsSentFB>await ServiceFacebook.parseFriends(data);
+                    result = await ServiceFacebook.parseFriends(data);
                     if (result) {
-                        model.friends = result.list.length;
+                        modelEngagement.friendsCounter = result.list.length;
+                    }
+                } else if ((regex = new RegExp(FileCodeFacebook.FRIENDS_WHO_YOU_FOLLOW)) && (regex.test(pathName))) {
+                    result = await ServiceFacebook.parseWhoYouFollow(data);
+                    if (result) {
+                        modelEngagement.followingCounter = result.list.length;
                     }
                 }
+
             }
         }
-        return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
+        if (!ValidatorObject.objectIsEmpty(modelEngagement)) {
+            modelEngagement.timeInterval = timeIntervalDays;
+            model.engagement = modelEngagement;
+        }
+        if (!ValidatorObject.objectIsEmpty(model)) {
+            model.creationDate = new Date();
+            return model;
+        }
+        return undefined;
     }
 }

@@ -44,7 +44,7 @@ import {
     InformationAdsFB,
     StoriesReactionsFB,
     StoryReactionFB, RecentlyVisitedFB,
-    VisitedFB
+    VisitedFB, VisitedListFB
 } from "./model.facebook";
 import {Decoding} from "../../utils/decoding";
 import {ValidatorObject} from "../../utils/validator/validator.object";
@@ -122,7 +122,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'profile_information/profile_information.json' in input as Buffer
+     * @param data - FileCodeFacebook.PROFILE_INFO file in input as Buffer
      */
     static async parsePersonalInformation(data: Buffer): Promise<PersonalInformationFB | undefined> {
         try {
@@ -224,8 +224,9 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'ads_information/advertisers_you've_interacted_with.json' in input as Buffer
+     * @param data - FileCodeFacebook.ADS_INTERACTED_WITH file in input as Buffer
      */
+
     static async parseAdsInteractedWith(data: Buffer): Promise<AdsInteractedWithFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
@@ -245,7 +246,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'ads_information/advertisers_using_your_activity_or_information.json' in input as Buffer
+     * @param data - FileCodeFacebook.ADS_USING_YOUR_ACTIVITY file in input as Buffer
      */
     static async parseAdsUsingYourInfo(data: Buffer): Promise<AdsUsingYourInfoFB | undefined> {
         try {
@@ -267,19 +268,19 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'search/your_search_history.json' in input as Buffer
+     * @param data - FileCodeFacebook.SEARCH_HISTORY file in input as Buffer
      */
     static async parseSearchHistory(data: Buffer): Promise<SearchHistoryFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
-            const searchHistoryModel: SearchHistoryFB = {listSearches: []};
-            (document && document.searches_v2 && document.searches_v2.length > 0) && (searchHistoryModel.listSearches = document.searches_v2.map((value: any) => {
+            const searchHistoryModel: SearchHistoryFB = {list: []};
+            (document && document.searches_v2 && document.searches_v2.length > 0) && (searchHistoryModel.list = document.searches_v2.map((value: any) => {
                 const model: SearchFB = {};
                 (value.data && value.data[0].text) && (model.text = Decoding.decodeObject(value.data[0].text));
                 (value.timestamp) && (model.date = new Date(1000*value.timestamp));
                 return model;
             }));
-            return searchHistoryModel.listSearches.length > 0 ? searchHistoryModel : undefined;
+            return searchHistoryModel.list.length > 0 ? searchHistoryModel : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`,'parseSearchHistory');
             return undefined;
@@ -287,7 +288,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'comments_and_reactions/comments.json' in input as Buffer
+     * @param data - FileCodeFacebook.COMMENTS file in input as Buffer
      */
     static async parseComments(data: Buffer): Promise<CommentsPostedFB | undefined> {
         try {
@@ -309,7 +310,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'comments_and_reactions/posts_and_comments.json' in input as Buffer
+     * @param data - FileCodeFacebook.REACTIONS file in input as Buffer
      */
     static async parseReactions(data: Buffer): Promise<ReactionsFB | undefined> {
         try {
@@ -330,7 +331,7 @@ export class ServiceFacebook {
         }
     }
     /**
-     * @param data - file 'pages/pages_you've_liked.json' in input as Buffer
+     * @param data - FileCodeFacebook.PAGES_LIKED file in input as Buffer
      */
     static async parsePagesLiked(data: Buffer): Promise<PagesLikedFB | undefined> {
         try {
@@ -350,7 +351,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'pages/pages_you_follow.json' in input as Buffer
+     * @param data - FileCodeFacebook.PAGES_FOLLOWED file in input as Buffer
      */
     static async parsePagesFollowed(data: Buffer): Promise<PagesFollowFB | undefined> {
         try {
@@ -370,7 +371,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'apps_and_websites_off_of_facebook/apps_and_websites.json' in input as Buffer
+     * @param data - FileCodeFacebook.APP_WEBSITES file in input as Buffer
      */
     static async parseAppsConnected(data: Buffer): Promise<AppsConnectedFB | undefined> {
         try {
@@ -394,7 +395,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'messages/inbox/{chat_directory_name}/message_1.json' in input as Buffer
+     * @param data - FileCodeFacebook.MESSAGE_FILTERED or FileCodeFacebook.MESSAGE_CONVERSATION file in input as Buffer
      */
     static async parseMessages(data: Buffer): Promise<ConversationFB | undefined> {
         try {
@@ -427,7 +428,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'preferences/language_and_locale.json' in input as Buffer
+     * @param data - FileCodeFacebook.LANGUAGE file in input as Buffer
      */
     static async parseLanguages(data: Buffer): Promise<LanguagesFB | undefined> {
         try{
@@ -447,7 +448,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'pages/pages_you've_recommended.json' in input as Buffer
+     * @param data - FileCodeFacebook.PAGES_RECOMMENDED file in input as Buffer
      */
     static async parsePagesRecommended(data: Buffer): Promise<PagesRecommendedFB | undefined> {
         try {
@@ -468,7 +469,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'pages/pages_you've_unfollowed.json' in input as Buffer
+     * @param data - FileCodeFacebook.PAGES_UNFOLLOWED file in input as Buffer
      */
     static async parsePagesUnfollowed(data: Buffer): Promise<PagesUnfollowedFB | undefined> {
         try {
@@ -488,7 +489,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'your_interactions_on_facebook/recently_viewed.json' in input as Buffer
+     * @param data - FileCodeFacebook.RECENTLY_VIEWED file in input as Buffer
      */
     static async parseRecentlyViewed(data: Buffer): Promise<RecentlyViewedFB | undefined> {
         try {
@@ -574,7 +575,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'posts/your_posts_1.json' in input as Buffer
+     * @param data - FileCodeFacebook.YOUR_POSTS file in input as Buffer
      */
     static async parseYourPosts(data: Buffer): Promise<YourPostsFB | undefined> {
         try {
@@ -583,10 +584,9 @@ export class ServiceFacebook {
             (document) && (modelPosts.list = document.map((item: any) => {
                 const model: YourPostFB = {};
                 (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
-                (item.attachments && item.attachments[0] && item.attachments[0].data && item.attachments[0].data[0]?.external_context?.url) && (model.url = Decoding.decodeObject(item.attachments[0].data[0].external_context.url));
                 (item.title) && (model.title = Decoding.decodeObject(item.title));
-                (item.data?.post) && (model.post = Decoding.decodeObject(item.data.post));
-                (item.data && item.data[0].update_timestamp) && (model.updateDate = new Date(1000 * item.data[0].update_timestamp));
+                (item.data && item.data.post) && (model.post = Decoding.decodeObject(item.data.post));
+                (!item.title && item.attachments && item.attachments[0] && item.attachments[0].data && item.attachments[0].data[0] && item.attachments[0].data[0].media && item.attachments[0].data[0].media.title) && (model.title = item.attachments[0].data[0].media.title);
                 return model;
             }));
             return modelPosts.list.length > 0 ? modelPosts : undefined;
@@ -598,7 +598,7 @@ export class ServiceFacebook {
 
 
     /**
-     * @param data - file 'friends_and_followers/friend_requests_sent.json' in input as Buffer
+     * @param data - FileCodeFacebook.FRIENDS_REQUESTS_SENT file in input as Buffer
      */
     static async parseFriendRequestsSent(data: Buffer): Promise<FriendRequestsSentFB | undefined> {
         try {
@@ -618,7 +618,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'friends_and_followers/rejected_friend_requests.json' in input as Buffer
+     * @param data - FileCodeFacebook.FRIENDS_REJECTED_REQUESTS file in input as Buffer
      */
     static async parseRejectedFriendshipRequests(data: Buffer): Promise<RejectedFriendshipRequestsFB | undefined> {
         try {
@@ -638,7 +638,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'friends_and_followers/removed_friends.json' in input as Buffer
+     * @param data - FileCodeFacebook.FRIENDS_REMOVED file in input as Buffer
      */
     static async parseRemovedFriends(data: Buffer): Promise<RemovedFriendsFB | undefined> {
         try {
@@ -658,7 +658,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'friends_and_followers/who_you_follow.json' in input as Buffer
+     * @param data - FileCodeFacebook.FRIENDS_WHO_YOU_FOLLOW file in input as Buffer
      */
     static async parseWhoYouFollow(data: Buffer): Promise<WhoYouFollowFB | undefined> {
         try {
@@ -678,7 +678,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'friends_and_followers/friends.json' in input as Buffer
+     * @param data - FileCodeFacebook.FRIENDS file in input as Buffer
      */
     static async parseFriends(data: Buffer): Promise<FriendsFB | undefined> {
         try {
@@ -698,7 +698,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'your_topics/your_topics.json' in input as Buffer
+     * @param data - FileCodeFacebook.YOUR_TOPICS file in input as Buffer
      */
     static async parseYourTopics(data: Buffer): Promise<YourTopicsFB | undefined> {
         try {
@@ -715,9 +715,9 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'other_logged_information/ads_interests.json' in input as Buffer
+     * @param data - FileCodeFacebook.ADS_INTERESTS file in input as Buffer
      */
-    static async parseAdsInterests(data: Buffer): Promise<YourTopicsFB | undefined> {
+    static async parseAdsInterests(data: Buffer): Promise<AdsInterestsFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
             const modelPosts: AdsInterestsFB = {list: []};
@@ -732,7 +732,7 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'ads_information/information_you've_submitted_to_advertisers.json' in input as Buffer
+     * @param data - FileCodeFacebook.INFO_SUBMITTED_ADS file in input as Buffer
      */
     static async parseInformationSubmittedAds(data: Buffer): Promise<InformationSubmittedAdsFB | undefined> {
         try {
@@ -753,7 +753,7 @@ export class ServiceFacebook {
         }
     }
     /**
-     * @param data - file 'stories/story_reactions.json' in input as Buffer
+     * @param data - FileCodeFacebook.STORIES_REACTION file in input as Buffer
      */
     static async parseStoriesReactions(data: Buffer): Promise<StoriesReactionsFB | undefined> {
         try {
@@ -775,29 +775,28 @@ export class ServiceFacebook {
     }
 
     /**
-     * @param data - file 'your_interactions_on_facebook/recently_visited.json' in input as Buffer
+     * @param data - FileCodeFacebook.RECENTLY_VISITED file in input as Buffer
      */
     static async parseRecentlyVisited(data: Buffer): Promise<RecentlyVisitedFB | undefined> {
         try {
             const document = JSON.parse(data.toString());
-            const model: RecentlyVisitedFB = {
-                listVisited: [],
-            };
+            const model: RecentlyVisitedFB = { list: [] };
             if (document && document.visited_things_v2) {
-                for (let i = 0; i < document.visited_things_v2.length; i++) {
-                    let modelList: VisitedFB[] = [];
-                    (document.visited_things_v2[i].entries) && (modelList = document.visited_things_v2[i].entries.map((item: any) => {
+                //last array of visits to marketplace isn't parsed
+                for (let i = 0; i < document.visited_things_v2.length-1; i++) {
+                    let modelList: VisitedListFB = {list: []};
+                    (document.visited_things_v2[i].name) && (modelList.name = document.visited_things_v2[i].name);
+                    (document.visited_things_v2[i].entries) && (modelList.list = document.visited_things_v2[i].entries.map((item: any) => {
                         const model: VisitedFB = {};
                         (item.timestamp) && (model.date = new Date(1000 * item.timestamp));
                         (item.data && item.data.name) && (model.name = Decoding.decodeObject(item.data.name));
                         (item.data && item.data.uri) && (model.uri = Decoding.decodeObject(item.data.uri));
-                        //last array of visits to marketplace with only date filed isn't parsed
                         return model;
                     }));
-                    (modelList.length > 0) && (model.listVisited.push(modelList));
+                    (modelList.list.length > 0) && (model.list.push(modelList));
                 }
             }
-            return (model.listVisited.length > 0) ? model : undefined;
+            return (model.list.length > 0) ? model : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseRecentlyVisited');
             return undefined;

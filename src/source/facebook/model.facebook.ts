@@ -1,106 +1,212 @@
+export interface FacebookDataAggregator {
+    //from FileCodeFacebook.PROFILE_INFO model
+    personalInfo?: PersonalInformationFB;
+    //from FileCodeFacebook.LANGUAGE model
+    languagesKnown?: Array<string>;
+    //from FileCodeFacebook.ADS_INTERACTED_WITH model
+    adsInteractedWith?: AdsInteractedWithFB;
+    //from FileCodeFacebook.ADS_USING_YOUR_ACTIVITY model
+    adsUsingYourInfo?: AdsUsingYourInfoFB;
+    //from FileCodeFacebook.ADS_INTERESTS model
+    adsInterests?: AdsInterestsFB;
+    //from FileCodeFacebook.INFO_SUBMITTED_ADS model
+    infoSubmittedToAds?: InformationSubmittedAdsFB;
+    //from FileCodeFacebook.SEARCH_HISTORY model
+    searchHistory?: SearchHistoryFB;
+    //from FileCodeFacebook.COMMENTS model
+    commentsPosted?: CommentsPostedFB;
+    //from FileCodeFacebook.PAGES_LIKED model
+    pagesLiked?: PagesLikedFB;
+    //from FileCodeFacebook.PAGES_FOLLOWED model
+    pagesFollowed?: PagesFollowFB;
+
+    //from FileCodeFacebook.PAGES_RECOMMENDED model
+    pagesRecommended?: PagesRecommendedFB;
+    //from FileCodeFacebook.PAGES_UNFOLLOWED model
+    pagesUnfollowed?: PagesUnfollowedFB;
+    //from FileCodeFacebook.YOUR_POSTS model
+    postsCreated?: YourPostsFB;
+
+    //from FileCodeFacebook.YOUR_TOPICS model
+    yourTopics?: YourTopicsFB;
+    //from FileCodeFacebook.RECENTLY_VIEWED model
+    recentlyViewed?: RecentlyViewedFB;
+    //from FileCodeFacebook.RECENTLY_VISITED model
+    recentlyVisited?: RecentlyVisitedFB;
+    engagement?: EngagementFB;
+    creationDate?: Date;
+}
+
+export interface EngagementFB {
+    /**
+     * Interval of Time in days
+     * @default 365
+     */
+    timeInterval?: number;
+    //from FileCodeFacebook.ADS_INTERACTED model
+    adsInteractions?: number;
+    adsInteractionsTI?: number;
+    //from FileCodeFacebook.COMMENTS model
+    commentsPosts?: number;
+    commentsPostsTI?: number;
+    //from FileCodeFacebook.YOUR_POSTS model
+    postsCreated?: number;
+    postsCreatedTI?: number;
+    //from FileCodeFacebook.FRIENDS model
+    friendsCounter?: number;
+    //from FileCodeFacebook.FRIENDS_WHO_YOU_FOLLOW  model
+    followingCounter?: number;
+    //from FACEBOOK_REACTIONS model
+    angryReactions?: number;
+    hugReactions?: number;
+    laughReactions?: number;
+    likeReactions?: number;
+    loveReactions?: number;
+    sadReactions?: number;
+    wowReactions?: number;
+    angryReactionsTI?: number;
+    hugReactionsTI?: number;
+    laughReactionsTI?: number;
+    likeReactionsTI?: number;
+    loveReactionsTI?: number;
+    sadReactionsTI?: number;
+    wowReactionsTI?: number;
+    //from FileCodeFacebook.PAGES_FOLLOWED model
+    pagesFollowed?: number;
+    pagesFollowedTI?: number;
+    //from FileCodeFacebook.PAGES_LIKED model
+    pagesLiked?: number;
+    pagesLikedTI?: number;
+    //from FileCodeFacebook.PAGES_RECOMMENDED model
+    pagesRecommended?: number;
+    pagesRecommendedTI?: number;
+    //from FileCodeFacebook.RECENTLY_VIEWED model
+    videoWatched?: number;
+    videoWatchedTI?: number;
+}
+
+//FileCodeFacebook.PROFILE_INFO model
 export interface PersonalInformationFB {
     firstName?: string;
     middleName?: string;
     lastName?: string;
-    emails?: Array<string>;
+    emails?: string[];
     birthdate?: Date;
     gender?: string;
     currentCity?: string;
     homeTown?: string;
     relationship?: RelationshipFB;
-    educationExperiences?: Array<EducationExperienceFB>;
-    workExperience?: Array<WorkExperienceFB>;
-    languages?: Array<string>;
-    gendersInterests?: Array<string>;
+    educationExperiences?: EducationExperienceFB[];
+    workExperience?: WorkExperienceFB[];
+    languages?: string[];
+    gendersInterests?: string[];
     politicalView?: ViewFB;
     religiousView?: ViewFB;
     bloodInfo?: string;
-    websites?: Array<string>;
+    websites?: string[];
     address?: AddressLocationFB;
-    phoneNumbers?: Array<string>;
-    placesLived?: Array<PlaceLivedFB>;
-    pagesInterests?: Array<PagesFB>;
+    phoneNumbers?: string[];
+    placesLived?: PlaceLivedFB[];
+    pagesInterests?: PagesFB[];
     registrationDate?: Date;
     profileUri?: string;
 }
+
+//FileCodeFacebook.LANGUAGE model
 export interface LanguagesFB {
     settingsLanguage?: string;
-    languagesKnown?: Array<string>;
+    languagesKnown?: string[];
     favouriteLanguage?: string;
 }
 
+//FileCodeFacebook.ADS_INTERACTED_WITH model
 export interface AdsInteractedWithFB {
-    list: Array<AdvInteractionFB>;
+    list: AdvInteractionFB[];
 }
 
+//FileCodeFacebook.ADS_USING_YOUR_ACTIVITY model
 export interface AdsUsingYourInfoFB {
-    list: Array<AdvUsingYourInfoFB>;
+    list: AdvUsingYourInfoFB[];
 }
 
+//FileCodeFacebook.SEARCH_HISTORY model
 export interface SearchHistoryFB {
-    listSearches: Array<SearchFB>;
+    list: SearchFB[];
 }
 
+//FileCodeFacebook.COMMENTS model
 export interface CommentsPostedFB {
-    list: Array<CommentPostedFB>;
+    list: CommentPostedFB[];
 }
 
+//FileCodeFacebook.REACTIONS model
 export interface ReactionsFB {
-    list: Array<ReactionFB>;
+    list: ReactionFB[];
 }
 
+//FileCodeFacebook.PAGES_LIKED model
 export interface PagesLikedFB {
-    list: Array<PageFB>;
+    list: PageFB[];
 }
 
+//FileCodeFacebook.PAGES_FOLLOWED model
 export interface PagesFollowFB {
-    list: Array<PageFB>;
+    list: PageFB[];
 }
 
+//FileCodeFacebook.PAGES_RECOMMENDED model
 export interface PagesRecommendedFB {
-    list: Array<PageFB>;
+    list: PageFB[];
 }
 
+//FileCodeFacebook.PAGES_UNFOLLOWED model
 export interface PagesUnfollowedFB {
-    list: Array<PageFB>;
+    list: PageFB[];
 }
 
+//FileCodeFacebook.APP_WEBSITES model
  export interface AppsConnectedFB {
-    list: Array<AppConnectedFB>;
+    list: AppConnectedFB[];
  }
 
 export interface ConversationsFB {
-    listInbox?: Array<ConversationFB>;
+    listInbox?: ConversationFB[];
 }
 
+//FileCodeFacebook.RECENTLY_VIEWED model
 export interface RecentlyViewedFB {
-    timeSpentOnPageVideos?: Array<VisualizationFB>;
-    videoWatched?: Array<VisualizationFB>;
-    timeSpentOnSingleVideo?: Array<VisualizationFB>;
-    postsShownInNewsLast90Days?: Array<VisualizationFB>;
-    peopleVisualizedWhenSuggested?: Array<VisualizationFB>;
-    marketplaceArticlesVisualized?: Array<VisualizationFB>;
-    insertionsVisualized?: Array<VisualizationFB>;
+    timeSpentOnPageVideos?: VisualizationFB[];
+    videoWatched?: VisualizationFB[];
+    timeSpentOnSingleVideo?: VisualizationFB[];
+    postsShownInNewsLast90Days?: VisualizationFB[];
+    peopleVisualizedWhenSuggested?: VisualizationFB[];
+    marketplaceArticlesVisualized?: VisualizationFB[];
+    insertionsVisualized?: VisualizationFB[];
 }
 
+//FileCodeFacebook.FRIENDS model
 export interface FriendsFB {
-    list: Array<FriendActivityFB>;
+    list: FriendActivityFB[];
 }
 
+//FileCodeFacebook.FRIENDS_REQUESTS_SENT model
 export interface FriendRequestsSentFB {
-    list: Array<FriendActivityFB>;
+    list: FriendActivityFB[];
 }
 
+//FileCodeFacebook.FRIENDS_REJECTED_REQUESTS model
 export interface RejectedFriendshipRequestsFB {
-    list: Array<FriendActivityFB>;
+    list: FriendActivityFB[];
 }
 
+//FileCodeFacebook.FRIENDS_REMOVED model
 export interface RemovedFriendsFB {
-    list: Array<FriendActivityFB>;
+    list: FriendActivityFB[];
 }
 
+//FileCodeFacebook.FRIENDS_WHO_YOU_FOLLOW model
 export interface WhoYouFollowFB {
-    list: Array<FriendActivityFB>;
+    list: FriendActivityFB[];
 }
 
 export interface FriendActivityFB {
@@ -108,16 +214,15 @@ export interface FriendActivityFB {
     date?: Date;
 }
 
+//FileCodeFacebook.YOUR_POSTS model
 export interface YourPostsFB {
-    list: Array<YourPostFB>;
+    list: YourPostFB[];
 }
 
 export interface YourPostFB {
-    title?: string;
     post?: string;
-    url?: string;
+    title?: string;
     date?: Date;
-    updateDate?: Date;
 }
 
 export interface VisualizationFB {
@@ -190,7 +295,7 @@ export interface EducationExperienceFB {
     endDate?: Date;
     graduated?: boolean;
     description?: string;
-    educationTopics?: Array<string>;
+    educationTopics?: string[];
     degree?: string;
     schoolType?: string;
 }
@@ -211,7 +316,7 @@ export interface PlaceLivedFB {
 
 export interface PagesFB {
     category?: string;
-    pages?: Array<string>;
+    pages?: string[];
 }
 
 export interface ViewFB {
@@ -219,10 +324,11 @@ export interface ViewFB {
     description?: string;
 }
 
+//FileCodeFacebook.MESSAGE_FILTERED and FileCodeFacebook.MESSAGE_CONVERSATION model
 export interface ConversationFB {
     title?: string;
-    listMessages?: Array<MessageFB>;
-    participants?: Array<string>;
+    listMessages?: MessageFB[];
+    participants?: string[];
     isStillParticipant?: boolean;
 }
 
@@ -246,14 +352,17 @@ export interface SearchFB {
     date?: Date;
 }
 
+//FileCodeFacebook.ADS_INTERESTS model
 export interface YourTopicsFB {
     list: string[];
 }
 
+//FileCodeFacebook.YOUR_TOPICS model
 export interface AdsInterestsFB {
     list: string[];
 }
 
+//FileCodeFacebook.INFO_SUBMITTED_ADS model
 export interface InformationSubmittedAdsFB {
     list: InformationAdsFB[];
 }
@@ -263,6 +372,7 @@ export interface InformationAdsFB {
     value?: string;
 }
 
+//FileCodeFacebook.STORIES_REACTION model
 export interface StoriesReactionsFB {
     list: StoryReactionFB[];
 }
@@ -272,46 +382,18 @@ export interface StoryReactionFB {
     date?: Date;
 }
 
-//profiles-pages-events-groups-marketplace
+//FileCodeFacebook.RECENTLY_VISITED model
 export interface RecentlyVisitedFB {
-    listVisited: VisitedFB[][];
+    list: VisitedListFB[];
+}
+
+export interface VisitedListFB {
+    name?: string;
+    list: VisitedFB[];
 }
 
 export interface VisitedFB {
     name?: string;
     uri?: string;
     date?: Date;
-}
-
-export interface FacebookDataAggregator {
-    //from FACEBOOK_ADS_INTERACTED
-    adsClick?: number;
-    adsClickTI?: number;
-    //from FACEBOOK_COMMENTS
-    commentsPosts?: number;
-    commentsPostsTI?: number;
-    //from FACEBOOK_REACTIONS
-    angryReactions?: number;
-    hugReaction?: number;
-    laughReactions?: number;
-    likeReactions?: number;
-    loveReactions?: number;
-    sadReactions?: number;
-    wowReactions?: number;
-    //from FACEBOOK_LANGUAGE | FACEBOOK_PROFILE_INFO
-    languages?: number;
-    languagesList?: Array<string>;
-    //from FACEBOOK_PAGES_FOLLOWED | FACEBOOK_PAGES_LIKED | FACEBOOK_PAGES_RECOMMENDED
-    pages?: number;
-    //from FACEBOOK_PROFILE_INFO
-    mainPageCategory?: string;
-    genderPreferences?: Array<string>;
-    //from FACEBOOK_RECENTLY_VIEWED
-    videosViewed?: number;
-    videosViewedTI?: number;
-    //from FACEBOOK_POSTS
-    postsCreated?: number;
-    postsCreatedTI?: number;
-    //from FACEBOOK_FRIEND_REQUEST_SENT
-    friends?: number;
 }
