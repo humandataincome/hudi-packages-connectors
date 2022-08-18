@@ -2,9 +2,7 @@ import Logger from "../../utils/logger";
 import {Parser} from "../../utils/parser";
 import {Months} from "../../utils";
 import {
-    AdvertiserAudiencesAM,
-    AdvertiserClickedAM,
-    AmazonAudiencesAM,
+    AdvertisersAudienceAM, AdvertisersClickedAM, AmazonAudienceAM,
     AmazonWishlistsAM,
     AudibleLibraryAM,
     AudibleListeningAM,
@@ -36,13 +34,12 @@ import {
     RetailSellerFeedbackAM,
     RetailSellerFeedbacksAM,
     SearchAM,
-    SearchDataCustomerEngagementAM,
-    ThirdPartyAudiencesAM,
+    SearchDataCustomerEngagementAM, ThirdPartiesAudienceAM,
     TitleAM,
     TwitchPrimeSubscriptionAM,
     TwitchPrimeSubscriptionsAM,
     ViewingActivityAM,
-    WishListAM
+    WishlistAM
 } from './model.amazon';
 import { ValidatorObject } from '../../utils/validator/validator.object';
 import {FileCodeAmazon} from "./enum.amazon";
@@ -107,13 +104,15 @@ export class ServiceAmazon {
                 return this.parseRetailSellerFeedback(data);
             case FileCodeAmazon.CUSTOMER_ENGAGEMENT:
                 return this.parseSearchDataCustomerEngagement(data);
+            case FileCodeAmazon.GAMES_TWITCHPRIME_SUB_HISTORY:
+                return this.parseTwitchPrimeSubscription(data);
             default:
                 return undefined;
         }
     }
 
     /**
-     * @param data - file 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv' in input as Buffer
+     * @param data - FileCodeAmazon.PRIMEVIDEO_WATCHLIST file in input as Buffer
      */
     static async parsePrimeVideoWatchlist(data: Buffer): Promise<PrimeVideoWatchlistAM | undefined> {
         try {
@@ -139,7 +138,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.WatchlistHistory.csv' in input as Buffer
+     * @param data - FileCodeAmazon.PRIMEVIDEO_WATCHLIST_HISTORY file in input as Buffer
      */
     static async parsePrimeVideoWatchlistHistory(data: Buffer): Promise<PrimeVideoWatchlistHistoryAM | undefined> {
         try {
@@ -166,7 +165,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Digital.PrimeVideo.Viewinghistory/Digital.PrimeVideo.Viewinghistory.csv' in input as Buffer
+     * @param data - FileCodeAmazon.PRIMEVIDEO_VIEWINGHISTORY file in input as Buffer
      */
     static async parsePrimeVideoViewingHistory(data: Buffer): Promise<PrimeVideoViewingHistoryAM | undefined> {
         try {
@@ -203,7 +202,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Search-Data/Search-Data.Customer-Engagement.csv' in input as Buffer
+     * @param data - FileCodeAmazon.CUSTOMER_ENGAGEMENT file in input as Buffer
      */
     static async parseSearchDataCustomerEngagement(data: Buffer): Promise<SearchDataCustomerEngagementAM | undefined> {
         try {
@@ -295,7 +294,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Amazon.Lists.Wishlist.2.1/Amazon.Lists.Wishlist.json' in input as Buffer
+     * @param data - FileCodeAmazon.WISHLIST file in input as Buffer
      */
     static async parseAmazonWishlists(data: Buffer): Promise<AmazonWishlistsAM | undefined> {
         try {
@@ -303,7 +302,7 @@ export class ServiceAmazon {
             if(document) {
                 let regex = /(.*) \[(.*)]/;
                 let model: AmazonWishlistsAM = {lists: []};
-                let wishList: WishListAM = {itemList: []};
+                let wishList: WishlistAM = {itemList: []};
                 document.forEach((value: any) => {
                     let keys = Object.keys(value);
                     let match = keys[0].match(regex);
@@ -353,7 +352,7 @@ export class ServiceAmazon {
 
 
     /**
-     * @param data - file 'Audible.Library/Audible.Library.csv' in input as Buffer
+     * @param data - FileCodeAmazon.AUDIBLE_LIBRARY file in input as Buffer
      */
     static async parseAudibleLibrary(data: Buffer): Promise<AudibleLibraryAM | undefined> {
         try {
@@ -400,13 +399,13 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Advertising.{X}/Advertising.AdvertiserAudiences.csv' in input as Buffer
+     * @param data - FileCodeAmazon.ADV_AUDIENCES file in input as Buffer
      */
-    static async parseAdvertiserAudiences(data: Buffer): Promise<AdvertiserAudiencesAM | undefined> {
+    static async parseAdvertiserAudiences(data: Buffer): Promise<AdvertisersAudienceAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
-                let model: AdvertiserAudiencesAM = {list: []}
+                let model: AdvertisersAudienceAM = {list: []}
                 result.forEach((listItem: any) => {
                     let parameter = `${this.INIT_CHAR}Advertisers who brought audiences in which you are included`;
                     ValidatorObject.isCSVFieldValid(listItem[parameter]) && (model.list.push({value: listItem[parameter]}));
@@ -421,13 +420,13 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Advertising.{X}/Advertising.AdvertiserClicks.csv' in input as Buffer
+     * @param data - FileCodeAmazon.ADV_CLICKS file in input as Buffer
      */
-    static async parseAdvertiserClicked(data: Buffer): Promise<AdvertiserClickedAM | undefined> {
+    static async parseAdvertiserClicked(data: Buffer): Promise<AdvertisersClickedAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
-                let model: AdvertiserClickedAM = {list: []}
+                let model: AdvertisersClickedAM = {list: []}
                 result.forEach((listItem: any) => {
                     let parameter = `${this.INIT_CHAR}Advertisers whose ads you clicked`;
                     ValidatorObject.isCSVFieldValid(listItem[parameter]) && (model.list.push({value: listItem[parameter]}));
@@ -442,13 +441,13 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Advertising.{X}/Advertising.3PAudiences.csv' in input as Buffer
+     * @param data - FileCodeAmazon.ADV_THIRDPARTIES file in input as Buffer
      */
-    static async parseThirdPartyAudiences(data: Buffer): Promise<ThirdPartyAudiencesAM | undefined> {
+    static async parseThirdPartyAudiences(data: Buffer): Promise<ThirdPartiesAudienceAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
-                let model: ThirdPartyAudiencesAM = {list: []}
+                let model: ThirdPartiesAudienceAM = {list: []}
                 result.forEach((listItem: any) => {
                     let parameter = `${this.INIT_CHAR}Audiences in which you are included via 3rd Parties`;
                     ValidatorObject.isCSVFieldValid(listItem[parameter]) && (model.list.push({value: listItem[parameter]}));
@@ -463,13 +462,13 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Advertising.{X}/Advertising.AmazonAudiences.csv' in input as Buffer
+     * @param data - FileCodeAmazon.AUDIENCES file in input as Buffer
      */
-    static async parseAmazonAudiences(data: Buffer): Promise<AmazonAudiencesAM | undefined> {
+    static async parseAmazonAudiences(data: Buffer): Promise<AmazonAudienceAM | undefined> {
         try {
             let result = Parser.parseCSVfromBuffer(data);
             if(result) {
-                let model: AmazonAudiencesAM = {list: []}
+                let model: AmazonAudienceAM = {list: []}
                 result.forEach((listItem: any) => {
                     let parameter = `${this.INIT_CHAR}Amazon Audiences in which you are included`;
                     ValidatorObject.isCSVFieldValid(listItem[parameter]) && (model.list.push({value: listItem[parameter]}));
@@ -484,7 +483,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'AmazonGames/AmazonGames.TwitchPrime.SubscriptionCreditHistory.csv' in input as Buffer
+     * @param data - GAMES_TWITCHPRIME_SUB_HISTORY file in input as Buffer
      */
     static async parseTwitchPrimeSubscription(data: Buffer): Promise<TwitchPrimeSubscriptionsAM | undefined> {
         try {
@@ -517,7 +516,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Retail.OrderHistory.2/Retail.OrderHistory.2.csv' in input as Buffer
+     * @param data - FileCodeAmazon.RETAIL_ORDER_HISTORY file in input as Buffer
      */
     static async parseRetailOrderHistory(data: Buffer): Promise<RetailOrderHistoryAM | undefined> {
         try {
@@ -567,7 +566,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Audible.Listening/Audible.Listening.csv' in input as Buffer
+     * @param data - FileCodeAmazon.AUDIBLE_LISTENING file in input as Buffer
      */
     static async parseAudibleListening(data: Buffer): Promise<AudibleListeningListAM | undefined> {
         try {
@@ -614,7 +613,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Audible.MembershipBillings/Audible.MembershipBillings.csv' in input as Buffer
+     * @param data - FileCodeAmazon.AUDIBLE_MEMBERSHIP_BILLINGS file in input as Buffer
     */
     static async parseAudibleMembershipBillings(data: Buffer): Promise<AudibleMembershipBillingsAM | undefined> {
         try {
@@ -671,7 +670,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Digital.PrimeVideo.ViewCounts.2/Digital.PrimeVideo.ViewCounts.2.csv' in input as Buffer
+     * @param data - FileCodeAmazon.PRIMEVIDEO_VIEW_COUNT file in input as Buffer
      */
     static async parseDigitalPrimeVideoViewCounts(data: Buffer): Promise<DigitalPrimeVideoViewCountsAM | undefined> {
         try {
@@ -702,7 +701,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Digital.Subscriptions/Subscriptions.csv' in input as Buffer
+     * @param data - FileCodeAmazon.DIGITAL_SUBSCRIPTION file in input as Buffer
      */
     static async parseDigitalSubscriptions(data: Buffer): Promise<DigitalSubscriptionsAM | undefined> {
         try {
@@ -771,7 +770,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'LightWeightInteractions/LightWeightInteractions.csv' in input as Buffer
+     * @param data - FileCodeAmazon.RETAIL_LIGHT_WEIGHT_INTERACTIONS file in input as Buffer
      */
     static async parseLightWeightInteractions(data: Buffer): Promise<LightWeightInteractionsAM | undefined> {
         try {
@@ -811,7 +810,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Retail.Seller-Feedback.2/Retail.Seller-Feedback.csv' in input as Buffer
+     * @param data - FileCodeAmazon.RETAIL_SELLER_FEEDBACK file in input as Buffer
      */
     static async parseRetailSellerFeedback(data: Buffer): Promise<RetailSellerFeedbacksAM | undefined> {
         try {
@@ -848,7 +847,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Retail.RegionAuthority.2/Retail.RegionAuthority.2.csv' in input as Buffer
+     * @param data - FileCodeAmazon.RETAIL_REGION_AUTHORITY file in input as Buffer
      */
     static async parseRetailRegionAuthorities(data: Buffer): Promise<RetailRegionAuthoritiesAM | undefined> {
         try {
@@ -876,7 +875,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Retail.CartItems.2/Retail.CartItems.2.csv' in input as Buffer
+     * @param data - FileCodeAmazon.RETAIL_CART_ITEMS file in input as Buffer
      */
     static async parseRetailCartItems(data: Buffer): Promise<RetailCartItemsAM | undefined> {
         try {
@@ -909,7 +908,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Digital-Ordering.2/Digital Items.csv' in input as Buffer
+     * @param data - FileCodeAmazon.DIGITAL_ORDERING_ITEM file in input as Buffer
      */
     static async parseDigitalItems(data: Buffer): Promise<DigitalItemsAM | undefined> {
         try {
@@ -983,7 +982,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Digital-Ordering.2/Digital Orders.csv' in input as Buffer
+     * @param data - FileCodeAmazon.DIGITAL_ORDERING_ORDERS file in input as Buffer
      */
     static async parseDigitalOrders(data: Buffer): Promise<DigitalOrdersAM | undefined> {
         try {
@@ -1036,7 +1035,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - file 'Digital-Ordering.2/Digital Orders Monetary.csv' in input as Buffer
+     * @param data - FileCodeAmazon.DIGITAL_ORDERING_MONETARY file in input as Buffer
      */
     static async parseDigitalOrdersMonetary(data: Buffer): Promise<DigitalOrdersMonetaryAM | undefined> {
         try {

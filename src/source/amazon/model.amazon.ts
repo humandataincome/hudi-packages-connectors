@@ -1,6 +1,91 @@
+/**
+ * Aggregation of information from Amazon's models
+ */
+export interface AmazonDataAggregator {
+    advertisers?: AdvertisersAggregatorAM;
+    audible?: AudibleAggregatorAM;
+    primeVideo?: PrimeVideoAggregatorAM;
+    orders?: OrdersAggregatorAM;
+    retail?: RetailAggregatorAM;
+    twitch?: TwitchAggregatorAM;
+    //from FileCodeAmazon.WISHLIST model
+    wishlists?: AmazonWishlistsAM;
+    //from FileCodeAmazon.CUSTOMER_ENGAGEMENT model
+    searchDataEngagement?: SearchDataCustomerEngagementAM;
+    engagement?: EngagementAggregatorAM;
+    creationDate?: Date;
+}
 
+export interface AdvertisersAggregatorAM {
+    //from FileCodeAmazon.ADV_AUDIENCES model
+    adsAudiences?: AdvertisersAudienceAM;
+    //from FileCodeAmazon.ADV_THIRDPARTIES model
+    adsThirdParties?: ThirdPartiesAudienceAM;
+    //from FileCodeAmazon.ADV_CLICKS model
+    adsClicked?: AdvertisersClickedAM;
+    //from FileCodeAmazon.AUDIENCES model
+    amazonAudience?: AmazonAudienceAM;
+}
+
+export interface AudibleAggregatorAM {
+    //from FileCodeAmazon.AUDIBLE_LIBRARY model
+    library?: AudibleLibraryAM;
+    //from FileCodeAmazon.AUDIBLE_LISTENING model
+    listening?: AudibleListeningListAM;
+    //from FileCodeAmazon.AUDIBLE_MEMBERSHIP_BILLINGS model
+    membershipBillings?: AudibleMembershipBillingsAM;
+}
+
+export interface PrimeVideoAggregatorAM {
+    //from FileCodeAmazon.PRIMEVIDEO_WATCHLIST model
+    watchlist?: PrimeVideoWatchlistAM;
+    //from FileCodeAmazon.PRIMEVIDEO_WATCHLIST_HISTORY model
+    watchlistHistory?: PrimeVideoWatchlistHistoryAM;
+    //from FileCodeAmazon.PRIMEVIDEO_VIEW_COUNT model
+    viewCounts?: DigitalPrimeVideoViewCountsAM;
+    //from FileCodeAmazon.PRIMEVIDEO_VIEWINGHISTORY model
+    viewingHistory?: PrimeVideoViewingHistoryAM;
+}
+
+export interface OrdersAggregatorAM {
+    //from FileCodeAmazon.DIGITAL_ORDERING_ITEM model
+    digitalItems?: DigitalItemsAM;
+    //from FileCodeAmazon.DIGITAL_ORDERING_ORDERS model
+    digitalOrders?: DigitalOrdersAM;
+    //from FileCodeAmazon.DIGITAL_ORDERING_MONETARY model
+    digitalMonetaryOrders?: DigitalOrdersMonetaryAM;
+    //from FileCodeAmazon.DIGITAL_SUBSCRIPTION model
+    digitalSubscriptions?: DigitalSubscriptionsAM;
+}
+
+export interface RetailAggregatorAM {
+    //from FileCodeAmazon.RETAIL_LIGHT_WEIGHT_INTERACTIONS model
+    lightWeightInteractions?: LightWeightInteractionsAM;
+    //from FileCodeAmazon.RETAIL_CART_ITEMS model
+    cartItems?: RetailCartItemsAM;
+    //from FileCodeAmazon.RETAIL_ORDER_HISTORY model
+    orderHistory?: RetailOrderHistoryAM;
+    //from FileCodeAmazon.RETAIL_REGION_AUTHORITY model
+    regionAuthorities?: RetailRegionAuthoritiesAM;
+    //from FileCodeAmazon.RETAIL_SELLER_FEEDBACK model
+    sellerFeedbacks?: RetailSellerFeedbacksAM;
+}
+
+export interface TwitchAggregatorAM {
+    subscriptions?: TwitchPrimeSubscriptionsAM;
+}
+
+export interface EngagementAggregatorAM {
+    /**
+     * Interval of Time in days
+     * @default 365
+     */
+    timeInterval?: number;
+}
+
+//FileCodeAmazon.CUSTOMER_ENGAGEMENT model
 export interface SearchDataCustomerEngagementAM {
-    list: Array<SearchAM>;
+    list: SearchAM[];
 }
 
 export interface SearchAM {
@@ -73,34 +158,39 @@ export interface SearchAM {
     LKCI?:string;
 }
 
-export interface AdvertiserAudiencesAM {
-    list: Array<AdvertiserAM>;
+//FileCodeAmazon.ADV_AUDIENCES model
+export interface AdvertisersAudienceAM {
+    list: AdvertiserAM[];
 }
 
-export interface AdvertiserClickedAM {
-    list: Array<AdvertiserAM>;
+//FileCodeAmazon.ADV_CLICKS model
+export interface AdvertisersClickedAM {
+    list: AdvertiserAM[];
 }
 
-export interface ThirdPartyAudiencesAM {
-    list: Array<AdvertiserAM>;
+//FileCodeAmazon.ADV_THIRDPARTIES model
+export interface ThirdPartiesAudienceAM {
+    list: AdvertiserAM[];
 }
 
-export interface AmazonAudiencesAM {
-    list: Array<AdvertiserAM>;
+//FileCodeAmazon.AUDIENCES model
+export interface AmazonAudienceAM {
+    list: AdvertiserAM[];
 }
 
 export interface AdvertiserAM {
     value?: string;
 }
 
+//FileCodeAmazon.WISHLIST model
 export interface AmazonWishlistsAM {
-    lists: Array<WishListAM>;
+    lists: WishlistAM[];
 }
 
-export interface WishListAM {
-    itemList: Array<ItemAM>;
+export interface WishlistAM {
+    itemList: ItemAM[];
     privacy?: string;
-    nodeFlags?: Array<string>;
+    nodeFlags?: string[];
     listName?: string;
     view?: string;
     recentActivityDate?: Date;
@@ -119,9 +209,9 @@ export interface ItemAM {
     fullyPurchased?: boolean;
 }
 
-//AUDIBLE MODELS
+//FileCodeAmazon.AUDIBLE_LIBRARY model
 export interface AudibleLibraryAM {
-    list: Array<AudioBookAM>;
+    list: AudioBookAM[];
 }
 
 export interface AudioBookAM {
@@ -139,19 +229,16 @@ export interface AudioBookAM {
     dateFirstDownloaded?:Date;
     orderNumber?:number;
     originType?:string;
- }
+}
 
-//PRIME VIDEO MODELS
+//FileCodeAmazon.PRIMEVIDEO_WATCHLIST models
 export interface PrimeVideoWatchlistAM {
-    list: Array<TitleAM>;
+    list: TitleAM[];
 }
 
+//FileCodeAmazon.PRIMEVIDEO_WATCHLIST_HISTORY model
 export interface PrimeVideoWatchlistHistoryAM {
-    list: Array<TitleAM>;
-}
-
-export interface PrimeVideoViewingHistoryAM {
-    list: Array<ViewingActivityAM>;
+    list: TitleAM[];
 }
 
 export interface TitleAM {
@@ -160,6 +247,11 @@ export interface TitleAM {
     itemType?: string;
     deleted?: boolean;
     catalogTitle?: string;
+}
+
+//FileCodeAmazon.PRIMEVIDEO_VIEWINGHISTORY model
+export interface PrimeVideoViewingHistoryAM {
+    list: ViewingActivityAM[];
 }
 
 export interface ViewingActivityAM {
@@ -178,9 +270,9 @@ export interface ViewingActivityAM {
     title?: string;
 }
 
-//twitch prime subscription
+//GAMES_TWITCHPRIME_SUB_HISTORY model
 export interface TwitchPrimeSubscriptionsAM {
-    list: Array<TwitchPrimeSubscriptionAM>;
+    list: TwitchPrimeSubscriptionAM[];
 }
 
 export interface TwitchPrimeSubscriptionAM {
@@ -197,9 +289,9 @@ export interface TwitchPrimeSubscriptionAM {
     customerServiceNote?: string;
 }
 
-//RETAIL
+//FileCodeAmazon.RETAIL_ORDER_HISTORY model
 export interface RetailOrderHistoryAM {
-    list: Array<RetailOrderAM>;
+    list: RetailOrderAM[];
 }
 
 export interface RetailOrderAM {
@@ -232,6 +324,7 @@ export interface RetailOrderAM {
     giftRecipientContactDetails?: string;
 }
 
+//FileCodeAmazon.AUDIBLE_LISTENING model
 export interface AudibleListeningListAM {
     list: AudibleListeningAM[];
 }
@@ -257,6 +350,7 @@ export interface AudibleListeningAM {
     localTimezone?: string;
 }
 
+//FileCodeAmazon.AUDIBLE_MEMBERSHIP_BILLINGS model
 export interface AudibleMembershipBillingsAM {
     list: AudibleMembershipBillingAM[];
 }
@@ -284,6 +378,7 @@ export interface AudibleMembershipBillingAM {
     status?: string;
 }
 
+//FileCodeAmazon.PRIMEVIDEO_VIEW_COUNT model
 export interface DigitalPrimeVideoViewCountsAM {
     showTVWatched?: number;
     kidsTitlesWatched?: number;
@@ -301,6 +396,7 @@ export interface DigitalPrimeVideoViewCountsAM {
     homeCountry?: string;
 }
 
+//FileCodeAmazon.DIGITAL_SUBSCRIPTION model
 export interface DigitalSubscriptionsAM {
     list: DigitalSubscriptionAM[];
 }
@@ -336,6 +432,7 @@ export interface DigitalSubscriptionAM {
     contractEndDate?: Date;
 }
 
+//FileCodeAmazon.RETAIL_LIGHT_WEIGHT_INTERACTIONS model
 export interface LightWeightInteractionsAM {
     list: LightWeightInteractionAM[];
 }
@@ -353,6 +450,7 @@ export interface LightWeightInteractionAM {
     version?: string;
 }
 
+//FileCodeAmazon.RETAIL_SELLER_FEEDBACK model
 export interface RetailSellerFeedbacksAM {
     list: RetailSellerFeedbackAM[];
 }
@@ -373,6 +471,7 @@ export interface RetailSellerFeedbackAM {
     reasonForRemoval?: string;
 }
 
+//FileCodeAmazon.RETAIL_REGION_AUTHORITY model
 export interface RetailRegionAuthoritiesAM {
     list: RetailRegionAuthorityAM[];
 }
@@ -387,24 +486,26 @@ export interface RetailRegionAuthorityAM {
     date?: Date;
 }
 
- export interface RetailCartItemsAM {
+//FileCodeAmazon.RETAIL_CART_ITEMS model
+export interface RetailCartItemsAM {
     list: RetailCartItemAM[];
- }
+}
 
- export interface RetailCartItemAM {
-     dateAddedToCart?: Date;
-     source?: string;
-     ASIN?: string;
-     cartDomain?: string;
-     cartList?: string;
-     quantity?: number;
-     oneClickBuyable?: boolean;
-     toBeGiftWrapped?: boolean;
-     primeSubscription?: boolean;
-     pantry?: boolean;
-     addOn?: boolean;
- }
+export interface RetailCartItemAM {
+    dateAddedToCart?: Date;
+    source?: string;
+    ASIN?: string;
+    cartDomain?: string;
+    cartList?: string;
+    quantity?: number;
+    oneClickBuyable?: boolean;
+    toBeGiftWrapped?: boolean;
+    primeSubscription?: boolean;
+    pantry?: boolean;
+    addOn?: boolean;
+}
 
+//FileCodeAmazon.DIGITAL_ORDERING_ITEM
 export interface DigitalItemsAM {
     list: DigitalItemAM[];
 }
@@ -460,6 +561,7 @@ export interface DigitalItemAM {
     installmentOurPricePlusTaxCurrencyCode?: string;
 }
 
+//FileCodeAmazon.DIGITAL_ORDERING_ORDERS model
 export interface DigitalOrdersAM {
     list: DigitalOrderAM[];
 }
@@ -491,6 +593,7 @@ export interface DigitalOrderAM {
     uniqueBrowserId?: string;
 }
 
+//FileCodeAmazon.DIGITAL_ORDERING_MONETARY model
 export interface DigitalOrdersMonetaryAM {
     list: DigitalOrderMonetaryAM[];
 }
@@ -506,38 +609,4 @@ export interface DigitalOrderMonetaryAM {
     FXCurrencyCode?: string;
     monetaryComponentTypeCode?: string;
     offerTypeCode?: string;
-}
-
-export interface AmazonDataAggregator {
-    //from AMAZON_ADV_AUDIENCES
-    advAudiences?: number;
-    //from AMAZON_ADV_CLICKS
-    advClicks?: number;
-    //from AMAZON_AUDIENCES
-    amazonAudiences?: number;
-    //from AMAZON_AUDIBLE_LISTENING
-    audibleListening?: number;
-    //from AMAZON_PRIMEVIDEO_VIEW_COUNT
-    movies?: number;
-    tvSeries?: number;
-    rents?: number;
-    //from AMAZON_RETAIL_ORDER_HISTORY
-    orders?: number;
-    ordersTI?: number;
-    //???from AMAZON_RETAIL_ORDER_HISTORY (only from the most used currency)
-    avgSpentTI?: number;
-    //from AMAZON_ADV_THIRDPARTIES
-    thirdPartyAudiences?: number;
-    //from AMAZON_RETAIL_SELLER_FEEDBACK
-    feedbacks?: number;
-    //from AMAZON_RETAIL_LIGHT_WEIGHT_INTERACTIONS
-    helpfulReviews?: number;
-    //from AMAZON_DIGITAL_SUBSCRIPTION
-    subscriptions?: number;
-    primeSubscription?: boolean;
-    audibleSubscription?: boolean;
-    //from AMAZON_AUDIBLE_LIBRARY
-    audibleListened?: number;
-    //from AMAZON_RETAIL_REGION_AUTHORITY
-    address?: string;
 }

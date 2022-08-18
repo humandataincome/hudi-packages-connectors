@@ -12,8 +12,8 @@ import ErrnoException = NodeJS.ErrnoException;
 
 function testProcessing(){
     //validatorAndProcessingInstagramTest();
-    validatorAndProcessingFacebookTest();
-    //validatorAndProcessingAmazonTest();
+    //validatorAndProcessingFacebookTest();
+    validatorAndProcessingAmazonTest();
     //validatorAndProcessingGoogleTest();
     //validatorAndProcessingShopifyTest();
 }
@@ -52,11 +52,9 @@ function validatorAndProcessingFacebookTest() {
             if (err) throw err;
             const validation1 = await ValidatorFiles.validateZip(data,
                 {
-                    //permittedFileExtensions: [FileExtension.ZIP, FileExtension.JSON, FileExtension.CSV, FileExtension.HTML],
                     filterDataSource: {
                         dataSourceCode: DataSourceCode.FACEBOOK,
-                    },
-                    throwExceptions: true,
+                    }
                 });
             const processed = await ProcessorFacebook.aggregatorFactory(validation1!.zipFile, {
                 timeIntervalDays: 180,
@@ -78,19 +76,22 @@ function validatorAndProcessingAmazonTest() {
         const path =  require('path');
         fs.readFile(path.join(__dirname,"../src/mock/datasource/zip files/amazon.zip"),async function(err:ErrnoException, data: Buffer) {
             if (err) throw err;
-            const validation1 = await ValidatorFiles.validateZip(data);
-            const validation2 = await ValidatorAmazon.getInstance().filterFilesIntoZip(validation1!.zipFile);
-            console.log(await ProcessorAmazon.aggregatorFactory(validation2!, {
+            const validation1 = await ValidatorFiles.validateZip(data,
+                {
+                    filterDataSource: {
+                        dataSourceCode: DataSourceCode.AMAZON,
+                    }
+                });
+            const processed = await ProcessorAmazon.aggregatorFactory(validation1!.zipFile, {
                 timeIntervalDays: 180,
-                throwExceptions: false,
-            }))
+                //maxEntitiesPerArray: 100
+            });
+            let str = JSON.stringify(processed, null, 2);
+            fs.writeFile(path.join(__dirname,"../src/mock/datasource/processing/aggregator_amazon.json"), str, (err: any) => { if (err) throw err; });
+            console.log('File size: ', new TextEncoder().encode(str).length);
         });
-    } catch (e: any) {
-        if (e.code == 'MODULE_NOT_FOUND') {
-            console.log('[Error not founding module] ' + e);
-        } else {
-            console.log(e);
-        }
+    } catch (error: any) {
+        console.log(error);
     }
 }
 

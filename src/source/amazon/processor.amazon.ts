@@ -1,20 +1,23 @@
 import {
+    AdvertisersAggregatorAM,
     AmazonDataAggregator,
-    AudibleLibraryAM,
-    DigitalSubscriptionAM,
-    DigitalSubscriptionsAM,
-    LightWeightInteractionsAM,
-    RetailOrderAM,
-    RetailOrderHistoryAM,
-    RetailRegionAuthoritiesAM,
-    RetailSellerFeedbacksAM
+    AudibleAggregatorAM,
+    EngagementAggregatorAM,
+    OrdersAggregatorAM,
+    PrimeVideoAggregatorAM,
+    RetailAggregatorAM,
+    TwitchAggregatorAM
 } from "./model.amazon";
-import {ProcessorOptions, ProcessorUtils} from "../../utils/processor/processor.utils";
+import {ProcessorOptions} from "../../utils/processor/processor.utils";
 import Logger from "../../utils/logger";
 import {Unzipped, unzipSync} from "fflate";
 import {ValidatorObject} from "../../utils/validator/validator.object";
 import {ServiceAmazon} from "./service.amazon";
 import {FileCodeAmazon} from "./enum.amazon";
+
+interface ResultType<T> {
+    list: T[];
+}
 
 export class ProcessorAmazon {
     private static readonly logger = new Logger("Processor Amazon");
@@ -28,7 +31,7 @@ export class ProcessorAmazon {
         try {
             if(zipFile) {
                 const files: Unzipped = unzipSync(zipFile);
-                return await this._aggregateFactory(files, options);
+                return await this._aggregatorFactory(files, options);
             }
         } catch (error: any) {
             (error && error.message) && (this.logger.log('error', error.message, 'aggregatorFactory'));
@@ -39,107 +42,162 @@ export class ProcessorAmazon {
         return undefined;
     }
 
-    private static async _aggregateFactory(files: Unzipped, options?: ProcessorOptions): Promise<AmazonDataAggregator | undefined> {
+    private static async _aggregatorFactory(files: Unzipped, options: ProcessorOptions = {}): Promise<AmazonDataAggregator | undefined> {
         const timeIntervalDays = (options && options.timeIntervalDays) ? options.timeIntervalDays : 365;
-        let model: AmazonDataAggregator = {};
+        const model: AmazonDataAggregator = {};
+        const adsModel: AdvertisersAggregatorAM = {};
+        const audibleModel: AudibleAggregatorAM = {};
+        const primeVideoModel: PrimeVideoAggregatorAM = {};
+        const ordersModel: OrdersAggregatorAM = {};
+        const retailModel: RetailAggregatorAM = {};
+        const twitchModel: TwitchAggregatorAM = {};
+        const engagementModel: EngagementAggregatorAM = {}
         let result, regex;
         for (let pathName in files) {
             const file = files[pathName];
             const data = Buffer.from(file, file.byteOffset, file.length);
             if (!ValidatorObject.isDirectory(pathName)) {
                 if ((regex = new RegExp(FileCodeAmazon.ADV_AUDIENCES)) && (regex.test(pathName))) {
-                    result = await ServiceAmazon.parseAmazonAudiences(data);
-                    (result) && (model.advAudiences = result.list.length);
-                } else if ((regex = new RegExp(FileCodeAmazon.ADV_CLICKS)) && (regex.test(pathName))) {
-                    result = await ServiceAmazon.parseAdvertiserClicked(data);
-                    (result) && (model.advClicks = result.list.length);
-                } else if ((regex = new RegExp(FileCodeAmazon.AUDIENCES)) && (regex.test(pathName))) {
-                    result = await ServiceAmazon.parseAmazonAudiences(data);
-                    (result) && (model.amazonAudiences = result.list.length);
-                } else if ((regex = new RegExp(FileCodeAmazon.AUDIBLE_LISTENING)) && (regex.test(pathName))) {
-                    result = await ServiceAmazon.parseAudibleListening(data);
-                    (result) && (model.audibleListening = result.list.length);
-                } else if ((regex = new RegExp(FileCodeAmazon.PRIMEVIDEO_VIEW_COUNT)) && (regex.test(pathName))) {
-                    result = await ServiceAmazon.parseDigitalPrimeVideoViewCounts(data);
+                    result = await ServiceAmazon.parseAdvertiserAudiences(data);
                     if (result) {
-                        (result.moviesWatched) && (model.movies = result.moviesWatched);
-                        (result.showTVWatched) && (model.tvSeries = result.showTVWatched);
-                        model.rents = 0;
-                        (result.rentBuyTVTitlesWatched) && (model.rents += result.rentBuyTVTitlesWatched);
-                        (result.rentBuyMoviesWatched) && (model.rents += result.rentBuyMoviesWatched);
-                        (result.rentBuyTitlesWatched) && (model.rents += result.rentBuyTitlesWatched);
-                    }
-                } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_ORDER_HISTORY)) && (regex.test(pathName))) {
-                    result = <RetailOrderHistoryAM>await ServiceAmazon.parseRetailOrderHistory(data);
-                    if (result) {
-                        model.orders = result.list.length;
-                        model.ordersTI = result.list.filter((item: RetailOrderAM) => (item.orderDate) && (ProcessorUtils.daysDifference(item.orderDate) < timeIntervalDays)).length;
-
-                        let mapCurrencies: any = {};
-                        result.list.forEach((item: RetailOrderAM) => {
-                            if (item.currency) {
-                                mapCurrencies[item.currency] !== undefined ? mapCurrencies[item.currency]++ : mapCurrencies[item.currency] = 1;
-                            }
-                        });
-                        let MUC: string; //Most Used Currency
-                        let counterMUC = 0;
-                        for (let currency of Object.keys(mapCurrencies)) {
-                            if (mapCurrencies[currency] > counterMUC) {
-                                MUC = currency;
-                                counterMUC = mapCurrencies[currency];
-                            }
-                        }
-                        const filteredOrders = result.list.filter((item: RetailOrderAM) => (item.currency && item.totalOwed && item.currency === MUC));
-                        const sum = filteredOrders.reduce((sum: number, item: RetailOrderAM) => {
-                            (item.totalOwed) && (sum += item.totalOwed);
-                            return sum;
-                        }, 0);
-                        model.avgSpentTI = sum / filteredOrders.length;
+                        adsModel.adsAudiences = this.appendToList(adsModel.adsAudiences, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.ADV_THIRDPARTIES)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseThirdPartyAudiences(data);
-                    (result) && (model.thirdPartyAudiences = result.list.length);
-                } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_SELLER_FEEDBACK)) && (regex.test(pathName))) {
-                    result = <RetailSellerFeedbacksAM>await ServiceAmazon.parseRetailSellerFeedback(data);
-                    (result) && (model.feedbacks = result.list.length);
-                } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_LIGHT_WEIGHT_INTERACTIONS)) && (regex.test(pathName))) {
-                    result = <LightWeightInteractionsAM>await ServiceAmazon.parseLightWeightInteractions(data);
-                    (result) && (model.helpfulReviews = result.list.length);
-                } else if ((regex = new RegExp(FileCodeAmazon.DIGITAL_SUBSCRIPTION)) && (regex.test(pathName))) {
-                    result = <DigitalSubscriptionsAM>await ServiceAmazon.parseDigitalSubscriptions(data);
                     if (result) {
-                        model.subscriptions = result.list.length;
-                        if (result.list.length > 0) {
-                            const lastBillPrime = <DigitalSubscriptionAM>result.list.filter((item: DigitalSubscriptionAM) => (item.serviceProvider) && (item.serviceProvider === 'Amazon Prime')).pop();
-                            if (lastBillPrime && lastBillPrime.contractEndDate) {
-                                const today = new Date();
-                                (model.primeSubscription = ProcessorUtils.daysDifference(today, lastBillPrime.contractEndDate) > 0);
-                            }
-                            const lastBillAudible = <DigitalSubscriptionAM>result.list.filter((item: DigitalSubscriptionAM) => (item.serviceProvider) && (item.serviceProvider === 'Audible')).pop();
-                            if (lastBillAudible && lastBillAudible.contractEndDate) {
-                                const today = new Date();
-                                (model.audibleSubscription = ProcessorUtils.daysDifference(today, lastBillAudible.contractEndDate) > 0);
-                            }
-                        }
+                        adsModel.adsThirdParties = this.appendToList(adsModel.adsThirdParties, result, options.maxEntitiesPerArray);
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.ADV_CLICKS)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parseAdvertiserClicked(data);
+                    if (result) {
+                        adsModel.adsClicked = this.appendToList(adsModel.adsClicked, result, options.maxEntitiesPerArray);
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.AUDIENCES)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parseAmazonAudiences(data);
+                    if (result) {
+                        adsModel.amazonAudience = this.appendToList(adsModel.amazonAudience, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.AUDIBLE_LIBRARY)) && (regex.test(pathName))) {
-                    result = <AudibleLibraryAM>await ServiceAmazon.parseAudibleLibrary(data);
-                    (result) && (model.thirdPartyAudiences = result.list.length);
+                    result = await ServiceAmazon.parseAudibleLibrary(data);
+                    if (result) {
+                        audibleModel.library = this.appendToList(audibleModel.library, result, options.maxEntitiesPerArray);
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.AUDIBLE_LISTENING)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parseAudibleListening(data);
+                    if (result) {
+                        audibleModel.listening = this.appendToList(audibleModel.listening, result, options.maxEntitiesPerArray);
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.AUDIBLE_MEMBERSHIP_BILLINGS)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parseAudibleMembershipBillings(data);
+                    if (result) {
+                        audibleModel.membershipBillings = this.appendToList(audibleModel.membershipBillings, result, options.maxEntitiesPerArray);
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.PRIMEVIDEO_WATCHLIST)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parsePrimeVideoWatchlist(data);
+                    if (result) {
+                        primeVideoModel.watchlist = this.appendToList(primeVideoModel.watchlist, result, options.maxEntitiesPerArray);
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.PRIMEVIDEO_WATCHLIST_HISTORY)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parsePrimeVideoWatchlistHistory(data);
+                    if (result) {
+                        primeVideoModel.watchlistHistory = this.appendToList(primeVideoModel.watchlistHistory, result, options.maxEntitiesPerArray);
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.PRIMEVIDEO_VIEW_COUNT)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parseDigitalPrimeVideoViewCounts(data);
+                    if (result) {
+                        primeVideoModel.viewCounts = result;
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.PRIMEVIDEO_VIEWINGHISTORY)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parsePrimeVideoViewingHistory(data);
+                    if (result) {
+                        primeVideoModel.viewingHistory = this.appendToList(primeVideoModel.viewingHistory, result, options.maxEntitiesPerArray);
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.DIGITAL_ORDERING_ITEM)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parseDigitalItems(data);
+                    if (result) {
+                        ordersModel.digitalItems = this.appendToList(ordersModel.digitalItems, result, options.maxEntitiesPerArray);
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.DIGITAL_ORDERING_ORDERS)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parseDigitalOrders(data);
+                    if (result) {
+                        ordersModel.digitalOrders = this.appendToList(ordersModel.digitalOrders, result, options.maxEntitiesPerArray);
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.DIGITAL_ORDERING_MONETARY)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parseDigitalOrdersMonetary(data);
+                    if (result) {
+                        ordersModel.digitalMonetaryOrders = this.appendToList(ordersModel.digitalMonetaryOrders, result, options.maxEntitiesPerArray);
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.DIGITAL_SUBSCRIPTION)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parseDigitalSubscriptions(data);
+                    if (result) {
+                        ordersModel.digitalSubscriptions = this.appendToList(ordersModel.digitalSubscriptions, result, options.maxEntitiesPerArray);
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_LIGHT_WEIGHT_INTERACTIONS)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parseLightWeightInteractions(data);
+                    if (result) {
+                        retailModel.lightWeightInteractions = this.appendToList(retailModel.lightWeightInteractions, result, options.maxEntitiesPerArray);
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_CART_ITEMS)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parseRetailCartItems(data);
+                    if (result) {
+                        retailModel.cartItems = this.appendToList(retailModel.cartItems, result, options.maxEntitiesPerArray);
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_ORDER_HISTORY)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parseRetailOrderHistory(data);
+                    if (result) {
+                        retailModel.orderHistory = this.appendToList(retailModel.orderHistory, result, options.maxEntitiesPerArray);
+                    }
                 } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_REGION_AUTHORITY)) && (regex.test(pathName))) {
-                    result = <RetailRegionAuthoritiesAM>await ServiceAmazon.parseRetailRegionAuthorities(data);
-                    if (result && result.list.length > 1) {
-                        const item = result.list.pop();
-                        if (item) {
-                            model.address = ''.concat(
-                                item.postalCode ? item.postalCode : ',',
-                                item.city ? ',' + item.city : ',',
-                                item.stateOrProvince ? ',' + item.stateOrProvince : ',',
-                                item.countryCode ? ',' + item.countryCode : ',');
-                        }
+                    result = await ServiceAmazon.parseRetailRegionAuthorities(data);
+                    if (result) {
+                        retailModel.regionAuthorities = this.appendToList(retailModel.regionAuthorities, result, options.maxEntitiesPerArray);
+                    }
+                } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_SELLER_FEEDBACK)) && (regex.test(pathName))) {
+                    result = await ServiceAmazon.parseRetailSellerFeedback(data);
+                    if (result) {
+                        retailModel.sellerFeedbacks = this.appendToList(retailModel.sellerFeedbacks, result, options.maxEntitiesPerArray);
                     }
                 }
             }
         }
-        return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
+        if (!ValidatorObject.objectIsEmpty(adsModel)) {
+            model.advertisers = adsModel;
+        }
+        if (!ValidatorObject.objectIsEmpty(audibleModel)) {
+            model.audible = audibleModel;
+        }
+        if (!ValidatorObject.objectIsEmpty(primeVideoModel)) {
+            model.primeVideo = primeVideoModel;
+        }
+        if (!ValidatorObject.objectIsEmpty(ordersModel)) {
+            model.orders = ordersModel;
+        }
+        if (!ValidatorObject.objectIsEmpty(retailModel)) {
+            model.retail = retailModel;
+        }
+        if (!ValidatorObject.objectIsEmpty(twitchModel)) {
+            model.twitch = twitchModel;
+        }
+        if (!ValidatorObject.objectIsEmpty(engagementModel)) {
+            engagementModel.timeInterval = timeIntervalDays;
+            model.engagement = engagementModel;
+        }
+        if (!ValidatorObject.objectIsEmpty(model)) {
+            model.creationDate = new Date();
+            return model;
+        }
+        return undefined;
+    }
+
+
+
+    private static appendToList<T>(model1: ResultType<T> | undefined, model2: ResultType<T>, maxEntitiesPerArray: number = Infinity): ResultType<T> {
+        const newModel: ResultType<T> = {list: []};
+        if (model1) {
+            newModel.list = model1.list.concat(model2.list).slice(0, maxEntitiesPerArray);
+        } else {
+            newModel.list = model2.list.slice(0, maxEntitiesPerArray);
+        }
+        return newModel;
     }
 }
