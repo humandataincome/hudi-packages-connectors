@@ -41,11 +41,11 @@ export interface InstagramDataAggregator {
     yourTopics?: YourTopicsIG;
     //from FileCodeInstagram.SHOPPING_VIEWED_ITEMS
     shoppingItemsViewed?: ShoppingViewedItemsIG;
-    engagement?: EngagementIG;
+    engagement?: EngagementAggregatorIG;
     creationDate?: Date;
 }
 
-export interface EngagementIG {
+export interface EngagementAggregatorIG {
     /**
      * Interval of Time in days
      * @default 365

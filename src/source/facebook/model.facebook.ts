@@ -34,11 +34,11 @@ export interface FacebookDataAggregator {
     recentlyViewed?: RecentlyViewedFB;
     //from FileCodeFacebook.RECENTLY_VISITED model
     recentlyVisited?: RecentlyVisitedFB;
-    engagement?: EngagementFB;
+    engagement?: EngagementAggregatorFB;
     creationDate?: Date;
 }
 
-export interface EngagementFB {
+export interface EngagementAggregatorFB {
     /**
      * Interval of Time in days
      * @default 365

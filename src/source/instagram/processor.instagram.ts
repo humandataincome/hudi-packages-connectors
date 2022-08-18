@@ -2,7 +2,7 @@ import {LanguageCode} from "../../descriptor";
 import {
     CommentPostedIG,
     EmojiSliderIG,
-    EngagementIG,
+    EngagementAggregatorIG,
     InstagramDataAggregator,
     LikeIG,
     MediaIG,
@@ -46,7 +46,7 @@ export class ProcessorInstagram {
     private static async _aggregatorFactory(files: Unzipped, options: ProcessorOptions = {}): Promise<InstagramDataAggregator | undefined> {
         const timeIntervalDays = (options.timeIntervalDays) ? options.timeIntervalDays : 365;
         const model: InstagramDataAggregator = {};
-        const modelEngagement: EngagementIG = {};
+        const modelEngagement: EngagementAggregatorIG = {};
         //get language code if possible, otherwise ENGLISH as default
         let languageCode = (options && options.throwExceptions) ? await ValidatorInstagram.getInstance().getLanguage(files, {throwExceptions: options.throwExceptions}) : await ValidatorInstagram.getInstance().getLanguage(files);
         ServiceInstagram.languagePrefix = languageCode ? languageCode : LanguageCode.ENGLISH;

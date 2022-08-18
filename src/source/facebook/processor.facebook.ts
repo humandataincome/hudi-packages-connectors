@@ -1,7 +1,7 @@
 import {
     AdvInteractionFB,
     CommentPostedFB,
-    EngagementFB,
+    EngagementAggregatorFB,
     FacebookDataAggregator,
     PageFB,
     ReactionFB,
@@ -40,7 +40,7 @@ export class ProcessorFacebook {
     private static async _aggregatorFactory(files: Unzipped, options: ProcessorOptions = {}): Promise<FacebookDataAggregator | undefined> {
         const timeIntervalDays = (options && options.timeIntervalDays) ? options.timeIntervalDays : 365;
         const model: FacebookDataAggregator = {};
-        const modelEngagement: EngagementFB = {};
+        const modelEngagement: EngagementAggregatorFB = {};
 
         let result, regex;
         for (let pathName in files) {
