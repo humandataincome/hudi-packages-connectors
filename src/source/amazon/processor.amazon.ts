@@ -60,47 +60,51 @@ export class ProcessorAmazon {
                 if ((regex = new RegExp(FileCodeAmazon.ADV_AUDIENCES)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseAdvertiserAudiences(data);
                     if (result) {
-                        adsModel.adsAudiences = this.appendToList(adsModel.adsAudiences, result, options.maxEntitiesPerArray);
+                        //adsModel.adsAudiences = this.mergeList(adsModel.adsAudiences, result, options.maxEntitiesPerArray);
+                        adsModel.adsAudiences = result;
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.ADV_THIRDPARTIES)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseThirdPartyAudiences(data);
                     if (result) {
-                        adsModel.adsThirdParties = this.appendToList(adsModel.adsThirdParties, result, options.maxEntitiesPerArray);
+                        //adsModel.adsThirdParties = this.mergeList(adsModel.adsThirdParties, result, options.maxEntitiesPerArray);
+                        adsModel.adsThirdParties = result;
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.ADV_CLICKS)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseAdvertiserClicked(data);
                     if (result) {
-                        adsModel.adsClicked = this.appendToList(adsModel.adsClicked, result, options.maxEntitiesPerArray);
+                        adsModel.adsClicked = this.mergeList(adsModel.adsClicked, result, options.maxEntitiesPerArray);
+                        adsModel.adsClicked = result;
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.AUDIENCES)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseAmazonAudiences(data);
                     if (result) {
-                        adsModel.amazonAudience = this.appendToList(adsModel.amazonAudience, result, options.maxEntitiesPerArray);
+                        adsModel.amazonAudience = this.mergeList(adsModel.amazonAudience, result, options.maxEntitiesPerArray);
+                        adsModel.amazonAudience = result;
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.AUDIBLE_LIBRARY)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseAudibleLibrary(data);
                     if (result) {
-                        audibleModel.library = this.appendToList(audibleModel.library, result, options.maxEntitiesPerArray);
+                        audibleModel.library = this.mergeList(audibleModel.library, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.AUDIBLE_LISTENING)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseAudibleListening(data);
                     if (result) {
-                        audibleModel.listening = this.appendToList(audibleModel.listening, result, options.maxEntitiesPerArray);
+                        audibleModel.listening = this.mergeList(audibleModel.listening, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.AUDIBLE_MEMBERSHIP_BILLINGS)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseAudibleMembershipBillings(data);
                     if (result) {
-                        audibleModel.membershipBillings = this.appendToList(audibleModel.membershipBillings, result, options.maxEntitiesPerArray);
+                        audibleModel.membershipBillings = this.mergeList(audibleModel.membershipBillings, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.PRIMEVIDEO_WATCHLIST)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parsePrimeVideoWatchlist(data);
                     if (result) {
-                        primeVideoModel.watchlist = this.appendToList(primeVideoModel.watchlist, result, options.maxEntitiesPerArray);
+                        primeVideoModel.watchlist = this.mergeList(primeVideoModel.watchlist, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.PRIMEVIDEO_WATCHLIST_HISTORY)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parsePrimeVideoWatchlistHistory(data);
                     if (result) {
-                        primeVideoModel.watchlistHistory = this.appendToList(primeVideoModel.watchlistHistory, result, options.maxEntitiesPerArray);
+                        primeVideoModel.watchlistHistory = this.mergeList(primeVideoModel.watchlistHistory, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.PRIMEVIDEO_VIEW_COUNT)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseDigitalPrimeVideoViewCounts(data);
@@ -110,52 +114,52 @@ export class ProcessorAmazon {
                 } else if ((regex = new RegExp(FileCodeAmazon.PRIMEVIDEO_VIEWINGHISTORY)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parsePrimeVideoViewingHistory(data);
                     if (result) {
-                        primeVideoModel.viewingHistory = this.appendToList(primeVideoModel.viewingHistory, result, options.maxEntitiesPerArray);
+                        primeVideoModel.viewingHistory = this.mergeList(primeVideoModel.viewingHistory, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.DIGITAL_ORDERING_ITEM)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseDigitalItems(data);
                     if (result) {
-                        ordersModel.digitalItems = this.appendToList(ordersModel.digitalItems, result, options.maxEntitiesPerArray);
+                        ordersModel.digitalItems = this.mergeList(ordersModel.digitalItems, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.DIGITAL_ORDERING_ORDERS)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseDigitalOrders(data);
                     if (result) {
-                        ordersModel.digitalOrders = this.appendToList(ordersModel.digitalOrders, result, options.maxEntitiesPerArray);
+                        ordersModel.digitalOrders = this.mergeList(ordersModel.digitalOrders, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.DIGITAL_ORDERING_MONETARY)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseDigitalOrdersMonetary(data);
                     if (result) {
-                        ordersModel.digitalMonetaryOrders = this.appendToList(ordersModel.digitalMonetaryOrders, result, options.maxEntitiesPerArray);
+                        ordersModel.digitalMonetaryOrders = this.mergeList(ordersModel.digitalMonetaryOrders, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.DIGITAL_SUBSCRIPTION)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseDigitalSubscriptions(data);
                     if (result) {
-                        ordersModel.digitalSubscriptions = this.appendToList(ordersModel.digitalSubscriptions, result, options.maxEntitiesPerArray);
+                        ordersModel.digitalSubscriptions = this.mergeList(ordersModel.digitalSubscriptions, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_LIGHT_WEIGHT_INTERACTIONS)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseLightWeightInteractions(data);
                     if (result) {
-                        retailModel.lightWeightInteractions = this.appendToList(retailModel.lightWeightInteractions, result, options.maxEntitiesPerArray);
+                        retailModel.lightWeightInteractions = this.mergeList(retailModel.lightWeightInteractions, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_CART_ITEMS)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseRetailCartItems(data);
                     if (result) {
-                        retailModel.cartItems = this.appendToList(retailModel.cartItems, result, options.maxEntitiesPerArray);
+                        retailModel.cartItems = this.mergeList(retailModel.cartItems, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_ORDER_HISTORY)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseRetailOrderHistory(data);
                     if (result) {
-                        retailModel.orderHistory = this.appendToList(retailModel.orderHistory, result, options.maxEntitiesPerArray);
+                        retailModel.orderHistory = this.mergeList(retailModel.orderHistory, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_REGION_AUTHORITY)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseRetailRegionAuthorities(data);
                     if (result) {
-                        retailModel.regionAuthorities = this.appendToList(retailModel.regionAuthorities, result, options.maxEntitiesPerArray);
+                        retailModel.regionAuthorities = this.mergeList(retailModel.regionAuthorities, result, options.maxEntitiesPerArray);
                     }
                 } else if ((regex = new RegExp(FileCodeAmazon.RETAIL_SELLER_FEEDBACK)) && (regex.test(pathName))) {
                     result = await ServiceAmazon.parseRetailSellerFeedback(data);
                     if (result) {
-                        retailModel.sellerFeedbacks = this.appendToList(retailModel.sellerFeedbacks, result, options.maxEntitiesPerArray);
+                        retailModel.sellerFeedbacks = this.mergeList(retailModel.sellerFeedbacks, result, options.maxEntitiesPerArray);
                     }
                 }
             }
@@ -191,12 +195,12 @@ export class ProcessorAmazon {
 
 
 
-    private static appendToList<T>(model1: ResultType<T> | undefined, model2: ResultType<T>, maxEntitiesPerArray: number = Infinity): ResultType<T> {
+    private static mergeList<T>(model1: ResultType<T> | undefined, model2: ResultType<T>, maxEntitiesPerArray: number = Infinity): ResultType<T> {
         const newModel: ResultType<T> = {list: []};
         if (model1) {
             newModel.list = model1.list.concat(model2.list).slice(0, maxEntitiesPerArray);
         } else {
-            newModel.list = model2.list.slice(0, maxEntitiesPerArray);
+            newModel.list = model2.list.slice(model2.list.length-maxEntitiesPerArray, model2.list.length);
         }
         return newModel;
     }
