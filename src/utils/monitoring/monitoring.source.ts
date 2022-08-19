@@ -147,9 +147,10 @@ export class MonitoringService {
     }
 
     private static isFilenameIntoEnum(fileName: string, code: DataSourceCode): boolean {
-        const datasource = ValidatorFiles.validatorSelector(code);
-        if (datasource) {
-            return !!datasource.getValidPath(fileName, {fileCodes: this.getAllKeysFromEnum(code)});
+        const validator = ValidatorFiles.validatorSelector(code);
+        if (validator) {
+            const isValid = validator.getValidPath(fileName, {fileCodes: this.getAllKeysFromEnum(code)});
+            return !!isValid;
         }
         return false;
     }

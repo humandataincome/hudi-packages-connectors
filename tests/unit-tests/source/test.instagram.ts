@@ -12,7 +12,7 @@ async function testService() {
         console.log(await ServiceInstagram.parsePersonalInformation(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/instagram/account_information/personal_information.json`)))));
         console.log(await ServiceInstagram.parseAdsClicked(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/instagram/ads_and_content/ads_clicked.json`)))));
         console.log(await ServiceInstagram.parseAccountYouAreNotInterested(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/instagram/ads_and_content/accounts_you're_not_interested_in.json`)))));
-        console.log(await ServiceInstagram.parseAdsUsingYourInformation(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/instagram/ads_business/advertisers_using_your_activity_or_information.json`)))));
+        console.log(await ServiceInstagram.parseAdsUsingYourInformation(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/instagram/ads_and_businesses/advertisers_using_your_activity_or_information.json`)))));
         console.log(await ServiceInstagram.parseAdsViewed(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/instagram/ads_and_content/ads_viewed.json`)))));
         console.log(await ServiceInstagram.parsePostViewed(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/instagram/ads_and_content/posts_viewed.json`)))));
         console.log(await ServiceInstagram.parseSuggestedAccountViewed(Buffer.from(JSON.stringify(require(`../../src/mock/datasource/raw files/instagram/ads_and_content/suggested_accounts_viewed.json`)))));

@@ -1,14 +1,14 @@
 import {
-    DataSourceCode, InstagramDataAggregator,
+    DataSourceCode,
     ProcessorInstagram,
     ValidatorFiles,
 } from "../../src";
 
 describe('Processor Test', () => {
     test('Instagram Validation and Processor', async () => {
-        const pathToZip = "../src/mock/datasource/zip files/instagram.zip";
-        const result = await validationAndProcessing(pathToZip);
-        const expected: InstagramDataAggregator = {};
+        const pathToZip = "../../src/mock/datasource/zip files/instagram.zip";
+        const result = new TextEncoder().encode(JSON.stringify(await validationAndProcessing(pathToZip), null, 2)).length;
+        const expected: number = 28468;
         expect(result).toBe(expected);
     });
 });

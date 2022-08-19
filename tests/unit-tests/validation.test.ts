@@ -7,11 +7,10 @@ import {
 } from "../../src";
 import {ReadableStream} from 'node:stream/web';
 import {lastValueFrom, Observable} from "rxjs";
-import ErrnoException = NodeJS.ErrnoException;
 
 describe('Validation Test', () => {
     const pathToZip = "../../src/mock/datasource/zip files/instagram.zip";
-    const expectedBytes = 107857;
+    const expectedBytes = 26155;
     test('validateZip', async () => {
         const validatedZip = await validateZip(pathToZip);
         expect(validatedZip!.zipFile.length).toBe(expectedBytes);
@@ -19,6 +18,13 @@ describe('Validation Test', () => {
     test('validateZipStream', async () => {
         const validatedZip = await validateZipStream(pathToZip);
         expect(validatedZip!.zipFile.length).toBe(expectedBytes);
+    });
+    test('mergeZipFiles', async () => {
+        const pathToZip1 = "../../src/mock/datasource/zip files/instagram_part_1.zip";
+        //instagram_part_2.zip has 1 not recognized file that should be excluded
+        const pathToZip2 = "../../src/mock/datasource/zip files/instagram_part_2.zip";
+        const mergedZip = await mergeZipFiles(pathToZip1, pathToZip2);
+        expect(mergedZip!.length).toBe(expectedBytes);
     });
 });
 
@@ -62,30 +68,20 @@ async function validateZipStream(pathToZip: string): Promise<ValidationReturn | 
     return finalZip;
 }
 
-function mergingTest() {
-    const fs =  require('fs');
-    const path =  require('path');
-    fs.readFile(path.join(__dirname,"../src/mock/datasource/zip files/ds2.zip"),async function(err:ErrnoException, data1: Buffer) {
-        const validation1 = await ValidatorFiles.validateZip(data1,{maxBytesZipFile: 3e9, filterDataSource: {
-                dataSourceCode: DataSourceCode.FACEBOOK,
-            }});
-        fs.readFile(path.join(__dirname,"../src/mock/datasource/zip files/instagram.zip"),async function(err:ErrnoException, data2: Buffer) {
-            const validation2 = await ValidatorFiles.validateZip(data2,
-                {
-                    filterDataSource: {
-                        dataSourceCode: DataSourceCode.INSTAGRAM,
-                    }
-                });
-            fs.readFile(path.join(__dirname,"../src/mock/datasource/zip files/amazon.zip"),async function(err:ErrnoException, data3: Buffer) {
-                const validation3 = await ValidatorFiles.validateZip(data3,
-                    {
-                        filterDataSource: {
-                            dataSourceCode: DataSourceCode.AMAZON,
-                        }
-                    });
-                const mergedFile = await ValidatorFiles.mergeZipFiles([validation1!.zipFile, validation2!.zipFile, validation3!.zipFile], {throwExceptions: true, maxBytesZipFile: 3e9});
-                console.log(await ValidatorFiles.getPathsIntoZip(mergedFile!));
-            });
-        });
+async function mergeZipFiles(pathToZip1: string, pathToZip2: string): Promise<Uint8Array | undefined> {
+    const fs = require('fs');
+    const path = require('path');
+    const data1 = fs.readFileSync(path.join(__dirname, pathToZip1));
+    const validation1 = await ValidatorFiles.validateZip(data1, {
+        filterDataSource: {
+            dataSourceCode: DataSourceCode.INSTAGRAM
+        }
     });
+    const data2 = fs.readFileSync(path.join(__dirname, pathToZip2));
+    const validation2 = await ValidatorFiles.validateZip(data2, {
+        filterDataSource: {
+            dataSourceCode: DataSourceCode.INSTAGRAM
+        }
+    });
+    return await ValidatorFiles.mergeZipFiles([validation1!.zipFile, validation2!.zipFile]);
 }
