@@ -1,4 +1,4 @@
-import {ServiceShopify} from "../../src";
+import {ServiceShopify} from "../../../src";
 
 async function testShopify(){
     await testService();
@@ -7,7 +7,7 @@ async function testShopify(){
 async function testService() {
     try {
         const path = require('path');
-        const {Parser} = require('../utils/parser');
+        const {Parser} = require('../../utils/parser');
         console.log(await ServiceShopify.parseCustomersExport(await Parser.CSVToBuffer(path.join(__dirname, `../../src/mock/datasource/raw files/shopify/customers_export_1.csv`))));
         console.log(await ServiceShopify.parseDiscountsExport(await Parser.CSVToBuffer(path.join(__dirname, `../../src/mock/datasource/raw files/shopify/discounts_export_1.csv`))));
         console.log(await ServiceShopify.parseOrdersExport(await Parser.CSVToBuffer(path.join(__dirname, `../../src/mock/datasource/raw files/shopify/orders_export_1.csv`))));

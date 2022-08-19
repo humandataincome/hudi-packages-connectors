@@ -1,4 +1,4 @@
-import {ServiceAmazon} from "../../src";
+import {ServiceAmazon} from "../../../src";
 
 async function testFacebook(){
     await testService();
@@ -6,7 +6,7 @@ async function testFacebook(){
 
 async function testService() {
     try {
-        const {Parser} = require("../utils/parser");
+        const {Parser} = require("../../utils/parser");
         const path = require('path');
         const fs = require('fs');
         console.log(await ServiceAmazon.parsePrimeVideoWatchlist(await Parser.CSVToBuffer(path.join(__dirname, `../../src/mock/datasource files/amazon/Digital.PrimeVideo.Watchlist/Digital.PrimeVideo.Watchlist.csv`))));

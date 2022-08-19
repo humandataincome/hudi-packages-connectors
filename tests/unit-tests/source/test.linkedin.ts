@@ -1,4 +1,4 @@
-import {ServiceLinkedin} from "../../src";
+import {ServiceLinkedin} from "../../../src";
 
 async function testLinkedin(){
     await testService();
@@ -7,7 +7,7 @@ async function testLinkedin(){
 async function testService() {
     try {
         const path = require('path');
-        const {Parser} = require('../utils/parser');
+        const {Parser} = require('../../utils/parser');
         console.log(await ServiceLinkedin.parseAdsClicked(await Parser.CSVToBuffer(path.join(__dirname, `../../src/mock/datasource/raw files/linkedin/Ads Clicked.csv`))));
         console.log(await ServiceLinkedin.parseConnections(await Parser.CSVToBuffer(path.join(__dirname, `../../src/mock/datasource/raw files/linkedin/Connections.csv`))));
         console.log(await ServiceLinkedin.parseCompaniesFollowed(await Parser.CSVToBuffer(path.join(__dirname, `../../src/mock/datasource/raw files/linkedin/Company Follows.csv`))));
