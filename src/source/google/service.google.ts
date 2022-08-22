@@ -320,7 +320,7 @@ export class ServiceGoogle {
      */
     static async parseTransactions(data: Buffer): Promise<TransactionsGO | undefined> {
         try {
-            let document: Array<any> = <Array<object>>Parser.parseCSVfromBuffer(data);
+            let document = Parser.parseCSVfromBuffer(data);
             if (document) {
                 let model: TransactionsGO = {list: []};
                 document.forEach((value: any) => {
