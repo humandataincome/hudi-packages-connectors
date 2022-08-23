@@ -920,7 +920,6 @@ export class ServiceLinkedin {
                         !ValidatorObject.objectIsEmpty(newItem) && (model.list.push(newItem));
                     }
                 });
-                console.log(model.list[0].profileLocations)
                 return model.list.length > 0 ? model : undefined;
             }
             return undefined;
