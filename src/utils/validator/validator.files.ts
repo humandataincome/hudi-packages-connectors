@@ -11,18 +11,9 @@ import {DataSourceCode, FileCode, FileExtension} from "../../descriptor";
 import {Parser} from "../parser";
 import Logger from "../logger";
 import {ValidationErrorEnum} from "../index";
-import {ValidatorDatasource} from "./validator.datasource";
-import {
-    ValidatorAmazon,
-    ValidatorFacebook,
-    ValidatorGoogle,
-    ValidatorInstagram,
-    ValidatorLinkedIn, ValidatorReddit,
-    ValidatorShopify, ValidatorTikTok, ValidatorTwitter
-} from "../../source";
-import {ValidatorNetflix} from "../../source";
 import {ValidatorObject} from "./validator.object";
 import {from, Observable, Subscriber} from 'rxjs';
+import {Selector} from "../selector";
 
 /**
  * @permittedFileExtensions list of extensions of file that we want to include exclusively.
@@ -289,7 +280,7 @@ export class ValidatorFiles {
 
     private static getValidPathName(pathName: string, optionsValidation: ValidationZipOptions): string | undefined {
         if (optionsValidation && optionsValidation.filterDataSource && optionsValidation.filterDataSource.dataSourceCode) {
-            const datasource = this.validatorSelector(optionsValidation.filterDataSource?.dataSourceCode);
+            const datasource = Selector.getValidator(optionsValidation.filterDataSource?.dataSourceCode);
             if (datasource) {
                 return datasource.getValidPath(pathName, optionsValidation);
             }
@@ -384,41 +375,6 @@ export class ValidatorFiles {
                 ? this.logger.log('info', `File \"${pathName}\" is not a valid CSV`, 'validateCSV')
                 : this.logger.log('info', `File is not a valid CSV`, 'validateCSV');
             return false;
-        }
-    }
-
-    /**
-     * @param dataSourceCode - a DataSourceCode
-     * @return the corresponded instance of the DataSourceCode's Validation Class. E.g. DataSourceCode.INSTAGRAM -> ValidatorInstagram.getInstance(). Return undefined if none Validation class matches.
-     */
-    static validatorSelector(dataSourceCode: DataSourceCode): ValidatorDatasource | undefined {
-        switch (dataSourceCode) {
-            case DataSourceCode.INSTAGRAM:
-                return ValidatorInstagram.getInstance();
-            case DataSourceCode.FACEBOOK:
-                return ValidatorFacebook.getInstance();
-            case DataSourceCode.AMAZON:
-                return ValidatorAmazon.getInstance();
-            case DataSourceCode.GOOGLE:
-                return ValidatorGoogle.getInstance();
-            case DataSourceCode.NETFLIX:
-                return ValidatorNetflix.getInstance();
-            case DataSourceCode.LINKEDIN:
-                return ValidatorLinkedIn.getInstance();
-            case DataSourceCode.SHOPIFY_CUSTOMERS:
-            case DataSourceCode.SHOPIFY_ORDERS:
-            case DataSourceCode.SHOPIFY_PRODUCTS:
-            case DataSourceCode.SHOPIFY_DISCOUNTS:
-                return ValidatorShopify.getInstance();
-            case DataSourceCode.TWITTER:
-                return ValidatorTwitter.getInstance();
-            case DataSourceCode.TIKTOK:
-                return ValidatorTikTok.getInstance();
-            case DataSourceCode.REDDIT:
-                return ValidatorReddit.getInstance();
-            default:
-                this.logger.log('info', `${dataSourceCode} is not a valid DataSourceCode`, 'validatorSelector');
-                return undefined;
         }
     }
 

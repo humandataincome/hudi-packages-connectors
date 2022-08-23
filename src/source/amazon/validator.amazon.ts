@@ -1,4 +1,3 @@
-
 import {ValidatorDatasource} from "../../utils/validator/validator.datasource";
 import Logger from "../../utils/logger";
 import {FileCodeAmazon} from "./enum.amazon";
@@ -54,9 +53,4 @@ export class ValidatorAmazon extends ValidatorDatasource  {
         FileCodeAmazon.SUBSCRIPTION_BILLING_REFUNDS_DATA,
         FileCodeAmazon.WISHLIST,
     ];
-
-    public getFileCode(pathName: string): string | undefined {
-        const compatiblePath = this.extractCompatiblePath(pathName);
-        return Object.keys(FileCodeAmazon).find((code: FileCodeAmazon | string) => (RegExp('^' + code + '$').test(compatiblePath)));
-    }
 }

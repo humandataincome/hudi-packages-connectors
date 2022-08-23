@@ -4,7 +4,11 @@ import {
     FileCodeGoogle,
     FileCodeInstagram,
     FileCodeLinkedIn,
-    FileCodeNetflix, FileCodeReddit, FileCodeShopify, FileCodeTikTok, FileCodeTwitter
+    FileCodeNetflix,
+    FileCodeReddit,
+    FileCodeShopify,
+    FileCodeTikTok,
+    FileCodeTwitter
 } from "../source";
 
 export enum DataSourceCode {
@@ -14,17 +18,13 @@ export enum DataSourceCode {
     NETFLIX = 'NETFLIX',
     AMAZON = 'AMAZON',
     LINKEDIN = 'LINKEDIN',
-    SHOPIFY_CUSTOMERS = 'SHOPIFY_CUSTOMERS',
-    SHOPIFY_ORDERS = 'SHOPIFY_ORDERS',
-    SHOPIFY_PRODUCTS = 'SHOPIFY_PRODUCTS',
-    SHOPIFY_DISCOUNTS = 'SHOPIFY_DISCOUNTS',
+    SHOPIFY = 'SHOPIFY',
     TWITTER = 'TWITTER',
     TIKTOK = 'TIKTOK',
     REDDIT = 'REDDIT',
 }
 
 export enum RetrievingProcedureType {
-    DEFAULT = 'DEFAULT',
     DESKTOP = 'DESKTOP',
     MOBILE = 'MOBILE'
 }
@@ -59,7 +59,6 @@ export enum LanguageCode {
     FRENCH = 'FR',
     GERMAN = 'DE',
     CHINESE_SIMPLIFIED = 'ZH-CN',
-    ARABIC = 'AR',
 }
 
 export type FileCode =

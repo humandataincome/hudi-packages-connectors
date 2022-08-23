@@ -3,24 +3,14 @@
         {
             "sourceName": "Instagram",
             "sourceCode": "INSTAGRAM",
-            "supportedFormats": ["zip"],
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Instagram. Do not change the composition of the folders and files within them.",
                     "procedures": [
                         {
-                            "procedureType": "DEFAULT",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Follow the guide at this link",
-                                    "link": "https://help.instagram.com/181231772500920"
-                                }
-                            ]
-                        },
-                        {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "description": "The Datasource contains all your personal information relating to your use of Instagram. Do not change the composition of the folders and files within them.",
+                            "fileExtension": "zip",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -73,75 +63,16 @@
                                     "attributeDescription": "<p><b>Done</b>, wait an email confirmation with attached data</p>"
                                 }
                             ]
-                        },
-                        {
-                            "procedureType": "MOBILE",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Go to your Profile",
-                                    "attributeDescription": "<p>Go to your <a href=\"https://instagram.com\" target=\"_blank\">Profile</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Tap on the Menu Icon",
-                                    "attributeDescription": "<p>Tap on the <b>Menu Icon</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Tap on Your activity",
-                                    "attributeDescription": "<p>Tap on <b>Your activity</b></p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Tap on Download your information",
-                                    "attributeDescription": "<p>Tap on <b>Download your information</b></p>"
-                                },
-                                {
-                                    "index": 5,
-                                    "description": "Type your email",
-                                    "attributeDescription": "<p>Type your <b>email</b></p>"
-                                },
-                                {
-                                    "index": 6,
-                                    "description": "Tap on Request Download",
-                                    "attributeDescription": "<p>Tap on <b>Request Download</b></p>"
-                                },
-                                {
-                                    "index": 7,
-                                    "description": "Type your Instagram password",
-                                    "attributeDescription": "<p>Type your Instagram password</p>"
-                                },
-                                {
-                                    "index": 8,
-                                    "description": "Tap on Next",
-                                    "attributeDescription": "<p>Tap on <b>Next</b></p>"
-                                },
-                                {
-                                    "index": 9,
-                                    "description": "Done, wait an email confirmation with attached data",
-                                    "attributeDescription": "<p><b>Done</b>, wait an email confirmation with attached data</p>"
-                                }
-                            ]
                         }
                     ]
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Instagram. Non modificare la composizione delle cartelle e dei file al loro interno.",
                     "procedures": [
                         {
-                            "procedureType": "DEFAULT",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Segui la guida a questo link",
-                                    "link": "https://help.instagram.com/181231772500920"
-                                }
-                            ]
-                        },
-                        {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Instagram. Non modificare la composizione delle cartelle e dei file al loro interno.",
+                            "fileExtension": "zip",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -194,56 +125,6 @@
                                     "attributeDescription": "<p><b>Finito</b>, attendi l'email di conferma con i tuoi dati</p>"
                                 }
                             ]
-                        },
-                        {
-                            "procedureType": "MOBILE",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Vai al tuo profilo",
-                                    "attributeDescription": "<p>Vai al tuo <a href=\"https://instagram.com\" target=\"_blank\">Profile</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Tap sull'icona del menu",
-                                    "attributeDescription": "<p>Fai tap sull'<b>icona del menu</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Tap sulle tue Attività",
-                                    "attributeDescription": "<p>Fai tap su le tue <b>Attività</b></p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Tap su Download delle tue informazioni",
-                                    "attributeDescription": "<p>Fai tap su <b>Download delle tue informazioni</b></p>"
-                                },
-                                {
-                                    "index": 5,
-                                    "description": "Inserisci la tua email",
-                                    "attributeDescription": "<p>Inserisci la tua <b>email</b></p>"
-                                },
-                                {
-                                    "index": 6,
-                                    "description": "Tap su Richiedi download",
-                                    "attributeDescription": "<p>Fai tap su <b>Richiedi download</b></p>"
-                                },
-                                {
-                                    "index": 7,
-                                    "description": "Inserisci la tua password di Instagram",
-                                    "attributeDescription": "<p>Inserisci la tua password di Instagram</p>"
-                                },
-                                {
-                                    "index": 8,
-                                    "description": "Tap su Successivo",
-                                    "attributeDescription": "<p>Fai tap su <b>Successivo</b></p>"
-                                },
-                                {
-                                    "index": 9,
-                                    "description": "Finito, attendi l'email di conferma con i tuoi dati",
-                                    "attributeDescription": "<p><b>Finito</b>, attendi l'email di conferma con i tuoi dati</p>"
-                                }
-                            ]
                         }
                     ]
                 }
@@ -252,39 +133,14 @@
         {
             "sourceName": "Facebook",
             "sourceCode": "FACEBOOK",
-            "supportedFormats": ["zip"],
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Facebook. Do not change the composition of the folders and files within them.",
                     "procedures": [
                         {
-                            "procedureType": "DESKTOP",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Click on this link https://www.facebook.com/dyi",
-                                    "attributeDescription": "<p>Click on this <a href=\"https://www.facebook.com/dyi\" target=\"_blank\">link</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Select Format: JSON, Media Quality: High and Data Range: All Time",
-                                    "attributeDescription": "<p>Select Format <b>JSON</b>, Media Quality <b>High</b> and Data Range <b>All time</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Optional: uncheck Messages box",
-                                    "attributeDescription": "<p>Optional: Scroll down and uncheck <b>Messages</b> box</p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Scroll down at the bottom of the page and click Request a download bottom",
-                                    "attributeDescription": "<p>Scroll down at the bottom of the page and click on <b>Request a download</b> bottom</p>"
-                                }
-                            ]
-                        },
-                        {
-                            "procedureType": "MOBILE",
+                            "type": "DESKTOP",
+                            "description": "The Datasource contains all your personal information relating to your use of Facebook. Do not change the composition of the folders and files within them.",
+                            "fileExtension": "zip",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -312,35 +168,11 @@
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Facebook. Non modificare la composizione delle cartelle e dei file al loro interno.",
                     "procedures": [
                         {
-                            "procedureType": "DESKTOP",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Clicca su questo link: https://www.facebook.com/dyi",
-                                    "attributeDescription": "<p>Clicca su questo <a href=\"https://www.facebook.com/dyi\" target=\"_blank\">link</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Seleziona Formato: JSON, Media Quality: Alto ed Intervallo di date: Tutti i miei dati",
-                                    "attributeDescription": "<p>Seleziona Formato <b>JSON</b>, Media Quality <b>Alto</b> ed Intervallo di date <b>Sempre</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Opzionale: deseleziona la casella Messaggi",
-                                    "attributeDescription": "<p>Opzionale: deseleziona la casella <b>Messaggi</b></p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Scrolla fino a fondo pagina e clicca sul pulsante 'Richiedi download'",
-                                    "attributeDescription": "<p>Scrolla fino a fondo pagina e clicca sul pulsante <b>Richiedi download</b></p>"
-                                }
-                            ]
-                        },
-                        {
-                            "procedureType": "MOBILE",
+                            "type": "DESKTOP",
+                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Facebook. Non modificare la composizione delle cartelle e dei file al loro interno.",
+                            "fileExtension": "zip",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -371,14 +203,14 @@
         {
             "sourceName": "Amazon",
             "sourceCode": "AMAZON",
-            "supportedFormats": ["zip"],
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Amazon. Do not change the composition of the folders and files within them.",
                     "procedures": [
                         {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "description": "The Datasource contains all your personal information relating to your use of Amazon. Do not change the composition of the folders and files within them.",
+                            "fileExtension": "zip",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -411,10 +243,11 @@
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Amazon. Non modificare la composizione delle cartelle e dei file al loro interno",
                     "procedures": [
                         {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Amazon. Non modificare la composizione delle cartelle e dei file al loro interno",
+                            "fileExtension": "zip",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -450,14 +283,14 @@
         {
             "sourceName": "Google",
             "sourceCode": "GOOGLE",
-            "supportedFormats": ["zip"],
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Google. Do not change the composition of the folders and files within them.",
                     "procedures": [
                         {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "description": "The Datasource contains all your personal information related to your use of Google. Do not change the composition of the folders and files within them.",
+                            "fileExtension": "zip",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -495,10 +328,11 @@
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Google. Non modificare la composizione delle cartelle e dei file al loro interno",
                     "procedures": [
                         {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Google. Non modificare la composizione delle cartelle e dei file al loro interno",
+                            "fileExtension": "zip",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -537,16 +371,17 @@
             ]
         },
         {
-            "sourceName": "Shopify Customers",
-            "sourceCode": "SHOPIFY_CUSTOMERS",
-            "supportedFormats": ["csv"],
+            "sourceName": "Shopify",
+            "sourceCode": "SHOPIFY",
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The file contains all data about your Shopify business' customers. Do not invalidate the content or the name of the file.",
                     "procedures": [
                         {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "name": "Shopify Customers",
+                            "description": "The file contains all data about your Shopify business' customers. Do not invalidate the content or the name of the file.",
+                            "fileExtension": "csv",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -564,22 +399,12 @@
                                     "attributeDescription": "<p>Click on <b>Export customers</b></p>"
                                 }
                             ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "sourceName": "Shopify Orders",
-            "sourceCode": "SHOPIFY_ORDERS",
-            "supportedFormats": ["csv"],
-            "retrievingProcedures": [
-                {
-                    "languageCode": "EN",
-                    "descriptionText": "The file contains all about your Shopify business' purchased data (orders). Do not invalidate the content or the name of the file.",
-                    "procedures": [
+                        },
                         {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "name": "Shopify Orders",
+                            "description": "The file contains all about your Shopify business' purchased data (orders). Do not invalidate the content or the name of the file.",
+                            "fileExtension": "csv",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -597,22 +422,12 @@
                                     "attributeDescription": "<p>Click on <b>Export orders</b></p>"
                                 }
                             ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "sourceName": "Shopify Products",
-            "sourceCode": "SHOPIFY_PRODUCTS",
-            "supportedFormats": ["csv"],
-            "retrievingProcedures": [
-                {
-                    "languageCode": "EN",
-                    "descriptionText": "The file contains all data about your Shopify business' products. Do not invalidate the content or the name of the file.",
-                    "procedures": [
+                        },
                         {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "name": "Shopify Products",
+                            "description": "The file contains all data about your Shopify business' products. Do not invalidate the content or the name of the file.",
+                            "fileExtension": "csv",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -630,22 +445,12 @@
                                     "attributeDescription": "<p>Click on <b>Export products</b></p>"
                                 }
                             ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "sourceName": "Shopify Discounts",
-            "sourceCode": "SHOPIFY_DISCOUNTS",
-            "supportedFormats": ["csv"],
-            "retrievingProcedures": [
-                {
-                    "languageCode": "EN",
-                    "descriptionText": "The file contains all data about your Shopify business' discounts codes. Do not invalidate the content or the name of the file.",
-                    "procedures": [
+                        },
                         {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "name": "Shopify Discounts",
+                            "description": "The file contains all data about your Shopify business' discounts codes. Do not invalidate the content or the name of the file.",
+                            "fileExtension": "csv",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -671,16 +476,14 @@
         {
             "sourceName": "Twitter",
             "sourceCode": "TWITTER",
-            "supportedFormats": [
-                "zip"
-            ],
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Twitter. Do not change the composition of the folders and files within them.",
                     "procedures": [
                         {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "description": "The Datasource contains all your personal information related to your use of Twitter. Do not change the composition of the folders and files within them.",
+                            "fileExtension": "zip",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -698,10 +501,11 @@
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Twitter. Non modificare la composizione delle cartelle e dei file al loro interno",
                     "procedures": [
                         {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Twitter. Non modificare la composizione delle cartelle e dei file al loro interno",
+                            "fileExtension": "zip",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -722,16 +526,14 @@
         {
             "sourceName": "TikTok",
             "sourceCode": "TIKTOK",
-            "supportedFormats": [
-                "zip"
-            ],
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of TikTok. Do not change the composition of the folders and files within them.",
                     "procedures": [
                         {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "description": "The Datasource contains all your personal information related to your use of TikTok. Do not change the composition of the folders and files within them.",
+                            "fileExtension": "zip",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -764,10 +566,11 @@
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di TikTok. Non modificare la composizione delle cartelle e dei file al loro interno",
                     "procedures": [
                         {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di TikTok. Non modificare la composizione delle cartelle e dei file al loro interno",
+                            "fileExtension": "zip",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -803,16 +606,14 @@
         {
             "sourceName": "Reddit",
             "sourceCode": "REDDIT",
-            "supportedFormats": [
-                "zip"
-            ],
             "retrievingProcedures": [
                 {
                     "languageCode": "EN",
-                    "descriptionText": "The Datasource contains all your personal information relating to your use of Reddit. Do not change the composition of the folders and files within them.",
                     "procedures": [
                         {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "description": "The Datasource contains all your personal information relating to your use of Reddit. Do not change the composition of the folders and files within them.",
+                            "fileExtension": "zip",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -840,10 +641,11 @@
                 },
                 {
                     "languageCode": "IT",
-                    "descriptionText": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Reddit. Non modificare la composizione delle cartelle e dei file al loro interno",
                     "procedures": [
                         {
-                            "procedureType": "DESKTOP",
+                            "type": "DESKTOP",
+                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Reddit. Non modificare la composizione delle cartelle e dei file al loro interno",
+                            "fileExtension": "zip",
                             "retrievingSteps": [
                                 {
                                     "index": 1,
@@ -875,10 +677,10 @@
     "datasourceFilesDescriptions": [
         {
             "sourceCode": "TWITTER",
-            "fileDescriptions": [
+            "filesDescriptions": [
                 {
                     "languageCode": "EN",
-                    "filesDescription": [
+                    "list": [
                         {
                             "fileCode": "ACCOUNT",
                             "fileContent": "Your account email, username, ID and creation date"
@@ -961,10 +763,10 @@
         },
         {
             "sourceCode": "TIKTOK",
-            "fileDescriptions": [
+            "filesDescriptions": [
                 {
                     "languageCode": "EN",
-                    "filesDescription": [
+                    "list": [
                         {
                             "fileCode": "USER_DATA",
                             "fileContent": "All your data collected in one file"
@@ -975,10 +777,10 @@
         },
         {
             "sourceCode": "REDDIT",
-            "fileDescriptions": [
+            "filesDescriptions": [
                 {
                     "languageCode": "EN",
-                    "filesDescription": [
+                    "list": [
                         {
                             "fileCode": "ACCOUNT_GENDER",
                             "fileContent": "Your gender"
@@ -1005,10 +807,10 @@
         },
         {
             "sourceCode": "INSTAGRAM",
-            "fileDescriptions": [
+            "filesDescriptions": [
                 {
                     "languageCode": "EN",
-                    "filesDescription": [
+                    "list": [
                         {
                             "fileCode": "ACCOUNT_INFO",
                             "fileContent": "Country code, first and last login date"
@@ -1159,10 +961,10 @@
         },
         {
             "sourceCode": "FACEBOOK",
-            "fileDescriptions": [
+            "filesDescriptions": [
                 {
                     "languageCode": "EN",
-                    "filesDescription": [
+                    "list": [
                         {
                             "fileCode": "ADS_INTERACTED_WITH",
                             "fileContent": "Title, action and date of advertisements you have interacted with"
@@ -1333,10 +1135,10 @@
         },
         {
             "sourceCode": "AMAZON",
-            "fileDescriptions": [
+            "filesDescriptions": [
                 {
                     "languageCode": "EN",
-                    "filesDescription": [
+                    "list": [
                         {
                             "fileCode": "ADV_THIRDPARTIES",
                             "fileContent": "Third parties advertisers"
@@ -1539,10 +1341,10 @@
         },
         {
             "sourceCode": "GOOGLE",
-            "fileDescriptions": [
+            "filesDescriptions": [
                 {
                     "languageCode": "EN",
-                    "filesDescription": [
+                    "list": [
                         {
                             "fileCode": "ACCOUNT_INFO",
                             "fileContent": "Account ID, Emails, IP address and the creation date account"
@@ -1729,10 +1531,10 @@
         },
         {
             "sourceCode": "LINKEDIN",
-            "fileDescriptions": [
+            "filesDescriptions": [
                 {
                     "languageCode": "EN",
-                    "filesDescription": [
+                    "list": [
                         {
                             "fileCode": "JOBS_APPLICATIONS",
                             "fileContent": "Your job applications"
@@ -1799,10 +1601,10 @@
         },
         {
             "sourceCode": "NETFLIX",
-            "fileDescriptions": [
+            "filesDescriptions": [
                 {
                     "languageCode": "EN",
-                    "filesDescription": [
+                    "list": [
                         {
                             "fileCode": "ACCOUNT_DETAILS",
                             "fileContent": "The file contains your names, your email, your country code"
@@ -1840,53 +1642,23 @@
             ]
         },
         {
-            "sourceCode": "SHOPIFY_CUSTOMERS",
-            "fileDescriptions": [
+            "sourceCode": "SHOPIFY",
+            "filesDescriptions": [
                 {
                     "languageCode": "EN",
-                    "filesDescription": [
+                    "list": [
                         {
                             "fileCode": "CUSTOMERS",
                             "fileContent": "All data about your Shopify business' customers"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "sourceCode": "SHOPIFY_ORDERS",
-            "fileDescriptions": [
-                {
-                    "languageCode": "EN",
-                    "filesDescription": [
+                        },
                         {
                             "fileCode": "ORDERS",
                             "fileContent": "All about your Shopify business' purchased data (orders)"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "sourceCode": "SHOPIFY_PRODUCTS",
-            "fileDescriptions": [
-                {
-                    "languageCode": "EN",
-                    "filesDescription": [
+                        },
                         {
                             "fileCode": "PRODUCTS",
                             "fileContent": "All data about your Shopify business' products"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "sourceCode": "SHOPIFY_DISCOUNTS",
-            "fileDescriptions": [
-                {
-                    "languageCode": "EN",
-                    "filesDescription": [
+                        },
                         {
                             "fileCode": "DISCOUNTS",
                             "fileContent": "All data about your Shopify business' discounts codes"

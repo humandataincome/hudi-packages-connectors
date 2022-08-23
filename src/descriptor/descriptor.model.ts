@@ -8,18 +8,19 @@ export interface Descriptor {
 export interface SourceDescription {
     sourceName: string;
     sourceCode: DataSourceCode;
-    supportedFormats: FileExtension[];
     retrievingProcedures: RetrievingProcedure[];
 }
 
 export interface RetrievingProcedure {
     languageCode: LanguageCode;
-    descriptionText: string;
     procedures: Procedure[];
 }
 
 export interface Procedure {
-    procedureType: RetrievingProcedureType;
+    type: RetrievingProcedureType;
+    name?: string;
+    description: string;
+    fileExtension: FileExtension;
     retrievingSteps: RetrievingStep[];
 }
 
@@ -32,15 +33,15 @@ export interface RetrievingStep {
 
 export interface DatasourceFilesDescriptions {
     sourceCode: DataSourceCode;
-    fileDescriptions: LocalFileDescription[];
+    filesDescriptions: LocalFileDescriptions[];
 }
 
-export interface LocalFileDescription {
+export interface LocalFileDescriptions {
     languageCode: LanguageCode;
-    filesDescription: FileContent[];
+    list: FileDescription[];
 }
 
-export interface FileContent {
+export interface FileDescription {
     fileCode: string;
     fileContent: string;
 }

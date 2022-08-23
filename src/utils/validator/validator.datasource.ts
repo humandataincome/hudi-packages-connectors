@@ -3,6 +3,7 @@ import Logger from "../logger";
 import {Unzipped, unzipSync, zipSync} from "fflate";
 import {ValidationErrorEnum} from "../index";
 import {ValidatorObject} from "./validator.object";
+import {FileCodeAmazon} from "../../source";
 
 export type  ValidatorDatasourceOption = {
     fileCodes?: FileCode[] | string[];
@@ -77,7 +78,11 @@ export class ValidatorDatasource {
         return undefined;
     }
 
-    public getFileCode(pathName: string): string | undefined {
-        return undefined;
+    public getFileCode(pathName: string, options: ValidatorDatasourceOption = {}): string | undefined {
+        const compatiblePath = this.extractCompatiblePath(pathName);
+        console.log()
+        return (options.fileCodes && options.fileCodes.length > 0)
+            ? (Object.keys(options.fileCodes!).find((code: FileCodeAmazon | string) => (RegExp('^' + code + '$').test(compatiblePath))))
+            : (Object.keys(this.defaultFileCodes).find((code: FileCodeAmazon | string) => (RegExp('^' + code + '$').test(compatiblePath))));
     }
 }
