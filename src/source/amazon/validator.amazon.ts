@@ -37,6 +37,7 @@ export class ValidatorAmazon extends ValidatorDatasource  {
         FileCodeAmazon.GAMES_TWITCHPRIME_LINKED_ACCOUNT,
         FileCodeAmazon.MUSIC_ACCOUNT,
         FileCodeAmazon.PRIMEVIDEO_VIEW_COUNT,
+        FileCodeAmazon.PRIMEVIDEO_VIEWINGHISTORY,
         FileCodeAmazon.PRIMEVIDEO_WATCHLIST,
         FileCodeAmazon.PRIMEVIDEO_WATCHLIST_HISTORY,
         FileCodeAmazon.PRIMEVIDEO_WATCH_EVENT,

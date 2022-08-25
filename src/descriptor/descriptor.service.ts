@@ -128,7 +128,6 @@ export class DescriptorService {
                             const indexOfPath = Object.keys(enumInstance).indexOf(description.fileCode);
                             if (indexOfPath !== -1) {
                                 const regex = Object.values(enumInstance)[indexOfPath];
-                                console.log(regex)
                                 if (Selector.getValidator(code)?.getFileCode(filePath) === regex) {
                                     return true;
                                 }

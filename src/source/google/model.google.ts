@@ -1,4 +1,37 @@
+/*
+export interface GoogleDataAggregator {
+    //from ACCOUNT_INFO
+    email?: string;
+    recoveryEmail?: string;
+    recoverySMS?: string;
+    creationAccount?: Date;
+    //from all SEMANTIC_LOCATION_HISTORY, it returns corresponding number of times and km for each activity type
+    frequencyDistanceActivities?: Record<ActivityTypeGO, [number, number]>;
+    //from PLAY_STORE_REVIEWS
+    counterPlayStoreReviewsTI?: number;
+    averagePlayStoreReviewsTI?: number;
+    //from MAPS_YOUR_PLACES_REVIEWS
+    counterMapsReviewsTI?: number;
+    averageMapsReviewsTI?: number;
+}
+ */
 
+
+export interface GoogleDataAggregator {
+    //from FileCodeGoogle.PROFILE model
+    profile?: ProfileGO;
+
+    //from FileCodeGoogle.CHROME_BROWSER_HISTORY model
+    browserSearches?: BrowserSearchGO
+
+    playStore?: PlayStoreAggregatorGO;
+}
+
+export interface PlayStoreAggregatorGO {
+
+}
+
+//FileCodeGoogle.PROFILE model
 export interface ProfileGO {
     givenName?: string;
     familyName?: string;
@@ -9,10 +42,12 @@ export interface ProfileGO {
     gender?: string;
 }
 
+//FileCodeGoogle.CHROME_BROWSER_HISTORY model
 export interface BrowserHistoryGO {
     list: Array<BrowserSearchGO>;
 }
 
+//FileCodeGoogle.CHROME_SEARCH_ENGINES model
 export interface SearchEnginesGO {
     list: Array<SearchEngineGO>;
 }
@@ -43,6 +78,7 @@ export interface SearchEngineGO {
     lastModified?: Date;
 }
 
+//FileCodeGoogle.PHOTO_JSON model
 export interface ImageDataGO {
     title?: string;
     description?: string;
@@ -63,6 +99,8 @@ export interface GeoDataGO {
     latitudeSpan?: number;
     longitudeSpan?: number;
 }
+
+//FileCodeGoogle.PAY_TRANSACTIONS model
 export interface TransactionsGO {
     list: Array<TransactionGO>;
 }
@@ -78,6 +116,7 @@ export interface TransactionGO {
     currency?: string;
 }
 
+//FileCodeGoogle.PLAY_STORE_LIBRARY model
 export interface DocLibraryGO {
     list: Array<DocGO>;
 }
@@ -88,6 +127,7 @@ export interface DocGO {
     acquisitionDate?: Date;
 }
 
+//from FileCodeGoogle.PLAY_STORE_PURCHASE_HISTORY model
 export interface PurchaseHistoryGO {
     list: Array<PurchaseGO>;
 }
@@ -100,6 +140,7 @@ export interface PurchaseGO {
     document?: DocGO;
 }
 
+//FileCodeGoogle.PLAY_STORE_ORDER_HISTORY model
 export interface OrderHistoryGO {
     list: Array<OrderGO>;
 }
@@ -142,7 +183,7 @@ export interface BillingInstrumentGO {
 }
 
 
-//POSITION HISTORY
+//FileCodeGoogle.LOCATION_HISTORY_SEMANTIC model
 export interface SemanticLocationsGO {
     listVisitedPlaces: Array<PlaceVisitedGO>;
     listActivities: Array<ActivitySegmentGO>;
@@ -274,6 +315,7 @@ export interface NewsActivityGO {
     date?: Date;
 }
 
+//FileCodeGoogle.ACCOUNT_INFO model
 export interface AccountGO {
     id?: string;
     creationDate?: Date;
@@ -283,6 +325,7 @@ export interface AccountGO {
     recoverySMSCountryCode?: string;
 }
 
+//FileCodeGoogle.PLAY_STORE_REVIEWS model
 export interface PlayStoreReviewsGO {
     list: PlayStoreReviewGO[];
 }
@@ -299,6 +342,7 @@ export interface PlayStoreReviewGO {
     }>
 }
 
+//FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS model
 export interface MapsReviewsGO {
     list: MapsReviewGO[];
 }
@@ -312,20 +356,4 @@ export interface MapsReviewGO {
     countryCode?: string;
     published?: Date;
     starRating?: number;
-}
-
-export interface GoogleDataAggregator {
-    //from ACCOUNT_INFO
-    email?: string;
-    recoveryEmail?: string;
-    recoverySMS?: string;
-    creationAccount?: Date;
-    //from all SEMANTIC_LOCATION_HISTORY, it returns corresponding number of times and km for each activity type
-    frequencyDistanceActivities?: Record<ActivityTypeGO, [number, number]>;
-    //from PLAY_STORE_REVIEWS
-    counterPlayStoreReviewsTI?: number;
-    averagePlayStoreReviewsTI?: number;
-    //from MAPS_YOUR_PLACES_REVIEWS
-    counterMapsReviewsTI?: number;
-    averageMapsReviewsTI?: number;
 }

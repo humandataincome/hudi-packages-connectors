@@ -37,7 +37,10 @@ export class ProcessorGoogle {
         return undefined;
     }
 
-    private static async _aggregateFactory(files: Unzipped, options?: ProcessorOptions): Promise<GoogleDataAggregator | undefined> {
+    private static async _aggregateFactory(files: Unzipped, options?: ProcessorOptions) {
+        const model: GoogleDataAggregator = {};
+        return model;
+        /*
         const timeIntervalDays = (options && options.timeIntervalDays) ? options.timeIntervalDays : 365;
         const model: GoogleDataAggregator = {};
         let result, regex;
@@ -123,6 +126,8 @@ export class ProcessorGoogle {
         }
         (hasSemanticLocations) && (model.frequencyDistanceActivities = frequencyDistanceActivities);
         return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
+
+         */
     }
 
     static monthIsInRange(pathName: string, timeIntervalDays: number): boolean {

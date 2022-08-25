@@ -80,7 +80,6 @@ export class ValidatorDatasource {
 
     public getFileCode(pathName: string, options: ValidatorDatasourceOption = {}): string | undefined {
         const compatiblePath = this.extractCompatiblePath(pathName);
-        console.log()
         return (options.fileCodes && options.fileCodes.length > 0)
             ? (Object.keys(options.fileCodes!).find((code: FileCodeAmazon | string) => (RegExp('^' + code + '$').test(compatiblePath))))
             : (Object.keys(this.defaultFileCodes).find((code: FileCodeAmazon | string) => (RegExp('^' + code + '$').test(compatiblePath))));

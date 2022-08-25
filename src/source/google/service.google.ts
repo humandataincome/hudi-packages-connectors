@@ -1,19 +1,34 @@
 import Logger from "../../utils/logger";
 import {
     AccountGO,
-    ActivitySegmentGO, BillingInstrumentGO,
+    ActivitySegmentGO,
+    BillingInstrumentGO,
     BrowserHistoryGO,
-    BrowserSearchGO, ContactGO, DocGO, DocLibraryGO,
+    BrowserSearchGO,
+    ContactGO,
+    DocGO,
+    DocLibraryGO,
     GeoDataGO,
-    ImageDataGO, LineItemGO, MapsReviewGO, MapsReviewsGO, OrderGO, OrderHistoryGO,
-    PlaceVisitedGO, PlayStoreReviewGO, PlayStoreReviewsGO,
+    ImageDataGO,
+    LineItemGO,
+    MapsReviewGO,
+    MapsReviewsGO,
+    OrderGO,
+    OrderHistoryGO,
+    PlaceVisitedGO,
+    PlayStoreReviewGO,
+    PlayStoreReviewsGO,
     PointGO,
     ProbableActivityGO,
     ProbableLocationGO,
-    ProfileGO, PurchaseGO, PurchaseHistoryGO,
+    ProfileGO,
+    PurchaseGO,
+    PurchaseHistoryGO,
     SearchEngineGO,
     SearchEnginesGO,
-    SemanticLocationsGO, TransactionGO, TransactionsGO,
+    SemanticLocationsGO,
+    TransactionGO,
+    TransactionsGO,
     TransitPathGO
 } from "./model.google";
 import {Parser} from "../../utils/parser";
@@ -62,13 +77,15 @@ export class ServiceGoogle {
                 return this.parseSemanticLocations(data);
             case FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS:
                 return this.parseMapsReviews(data);
+            case FileCodeGoogle.PHOTO_JSON:
+                return this.parseImageData(data);
             default:
                 return undefined;
         }
     }
 
     /**
-     * @param data - file 'Takeout/Profile/Profile.json' in input as Buffer
+     * @param data - FileCodeGoogle.PROFILE file in input as Buffer
      */
     static async parseProfile(data: Buffer): Promise<ProfileGO | undefined> {
         let model: ProfileGO = {}, match;
@@ -90,7 +107,7 @@ export class ServiceGoogle {
     }
 
     /**
-     * @param data - file 'Takeout/Chrome/BrowserHistory.json' in input as Buffer
+     * @param data - FileCodeGoogle.CHROME_BROWSER_HISTORY file in input as Buffer
      */
     static async parseBrowseHistory(data: Buffer): Promise<BrowserHistoryGO | undefined> {
         let model: BrowserHistoryGO = {list: []};
@@ -114,7 +131,7 @@ export class ServiceGoogle {
     }
 
     /**
-     * @param data - file 'Takeout/Chrome/SearchEngines.json' in input as Buffer
+     * @param data - FileCodeGoogle.CHROME_SEARCH_ENGINES file in input as Buffer
      */
     static async parseSearchEngines(data: Buffer): Promise<SearchEnginesGO | undefined> {
         let model: SearchEnginesGO = {list: []};
@@ -146,7 +163,7 @@ export class ServiceGoogle {
     }
 
     /**
-     * @param data - file like 'Takeout/LocationHistory/SemanticLocationHistory/2017/2017_APRIL.json' in input as Buffer
+     * @param data - FileCodeGoogle.LOCATION_HISTORY_SEMANTIC file in input as Buffer
      */
     static async parseSemanticLocations(data: Buffer): Promise<SemanticLocationsGO | undefined> {
         let model: SemanticLocationsGO = {listVisitedPlaces: [], listActivities: []};
@@ -275,7 +292,7 @@ export class ServiceGoogle {
     }
 
     /**
-     * @param data - file 'Takeout/GooglePhoto/PhotosFrom2019/photo.mp4.json' in input as Buffer
+     * @param data - PHOTO_JSON file in input as Buffer
      */
     static async parseImageData(data: Buffer): Promise<ImageDataGO | undefined> {
         let model: ImageDataGO = {};
@@ -316,7 +333,7 @@ export class ServiceGoogle {
     }
 
     /**
-     * @param data - file 'Takeout/GooglePay/GoogleTransactions/transactions_123456.csv' in input as Buffer
+     * @param data - FileCodeGoogle.PAY_TRANSACTIONS file in input as Buffer
      */
     static async parseTransactions(data: Buffer): Promise<TransactionsGO | undefined> {
         try {
@@ -360,7 +377,7 @@ export class ServiceGoogle {
     }
 
     /**
-     * @param data - file 'Takeout/Google Play Store/Library.json' in input as Buffer
+     * @param data - FileCodeGoogle.PLAY_STORE_LIBRARY file in input as Buffer
      */
     static async parseDocLibrary(data: Buffer): Promise<DocLibraryGO | undefined> {
         try {
@@ -384,7 +401,7 @@ export class ServiceGoogle {
 
 
     /**
-     * @param data - file 'Takeout/GooglePlayStore/PurchaseHistory.json' in input as Buffer
+     * @param data - FileCodeGoogle.PLAY_STORE_PURCHASE_HISTORY file in input as Buffer
      */
     static async parsePurchaseHistory(data: Buffer): Promise<PurchaseHistoryGO | undefined> {
         try {
@@ -415,7 +432,7 @@ export class ServiceGoogle {
     }
 
     /**
-     * @param data - file 'Takeout/GooglePlayStore/OrderHistory.json' in input as Buffer
+     * @param data - FileCodeGoogle.PLAY_STORE_ORDER_HISTORY file in input as Buffer
      */
     static async parseOrderHistory(data: Buffer): Promise<OrderHistoryGO | undefined> {
         try {
@@ -490,7 +507,7 @@ export class ServiceGoogle {
     }
 
     /**
-     * @param data - file 'Google Account/YOUR_EMAIL.SubscriberInfo.html' in input as Buffer
+     * @param data - FileCodeGoogle.ACCOUNT_INFO file in input as Buffer
      */
     static async parseGoogleAccount(data: Buffer): Promise<AccountGO | undefined> {
         try {
@@ -525,7 +542,7 @@ export class ServiceGoogle {
     }
 
     /**
-     * @param data - file 'Google Play Store/Reviews.json' in input as Buffer
+     * @param data - FileCodeGoogle.PLAY_STORE_REVIEWS file in input as Buffer
      */
     static async parsePlayStoreReviews(data: Buffer): Promise<PlayStoreReviewsGO | undefined> {
         try {
@@ -555,7 +572,7 @@ export class ServiceGoogle {
     }
 
     /**
-     * @param data - file 'Maps (your places)/Reviews.json' in input as Buffer
+     * @param data - FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS file in input as Buffer
      */
     static async parseMapsReviews(data: Buffer): Promise<MapsReviewsGO | undefined> {
         try {
