@@ -33,20 +33,17 @@ import {
 } from "./model.google";
 import {Parser} from "../../utils/parser";
 import {Months} from "../../utils";
-import {ConfigGoogle} from "../../config/config.google";
 import {Decoding} from "../../utils/decoding";
 import {ValidatorObject} from "../../utils/validator/validator.object";
-import {LanguageCode} from "../../descriptor";
 import {FileCodeGoogle} from "./enum.google";
 
 /**
- * Class used to parse most important files into the directory returned by Google in CSV and JSON formats.
+ * Class used to parse most important files into the directory returned by Google in CSV, HTML and JSON formats.
  * All the files are given in input as Buffer, parsed to JSON and then mapped into a specific interface model.
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class ServiceGoogle {
     private static readonly logger = new Logger("Google Service");
-    public static prefixLanguage: LanguageCode = LanguageCode.ITALIAN;
 
     /**
      * Abstraction to parse a Google file regardless its respective parsing function
@@ -339,29 +336,24 @@ export class ServiceGoogle {
         try {
             let document = Parser.parseCSVfromBuffer(data);
             if (document) {
-                let model: TransactionsGO = {list: []};
+                const model: TransactionsGO = {list: []};
                 document.forEach((value: any) => {
-                    let newTs: TransactionGO = {}, match, parameterName;
-                    parameterName = ConfigGoogle.keyTranslation[`${this.prefixLanguage}-DateAndHour`];
-                    if (value[parameterName]) {
-                        match = value[parameterName].match(/(\d+) (\w+) (\d+), (\d+):(\d+)/);
-                        let monthENG: any = ConfigGoogle.monthTranslation[`${this.prefixLanguage}-${match[2]}`];
-                        let monthIndex: number = parseInt(Months[monthENG]);
-                        newTs.date = new Date(Date.UTC(parseInt(match[3]), monthIndex - 1, parseInt(match[1]), parseInt(match[4]), parseInt(match[5]), 0));
+                    const newTs: TransactionGO = {};
+                    let match;
+                    if (value['Time']) {
+                        match = value['Time'].match(/(\d+) (\w+) (\d+), (\d+):(\d+)/);
+                        if (match) {
+                            const monthIndex: number = parseInt(Months[match[2].toUpperCase()]);
+                            newTs.date = new Date(Date.UTC(parseInt(match[3]), monthIndex - 1, parseInt(match[1]), parseInt(match[4]), parseInt(match[5]), 0));
+                        }
                     }
-                    parameterName = ConfigGoogle.keyTranslation[`${this.prefixLanguage}-IDtransaction`];
-                    (value[parameterName]) && (newTs.IDtransaction = value[parameterName]);
-                    parameterName = ConfigGoogle.keyTranslation[`${this.prefixLanguage}-description`];
-                    (value[parameterName]) && (newTs.description = value[parameterName]);
-                    parameterName = ConfigGoogle.keyTranslation[`${this.prefixLanguage}-product`];
-                    (value[parameterName]) && (newTs.productName = value[parameterName]);
-                    parameterName = ConfigGoogle.keyTranslation[`${this.prefixLanguage}-payment`];
-                    (value[parameterName]) && (newTs.paymentMethod = value[parameterName]);
-                    parameterName = ConfigGoogle.keyTranslation[`${this.prefixLanguage}-state`];
-                    (value[parameterName]) && (newTs.state = value[parameterName]);
-                    parameterName = ConfigGoogle.keyTranslation[`${this.prefixLanguage}-amount`];
-                    match = value[parameterName].match(/(.+) (\w+)/);
-                    if (match) {
+                    (value['Transaction ID']) && (newTs.IDtransaction = value['Transaction ID']);
+                    (value['Description']) && (newTs.description = value['Description']);
+                    (value['Product']) && (newTs.productName = value['Product']);
+                    (value['Payment method']) && (newTs.paymentMethod = value['Payment method']);
+                    (value['Status']) && (newTs.state = value['Status']);
+                    match = value['Amount'].match(/(.+) (\w+)/);
+                    if (match && match[1] && match[2]) {
                         newTs.amount = match[1];
                         newTs.currency = match[2];
                     }

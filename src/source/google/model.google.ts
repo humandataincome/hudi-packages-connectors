@@ -1,34 +1,37 @@
-/*
-export interface GoogleDataAggregator {
-    //from ACCOUNT_INFO
-    email?: string;
-    recoveryEmail?: string;
-    recoverySMS?: string;
-    creationAccount?: Date;
-    //from all SEMANTIC_LOCATION_HISTORY, it returns corresponding number of times and km for each activity type
-    frequencyDistanceActivities?: Record<ActivityTypeGO, [number, number]>;
-    //from PLAY_STORE_REVIEWS
-    counterPlayStoreReviewsTI?: number;
-    averagePlayStoreReviewsTI?: number;
-    //from MAPS_YOUR_PLACES_REVIEWS
-    counterMapsReviewsTI?: number;
-    averageMapsReviewsTI?: number;
-}
- */
-
-
 export interface GoogleDataAggregator {
     //from FileCodeGoogle.PROFILE model
     profile?: ProfileGO;
 
-    //from FileCodeGoogle.CHROME_BROWSER_HISTORY model
-    browserSearches?: BrowserSearchGO
+    //FileCodeGoogle.LOCATION_HISTORY_SEMANTIC model
+    locationsHistory?: SemanticLocationsGO;
 
+    //from FileCodeGoogle.PAY_TRANSACTIONS model
+    transactions?: TransactionsGO;
+
+    //from FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS model
+    mapReviews?: MapsReviewsGO;
+
+    chrome?: ChromeAggregatorGO;
     playStore?: PlayStoreAggregatorGO;
+    creationDate?: Date;
 }
 
 export interface PlayStoreAggregatorGO {
+    //from FileCodeGoogle.PLAY_STORE_LIBRARY model
+    docLibrary?: DocLibraryGO;
+    //from FileCodeGoogle.PLAY_STORE_PURCHASE_HISTORY model
+    purchaseHistory?: PurchaseHistoryGO;
+    //from FileCodeGoogle.PLAY_STORE_ORDER_HISTORY model
+    orderHistory?: OrderHistoryGO;
+    //from FileCodeGoogle.PLAY_STORE_REVIEWS model
+    reviews?: PlayStoreReviewsGO;
+}
 
+export interface ChromeAggregatorGO {
+    //from FileCodeGoogle.CHROME_BROWSER_HISTORY model
+    browserHistory?: BrowserHistoryGO
+    //from FileCodeGoogle.CHROME_SEARCH_ENGINES model
+    searchEngines?: SearchEnginesGO;
 }
 
 //FileCodeGoogle.PROFILE model
@@ -44,12 +47,7 @@ export interface ProfileGO {
 
 //FileCodeGoogle.CHROME_BROWSER_HISTORY model
 export interface BrowserHistoryGO {
-    list: Array<BrowserSearchGO>;
-}
-
-//FileCodeGoogle.CHROME_SEARCH_ENGINES model
-export interface SearchEnginesGO {
-    list: Array<SearchEngineGO>;
+    list: BrowserSearchGO[];
 }
 
 export interface BrowserSearchGO {
@@ -59,6 +57,11 @@ export interface BrowserSearchGO {
     faviconUrl?: string;
     clientId?: string;
     time?: Date;
+}
+
+//FileCodeGoogle.CHROME_SEARCH_ENGINES model
+export interface SearchEnginesGO {
+    list: SearchEngineGO[];
 }
 
 export interface SearchEngineGO {
@@ -102,7 +105,7 @@ export interface GeoDataGO {
 
 //FileCodeGoogle.PAY_TRANSACTIONS model
 export interface TransactionsGO {
-    list: Array<TransactionGO>;
+    list: TransactionGO[];
 }
 
 export interface TransactionGO {
@@ -118,7 +121,7 @@ export interface TransactionGO {
 
 //FileCodeGoogle.PLAY_STORE_LIBRARY model
 export interface DocLibraryGO {
-    list: Array<DocGO>;
+    list: DocGO[];
 }
 
 export interface DocGO {
@@ -127,9 +130,9 @@ export interface DocGO {
     acquisitionDate?: Date;
 }
 
-//from FileCodeGoogle.PLAY_STORE_PURCHASE_HISTORY model
+//FileCodeGoogle.PLAY_STORE_PURCHASE_HISTORY model
 export interface PurchaseHistoryGO {
-    list: Array<PurchaseGO>;
+    list: PurchaseGO[];
 }
 
 export interface PurchaseGO {
@@ -142,7 +145,7 @@ export interface PurchaseGO {
 
 //FileCodeGoogle.PLAY_STORE_ORDER_HISTORY model
 export interface OrderHistoryGO {
-    list: Array<OrderGO>;
+    list: OrderGO[];
 }
 
 export interface OrderGO {
@@ -150,14 +153,14 @@ export interface OrderGO {
     creationTime?: Date;
     billingInstrument?: BillingInstrumentGO;
     billingContacts?: ContactGO;
-    associatedContacts?: Array<ContactGO>;
+    associatedContacts?: ContactGO[];
     ipAddress?: string;
     ipCountry?: string;
     totalPrice?: number;
     tax?: number;
     refundAmount?: number;
     preorder?: boolean;
-    lineItems?: Array<LineItemGO>;
+    lineItems?: LineItemGO[];
 }
 
 export interface LineItemGO {
@@ -167,7 +170,7 @@ export interface LineItemGO {
 
 export interface ContactGO {
     name?: string;
-    addressLine?: Array<string>;
+    addressLine?: string[];
     countryCode?: string;
     city?: string;
     state?: string;
@@ -185,8 +188,8 @@ export interface BillingInstrumentGO {
 
 //FileCodeGoogle.LOCATION_HISTORY_SEMANTIC model
 export interface SemanticLocationsGO {
-    listVisitedPlaces: Array<PlaceVisitedGO>;
-    listActivities: Array<ActivitySegmentGO>;
+    listVisitedPlaces: PlaceVisitedGO[];
+    listActivities: ActivitySegmentGO[];
 }
 
 export interface PlaceVisitedGO {
@@ -198,7 +201,7 @@ export interface PlaceVisitedGO {
     centerLatE7?: number;
     centerLngE7?: number;
     visitConfidence?: number;
-    otherProbableLocations?: Array<ProbableLocationGO>;
+    otherProbableLocations?: ProbableLocationGO[];
 }
 
 export interface ProbableLocationGO {
@@ -219,14 +222,14 @@ export interface ActivitySegmentGO {
     distance?: number;
     activityType?: ActivityTypeGO;
     confidence?: string;
-    allActivitiesProbabilities?: Array<ProbableActivityGO>;
+    allActivitiesProbabilities?: ProbableActivityGO[];
     transitPath?: TransitPathGO;
-    simplifiedRawPath?: Array<PointGO>;
+    simplifiedRawPath?: PointGO[];
     editConfirmationStatus?: string;
 }
 
 export interface TransitPathGO {
-    transitStops?: Array<ProbableLocationGO>;
+    transitStops?: ProbableLocationGO[];
     name?: string;
     hexRgbColor?: string
 }
@@ -264,7 +267,7 @@ export interface PointGO {
 
 //ACTIVITIES
 export interface ShoppingActivitiesGO {
-    list: Array<ShoppingActivityGO>;
+    list: ShoppingActivityGO[];
 }
 
 export interface ShoppingActivityGO {
@@ -274,16 +277,16 @@ export interface ShoppingActivityGO {
 }
 
 export interface DailyDiscoverActivitiesGO {
-    list: Array<DailyDiscoverActivityGO>;
+    list: DailyDiscoverActivityGO[];
 }
 
 export interface DailyDiscoverActivityGO {
-    searchKeys: Array<string>;
+    searchKeys: string[];
     date?: Date;
 }
 
 export interface SearchActivitiesGO {
-    list: Array<SearchActivityGO>;
+    list: SearchActivityGO[];
 }
 
 export interface SearchActivityGO {
@@ -293,7 +296,7 @@ export interface SearchActivityGO {
 }
 
 export interface YoutubeActivitiesGO {
-    list: Array<YoutubeActivityGO>;
+    list: YoutubeActivityGO[];
 }
 
 export interface YoutubeActivityGO {
@@ -306,7 +309,7 @@ export interface YoutubeActivityGO {
 }
 
 export interface NewsActivitiesGO {
-    list: Array<NewsActivityGO>;
+    list: NewsActivityGO[];
 }
 
 export interface NewsActivityGO {
@@ -336,10 +339,10 @@ export interface PlayStoreReviewGO {
     creationTime?: Date;
     starRating?: number;
     comment?: string;
-    structuredReviewResponse?: Array<{
+    structuredReviewResponse?: {
         question?: string;
         responseOptionType?: string;
-    }>
+    }[]
 }
 
 //FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS model

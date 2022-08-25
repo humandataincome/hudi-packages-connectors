@@ -249,7 +249,7 @@ export class ValidatorFiles {
                             if (this.isValidContent(extension, fileContent, fileName)) {
                                 if (support.options.filterDataSource) {
                                     let validPathName = (recursiveZipPrefix)
-                                        ? (this.getValidPathName(fileName, support.options))
+                                        ? (this.getValidPathName(recursiveZipPrefix+'/'+fileName, support.options))
                                         : (this.getValidPathName(fileName, support.options));
                                     if (validPathName) {
                                         support.validFiles[validPathName] = fileContent;
@@ -308,8 +308,8 @@ export class ValidatorFiles {
      * @return TRUE if the file's size is between the minSize and the maxSize, FALSE otherwise
      */
     static isValidSize(file: Uint8Array, pathName: string, options: ValidationZipOptions = {}): boolean {
-        const maxSize = (options && options.maxBytesPerFile) ? options.maxBytesPerFile : this.MAX_BYTE_FILE_SIZE;
-        const minSize = (options && options.minBytesPerFile) ? options.minBytesPerFile : this.MIN_BYTE_FILE_SIZE;
+        const maxSize = (options.maxBytesPerFile !== undefined) ? options.maxBytesPerFile : this.MAX_BYTE_FILE_SIZE;
+        const minSize = (options.minBytesPerFile !== undefined) ? options.minBytesPerFile : this.MIN_BYTE_FILE_SIZE;
         const size = file.length;
         if (size < maxSize) {
             if (size > minSize) {

@@ -16,6 +16,10 @@ export interface MonitoringFilesOptions {
 export class MonitoringService {
     private static readonly logger = new Logger("Monitoring Service");
 
+    //TODO: given a datasource, find all those files that are outdated (can't be returned in the zip file anymore)
+    public static findOutdatedMappedFiles(zipFile: Uint8Array, code: DataSourceCode) {}
+
+
     /**
      * The function return those files that don't have the expected structure
      * @param zipFile - file zip containing a datasource
