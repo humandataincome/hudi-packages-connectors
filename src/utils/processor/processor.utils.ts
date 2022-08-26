@@ -10,6 +10,25 @@ export class ProcessorUtils {
          const differenceTime = dateTo.getTime() - dateFrom.getTime();
          return differenceTime / (1000 * 3600 * 24);
      }
+
+    /**
+     * @param list1 - first array
+     * @param list2 - second array
+     * @param filter - function to apply to filter the merged array
+     * @param maxArrayLength - cuts away array elements from maxArrayLength to the last position
+     * @param ascendingOrder - if false, cuts away elements from 0 to array.length-maxArrayLength position
+     */
+    public static mergeArrays<T>(list1: T[] | undefined, list2: T[], maxArrayLength?: number, ascendingOrder: boolean = true, filter?: (item: T)=>T): T[] {
+        let newList: T[] = list1 ? list1.concat(list2) : list2;
+        filter && (newList = newList.map(filter));
+        if (maxArrayLength) {
+            ascendingOrder
+                ? newList = newList.slice(0, maxArrayLength)
+                : newList = newList.reverse().slice(0, maxArrayLength).reverse();
+        }
+        return newList;
+    }
+
  }
 
 /**
@@ -22,3 +41,4 @@ export type ProcessorOptions = {
     maxEntitiesPerArray?: number;
     throwExceptions?: boolean;
 }
+
