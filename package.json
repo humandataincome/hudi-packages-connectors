@@ -6,7 +6,7 @@
     "types": "dist/index.d.ts",
     "scripts": {
         "test": "jest",
-        "print-test": "ts-node tests/utils/print.test.ts",
+        "print-test": "ts-node tests/utils/testing.ts",
         "generate-json": "ts-node generator/json.generator.ts",
         "generate-schemas": "ts-node generator/schema.generator.ts",
         "build": "tsc -p .",

@@ -29,7 +29,7 @@ import {
     SemanticLocationsGO,
     TransactionGO,
     TransactionsGO,
-    TransitPathGO
+    TransitPathGO, YoutubePlaylistGO, YoutubePlaylistsGO, YoutubeVideoGO
 } from "./model.google";
 import {Parser} from "../../utils/parser";
 import {Months} from "../../utils";
@@ -76,6 +76,9 @@ export class ServiceGoogle {
                 return this.parseMapsReviews(data);
             case FileCodeGoogle.PHOTO_JSON:
                 return this.parseImageData(data);
+            case FileCodeGoogle.YOUTUBE_LIKED_VIDEOS:
+            case FileCodeGoogle.YOUTUBE_PLAYLIST_UPLOADS:
+                return this.parseYoutubePlaylists(data);
             default:
                 return undefined;
         }
@@ -594,6 +597,52 @@ export class ServiceGoogle {
             return model.list.length > 0 ? model : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseMapsReviews');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - FileCodeGoogle.YOUTUBE_LIKED_VIDEOS and FileCodeGoogle.YOUTUBE_PLAYLIST_UPLOADS file in input as Buffer
+     */
+    static async parseYoutubePlaylists(data: Buffer): Promise<YoutubePlaylistsGO | undefined> {
+        try {
+            let match;
+            let document = Parser.parseCSVfromBuffer(data);
+            if (document) {
+                const model: YoutubePlaylistsGO = {playlists: []};
+                let modelPlaylist: YoutubePlaylistGO = {list: []};
+                document.forEach((item: any) => {
+                    if (item['Playlist ID']) {
+                        if (item['Playlist ID'].length > 11) {
+                            const newModelPlaylist: YoutubePlaylistGO = {list: []};
+                            (item['Playlist ID']) && (newModelPlaylist.playlistID = item['Playlist ID']);
+                            (item['Channel ID']) && (newModelPlaylist.channelID = item['Channel ID']);
+                            (item['Title']) && (newModelPlaylist.title = item['Title']);
+                            if (item['Time Created']) {
+                                match = item['Time Created'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+) UTC/);
+                                newModelPlaylist.creationDate = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2])-1, parseInt(match[3]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6])));
+                            }
+                            (item['Description']) && (newModelPlaylist.description = item['Description']);
+                            (item['Visibility']) && (newModelPlaylist.visibility = item['Visibility']);
+                            (modelPlaylist.list.length > 0) && (model.playlists.push(modelPlaylist));
+                            !ValidatorObject.objectIsEmpty(newModelPlaylist) && (modelPlaylist = newModelPlaylist);
+                        } else if (item['Playlist ID'] !== 'Video ID') {
+                            const modelVideo: YoutubeVideoGO = {};
+                            (item['Playlist ID']) && (modelVideo.videoID = item['Playlist ID']);
+                            if (item['Channel ID']) {
+                                match = item['Channel ID'].match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+) UTC/);
+                                modelVideo.date = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2])-1, parseInt(match[3]), parseInt(match[4]), parseInt(match[5]), parseInt(match[6])));
+                            }
+                            !ValidatorObject.objectIsEmpty(modelVideo) && (modelPlaylist.list.push(modelVideo));
+                        }
+                    }
+                    (modelPlaylist.list.length > 0) && (model.playlists.push(modelPlaylist));
+                });
+                return model.playlists.length > 0 ? model : undefined;
+            }
+            return undefined;
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseYoutubePlaylists');
             return undefined;
         }
     }

@@ -10,6 +10,8 @@ export enum FileCodeGoogle {
     PROFILE = 'Takeout/Profile/Profile.json',
     LOCATION_HISTORY_SEMANTIC = 'Takeout/Location History/Semantic Location History/(\\d{4})/(\\d{4})_((JANUARY)|(FEBRUARY)|(MARCH)|(APRIL)|(MAY)|(JUNE)|(JULY)|(AUGUST)|(SEPTEMBER)|(OCTOBER)|(NOVEMBER)|(DECEMBER)).json',
     MAPS_YOUR_PLACES_REVIEWS = 'Takeout/Maps \\(your places\\)/Reviews.json',
+    YOUTUBE_LIKED_VIDEOS = 'Takeout/YouTube and YouTube Music/playlists/Liked videos.csv',
+    YOUTUBE_PLAYLIST_UPLOADS = 'Takeout/YouTube and YouTube Music/playlists/Uploads from (.*).csv',
     //TODO: not parsed yet
     ACTIVITY_ADS = 'Takeout/My Activity/Ads/My Activity.json',
     ACTIVITY_APPS = 'Takeout/My Activity/Google Apps/My Activity.json',
@@ -137,8 +139,6 @@ export enum FileCodeGoogle {
     STADIA_USER_PARENTAL = 'Takeout/Stadia/USER/PARENTAL_CONTROL.json',
     STADIA_USER_PROFILE = 'Takeout/Stadia/USER/USER_PROFILE.json',
     TASKS = 'Takeout/Tasks/Tasks.json',
-    YOUTUBE_LIKED_VIDEOS = 'Takeout/YouTube and YouTube Music/playlists/Liked videos.csv',
-    YOUTUBE_PLAYLIST_UPLOADS = 'Takeout/YouTube and YouTube Music/playlists/Uploads from (.*).csv',
     //cannot be parsed
     BOOK_HTML = 'Takeout/Google Play Books/(.+)/(.+).html',
     BOOK_JSON = 'Takeout/Google Play Books/(.+)/(.+).json',

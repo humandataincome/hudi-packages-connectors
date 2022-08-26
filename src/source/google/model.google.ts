@@ -1,19 +1,22 @@
 export interface GoogleDataAggregator {
     //from FileCodeGoogle.PROFILE model
     profile?: ProfileGO;
-
     //FileCodeGoogle.LOCATION_HISTORY_SEMANTIC model
     locationsHistory?: SemanticLocationsGO;
-
     //from FileCodeGoogle.PAY_TRANSACTIONS model
     transactions?: TransactionsGO;
-
     //from FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS model
     mapReviews?: MapsReviewsGO;
-
     chrome?: ChromeAggregatorGO;
     playStore?: PlayStoreAggregatorGO;
+    youtube?: YouTubeAggregatorGO;
     creationDate?: Date;
+}
+
+export interface YouTubeAggregatorGO {
+    youtubeActivity?: YoutubeActivitiesGO;
+    youtubeLikes?: YoutubePlaylistsGO;
+    youtubeUploads?: YoutubePlaylistsGO;
 }
 
 export interface PlayStoreAggregatorGO {
@@ -53,10 +56,20 @@ export interface BrowserHistoryGO {
 export interface BrowserSearchGO {
     title?: string;
     url?: string;
-    pageTransition?: string;
+    pageTransition?: PageTransitionSearchGO;
     faviconUrl?: string;
     clientId?: string;
     time?: Date;
+}
+
+export enum PageTransitionSearchGO {
+    RELOAD = 'RELOAD',
+    LINK = 'LINK',
+    TYPED = 'TYPED',
+    GENERATED = 'GENERATED',
+    FORM_SUBMIT = 'FORM_SUBMIT',
+    AUTO_TOPLEVEL = 'AUTO_TOPLEVEL',
+    AUTO_BOOKMARK = 'AUTO_BOOKMARK',
 }
 
 //FileCodeGoogle.CHROME_SEARCH_ENGINES model
@@ -265,7 +278,72 @@ export interface PointGO {
     accuracyMeters?: number;
 }
 
-//ACTIVITIES
+//FileCodeGoogle.YOUTUBE_LIKED_VIDEOS and FileCodeGoogle.YOUTUBE_PLAYLIST_UPLOADS model
+export interface YoutubePlaylistsGO {
+    playlists: YoutubePlaylistGO[];
+}
+
+export interface YoutubePlaylistGO {
+    playlistID?: string;
+    channelID?: string;
+    creationDate?: Date;
+    uploadDate?: Date;
+    title?: string;
+    description?: string;
+    visibility?: string;
+    list: YoutubeVideoGO[];
+}
+
+export interface YoutubeVideoGO {
+    videoID?: string;
+    date?: Date;
+}
+
+//FileCodeGoogle.ACCOUNT_INFO model
+export interface AccountGO {
+    id?: string;
+    creationDate?: Date;
+    contactEmail?: string;
+    recoveryEmail?: string;
+    recoverySMS?: string;
+    recoverySMSCountryCode?: string;
+}
+
+//FileCodeGoogle.PLAY_STORE_REVIEWS model
+export interface PlayStoreReviewsGO {
+    list: PlayStoreReviewGO[];
+}
+
+export interface PlayStoreReviewGO {
+    documentType?: string;
+    title?: string;
+    creationTime?: Date;
+    starRating?: number;
+    comment?: string;
+    structuredReviewResponse?: {
+        question?: string;
+        responseOptionType?: string;
+    }[]
+}
+
+//FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS model
+export interface MapsReviewsGO {
+    list: MapsReviewGO[];
+}
+
+export interface MapsReviewGO {
+    type?: string;
+    geoCoordinates?: GeoDataGO;
+    googleMapsURL?: string;
+    address?: string;
+    businessName?: string;
+    countryCode?: string;
+    published?: Date;
+    starRating?: number;
+}
+
+//----------------------------------------------------------
+//MY ACTIVITIES
 export interface ShoppingActivitiesGO {
     list: ShoppingActivityGO[];
 }
@@ -316,47 +394,4 @@ export interface NewsActivityGO {
     titleArticle?: string;
     linkArticle?: string;
     date?: Date;
-}
-
-//FileCodeGoogle.ACCOUNT_INFO model
-export interface AccountGO {
-    id?: string;
-    creationDate?: Date;
-    contactEmail?: string;
-    recoveryEmail?: string;
-    recoverySMS?: string;
-    recoverySMSCountryCode?: string;
-}
-
-//FileCodeGoogle.PLAY_STORE_REVIEWS model
-export interface PlayStoreReviewsGO {
-    list: PlayStoreReviewGO[];
-}
-
-export interface PlayStoreReviewGO {
-    documentType?: string;
-    title?: string;
-    creationTime?: Date;
-    starRating?: number;
-    comment?: string;
-    structuredReviewResponse?: {
-        question?: string;
-        responseOptionType?: string;
-    }[]
-}
-
-//FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS model
-export interface MapsReviewsGO {
-    list: MapsReviewGO[];
-}
-
-export interface MapsReviewGO {
-    type?: string;
-    geoCoordinates?: GeoDataGO;
-    googleMapsURL?: string;
-    address?: string;
-    businessName?: string;
-    countryCode?: string;
-    published?: Date;
-    starRating?: number;
 }

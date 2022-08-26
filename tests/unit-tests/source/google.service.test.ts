@@ -32,7 +32,7 @@ describe('Google Service test', () => {
     test('parseTransactions', async () => {
         const pathToFile = `../../../src/mock/datasource/raw files/google/Takeout/GooglePay/GoogleTransactions/transactions_123456.csv`;
         const result = await ServiceGoogle.parseTransactions(await Parser.CSVToBuffer(path.join(__dirname, pathToFile)));
-        const expected = 'DraStic DS Emulator';
+        const expected = 'My Boy! - GBA Emulator';
         expect(JSON.stringify(result!.list[2].description)).toBe(JSON.stringify(expected));
     });
     test('parseDocLibrary', async () => {
@@ -79,5 +79,16 @@ describe('Google Service test', () => {
         const expected = '11122233344';
         expect(JSON.stringify(result!.id)).toBe(JSON.stringify(expected));
     });
+    test('parseYoutubeLikes', async () => {
+        const pathToFile1 = `../../../src/mock/datasource/raw files/google/Takeout/YouTube and YouTube Music/playlists/Liked videos.csv`;
+        const pathToFile2 = `../../../src/mock/datasource/raw files/google/Takeout/YouTube and YouTube Music/playlists/Uploads from Davide.csv`;
+        const result1 = await ServiceGoogle.parseYoutubePlaylists(await Parser.CSVToBuffer(path.join(__dirname, pathToFile1)));
+        const result2 = await ServiceGoogle.parseYoutubePlaylists(await Parser.CSVToBuffer(path.join(__dirname, pathToFile2)));
+        const expected1 = 'I_izvAbhExY';
+        const expected2 = 'UUCDGkiRGP_hZFf2XBVCWwWg';
+        expect(JSON.stringify(result1!.playlists[0].list[2].videoID)).toBe(JSON.stringify(expected1));
+        expect(JSON.stringify(result2!.playlists[0].playlistID)).toBe(JSON.stringify(expected2));
+    });
+
 });
 

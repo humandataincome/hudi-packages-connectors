@@ -1,5 +1,4 @@
-Data e ora,ID transazione,Descrizione,Prodotto,Metodo di pagamento,Stato,Importo
-"20 feb 2019, 10:17",GPA.3308-7811-25856,Fondo per la crescita (Rise of Civilizations),App di Google Play,PayPal: email@gmail.it,Fine,"15,99 EUR"
-"8 dic 2018, 02:19",GPA.3325-5518-76909,"Abb, mensile gemme  (Rise of Civilizations)",App di Google Play,PayPal: email@gmail.it,Fine,"9,99 EUR"
-"11 feb 2014, 18:40",GPA.13652303650,DraStic DS Emulator,App di Google Play,,Fine,"4,49 EUR"
-"9 feb 2014, 18:26",GPA.1390621674,One Year Service (WhatsApp Messenger),App di Google Play,,Fine,"0,89 EUR"
+Time,Transaction ID,Description,Product,Payment method,Status,Amount
+"29 May 2022, 23:04",GPA.3385-0182-8232-89251..0,Duolingo Plus (Duolingo: language lessons),Google Play Apps,PayPal: davide@gmail.it,Complete,EUR 13.99
+"25 Mar 2021, 07:14",GPA.3390-3143-7989-27831,Special Offer 5 (Questland: Turn Based RPG),Google Play Apps,PayPal: davide@gmail.it,Complete,EUR 5.49
+"5 Mar 2021, 11:57",GPA.3316-0006-1651-49182,My Boy! - GBA Emulator,Google Play Apps,PayPal: davide@gmail.it,Complete,EUR 4.99

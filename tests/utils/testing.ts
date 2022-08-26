@@ -1,15 +1,19 @@
 import {MonitoringService} from "../../src/utils/monitoring/monitoring.source";
-import {DataSourceCode, FileExtension, ValidationStatus, ValidationZipStatus, ValidatorFiles} from "../../src";
+import {
+    DataSourceCode,
+    FileExtension,
+    ValidationStatus,
+    ValidationZipStatus,
+    ValidatorFiles
+} from "../../src";
 import {Observable} from "rxjs";
 import {Selector} from "../../src";
 
 
 //testNotMappedFiles('../../src/mock/datasource/zip files/private/google.zip');
 //validateStream('../../src/mock/datasource/zip files/private/google.zip', DataSourceCode.GOOGLE);
-showAggregator('../../src/mock/datasource/zip files/private/google.zip', DataSourceCode.GOOGLE);
+//showAggregator('../../src/mock/datasource/zip files/private/google.zip', DataSourceCode.GOOGLE);
 //showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
-
-
 
 async function showAggregator(pathToZip: string, code: DataSourceCode) {
     const fs =  require('fs');

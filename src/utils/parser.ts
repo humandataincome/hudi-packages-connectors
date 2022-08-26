@@ -1,10 +1,10 @@
-import { parse } from "papaparse";
+import {parse, ParseConfig} from "papaparse";
 import Logger from "./logger";
 
 export class Parser {
     private static logger = new Logger("Parser");
 
-    static parseCSVfromBuffer(source: Buffer, options: object = {escapeChar: '"', header: true, skipEmptyLines: true}) {
+    static parseCSVfromBuffer(source: Buffer, options: ParseConfig = {escapeChar: '"', header: true, skipEmptyLines: true}) {
         try {
             let data = source.toString();
             let result = parse(data, options);

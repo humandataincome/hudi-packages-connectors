@@ -1,11 +1,14 @@
 import {
+    BrowserSearchGO,
     ChromeAggregatorGO,
     GoogleDataAggregator,
+    PageTransitionSearchGO,
+    PlaceVisitedGO,
     PlayStoreAggregatorGO,
+    ProbableLocationGO, YouTubeAggregatorGO,
 } from "./model.google";
 import {ServiceGoogle} from "./service.google";
 import {ProcessorOptions, ProcessorUtils} from "../../utils/processor/processor.utils";
-import {MonthsFull} from "../../utils";
 import Logger from "../../utils/logger";
 import {Unzipped, unzipSync} from "fflate";
 import {ValidatorObject} from "../../utils/validator/validator.object";
@@ -36,10 +39,11 @@ export class ProcessorGoogle {
     }
 
     private static async _aggregateFactory(files: Unzipped, options: ProcessorOptions = {}) {
-        const timeIntervalDays = (options && options.timeIntervalDays) ? options.timeIntervalDays : 365;
+        //const timeIntervalDays = (options && options.timeIntervalDays) ? options.timeIntervalDays : 365;
         const model: GoogleDataAggregator = {};
         const modelChrome: ChromeAggregatorGO = {};
         const modelPlayStore: PlayStoreAggregatorGO = {};
+        const modelYoutube: YouTubeAggregatorGO = {};
 
         let result, regex;
         for (let pathName in files) {
@@ -54,67 +58,80 @@ export class ProcessorGoogle {
                 } else if ((regex = new RegExp(FileCodeGoogle.LOCATION_HISTORY_SEMANTIC)) && (regex.test(pathName))) {
                     result = await ServiceGoogle.parseSemanticLocations(data);
                     if (result) {
-                        if (model.locationsHistory) {
-                            if (model.locationsHistory.listVisitedPlaces.length > 0){
-                                (result.listVisitedPlaces) && (model.locationsHistory.listVisitedPlaces = model.locationsHistory.listVisitedPlaces.concat(result.listVisitedPlaces));
-                            } else {
-                                (result.listVisitedPlaces) && (model.locationsHistory.listVisitedPlaces = result.listVisitedPlaces);
-                            }
-                            if (model.locationsHistory.listActivities.length > 0){
-                                (result.listActivities) && (model.locationsHistory.listActivities = model.locationsHistory.listActivities.concat(result.listActivities));
-                            } else {
-                                (result.listActivities) && (model.locationsHistory.listActivities = result.listActivities);
-                            }
-                        } else {
-                            model.locationsHistory = result;
+                        const map = (place: PlaceVisitedGO) => {
+                             if (place.otherProbableLocations) {
+                                 return {...place, otherProbableLocations: place.otherProbableLocations.filter((otherPlace: ProbableLocationGO) => (otherPlace.locationConfidence !== undefined) && otherPlace.locationConfidence > 5)}
+                             } else {
+                                 return place;
+                             }
                         }
+                        model.locationsHistory = {
+                            listActivities: ProcessorUtils.mergeArrays(model.locationsHistory?.listActivities, result.listActivities, options.maxEntitiesPerArray),
+                            listVisitedPlaces: ProcessorUtils.mergeArrays(model.locationsHistory?.listVisitedPlaces, result.listVisitedPlaces, options.maxEntitiesPerArray, true).map(map)};
                     }
                 } else if ((regex = new RegExp(FileCodeGoogle.PAY_TRANSACTIONS)) && (regex.test(pathName))) {
                     result = await ServiceGoogle.parseTransactions(data);
                     if (result) {
-                        if (model.transactions && model.transactions.list.length > 0 && result.list.length > 0) {
-                            model.transactions.list = model.transactions.list.concat(result.list);
-                        } else {
-                            model.transactions = result;
-                        }
+                        model.transactions = {list: ProcessorUtils.mergeArrays(model.transactions?.list, result.list, options.maxEntitiesPerArray)};
                     }
                 } else if ((regex = new RegExp(FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS)) && (regex.test(pathName))) {
                     result = await ServiceGoogle.parseMapsReviews(data);
                     if (result) {
-                        model.mapReviews = result;
+                        model.mapReviews = {list: ProcessorUtils.mergeArrays(model.mapReviews?.list, result.list, options.maxEntitiesPerArray)};
                     }
                 } else if ((regex = new RegExp(FileCodeGoogle.PLAY_STORE_LIBRARY)) && (regex.test(pathName))) {
                     result = await ServiceGoogle.parseDocLibrary(data);
                     if (result) {
-                        modelPlayStore.docLibrary = result;
+                        modelPlayStore.docLibrary = {list: ProcessorUtils.mergeArrays(modelPlayStore.docLibrary?.list, result.list, options.maxEntitiesPerArray)};
                     }
                 } else if ((regex = new RegExp(FileCodeGoogle.PLAY_STORE_PURCHASE_HISTORY)) && (regex.test(pathName))) {
                     result = await ServiceGoogle.parsePurchaseHistory(data);
                     if (result) {
-                        modelPlayStore.purchaseHistory = result;
+                        modelPlayStore.purchaseHistory = {list: ProcessorUtils.mergeArrays(modelPlayStore.purchaseHistory?.list, result.list, options.maxEntitiesPerArray)};
                     }
                 } else if ((regex = new RegExp(FileCodeGoogle.PLAY_STORE_ORDER_HISTORY)) && (regex.test(pathName))) {
                     result = await ServiceGoogle.parseOrderHistory(data);
                     if (result) {
-                        modelPlayStore.orderHistory = result;
+                        modelPlayStore.orderHistory = {list: ProcessorUtils.mergeArrays(modelPlayStore.orderHistory?.list, result.list, options.maxEntitiesPerArray)};
                     }
                 } else if ((regex = new RegExp(FileCodeGoogle.PLAY_STORE_REVIEWS)) && (regex.test(pathName))) {
                     result = await ServiceGoogle.parsePlayStoreReviews(data);
                     if (result) {
-                        modelPlayStore.reviews = result;
+                        modelPlayStore.reviews = {list: ProcessorUtils.mergeArrays(modelPlayStore.reviews?.list, result.list, options.maxEntitiesPerArray)};
                     }
                 } else if ((regex = new RegExp(FileCodeGoogle.CHROME_BROWSER_HISTORY)) && (regex.test(pathName))) {
                     result = await ServiceGoogle.parseBrowseHistory(data);
+                    const map = (search: BrowserSearchGO) => {
+                        return {title: search.title, time: search.time}
+                    }
+                    const filter = (search: BrowserSearchGO) => {
+                        return search.pageTransition !== PageTransitionSearchGO.RELOAD
+                    }
                     if (result) {
-                        modelChrome.browserHistory = result;
+                        //average 387 bytes for each search
+                        //average 145 bytes for each mapped search (with 100k searches is 14.5 MB)
+                        modelChrome.browserHistory = {list: ProcessorUtils.mergeArrays(modelChrome.browserHistory?.list, result.list, 100000, true, filter).map(map)};
                     }
                 } else if ((regex = new RegExp(FileCodeGoogle.CHROME_SEARCH_ENGINES)) && (regex.test(pathName))) {
                     result = await ServiceGoogle.parseSearchEngines(data);
                     if (result) {
-                        modelChrome.searchEngines = result;
+                        modelChrome.searchEngines = {list: ProcessorUtils.mergeArrays(modelChrome.searchEngines?.list, result.list, options.maxEntitiesPerArray)};
+                    }
+                } else if ((regex = new RegExp(FileCodeGoogle.YOUTUBE_PLAYLIST_UPLOADS)) && (regex.test(pathName))) {
+                    result = await ServiceGoogle.parseYoutubePlaylists(data);
+                    if (result) {
+                        modelYoutube.youtubeUploads = {playlists: ProcessorUtils.mergeArrays(modelYoutube.youtubeUploads?.playlists, result.playlists, options.maxEntitiesPerArray)};
+                    }
+                } else if ((regex = new RegExp(FileCodeGoogle.YOUTUBE_LIKED_VIDEOS)) && (regex.test(pathName))) {
+                    result = await ServiceGoogle.parseYoutubePlaylists(data);
+                    if (result) {
+                        modelYoutube.youtubeLikes = {playlists: ProcessorUtils.mergeArrays(modelYoutube.youtubeUploads?.playlists, result.playlists, options.maxEntitiesPerArray)};
                     }
                 }
             }
+        }
+        if (!ValidatorObject.objectIsEmpty(modelYoutube)) {
+            model.youtube = modelYoutube;
         }
         if (!ValidatorObject.objectIsEmpty(modelChrome)) {
             model.chrome = modelChrome;
@@ -127,108 +144,5 @@ export class ProcessorGoogle {
             return model;
         }
         return undefined;
-    }
-    /*
-    const timeIntervalDays = (options && options.timeIntervalDays) ? options.timeIntervalDays : 365;
-    const model: GoogleDataAggregator = {};
-    let result, regex;
-    let hasSemanticLocations = false;
-    let frequencyDistanceActivities: Record<ActivityTypeGO, [number, number]> = {
-        'IN_PASSENGER_VEHICLE': [0, 0],
-        'MOTORCYCLING': [0, 0],
-        'STILL': [0, 0],
-        'IN_BUS': [0, 0],
-        'WALKING': [0, 0],
-        'CYCLING': [0, 0],
-        'IN_TRAIN': [0, 0],
-        'IN_SUBWAY': [0, 0],
-        'RUNNING': [0, 0],
-        'FLYING': [0, 0],
-        'IN_FERRY': [0, 0],
-        'SAILING': [0, 0],
-        'SKIING': [0, 0],
-        'IN_TRAM': [0, 0],
-        'IN_VEHICLE': [0, 0],
-        'UNKNOWN_ACTIVITY_TYPE': [0, 0],
-    };
-    for (let pathName in files) {
-        const file = files[pathName];
-        const data = Buffer.from(file, file.byteOffset, file.length);
-        if (!ValidatorObject.isDirectory(pathName)) {
-            if ((regex = new RegExp(FileCodeGoogle.ACCOUNT_INFO)) && (regex.test(pathName))) {
-                result = <AccountGO>await ServiceGoogle.parseGoogleAccount(data);
-                if (result) {
-                    (result.contactEmail) && (model.email = result.contactEmail);
-                    (result.recoveryEmail) && (model.recoveryEmail = result.recoveryEmail);
-                    (result.recoverySMS) && (model.recoverySMS = result.recoverySMS);
-                    (result.creationDate) && (model.creationAccount = result.creationDate);
-                }
-            } else if ((regex = new RegExp(FileCodeGoogle.PLAY_STORE_REVIEWS)) && (regex.test(pathName))) {
-                result = <PlayStoreReviewsGO>await ServiceGoogle.parsePlayStoreReviews(data);
-                if (result) {
-                    let sumRating = 0;
-                    let counterRating = 0;
-                    result.list.forEach((item: PlayStoreReviewGO) => {
-                        if (item.creationTime && item.starRating && ProcessorUtils.daysDifference(item.creationTime) < timeIntervalDays) {
-                            counterRating++;
-                            sumRating += item.starRating;
-                        }
-                    });
-                    if (counterRating > 0) {
-                        model.counterPlayStoreReviewsTI = counterRating;
-                        model.averagePlayStoreReviewsTI = sumRating / counterRating;
-                    }
-                }
-            } else if ((regex = new RegExp(FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS)) && (regex.test(pathName))) {
-                result = <MapsReviewsGO>await ServiceGoogle.parseMapsReviews(data);
-                if (result) {
-                    let sumRating = 0;
-                    let counterRating = 0;
-                    result.list.forEach((item: MapsReviewGO) => {
-                        if (item.published && (item.starRating) && ProcessorUtils.daysDifference(item.published) < timeIntervalDays) {
-                            counterRating++;
-                            sumRating += item.starRating;
-                        }
-                    });
-                    if (counterRating > 0) {
-                        model.counterMapsReviewsTI = counterRating;
-                        model.averageMapsReviewsTI = sumRating / counterRating;
-                    }
-                }
-            } else if ((regex = new RegExp(FileCodeGoogle.LOCATION_HISTORY_SEMANTIC)) && (regex.test(pathName))) {
-                result = <SemanticLocationsGO>await ServiceGoogle.parseSemanticLocations(data);
-                if (result) {
-                    if (this.monthIsInRange(pathName, timeIntervalDays)) {
-                        result = <SemanticLocationsGO>await ServiceGoogle.parseSemanticLocations(data);
-                        (result.listActivities && result.listActivities.length > 0) && (result.listActivities.forEach((item: ActivitySegmentGO) => {
-                            if (item.distance && item.activityType && ActivityTypeGO[item.activityType]) {
-                                (!hasSemanticLocations) && (hasSemanticLocations = true);
-                                frequencyDistanceActivities[ActivityTypeGO[item.activityType]][0]++;
-                                frequencyDistanceActivities[ActivityTypeGO[item.activityType]][1] += item.distance;
-                            }
-                        }));
-                    }
-                }
-            }
-        }
-    }
-    (hasSemanticLocations) && (model.frequencyDistanceActivities = frequencyDistanceActivities);
-    return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
-
-     */
-
-    static monthIsInRange(pathName: string, timeIntervalDays: number): boolean {
-        const match = pathName.match(/\d{4}\/(\d{4})_(\w+).json/);
-        if (match && match[1] && match[2]) {
-            const month: number = parseInt(MonthsFull[match[2] as any]);
-            if (month) {
-                //if 2017_APRIL then returns 1st APRIL 2017
-                let date: Date = new Date(Date.UTC(parseInt(match[1]), month-1, 1));
-                if (ProcessorUtils.daysDifference(date) < timeIntervalDays) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 }
