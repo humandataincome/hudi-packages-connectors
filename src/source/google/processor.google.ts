@@ -1,5 +1,5 @@
 import {
-    ActivityAggregatorGO,
+    ActivityAggregatorGO, ActivityGO,
     BrowserSearchGO,
     ChromeAggregatorGO, FitAggregatorGO,
     GoogleDataAggregator,
@@ -135,29 +135,44 @@ export class ProcessorGoogle {
                         modelFit.dailyActivityMetrics = {list: ProcessorUtils.mergeArrays(modelFit.dailyActivityMetrics?.list, result.list, options.maxEntitiesPerArray, false)};
                     }
                 } else if ((regex = new RegExp(FileCodeGoogle.ACTIVITY_NEWS)) && (regex.test(pathName))) {
+                    const map = (item: ActivityGO) => {
+                        return {title: item.title, date: item.date}
+                    }
                     result = await ServiceGoogle.parseActivity(data);
                     if (result) {
-                        modelActivity.news = {list: ProcessorUtils.mergeArrays(modelActivity.news?.list, result.list, options.maxEntitiesPerArray)};
+                        modelActivity.news = {list: ProcessorUtils.mergeArrays(modelActivity.news?.list, result.list, options.maxEntitiesPerArray).map(map)};
                     }
                 } else if ((regex = new RegExp(FileCodeGoogle.ACTIVITY_BOOKS)) && (regex.test(pathName))) {
+                    const map = (item: ActivityGO) => {
+                        return {title: item.title, date: item.date}
+                    }
                     result = await ServiceGoogle.parseActivity(data);
                     if (result) {
-                        modelActivity.books = {list: ProcessorUtils.mergeArrays(modelActivity.books?.list, result.list, options.maxEntitiesPerArray)};
+                        modelActivity.books = {list: ProcessorUtils.mergeArrays(modelActivity.books?.list, result.list, options.maxEntitiesPerArray).map(map)};
                     }
                 } else if ((regex = new RegExp(FileCodeGoogle.ACTIVITY_IMAGE_SEARCH)) && (regex.test(pathName))) {
+                    const map = (item: ActivityGO) => {
+                        return {title: item.title, date: item.date}
+                    }
                     result = await ServiceGoogle.parseActivity(data);
                     if (result) {
-                        modelActivity.imageSearch = {list: ProcessorUtils.mergeArrays(modelActivity.imageSearch?.list, result.list, options.maxEntitiesPerArray)};
+                        modelActivity.imageSearch = {list: ProcessorUtils.mergeArrays(modelActivity.imageSearch?.list, result.list, options.maxEntitiesPerArray).map(map)};
                     }
                 } else if ((regex = new RegExp(FileCodeGoogle.ACTIVITY_SHOPPING)) && (regex.test(pathName))) {
+                    const map = (item: ActivityGO) => {
+                        return {title: item.title, date: item.date}
+                    }
                     result = await ServiceGoogle.parseActivity(data);
                     if (result) {
-                        modelActivity.shopping = {list: ProcessorUtils.mergeArrays(modelActivity.shopping?.list, result.list, options.maxEntitiesPerArray)};
+                        modelActivity.shopping = {list: ProcessorUtils.mergeArrays(modelActivity.shopping?.list, result.list, options.maxEntitiesPerArray).map(map)};
                     }
                 } else if ((regex = new RegExp(FileCodeGoogle.ACTIVITY_DISCOVER)) && (regex.test(pathName))) {
+                    const map = (item: ActivityGO) => {
+                        return {date: item.date, subtitles: item.subtitles}
+                    }
                     result = await ServiceGoogle.parseActivity(data);
                     if (result) {
-                        modelActivity.discovery = {list: ProcessorUtils.mergeArrays(modelActivity.discovery?.list, result.list, options.maxEntitiesPerArray)};
+                        modelActivity.discovery = {list: ProcessorUtils.mergeArrays(modelActivity.discovery?.list, result.list, options.maxEntitiesPerArray).map(map)};
                     }
                 }
             }

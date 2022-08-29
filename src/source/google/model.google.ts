@@ -49,6 +49,8 @@ export interface ActivityAggregatorGO {
     imageSearch?: ActivitiesGO;
     shopping?: ActivitiesGO;
     discovery?: ActivitiesGO;
+    playStoreGames?: ActivitiesGO;
+    playStoreMovies?: ActivitiesGO;
 }
 
 //FileCodeGoogle.PROFILE model
