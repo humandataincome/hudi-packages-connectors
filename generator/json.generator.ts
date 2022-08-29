@@ -26,7 +26,7 @@ export class JsonGenerator {
             });
         const result = await Selector.getAggregator(code, validation!.zipFile, {
             timeIntervalDays: 180,
-            maxEntitiesPerArray: 1
+            maxEntitiesPerArray: 10000
         });
         fs.writeFileSync(path.join(__dirname, `../generator/aggregator-json/aggregator_${code.toLowerCase()}.json`), JSON.stringify(result, null, 2));
     }

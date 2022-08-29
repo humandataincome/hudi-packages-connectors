@@ -1,16 +1,19 @@
 import Logger from "../../utils/logger";
 import {
-    AccountGO,
+    AccountGO, ActivitiesGO,
+    ActivityGO,
     ActivitySegmentGO,
     BillingInstrumentGO,
     BrowserHistoryGO,
     BrowserSearchGO,
     ContactGO,
+    DailyActivityMetricGO,
+    DailyActivityMetricsGO, DetailActivityGO,
     DocGO,
     DocLibraryGO,
     GeoDataGO,
     ImageDataGO,
-    LineItemGO,
+    LineItemGO, LocationActivityGO,
     MapsReviewGO,
     MapsReviewsGO,
     OrderGO,
@@ -26,10 +29,13 @@ import {
     PurchaseHistoryGO,
     SearchEngineGO,
     SearchEnginesGO,
-    SemanticLocationsGO,
+    SemanticLocationsGO, SubtitleActivityGO,
     TransactionGO,
     TransactionsGO,
-    TransitPathGO, YoutubePlaylistGO, YoutubePlaylistsGO, YoutubeVideoGO
+    TransitPathGO,
+    YoutubePlaylistGO,
+    YoutubePlaylistsGO,
+    YoutubeVideoGO
 } from "./model.google";
 import {Parser} from "../../utils/parser";
 import {Months} from "../../utils";
@@ -79,6 +85,32 @@ export class ServiceGoogle {
             case FileCodeGoogle.YOUTUBE_LIKED_VIDEOS:
             case FileCodeGoogle.YOUTUBE_PLAYLIST_UPLOADS:
                 return this.parseYoutubePlaylists(data);
+            case FileCodeGoogle.FIT_DAILY_ACTIVITIES_METRICS:
+                return this.parseDailyActivityMetrics(data);
+            case FileCodeGoogle.ACTIVITY_ADS:
+            case FileCodeGoogle.ACTIVITY_APPS:
+            case FileCodeGoogle.ACTIVITY_ASSISTANT:
+            case FileCodeGoogle.ACTIVITY_BOOKS:
+            case FileCodeGoogle.ACTIVITY_CHROME:
+            case FileCodeGoogle.ACTIVITY_DEVELOPERS:
+            case FileCodeGoogle.ACTIVITY_DISCOVER:
+            case FileCodeGoogle.ACTIVITY_DRIVE:
+            case FileCodeGoogle.ACTIVITY_GMAIL:
+            case FileCodeGoogle.ACTIVITY_LENS:
+            case FileCodeGoogle.ACTIVITY_PLAY_GAMES:
+            case FileCodeGoogle.ACTIVITY_PLAY_MOVIES:
+            case FileCodeGoogle.ACTIVITY_PLAY_STORE:
+            case FileCodeGoogle.ACTIVITY_TRANSLATE:
+            case FileCodeGoogle.ACTIVITY_HELP:
+            case FileCodeGoogle.ACTIVITY_IMAGE_SEARCH:
+            case FileCodeGoogle.ACTIVITY_MAPS:
+            case FileCodeGoogle.ACTIVITY_NEWS:
+            case FileCodeGoogle.ACTIVITY_SEARCH:
+            case FileCodeGoogle.ACTIVITY_TAKEOUT:
+            case FileCodeGoogle.ACTIVITY_SHOPPING:
+            case FileCodeGoogle.ACTIVITY_VIDEO_SEARCH:
+            case FileCodeGoogle.ACTIVITY_YOUTUBE:
+                return this.parseActivity(data);
             default:
                 return undefined;
         }
@@ -643,6 +675,107 @@ export class ServiceGoogle {
             return undefined;
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseYoutubePlaylists');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - FileCodeGoogle.FIT_DAILY_ACTIVITIES_METRICS file in input as Buffer
+     */
+    static async parseDailyActivityMetrics(data: Buffer): Promise<DailyActivityMetricsGO | undefined> {
+        try {
+            let match;
+            let document = Parser.parseCSVfromBuffer(data);
+            if (document) {
+                const model: DailyActivityMetricsGO = {list: []};
+                (document.length > 0) && (document.forEach((item: any) => {
+                    const modelActivity: DailyActivityMetricGO = {};
+                    if (item['Date']) {
+                        match = item['Date'].match(/(\d+)-(\d+)-(\d+)/);
+                        modelActivity.date = new Date(Date.UTC(parseInt(match[1]), parseInt(match[2])-1, parseInt(match[3])));
+                    }
+                    (item['Move Minutes count']) && (modelActivity.moveMinutesCount = parseInt(item['Move Minutes count']));
+                    (item['Calories (kcal)']) && (modelActivity.calories = parseFloat(item['Calories (kcal)']));
+                    (item['Distance (m)']) && (modelActivity.distance = parseFloat(item['Distance (m)']));
+                    (item['Heart Points']) && (modelActivity.heartPoints = parseFloat(item['Heart Points']));
+                    (item['Heart Minutes']) && (modelActivity.heartMinutes = parseInt(item['Heart Minutes']));
+                    (item['Low latitude (deg)']) && (modelActivity.lowLatitude = parseFloat(item['Low latitude (deg)']));
+                    (item['Low longitude (deg)']) && (modelActivity.lowLongitude = parseFloat(item['Low longitude (deg)']));
+                    (item['High latitude (deg)']) && (modelActivity.highLatitude = parseFloat(item['High latitude (deg)']));
+                    (item['High longitude (deg)']) && (modelActivity.highLongitude = parseFloat(item['High longitude (deg)']));
+                    (item['Average speed (m/s)']) && (modelActivity.averageSpeed = parseFloat(item['Average speed (m/s)']));
+                    (item['Max speed (m/s)']) && (modelActivity.maxSpeed = parseFloat(item['Max speed (m/s)']));
+                    (item['Min speed (m/s)']) && (modelActivity.minSpeed = parseFloat(item['Min speed (m/s)']));
+                    (item['Step count']) && (modelActivity.stepCount = parseInt(item['Step count']));
+                    (item['Average weight (kg)']) && (modelActivity.averageWeight = parseFloat(item['Average weight (kg)']));
+                    (item['Max weight (kg)']) && (modelActivity.maxWeight = parseFloat(item['Max weight (kg)']));
+                    (item['Min weight (kg)']) && (modelActivity.minWeight = parseFloat(item['Min weight (kg)']));
+                    (item['Inactive duration (ms)']) && (modelActivity.inactiveDuration = parseInt(item['Inactive duration (ms)']));
+                    (item['Walking duration (ms)']) && (modelActivity.walkingDuration = parseInt(item['Walking duration (ms)']));
+                    (item['Running duration (ms)']) && (modelActivity.runningDuration = parseInt(item['Running duration (ms)']));
+                    (item['Calisthenics duration (ms)']) && (modelActivity.calisthenicsDuration = parseInt(item['Calisthenics duration (ms)']));
+                    !ValidatorObject.objectIsEmpty(modelActivity) && (model.list.push(modelActivity));
+                }));
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseDailyActivityMetrics');
+            return undefined;
+        }
+    }
+
+    /**
+     * @param data - all FileCodeGoogle.ACTIVITY_ files in input as Buffer
+     */
+    static async parseActivity(data: Buffer): Promise<ActivitiesGO | undefined> {
+        try {
+            let document = JSON.parse(data.toString());
+            if (document) {
+                const model: ActivitiesGO = {list: []};
+                (document.length > 0) && (document.forEach((item: any) => {
+                    const modelActivity: ActivityGO = {};
+                    (item.header) && (modelActivity.header = item.header);
+                    (item.title) && (modelActivity.title = item.title);
+                    (item.time) && (modelActivity.date = new Date(item.time));
+                    (item.products) && (modelActivity.products = item.products);
+                    (item.activityControls) && (modelActivity.activityControls = item.activityControls);
+                    if (item.subtitles) {
+                        const subModelList: SubtitleActivityGO[] = [];
+                        item.subtitles.forEach((subItem: SubtitleActivityGO) => {
+                            const subModelItem: SubtitleActivityGO = {};
+                            (subItem.url) && (subModelItem.url = subItem.url);
+                            (subItem.name) && (subModelItem.name = subItem.name);
+                            !ValidatorObject.objectIsEmpty(subItem) && (subModelList.push(subItem));
+                        });
+                        subModelList.length > 0 && (modelActivity.subtitles = subModelList);
+                    }
+                    if (item.details) {
+                        const subModelList: DetailActivityGO[] = [];
+                        item.subtitles.forEach((subItem: DetailActivityGO) => {
+                            const subModelItem: DetailActivityGO = {};
+                            (subItem.name) && (subModelItem.name = subItem.name);
+                            !ValidatorObject.objectIsEmpty(subItem) && (subModelList.push(subItem));
+                        });
+                        subModelList.length > 0 && (modelActivity.details = subModelList);
+                    }
+                    if (item.locationInfos) {
+                        const subModelList: LocationActivityGO[] = [];
+                        item.subtitles.forEach((subItem: LocationActivityGO) => {
+                            const subModelItem: LocationActivityGO = {};
+                            (subItem.name) && (subModelItem.name = subItem.name);
+                            (subItem.url) && (subModelItem.url = subItem.url);
+                            (subItem.source) && (subModelItem.source = subItem.source);
+                            (subItem.sourceUrl) && (subModelItem.sourceUrl = subItem.sourceUrl);
+                            !ValidatorObject.objectIsEmpty(subItem) && (subModelList.push(subItem));
+                        });
+                        subModelList.length > 0 && (modelActivity.locationInfos = subModelList);
+                    }
+                    !ValidatorObject.objectIsEmpty(modelActivity) && (model.list.push(modelActivity));
+                }));
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseActivity');
             return undefined;
         }
     }

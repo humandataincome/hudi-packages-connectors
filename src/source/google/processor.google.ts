@@ -1,6 +1,7 @@
 import {
+    ActivityAggregatorGO,
     BrowserSearchGO,
-    ChromeAggregatorGO,
+    ChromeAggregatorGO, FitAggregatorGO,
     GoogleDataAggregator,
     PageTransitionSearchGO,
     PlaceVisitedGO,
@@ -39,11 +40,12 @@ export class ProcessorGoogle {
     }
 
     private static async _aggregateFactory(files: Unzipped, options: ProcessorOptions = {}) {
-        //const timeIntervalDays = (options && options.timeIntervalDays) ? options.timeIntervalDays : 365;
         const model: GoogleDataAggregator = {};
         const modelChrome: ChromeAggregatorGO = {};
         const modelPlayStore: PlayStoreAggregatorGO = {};
         const modelYoutube: YouTubeAggregatorGO = {};
+        const modelFit: FitAggregatorGO = {};
+        const modelActivity: ActivityAggregatorGO = {};
 
         let result, regex;
         for (let pathName in files) {
@@ -127,8 +129,44 @@ export class ProcessorGoogle {
                     if (result) {
                         modelYoutube.youtubeLikes = {playlists: ProcessorUtils.mergeArrays(modelYoutube.youtubeUploads?.playlists, result.playlists, options.maxEntitiesPerArray)};
                     }
+                } else if ((regex = new RegExp(FileCodeGoogle.FIT_DAILY_ACTIVITIES_METRICS)) && (regex.test(pathName))) {
+                    result = await ServiceGoogle.parseDailyActivityMetrics(data);
+                    if (result) {
+                        modelFit.dailyActivityMetrics = {list: ProcessorUtils.mergeArrays(modelFit.dailyActivityMetrics?.list, result.list, options.maxEntitiesPerArray, false)};
+                    }
+                } else if ((regex = new RegExp(FileCodeGoogle.ACTIVITY_NEWS)) && (regex.test(pathName))) {
+                    result = await ServiceGoogle.parseActivity(data);
+                    if (result) {
+                        modelActivity.news = {list: ProcessorUtils.mergeArrays(modelActivity.news?.list, result.list, options.maxEntitiesPerArray)};
+                    }
+                } else if ((regex = new RegExp(FileCodeGoogle.ACTIVITY_BOOKS)) && (regex.test(pathName))) {
+                    result = await ServiceGoogle.parseActivity(data);
+                    if (result) {
+                        modelActivity.books = {list: ProcessorUtils.mergeArrays(modelActivity.books?.list, result.list, options.maxEntitiesPerArray)};
+                    }
+                } else if ((regex = new RegExp(FileCodeGoogle.ACTIVITY_IMAGE_SEARCH)) && (regex.test(pathName))) {
+                    result = await ServiceGoogle.parseActivity(data);
+                    if (result) {
+                        modelActivity.imageSearch = {list: ProcessorUtils.mergeArrays(modelActivity.imageSearch?.list, result.list, options.maxEntitiesPerArray)};
+                    }
+                } else if ((regex = new RegExp(FileCodeGoogle.ACTIVITY_SHOPPING)) && (regex.test(pathName))) {
+                    result = await ServiceGoogle.parseActivity(data);
+                    if (result) {
+                        modelActivity.shopping = {list: ProcessorUtils.mergeArrays(modelActivity.shopping?.list, result.list, options.maxEntitiesPerArray)};
+                    }
+                } else if ((regex = new RegExp(FileCodeGoogle.ACTIVITY_DISCOVER)) && (regex.test(pathName))) {
+                    result = await ServiceGoogle.parseActivity(data);
+                    if (result) {
+                        modelActivity.discovery = {list: ProcessorUtils.mergeArrays(modelActivity.discovery?.list, result.list, options.maxEntitiesPerArray)};
+                    }
                 }
             }
+        }
+        if (!ValidatorObject.objectIsEmpty(modelActivity)) {
+            model.activities = modelActivity;
+        }
+        if (!ValidatorObject.objectIsEmpty(modelFit)) {
+            model.fit = modelFit;
         }
         if (!ValidatorObject.objectIsEmpty(modelYoutube)) {
             model.youtube = modelYoutube;

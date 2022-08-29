@@ -10,11 +10,12 @@ export interface GoogleDataAggregator {
     chrome?: ChromeAggregatorGO;
     playStore?: PlayStoreAggregatorGO;
     youtube?: YouTubeAggregatorGO;
+    fit?: FitAggregatorGO;
+    activities?: ActivityAggregatorGO;
     creationDate?: Date;
 }
 
 export interface YouTubeAggregatorGO {
-    youtubeActivity?: YoutubeActivitiesGO;
     youtubeLikes?: YoutubePlaylistsGO;
     youtubeUploads?: YoutubePlaylistsGO;
 }
@@ -32,9 +33,22 @@ export interface PlayStoreAggregatorGO {
 
 export interface ChromeAggregatorGO {
     //from FileCodeGoogle.CHROME_BROWSER_HISTORY model
-    browserHistory?: BrowserHistoryGO
+    browserHistory?: BrowserHistoryGO;
     //from FileCodeGoogle.CHROME_SEARCH_ENGINES model
     searchEngines?: SearchEnginesGO;
+}
+
+export interface FitAggregatorGO{
+    //from FileCodeGoogle.FIT_DAILY_ACTIVITIES_METRICS model
+    dailyActivityMetrics?: DailyActivityMetricsGO;
+}
+
+export interface ActivityAggregatorGO {
+    news?: ActivitiesGO;
+    books?: ActivitiesGO;
+    imageSearch?: ActivitiesGO;
+    shopping?: ActivitiesGO;
+    discovery?: ActivitiesGO;
 }
 
 //FileCodeGoogle.PROFILE model
@@ -342,56 +356,72 @@ export interface MapsReviewGO {
     starRating?: number;
 }
 
-//----------------------------------------------------------
-//MY ACTIVITIES
-export interface ShoppingActivitiesGO {
-    list: ShoppingActivityGO[];
+//FileCodeGoogle.FIT_DAILY_ACTIVITIES_METRICS model
+export interface DailyActivityMetricsGO {
+    list: DailyActivityMetricGO[];
 }
 
-export interface ShoppingActivityGO {
-    product?: string;
-    link?: string;
+export interface DailyActivityMetricGO {
     date?: Date;
+    moveMinutesCount?: number;
+    //Calories as (kcal)
+    calories?: number;
+    //Distance as (m)
+    distance?: number;
+    heartPoints?: number;
+    heartMinutes?: number;
+    //Latitudes as (deg)
+    lowLatitude?: number;
+    lowLongitude?: number;
+    highLatitude?: number;
+    highLongitude?: number;
+    //Speeds as (m/s)
+    averageSpeed?: number;
+    maxSpeed?: number;
+    minSpeed?: number;
+    stepCount?: number;
+    //Weight as (kg)
+    averageWeight?: number;
+    maxWeight?: number;
+    minWeight?: number;
+    //Duration (ms)
+    inactiveDuration?: number;
+    walkingDuration?: number;
+    runningDuration?: number;
+    calisthenicsDuration?: number;
 }
 
-export interface DailyDiscoverActivitiesGO {
-    list: DailyDiscoverActivityGO[];
+//all FileCodeGoogle.ACTIVITY_ models
+export interface ActivitiesGO {
+    list: ActivityGO[];
 }
 
-export interface DailyDiscoverActivityGO {
-    searchKeys: string[];
+export interface ActivityGO {
+    header?: string;
+    title?: string;
+    titleUrl?: string;
     date?: Date;
+    products?: string[];
+    activityControls?: string[];
+    subtitles?: SubtitleActivityGO[]
+    details?: DetailActivityGO[]
+    locationInfos?: LocationActivityGO[]
 }
 
-export interface SearchActivitiesGO {
-    list: SearchActivityGO[];
+export interface SubtitleActivityGO {
+    name?: string;
+    url?: string;
 }
 
-export interface SearchActivityGO {
-    searchKey?: string;
-    link?: string;
-    date?: Date;
+export interface DetailActivityGO {
+    name?: string;
 }
 
-export interface YoutubeActivitiesGO {
-    list: YoutubeActivityGO[];
+export interface LocationActivityGO {
+    name?: string;
+    url?: string;
+    source?: string;
+    sourceUrl?: string;
 }
 
-export interface YoutubeActivityGO {
-    activity?: string;
-    linkVideo?: string;
-    titleVideo?: string;
-    linkChannel?: string;
-    nameChannel?: string;
-    date?: Date;
-}
 
-export interface NewsActivitiesGO {
-    list: NewsActivityGO[];
-}
-
-export interface NewsActivityGO {
-    titleArticle?: string;
-    linkArticle?: string;
-    date?: Date;
-}

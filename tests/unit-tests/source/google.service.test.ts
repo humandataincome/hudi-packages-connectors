@@ -89,6 +89,12 @@ describe('Google Service test', () => {
         expect(JSON.stringify(result1!.playlists[0].list[2].videoID)).toBe(JSON.stringify(expected1));
         expect(JSON.stringify(result2!.playlists[0].playlistID)).toBe(JSON.stringify(expected2));
     });
+    test('parseDailyActivityMetrics', async () => {
+        const pathToFile = `../../../src/mock/datasource/raw files/google/Takeout/Fit/Daily activity metrics/Daily activity metrics.csv`;
+        const result = await ServiceGoogle.parseDailyActivityMetrics(Buffer.from(fs.readFileSync(path.resolve(__dirname, pathToFile))));
+        const expected = 87.06077480316162;
+        expect(JSON.stringify(result!.list[32].distance)).toBe(JSON.stringify(expected));
+    });
 
 });
 
