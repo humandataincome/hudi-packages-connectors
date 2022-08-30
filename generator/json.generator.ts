@@ -24,7 +24,7 @@ export class JsonGenerator {
                     dataSourceCode: code,
                 },
             });
-        const result = await Selector.getAggregator(code, validation!.zipFile, {
+        const result = await Selector.getZipAggregatorBuilder(code, validation!.zipFile, {
             timeIntervalDays: 180,
             maxEntitiesPerArray: 10000
         });

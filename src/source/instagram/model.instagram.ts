@@ -41,7 +41,7 @@ export interface InstagramDataAggregator {
     yourTopics?: YourTopicsIG;
     //from FileCodeInstagram.SHOPPING_VIEWED_ITEMS
     shoppingItemsViewed?: ShoppingViewedItemsIG;
-    engagement?: EngagementAggregatorIG;
+    engagement: EngagementAggregatorIG;
     creationDate?: Date;
 }
 

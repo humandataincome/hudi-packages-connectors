@@ -1,4 +1,4 @@
-import {DataSourceCode} from "../descriptor";
+import {DataAggregator, DataSourceCode} from "../descriptor";
 import {
     FileCodeAmazon,
     FileCodeFacebook,
@@ -28,9 +28,9 @@ import {
     ValidatorTikTok,
     ValidatorTwitter
 } from "../source";
-import {ValidatorDatasource} from "./validator/validator.datasource";
+import {ValidatorDatasource} from "./validator";
 import {Unzipped} from "fflate";
-import {ProcessorOptions} from "./processor/processor.utils";
+import {ProcessorDatasource, ProcessorOptions} from "./processor";
 
 export class Selector {
 
@@ -152,21 +152,18 @@ export class Selector {
     }
 
     /**
-     * @param code - code of the datasource
-     * @param zipFile - zip file of the datasource
-     * @param options - options for the processor
-     * @return the aggregator model built from the zip file in input
+     * Given a DataSourceCode return the corresponding Processor instance if exists, undefined otherwise.
      */
-    static async getAggregator(code: DataSourceCode, zipFile: Uint8Array, options?: ProcessorOptions) {
+    static getProcessor(code: DataSourceCode): ProcessorDatasource | undefined {
         switch (code) {
             case DataSourceCode.INSTAGRAM:
-                return await ProcessorInstagram.aggregatorFactory(zipFile, options);
+                return ProcessorInstagram;
             case DataSourceCode.FACEBOOK:
-                return await ProcessorFacebook.aggregatorFactory(zipFile, options);
+                return ProcessorFacebook;
             case DataSourceCode.AMAZON:
-                return await ProcessorAmazon.aggregatorFactory(zipFile, options);
+                return ProcessorAmazon;
             case DataSourceCode.GOOGLE:
-                return await ProcessorGoogle.aggregatorFactory(zipFile, options);
+                return ProcessorGoogle;
             case DataSourceCode.NETFLIX:
                 return undefined;
             case DataSourceCode.LINKEDIN:
@@ -181,6 +178,29 @@ export class Selector {
                 return undefined;
             default:
                 return undefined;
+        }
+    }
+
+    static getInitAggregator(code: DataSourceCode): DataAggregator | undefined {
+        const Processor = this.getProcessor(code);
+        if (Processor) {
+            return Processor.initAggregator();
+        }
+        return undefined;
+    }
+
+    static async getZipAggregatorBuilder(code: DataSourceCode, data: Uint8Array, options?: ProcessorOptions): Promise<DataAggregator | undefined> {
+        const Processor = this.getProcessor(code);
+        if (Processor) {
+            return await Processor.zipAggregatorBuilder(data, options);
+        }
+        return undefined;
+    }
+
+    static async getAggregatorBuilder(code: DataSourceCode, data: Buffer, pathName: string, model: DataAggregator, options?: ProcessorOptions) {
+        const Processor = this.getProcessor(code);
+        if (Processor) {
+            await Processor.aggregatorBuilder(data, pathName, model, options);
         }
     }
 }

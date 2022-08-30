@@ -34,7 +34,7 @@ export interface FacebookDataAggregator {
     recentlyViewed?: RecentlyViewedFB;
     //from FileCodeFacebook.RECENTLY_VISITED model
     recentlyVisited?: RecentlyVisitedFB;
-    engagement?: EngagementAggregatorFB;
+    engagement: EngagementAggregatorFB;
     creationDate?: Date;
 }
 

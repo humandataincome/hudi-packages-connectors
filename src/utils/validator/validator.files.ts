@@ -3,8 +3,10 @@ import {
     FlateError,
     Unzip,
     UnzipFile,
-    UnzipInflate, Unzipped,
-    unzipSync, Zippable,
+    UnzipInflate,
+    Unzipped,
+    unzipSync,
+    Zippable,
     zipSync,
 } from "fflate";
 import {DataSourceCode, FileCode, FileExtension} from "../../descriptor";
@@ -64,7 +66,6 @@ interface ValidationObjectSupport {
     returnObject: ValidationReturn;
     validFiles: AsyncZippable;
     options: ValidationZipOptions;
-    bytesRead?: number;
     subscriber?: Subscriber<ValidationZipStatus>
     recursiveZipPrefix?: string;
 }

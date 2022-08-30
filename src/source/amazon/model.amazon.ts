@@ -2,17 +2,16 @@
  * Aggregation of information from Amazon's models
  */
 export interface AmazonDataAggregator {
-    advertisers?: AdvertisersAggregatorAM;
-    audible?: AudibleAggregatorAM;
-    primeVideo?: PrimeVideoAggregatorAM;
-    orders?: OrdersAggregatorAM;
-    retail?: RetailAggregatorAM;
-    twitch?: TwitchAggregatorAM;
+    advertisers: AdvertisersAggregatorAM;
+    audible: AudibleAggregatorAM;
+    primeVideo: PrimeVideoAggregatorAM;
+    orders: OrdersAggregatorAM;
+    retail: RetailAggregatorAM;
+    twitch: TwitchAggregatorAM;
     //from FileCodeAmazon.WISHLIST model
     wishlists?: AmazonWishlistsAM;
     //from FileCodeAmazon.CUSTOMER_ENGAGEMENT model
     searchDataEngagement?: SearchDataCustomerEngagementAM;
-    engagement?: EngagementAggregatorAM;
     creationDate?: Date;
 }
 

@@ -7,17 +7,17 @@ export interface GoogleDataAggregator {
     transactions?: TransactionsGO;
     //from FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS model
     mapReviews?: MapsReviewsGO;
-    chrome?: ChromeAggregatorGO;
-    playStore?: PlayStoreAggregatorGO;
-    youtube?: YouTubeAggregatorGO;
-    fit?: FitAggregatorGO;
-    activities?: ActivityAggregatorGO;
+    chrome: ChromeAggregatorGO;
+    playStore: PlayStoreAggregatorGO;
+    youtube: YouTubeAggregatorGO;
+    fit: FitAggregatorGO;
+    activities: ActivityAggregatorGO;
     creationDate?: Date;
 }
 
 export interface YouTubeAggregatorGO {
-    youtubeLikes?: YoutubePlaylistsGO;
-    youtubeUploads?: YoutubePlaylistsGO;
+    videoLiked?: YoutubePlaylistsGO;
+    videoUploaded?: YoutubePlaylistsGO;
 }
 
 export interface PlayStoreAggregatorGO {
