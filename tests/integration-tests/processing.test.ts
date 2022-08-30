@@ -8,7 +8,7 @@ describe('Processor Test', () => {
     test('Instagram Validation and Processor', async () => {
         const pathToZip = "../../src/mock/datasource/zip files/instagram.zip";
         const result = new TextEncoder().encode(JSON.stringify(await validationAndProcessing(pathToZip), null, 2)).length;
-        const expected: number = 28468;
+        const expected: number = 28443;
         expect(result).toBe(expected);
     });
 });
@@ -24,5 +24,5 @@ async function validationAndProcessing(pathToZip: string) {
                 dataSourceCode: DataSourceCode.INSTAGRAM,
             },
         });
-    return await ProcessorInstagram.aggregatorFactory(validation!.zipFile);
+    return await ProcessorInstagram.zipAggregatorBuilder(validation!.zipFile);
 }

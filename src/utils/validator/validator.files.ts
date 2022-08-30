@@ -75,7 +75,7 @@ interface FilesBuilder {
 }
 
 export class ValidatorFiles {
-    private static readonly logger = new Logger("Files Validator");
+    private static readonly logger = new Logger("Validator Files");
 
     public static MAX_BYTE_FILE_SIZE = 6e6; //6 MB
     public static MIN_BYTE_FILE_SIZE = 30; //30 B
