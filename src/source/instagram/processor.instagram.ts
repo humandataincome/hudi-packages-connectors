@@ -10,7 +10,7 @@ import {
     QuizIG,
     StoryIG,
 } from "./model.instagram";
-import {ProcessorOptions, ProcessorUtils, ProcessorDatasource, ValidatorObject} from "../../utils";
+import {ProcessorDatasource, ProcessorOptions, ProcessorUtils, ValidatorObject} from "../../utils";
 import Logger from "../../utils/logger";
 import {Unzipped, unzipSync} from "fflate";
 import {ValidatorInstagram} from "./validator.instagram";
@@ -37,7 +37,21 @@ export class ProcessorInstagram {
         try {
             if (zipFile) {
                 const files: Unzipped = unzipSync(zipFile);
-                const language = await ValidatorInstagram.getInstance().getLanguage(files);
+                //find the language code
+                let language: LanguageCode | undefined = LanguageCode.ENGLISH;
+                let found = false;
+                for (let pathName in files) {
+                    if (!found) {
+                        if (!ValidatorObject.isDirectory(pathName)) {
+                            if ((new RegExp(FileCodeInstagram.PERSONAL_INFO)).test(pathName)) {
+                                const file = files[pathName];
+                                language = await ValidatorInstagram.getInstance().getLanguage(pathName, file);
+                                found = true;
+                            }
+                        }
+                    }
+                }
+                //process the zip file
                 const model: InstagramDataAggregator = this.initAggregator();
                 for (let pathName in files) {
                     const file = files[pathName];

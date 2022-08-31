@@ -1,17 +1,19 @@
 import {from, Observable, Subscriber} from "rxjs";
-import {
-    ValidatorObject
-} from "../validator";
-import {DataAggregator, DataSourceCode, FileExtension} from "../../descriptor";
+import {ValidatorFiles, ValidatorObject} from "../validator";
+import {DataAggregator, DataSourceCode, FileExtension, LanguageCode} from "../../descriptor";
 import {FlateError, Unzip, UnzipFile, UnzipInflate, unzipSync} from "fflate";
 import {Selector} from "../selector";
-import {Parser} from "../parser";
 import Logger from "../logger";
+import {ProcessorErrorEnums} from "../utils.error";
+import {Mutex} from "async-mutex";
+
+export interface ProcessingZipOptions {
+    throwExceptions?: boolean;
+    maxBytesPerFile?: number;
+}
 
 export interface ProcessingReturn {
-    aggregatorModel: DataAggregator,
-    usedFiles: string[],
-    notUsedFiles: string[],
+    aggregatorModel: DataAggregator
 }
 
 export enum ProcessingStatus {
@@ -29,52 +31,74 @@ export interface ProcessingZipStatus {
 export interface ProcessingObjectSupport {
     readableStream: ReadableStream;
     returnObject: ProcessingReturn;
-    subscriber?: Subscriber<ProcessingZipStatus>
-    code: DataSourceCode
+    subscriber?: Subscriber<ProcessingZipStatus>;
+    code: DataSourceCode;
+    languageCode?: LanguageCode | undefined;
+    filesToParse: FilesBuilder;
+    options: ProcessingZipOptions;
 }
 
 interface FilesBuilder {
-    [fileName: string]: {fileChunk: Uint8Array, isCorrupted: boolean};
+    [fileName: string]: {fileChunk: Uint8Array, isCorrupted: boolean, isTooLarge?: boolean};
 }
 
 export class ProcessorFiles {
+    public static MAX_BYTE_FILE_SIZE = 500e6; //500 MB
     private static readonly logger = new Logger("Processor Files");
 
-    static processingZipStream(readableStream: ReadableStream, code: DataSourceCode): Observable<ProcessingZipStatus> {
+    static processingZipStream(readableStream: ReadableStream, code: DataSourceCode, options: ProcessingZipOptions = {}): Observable<ProcessingZipStatus> {
         return new Observable<ProcessingZipStatus>((subscriber: Subscriber<ProcessingZipStatus>) => {
             const model = Selector.getInitAggregator(code);
             if (model) {
                 const processingReturn: ProcessingReturn = {
-                    aggregatorModel: model,
-                    usedFiles: [],
-                    notUsedFiles: [],
+                    aggregatorModel: model
                 }
                 const support: ProcessingObjectSupport = {
                     readableStream: readableStream,
                     returnObject: processingReturn,
                     subscriber: subscriber,
-                    code: code
+                    code: code,
+                    filesToParse: {},
+                    options: options,
                 }
+
                 from(this.unzipFileFromStream(support)).subscribe({
                     error(error) {
                         subscriber.error(error);
                     },
-                    complete() {
-                        if (!ValidatorObject.objectIsEmpty(model)) {
+                    async complete() {
+                        try {
+                            for (let pathName in support.filesToParse) {
+                                const fileContent = support.filesToParse[pathName].fileChunk;
+                                await Selector.getAggregatorBuilder(support.code, Buffer.from(fileContent, fileContent.byteOffset, fileContent.length), pathName, support.returnObject.aggregatorModel, {language: support.languageCode});
+                            }
+                            if (!ValidatorObject.objectIsEmpty(model)) {
+                                model.creationDate = new Date();
+                                subscriber.next(
+                                    {
+                                        status: ProcessingStatus.DONE,
+                                        processingResult: processingReturn
+                                    });
+                            } else {
+                                throw Error(`${ProcessorErrorEnums.NOT_RELEVANT_INFO_AGGREGATED}: file zip has not any relevant file for the aggregator model`);
+                            }
+                            subscriber.complete();
+                        } catch (error: any) {
                             subscriber.next(
                                 {
-                                    status: ProcessingStatus.DONE,
-                                    processingResult: processingReturn
+                                    status: ProcessingStatus.ERROR,
                                 });
-                        } else {
-                            subscriber.next(
-                                {
-                                    status: ProcessingStatus.ERROR
-                                });
+                            (error && error.message) && (ProcessorFiles.logger.log('error', error.message, 'processingZipStream'));
+                            if (options.throwExceptions != undefined && options.throwExceptions) {
+                                throw Error(error);
+                            } else {
+                                subscriber.error(error);
+                            }
                         }
-                        subscriber.complete();
                     }
+
                 });
+
             }
         });
     }
@@ -102,17 +126,27 @@ export class ProcessorFiles {
         }
     }
 
-    private static buildFile(file: FilesBuilder, chunk: Uint8Array, fileName: string) {
+    private static buildFile(file: FilesBuilder, chunk: Uint8Array, fileName: string, support: ProcessingObjectSupport) {
         if (chunk) {
             if (file[fileName]) {
                 if (!file[fileName].isCorrupted) {
-                    if (file[fileName].fileChunk.length > 0) {
-                        const fileLength = file[fileName].fileChunk.length;
-                        const chunkLength = chunk.length;
-                        const finalBuffer = new Uint8Array(fileLength + chunkLength);
-                        finalBuffer.set(new Uint8Array(file[fileName].fileChunk), 0);
-                        finalBuffer.set(new Uint8Array(chunk), fileLength);
-                        file[fileName] = {fileChunk: finalBuffer, isCorrupted: file[fileName].isCorrupted};
+                    if (!file[fileName].isTooLarge) {
+                        if (file[fileName].fileChunk.length > 0) {
+                            const maxBytesFile = (support.options && support.options.maxBytesPerFile) ? support.options.maxBytesPerFile : this.MAX_BYTE_FILE_SIZE;
+                            const fileLength = file[fileName].fileChunk.length;
+                            const chunkLength = chunk.length;
+                            const finalBuffer = new Uint8Array(fileLength + chunkLength);
+                            finalBuffer.set(new Uint8Array(file[fileName].fileChunk), 0);
+                            finalBuffer.set(new Uint8Array(chunk), fileLength);
+                            file[fileName] = {fileChunk: finalBuffer, isCorrupted: file[fileName].isCorrupted};
+                            if (fileLength + chunkLength > maxBytesFile) {
+                                file[fileName] = {
+                                    fileChunk: new Uint8Array,
+                                    isCorrupted: file[fileName].isCorrupted,
+                                    isTooLarge: true
+                                };
+                            }
+                        }
                     }
                 }
             } else {
@@ -124,24 +158,28 @@ export class ProcessorFiles {
     }
 
     private static getUnzipStream(support: ProcessingObjectSupport): Unzip {
-        let file: FilesBuilder = {};
+        const files: FilesBuilder = {};
+        const mutex = new Mutex()
         return new Unzip((stream: UnzipFile) => {
             stream.ondata = async (error: FlateError | null, chunk: Uint8Array, final: boolean) => {
+                const release = await mutex.acquire()
                 if (error) {
-                    if ((!file[stream.name]) || (file[stream.name] && !file[stream.name].isCorrupted)) {
+                    if ((!files[stream.name]) || (files[stream.name] && !files[stream.name].isCorrupted)) {
                         this.logger.log('error', 'An error occurred while streaming: ' + stream.name, 'getUnzipStream');
-                        file[stream.name] = {
+                        files[stream.name] = {
                             fileChunk: new Uint8Array(),
                             isCorrupted: true
                         };
-                        support.returnObject.notUsedFiles.push(stream.name);
                     }
                 }
-                this.buildFile(file, chunk, stream.name);
+                this.buildFile(files, chunk, stream.name, support);
                 if (final) {
-                    await this.processFile(file[stream.name].fileChunk, stream.name, support);
-                    delete file[stream.name];
+                    if (!files[stream.name].isCorrupted && !files[stream.name].isTooLarge) {
+                        await this.processFile(files[stream.name].fileChunk, stream.name, support)
+                        delete files[stream.name];
+                    }
                 }
+                release();
             };
             stream.start();
         });
@@ -151,7 +189,7 @@ export class ProcessorFiles {
         if (!ValidatorObject.isDirectory(pathName)) {
             if (fileContent && fileContent.length > 0) {
                 (recursiveZipPrefix) && (pathName = recursiveZipPrefix + '/' + pathName);
-                const extension = this.getFileExtension(pathName);
+                const extension = ValidatorFiles.getFileExtension(pathName);
                 if (extension) {
                     if (extension === FileExtension.ZIP) {
                         const recursiveZipFiles = unzipSync(fileContent);
@@ -159,93 +197,31 @@ export class ProcessorFiles {
                             await this.processFile(recursiveZipFiles[key], key, support, recursiveZipPrefix ? recursiveZipPrefix + '/' + pathName.slice(0, -4) : pathName.slice(0, -4));
                         }
                     } else {
-                        if (this.isValidContent(extension, fileContent, pathName)) {
+                        if (ValidatorFiles.isValidContent(extension, fileContent, pathName)) {
                             pathName = recursiveZipPrefix ? recursiveZipPrefix + '/' + pathName : pathName;
                             const validPathName = Selector.getValidator(support.code)!.getValidPath(pathName);
                             if (validPathName) {
-                                await Selector.getAggregatorBuilder(support.code, Buffer.from(fileContent, fileContent.byteOffset, fileContent.length), pathName, support.returnObject.aggregatorModel);
-                                support.returnObject.usedFiles.push(pathName);
-                            } else {
-                                support.returnObject.notUsedFiles.push(pathName);
+                                if (Selector.serviceNeedsLanguageCode(support.code)) {
+                                    if (!support.languageCode) {
+                                        support.languageCode = await (Selector.getValidator(support.code))?.getLanguage(pathName, fileContent);
+                                    }
+                                    if (support.languageCode) {
+                                        await Selector.getAggregatorBuilder(support.code, Buffer.from(fileContent, fileContent.byteOffset, fileContent.length), pathName, support.returnObject.aggregatorModel, {language: support.languageCode});
+                                    } else {
+                                        //if support.languageCode is needed but undefined, add the file to filesToParse and it will be parsed later.
+                                        support.filesToParse[pathName] = {
+                                            fileChunk: fileContent,
+                                            isCorrupted: false
+                                        };
+                                    }
+                                } else {
+                                    await Selector.getAggregatorBuilder(support.code, Buffer.from(fileContent, fileContent.byteOffset, fileContent.length), pathName, support.returnObject.aggregatorModel);
+                                }
                             }
-                        } else {
-                            support.returnObject.notUsedFiles.push(pathName);
                         }
                     }
-                } else {
-                    support.returnObject.notUsedFiles.push(pathName);
                 }
-            } else {
-                support.returnObject.notUsedFiles.push(pathName);
             }
-        }
-    }
-
-    /**
-     * @param fileName - name of the file
-     * @return FileExtension if the name matches one of the supported extensions, undefined otherwise
-     */
-    static getFileExtension(fileName: string): FileExtension | undefined {
-        let extension = fileName.split('.').pop();
-        if (extension) {
-            return FileExtension[extension.toUpperCase() as keyof typeof FileExtension];
-        }
-        this.logger.log('info', `Extension of \'${fileName}\' hasn't been recognized`, 'getFileExtension');
-        return undefined;
-    }
-
-    /**
-     * @param extension - extension of the file (e.g. json, csv, txt)
-     * @param file - file as buffer
-     * @param pathName - evaluated file name
-     * @return TRUE if the file is valid, FALSE otherwise
-     */
-    static isValidContent(extension: FileExtension, file: Uint8Array, pathName: string): boolean {
-        switch (extension) {
-            case FileExtension.JSON:
-                return this.validateJSON(file, pathName);
-            case FileExtension.JS:
-                const fileJson = Parser.extractJsonFromTwitterFile(Buffer.from(file, file.byteOffset, file.length));
-                if (fileJson) {
-                    return this.validateJSON(fileJson, pathName);
-                }
-                return false;
-            case FileExtension.CSV:
-                return this.validateCSV(file, pathName);
-            default:
-                return true;
-        }
-    }
-
-    /**
-     * @param file - file as buffer
-     * @param pathName - evaluated file name
-     * @return TRUE if the file is a valid JSON, FALSE otherwise
-     */
-    static validateJSON(file: Uint8Array, pathName?: string): boolean {
-        try {
-            return !!JSON.parse(new TextDecoder().decode(file));
-        } catch (error) {
-            (pathName)
-                ? this.logger.log('info', `File \"${pathName}\" is not a valid JSON`, 'validateJSON')
-                : this.logger.log('info', `File is not a valid JSON`, 'validateJSON');
-            return false;
-        }
-    }
-
-    /**
-     * @param file - file as buffer
-     * @param pathName - evaluated file name
-     * @return TRUE if the file is a valid CSV, FALSE otherwise
-     */
-    static validateCSV(file: Uint8Array, pathName?: string): boolean {
-        try {
-            return !!Parser.parseCSVfromBuffer(Buffer.from(file, file.byteOffset, file.length));
-        } catch (error) {
-            (pathName)
-                ? this.logger.log('info', `File \"${pathName}\" is not a valid CSV`, 'validateCSV')
-                : this.logger.log('info', `File is not a valid CSV`, 'validateCSV');
-            return false;
         }
     }
 }

@@ -19,4 +19,5 @@ export enum DescriptorErrorEnum {
 }
 
 export enum ProcessorErrorEnums { //start from CON-201
+    NOT_RELEVANT_INFO_AGGREGATED = 'CON-201',
 }

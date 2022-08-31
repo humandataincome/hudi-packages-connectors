@@ -10,8 +10,8 @@ import {Observable} from "rxjs";
 import {Selector} from "../../src";
 import {ReadableStream} from 'node:stream/web';
 
-processingStream('../../src/mock/datasource/zip files/private/google.zip', DataSourceCode.GOOGLE);
-//validateStream('../../src/mock/datasource/zip files/private/google.zip', DataSourceCode.GOOGLE);
+processingStream('../../src/mock/datasource/zip files/private/facebook.zip', DataSourceCode.FACEBOOK);
+//validateStream('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //showAggregator('../../src/mock/datasource/zip files/private/google.zip', DataSourceCode.GOOGLE);
 //showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //testNotMappedFiles('../../src/mock/datasource/zip files/private/google.zip');
@@ -50,71 +50,70 @@ async function testNotMappedFiles(pathToZip: string) {
 async function validateStream(pathToZip: string, code: DataSourceCode) {
     const fs = require('fs');
     const path = require('path');
-    fs.readFile(path.join(__dirname, pathToZip), (error: any, data: Buffer) => {
-        const fileZippedBytes = data.byteLength;
-        const readStream = fs.createReadStream(path.join(__dirname, pathToZip));
-        const readableStream = new ReadableStream({
-            async start(controller) {
-                readStream.on("data", (chunk: Buffer | string) => {
-                    controller.enqueue(chunk);
-                });
-                readStream.on("end", () => controller.close());
-                readStream.on("error", () => controller.error());
+    const size = fs.statSync(path.join(__dirname, pathToZip)).size;
+    const readStream = fs.createReadStream(path.join(__dirname, pathToZip));
+    const readableStream = new ReadableStream({
+        async start(controller) {
+            readStream.on("data", (chunk: Buffer | string) => {
+                controller.enqueue(chunk);
+            });
+            readStream.on("end", () => controller.close());
+            readStream.on("error", () => controller.error());
+        }
+    });
+    let fileUnzippedBytes = 0;
+    const validation$: Observable<ValidationZipStatus> = ValidatorFiles.validateZipStream(readableStream, {
+        throwExceptions: true,
+        filterDataSource: {dataSourceCode: code}
+    });
+    validation$.subscribe({
+        next(x: ValidationZipStatus) {
+            if (x.status === ValidationStatus.VALIDATING) {
+                fileUnzippedBytes = x.bytesRead!;
             }
-        });
-        let fileUnzippedBytes = 0;
-        const validation$: Observable<ValidationZipStatus> = ValidatorFiles.validateZipStream(readableStream, {
-            throwExceptions: false,
-            filterDataSource: {dataSourceCode: code}
-        });
-        validation$.subscribe({
-            next(x: ValidationZipStatus) {
-                if (x.status === ValidationStatus.VALIDATING) {
-                    fileUnzippedBytes = x.bytesRead!;
-                }
-                if (x.status === ValidationStatus.DONE) {
-                    console.log('Last iteration: ', x.validationResult);
-                }
-            },
-            error(err) {
-                console.error('ERROR: ' + err);
-            },
-            complete() {
-                console.log(fileUnzippedBytes, fileZippedBytes)
+            if (x.status === ValidationStatus.DONE) {
+                console.log('Last iteration: ', x.validationResult);
             }
-        });
+        },
+        error(err) {
+            console.error('ERROR: ' + err);
+        },
+        complete() {
+            console.log(fileUnzippedBytes, size)
+        }
     });
 }
 
 async function processingStream(pathToZip: string, code: DataSourceCode) {
     const fs = require('fs');
     const path = require('path');
-    fs.readFile(path.join(__dirname, pathToZip), (error: any, data: Buffer) => {
-        const readStream = fs.createReadStream(path.join(__dirname, pathToZip));
-        const readableStream = new ReadableStream({
-            async start(controller) {
-                readStream.on("data", (chunk: Buffer | string) => {
-                    controller.enqueue(chunk);
-                });
-                readStream.on("end", () => controller.close());
-                readStream.on("error", () => controller.error());
+    const size = fs.statSync(path.join(__dirname, pathToZip)).size;
+    const readStream = fs.createReadStream(path.join(__dirname, pathToZip));
+    const readableStream = new ReadableStream({
+        async start(controller) {
+            readStream.on("data", (chunk: Buffer | string) => {
+                controller.enqueue(chunk);
+            });
+            readStream.on("end", () => controller.close());
+            readStream.on("error", () => controller.error());
+        }
+    });
+    let fileUnzippedBytes = 0;
+    const processing$: Observable<ProcessingZipStatus> = ProcessorFiles.processingZipStream(readableStream, code);
+    processing$.subscribe({
+        next(x: ProcessingZipStatus) {
+            if (x.status === ProcessingStatus.PROCESSING) {
+                fileUnzippedBytes = x.bytesRead!;
+                const perc = (fileUnzippedBytes*100)/size;
+                (parseInt(perc.toString())%2===0) && console.log('%: ', perc);
             }
-        });
-        let fileUnzippedBytes = 0;
-        const processing$: Observable<ProcessingZipStatus> = ProcessorFiles.processingZipStream(readableStream, code);
-        processing$.subscribe({
-            next(x: ProcessingZipStatus) {
-                if (x.status === ProcessingStatus.PROCESSING) {
-                    fileUnzippedBytes = x.bytesRead!;
-                }
-                if (x.status === ProcessingStatus.DONE) {
-                    console.log('Last iteration: ', x.processingResult!.aggregatorModel);
-                }
-            },
-            error(err) {
-                console.error('ERROR: ' + err);
-            },
-            complete() {}
-        });
+            if (x.status === ProcessingStatus.DONE) {
+                console.log('Last iteration: ', x.processingResult!.aggregatorModel);
+            }
+        },
+        error(err) {
+            console.error('ERROR: ' + err);
+        },
+        complete() {}
     });
 }

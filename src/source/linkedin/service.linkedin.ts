@@ -50,7 +50,7 @@ import {
 } from "./model.linkedin";
 import {Parser} from "../../utils/parser";
 import {Months} from "../../utils";
-import {ValidatorObject} from "../../utils/validator/validator.object";
+import {ValidatorObject} from "../../utils";
 import {FileCodeLinkedIn} from "./enum.linkedin";
 
 /**
@@ -497,7 +497,7 @@ export class ServiceLinkedin {
                     }
                     (item['Content Saved'] != undefined) && (newItem.contentSaved = item['Content Saved']);
                     (item['Notes taken on videos (if taken)'] != '' && item['Notes taken on videos (if taken)'] != 'N/A') && (newItem.notesTakenOnVideos = item['Notes taken on videos (if taken)']);
-                    !ValidatorObject.objectIsEmpty(item) && model.list.push(newItem);
+                    !ValidatorObject.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }
@@ -642,7 +642,7 @@ export class ServiceLinkedin {
                         let match = item['Finished On'].match(/(\w+) (\d+)/);
                         newItem.finishedDate = new Date(Date.UTC(match[2], parseInt(Months[match[1].toUpperCase()]) - 1, 1));
                     }
-                    !ValidatorObject.objectIsEmpty(item) && model.list.push(newItem);
+                    !ValidatorObject.objectIsEmpty(newItem) && model.list.push(newItem);
                 });
                 return model.list.length > 0 ? model : undefined;
             }

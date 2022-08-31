@@ -1,4 +1,4 @@
-import {DataAggregator, DataSourceCode} from "../descriptor";
+import {DataAggregator, DataSourceCode, LanguageCode} from "../descriptor";
 import {
     FileCodeAmazon,
     FileCodeFacebook,
@@ -9,14 +9,21 @@ import {
     FileCodeReddit,
     FileCodeShopify,
     FileCodeTikTok,
-    FileCodeTwitter, ProcessorAmazon, ProcessorFacebook, ProcessorGoogle, ProcessorInstagram,
+    FileCodeTwitter,
+    ProcessorAmazon,
+    ProcessorFacebook,
+    ProcessorGoogle,
+    ProcessorInstagram,
     ServiceAmazon,
     ServiceFacebook,
     ServiceGoogle,
     ServiceInstagram,
     ServiceLinkedin,
     ServiceNetflix,
-    ServiceReddit, ServiceShopify, ServiceTiktok, ServiceTwitter,
+    ServiceReddit,
+    ServiceShopify,
+    ServiceTiktok,
+    ServiceTwitter,
     ValidatorAmazon,
     ValidatorFacebook,
     ValidatorGoogle,
@@ -120,7 +127,7 @@ export class Selector {
         }
     }
 
-    static async getParsingResult(code: DataSourceCode, filename: string, fileCode: string, files: Unzipped) {
+    static async getParsingResult(code: DataSourceCode, filename: string, fileCode: string, files: Unzipped, languageCode: LanguageCode = LanguageCode.ENGLISH) {
         const file = files[filename];
         const data = Buffer.from(file, file.byteOffset, file.length);
         switch (code) {
@@ -131,8 +138,7 @@ export class Selector {
             case DataSourceCode.GOOGLE:
                 return await ServiceGoogle.parseFile(<FileCodeGoogle>fileCode, data);
             case DataSourceCode.INSTAGRAM:
-                const language = await ValidatorInstagram.getInstance().getLanguage(files);
-                (language) && (ServiceInstagram.languagePrefix = language);
+                ServiceInstagram.languagePrefix = languageCode;
                 return await ServiceInstagram.parseFile(<FileCodeInstagram>fileCode, data);
             case DataSourceCode.LINKEDIN:
                 return await ServiceLinkedin.parseFile(<FileCodeLinkedIn>fileCode, data);
@@ -201,6 +207,18 @@ export class Selector {
         const Processor = this.getProcessor(code);
         if (Processor) {
             await Processor.aggregatorBuilder(data, pathName, model, options);
+        }
+    }
+
+    /**
+     * Given a DataSourceCode return True if that datasource needs a language code for the parsing through its Service
+     */
+    static serviceNeedsLanguageCode(code: DataSourceCode): boolean {
+        switch (code) {
+            case DataSourceCode.INSTAGRAM:
+                return true;
+            default:
+                return false;
         }
     }
 }

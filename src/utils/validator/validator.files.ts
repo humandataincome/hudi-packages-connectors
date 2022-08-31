@@ -16,6 +16,7 @@ import {ValidationErrorEnum} from "../index";
 import {ValidatorObject} from "./validator.object";
 import {from, Observable, Subscriber} from 'rxjs';
 import {Selector} from "../selector";
+import {Mutex} from "async-mutex";
 
 /**
  * @permittedFileExtensions list of extensions of file that we want to include exclusively.
@@ -77,7 +78,7 @@ interface FilesBuilder {
 export class ValidatorFiles {
     private static readonly logger = new Logger("Validator Files");
 
-    public static MAX_BYTE_FILE_SIZE = 6e6; //6 MB
+    public static MAX_BYTE_FILE_SIZE = 50e6; //50 MB
     public static MIN_BYTE_FILE_SIZE = 30; //30 B
     public static MAX_BYTE_ZIP = 1e9; //1 GB
 
@@ -210,8 +211,10 @@ export class ValidatorFiles {
 
     private static getUnzipStream(support: ValidationObjectSupport): Unzip {
         let file: FilesBuilder = {};
+        const mutex = new Mutex()
         return new Unzip((stream: UnzipFile) => {
-            stream.ondata = (error: FlateError | null, chunk: Uint8Array, final: boolean) => {
+            stream.ondata = async (error: FlateError | null, chunk: Uint8Array, final: boolean) => {
+                const release = await mutex.acquire()
                 if (error) {
                     if ((!file[stream.name]) || (file[stream.name] && !file[stream.name].isCorrupted)) {
                         this.logger.log('error', 'An error occurred while streaming: ' + stream.name, 'getUnzipStream');
@@ -229,6 +232,7 @@ export class ValidatorFiles {
                     }
                     delete file[stream.name];
                 }
+                release();
             };
             stream.start();
         });
