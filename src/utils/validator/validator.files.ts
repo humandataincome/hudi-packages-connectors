@@ -247,15 +247,13 @@ export class ValidatorFiles {
                     if (extension === FileExtension.ZIP) {
                         const recursiveZipFiles = unzipSync(fileContent);
                         for (let key in recursiveZipFiles) {
-                            this.filterFile(recursiveZipFiles[key], key, support, recursiveZipPrefix ? recursiveZipPrefix+'/'+fileName.slice(0, -4) : fileName.slice(0, -4));
+                            this.filterFile(recursiveZipFiles[key], key, support, fileName.slice(0, -4));
                         }
                     } else {
                         if (this.isValidSize(fileContent, fileName, support.options)) {
                             if (this.isValidContent(extension, fileContent, fileName)) {
                                 if (support.options.filterDataSource) {
-                                    let validPathName = (recursiveZipPrefix)
-                                        ? (this.getValidPathName(recursiveZipPrefix+'/'+fileName, support.options))
-                                        : (this.getValidPathName(fileName, support.options));
+                                    let validPathName = this.getValidPathName(fileName, support.options);
                                     if (validPathName) {
                                         support.validFiles[validPathName] = fileContent;
                                         support.returnObject.includedFiles.push(fileName);

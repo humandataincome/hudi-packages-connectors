@@ -10,7 +10,7 @@ import {Observable} from "rxjs";
 import {Selector} from "../../src";
 import {ReadableStream} from 'node:stream/web';
 
-processingStream('../../src/mock/datasource/zip files/private/facebook.zip', DataSourceCode.FACEBOOK);
+processingStream('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //validateStream('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //showAggregator('../../src/mock/datasource/zip files/private/google.zip', DataSourceCode.GOOGLE);
 //showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);

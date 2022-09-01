@@ -126,23 +126,23 @@ export class ProcessorFiles {
         }
     }
 
-    private static buildFile(file: FilesBuilder, chunk: Uint8Array, fileName: string, support: ProcessingObjectSupport) {
+    private static buildFile(chunk: Uint8Array, fileName: string, support: ProcessingObjectSupport) {
         if (chunk) {
-            if (file[fileName]) {
-                if (!file[fileName].isCorrupted) {
-                    if (!file[fileName].isTooLarge) {
-                        if (file[fileName].fileChunk.length > 0) {
+            if (support.filesToParse[fileName]) {
+                if (!support.filesToParse[fileName].isCorrupted) {
+                    if (!support.filesToParse[fileName].isTooLarge) {
+                        if (support.filesToParse[fileName].fileChunk.length > 0) {
                             const maxBytesFile = (support.options && support.options.maxBytesPerFile) ? support.options.maxBytesPerFile : this.MAX_BYTE_FILE_SIZE;
-                            const fileLength = file[fileName].fileChunk.length;
+                            const fileLength = support.filesToParse[fileName].fileChunk.length;
                             const chunkLength = chunk.length;
                             const finalBuffer = new Uint8Array(fileLength + chunkLength);
-                            finalBuffer.set(new Uint8Array(file[fileName].fileChunk), 0);
+                            finalBuffer.set(new Uint8Array(support.filesToParse[fileName].fileChunk), 0);
                             finalBuffer.set(new Uint8Array(chunk), fileLength);
-                            file[fileName] = {fileChunk: finalBuffer, isCorrupted: file[fileName].isCorrupted};
+                            support.filesToParse[fileName] = {fileChunk: finalBuffer, isCorrupted: support.filesToParse[fileName].isCorrupted};
                             if (fileLength + chunkLength > maxBytesFile) {
-                                file[fileName] = {
+                                support.filesToParse[fileName] = {
                                     fileChunk: new Uint8Array,
-                                    isCorrupted: file[fileName].isCorrupted,
+                                    isCorrupted: support.filesToParse[fileName].isCorrupted,
                                     isTooLarge: true
                                 };
                             }
@@ -150,33 +150,31 @@ export class ProcessorFiles {
                     }
                 }
             } else {
-                file[fileName] = {fileChunk: chunk, isCorrupted: false};
+                support.filesToParse[fileName] = {fileChunk: chunk, isCorrupted: false};
             }
         } else {
-            file[fileName] = {fileChunk: new Uint8Array, isCorrupted: true}
+            support.filesToParse[fileName] = {fileChunk: new Uint8Array, isCorrupted: true}
         }
     }
 
     private static getUnzipStream(support: ProcessingObjectSupport): Unzip {
-        const files: FilesBuilder = {};
         const mutex = new Mutex()
         return new Unzip((stream: UnzipFile) => {
             stream.ondata = async (error: FlateError | null, chunk: Uint8Array, final: boolean) => {
                 const release = await mutex.acquire()
                 if (error) {
-                    if ((!files[stream.name]) || (files[stream.name] && !files[stream.name].isCorrupted)) {
+                    if ((!support.filesToParse[stream.name]) || (support.filesToParse[stream.name] && !support.filesToParse[stream.name].isCorrupted)) {
                         this.logger.log('error', 'An error occurred while streaming: ' + stream.name, 'getUnzipStream');
-                        files[stream.name] = {
+                        support.filesToParse[stream.name] = {
                             fileChunk: new Uint8Array(),
                             isCorrupted: true
                         };
                     }
                 }
-                this.buildFile(files, chunk, stream.name, support);
+                this.buildFile(chunk, stream.name, support);
                 if (final) {
-                    if (!files[stream.name].isCorrupted && !files[stream.name].isTooLarge) {
-                        await this.processFile(files[stream.name].fileChunk, stream.name, support)
-                        delete files[stream.name];
+                    if (!support.filesToParse[stream.name].isCorrupted && !support.filesToParse[stream.name].isTooLarge) {
+                        await this.processFile(support.filesToParse[stream.name].fileChunk, stream.name, support)
                     }
                 }
                 release();
@@ -194,11 +192,10 @@ export class ProcessorFiles {
                     if (extension === FileExtension.ZIP) {
                         const recursiveZipFiles = unzipSync(fileContent);
                         for (let key in recursiveZipFiles) {
-                            await this.processFile(recursiveZipFiles[key], key, support, recursiveZipPrefix ? recursiveZipPrefix + '/' + pathName.slice(0, -4) : pathName.slice(0, -4));
+                            await this.processFile(recursiveZipFiles[key], key, support, pathName.slice(0, -4));
                         }
                     } else {
                         if (ValidatorFiles.isValidContent(extension, fileContent, pathName)) {
-                            pathName = recursiveZipPrefix ? recursiveZipPrefix + '/' + pathName : pathName;
                             const validPathName = Selector.getValidator(support.code)!.getValidPath(pathName);
                             if (validPathName) {
                                 if (Selector.serviceNeedsLanguageCode(support.code)) {
@@ -207,12 +204,7 @@ export class ProcessorFiles {
                                     }
                                     if (support.languageCode) {
                                         await Selector.getAggregatorBuilder(support.code, Buffer.from(fileContent, fileContent.byteOffset, fileContent.length), pathName, support.returnObject.aggregatorModel, {language: support.languageCode});
-                                    } else {
-                                        //if support.languageCode is needed but undefined, add the file to filesToParse and it will be parsed later.
-                                        support.filesToParse[pathName] = {
-                                            fileChunk: fileContent,
-                                            isCorrupted: false
-                                        };
+                                        delete support.filesToParse[pathName];
                                     }
                                 } else {
                                     await Selector.getAggregatorBuilder(support.code, Buffer.from(fileContent, fileContent.byteOffset, fileContent.length), pathName, support.returnObject.aggregatorModel);

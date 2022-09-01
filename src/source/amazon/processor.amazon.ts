@@ -162,6 +162,11 @@ export class ProcessorAmazon {
             if (result) {
                 model.searchDataEngagement = {list: ProcessorUtils.mergeArrays(model.searchDataEngagement?.list, result.list, options.maxEntitiesPerArray)};
             }
+        } else if ((regex = new RegExp(FileCodeAmazon.GAMES_TWITCHPRIME_SUB_HISTORY)) && (regex.test(pathName))) {
+            result = await ServiceAmazon.parseTwitchPrimeSubscription(data);
+            if (result) {
+                model.twitch.subscriptions = {list: ProcessorUtils.mergeArrays(model.twitch.subscriptions?.list, result.list, options.maxEntitiesPerArray)};
+            }
         }
     }
 }
