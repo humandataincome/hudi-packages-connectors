@@ -77,6 +77,7 @@ export class ProcessorInstagram {
 
     static async aggregatorBuilder(data: Buffer, pathName: string, model: InstagramDataAggregator, options: ProcessorOptions = {}) {
         const timeIntervalDays = (options.timeIntervalDays) ? options.timeIntervalDays : 365;
+        (!model.engagement.timeInterval) && (model.engagement.timeInterval = timeIntervalDays);
         ServiceInstagram.languagePrefix = options.language ? options.language : LanguageCode.ENGLISH;
         let result, regex;
         if ((regex = new RegExp(FileCodeInstagram.PERSONAL_INFO)) && (regex.test(pathName))) {
@@ -119,7 +120,7 @@ export class ProcessorInstagram {
         } else if ((regex = new RegExp(FileCodeInstagram.ADS_VIEWED)) && (regex.test(pathName))) {
             result = await ServiceInstagram.parseAdsViewed(data);
             if (result) {
-                model.engagement.adsViewedTI = result.list.length;
+                model.engagement.adsViewed = result.list.length;
                 model.engagement.adsViewedTI = result.list.filter((item: PostIG) => (item.date) && (ProcessorUtils.daysDifference(item.date) < timeIntervalDays)).length;
                 (options.maxEntitiesPerArray && result.list.length > options.maxEntitiesPerArray)
                     ? (model.adsViewed = {list: result.list.slice(0,options.maxEntitiesPerArray)})
