@@ -10,7 +10,7 @@ import {lastValueFrom, Observable} from "rxjs";
 
 describe('Validation Test', () => {
     const pathToZip = "../../src/mock/datasource/zip files/instagram.zip";
-    const expectedBytes = 26155;
+    const expectedBytes = 25816;
     test('validateZip', async () => {
         const validatedZip = await validateZip(pathToZip);
         expect(validatedZip!.zipFile.length).toBe(expectedBytes);
