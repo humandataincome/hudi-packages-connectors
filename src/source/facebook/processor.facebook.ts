@@ -62,6 +62,7 @@ export class ProcessorFacebook {
     static async aggregatorBuilder(data: Buffer, pathName: string, model: FacebookDataAggregator, options: ProcessorOptions = {}) {
         let result, regex;
         const timeIntervalDays = (options && options.timeIntervalDays) ? options.timeIntervalDays : 365;
+        (!model.engagement.timeInterval) && (model.engagement.timeInterval = timeIntervalDays);
         if ((regex = new RegExp(FileCodeFacebook.PROFILE_INFO)) && (regex.test(pathName))) {
             result = await ServiceFacebook.parsePersonalInformation(data);
             if (result) {
