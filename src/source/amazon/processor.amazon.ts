@@ -167,6 +167,16 @@ export class ProcessorAmazon {
             if (result) {
                 model.twitch.subscriptions = {list: ProcessorUtils.mergeArrays(model.twitch.subscriptions?.list, result.list, options.maxEntitiesPerArray)};
             }
+        } else if ((regex = new RegExp(FileCodeAmazon.GAMES_TWITCHPRIME_LINKED_ACCOUNTS)) && (regex.test(pathName))) {
+            result = await ServiceAmazon.parseTwitchPrimeLinkedAccounts(data);
+            if (result) {
+                model.twitch.linkedAccounts = {list: ProcessorUtils.mergeArrays(model.twitch.linkedAccounts?.list, result.list, options.maxEntitiesPerArray)};
+            }
+        } else if ((regex = new RegExp(FileCodeAmazon.GAMES_TWITCHPRIME_ACCOUNT_HISTORY)) && (regex.test(pathName))) {
+            result = await ServiceAmazon.parseTwitchPrimeAccountHistory(data);
+            if (result) {
+                model.twitch.accountHistory = {list: ProcessorUtils.mergeArrays(model.twitch.accountHistory?.list, result.list, options.maxEntitiesPerArray)};
+            }
         }
     }
 }

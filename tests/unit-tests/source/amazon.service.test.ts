@@ -130,4 +130,16 @@ describe('Amazon Service test', () => {
         const expected = 'iCARLIFE';
         expect(JSON.stringify(result!.list[4].value)).toBe(JSON.stringify(expected));
     });
+    test('parseTwitchPrimeLinkedAccounts', async () => {
+        const pathToFile = `../../../src/mock/datasource/raw files/amazon/AmazonGames/AmazonGames.TwitchPrime.LinkedTwitchAccounts.csv`;
+        const result = await ServiceAmazon.parseTwitchPrimeLinkedAccounts(await Parser.CSVToBuffer(path.join(__dirname, pathToFile)));
+        const expected = '88889999';
+        expect(JSON.stringify(result!.list[0].userId)).toBe(JSON.stringify(expected));
+    });
+    test('parseTwitchPrimeAccountHistory', async () => {
+        const pathToFile = `../../../src/mock/datasource/raw files/amazon/AmazonGames/AmazonGames.TwitchPrime.AccountHistory.csv`;
+        const result = await ServiceAmazon.parseTwitchPrimeAccountHistory(await Parser.CSVToBuffer(path.join(__dirname, pathToFile)));
+        const expected = '2019-11-26T16:43:00.000Z';
+        expect(JSON.stringify(result!.list[0].date)).toBe(JSON.stringify(expected));
+    });
 });

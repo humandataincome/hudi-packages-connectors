@@ -71,15 +71,12 @@ export interface RetailAggregatorAM {
 }
 
 export interface TwitchAggregatorAM {
+    //from FileCodeAmazon.GAMES_TWITCHPRIME_SUB_HISTORY model
     subscriptions?: TwitchPrimeSubscriptionsAM;
-}
-
-export interface EngagementAggregatorAM {
-    /**
-     * Interval of Time in days
-     * @default 365
-     */
-    timeInterval?: number;
+    //from FileCodeAmazon.GAMES_TWITCHPRIME_LINKED_ACCOUNTS model
+    linkedAccounts?: TwitchPrimeLinkedAccounts;
+    //from FileCodeAmazon.GAMES_TWITCHPRIME_ACCOUNT_HISTORY model
+    accountHistory?: TwitchPrimeAccountHistory;
 }
 
 //FileCodeAmazon.CUSTOMER_ENGAGEMENT model
@@ -269,10 +266,32 @@ export interface ViewingActivityAM {
     title?: string;
 }
 
-//GAMES_TWITCHPRIME_SUB_HISTORY model
+//FileCodeAmazon.GAMES_TWITCHPRIME_SUB_HISTORY model
 export interface TwitchPrimeSubscriptionsAM {
     list: TwitchPrimeSubscriptionAM[];
 }
+
+//FileCodeAmazon.GAMES_TWITCHPRIME_ACCOUNT_HISTORY model
+export interface TwitchPrimeAccountHistory {
+    list: TwitchAccount[];
+}
+
+export interface TwitchAccount {
+    date?: Date;
+    isTwitchPrime?: boolean;
+    isSignupComplete?: boolean;
+}
+
+//FileCodeAmazon.GAMES_TWITCHPRIME_LINKED_ACCOUNTS model
+export interface TwitchPrimeLinkedAccounts {
+    list: TwitchPrimeLinkedAccount[];
+}
+export interface TwitchPrimeLinkedAccount {
+    userId?: string;
+    eventType?: string;
+    date?: Date;
+}
+
 
 export interface TwitchPrimeSubscriptionAM {
     date?: Date;

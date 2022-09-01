@@ -35,7 +35,7 @@ import {
     RetailSellerFeedbacksAM,
     SearchAM,
     SearchDataCustomerEngagementAM, ThirdPartiesAudienceAM,
-    TitleAM,
+    TitleAM, TwitchAccount, TwitchPrimeAccountHistory, TwitchPrimeLinkedAccount, TwitchPrimeLinkedAccounts,
     TwitchPrimeSubscriptionAM,
     TwitchPrimeSubscriptionsAM,
     ViewingActivityAM,
@@ -106,6 +106,10 @@ export class ServiceAmazon {
                 return this.parseSearchDataCustomerEngagement(data);
             case FileCodeAmazon.GAMES_TWITCHPRIME_SUB_HISTORY:
                 return this.parseTwitchPrimeSubscription(data);
+            case FileCodeAmazon.GAMES_TWITCHPRIME_ACCOUNT_HISTORY:
+                return this.parseTwitchPrimeAccountHistory(data);
+            case FileCodeAmazon.GAMES_TWITCHPRIME_LINKED_ACCOUNTS:
+                return this.parseTwitchPrimeLinkedAccounts(data);
             default:
                 return undefined;
         }
@@ -483,7 +487,7 @@ export class ServiceAmazon {
     }
 
     /**
-     * @param data - GAMES_TWITCHPRIME_SUB_HISTORY file in input as Buffer
+     * @param data - FileCodeAmazon.GAMES_TWITCHPRIME_SUB_HISTORY file in input as Buffer
      */
     static async parseTwitchPrimeSubscription(data: Buffer): Promise<TwitchPrimeSubscriptionsAM | undefined> {
         try {
@@ -514,6 +518,58 @@ export class ServiceAmazon {
             return undefined;
         }
     }
+
+    /**
+     * @param data - FileCodeAmazon.GAMES_TWITCHPRIME_LINKED_ACCOUNTS file in input as Buffer
+     */
+    static async parseTwitchPrimeLinkedAccounts(data: Buffer): Promise<TwitchPrimeLinkedAccounts | undefined> {
+        try {
+            const result = Parser.parseCSVfromBuffer(data);
+            if(result) {
+                const model: TwitchPrimeLinkedAccounts = {list: []}
+                model.list = result.map((listItem: any) => {
+                    let match;
+                    const newItem: TwitchPrimeLinkedAccount = {}
+                    ValidatorObject.isCSVFieldValid(listItem[`${this.INIT_CHAR}twitchUserId`]) && (newItem.userId = listItem[`${this.INIT_CHAR}twitchUserId`]);
+                    ValidatorObject.isCSVFieldValid(listItem['eventType']) && (newItem.eventType = listItem['eventType']);
+                    ValidatorObject.isCSVFieldValid(listItem[`eventTime`]) && (match = listItem[`eventTime`].match(/(\w+) (\d+) (\w+) (\d+) (\d+):(\d+):(\d+)/));
+                    (match) && (newItem.date = new Date(Date.UTC(parseInt(match[4]), parseInt(Months[match[3].toUpperCase()]) - 1, parseInt(match[2]), parseInt(match[5]), parseInt(match[6]), parseInt(match[7]))));
+                    return newItem;
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (error){
+            this.logger.log('error', `${error}`,'parseTwitchPrimeLinkedAccounts');
+        }
+        return undefined;
+    }
+
+    /**
+     * @param data - FileCodeAmazon.GAMES_TWITCHPRIME_ACCOUNT_HISTORY file in input as Buffer
+     */
+    static async parseTwitchPrimeAccountHistory(data: Buffer): Promise<TwitchPrimeAccountHistory | undefined> {
+        try {
+            const result = Parser.parseCSVfromBuffer(data);
+            if(result) {
+                const model: TwitchPrimeAccountHistory = {list: []}
+                model.list = result.map((listItem: any) => {
+                    let match;
+                    const newItem: TwitchAccount = {}
+                    ValidatorObject.isCSVFieldValid(listItem[`${this.INIT_CHAR}DateTime`]) && (match = listItem[`${this.INIT_CHAR}DateTime`].match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/));
+                    (match) && (newItem.date = new Date(Date.UTC(parseInt(match[3]), parseInt(match[1]) - 1, parseInt(match[2]), parseInt(match[4]), parseInt(match[5]))));
+                    ValidatorObject.isCSVFieldValid(listItem[` IsTwitchPrime`]) && (newItem.isTwitchPrime = listItem[` IsTwitchPrime`]);
+                    ValidatorObject.isCSVFieldValid(listItem[' IsSignupComplete']) && (newItem.isSignupComplete = listItem[' IsSignupComplete']);
+                    return newItem;
+                });
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (error){
+            this.logger.log('error', `${error}`,'parseTwitchPrimeAccountHistory');
+        }
+        return undefined;
+    }
+
+
 
     /**
      * @param data - FileCodeAmazon.RETAIL_ORDER_HISTORY file in input as Buffer
