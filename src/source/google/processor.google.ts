@@ -121,20 +121,15 @@ export class ProcessorGoogle {
                 //average 145 bytes for each mapped search (with 100k searches is 14.5 MB)
                 model.chrome.browserHistory = {list: ProcessorUtils.mergeArrays(model.chrome.browserHistory?.list, result.list, 100000, true, filter).map(map)};
             }
-        } else if ((regex = new RegExp(FileCodeGoogle.CHROME_SEARCH_ENGINES)) && (regex.test(pathName))) {
-            result = await ServiceGoogle.parseSearchEngines(data);
-            if (result) {
-                model.chrome.searchEngines = {list: ProcessorUtils.mergeArrays(model.chrome.searchEngines?.list, result.list, options.maxEntitiesPerArray)};
-            }
         } else if ((regex = new RegExp(FileCodeGoogle.YOUTUBE_PLAYLIST_UPLOADS)) && (regex.test(pathName))) {
             result = await ServiceGoogle.parseYoutubePlaylists(data);
             if (result) {
-                model.youtube.videoLiked = {playlists: ProcessorUtils.mergeArrays(model.youtube.videoLiked?.playlists, result.playlists, options.maxEntitiesPerArray)};
+                model.youtube.videoUploaded = {playlists: ProcessorUtils.mergeArrays(model.youtube.videoUploaded?.playlists, result.playlists, options.maxEntitiesPerArray)};
             }
         } else if ((regex = new RegExp(FileCodeGoogle.YOUTUBE_LIKED_VIDEOS)) && (regex.test(pathName))) {
             result = await ServiceGoogle.parseYoutubePlaylists(data);
             if (result) {
-                model.youtube.videoUploaded = {playlists: ProcessorUtils.mergeArrays(model.youtube.videoUploaded?.playlists, result.playlists, options.maxEntitiesPerArray)};
+                model.youtube.videoLiked = {playlists: ProcessorUtils.mergeArrays(model.youtube.videoLiked?.playlists, result.playlists, options.maxEntitiesPerArray)};
             }
         } else if ((regex = new RegExp(FileCodeGoogle.FIT_DAILY_ACTIVITIES_METRICS)) && (regex.test(pathName))) {
             result = await ServiceGoogle.parseDailyActivityMetrics(data);

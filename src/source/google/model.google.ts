@@ -16,7 +16,9 @@ export interface GoogleDataAggregator {
 }
 
 export interface YouTubeAggregatorGO {
+    //from FileCodeGoogle.YOUTUBE_LIKED_VIDEOS model
     videoLiked?: YoutubePlaylistsGO;
+    //from FileCodeGoogle.YOUTUBE_PLAYLIST_UPLOADS model
     videoUploaded?: YoutubePlaylistsGO;
 }
 
@@ -34,8 +36,6 @@ export interface PlayStoreAggregatorGO {
 export interface ChromeAggregatorGO {
     //from FileCodeGoogle.CHROME_BROWSER_HISTORY model
     browserHistory?: BrowserHistoryGO;
-    //from FileCodeGoogle.CHROME_SEARCH_ENGINES model
-    searchEngines?: SearchEnginesGO;
 }
 
 export interface FitAggregatorGO{
@@ -44,12 +44,19 @@ export interface FitAggregatorGO{
 }
 
 export interface ActivityAggregatorGO {
+    //from FileCodeGoogle.ACTIVITY_NEWS model
     news?: ActivitiesGO;
+    //from FileCodeGoogle.ACTIVITY_BOOKS model
     books?: ActivitiesGO;
+    //from FileCodeGoogle.ACTIVITY_IMAGE_SEARCH model
     imageSearch?: ActivitiesGO;
+    //from FileCodeGoogle.ACTIVITY_SHOPPING model
     shopping?: ActivitiesGO;
+    //from FileCodeGoogle.ACTIVITY_DISCOVER model
     discovery?: ActivitiesGO;
+    //from FileCodeGoogle.ACTIVITY_PLAY_GAMES model
     playStoreGames?: ActivitiesGO;
+    //from FileCodeGoogle.ACTIVITY_PLAY_MOVIES model
     playStoreMovies?: ActivitiesGO;
 }
 
