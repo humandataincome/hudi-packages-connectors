@@ -2,8 +2,10 @@ import Logger from "../../utils/logger";
 import {
     AccountStatusHistoryLI,
     AccountStatusLI,
-    AdsClickedLI, AdsTargetingLI,
-    AdvClickedLI, ADVTargetingLI,
+    AdsClickedLI,
+    AdsTargetingLI,
+    AdvClickedLI,
+    ADVTargetingLI,
     CompaniesFollowedLI,
     CompanyFollowedLI,
     ConnectionLI,
@@ -21,7 +23,10 @@ import {
     InvitationLI,
     InvitationsLI,
     JobApplicantSavedInfoLI,
-    JobApplicantSavedScreeningQuestionInfoLI, JobApplicationLI, JobApplicationsLI, JobSeekerPreferencesLI,
+    JobApplicantSavedScreeningQuestionInfoLI,
+    JobApplicationLI,
+    JobApplicationsLI,
+    JobSeekerPreferencesLI,
     LearningLI,
     LearningsLI,
     LoginLI,
@@ -40,17 +45,21 @@ import {
     RichMediaLI,
     RichMediaListLI,
     SavedJobAlertLI,
-    SavedJobAlertsLI, SavedJobLI, SavedJobsLI,
+    SavedJobAlertsLI,
+    SavedJobLI,
+    SavedJobsLI,
     SearchQueriesLI,
     SearchQueryLI,
     SecurityChallengeLI,
-    SecurityChallengesLI, SkillsLI, VoteLI, VotesLI,
+    SecurityChallengesLI,
+    SkillsLI,
+    VoteLI,
+    VotesLI,
     WorkingPositionLI,
     WorkingPositionsLI
 } from "./model.linkedin";
 import {Parser} from "../../utils/parser";
-import {Months} from "../../utils";
-import {ValidatorObject} from "../../utils";
+import {Months, ValidatorObject} from "../../utils";
 import {FileCodeLinkedIn} from "./enum.linkedin";
 
 /**
@@ -68,16 +77,14 @@ export class ServiceLinkedin {
      */
     static async parseFile(fileCode: FileCodeLinkedIn, data: Buffer) {
         switch (fileCode) {
-            case FileCodeLinkedIn.JOBS_APPLICATIONS:
-                return this.parseJobApplications(data);
-            case FileCodeLinkedIn.JOBS_SEEKER_PREFERENCES:
-                return this.parseJobSeekerPreferences(data);
             case FileCodeLinkedIn.JOBS_SAVED_JOBS:
                 return this.parseSavedJobs(data);
             case FileCodeLinkedIn.ACCOUNT_STATUS_HISTORY:
                 return this.parseAccountStatusHistory(data);
             case FileCodeLinkedIn.ADS_CLICKED:
                 return this.parseAdsClicked(data);
+            case FileCodeLinkedIn.ADS_TARGETING:
+                return this.parseAdsTargeting(data);
             case FileCodeLinkedIn.COMPANY_FOLLOWS:
                 return this.parseCompaniesFollowed(data);
             case FileCodeLinkedIn.CONNECTIONS:
@@ -94,16 +101,22 @@ export class ServiceLinkedin {
                 return this.parseInferencesAboutYou(data);
             case FileCodeLinkedIn.INVITATIONS:
                 return this.parseInvitations(data);
+            case FileCodeLinkedIn.JOBS_APPLICATIONS:
+                return this.parseJobApplications(data);
             case FileCodeLinkedIn.JOB_APPLICANT_SAVED_ANSWERS:
                 return this.parseJobApplicantSavedInfo(data);
             case FileCodeLinkedIn.JOB_APPLICANT_SAVED_QUESTION_RESPONSES:
                 return this.parseJobApplicantSavedScreeningQuestionInfo(data);
+            case FileCodeLinkedIn.JOBS_SEEKER_PREFERENCES:
+                return this.parseJobSeekerPreferences(data);
             case FileCodeLinkedIn.LEARNING:
                 return this.parseLearnings(data);
             case FileCodeLinkedIn.LOGINS:
                 return this.parseLogins(data);
             case FileCodeLinkedIn.MEMBER_FOLLOWS:
                 return this.parseMembersFollowed(data);
+            case FileCodeLinkedIn.MESSAGE:
+                return this.parseMessages(data);
             case FileCodeLinkedIn.PHONE_NUMBERS:
                 return this.parsePhoneNumbers(data);
             case FileCodeLinkedIn.POSITIONS:
@@ -132,7 +145,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Account Status History.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.ACCOUNT_STATUS_HISTORY file in input as Buffer
      */
     static async parseAccountStatusHistory(data: Buffer): Promise<AccountStatusHistoryLI | undefined> {
         try {
@@ -159,7 +172,7 @@ export class ServiceLinkedin {
 
 
     /**
-     * @param data - file 'Ads Clicked.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.ADS_CLICKED file in input as Buffer
      */
     static async parseAdsClicked(data: Buffer): Promise<AdsClickedLI | undefined> {
         try {
@@ -186,7 +199,7 @@ export class ServiceLinkedin {
 
 
     /**
-     * @param data - file 'Company Follows.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.COMPANY_FOLLOWS file in input as Buffer
      */
     static async parseCompaniesFollowed(data: Buffer): Promise<CompaniesFollowedLI | undefined> {
         try {
@@ -212,7 +225,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Connections.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.CONNECTIONS file in input as Buffer
      */
     static async parseConnections(data: Buffer): Promise<ConnectionsLI | undefined> {
         try {
@@ -243,7 +256,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Contacts.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.CONTACTS file in input as Buffer
      */
     static async parseContacts(data: Buffer): Promise<ContactsLI | undefined> {
         try {
@@ -285,7 +298,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Education.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.EDUCATION file in input as Buffer
      */
     static async parseEducationHistory(data: Buffer): Promise<EducationHistoryLI | undefined> {
         try {
@@ -318,7 +331,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Email Addresses.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.EMAIL_ADDRESSES file in input as Buffer
      */
     static async parseEmails(data: Buffer): Promise<EmailsLI | undefined> {
         try {
@@ -346,7 +359,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Endorsement_Received_Info.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.ENDORSEMENT_RECEIVED_INFO_2 file in input as Buffer
      */
     static async parseEndorsementsReceived(data: Buffer): Promise<EndorsementsReceivedLI | undefined> {
         try {
@@ -376,7 +389,7 @@ export class ServiceLinkedin {
 
 
     /**
-     * @param data - file 'Inferences_about_you.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.INFERENCES_ABOUT_YOU file in input as Buffer
      */
     static async parseInferencesAboutYou(data: Buffer): Promise<InferencesAboutYouLI | undefined> {
         try {
@@ -402,7 +415,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Invitations.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.INVITATIONS file in input as Buffer
      */
     static async parseInvitations(data: Buffer): Promise<InvitationsLI | undefined> {
         try {
@@ -431,7 +444,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Job Applicant Saved Answers.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.JOB_APPLICANT_SAVED_ANSWERS file in input as Buffer
      */
     static async parseJobApplicantSavedInfo(data: Buffer): Promise<JobApplicantSavedInfoLI | undefined> {
         try {
@@ -453,7 +466,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Job Applicant Saved Screening Question Responses.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.JOB_APPLICANT_SAVED_QUESTION_RESPONSES file in input as Buffer
      */
     static async parseJobApplicantSavedScreeningQuestionInfo(data: Buffer): Promise<JobApplicantSavedScreeningQuestionInfoLI | undefined> {
         try {
@@ -475,7 +488,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Learning.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.LEARNING file in input as Buffer
      */
     static async parseLearnings(data: Buffer): Promise<LearningsLI | undefined> {
         try {
@@ -509,7 +522,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Logins.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.LOGINS file in input as Buffer
      */
     static async parseLogins(data: Buffer): Promise<LoginsLI | undefined> {
         try {
@@ -537,7 +550,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Member_Follows.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.MEMBER_FOLLOWS file in input as Buffer
      */
     static async parseMembersFollowed(data: Buffer): Promise<MembersFollowedLI | undefined> {
         try {
@@ -564,7 +577,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Member_Follows.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.MESSAGE file in input as Buffer
      */
     static async parseMessages(data: Buffer): Promise<MessagesLI | undefined> {
         try {
@@ -597,7 +610,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'PhoneNumber.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.PHONE_NUMBERS file in input as Buffer
      */
     static async parsePhoneNumbers(data: Buffer): Promise<PhoneNumbersLI | undefined> {
         try {
@@ -621,7 +634,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Positions.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.POSITIONS file in input as Buffer
      */
     static async parseWorkingPositions(data: Buffer): Promise<WorkingPositionsLI | undefined> {
         try {
@@ -654,7 +667,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Profile.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.PROFILE file in input as Buffer
      */
     static async parseProfile(data: Buffer): Promise<ProfileLI | undefined> {
         try {
@@ -689,7 +702,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Reactions.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.REACTIONS file in input as Buffer
      */
     static async parseReactions(data: Buffer): Promise<ReactionsLI | undefined> {
         try {
@@ -716,7 +729,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Registration.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.REGISTRATION file in input as Buffer
      */
     static async parseRegistration(data: Buffer): Promise<RegistrationLI | undefined> {
         try {
@@ -741,7 +754,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Rich Media.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.RICH_MEDIA file in input as Buffer
      */
     static async parseRichMediaList(data: Buffer): Promise<RichMediaListLI | undefined> {
         try {
@@ -764,7 +777,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'SavedJobAlerts.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.SAVED_JOBS_ALERTS file in input as Buffer
      */
     static async parseSavedJobAlerts(data: Buffer): Promise<SavedJobAlertsLI | undefined> {
         try {
@@ -790,7 +803,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'SearchQueries.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.SEARCH_QUERIES file in input as Buffer
      */
     static async parseSearchQueries(data: Buffer): Promise<SearchQueriesLI | undefined> {
         try {
@@ -816,7 +829,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Security Challenges.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.SECURITY_CHALLENGES file in input as Buffer
      */
     static async parseSecurityChallenges(data: Buffer): Promise<SecurityChallengesLI | undefined> {
         try {
@@ -845,7 +858,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Skills.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.SKILLS file in input as Buffer
      */
     static async parseSkills(data: Buffer): Promise<SkillsLI | undefined> {
         try {
@@ -864,7 +877,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Votes.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.VOTES file in input as Buffer
      */
     static async parseVotes(data: Buffer): Promise<VotesLI | undefined> {
         try {
@@ -891,7 +904,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file 'Ad_Targeting.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.ADS_TARGETING file in input as Buffer
      */
     static async parseAdsTargeting(data: Buffer): Promise<AdsTargetingLI | undefined> {
         try {
@@ -930,7 +943,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file '/jobs/Job Applications.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.JOBS_APPLICATIONS file in input as Buffer
      */
     static async parseJobApplications(data: Buffer): Promise<JobApplicationsLI | undefined> {
         try {
@@ -962,7 +975,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * @param data - file '/jobs/Saved Jobs.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.JOBS_SAVED_JOBS file in input as Buffer
      */
     static async parseSavedJobs(data: Buffer): Promise<SavedJobsLI | undefined> {
         try {
@@ -990,8 +1003,7 @@ export class ServiceLinkedin {
     }
 
     /**
-     * Some parameter type may be not correct.
-     * @param data - file '/jobs/Job Seeker Preferences.csv' in input as Buffer
+     * @param data - FileCodeLinkedIn.JOBS_SEEKER_PREFERENCES file in input as Buffer
      */
     static async parseJobSeekerPreferences(data: Buffer): Promise<JobSeekerPreferencesLI | undefined> {
         try {

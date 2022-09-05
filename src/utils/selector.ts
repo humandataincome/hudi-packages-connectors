@@ -38,6 +38,7 @@ import {
 import {ValidatorDatasource} from "./validator";
 import {Unzipped} from "fflate";
 import {ProcessorDatasource, ProcessorOptions} from "./processor";
+import {ProcessorLinkedin} from "../source/linkedin/processor.linkedin";
 
 export class Selector {
 
@@ -173,7 +174,7 @@ export class Selector {
             case DataSourceCode.NETFLIX:
                 return undefined;
             case DataSourceCode.LINKEDIN:
-                return undefined;
+                return ProcessorLinkedin;
             case DataSourceCode.SHOPIFY:
                 return undefined;
             case DataSourceCode.TWITTER:
