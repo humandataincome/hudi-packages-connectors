@@ -13,7 +13,7 @@ import {
     ProcessorAmazon,
     ProcessorFacebook,
     ProcessorGoogle,
-    ProcessorInstagram,
+    ProcessorInstagram, ProcessorLinkedin,
     ServiceAmazon,
     ServiceFacebook,
     ServiceGoogle,
@@ -38,32 +38,31 @@ import {
 import {ValidatorDatasource} from "./validator";
 import {Unzipped} from "fflate";
 import {ProcessorDatasource, ProcessorOptions} from "./processor";
-import {ProcessorLinkedin} from "../source/linkedin/processor.linkedin";
 
 export class Selector {
 
     static getFileCodeEnum(code: DataSourceCode) {
         switch (code) {
-            case DataSourceCode.INSTAGRAM:
-                return FileCodeInstagram;
-            case DataSourceCode.FACEBOOK:
-                return FileCodeFacebook;
             case DataSourceCode.AMAZON:
                 return FileCodeAmazon;
+            case DataSourceCode.FACEBOOK:
+                return FileCodeFacebook;
             case DataSourceCode.GOOGLE:
                 return FileCodeGoogle;
+            case DataSourceCode.INSTAGRAM:
+                return FileCodeInstagram;
             case DataSourceCode.LINKEDIN:
                 return FileCodeLinkedIn;
             case DataSourceCode.NETFLIX:
                 return FileCodeNetflix;
-            case DataSourceCode.SHOPIFY:
-                return FileCodeShopify;
-            case DataSourceCode.TWITTER:
-                return FileCodeTwitter;
             case DataSourceCode.REDDIT:
                 return FileCodeReddit;
+            case DataSourceCode.SHOPIFY:
+                return FileCodeShopify;
             case DataSourceCode.TIKTOK:
                 return FileCodeTikTok;
+            case DataSourceCode.TWITTER:
+                return FileCodeTwitter;
             default:
                 return undefined;
         }
@@ -75,26 +74,26 @@ export class Selector {
      */
     static getValidator(code: DataSourceCode): ValidatorDatasource | undefined {
         switch (code) {
-            case DataSourceCode.INSTAGRAM:
-                return ValidatorInstagram.getInstance();
-            case DataSourceCode.FACEBOOK:
-                return ValidatorFacebook.getInstance();
             case DataSourceCode.AMAZON:
                 return ValidatorAmazon.getInstance();
+            case DataSourceCode.FACEBOOK:
+                return ValidatorFacebook.getInstance();
             case DataSourceCode.GOOGLE:
                 return ValidatorGoogle.getInstance();
-            case DataSourceCode.NETFLIX:
-                return ValidatorNetflix.getInstance();
+            case DataSourceCode.INSTAGRAM:
+                return ValidatorInstagram.getInstance();
             case DataSourceCode.LINKEDIN:
                 return ValidatorLinkedIn.getInstance();
-            case DataSourceCode.SHOPIFY:
-                return ValidatorShopify.getInstance();
-            case DataSourceCode.TWITTER:
-                return ValidatorTwitter.getInstance();
-            case DataSourceCode.TIKTOK:
-                return ValidatorTikTok.getInstance();
+            case DataSourceCode.NETFLIX:
+                return ValidatorNetflix.getInstance();
             case DataSourceCode.REDDIT:
                 return ValidatorReddit.getInstance();
+            case DataSourceCode.SHOPIFY:
+                return ValidatorShopify.getInstance();
+            case DataSourceCode.TIKTOK:
+                return ValidatorTikTok.getInstance();
+            case DataSourceCode.TWITTER:
+                return ValidatorTwitter.getInstance();
             default:
                 return undefined;
         }
@@ -115,14 +114,14 @@ export class Selector {
                 return Object.values(FileCodeLinkedIn);
             case DataSourceCode.NETFLIX:
                 return Object.values(FileCodeNetflix);
+            case DataSourceCode.REDDIT:
+                return Object.values(FileCodeReddit);
             case DataSourceCode.SHOPIFY:
                 return Object.values(FileCodeShopify);
             case DataSourceCode.TIKTOK:
                 return Object.values(FileCodeTikTok);
             case DataSourceCode.TWITTER:
                 return Object.values(FileCodeTwitter);
-            case DataSourceCode.REDDIT:
-                return Object.values(FileCodeReddit);
             default:
                 return undefined;
         }
@@ -163,25 +162,25 @@ export class Selector {
      */
     static getProcessor(code: DataSourceCode): ProcessorDatasource | undefined {
         switch (code) {
-            case DataSourceCode.INSTAGRAM:
-                return ProcessorInstagram;
-            case DataSourceCode.FACEBOOK:
-                return ProcessorFacebook;
             case DataSourceCode.AMAZON:
                 return ProcessorAmazon;
+            case DataSourceCode.FACEBOOK:
+                return ProcessorFacebook;
             case DataSourceCode.GOOGLE:
                 return ProcessorGoogle;
-            case DataSourceCode.NETFLIX:
-                return undefined;
+            case DataSourceCode.INSTAGRAM:
+                return ProcessorInstagram;
             case DataSourceCode.LINKEDIN:
                 return ProcessorLinkedin;
+            case DataSourceCode.NETFLIX:
+                return undefined;
+            case DataSourceCode.REDDIT:
+                return undefined;
             case DataSourceCode.SHOPIFY:
                 return undefined;
             case DataSourceCode.TWITTER:
                 return undefined;
             case DataSourceCode.TIKTOK:
-                return undefined;
-            case DataSourceCode.REDDIT:
                 return undefined;
             default:
                 return undefined;

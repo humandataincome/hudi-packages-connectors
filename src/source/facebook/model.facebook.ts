@@ -353,12 +353,12 @@ export interface SearchFB {
     date?: Date;
 }
 
-//FileCodeFacebook.ADS_INTERESTS model
+//FileCodeFacebook.YOUR_TOPICS model
 export interface YourTopicsFB {
     list: string[];
 }
 
-//FileCodeFacebook.YOUR_TOPICS model
+//FileCodeFacebook.ADS_INTERESTS model
 export interface AdsInterestsFB {
     list: string[];
 }
