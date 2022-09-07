@@ -1,44 +1,5 @@
 import {Months} from "../../utils";
 
-/**
- * Aggregation of information from LinkedIn's models
- */
-export interface LinkedInDataAggregator {
-    profile: ProfileAggregatorLI;
-    jobs: JobsAggregatorLI;
-    ads: AdsAggregatorLI;
-    //from FileCodeLinkedIn.EDUCATION model
-    education?: EducationHistoryLI;
-    //from FileCodeLinkedIn.SKILLS model
-    skills?: SkillsLI;
-    creationDate?: Date;
-}
-
-export interface ProfileAggregatorLI {
-    //from FileCodeLinkedIn.EMAIL_ADDRESSES model
-    emails?: EmailsLI;
-    //from FileCodeLinkedIn.PROFILE model
-    profile?: ProfileLI;
-}
-
-export interface JobsAggregatorLI {
-    //from FileCodeLinkedIn.JOBS_APPLICATIONS model
-    applications?: JobApplicationsLI;
-    //from FileCodeLinkedIn.JOBS_SEEKER_PREFERENCES model
-    seekerApplications?: JobSeekerPreferencesLI;
-    //from FileCodeLinkedIn.POSITIONS model
-    workingPositionHistory?: WorkingPositionsLI;
-}
-
-export interface AdsAggregatorLI {
-    //from FileCodeLinkedIn.ADS_CLICKED model
-    clicked?: AdsClickedLI;
-    //from FileCodeLinkedIn.ADS_TARGETING model
-    targeting?: AdsClickedLI;
-}
-
-
-//FileCodeLinkedIn.ADS_CLICKED model
 export interface AdsClickedLI {
     list: Array<AdvClickedLI>;
 }
@@ -48,7 +9,6 @@ export interface AdvClickedLI {
     title?: string;
 }
 
-//FileCodeLinkedIn.CONNECTIONS model
 export interface ConnectionsLI {
     list: Array<ConnectionLI>;
 }
@@ -62,7 +22,6 @@ export interface ConnectionLI {
     dateConnection?: Date;
 }
 
-//FileCodeLinkedIn.ACCOUNT_STATUS_HISTORY model
 export interface AccountStatusHistoryLI {
     list: Array<AccountStatusLI>;
 }
@@ -72,7 +31,6 @@ export interface AccountStatusLI {
     event?: string;
 }
 
-//FileCodeLinkedIn.COMPANY_FOLLOWS model
 export interface CompaniesFollowedLI {
     list: Array<CompanyFollowedLI>;
 }
@@ -82,7 +40,6 @@ export interface CompanyFollowedLI {
     dateFollow?: Date;
 }
 
-//FileCodeLinkedIn.CONTACTS model
 export interface ContactsLI {
     list: Array<ContactLI>;
 }
@@ -106,7 +63,6 @@ export interface ContactLI {
     profiles?: string;
 }
 
-//FileCodeLinkedIn.EDUCATION model
 export interface EducationHistoryLI {
     list: Array<EducationLI>;
 }
@@ -120,7 +76,6 @@ export interface EducationLI {
     activities?: string;
 }
 
-//FileCodeLinkedIn.EMAIL_ADDRESSES model
 export interface EmailsLI {
     list: Array<EmailLI>;
 }
@@ -132,7 +87,6 @@ export interface EmailLI {
     dateUpdate?: Date;
 }
 
-//FileCodeLinkedIn.ENDORSEMENT_RECEIVED_INFO_2 model
 export interface EndorsementsReceivedLI {
     list: Array<EndorsementLI>;
 }
@@ -145,7 +99,6 @@ export interface EndorsementLI {
     endorsementStatus?: string;
 }
 
-//FileCodeLinkedIn.INFERENCES_ABOUT_YOU model
 export interface InferencesAboutYouLI {
     list: Array<InferenceLI>;
 }
@@ -157,7 +110,6 @@ export interface InferenceLI {
     inference?: boolean;
 }
 
-//FileCodeLinkedIn.INVITATIONS model
 export interface InvitationsLI {
     list: Array<InvitationLI>;
 }
@@ -170,12 +122,10 @@ export interface InvitationLI {
     direction?: string;
 }
 
-//FileCodeLinkedIn.JOB_APPLICANT_SAVED_ANSWERS model
 export interface JobApplicantSavedInfoLI {
     list: Array<QuestionAnswerLI>;
 }
 
-//FileCodeLinkedIn.JOB_APPLICANT_SAVED_QUESTION_RESPONSES model
 export interface JobApplicantSavedScreeningQuestionInfoLI {
     list: Array<QuestionAnswerLI>;
 }
@@ -185,7 +135,6 @@ export interface QuestionAnswerLI {
     answer: string;
 }
 
-//FileCodeLinkedIn.LEARNING model
 export interface LearningsLI {
     list: Array<LearningLI>;
 }
@@ -200,7 +149,6 @@ export interface LearningLI {
     notesTakenOnVideos?: string;
 }
 
-//FileCodeLinkedIn.LOGINS model
 export interface LoginsLI {
     list: Array<LoginLI>;
 }
@@ -212,7 +160,6 @@ export interface LoginLI {
     loginType?: string;
 }
 
-//FileCodeLinkedIn.MEMBER_FOLLOWS model
 export interface MembersFollowedLI {
     list: Array<MemberFollowsLI>;
 }
@@ -223,7 +170,6 @@ export interface MemberFollowsLI {
     status?: string;
 }
 
-//FileCodeLinkedIn.MESSAGE model
 export interface MessagesLI {
     list: Array<MessageLI>;
 }
@@ -240,7 +186,6 @@ export interface MessageLI {
     folder?: string;
 }
 
-//FileCodeLinkedIn.PHONE_NUMBERS model
 export interface PhoneNumbersLI {
     list: Array<PhoneNumberLI>;
 }
@@ -251,7 +196,6 @@ export interface PhoneNumberLI {
     type?: string;
 }
 
-//FileCodeLinkedIn.POSITIONS model
 export interface WorkingPositionsLI {
     list: Array<WorkingPositionLI>;
 }
@@ -265,8 +209,6 @@ export interface WorkingPositionLI {
     finishedDate?: Date;
 }
 
-
-//FileCodeLinkedIn.PROFILE model
 export interface ProfileLI {
     firstName?: string;
     lastName?: string;
@@ -288,7 +230,6 @@ export interface BirthDateLI {
     month: Months;
 }
 
-//FileCodeLinkedIn.REACTIONS model
 export interface ReactionsLI {
     list: Array<ReactionLI>;
 }
@@ -299,14 +240,12 @@ export interface ReactionLI {
     link?: string;
 }
 
-//FileCodeLinkedIn.REGISTRATION model
 export interface RegistrationLI {
     registeredDate?: Date;
     registeredIP?: string;
     subscriptionTypes?: string;
 }
 
-//FileCodeLinkedIn.RICH_MEDIA model
 export interface RichMediaListLI {
     list: Array<RichMediaLI>;
 }
@@ -316,7 +255,6 @@ export interface RichMediaLI {
     link?: string;
 }
 
-//FileCodeLinkedIn.SAVED_JOBS_ALERTS model
 export interface SavedJobAlertsLI {
     list: Array<SavedJobAlertLI>;
 }
@@ -326,7 +264,6 @@ export interface SavedJobAlertLI {
     searchURL?: string;
 }
 
-//FileCodeLinkedIn.SEARCH_QUERIES model
 export interface SearchQueriesLI {
     list: Array<SearchQueryLI>;
 }
@@ -336,7 +273,6 @@ export interface SearchQueryLI {
     query?: string;
 }
 
-//FileCodeLinkedIn.SECURITY_CHALLENGES model
 export interface SecurityChallengesLI {
     list: Array<SecurityChallengeLI>;
 }
@@ -349,12 +285,10 @@ export interface SecurityChallengeLI {
     challengeType?: string;
 }
 
-//FileCodeLinkedIn.SKILLS model
 export interface SkillsLI {
     list: Array<string>;
 }
 
-//FileCodeLinkedIn.VOTES model
 export interface VotesLI {
     list: Array<VoteLI>;
 }
@@ -365,7 +299,6 @@ export interface VoteLI {
     optionText?: string;
 }
 
-//FileCodeLinkedIn.ADS_TARGETING model
 export interface AdsTargetingLI {
     list: Array<ADVTargetingLI>;
 }
@@ -387,7 +320,6 @@ export interface ADVTargetingLI {
     bibliographyTags?: Array<string>;
 }
 
-//FileCodeLinkedIn.JOBS_APPLICATIONS model
 export interface JobApplicationsLI {
     list: Array<JobApplicationLI>;
 }
@@ -403,7 +335,6 @@ export interface JobApplicationLI {
     questionAnswers?: string;
 }
 
-//FileCodeLinkedIn.JOBS_SAVED_JOBS model
 export interface SavedJobsLI {
     list: Array<SavedJobLI>;
 }
@@ -415,7 +346,7 @@ export interface SavedJobLI {
     companyName?: string;
 }
 
-//FileCodeLinkedIn.JOBS_SEEKER_PREFERENCES model
+//Some parameter type may be not correct.
 export interface JobSeekerPreferencesLI {
     locations?: Array<string>;
     industries?: Array<string>;

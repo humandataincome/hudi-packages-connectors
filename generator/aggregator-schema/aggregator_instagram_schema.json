@@ -77,9 +77,6 @@
       "format": "date-time"
     }
   },
-  "required": [
-    "engagement"
-  ],
   "definitions": {
     "AccountsYouAreNotInterestedIG": {
       "type": "object",

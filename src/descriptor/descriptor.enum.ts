@@ -9,7 +9,7 @@ import {
     FileCodeReddit,
     FileCodeShopify,
     FileCodeTikTok,
-    FileCodeTwitter, GoogleDataAggregator, InstagramDataAggregator, LinkedInDataAggregator
+    FileCodeTwitter, GoogleDataAggregator, InstagramDataAggregator
 } from "../source";
 
 export enum DataSourceCode {
@@ -78,8 +78,7 @@ export type DataAggregator =
     AmazonDataAggregator |
     FacebookDataAggregator |
     InstagramDataAggregator |
-    GoogleDataAggregator |
-    LinkedInDataAggregator;
+    GoogleDataAggregator;
 
 
 
