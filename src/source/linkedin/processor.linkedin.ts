@@ -3,6 +3,8 @@ import {ProcessorDatasource, ProcessorOptions, ValidatorObject} from "../../util
 import Logger from "../../utils/logger";
 import {Unzipped, unzipSync} from "fflate";
 import {LinkedInDataAggregator} from "./model.linkedin";
+import {ServiceLinkedin} from "./service.linkedin";
+import {FileCodeLinkedIn} from "./enum.linkedin";
 
 @staticImplements<ProcessorDatasource>()
 export class ProcessorLinkedin {
@@ -43,6 +45,34 @@ export class ProcessorLinkedin {
     }
 
     static async aggregatorBuilder(data: Buffer, pathName: string, model: LinkedInDataAggregator, options: ProcessorOptions = {}) {
-
+        let result, regex;
+        if ((regex = new RegExp(FileCodeLinkedIn.EMAIL_ADDRESSES)) && (regex.test(pathName))) {
+            result = await ServiceLinkedin.parseEmails(data);
+            (result) && (model.profile.emails = result);
+        } else if ((regex = new RegExp(FileCodeLinkedIn.PROFILE)) && (regex.test(pathName))) {
+            result = await ServiceLinkedin.parseProfile(data);
+            (result) && (model.profile.info = result);
+        } else if ((regex = new RegExp(FileCodeLinkedIn.JOBS_APPLICATIONS)) && (regex.test(pathName))) {
+            result = await ServiceLinkedin.parseJobApplications(data);
+            (result) && (model.jobs.applications = result);
+        } else if ((regex = new RegExp(FileCodeLinkedIn.JOBS_SEEKER_PREFERENCES)) && (regex.test(pathName))) {
+            result = await ServiceLinkedin.parseJobSeekerPreferences(data);
+            (result) && (model.jobs.seekerApplications = result);
+        } else if ((regex = new RegExp(FileCodeLinkedIn.POSITIONS)) && (regex.test(pathName))) {
+            result = await ServiceLinkedin.parseWorkingPositions(data);
+            (result) && (model.jobs.workingPositionHistory = result);
+        } else if ((regex = new RegExp(FileCodeLinkedIn.ADS_CLICKED)) && (regex.test(pathName))) {
+            result = await ServiceLinkedin.parseAdsClicked(data);
+            (result) && (model.ads.clicked = result);
+        } else if ((regex = new RegExp(FileCodeLinkedIn.ADS_TARGETING)) && (regex.test(pathName))) {
+            result = await ServiceLinkedin.parseAdsTargeting(data);
+            (result) && (model.ads.targeting = result);
+        } else if ((regex = new RegExp(FileCodeLinkedIn.EDUCATION)) && (regex.test(pathName))) {
+            result = await ServiceLinkedin.parseEducationHistory(data);
+            (result) && (model.education = result);
+        } else if ((regex = new RegExp(FileCodeLinkedIn.SKILLS)) && (regex.test(pathName))) {
+            result = await ServiceLinkedin.parseSkills(data);
+            (result) && (model.skills = result);
+        }
     }
 }

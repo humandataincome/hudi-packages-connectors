@@ -18,7 +18,7 @@ export interface ProfileAggregatorLI {
     //from FileCodeLinkedIn.EMAIL_ADDRESSES model
     emails?: EmailsLI;
     //from FileCodeLinkedIn.PROFILE model
-    profile?: ProfileLI;
+    info?: ProfileLI;
 }
 
 export interface JobsAggregatorLI {
@@ -34,7 +34,7 @@ export interface AdsAggregatorLI {
     //from FileCodeLinkedIn.ADS_CLICKED model
     clicked?: AdsClickedLI;
     //from FileCodeLinkedIn.ADS_TARGETING model
-    targeting?: AdsClickedLI;
+    targeting?: AdsTargetingLI;
 }
 
 
