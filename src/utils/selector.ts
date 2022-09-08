@@ -13,7 +13,7 @@ import {
     ProcessorAmazon,
     ProcessorFacebook,
     ProcessorGoogle,
-    ProcessorInstagram, ProcessorLinkedin,
+    ProcessorInstagram,
     ServiceAmazon,
     ServiceFacebook,
     ServiceGoogle,
@@ -38,6 +38,7 @@ import {
 import {ValidatorDatasource} from "./validator";
 import {Unzipped} from "fflate";
 import {ProcessorDatasource, ProcessorOptions} from "./processor";
+import {ProcessorLinkedin} from "../source/linkedin/processor.linkedin";
 
 export class Selector {
 
