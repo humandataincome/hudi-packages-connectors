@@ -10,7 +10,10 @@ import {Observable} from "rxjs";
 import {Selector} from "../../src";
 import {ReadableStream} from 'node:stream/web';
 
-processingStream('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
+processingStream([
+    '../../src/mock/datasource/zip files/private/instagram.zip',
+    '../../src/mock/datasource/zip files/private/facebook.zip'
+], DataSourceCode.FACEBOOK);
 //validateStream('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //showAggregator('../../src/mock/datasource/zip files/private/google.zip', DataSourceCode.GOOGLE);
 //showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
@@ -84,28 +87,31 @@ async function validateStream(pathToZip: string, code: DataSourceCode) {
     });
 }
 
-async function processingStream(pathToZip: string, code: DataSourceCode) {
+async function processingStream(pathsToZip: string[], code: DataSourceCode) {
     const fs = require('fs');
     const path = require('path');
-    const size = fs.statSync(path.join(__dirname, pathToZip)).size;
-    const readStream = fs.createReadStream(path.join(__dirname, pathToZip));
-    const readableStream = new ReadableStream({
-        async start(controller) {
-            readStream.on("data", (chunk: Buffer | string) => {
-                controller.enqueue(chunk);
-            });
-            readStream.on("end", () => controller.close());
-            readStream.on("error", () => controller.error());
-        }
+    let totalSize = 0;
+    let streams: ReadableStream[] = [];
+    pathsToZip.forEach((pathToZip: string) => {
+        totalSize += fs.statSync(path.join(__dirname, pathToZip)).size;
+        const readStream = fs.createReadStream(path.join(__dirname, pathToZip));
+        streams.push(new ReadableStream({
+            async start(controller) {
+                readStream.on("data", (chunk: Buffer | string) => {
+                    controller.enqueue(chunk);
+                });
+                readStream.on("end", () => controller.close());
+                readStream.on("error", () => controller.error());
+            }
+        }));
     });
     let fileUnzippedBytes = 0;
-    const processing$: Observable<ProcessingZipStatus> = ProcessorFiles.processingZipStream(readableStream, code);
+    const processing$: Observable<ProcessingZipStatus> = ProcessorFiles.processingZipStream(streams, code);
     processing$.subscribe({
         next(x: ProcessingZipStatus) {
             if (x.status === ProcessingStatus.PROCESSING) {
                 fileUnzippedBytes = x.bytesRead!;
-                const perc = (fileUnzippedBytes*100)/size;
-                (parseInt(perc.toString())%2===0) && console.log('%: ', perc);
+                //console.log('%: ', (fileUnzippedBytes*100)/totalSize);
             }
             if (x.status === ProcessingStatus.DONE) {
                 console.log('Last iteration: ', x.processingResult!.aggregatorModel);

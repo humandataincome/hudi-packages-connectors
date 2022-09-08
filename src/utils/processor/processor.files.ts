@@ -6,6 +6,7 @@ import {Selector} from "../selector";
 import Logger from "../logger";
 import {ProcessorErrorEnums} from "../utils.error";
 import {Mutex} from "async-mutex";
+import {ReadableStream} from "node:stream/web";
 
 export interface ProcessingZipOptions {
     throwExceptions?: boolean;
@@ -29,9 +30,9 @@ export interface ProcessingZipStatus {
 }
 
 export interface ProcessingObjectSupport {
-    readableStream: ReadableStream;
+    readableStreams: ReadableStream[];
     returnObject: ProcessingReturn;
-    subscriber?: Subscriber<ProcessingZipStatus>;
+    subscriber: Subscriber<ProcessingZipStatus>;
     code: DataSourceCode;
     languageCode?: LanguageCode | undefined;
     filesToParse: FilesBuilder;
@@ -39,14 +40,19 @@ export interface ProcessingObjectSupport {
 }
 
 interface FilesBuilder {
-    [fileName: string]: {fileChunk: Uint8Array, isCorrupted: boolean, isTooLarge?: boolean};
+    [fileName: string]: {fileChunk: Uint8Array, isCorrupted: boolean, isTooLarge?: boolean, lock: Mutex};
 }
 
 export class ProcessorFiles {
     public static MAX_BYTE_FILE_SIZE = 500e6; //500 MB
     private static readonly logger = new Logger("Processor Files");
 
-    static processingZipStream(readableStream: ReadableStream, code: DataSourceCode, options: ProcessingZipOptions = {}): Observable<ProcessingZipStatus> {
+    /**
+     * @param readableStreams - array of file as ReadableStream (can be used with data sources composed by multiple files)
+     * @param code - code of the Data source
+     * @param options - optional parameters defined into ProcessingZipOptions interface
+     */
+    static processingZipStream(readableStreams: ReadableStream[], code: DataSourceCode, options: ProcessingZipOptions = {}): Observable<ProcessingZipStatus> {
         return new Observable<ProcessingZipStatus>((subscriber: Subscriber<ProcessingZipStatus>) => {
             const model = Selector.getInitAggregator(code);
             if (model) {
@@ -54,7 +60,7 @@ export class ProcessorFiles {
                     aggregatorModel: model
                 }
                 const support: ProcessingObjectSupport = {
-                    readableStream: readableStream,
+                    readableStreams: readableStreams,
                     returnObject: processingReturn,
                     subscriber: subscriber,
                     code: code,
@@ -105,20 +111,18 @@ export class ProcessorFiles {
     private static async unzipFileFromStream(support: ProcessingObjectSupport) {
         const unzipStream: Unzip = this.getUnzipStream(support);
         let bytesTotal = 0;
-        unzipStream.register(UnzipInflate); //can't be async otherwise the RAM usage would be too much
-        if (support.readableStream) {
-            const reader = support.readableStream.getReader();
+        unzipStream.register(UnzipInflate);
+        for (let i = 0; i<support.readableStreams.length; i++) {
+            const reader = support.readableStreams[i].getReader();
             for (let finished = false; !finished;) {
                 const {done, value} = await reader.read();
                 if (value) {
                     bytesTotal =  bytesTotal + (<Uint8Array>value).byteLength;
-                    if (support.subscriber) {
-                        support.subscriber.next(
-                            {
-                                bytesRead: bytesTotal,
-                                status: ProcessingStatus.PROCESSING
-                            });
-                    }
+                    support.subscriber.next(
+                        {
+                            bytesRead: bytesTotal,
+                            status: ProcessingStatus.PROCESSING
+                        });
                     unzipStream.push(value);
                 }
                 finished = done;
@@ -126,58 +130,63 @@ export class ProcessorFiles {
         }
     }
 
-    private static buildFile(chunk: Uint8Array, fileName: string, support: ProcessingObjectSupport) {
+    private static async buildFile(chunk: Uint8Array, fileName: string, support: ProcessingObjectSupport) {
         if (chunk) {
             if (support.filesToParse[fileName]) {
                 if (!support.filesToParse[fileName].isCorrupted) {
                     if (!support.filesToParse[fileName].isTooLarge) {
                         if (support.filesToParse[fileName].fileChunk.length > 0) {
+                            const release = await support.filesToParse[fileName].lock.acquire();
                             const maxBytesFile = (support.options && support.options.maxBytesPerFile) ? support.options.maxBytesPerFile : this.MAX_BYTE_FILE_SIZE;
                             const fileLength = support.filesToParse[fileName].fileChunk.length;
                             const chunkLength = chunk.length;
                             const finalBuffer = new Uint8Array(fileLength + chunkLength);
                             finalBuffer.set(new Uint8Array(support.filesToParse[fileName].fileChunk), 0);
                             finalBuffer.set(new Uint8Array(chunk), fileLength);
-                            support.filesToParse[fileName] = {fileChunk: finalBuffer, isCorrupted: support.filesToParse[fileName].isCorrupted};
+                            support.filesToParse[fileName] = {
+                                fileChunk: finalBuffer,
+                                isCorrupted: support.filesToParse[fileName].isCorrupted,
+                                lock: new Mutex()
+                            };
                             if (fileLength + chunkLength > maxBytesFile) {
                                 support.filesToParse[fileName] = {
                                     fileChunk: new Uint8Array,
                                     isCorrupted: support.filesToParse[fileName].isCorrupted,
-                                    isTooLarge: true
+                                    isTooLarge: true,
+                                    lock: new Mutex()
                                 };
                             }
+                            release();
                         }
                     }
                 }
             } else {
-                support.filesToParse[fileName] = {fileChunk: chunk, isCorrupted: false};
+                support.filesToParse[fileName] = {fileChunk: chunk, isCorrupted: false, lock: new Mutex()};
             }
         } else {
-            support.filesToParse[fileName] = {fileChunk: new Uint8Array, isCorrupted: true}
+            support.filesToParse[fileName] = {fileChunk: new Uint8Array, isCorrupted: true, lock: new Mutex()}
         }
     }
 
     private static getUnzipStream(support: ProcessingObjectSupport): Unzip {
-        const mutex = new Mutex()
         return new Unzip((stream: UnzipFile) => {
             stream.ondata = async (error: FlateError | null, chunk: Uint8Array, final: boolean) => {
-                const release = await mutex.acquire()
                 if (error) {
                     if ((!support.filesToParse[stream.name]) || (support.filesToParse[stream.name] && !support.filesToParse[stream.name].isCorrupted)) {
                         this.logger.log('error', 'An error occurred while streaming: ' + stream.name, 'getUnzipStream');
                         support.filesToParse[stream.name] = {
                             fileChunk: new Uint8Array(),
-                            isCorrupted: true
+                            isCorrupted: true,
+                            lock: new Mutex()
                         };
                     }
                 }
-                this.buildFile(chunk, stream.name, support);
+                await this.buildFile(chunk, stream.name, support);
                 if (final) {
                     if (!support.filesToParse[stream.name].isCorrupted && !support.filesToParse[stream.name].isTooLarge) {
                         await this.processFile(support.filesToParse[stream.name].fileChunk, stream.name, support)
                     }
                 }
-                release();
             };
             stream.start();
         });

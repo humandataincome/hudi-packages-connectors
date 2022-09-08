@@ -63,7 +63,7 @@ export interface ValidationReturn {
 }
 
 interface ValidationObjectSupport {
-    readableStream?: ReadableStream;
+    readableStreams?: ReadableStream[];
     returnObject: ValidationReturn;
     validFiles: AsyncZippable;
     options: ValidationZipOptions;
@@ -72,7 +72,7 @@ interface ValidationObjectSupport {
 }
 
 interface FilesBuilder {
-    [fileName: string]: {fileChunk: Uint8Array, isCorrupted: boolean, isTooLarge?: boolean};
+    [fileName: string]: {fileChunk: Uint8Array, isCorrupted: boolean, isTooLarge?: boolean, lock: Mutex};
 }
 
 export class ValidatorFiles {
@@ -85,10 +85,10 @@ export class ValidatorFiles {
     /**
      * An observable taking in input a zip file as ReadableStream. Every time a file is read and validated the observable emits an event containing a status:
      * if the status is VALIDATING the event contains also the number of bytes read until that moment, if the event is DONE the event return an object of ValidationReturn type
-     * @param readableStream - streaming in input
+     * @param readableStreams - files in input as ReadableStream
      * @param options - optional parameters defined into ValidationZipOptions interface
      */
-    static validateZipStream(readableStream: ReadableStream, options: ValidationZipOptions = {}): Observable<ValidationZipStatus> {
+    static validateZipStream(readableStreams: ReadableStream[], options: ValidationZipOptions = {}): Observable<ValidationZipStatus> {
         return new Observable<ValidationZipStatus>((subscriber: Subscriber<ValidationZipStatus>) => {
             const validationReturn: ValidationReturn = {
                 zipFile: new Uint8Array(),
@@ -97,7 +97,7 @@ export class ValidatorFiles {
             }
 
             const support: ValidationObjectSupport = {
-                readableStream: readableStream,
+                readableStreams: readableStreams,
                 returnObject: validationReturn,
                 validFiles: {},
                 subscriber: subscriber,
@@ -150,19 +150,17 @@ export class ValidatorFiles {
         const unzipStream: Unzip = this.getUnzipStream(support);
         let bytesTotal = 0;
         unzipStream.register(UnzipInflate); //can't be async otherwise the RAM usage would be too much
-        if (support.readableStream) {
-            const reader = support.readableStream.getReader();
+        for (let i = 0; i<support.readableStreams!.length; i++) {
+            const reader = support.readableStreams![i].getReader();
             for (let finished = false; !finished;) {
                 const {done, value} = await reader.read();
                 if (value) {
                     bytesTotal =  bytesTotal + (<Uint8Array>value).byteLength;
-                    if (support.subscriber) {
-                        support.subscriber.next(
-                            {
-                                bytesRead: bytesTotal,
-                                status: ValidationStatus.VALIDATING
-                            });
-                    }
+                    support.subscriber!.next(
+                        {
+                            bytesRead: bytesTotal,
+                            status: ValidationStatus.VALIDATING
+                        });
                     unzipStream.push(value);
                 }
                 finished = done;
@@ -170,34 +168,41 @@ export class ValidatorFiles {
         }
     }
 
-    private static buildFile(file: FilesBuilder, chunk: Uint8Array, fileName: string, support: ValidationObjectSupport) {
+    private static async buildFile(file: FilesBuilder, chunk: Uint8Array, fileName: string, support: ValidationObjectSupport) {
         if (chunk) {
             if (file[fileName]) {
                 if (!file[fileName].isCorrupted) {
                     if (!file[fileName].isTooLarge) {
                         if (file[fileName].fileChunk.length > 0) {
+                            const release = await file[fileName].lock.acquire();
                             const maxBytesFile = (support.options && support.options.maxBytesZipFile) ? support.options.maxBytesZipFile : this.MAX_BYTE_ZIP;
                             const fileLength = file[fileName].fileChunk.length;
                             const chunkLength = chunk.length;
                             const finalBuffer = new Uint8Array(fileLength + chunkLength);
                             finalBuffer.set(new Uint8Array(file[fileName].fileChunk), 0);
                             finalBuffer.set(new Uint8Array(chunk), fileLength);
-                            file[fileName] = {fileChunk: finalBuffer, isCorrupted: file[fileName].isCorrupted};
+                            file[fileName] = {
+                                fileChunk: finalBuffer,
+                                isCorrupted: file[fileName].isCorrupted,
+                                lock: new Mutex()
+                            };
                             if (fileLength + chunkLength > maxBytesFile) {
                                 file[fileName] = {
                                     fileChunk: new Uint8Array,
                                     isCorrupted: file[fileName].isCorrupted,
-                                    isTooLarge: true
+                                    isTooLarge: true,
+                                    lock: new Mutex()
                                 };
                             }
+                            release();
                         }
                     }
                 }
             } else {
-                file[fileName] = {fileChunk: chunk, isCorrupted: false};
+                file[fileName] = {fileChunk: chunk, isCorrupted: false, lock: new Mutex()};
             }
         } else {
-            file[fileName] = {fileChunk: new Uint8Array, isCorrupted: true}
+            file[fileName] = {fileChunk: new Uint8Array, isCorrupted: true, lock: new Mutex()}
         }
     }
 
@@ -211,28 +216,26 @@ export class ValidatorFiles {
 
     private static getUnzipStream(support: ValidationObjectSupport): Unzip {
         let file: FilesBuilder = {};
-        const mutex = new Mutex()
         return new Unzip((stream: UnzipFile) => {
             stream.ondata = async (error: FlateError | null, chunk: Uint8Array, final: boolean) => {
-                const release = await mutex.acquire()
                 if (error) {
                     if ((!file[stream.name]) || (file[stream.name] && !file[stream.name].isCorrupted)) {
                         this.logger.log('error', 'An error occurred while streaming: ' + stream.name, 'getUnzipStream');
                         file[stream.name] = {
                             fileChunk: new Uint8Array(),
-                            isCorrupted: true
+                            isCorrupted: true,
+                            lock: new Mutex()
                         };
                         support.returnObject.excludedFiles.push(stream.name);
                     }
                 }
-                this.buildFile(file, chunk, stream.name, support);
+                await this.buildFile(file, chunk, stream.name, support);
                 if (final) {
                     if (!file[stream.name].isCorrupted && !file[stream.name].isTooLarge) {
                         this.filterFile(file[stream.name].fileChunk, stream.name, support);
                     }
                     delete file[stream.name];
                 }
-                release();
             };
             stream.start();
         });

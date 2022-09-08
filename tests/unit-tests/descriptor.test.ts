@@ -2,10 +2,9 @@ import {DataSourceCode, DescriptorService, LanguageCode, RetrievingProcedureType
 
 describe('Descriptor Test', () => {
     test('getAllCodes', () => {
-        const result = DescriptorService.getAllCodes().pop();
+        const result = DescriptorService.getAllCodes();
         const expected = DataSourceCode.REDDIT;
-        expect(result).toBe(expected);
-        expect(JSON.stringify(result)).toBe(JSON.stringify(expected));
+        expect(JSON.stringify(result[9])).toBe(JSON.stringify(expected));
     });
     test('getName', () => {
         const result = DescriptorService.getName(DataSourceCode.INSTAGRAM);

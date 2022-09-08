@@ -1,8 +1,6 @@
 import {Descriptor, FileDescription, Procedure} from "./descriptor.model";
 import {DataSourceCode, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
-import {DescriptorErrorEnum} from "../utils";
-import {ValidatorObject} from "../utils/validator/validator.object";
-import {Selector} from "../utils/selector";
+import {DescriptorErrorEnum, Selector, ValidatorObject} from "../utils";
 
 const descriptor: Descriptor = require('./descriptor.json');
 
@@ -10,10 +8,14 @@ export class DescriptorService {
     static readonly document: Descriptor = descriptor;
 
     /**
-     * @return  all available data sources' respective codes
+     * @return  all available data sources' codes (someone may not be described into descriptor.json)
      */
     static getAllCodes(): DataSourceCode[] {
-        return descriptor?.sourceDescriptions?.map(({sourceCode}) => sourceCode) || [];
+        let list: DataSourceCode[] = []
+         for (let enumMember in DataSourceCode) {
+             list.push(DataSourceCode[<DataSourceCode>enumMember]);
+        }
+        return list;
     }
 
     /**
