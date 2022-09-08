@@ -12,7 +12,13 @@ export class SchemaGenerator {
             strictNullChecks: true,
         };
         //INSERT HERE all the datasource's codes that have both a model and an aggregator and then can have a generated aggregator
-        const codes = [DataSourceCode.INSTAGRAM, DataSourceCode.FACEBOOK, DataSourceCode.AMAZON, DataSourceCode.GOOGLE]
+        const codes = [
+            DataSourceCode.AMAZON,
+            DataSourceCode.FACEBOOK,
+            DataSourceCode.GOOGLE,
+            DataSourceCode.INSTAGRAM,
+            DataSourceCode.LINKEDIN
+        ];
         codes.forEach((code: DataSourceCode) => {
             const datasource = code.toLowerCase();
             const program = getProgramFromFiles(

@@ -61,7 +61,7 @@ export interface ActivityAggregatorGO {
 }
 
 //FileCodeGoogle.PROFILE model
-export interface ProfileGO {
+export interface  ProfileGO {
     givenName?: string;
     familyName?: string;
     formattedName?: string;

@@ -829,11 +829,11 @@
                         },
                         {
                             "fileCode": "ADS_CLICKED",
-                            "fileContent": "Advertisers you have clicked on"
+                            "fileContent": "Advertisements you have clicked on"
                         },
                         {
                             "fileCode": "ADS_VIEWED",
-                            "fileContent": "Advertisers you have seen"
+                            "fileContent": "Advertisements you have seen"
                         },
                         {
                             "fileCode": "POSTS_VIEWED",
@@ -1051,7 +1051,7 @@
                         },
                         {
                             "fileCode": "RECENTLY_VIEWED",
-                            "fileContent": "Video, pag and marketplace articles you have interacted with recently"
+                            "fileContent": "Video, pages and marketplace articles you have interacted with recently"
                         },
                         {
                             "fileCode": "RECENTLY_VISITED",
@@ -1443,7 +1443,7 @@
                         },
                         {
                             "fileCode": "PLAY_STORE_LIBRARY",
-                            "fileContent": "List of books, songs, apps, documents in your libraries"
+                            "fileContent": "List of books, songs, app, documents in your library"
                         },
                         {
                             "fileCode": "PLAY_STORE_ORDER_HISTORY",
