@@ -25,7 +25,7 @@ export interface JobsAggregatorLI {
     //from FileCodeLinkedIn.JOBS_APPLICATIONS model
     applications?: JobApplicationsLI;
     //from FileCodeLinkedIn.JOBS_SEEKER_PREFERENCES model
-    seekerApplications?: JobSeekerPreferencesLI;
+    seekerPreferences?: JobSeekerPreferencesLI;
     //from FileCodeLinkedIn.POSITIONS model
     workingPositionHistory?: WorkingPositionsLI;
 }

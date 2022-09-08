@@ -57,7 +57,7 @@ export class ProcessorLinkedin {
             (result) && (model.jobs.applications = result);
         } else if ((regex = new RegExp(FileCodeLinkedIn.JOBS_SEEKER_PREFERENCES)) && (regex.test(pathName))) {
             result = await ServiceLinkedin.parseJobSeekerPreferences(data);
-            (result) && (model.jobs.seekerApplications = result);
+            (result) && (model.jobs.seekerPreferences = result);
         } else if ((regex = new RegExp(FileCodeLinkedIn.POSITIONS)) && (regex.test(pathName))) {
             result = await ServiceLinkedin.parseWorkingPositions(data);
             (result) && (model.jobs.workingPositionHistory = result);
