@@ -56,7 +56,7 @@ async function validateZipStream(pathToZip: string): Promise<ValidationReturn | 
             readStream.on("error", () => controller.error());
         }
     });
-    const validation$: Observable<ValidationZipStatus> = ValidatorFiles.validateZipStream(readableStream, {
+    const validation$: Observable<ValidationZipStatus> = ValidatorFiles.validateZipStream([readableStream], {
         filterDataSource: {
             dataSourceCode: DataSourceCode.INSTAGRAM
         }
