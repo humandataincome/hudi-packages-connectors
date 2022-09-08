@@ -65,7 +65,7 @@ async function validateStream(pathToZip: string, code: DataSourceCode) {
         }
     });
     let fileUnzippedBytes = 0;
-    const validation$: Observable<ValidationZipStatus> = ValidatorFiles.validateZipStream(readableStream, {
+    const validation$: Observable<ValidationZipStatus> = ValidatorFiles.validateZipStream([readableStream], {
         throwExceptions: true,
         filterDataSource: {dataSourceCode: code}
     });
