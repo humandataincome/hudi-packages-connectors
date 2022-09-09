@@ -49,7 +49,7 @@ export class ServiceNetflix {
     }
 
     /**
-     * @param data - file 'ACCOUNT/AccountDetails.csv' in input as Buffer
+     * @param data - ACCOUNT_DETAILS file in input as Buffer
      */
     static async parsePersonalInformation(data: Buffer): Promise<PersonalInformationNF | undefined> {
         try {
@@ -86,7 +86,7 @@ export class ServiceNetflix {
     }
 
     /**
-     * @param data - file 'CONTENT_INTERACTION/IndicatedPreferences.csv' in input as Buffer
+     * @param data - CONTENT_INTERACTION_PREFERENCES file in input as Buffer
      */
     static async parsePreferences(data: Buffer): Promise<PreferencesAccountNF | undefined> {
         try {
@@ -113,7 +113,7 @@ export class ServiceNetflix {
     }
 
     /**
-     * @param data - file 'CONTENT_INTERACTION/MyList.csv' in input as Buffer
+     * @param data - CONTENT_INTERACTION_MY_LIST file in input as Buffer
      */
     static async parseMyList(data: Buffer): Promise<MyListAccountNF | undefined> {
         try {

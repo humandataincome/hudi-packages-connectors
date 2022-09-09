@@ -1,4 +1,17 @@
+/**
+ * Aggregation of information from Netflix's models
+ */
+export interface NetflixDataAggregator {
+    accountInfo?: PersonalInformationNF;
+    profiles?: ProfilesNF;
+    preferences?: PreferencesAccountNF;
+    titles?: MyListAccountNF;
+    searches?: SearchHistoryNF;
+    viewingActivity?: ViewingActivityNF;
+    creationDate?: Date;
+}
 
+//FileCodeNetflix.ACCOUNT_DETAILS model
 export interface PersonalInformationNF {
     firstName?: string;
     lastName?: string;
@@ -23,26 +36,32 @@ export interface PersonalInformationNF {
     marketingCommunications?: boolean;
 }
 
+//FileCodeNetflix.CONTENT_INTERACTION_PREFERENCES model
 export interface PreferencesAccountNF {
     list: Array<PreferenceNF>;
 }
 
+//FileCodeNetflix.CONTENT_INTERACTION_MY_LIST model
 export interface MyListAccountNF {
     list: Array<TitleNF>;
 }
 
+//FileCodeNetflix.ACCOUNT_DETAILS model
 export interface SearchHistoryNF {
     list: Array<SearchNF>;
 }
 
+//FileCodeNetflix.ACCOUNT_DETAILS model
 export interface ViewingActivityNF {
     list: Array<ActivityNF>;
 }
 
+//FileCodeNetflix.ACCOUNT_DETAILS model
 export interface PlaybackEventsNF {
     list: Array<EventNF>;
 }
 
+//FileCodeNetflix.ACCOUNT_DETAILS model
 export interface ProfilesNF {
     list: Array<ProfileNF>;
 }

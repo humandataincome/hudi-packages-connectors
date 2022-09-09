@@ -8,7 +8,7 @@ import {FileCodeLinkedIn} from "./enum.linkedin";
 
 @staticImplements<ProcessorDatasource>()
 export class ProcessorLinkedin {
-    private static readonly logger = new Logger("Processor Instagram");
+    private static readonly logger = new Logger("Processor LinkedIn");
 
     static initAggregator(): LinkedInDataAggregator {
         return {profile: {}, jobs: {}, ads:{}};
