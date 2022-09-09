@@ -6,7 +6,6 @@ import {Selector} from "../selector";
 import Logger from "../logger";
 import {ProcessorErrorEnums} from "../utils.error";
 import {Mutex} from "async-mutex";
-import {ReadableStream} from "node:stream/web";
 
 export interface ProcessingZipOptions {
     throwExceptions?: boolean;
