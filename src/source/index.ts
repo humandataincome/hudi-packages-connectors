@@ -30,6 +30,7 @@ export * from './linkedin/validator.linkedin';
 export * from './netflix/enum.netflix';
 export * from './netflix/model.netflix';
 export * from './netflix/service.netflix';
+export * from './netflix/processor.netflix';
 export * from './netflix/validator.netflix';
 
 export * from './reddit/enum.reddit';

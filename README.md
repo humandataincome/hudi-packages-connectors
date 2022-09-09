@@ -9,18 +9,18 @@ A set of connectors to parse, describe, validate and process the data sources pr
 - A set of **Processors** for each specific data source supported to aggregate the data contained into them.
 
 
-| Datasource Name | Parsing Support | Descriptor Support |  Validator Support   |    Processor Support    |
-|:----------------|:---------------:|:------------------:|:--------------------:|:-----------------------:|
-| *Amazon*        |     Partial     |      &check;       |       &check;        |         &check;         |
-| *Facebook*      |     Partial     |      &check;       |       &check;        |         &check;         |
-| *Google*        |     Partial     |      &check;       |       &check;        |         &check;         |
-| *Instagram*     |     Partial     |      &check;       |       &check;        |         &check;         |
-| *LinkedIn*      |     &check;     |      &check;       |       &check;        |         &cross;         |
-| *Netflix*       |     Partial     |      &check;       |       &check;        |         &cross;         |
-| *Shopify*       |     &check;     |      &check;       |       &check;        |         &cross;         |
-| *Twitter*       |     Partial     |      &check;       |       &check;        |         &cross;         |
-| *TikTok*        |     Partial     |      &check;       |       &check;        |         &cross;         |
-| *Reddit*        |     Partial     |      &check;       |       &check;        |         &cross;         |
+| Datasource Name | Parsing Support | Descriptor Support |  Validator Support   |  Processor Support   |
+|:----------------|:---------------:|:------------------:|:--------------------:|:--------------------:|
+| *Amazon*        |     &check;     |      &check;       |       &check;        |       &check;        |
+| *Facebook*      |     &check;     |      &check;       |       &check;        |       &check;        |
+| *Google*        |     &check;     |      &check;       |       &check;        |       &check;        |
+| *Instagram*     |     &check;     |      &check;       |       &check;        |       &check;        |
+| *LinkedIn*      |     &check;     |      &check;       |       &check;        |       &check;        |
+| *Netflix*       |     &check;     |      &check;       |       &check;        |       &check;        |
+| *Reddit*        |     &cross;     |      &check;       |       &check;        |       &cross;        |
+| *Shopify*       |     &check;     |      &check;       |       &check;        |       &cross;        |
+| *Twitter*       |     &cross;     |      &check;       |       &check;        |       &cross;        |
+| *TikTok*        |     &cross;     |      &check;       |       &check;        |       &cross;        |
 
 ## How to use the library:
 ### How to install the library

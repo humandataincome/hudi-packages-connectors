@@ -41,12 +41,24 @@ export class ProcessorNetflix {
 
     static async aggregatorBuilder(data: Buffer, pathName: string, model: NetflixDataAggregator, options: ProcessorOptions = {}) {
         let result, regex;
-        if ((regex = new RegExp(FileCodeNetflix.)) && (regex.test(pathName))) {
+        if ((regex = new RegExp(FileCodeNetflix.ACCOUNT_DETAILS)) && (regex.test(pathName))) {
             result = await ServiceNetflix.parsePersonalInformation(data);
-            (result) && (model.profile.emails = result);
-        } else if ((regex = new RegExp(FileCodeNetflix.PROFILE)) && (regex.test(pathName))) {
-            result = await ServiceLinkedin.parseProfile(data);
-            (result) && (model.profile.info = result);
+            (result) && (model.accountInfo = result);
+        } else if ((regex = new RegExp(FileCodeNetflix.PROFILES)) && (regex.test(pathName))) {
+            result = await ServiceNetflix.parseProfiles(data);
+            (result) && (model.profiles = result);
+        } else if ((regex = new RegExp(FileCodeNetflix.CONTENT_INTERACTION_PREFERENCES)) && (regex.test(pathName))) {
+            result = await ServiceNetflix.parsePreferences(data);
+            (result) && (model.preferences = result);
+        } else if ((regex = new RegExp(FileCodeNetflix.CONTENT_INTERACTION_MY_LIST)) && (regex.test(pathName))) {
+            result = await ServiceNetflix.parseMyList(data);
+            (result) && (model.titles = result);
+        } else if ((regex = new RegExp(FileCodeNetflix.CONTENT_INTERACTION_SEARCH_HISTORY)) && (regex.test(pathName))) {
+            result = await ServiceNetflix.parseSearchHistory(data);
+            (result) && (model.searches = result);
+        } else if ((regex = new RegExp(FileCodeNetflix.CONTENT_INTERACTION_VIEWING_ACTIVITY)) && (regex.test(pathName))) {
+            result = await ServiceNetflix.parseViewingActivity(data);
+            (result) && (model.viewingActivity = result);
         }
     }
 }

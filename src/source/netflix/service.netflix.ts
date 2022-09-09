@@ -139,7 +139,7 @@ export class ServiceNetflix {
     }
 
     /**
-     * @param data - file 'CONTENT_INTERACTION/SearchHistory.csv' in input as Buffer
+     * @param data - CONTENT_INTERACTION_SEARCH_HISTORY file in input as Buffer
      */
     static async parseSearchHistory(data: Buffer): Promise<SearchHistoryNF | undefined> {
         try {
@@ -170,7 +170,7 @@ export class ServiceNetflix {
     }
 
     /**
-     * @param data - file 'CONTENT_INTERACTION/ViewingActivity.csv' in input as Buffer
+     * @param data - CONTENT_INTERACTION_VIEWING_ACTIVITY file in input as Buffer
      */
     static async parseViewingActivity(data: Buffer): Promise<ViewingActivityNF | undefined> {
         try {
@@ -202,7 +202,7 @@ export class ServiceNetflix {
     }
 
     /**
-     * @param data - file 'CONTENT_INTERACTION/PlaybackRelatedEvents.csv' in input as Buffer
+     * @param data - CONTENT_INTERACTION_PLAYBACK_EVENTS file in input as Buffer
      */
     static async parsePlaybackEvents(data: Buffer): Promise<PlaybackEventsNF | undefined> {
         try {
@@ -234,7 +234,7 @@ export class ServiceNetflix {
     }
 
     /**
-     * @param data - file 'PROFILES/Profiles.csv' in input as Buffer
+     * @param data - PROFILES file in input as Buffer
      */
     static async parseProfiles(data: Buffer): Promise<ProfilesNF | undefined> {
         try {
