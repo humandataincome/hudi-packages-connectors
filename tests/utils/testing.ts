@@ -11,9 +11,8 @@ import {Selector} from "../../src";
 import {ReadableStream} from 'node:stream/web';
 
 processingStream([
-    '../../src/mock/datasource/zip files/private/instagram.zip',
-    '../../src/mock/datasource/zip files/private/facebook.zip'
-], DataSourceCode.FACEBOOK);
+    '../../src/mock/datasource/zip files/private/netflix.zip',
+], DataSourceCode.NETFLIX);
 //validateStream('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //showAggregator('../../src/mock/datasource/zip files/private/google.zip', DataSourceCode.GOOGLE);
 //showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);

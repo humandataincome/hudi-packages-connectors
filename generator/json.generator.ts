@@ -10,6 +10,7 @@ export class JsonGenerator {
         await this.generateJson(DataSourceCode.GOOGLE);
         await this.generateJson(DataSourceCode.INSTAGRAM);
         await this.generateJson(DataSourceCode.LINKEDIN);
+        await this.generateJson(DataSourceCode.NETFLIX);
     }
 
     private static async generateJson(code: DataSourceCode) {
