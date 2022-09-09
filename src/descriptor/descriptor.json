@@ -371,6 +371,136 @@
             ]
         },
         {
+            "sourceName": "LinkedIn",
+            "sourceCode": "LINKEDIN",
+            "retrievingProcedures": [
+                {
+                    "languageCode": "EN",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "The Datasource contains all your personal information relating to your use of LinkedIn. Do not change the composition of the folders and files within them.",
+                            "fileExtension": "zip",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Login into your LinkedIn account",
+                                    "attributeDescription": "<p>Login into your <b>LinkedIn</b> account</p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Click on this link https://www.linkedin.com/mypreferences/d/download-my-data",
+                                    "attributeDescription": "<p>Click on this <a href=\"https://www.linkedin.com/mypreferences/d/download-my-data\" target=\"_blank\">link</a></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Pin \"Download larger data archive...\"",
+                                    "attributeDescription": "<p>Pin <b>Download larger data archive...</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Click on \"Request archive\"",
+                                    "attributeDescription": "<p>Click on <b>Request archive</b></p>"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "languageCode": "IT",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di LinkedIn. Non modificare la composizione delle cartelle e dei file al loro interno.",
+                            "fileExtension": "zip",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Effettua il Login su LinkedIn",
+                                    "attributeDescription": "<p>Effettua il <b>Login</b> su LinkedIn</p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Fai click su questo link https://www.linkedin.com/mypreferences/d/download-my-data",
+                                    "attributeDescription": "<p>Fai click su questo <a href=\"https://www.linkedin.com/mypreferences/d/download-my-data\" target=\"_blank\">link</a></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Seleziona \"Scarica un archivio di dati più grande...\"",
+                                    "attributeDescription": "<p>Seleziona <b>Scarica un archivio di dati più grande...</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Fai click su \"Richiesta archivio\"",
+                                    "attributeDescription": "<p>Fai click su <b>Richiesta archivio</b></p>"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sourceName": "Netflix",
+            "sourceCode": "NETFLIX",
+            "retrievingProcedures": [
+                {
+                    "languageCode": "EN",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "The Datasource contains all your personal information relating to your use of Netflix. Do not change the composition of the folders and files within them.",
+                            "fileExtension": "zip",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Login into your Netflix account",
+                                    "attributeDescription": "<p>Login into your <b>Netflix</b> account</p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Click on this link https://www.netflix.com/account/getmyinfo",
+                                    "attributeDescription": "<p>Click on this <a href=\"https://www.netflix.com/account/getmyinfo\" target=\"_blank\">link</a></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Click on \"Send request\"",
+                                    "attributeDescription": "<p>Click on <b>Send request</b></p>"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "languageCode": "IT",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Netflix. Non modificare la composizione delle cartelle e dei file al loro interno.",
+                            "fileExtension": "zip",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Effettua il Login su Netflix",
+                                    "attributeDescription": "<p>Effettua il <b>Login</b> su Netflix</p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Fai click su questo link https://www.netflix.com/account/getmyinfo",
+                                    "attributeDescription": "<p>Fai click su questo <a href=\"https://www.netflix.com/account/getmyinfo\" target=\"_blank\">link</a></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Fai click su \"Invia richiesta\"",
+                                    "attributeDescription": "<p>Fai click su <b>Invia richiesta</b></p>"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "sourceName": "Shopify",
             "sourceCode": "SHOPIFY",
             "retrievingProcedures": [
