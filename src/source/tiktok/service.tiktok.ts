@@ -1,7 +1,15 @@
 import Logger from "../../utils/logger";
-import {FollowerListTK, FollowingListTK, ProfileTK, UserDataTK} from "./model.tiktok";
+import {
+    FollowListTK,
+    ProfileTK,
+    SearchHistoryTK,
+    SearchTK,
+    UserDataTK,
+    VideoBrowsingHistoryTK,
+    VideoLikedListTK
+} from "./model.tiktok";
 import {Months} from "../../utils";
-import {ValidatorObject} from "../../utils/validator/validator.object";
+import {ValidatorObject} from "../../utils";
 import {FileCodeTikTok} from "./enum.tiktok";
 
 export class ServiceTiktok {
@@ -22,7 +30,7 @@ export class ServiceTiktok {
     }
 
     /**
-     * @param data - file 'user_data.json' in input as Buffer
+     * @param data - FileCodeTikTok.USER_DATA file in input as Buffer
      */
     static async parseUserData(data: Buffer): Promise<UserDataTK | undefined> {
         let model: UserDataTK = {};
@@ -30,59 +38,53 @@ export class ServiceTiktok {
             let document = JSON.parse(data.toString());
             if (document && document['Activity']) {
                 const activity = document['Activity'];
-                //subsection: Favorite Effects
                 if (activity['Favorite Effects']) {
-
-                }
-                //subsection: Favorite Hashtags
+                } //NO DATA
                 if (activity['Favorite Hashtags']) {
-
-                }
-                //subsection: Favorite Sounds
+                } //NO DATA
                 if (activity['Favorite Sounds']) {
-
-                }
-                //subsection: Favorite Videos
+                } //NO DATA
                 if (activity['Favorite Videos']) {
 
                 }
-                //subsection: Follower List
                 if (activity['Follower List']) {
                     if (activity['Follower List'].FansList) {
-                        model.followerList = this.buildFollowersModel(activity['Follower List'].FansList);
+                        model.followersList = this.buildFollowModel(activity['Follower List'].FansList);
                     }
                 }
-                //subsection: Following List
                 if (activity['Following List']) {
                     if (activity['Following List'].Following) {
-                        model.followingList = this.buildFollowingModel(activity['Following List'].Following);
+                        model.followingList = this.buildFollowModel(activity['Following List'].Following);
                     }
                 }
-                //subsection: Hashtag
                 if (activity['Hashtag']) {
-
-                }
-                //subsection: Like List
+                } //NO DATA
                 if (activity['Like List']) {
-
+                    if (activity['Like List'].ItemFavoriteList) {
+                        (model.likes = this.buildVideoLikedModel(activity['Like List'].ItemFavoriteList));
+                    }
                 }
-                //subsection: Login History
                 if (activity['Login History']) {
 
                 }
-                //subsection: Share History
+                if (activity['Purchase History']) {
+                } //NO DATA
+                if (activity['Search History']) {
+                    if (activity['Search History'].SearchList) {
+                        (model.searchHistory = this.buildSearchHistoryModel(activity['Search History'].SearchList));
+                    }
+                }
                 if (activity['Share History']) {
 
                 }
-                //subsection: Status
                 if (activity['Status']) {
 
                 }
-                //subsection: Video Browsing History
                 if (activity['Video Browsing History']) {
-
+                    if (activity['Video Browsing History'].VideoList) {
+                        (model.videoBrowsingHistory = this.buildVideoBrowsingHistoryModel(activity['Video Browsing History'].VideoList));
+                    }
                 }
-                //subsection: Ads and data
                 if (activity['Ads and data']) {
 
                 }
@@ -101,7 +103,6 @@ export class ServiceTiktok {
             }
             //subsection: Profile
             if (document['Profile']) {
-
                 model.profile = this.buildProfileModel(document['Profile']);
             }
             //subsection: Tiktok Live
@@ -123,30 +124,16 @@ export class ServiceTiktok {
         }
     }
 
-    private static buildFollowersModel<T extends { Date: string, UserName: string }>(list: T[]): FollowerListTK | undefined {
-        const model: FollowerListTK = {followers: []};
-        list.map((follower: T) => {
-            if (follower && follower.Date && follower.UserName) {
-                model.followers.push({
-                    date: new Date(follower.Date),
-                    username: follower.UserName
-                });
-            }
-        });
-        return (model.followers.length > 0) ? model : undefined;
-    }
-
-    private static buildFollowingModel<T extends { Date: string, UserName: string }>(list: T[]): FollowingListTK | undefined {
-        const model: FollowingListTK = {followingList: []};
-        list.map((follower: T) => {
-            if (follower && follower.Date && follower.UserName) {
-                model.followingList.push({
-                    date: new Date(follower.Date),
-                    username: follower.UserName
-                });
-            }
-        });
-        return (model.followingList.length > 0) ? model : undefined;
+    private static buildFollowModel<T extends { Date: string, UserName: string }>(list: T[]): FollowListTK | undefined {
+        const model: FollowListTK = {
+            list: list.map((follow: T) => {
+                return {
+                    date: new Date(follow.Date),
+                    username: follow.UserName
+                };
+            })
+        };
+        return (model.list.length > 0) ? model : undefined;
     }
 
     private static buildProfileModel(profile: any): ProfileTK | undefined {
@@ -163,7 +150,7 @@ export class ServiceTiktok {
             if (profileMap.birthDate) {
                 const match = profileMap.birthDate.match(/(\d+)-(\w+)-(\d+)/);
                 const monthIndex = Months[match[2].toUpperCase()];
-                model.birthDate = new Date (Date.UTC(parseInt(match[3]), parseInt(monthIndex)-1, parseInt(match[1])));
+                model.birthDate = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1])));
             }
             (profileMap.emailAddress) && (model.emailAddress = profileMap.emailAddress);
             (profileMap.likesReceived) && (model.likesReceived = profileMap.likesReceived);
@@ -173,5 +160,43 @@ export class ServiceTiktok {
             (profileMap.userName) && (model.userName = profileMap.userName);
         }
         return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
+    }
+
+    private static buildVideoLikedModel<T extends { Date: string, VideoLink: string }>(list: T[]): VideoLikedListTK | undefined {
+        const model: VideoLikedListTK = {
+            list: list.map((like: T) => {
+                return {
+                    date: new Date(like.Date),
+                    videoLink: like.VideoLink
+                };
+            })
+        };
+        return (model.list.length > 0) ? model : undefined;
+    }
+
+    private static buildSearchHistoryModel<T extends { Date: string, SearchTerm: string }>(list: T[]): SearchHistoryTK | undefined {
+        const model: SearchHistoryTK = {
+            list: <SearchTK[]>(list.map((search: T) => {
+                if (search.SearchTerm !== "") {
+                    return {
+                        date: new Date(search.Date),
+                        searchTerm: search.SearchTerm
+                    };
+                }
+            }).filter(item => item))
+        };
+        return (model.list.length > 0) ? model : undefined;
+    }
+
+    private static buildVideoBrowsingHistoryModel<T extends { Date: string, VideoLink: string }>(list: T[]): VideoBrowsingHistoryTK | undefined {
+        const model: VideoBrowsingHistoryTK = {
+            list: list.map((like: T) => {
+                return {
+                    date: new Date(like.Date),
+                    videoLink: like.VideoLink
+                };
+            })
+        };
+        return (model.list.length > 0) ? model : undefined;
     }
 }

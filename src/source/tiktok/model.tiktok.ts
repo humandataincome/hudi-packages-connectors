@@ -1,13 +1,23 @@
+/**
+ * Aggregation of information from TikTok's models
+ */
+export interface TiktokDataAggregator {
+
+}
+
+//FileCodeTikTok.USER_DATA model
 export interface UserDataTK {
     favoriteEffects?: FavoriteEffectsTK;
     favoriteHashtags?: FavoriteHashtagsTK;
     favoriteSounds?: FavoriteSoundsTK;
     favoriteVideos?: FavoriteVideosTK;
-    followerList?: FollowerListTK;
-    followingList?: FollowingListTK;
+    followersList?: FollowListTK;
+    followingList?: FollowListTK;
     hashtags?: HashtagsTK;
-    likes?: LikeListTK;
+    likes?: VideoLikedListTK;
     logins?: LoginHistoryTK;
+    purchaseHistory?: PurchaseHistoryTK;
+    searchHistory?: SearchHistoryTK;
     shareHistory?: ShareHistoryTK;
     statusList?: StatusListTK;
     videoBrowsingHistory?: VideoBrowsingHistoryTK;
@@ -21,52 +31,46 @@ export interface UserDataTK {
     videos?: VideosTK;
 }
 
-export interface FavoriteEffectsTK {
+export interface FavoriteEffectsTK {}
 
-}
+export interface FavoriteHashtagsTK {}
 
-export interface FavoriteHashtagsTK {
-
-}
-
-export interface FavoriteSoundsTK {
-
-}
+export interface FavoriteSoundsTK {}
 
 export interface FavoriteVideosTK {
-    favouriteVideosList: FavoriteVideoTK[];
+    list: FavoriteVideoTK[];
 }
 
-export interface FollowerListTK {
-    followers: FollowerTK[];
+export interface FollowListTK {
+    list: FollowTK[];
 }
 
-export interface FollowingListTK {
-    followingList: FollowingTK[];
-}
+export interface HashtagsTK {}
 
-export interface HashtagsTK {
-
-}
-
-export interface LikeListTK {
-    likes: VideoTK[];
+export interface VideoLikedListTK {
+    list: VideoTK[];
 }
 
 export interface LoginHistoryTK {
-    logins: LoginTK[];
+    list: LoginTK[];
+}
+
+export interface PurchaseHistoryTK {}
+
+export interface SearchHistoryTK {
+    list: SearchTK[];
 }
 
 export interface ShareHistoryTK {
-    shareList: ShareTK[];
+    list: ShareTK[];
 }
 
 export interface StatusListTK {
-    statusList: StatusTK[];
+    list: StatusTK[];
 }
 
 export interface VideoBrowsingHistoryTK {
-    videoList: VideoTK[];
+    list: VideoTK[];
 }
 
 export interface AdsAndDataTK {
@@ -135,19 +139,14 @@ export interface FavoriteVideoTK {
     link?: string;
 }
 
-export interface FollowerTK {
-    date?: Date;
-    username?: string;
-}
-
-export interface FollowingTK {
-    date?: Date;
-    username?: string;
+export interface FollowTK {
+    date: Date;
+    username: string;
 }
 
 export interface VideoTK {
-    date?: Date;
-    videoLink?: string;
+    date: Date;
+    videoLink: string;
 }
 
 export interface LoginTK {
@@ -157,6 +156,11 @@ export interface LoginTK {
     deviceSystem?: string;
     networkType?: string;
     carrier?: string;
+}
+
+export interface SearchTK {
+    date: Date;
+    searchTerm: string;
 }
 
 export interface ShareTK {
