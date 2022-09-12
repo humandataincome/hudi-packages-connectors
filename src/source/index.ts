@@ -46,6 +46,7 @@ export * from './shopify/validator.shopify';
 export * from './tiktok/enum.tiktok';
 export * from './tiktok/model.tiktok';
 export * from './tiktok/service.tiktok';
+export * from './tiktok/processor.tiktok';
 export * from './tiktok/validator.tiktok';
 
 export * from './twitter/enum.twitter';

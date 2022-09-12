@@ -1,15 +1,14 @@
 import Logger from "../../utils/logger";
 import {
-    FollowListTK,
+    FollowListTK, LoginHistoryTK,
     ProfileTK,
     SearchHistoryTK,
-    SearchTK,
+    SearchTK, ShareHistoryTK, StatusListTK,
     UserDataTK,
     VideoBrowsingHistoryTK,
     VideoLikedListTK
 } from "./model.tiktok";
-import {Months} from "../../utils";
-import {ValidatorObject} from "../../utils";
+import {ValidatorObject, Months} from "../../utils";
 import {FileCodeTikTok} from "./enum.tiktok";
 
 export class ServiceTiktok {
@@ -45,7 +44,9 @@ export class ServiceTiktok {
                 if (activity['Favorite Sounds']) {
                 } //NO DATA
                 if (activity['Favorite Videos']) {
-
+                    if (activity['Favorite Videos'].FavoriteVideoList) {
+                        model.favoriteVideos = this.buildVideoFavouriteModel(activity['Favorite Videos'].FavoriteVideoList);
+                    }
                 }
                 if (activity['Follower List']) {
                     if (activity['Follower List'].FansList) {
@@ -61,33 +62,39 @@ export class ServiceTiktok {
                 } //NO DATA
                 if (activity['Like List']) {
                     if (activity['Like List'].ItemFavoriteList) {
-                        (model.likes = this.buildVideoLikedModel(activity['Like List'].ItemFavoriteList));
+                        model.likes = this.buildVideoLikedModel(activity['Like List'].ItemFavoriteList);
                     }
                 }
                 if (activity['Login History']) {
-
+                    if (activity['Login History'].LoginHistoryList) {
+                        model.logins = this.buildLoginsModel(activity['Login History'].LoginHistoryList);
+                    }
                 }
                 if (activity['Purchase History']) {
                 } //NO DATA
                 if (activity['Search History']) {
                     if (activity['Search History'].SearchList) {
-                        (model.searchHistory = this.buildSearchHistoryModel(activity['Search History'].SearchList));
+                        model.searchHistory = this.buildSearchHistoryModel(activity['Search History'].SearchList);
                     }
                 }
                 if (activity['Share History']) {
-
+                    if (activity['Share History'].ShareHistoryList) {
+                        model.shareHistory = this.buildShareHistoryModel(activity['Share History'].ShareHistoryList);
+                    }
                 }
                 if (activity['Status']) {
-
+                    if (activity['Status']["Status List"]) {
+                        model.statusList = this.buildStatusListModel(activity['Status']["Status List"]);
+                    }
                 }
                 if (activity['Video Browsing History']) {
                     if (activity['Video Browsing History'].VideoList) {
-                        (model.videoBrowsingHistory = this.buildVideoBrowsingHistoryModel(activity['Video Browsing History'].VideoList));
+                        model.videoBrowsingHistory = this.buildVideoBrowsingHistoryModel(activity['Video Browsing History'].VideoList);
                     }
                 }
                 if (activity['Ads and data']) {
 
-                }
+                } //NO DATA
             }
             //subsection: App Settings
             if (document['App Settings']) {
@@ -194,6 +201,65 @@ export class ServiceTiktok {
                 return {
                     date: new Date(like.Date),
                     videoLink: like.VideoLink
+                };
+            })
+        };
+        return (model.list.length > 0) ? model : undefined;
+    }
+
+    private static buildVideoFavouriteModel<T extends { Date: string, Link: string }>(list: T[]): ShareHistoryTK | undefined {
+        const model: ShareHistoryTK = {
+            list: list.map((share: T) => {
+                return {
+                    date: new Date(share.Date),
+                    link: share.Link
+                };
+            })
+        };
+        return (model.list.length > 0) ? model : undefined;
+    }
+
+    private static buildLoginsModel(list: any[]): LoginHistoryTK | undefined {
+        const model: LoginHistoryTK = {
+            list: list.map((login: any) => {
+                return {
+                    date: new Date(login.Date),
+                    IP: login.IP,
+                    deviceModel: login.DeviceModel,
+                    deviceSystem: login.DeviceSystem,
+                    networkType: login.NetworkType,
+                    carrier: login.Carrier
+                };
+            })
+        };
+        return (model.list.length > 0) ? model : undefined;
+    }
+
+    private static buildStatusListModel(list: any[]): StatusListTK | undefined {
+        const model: StatusListTK = {
+            list: list.map((status: any) => {
+                return {
+                    resolution: ValidatorObject.isCSVFieldValid(status.Resolution) ? status.Resolution : undefined,
+                    appVersion: ValidatorObject.isCSVFieldValid(status["App Version"]) ? status["App Version"] : undefined,
+                    IDFA: ValidatorObject.isCSVFieldValid(status.IDFA) ? status.IDFA : undefined,
+                    GAID: ValidatorObject.isCSVFieldValid(status.GAID) ? status.GAID : undefined,
+                    androidID: ValidatorObject.isCSVFieldValid(status["Android ID"]) ? status["Android ID"] : undefined,
+                    IDFV: ValidatorObject.isCSVFieldValid(status.IDFV) ? status.IDFV : undefined,
+                    webID: ValidatorObject.isCSVFieldValid(status["Web ID"]) ? status["Web ID"] : undefined
+                };
+            })
+        };
+        return (model.list.length > 0) ? model : undefined;
+    }
+
+    private static buildShareHistoryModel(list: any[]): ShareHistoryTK | undefined {
+        const model: ShareHistoryTK = {
+            list: list.map((share: any) => {
+                return {
+                    date: new Date(share.Date),
+                    sharedContent: share.SharedContent,
+                    link: share.Link,
+                    method: share.Method,
                 };
             })
         };
