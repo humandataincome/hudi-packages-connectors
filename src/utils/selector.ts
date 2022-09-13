@@ -13,7 +13,9 @@ import {
     ProcessorAmazon,
     ProcessorFacebook,
     ProcessorGoogle,
-    ProcessorInstagram, ProcessorReddit,
+    ProcessorInstagram,
+    ProcessorReddit,
+    ProcessorTiktok,
     ServiceAmazon,
     ServiceFacebook,
     ServiceGoogle,
@@ -183,7 +185,7 @@ export class Selector {
             case DataSourceCode.TWITTER:
                 return undefined;
             case DataSourceCode.TIKTOK:
-                return undefined;
+                return ProcessorTiktok;
             default:
                 return undefined;
         }

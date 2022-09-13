@@ -25,6 +25,7 @@ export * from './instagram/validator.instagram';
 export * from './linkedin/enum.linkedin';
 export * from './linkedin/model.linkedin';
 export * from './linkedin/service.linkedin';
+export * from './linkedin/processor.linkedin';
 export * from './linkedin/validator.linkedin';
 
 export * from './netflix/enum.netflix';
@@ -47,6 +48,7 @@ export * from './shopify/validator.shopify';
 export * from './tiktok/enum.tiktok';
 export * from './tiktok/model.tiktok';
 export * from './tiktok/service.tiktok';
+export * from './tiktok/processor.tiktok';
 export * from './tiktok/validator.tiktok';
 
 export * from './twitter/enum.twitter';

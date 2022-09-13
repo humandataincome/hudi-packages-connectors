@@ -15,6 +15,7 @@ import {
     InstagramDataAggregator,
     LinkedInDataAggregator,
     NetflixDataAggregator,
+    TiktokDataAggregator,
     RedditDataAggregator
 } from "../source";
 
@@ -87,7 +88,8 @@ export type DataAggregator =
     InstagramDataAggregator |
     LinkedInDataAggregator |
     NetflixDataAggregator |
-    RedditDataAggregator;
+    RedditDataAggregator |
+    TiktokDataAggregator;
 
 
 
