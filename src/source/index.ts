@@ -36,6 +36,7 @@ export * from './netflix/validator.netflix';
 export * from './reddit/enum.reddit';
 export * from './reddit/model.reddit';
 export * from './reddit/service.reddit';
+export * from './reddit/processor.reddit';
 export * from './reddit/validator.reddit';
 
 export * from './shopify/enum.shopify';

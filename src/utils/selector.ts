@@ -13,7 +13,7 @@ import {
     ProcessorAmazon,
     ProcessorFacebook,
     ProcessorGoogle,
-    ProcessorInstagram,
+    ProcessorInstagram, ProcessorReddit,
     ServiceAmazon,
     ServiceFacebook,
     ServiceGoogle,
@@ -177,7 +177,7 @@ export class Selector {
             case DataSourceCode.NETFLIX:
                 return ProcessorNetflix;
             case DataSourceCode.REDDIT:
-                return undefined;
+                return ProcessorReddit;
             case DataSourceCode.SHOPIFY:
                 return undefined;
             case DataSourceCode.TWITTER:

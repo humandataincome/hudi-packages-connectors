@@ -7,8 +7,11 @@ export class ValidatorReddit extends ValidatorDatasource {
 
     protected DEFAULT_FILE_CODES: FileCodeReddit[] = [
         FileCodeReddit.FRIENDS,
+        FileCodeReddit.COMMENTS,
+        FileCodeReddit.MESSAGES,
         FileCodeReddit.POSTS,
         FileCodeReddit.STATISTICS,
+        FileCodeReddit.REDDIT_GOLD_INFO,
         FileCodeReddit.SUBSCRIBED_SUBREDDITS,
     ];
 
