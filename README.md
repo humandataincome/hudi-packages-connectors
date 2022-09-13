@@ -17,10 +17,10 @@ A set of connectors to parse, describe, validate and process the data sources pr
 | *Instagram*     |     &check;     |      &check;       |       &check;        |       &check;        |
 | *LinkedIn*      |     &check;     |      &check;       |       &check;        |       &check;        |
 | *Netflix*       |     &check;     |      &check;       |       &check;        |       &check;        |
-| *Reddit*        |     &cross;     |      &check;       |       &check;        |       &cross;        |
+| *Reddit*        |     &check;     |      &check;       |       &check;        |       &check;        |
 | *Shopify*       |     &check;     |      &check;       |       &check;        |       &cross;        |
 | *Twitter*       |     &cross;     |      &check;       |       &check;        |       &cross;        |
-| *TikTok*        |     &cross;     |      &check;       |       &check;        |       &cross;        |
+| *TikTok*        |     &check;     |      &check;       |       &check;        |       &check;        |
 
 ## How to use the library:
 ### How to install the library
