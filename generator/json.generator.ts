@@ -13,6 +13,7 @@ export class JsonGenerator {
         await this.generateJson(DataSourceCode.NETFLIX);
         await this.generateJson(DataSourceCode.REDDIT);
         await this.generateJson(DataSourceCode.TIKTOK);
+        await this.generateJson(DataSourceCode.TWITTER);
     }
 
     private static async generateJson(code: DataSourceCode) {

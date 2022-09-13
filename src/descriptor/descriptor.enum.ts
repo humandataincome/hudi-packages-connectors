@@ -16,7 +16,7 @@ import {
     LinkedInDataAggregator,
     NetflixDataAggregator,
     TiktokDataAggregator,
-    RedditDataAggregator
+    RedditDataAggregator, TwitterDataAggregator
 } from "../source";
 
 export enum DataSourceCode {
@@ -89,7 +89,8 @@ export type DataAggregator =
     LinkedInDataAggregator |
     NetflixDataAggregator |
     RedditDataAggregator |
-    TiktokDataAggregator;
+    TiktokDataAggregator |
+    TwitterDataAggregator;
 
 
 
