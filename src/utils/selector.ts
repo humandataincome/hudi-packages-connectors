@@ -13,7 +13,7 @@ import {
     ProcessorAmazon,
     ProcessorFacebook,
     ProcessorGoogle,
-    ProcessorInstagram,
+    ProcessorInstagram, ProcessorLinkedin, ProcessorNetflix, ProcessorTiktok,
     ServiceAmazon,
     ServiceFacebook,
     ServiceGoogle,
@@ -38,8 +38,6 @@ import {
 import {ValidatorDatasource} from "./validator";
 import {Unzipped} from "fflate";
 import {ProcessorDatasource, ProcessorOptions} from "./processor";
-import {ProcessorLinkedin} from "../source/linkedin/processor.linkedin";
-import {ProcessorNetflix} from "../source/netflix/processor.netflix";
 
 export class Selector {
 
@@ -183,7 +181,7 @@ export class Selector {
             case DataSourceCode.TWITTER:
                 return undefined;
             case DataSourceCode.TIKTOK:
-                return undefined;
+                return ProcessorTiktok;
             default:
                 return undefined;
         }

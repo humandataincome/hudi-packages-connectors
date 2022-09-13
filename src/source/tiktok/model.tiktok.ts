@@ -2,7 +2,19 @@
  * Aggregation of information from TikTok's models
  */
 export interface TiktokDataAggregator {
+    userData: UserDataAggregatorTK;
+    creationDate?: Date;
+}
 
+export interface UserDataAggregatorTK {
+    favoriteVideos?: FavoriteVideosTK;
+    followersList?: FollowListTK;
+    followingList?: FollowListTK;
+    videoLiked?: VideoLikedListTK;
+    searchHistory?: SearchHistoryTK;
+    shareHistory?: ShareHistoryTK;
+    videoBrowsingHistory?: VideoBrowsingHistoryTK;
+    profile?: ProfileTK;
 }
 
 //FileCodeTikTok.USER_DATA model
@@ -14,7 +26,7 @@ export interface UserDataTK {
     followersList?: FollowListTK;
     followingList?: FollowListTK;
     hashtags?: HashtagsTK;
-    likes?: VideoLikedListTK;
+    videoLiked?: VideoLikedListTK;
     logins?: LoginHistoryTK;
     purchaseHistory?: PurchaseHistoryTK;
     searchHistory?: SearchHistoryTK;

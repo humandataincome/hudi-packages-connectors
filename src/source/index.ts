@@ -25,6 +25,7 @@ export * from './instagram/validator.instagram';
 export * from './linkedin/enum.linkedin';
 export * from './linkedin/model.linkedin';
 export * from './linkedin/service.linkedin';
+export * from './linkedin/processor.linkedin';
 export * from './linkedin/validator.linkedin';
 
 export * from './netflix/enum.netflix';

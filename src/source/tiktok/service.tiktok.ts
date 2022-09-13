@@ -62,7 +62,7 @@ export class ServiceTiktok {
                 } //NO DATA
                 if (activity['Like List']) {
                     if (activity['Like List'].ItemFavoriteList) {
-                        model.likes = this.buildVideoLikedModel(activity['Like List'].ItemFavoriteList);
+                        model.videoLiked = this.buildVideoLikedModel(activity['Like List'].ItemFavoriteList);
                     }
                 }
                 if (activity['Login History']) {
@@ -159,12 +159,12 @@ export class ServiceTiktok {
                 const monthIndex = Months[match[2].toUpperCase()];
                 model.birthDate = new Date(Date.UTC(parseInt(match[3]), parseInt(monthIndex) - 1, parseInt(match[1])));
             }
-            (profileMap.emailAddress) && (model.emailAddress = profileMap.emailAddress);
-            (profileMap.likesReceived) && (model.likesReceived = profileMap.likesReceived);
-            (profileMap.profilePhoto) && (model.profilePhoto = profileMap.profilePhoto);
-            (profileMap.profileVideo) && (model.profileVideo = profileMap.profileVideo);
-            (profileMap.telephoneNumber) && (model.telephoneNumber = profileMap.telephoneNumber);
-            (profileMap.userName) && (model.userName = profileMap.userName);
+            (profileMap.emailAddress && profileMap.emailAddress!=="None") && (model.emailAddress = profileMap.emailAddress);
+            (profileMap.likesReceived && profileMap.likesReceived!=="None") && (model.likesReceived = profileMap.likesReceived);
+            (profileMap.profilePhoto && profileMap.profilePhoto!=="None") && (model.profilePhoto = profileMap.profilePhoto);
+            (profileMap.profileVideo && profileMap.profileVideo!=="None") && (model.profileVideo = profileMap.profileVideo);
+            (profileMap.telephoneNumber && profileMap.telephoneNumber!=="None") && (model.telephoneNumber = profileMap.telephoneNumber);
+            (profileMap.userName && profileMap.userName!=="None") && (model.userName = profileMap.userName);
         }
         return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
     }
