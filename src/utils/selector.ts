@@ -14,6 +14,8 @@ import {
     ProcessorFacebook,
     ProcessorGoogle,
     ProcessorInstagram,
+    ProcessorLinkedin,
+    ProcessorNetflix,
     ProcessorReddit,
     ProcessorTiktok,
     ServiceAmazon,
@@ -40,8 +42,6 @@ import {
 import {ValidatorDatasource} from "./validator";
 import {Unzipped} from "fflate";
 import {ProcessorDatasource, ProcessorOptions} from "./processor";
-import {ProcessorLinkedin} from "../source/linkedin/processor.linkedin";
-import {ProcessorNetflix} from "../source/netflix/processor.netflix";
 
 export class Selector {
 
