@@ -6,6 +6,7 @@ export interface TwitterDataAggregator {
     creationDate?: Date;
 }
 
+//from FileCodeTwitter.ACCOUNT
 export interface AccountTW {
     email?: string;
     createdVia?: string;

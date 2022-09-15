@@ -19,9 +19,12 @@ export class Parser {
         try {
             if (file) {
                 const text = file.toString();
-                //window.aaa.bbb.ccc = [JSON file] OR window.aaa.bbb.ccc = {JSON file}
+                //FORMAT: window.aaa.bbb.ccc = [JSON file] OR window.aaa.bbb.ccc = {JSON file}
+                //const regex: RegExp = /window(?:\..*)* = ((\[((\n)|(.*))*])|(\{((\n)|(.*))*}))/;
                 const regex: RegExp = /window(?:\..*)* = ((\[((\n)|(.*))*])|(\{((\n)|(.*))*}))/;
                 const match = text.match(regex);
+                //TODO: fix the regex: it loops with JS file into assets folder
+                console.log(regex);
                 if (match && match[1]) {
                     if (match[1] !== '[ ]') {
                         return Buffer.from(match[1]);

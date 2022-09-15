@@ -5,6 +5,7 @@ import {
 
 export class JsonGenerator {
     static async generateAggregatorJson() {
+        /*
         await this.generateJson(DataSourceCode.AMAZON);
         await this.generateJson(DataSourceCode.FACEBOOK);
         await this.generateJson(DataSourceCode.GOOGLE);
@@ -13,6 +14,8 @@ export class JsonGenerator {
         await this.generateJson(DataSourceCode.NETFLIX);
         await this.generateJson(DataSourceCode.REDDIT);
         await this.generateJson(DataSourceCode.TIKTOK);
+
+         */
         await this.generateJson(DataSourceCode.TWITTER);
     }
 

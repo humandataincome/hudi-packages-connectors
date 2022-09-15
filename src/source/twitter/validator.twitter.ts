@@ -30,7 +30,6 @@ export class ValidatorTwitter extends ValidatorDatasource {
 
     protected extractCompatiblePath(path: string): string {
         const x: string[] = path.split('/');
-        //messages/message_requests OR message/inbox cases
         if (x[x.length - 2] === 'data') {
             return x[x.length - 2] + '/' + x[x.length - 1];
         }

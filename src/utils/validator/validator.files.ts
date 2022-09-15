@@ -451,7 +451,9 @@ export class ValidatorFiles {
             }
 
             const files = unzipSync(zipFile);
+            //Object.keys(files).forEach((x) => console.log(x));
             for (let pathName in files) {
+                //console.log(pathName)
                 this.filterFile(files[pathName], pathName, optionsSupport);
             }
 

@@ -27,7 +27,7 @@ export class ServiceTwitter {
     }
 
     /**
-     * @param data - file 'data/account.js' in input as Buffer
+     * @param data - FileCodeTwitter.ACCOUNT file in input as Buffer
      */
     static async parseAccount(data: Buffer): Promise<AccountTW | undefined> {
         let model: AccountTW = {};
