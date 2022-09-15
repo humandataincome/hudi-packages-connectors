@@ -16,20 +16,21 @@ import {
     LinkedInDataAggregator,
     NetflixDataAggregator,
     TiktokDataAggregator,
-    RedditDataAggregator, TwitterDataAggregator
+    RedditDataAggregator, TwitterDataAggregator, BinanceDataAggregator
 } from "../source";
 
 export enum DataSourceCode {
-    INSTAGRAM = 'INSTAGRAM',
+    AMAZON = 'AMAZON',
+    BINANCE = 'BINANCE',
     FACEBOOK = 'FACEBOOK',
     GOOGLE = 'GOOGLE',
-    NETFLIX = 'NETFLIX',
-    AMAZON = 'AMAZON',
+    INSTAGRAM = 'INSTAGRAM',
     LINKEDIN = 'LINKEDIN',
+    NETFLIX = 'NETFLIX',
     SHOPIFY = 'SHOPIFY',
-    TWITTER = 'TWITTER',
-    TIKTOK = 'TIKTOK',
     REDDIT = 'REDDIT',
+    TIKTOK = 'TIKTOK',
+    TWITTER = 'TWITTER',
 }
 
 export enum RetrievingProcedureType {
@@ -90,7 +91,8 @@ export type DataAggregator =
     NetflixDataAggregator |
     RedditDataAggregator |
     TiktokDataAggregator |
-    TwitterDataAggregator;
+    TwitterDataAggregator |
+    BinanceDataAggregator;
 
 
 

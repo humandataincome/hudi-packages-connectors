@@ -4,6 +4,8 @@ export * from './amazon/service.amazon';
 export * from './amazon/processor.amazon';
 export * from './amazon/validator.amazon';
 
+export * from './binance/model.binance';
+
 export * from './facebook/enum.facebook';
 export * from './facebook/model.facebook';
 export * from './facebook/service.facebook';
