@@ -42,7 +42,6 @@ import {
 import {ValidatorDatasource} from "./validator";
 import {Unzipped} from "fflate";
 import {ProcessorDatasource, ProcessorOptions} from "./processor";
-import {ProcessorTwitter} from "../source/twitter/processor.twitter";
 
 export class Selector {
 
@@ -184,7 +183,7 @@ export class Selector {
             case DataSourceCode.SHOPIFY:
                 return undefined;
             case DataSourceCode.TWITTER:
-                return ProcessorTwitter;
+                return undefined;
             case DataSourceCode.TIKTOK:
                 return ProcessorTiktok;
             default:
