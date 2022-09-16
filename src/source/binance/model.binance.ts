@@ -1,9 +1,11 @@
 
 export interface BinanceDataAggregator {
+    account?: APIAccountBI;
     creationDate?: Date;
 }
 
-export interface AccountBI {
+// https://api.binance.com/api/v3/account model
+export interface APIAccountBI {
     makerCommission?: number;
     takerCommission?: number;
     buyerCommission?: number;
