@@ -20,8 +20,8 @@ import {
 } from "../source";
 
 export enum DataSourceCode {
+    //from GDPR
     AMAZON = 'AMAZON',
-    BINANCE = 'BINANCE',
     FACEBOOK = 'FACEBOOK',
     GOOGLE = 'GOOGLE',
     INSTAGRAM = 'INSTAGRAM',
@@ -31,6 +31,11 @@ export enum DataSourceCode {
     REDDIT = 'REDDIT',
     TIKTOK = 'TIKTOK',
     TWITTER = 'TWITTER',
+    //from API
+    BINANCE = 'BINANCE',
+}
+export enum GDPRCode {
+
 }
 
 export enum RetrievingProcedureType {
