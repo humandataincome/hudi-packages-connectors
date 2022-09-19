@@ -9,14 +9,43 @@ import {
 import {Observable} from "rxjs";
 import {Selector} from "../../src";
 import {ReadableStream} from 'node:stream/web';
+import {APIRequest, HttpMethod, ServiceBinance} from "../../src/source/binance/service.binance";
 
-processingStream([
-    '../../src/mock/datasource/zip files/private/netflix.zip',
-], DataSourceCode.NETFLIX);
+binanceTest();
+//processingStream(['../../src/mock/datasource/zip files/private/netflix.zip',], DataSourceCode.NETFLIX);
 //validateStream('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //showAggregator('../../src/mock/datasource/zip files/private/google.zip', DataSourceCode.GOOGLE);
 //showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //testNotMappedFiles('../../src/mock/datasource/zip files/private/google.zip');
+
+async function binanceTest() {
+    const apiKey = '';
+    const apiSecretKey = '';
+
+    const httpMethod: HttpMethod = (options: APIRequest) => {
+        const https = require('https')
+        return new Promise((resolve, reject) => {
+            const req = https.request(options.url, options, (res: any) => {
+                let data = '';
+                res.on('data', (chunk: any) => {
+                    data+=chunk;
+                });
+                res.on('end', () => {
+                    resolve(JSON.parse(data.toString()));
+                });
+            });
+            req.on('error', (error: Error) => {
+                reject(error);
+            });
+            req.end();
+        });
+    };
+    const service = new ServiceBinance(apiKey, apiSecretKey, httpMethod);
+    console.log(await service.getAccountAPI());
+    //console.log(await ServiceBinance.getTradeListAPI(api_key, api_secret_key));
+    //console.log(await ServiceBinance.getDepositHistoryAPI(api_key, api_secret_key));
+    //console.log(await ServiceBinance.getWithdrawHistoryAPI(api_key, api_secret_key, 'timestamp=' + Date.now()+`&startTime=180&endTime=90`));
+}
 
 async function showAggregator(pathToZip: string, code: DataSourceCode) {
     const fs =  require('fs');

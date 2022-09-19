@@ -47,8 +47,10 @@
         "typescript-json-schema": "^0.54.0"
     },
     "dependencies": {
+        "@types/crypto-js": "^4.1.1",
         "@types/papaparse": "^5.3.2",
         "async-mutex": "^0.3.2",
+        "crypto-js": "^4.1.1",
         "fflate": "^0.7.3",
         "papaparse": "^5.3.2",
         "rxjs": "^7.5.6"
