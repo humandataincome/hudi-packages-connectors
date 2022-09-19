@@ -27,6 +27,10 @@ export interface BalanceBI {
 
 // https://api.binance.com/api/v3/myTrades model
 export interface APITradeListBI {
+    list: APITradeBI[];
+}
+
+export interface APITradeBI {
     symbol?: string;
     id?: number;
     orderId?: number;
@@ -43,8 +47,12 @@ export interface APITradeListBI {
 }
 
 
-// https://api.binance.com/api/v1/capital/deposit/hisrec model
+// https://api.binance.com/sapi/v1/capital/deposit/hisrec model
 export interface APIDepositHistoryBI {
+    list: APIDepositBI[];
+}
+
+export interface APIDepositBI {
     id?: string;
     amount?: string;
     coin?: string;
@@ -58,4 +66,25 @@ export interface APIDepositHistoryBI {
     confirmTimes?: string;
     unlockConfirm?: number;
     walletType?: number;
+}
+
+// https://api.binance.com/sapi/v1/capital/withdraw/history model
+export interface APIWithdrawHistoryBI {
+    list: APIWithdrawBI[];
+}
+
+export interface APIWithdrawBI {
+    address?: string;
+    amount?: string;
+    applyTime?: Date;
+    coin?: string;
+    id?: string;
+    withdrawOrderId?: string;
+    network?: string;
+    transferType?: number;
+    status?: number;
+    transactionFee?: string;
+    confirmNo?: string;
+    info?: string;
+    txId?: string;
 }
