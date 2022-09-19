@@ -10,8 +10,6 @@ import {Observable} from "rxjs";
 import {Selector} from "../../src";
 import {ReadableStream} from 'node:stream/web';
 import {APIRequest, HttpMethod, ServiceBinance} from "../../src/source/binance/service.binance";
-import axios from "axios";
-
 
 binanceTest();
 //processingStream(['../../src/mock/datasource/zip files/private/netflix.zip',], DataSourceCode.NETFLIX);
@@ -28,7 +26,11 @@ async function binanceTest() {
         const https = require('https')
         return new Promise((resolve, reject) => {
             const req = https.request(options.url, options, (res: any) => {
-                res.on('data', (data: any) => {
+                let data = '';
+                res.on('data', (chunk: any) => {
+                    data+=chunk;
+                });
+                res.on('end', () => {
                     resolve(JSON.parse(data.toString()));
                 });
             });
@@ -38,9 +40,6 @@ async function binanceTest() {
             req.end();
         });
     };
-    const httpMethod2: HttpMethod = (options: APIRequest) => {
-        return axios(options);
-    }
     const service = new ServiceBinance(apiKey, apiSecretKey, httpMethod);
     console.log(await service.getAccountAPI());
     //console.log(await ServiceBinance.getTradeListAPI(api_key, api_secret_key));
