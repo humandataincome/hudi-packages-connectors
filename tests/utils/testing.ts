@@ -9,14 +9,22 @@ import {
 import {Observable} from "rxjs";
 import {Selector} from "../../src";
 import {ReadableStream} from 'node:stream/web';
+import {ServiceBinance} from "../../src/source/binance/service.binance";
 
-processingStream([
-    '../../src/mock/datasource/zip files/private/netflix.zip',
-], DataSourceCode.NETFLIX);
+binanceTest();
+//processingStream(['../../src/mock/datasource/zip files/private/netflix.zip',], DataSourceCode.NETFLIX);
 //validateStream('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //showAggregator('../../src/mock/datasource/zip files/private/google.zip', DataSourceCode.GOOGLE);
 //showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //testNotMappedFiles('../../src/mock/datasource/zip files/private/google.zip');
+
+async function binanceTest() {
+    const api_key = 'FU6Q4xqoWLlH8IXsAT5tGJ3Xcq4lTqrkX2EZdUVN0fgheKqTJvJDdZJ8bnInDhNP';
+    const api_secret_key = 'Ptp3ZbU6zpfumlccBSICPnHZPTPnY5HAdtDpxuuBqdGJp3HduTN7wnqLHxdxJ8Ew';
+    //console.log(await ServiceBinance.getAccountAPI(api_key, api_secret_key));
+    console.log(await ServiceBinance.getTradeListAPI(api_key, api_secret_key, 'ETHUSDT'));
+    //console.log(await ServiceBinance.getDepositHistoryAPI(api_key, api_secret_key));
+}
 
 async function showAggregator(pathToZip: string, code: DataSourceCode) {
     const fs =  require('fs');
