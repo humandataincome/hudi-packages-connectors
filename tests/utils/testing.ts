@@ -2,6 +2,7 @@ import {MonitoringService} from "../../src/utils/monitoring/monitoring.source";
 import {
     APIRequest,
     GDPRDataSourceCode,
+    ServiceBinance,
     FileExtension, HttpMethod, ProcessingStatus, ProcessingZipStatus, ProcessorFiles,
     ValidationStatus,
     ValidationZipStatus,
@@ -10,7 +11,6 @@ import {
 import {Observable} from "rxjs";
 import {Selector} from "../../src";
 import {ReadableStream} from 'node:stream/web';
-import {ServiceBinance} from "../../src/source/binance/service.binance";
 
 binanceTest();
 //processingStream(['../../src/mock/datasource/zip files/private/netflix.zip',], DataSourceCode.NETFLIX);
@@ -20,8 +20,8 @@ binanceTest();
 //testNotMappedFiles('../../src/mock/datasource/zip files/private/google.zip');
 
 async function binanceTest() {
-    const apiKey = '';
-    const apiSecretKey = '';
+    const apiKey = 'HRcESOBMi4xhG28MXtdxw6FzfQBBmAhGiwSs1cpzLvm7OncpdG5N07VY7xBwMvT2';
+    const apiSecretKey = 'rWvdjRCSbxSdeO6BLTBskqyJdr64ZvhTtdivCTWWMaudKVOBXlyGeydM7amlH0Wz';
 
     const httpMethod: HttpMethod = (options: APIRequest) => {
         const https = require('https')
