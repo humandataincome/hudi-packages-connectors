@@ -1,4 +1,4 @@
-import {APIAccountBI, APIDepositHistoryBI, APITradeListBI, APIWithdrawHistoryBI} from "./model.binance";
+import {AccountBI, DepositHistoryBI, TradeListBI, WithdrawHistoryBI} from "./model.binance";
 import {HttpMethod, ValidatorObject} from "../../utils";
 import Logger from "../../utils/logger";
 
@@ -22,7 +22,7 @@ export class ServiceBinance {
     /**
      * Model building from API call to https://api.binance.com/api/v3/account
      */
-    async getAccountAPI(query?: string): Promise<APIAccountBI | undefined> {
+    async getAccountAPI(query?: string): Promise<AccountBI | undefined> {
         try {
             const queryString = query ? query : `timestamp=${Date.now()}&recvWindow=60000`;
             const signatureBinance = this.createSignature(queryString, this.apiSecret);
@@ -34,14 +34,14 @@ export class ServiceBinance {
                 }
             };
             const response = await this.httpMethod(configRequest);
-            const model: APIAccountBI = {...response, updateTime: new Date(response.updateTime)};
+            const model: AccountBI = {...response, updateTime: new Date(response.updateTime)};
             return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
         } catch(error: any) {
             this.logger.log('error', error.message, 'getAccountAPI');
         }
     }
 
-    async getTradeListAPI(query?: string): Promise<APITradeListBI | undefined> {
+    async getTradeListAPI(query?: string): Promise<TradeListBI | undefined> {
             try {
                 const queryString = query ? query : `timestamp=${Date.now()}&recvWindow=60000&symbol=BNBBTC`;
                 const signatureBinance = this.createSignature(queryString, this.apiSecret);
@@ -53,7 +53,7 @@ export class ServiceBinance {
                     }
                 }
                 const response = await this.httpMethod(configRequest);
-                const model: APITradeListBI = {list: response.length > 0 ? response.data.map((item: any) => {return {...item, time: new Date(item.time)}}) : []};
+                const model: TradeListBI = {list: response.length > 0 ? response.data.map((item: any) => {return {...item, time: new Date(item.time)}}) : []};
                 return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
             } catch(error: any) {
                 this.logger.log('error', error.message, 'getTradeListAPI');
@@ -64,7 +64,7 @@ export class ServiceBinance {
         /**
          * Model building from API call to https://api.binance.com/sapi/v1/capital/deposit/hisrec
          */
-    async getDepositHistoryAPI(query?: string): Promise<APIDepositHistoryBI | undefined> {
+    async getDepositHistoryAPI(query?: string): Promise<DepositHistoryBI | undefined> {
         try {
             const queryString = query ? query : `timestamp=${Date.now()}&recvWindow=60000`;
             const signatureBinance = this.createSignature(queryString, this.apiSecret);
@@ -76,7 +76,7 @@ export class ServiceBinance {
                 }
             }
             const response = await this.httpMethod(configRequest);
-            const model: APIDepositHistoryBI = {list: response};
+            const model: DepositHistoryBI = {list: response};
             return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
         } catch(error: any) {
             this.logger.log('error', error.message, 'getDepositHistoryAPI');
@@ -86,7 +86,7 @@ export class ServiceBinance {
         /**
          * Model building from API call to https://api.binance.com/sapi/v1/capital/withdraw/history
          */
-        async getWithdrawHistoryAPI(query?: string): Promise<APIWithdrawHistoryBI | undefined> {
+        async getWithdrawHistoryAPI(query?: string): Promise<WithdrawHistoryBI | undefined> {
             try {
                 const queryString = query ? query : `timestamp=${Date.now()}&recvWindow=60000`;
                 const signatureBinance = this.createSignature(queryString, this.apiSecret);
@@ -98,7 +98,7 @@ export class ServiceBinance {
                     }
                 };
                 const response = await this.httpMethod(configRequest);
-                const model: APIWithdrawHistoryBI = {list: response.length > 0 ? response.data.map((item: any) => {return {...item, applyTime: new Date(item.applyTime)}}) : []};
+                const model: WithdrawHistoryBI = {list: response.length > 0 ? response.data.map((item: any) => {return {...item, applyTime: new Date(item.applyTime)}}) : []};
                 return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
             } catch(error: any) {
                 this.logger.log('error', error.message, 'getWithdrawHistoryAPI');

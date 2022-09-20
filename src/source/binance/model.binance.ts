@@ -1,11 +1,14 @@
 
 export interface BinanceDataAggregator {
-    account?: APIAccountBI;
+    account?: AccountBI;
+    trades: Record<string,TradeListBI>; //all the trades in the last 2 years for most common cryptos
+    depositHistory?: DepositHistoryBI;
+    withdrawHistory?: WithdrawHistoryBI;
     creationDate?: Date;
 }
 
 // https://api.binance.com/api/v3/account model
-export interface APIAccountBI {
+export interface AccountBI {
     makerCommission?: number;
     takerCommission?: number;
     buyerCommission?: number;
@@ -26,11 +29,11 @@ export interface BalanceBI {
 }
 
 // https://api.binance.com/api/v3/myTrades model
-export interface APITradeListBI {
-    list: APITradeBI[];
+export interface TradeListBI {
+    list: TradeBI[];
 }
 
-export interface APITradeBI {
+export interface TradeBI {
     symbol?: string;
     id?: number;
     orderId?: number;
@@ -48,11 +51,11 @@ export interface APITradeBI {
 
 
 // https://api.binance.com/sapi/v1/capital/deposit/hisrec model
-export interface APIDepositHistoryBI {
-    list: APIDepositBI[];
+export interface DepositHistoryBI {
+    list: DepositBI[];
 }
 
-export interface APIDepositBI {
+export interface DepositBI {
     id?: string;
     amount?: string;
     coin?: string;
@@ -69,11 +72,11 @@ export interface APIDepositBI {
 }
 
 // https://api.binance.com/sapi/v1/capital/withdraw/history model
-export interface APIWithdrawHistoryBI {
-    list: APIWithdrawBI[];
+export interface WithdrawHistoryBI {
+    list: WithdrawBI[];
 }
 
-export interface APIWithdrawBI {
+export interface WithdrawBI {
     address?: string;
     amount?: string;
     applyTime?: Date;
