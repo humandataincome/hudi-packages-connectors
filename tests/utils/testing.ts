@@ -19,8 +19,8 @@ binanceTest();
 //testNotMappedFiles('../../src/mock/datasource/zip files/private/google.zip');
 
 async function binanceTest() {
-    const apiKey = 'HRcESOBMi4xhG28MXtdxw6FzfQBBmAhGiwSs1cpzLvm7OncpdG5N07VY7xBwMvT2';
-    const apiSecretKey = 'rWvdjRCSbxSdeO6BLTBskqyJdr64ZvhTtdivCTWWMaudKVOBXlyGeydM7amlH0Wz';
+    const apiKey = '';
+    const apiSecretKey = '';
 
     const httpMethod: HttpMethod = (options: HTTPRequest) => {
         const https = require('https')
