@@ -1,5 +1,5 @@
 import {
-    DataSourceCode, Selector,
+    GDPRDataSourceCode, Selector,
     ValidatorFiles
 } from "../src";
 
@@ -16,10 +16,10 @@ export class JsonGenerator {
         await this.generateJson(DataSourceCode.TIKTOK);
 
          */
-        await this.generateJson(DataSourceCode.TWITTER);
+        await this.generateJson(GDPRDataSourceCode.TWITTER);
     }
 
-    private static async generateJson(code: DataSourceCode) {
+    private static async generateJson(code: GDPRDataSourceCode) {
         const fs = require('fs');
         const path = require('path');
         const data = fs.readFileSync(path.join(__dirname, `../src/mock/datasource/zip files/private/${code.toLowerCase()}.zip`));

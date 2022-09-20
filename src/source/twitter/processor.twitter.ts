@@ -1,12 +1,12 @@
 import Logger from "../../utils/logger";
-import {ProcessorDatasource, ProcessorOptions, ValidatorObject} from "../../utils";
+import {ProcessorGDPRDatasource, ProcessorOptions, ValidatorObject} from "../../utils";
 import {Unzipped, unzipSync} from "fflate";
 import {staticImplements} from "../../utils/decorator";
 import {FileCodeTwitter} from "./enum.twitter";
 import {ServiceTwitter} from "./service.twitter";
 import {TwitterDataAggregator} from "./model.twitter";
 
-@staticImplements<ProcessorDatasource>()
+@staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorTwitter {
     private static readonly logger = new Logger("Processor Twitter");
 

@@ -1,5 +1,5 @@
 import {getProgramFromFiles, generateSchema, CompilerOptions, PartialArgs} from "typescript-json-schema";
-import {DataSourceCode} from "../src";
+import {GDPRDataSourceCode} from "../src";
 
 export class SchemaGenerator {
     static generateAggregatorSchemas(): void {
@@ -13,13 +13,13 @@ export class SchemaGenerator {
         };
         //INSERT HERE all the datasource's codes that have both a model and an aggregator and then can have a generated aggregator
         const codes = [
-            DataSourceCode.AMAZON,
-            DataSourceCode.FACEBOOK,
-            DataSourceCode.GOOGLE,
-            DataSourceCode.INSTAGRAM,
-            DataSourceCode.LINKEDIN
+            GDPRDataSourceCode.AMAZON,
+            GDPRDataSourceCode.FACEBOOK,
+            GDPRDataSourceCode.GOOGLE,
+            GDPRDataSourceCode.INSTAGRAM,
+            GDPRDataSourceCode.LINKEDIN
         ];
-        codes.forEach((code: DataSourceCode) => {
+        codes.forEach((code: GDPRDataSourceCode) => {
             const datasource = code.toLowerCase();
             const program = getProgramFromFiles(
                 [path.resolve(`src/source/${datasource}/model.${datasource}.ts`)],

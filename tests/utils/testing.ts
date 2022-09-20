@@ -11,14 +11,14 @@ import {Observable} from "rxjs";
 import {Selector} from "../../src";
 import {ReadableStream} from 'node:stream/web';
 
-binanceTest();
-//processingStream(['../../src/mock/datasource/zip files/private/netflix.zip',], DataSourceCode.NETFLIX);
+//processingAPIBinance();
+processingStream(['../../src/mock/datasource/zip files/private/twitter.zip',], GDPRDataSourceCode.TWITTER);
 //validateStream('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //showAggregator('../../src/mock/datasource/zip files/private/google.zip', DataSourceCode.GOOGLE);
 //showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //testNotMappedFiles('../../src/mock/datasource/zip files/private/google.zip');
 
-async function binanceTest() {
+async function processingAPIBinance() {
     const apiKey = '';
     const apiSecretKey = '';
 
