@@ -1,7 +1,7 @@
 import {MonitoringService} from "../../src/utils/monitoring/monitoring.source";
 import {
     APIRequest,
-    DataSourceCode,
+    GDPRDataSourceCode,
     FileExtension, HttpMethod, ProcessingStatus, ProcessingZipStatus, ProcessorFiles,
     ValidationStatus,
     ValidationZipStatus,
@@ -48,7 +48,7 @@ async function binanceTest() {
     //console.log(await service.getWithdrawHistoryAPI(`timestamp=${Date.now()}&recvWindow=60000&startTime=700&endTime=630`));
 }
 
-async function showAggregator(pathToZip: string, code: DataSourceCode) {
+async function showAggregator(pathToZip: string, code: GDPRDataSourceCode) {
     const fs =  require('fs');
     const path =  require('path');
     const data = fs.readFileSync(path.join(__dirname, pathToZip));
@@ -74,12 +74,12 @@ async function testNotMappedFiles(pathToZip: string) {
     const path = require('path');
 
     const data = fs.readFileSync(path.join(__dirname, pathToZip));
-    console.log(await MonitoringService.findNotMappedFiles(data, DataSourceCode.GOOGLE, {
+    console.log(await MonitoringService.findNotMappedFiles(data, GDPRDataSourceCode.GOOGLE, {
         permittedFilesExtensions: [FileExtension.JSON, FileExtension.JS, FileExtension.XML, FileExtension.CSV, FileExtension.HTML]
     }));
 }
 
-async function validateStream(pathToZip: string, code: DataSourceCode) {
+async function validateStream(pathToZip: string, code: GDPRDataSourceCode) {
     const fs = require('fs');
     const path = require('path');
     const size = fs.statSync(path.join(__dirname, pathToZip)).size;
@@ -116,7 +116,7 @@ async function validateStream(pathToZip: string, code: DataSourceCode) {
     });
 }
 
-async function processingStream(pathsToZip: string[], code: DataSourceCode) {
+async function processingStream(pathsToZip: string[], code: GDPRDataSourceCode) {
     const fs = require('fs');
     const path = require('path');
     let totalSize = 0;
