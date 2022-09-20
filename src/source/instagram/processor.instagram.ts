@@ -10,7 +10,7 @@ import {
     QuizIG,
     StoryIG,
 } from "./model.instagram";
-import {ProcessorDatasource, ProcessorOptions, ProcessorUtils, ValidatorObject} from "../../utils";
+import {ProcessorGDPRDatasource, ProcessorOptions, ProcessorUtils, ValidatorObject} from "../../utils";
 import Logger from "../../utils/logger";
 import {Unzipped, unzipSync} from "fflate";
 import {ValidatorInstagram} from "./validator.instagram";
@@ -18,7 +18,7 @@ import {ServiceInstagram} from "./service.instagram";
 import {FileCodeInstagram} from "./enum.instagram";
 import {staticImplements} from "../../utils/decorator";
 
-@staticImplements<ProcessorDatasource>()
+@staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorInstagram {
     private static readonly logger = new Logger("Processor Instagram");
 

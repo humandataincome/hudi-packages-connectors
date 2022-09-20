@@ -5,6 +5,6 @@ describe('TikTok Service test', () => {
         const pathToFile = `../../../src/mock/datasource/raw files/tiktok/user_data.json`;
         const result = await ServiceTiktok.parseUserData(Buffer.from(JSON.stringify(require(pathToFile))));
         const expected = 'diwxv283491l';
-        expect(JSON.stringify(result!.followerList!.followers[3].username)).toBe(JSON.stringify(expected));
+        expect(JSON.stringify(result!.followersList!.list[3].username)).toBe(JSON.stringify(expected));
     });
 });

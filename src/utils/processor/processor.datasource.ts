@@ -1,4 +1,5 @@
 import {DataAggregator, LanguageCode} from "../../descriptor";
+import {HttpMethod} from "../api.utils";
 
 /**
  * @timeIntervalDays set the number of days for the data relevance's time interval. Default is 3654 days.
@@ -13,8 +14,13 @@ export type ProcessorOptions = {
     throwExceptions?: boolean;
 }
 
-export interface ProcessorDatasource {
+export interface ProcessorGDPRDatasource {
     initAggregator(): DataAggregator;
     aggregatorBuilder(data: Buffer, pathName: string, model: DataAggregator, options?: ProcessorOptions): void;
     zipAggregatorBuilder(zipFile: Uint8Array, options?: ProcessorOptions): Promise<DataAggregator | undefined>;
+}
+
+export interface ProcessorAPIDatasource {
+    initAggregator(): DataAggregator;
+    aggregatorBuilder(apiKey: string, apiSecretKey: string, method: HttpMethod): void;
 }

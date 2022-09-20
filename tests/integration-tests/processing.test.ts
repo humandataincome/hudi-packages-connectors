@@ -1,5 +1,5 @@
 import {
-    DataSourceCode,
+    GDPRDataSourceCode,
     ProcessorInstagram,
     ValidatorFiles,
 } from "../../src";
@@ -21,7 +21,7 @@ async function validationAndProcessing(pathToZip: string) {
     const validation = await ValidatorFiles.validateZip(data,
         {
             filterDataSource: {
-                dataSourceCode: DataSourceCode.INSTAGRAM,
+                dataSourceCode: GDPRDataSourceCode.INSTAGRAM,
             },
         });
     return await ProcessorInstagram.zipAggregatorBuilder(validation!.zipFile);

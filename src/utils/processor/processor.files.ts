@@ -1,6 +1,6 @@
 import {from, Observable, Subscriber} from "rxjs";
 import {ValidatorFiles, ValidatorObject} from "../validator";
-import {DataAggregator, DataSourceCode, FileExtension, LanguageCode} from "../../descriptor";
+import {DataAggregator, FileExtension, GDPRDataSourceCode, LanguageCode} from "../../descriptor";
 import {FlateError, Unzip, UnzipFile, UnzipInflate, unzipSync} from "fflate";
 import {Selector} from "../selector";
 import Logger from "../logger";
@@ -32,7 +32,7 @@ export interface ProcessingObjectSupport {
     readableStreams: ReadableStream[];
     returnObject: ProcessingReturn;
     subscriber: Subscriber<ProcessingZipStatus>;
-    code: DataSourceCode;
+    code: GDPRDataSourceCode;
     languageCode?: LanguageCode | undefined;
     filesToParse: FilesBuilder;
     options: ProcessingZipOptions;
@@ -51,7 +51,7 @@ export class ProcessorFiles {
      * @param code - code of the Data source
      * @param options - optional parameters defined into ProcessingZipOptions interface
      */
-    static processingZipStream(readableStreams: ReadableStream[], code: DataSourceCode, options: ProcessingZipOptions = {}): Observable<ProcessingZipStatus> {
+    static processingZipStream(readableStreams: ReadableStream[], code: GDPRDataSourceCode, options: ProcessingZipOptions = {}): Observable<ProcessingZipStatus> {
         return new Observable<ProcessingZipStatus>((subscriber: Subscriber<ProcessingZipStatus>) => {
             const model = Selector.getInitAggregator(code);
             if (model) {

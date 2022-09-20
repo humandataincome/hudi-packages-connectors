@@ -12,7 +12,7 @@ import {
     ProcessorOptions,
     ProcessorUtils,
     ValidatorObject,
-    ProcessorDatasource
+    ProcessorGDPRDatasource
 } from "../../utils";
 import Logger from "../../utils/logger";
 import {Unzipped, unzipSync} from "fflate";
@@ -20,7 +20,7 @@ import {ServiceFacebook} from "./service.facebook";
 import {FileCodeFacebook} from "./enum.facebook";
 import {staticImplements} from "../../utils/decorator";
 
-@staticImplements<ProcessorDatasource>()
+@staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorFacebook {
     private static readonly logger = new Logger("Processor Facebook");
 

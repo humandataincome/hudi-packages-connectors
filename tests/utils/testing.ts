@@ -1,24 +1,49 @@
 import {MonitoringService} from "../../src/utils/monitoring/monitoring.source";
 import {
-    DataSourceCode,
-    FileExtension, ProcessingStatus, ProcessingZipStatus, ProcessorFiles,
+    HTTPRequest,
+    GDPRDataSourceCode,
+    FileExtension, HttpMethod, ProcessingStatus, ProcessingZipStatus, ProcessorFiles,
     ValidationStatus,
     ValidationZipStatus,
-    ValidatorFiles
+    ValidatorFiles, ProcessorBinance
 } from "../../src";
 import {Observable} from "rxjs";
 import {Selector} from "../../src";
 import {ReadableStream} from 'node:stream/web';
 
-processingStream([
-    '../../src/mock/datasource/zip files/private/twitter.zip',
-], DataSourceCode.TWITTER);
+binanceTest();
+//processingStream(['../../src/mock/datasource/zip files/private/netflix.zip',], DataSourceCode.NETFLIX);
 //validateStream('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //showAggregator('../../src/mock/datasource/zip files/private/google.zip', DataSourceCode.GOOGLE);
 //showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //testNotMappedFiles('../../src/mock/datasource/zip files/private/google.zip');
 
-async function showAggregator(pathToZip: string, code: DataSourceCode) {
+async function binanceTest() {
+    const apiKey = '';
+    const apiSecretKey = '';
+
+    const httpMethod: HttpMethod = (options: HTTPRequest) => {
+        const https = require('https')
+        return new Promise((resolve, reject) => {
+            const req = https.request(options.url, options, (res: any) => {
+                let data = '';
+                res.on('data', (chunk: any) => {
+                    data+=chunk;
+                });
+                res.on('end', () => {
+                    resolve(JSON.parse(data.toString()));
+                });
+            });
+            req.on('error', (error: Error) => {
+                reject(error);
+            });
+            req.end();
+        });
+    };
+    console.log(await ProcessorBinance.aggregatorBuilder(apiKey, apiSecretKey, httpMethod));
+}
+
+async function showAggregator(pathToZip: string, code: GDPRDataSourceCode) {
     const fs =  require('fs');
     const path =  require('path');
     const data = fs.readFileSync(path.join(__dirname, pathToZip));
@@ -44,12 +69,12 @@ async function testNotMappedFiles(pathToZip: string) {
     const path = require('path');
 
     const data = fs.readFileSync(path.join(__dirname, pathToZip));
-    console.log(await MonitoringService.findNotMappedFiles(data, DataSourceCode.GOOGLE, {
+    console.log(await MonitoringService.findNotMappedFiles(data, GDPRDataSourceCode.GOOGLE, {
         permittedFilesExtensions: [FileExtension.JSON, FileExtension.JS, FileExtension.XML, FileExtension.CSV, FileExtension.HTML]
     }));
 }
 
-async function validateStream(pathToZip: string, code: DataSourceCode) {
+async function validateStream(pathToZip: string, code: GDPRDataSourceCode) {
     const fs = require('fs');
     const path = require('path');
     const size = fs.statSync(path.join(__dirname, pathToZip)).size;
@@ -86,7 +111,7 @@ async function validateStream(pathToZip: string, code: DataSourceCode) {
     });
 }
 
-async function processingStream(pathsToZip: string[], code: DataSourceCode) {
+async function processingStream(pathsToZip: string[], code: GDPRDataSourceCode) {
     const fs = require('fs');
     const path = require('path');
     let totalSize = 0;

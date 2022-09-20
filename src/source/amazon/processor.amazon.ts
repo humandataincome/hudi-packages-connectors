@@ -1,14 +1,14 @@
 import {
     AmazonDataAggregator
 } from "./model.amazon";
-import {ProcessorDatasource, ProcessorOptions, ProcessorUtils, ValidatorObject} from "../../utils";
+import {ProcessorGDPRDatasource, ProcessorOptions, ProcessorUtils, ValidatorObject} from "../../utils";
 import Logger from "../../utils/logger";
 import {Unzipped, unzipSync} from "fflate";
 import {ServiceAmazon} from "./service.amazon";
 import {FileCodeAmazon} from "./enum.amazon";
 import {staticImplements} from "../../utils/decorator";
 
-@staticImplements<ProcessorDatasource>()
+@staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorAmazon {
     private static readonly logger = new Logger("Processor Amazon");
 
