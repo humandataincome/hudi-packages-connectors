@@ -43,7 +43,7 @@ export class DescriptorService {
      */
     static getName(code: GDPRDataSourceCode): string | undefined {
         try {
-            return descriptor?.sourceDescriptions?.find(
+            return descriptor?.sourceGDPRDescriptions?.find(
                 ({sourceCode}) => sourceCode === code
             )?.sourceName;
         } catch (error) {
@@ -57,7 +57,7 @@ export class DescriptorService {
      */
     static getLanguagesList(code: GDPRDataSourceCode): LanguageCode[] | undefined {
         try {
-            const sourceDescription = descriptor?.sourceDescriptions?.find(
+            const sourceDescription = descriptor?.sourceGDPRDescriptions?.find(
                 ({sourceCode, retrievingProcedures}) => sourceCode === code && retrievingProcedures.length
             );
             return sourceDescription?.retrievingProcedures?.map(({languageCode}) => languageCode);
@@ -73,7 +73,7 @@ export class DescriptorService {
      */
     static getProcedureLists(code: GDPRDataSourceCode, language: LanguageCode): Procedure[] | undefined {
         try {
-            const sourceDescription = descriptor?.sourceDescriptions?.find(
+            const sourceDescription = descriptor?.sourceGDPRDescriptions?.find(
                 ({sourceCode, retrievingProcedures}) => sourceCode === code && retrievingProcedures.length
             );
             return sourceDescription?.retrievingProcedures?.find(
@@ -98,7 +98,7 @@ export class DescriptorService {
         procedureName?: string
     ): Procedure | undefined {
         try {
-            const sourceDescription = descriptor?.sourceDescriptions?.find(
+            const sourceDescription = descriptor?.sourceGDPRDescriptions?.find(
                 ({sourceCode}) => sourceCode === code
             );
 
