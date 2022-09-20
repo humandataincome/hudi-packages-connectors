@@ -9,8 +9,9 @@ export class ProcessorBinance {
     private static readonly logger = new Logger("Processor Binance");
 
     static initAggregator(): BinanceDataAggregator {
-        return {trades: {}}
+        return {}
     }
+
     static async aggregatorBuilder(apiKey: string, apiSecretKey: string, method: HttpMethod) {
         try {
             const service = new ServiceBinance(apiKey, apiSecretKey, method);
@@ -18,7 +19,7 @@ export class ProcessorBinance {
             model.account = await service.getAccountAPI();
 
             //fill the 'trades' parameter
-            let limitDays = 8 * 90 //must be multiple of 90 (8*90 = 2 years)
+            let limitDays = 4 * 90 //must be multiple of 90 (4*90 = 1 years)
             const symbols = [
                 'ADABUSD',
                 'BNBBTC', 'BNBBUSD', 'BNBETH', 'BNBEUR', 'BNBUSDT',
@@ -34,12 +35,13 @@ export class ProcessorBinance {
                     tradesInterval && trades.list.concat(tradesInterval.list);
                 }
                 if (trades.list.length > 0) {
+                    (!model.trades) && (model.trades = {});
                     model.trades.symbol = trades;
                 }
             }
 
             //fill the 'depositHistory' parameter
-            limitDays = 8 * 90 //must be multiple of 90
+            limitDays = 4 * 90 //must be multiple of 90
             let deposits: DepositHistoryBI = {list: []};
             for (let i = 1; i < limitDays/90; i++) {
                 const days = i * 90;
@@ -51,7 +53,7 @@ export class ProcessorBinance {
             }
 
             //fill the 'withdrawHistory' parameter
-            limitDays = 8 * 90 //must be multiple of 90
+            limitDays = 4 * 90 //must be multiple of 90
             let withdraw: WithdrawHistoryBI = {list: []};
             for (let i = 1; i < limitDays/90; i++) {
                 const days = i * 90;

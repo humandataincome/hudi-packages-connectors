@@ -1,4 +1,4 @@
-export interface APIRequest {
+export interface HTTPRequest {
     url: string,
     method: string;
     body?: JSON;
@@ -8,4 +8,4 @@ export interface APIRequest {
 /**
  * Must return only the response object
  */
-export type HttpMethod = (request: APIRequest) => Promise<any>;
+export type HttpMethod = (request: HTTPRequest) => Promise<any>;

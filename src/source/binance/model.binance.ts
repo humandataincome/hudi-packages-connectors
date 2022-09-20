@@ -1,7 +1,7 @@
 
 export interface BinanceDataAggregator {
     account?: AccountBI;
-    trades: Record<string,TradeListBI>; //all the trades in the last 2 years for most common cryptos
+    trades?: Record<string,TradeListBI>; //all the trades in the last year for most common cryptos
     depositHistory?: DepositHistoryBI;
     withdrawHistory?: WithdrawHistoryBI;
     creationDate?: Date;

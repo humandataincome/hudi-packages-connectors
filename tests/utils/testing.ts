@@ -1,12 +1,11 @@
 import {MonitoringService} from "../../src/utils/monitoring/monitoring.source";
 import {
-    APIRequest,
+    HTTPRequest,
     GDPRDataSourceCode,
-    ServiceBinance,
     FileExtension, HttpMethod, ProcessingStatus, ProcessingZipStatus, ProcessorFiles,
     ValidationStatus,
     ValidationZipStatus,
-    ValidatorFiles
+    ValidatorFiles, ProcessorBinance
 } from "../../src";
 import {Observable} from "rxjs";
 import {Selector} from "../../src";
@@ -23,7 +22,7 @@ async function binanceTest() {
     const apiKey = 'HRcESOBMi4xhG28MXtdxw6FzfQBBmAhGiwSs1cpzLvm7OncpdG5N07VY7xBwMvT2';
     const apiSecretKey = 'rWvdjRCSbxSdeO6BLTBskqyJdr64ZvhTtdivCTWWMaudKVOBXlyGeydM7amlH0Wz';
 
-    const httpMethod: HttpMethod = (options: APIRequest) => {
+    const httpMethod: HttpMethod = (options: HTTPRequest) => {
         const https = require('https')
         return new Promise((resolve, reject) => {
             const req = https.request(options.url, options, (res: any) => {
@@ -41,11 +40,7 @@ async function binanceTest() {
             req.end();
         });
     };
-    const service = new ServiceBinance(apiKey, apiSecretKey, httpMethod);
-    //console.log(await service.getAccountAPI());
-    console.log(await service.getTradeListAPI(`timestamp=${Date.now()}&recvWindow=60000&symbol=ETHUSDT&startTime=700&endTime=630`));
-    //console.log(await service.getDepositHistoryAPI(`timestamp=${Date.now()}&recvWindow=60000&startTime=700&endTime=630`));
-    //console.log(await service.getWithdrawHistoryAPI(`timestamp=${Date.now()}&recvWindow=60000&startTime=700&endTime=630`));
+    console.log(await ProcessorBinance.aggregatorBuilder(apiKey, apiSecretKey, httpMethod));
 }
 
 async function showAggregator(pathToZip: string, code: GDPRDataSourceCode) {
