@@ -1,5 +1,5 @@
 import {Descriptor, FileDescription, Procedure} from "./descriptor.model";
-import {GDPRDataSourceCode, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
+import {APIDataSourceCode, GDPRDataSourceCode, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
 import {DescriptorErrorEnum, Selector, ValidatorObject} from "../utils";
 
 const descriptor: Descriptor = require('./descriptor.json');
@@ -8,12 +8,23 @@ export class DescriptorService {
     static readonly document: Descriptor = descriptor;
 
     /**
-     * @return  all available data sources' codes (someone may not be described into descriptor.json)
+     * @return  all available GDPR data sources' codes (someone may not be described into descriptor.json)
      */
     static getAllGDPRCodes(): GDPRDataSourceCode[] {
         let list: GDPRDataSourceCode[] = []
          for (let enumMember in GDPRDataSourceCode) {
              list.push(GDPRDataSourceCode[<GDPRDataSourceCode>enumMember]);
+        }
+        return list;
+    }
+
+    /**
+     * @return  all available API data sources' codes (someone may not be described into descriptor.json)
+     */
+    static getAllAPICodes(): APIDataSourceCode[] {
+        let list: APIDataSourceCode[] = []
+        for (let enumMember in APIDataSourceCode) {
+            list.push(APIDataSourceCode[<APIDataSourceCode>enumMember]);
         }
         return list;
     }
