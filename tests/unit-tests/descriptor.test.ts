@@ -3,7 +3,7 @@ import {DataSourceCode, DescriptorService, LanguageCode, RetrievingProcedureType
 describe('Descriptor Test', () => {
     test('getAllCodes', () => {
         const result = DescriptorService.getAllCodes();
-        const expected = DataSourceCode.REDDIT;
+        const expected = DataSourceCode.TWITTER;
         expect(JSON.stringify(result[9])).toBe(JSON.stringify(expected));
     });
     test('getName', () => {

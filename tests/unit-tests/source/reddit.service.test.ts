@@ -8,7 +8,7 @@ describe('Reddit Service test', () => {
         const pathToFile = `../../../src/mock/datasource/raw files/reddit/subscribed_subreddits.csv`;
         const result = await ServiceReddit.parseSubscribedSubreddit(await Parser.CSVToBuffer(path.join(__dirname, pathToFile)));
         const expected = 'elex';
-        expect(JSON.stringify(result!.listSubreddits[0])).toBe(JSON.stringify(expected));
+        expect(JSON.stringify(result!.list[0])).toBe(JSON.stringify(expected));
     });
 });
 
