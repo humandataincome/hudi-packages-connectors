@@ -1,12 +1,12 @@
 import {staticImplements} from "../../utils/decorator";
-import {ProcessorDatasource, ProcessorOptions, ValidatorObject} from "../../utils";
+import {ProcessorGDPRDatasource, ProcessorOptions, ValidatorObject} from "../../utils";
 import Logger from "../../utils/logger";
 import {NetflixDataAggregator} from "./model.netflix";
 import {Unzipped, unzipSync} from "fflate";
 import {FileCodeNetflix} from "./enum.netflix";
 import {ServiceNetflix} from "./service.netflix";
 
-@staticImplements<ProcessorDatasource>()
+@staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorNetflix {
     private static readonly logger = new Logger("Processor Netflix");
 

@@ -1,5 +1,5 @@
 import {MonitoringService} from "../../src/utils/monitoring/monitoring.source";
-import {DataSourceCode, FileExtension} from "../../src";
+import {GDPRDataSourceCode, FileExtension} from "../../src";
 
 describe('Monitoring Test', () => {
     const pathToZip1 = "../../src/mock/datasource/zip files/instagram_part_1.zip";
@@ -21,7 +21,7 @@ async function findNotMappedFiles(pathToZip: string) {
     const fs = require('fs');
     const path = require('path');
     const data = fs.readFileSync(path.join(__dirname, pathToZip));
-    return await MonitoringService.findNotMappedFiles(data, DataSourceCode.INSTAGRAM, {
+    return await MonitoringService.findNotMappedFiles(data, GDPRDataSourceCode.INSTAGRAM, {
         permittedFilesExtensions: [FileExtension.JSON, FileExtension.JS, FileExtension.XML, FileExtension.CSV, FileExtension.HTML]
     });
 }
@@ -30,5 +30,5 @@ async function findChangesIntoFiles(pathToZip: string) {
     const fs = require('fs');
     const path = require('path');
     const data = fs.readFileSync(path.join(__dirname, pathToZip));
-    return await MonitoringService.findChangesIntoFiles(data, DataSourceCode.INSTAGRAM);
+    return await MonitoringService.findChangesIntoFiles(data, GDPRDataSourceCode.INSTAGRAM);
 }

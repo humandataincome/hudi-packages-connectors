@@ -1,5 +1,5 @@
 import {
-    DataSourceCode,
+    GDPRDataSourceCode,
     FileExtension
 } from "../../descriptor";
 import {ValidatorFiles} from "../validator/validator.files";
@@ -17,7 +17,7 @@ export class MonitoringService {
     private static readonly logger = new Logger("Monitoring Service");
 
     //TODO: given a datasource, find all those files that are outdated (can't be returned in the zip file anymore)
-    public static findOutdatedMappedFiles(zipFile: Uint8Array, code: DataSourceCode) {}
+    public static findOutdatedMappedFiles(zipFile: Uint8Array, code: GDPRDataSourceCode) {}
 
 
     /**
@@ -25,7 +25,7 @@ export class MonitoringService {
      * @param zipFile - file zip containing a datasource
      * @param code - code of the datasource
      */
-    public static async findChangesIntoFiles(zipFile: Uint8Array, code: DataSourceCode): Promise<string[] | undefined> {
+    public static async findChangesIntoFiles(zipFile: Uint8Array, code: GDPRDataSourceCode): Promise<string[] | undefined> {
         try {
             if (zipFile) {
                 const files: Unzipped = unzipSync(zipFile);
@@ -61,7 +61,7 @@ export class MonitoringService {
      * @param code - code of the datasource
      * @param options
      */
-    public static async findNotMappedFiles(zipFile: Uint8Array, code: DataSourceCode, options: MonitoringFilesOptions = {}): Promise<string[] | undefined> {
+    public static async findNotMappedFiles(zipFile: Uint8Array, code: GDPRDataSourceCode, options: MonitoringFilesOptions = {}): Promise<string[] | undefined> {
         try {
             if (zipFile) {
                 const fileList = await ValidatorFiles.getPathsIntoZip(zipFile);
@@ -91,7 +91,7 @@ export class MonitoringService {
         return undefined;
     }
 
-    private static isFilenameIntoEnum(fileName: string, code: DataSourceCode): boolean {
+    private static isFilenameIntoEnum(fileName: string, code: GDPRDataSourceCode): boolean {
         const validator = Selector.getValidator(code);
         if (validator) {
             const isValid = validator.getValidPath(fileName, {fileCodes: Selector.getAllEnumKeys(code)});

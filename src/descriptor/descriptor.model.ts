@@ -1,4 +1,4 @@
-import {DataSourceCode, FileExtension, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
+import {GDPRDataSourceCode, FileExtension, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
 
 export interface Descriptor {
     sourceDescriptions: SourceDescription[];
@@ -7,7 +7,7 @@ export interface Descriptor {
 
 export interface SourceDescription {
     sourceName: string;
-    sourceCode: DataSourceCode;
+    sourceCode: GDPRDataSourceCode;
     retrievingProcedures: RetrievingProcedure[];
 }
 
@@ -32,7 +32,7 @@ export interface RetrievingStep {
 }
 
 export interface DatasourceFilesDescriptions {
-    sourceCode: DataSourceCode;
+    sourceCode: GDPRDataSourceCode;
     filesDescriptions: LocalFileDescriptions[];
 }
 

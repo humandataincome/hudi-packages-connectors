@@ -1,5 +1,5 @@
 import {
-    DataSourceCode,
+    GDPRDataSourceCode,
     ValidationReturn,
     ValidationStatus,
     ValidationZipStatus,
@@ -36,7 +36,7 @@ async function validateZip(pathToZip: string): Promise<ValidationReturn | undefi
     return ValidatorFiles.validateZip(data,
         {
             filterDataSource: {
-                dataSourceCode: DataSourceCode.INSTAGRAM,
+                dataSourceCode: GDPRDataSourceCode.INSTAGRAM,
             }
         }
     );
@@ -58,7 +58,7 @@ async function validateZipStream(pathToZip: string): Promise<ValidationReturn | 
     });
     const validation$: Observable<ValidationZipStatus> = ValidatorFiles.validateZipStream([readableStream], {
         filterDataSource: {
-            dataSourceCode: DataSourceCode.INSTAGRAM
+            dataSourceCode: GDPRDataSourceCode.INSTAGRAM
         }
     });
     const finalResult = await lastValueFrom(validation$);
@@ -74,13 +74,13 @@ async function mergeZipFiles(pathToZip1: string, pathToZip2: string): Promise<Ui
     const data1 = fs.readFileSync(path.join(__dirname, pathToZip1));
     const validation1 = await ValidatorFiles.validateZip(data1, {
         filterDataSource: {
-            dataSourceCode: DataSourceCode.INSTAGRAM
+            dataSourceCode: GDPRDataSourceCode.INSTAGRAM
         }
     });
     const data2 = fs.readFileSync(path.join(__dirname, pathToZip2));
     const validation2 = await ValidatorFiles.validateZip(data2, {
         filterDataSource: {
-            dataSourceCode: DataSourceCode.INSTAGRAM
+            dataSourceCode: GDPRDataSourceCode.INSTAGRAM
         }
     });
     return await ValidatorFiles.mergeZipFiles([validation1!.zipFile, validation2!.zipFile]);

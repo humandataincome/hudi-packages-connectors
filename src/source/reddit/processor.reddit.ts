@@ -1,12 +1,12 @@
 import Logger from "../../utils/logger";
-import {ProcessorDatasource, ProcessorOptions, ValidatorObject} from "../../utils";
+import {ProcessorGDPRDatasource, ProcessorOptions, ValidatorObject} from "../../utils";
 import {Unzipped, unzipSync} from "fflate";
 import {staticImplements} from "../../utils/decorator";
 import {RedditDataAggregator} from "./model.reddit";
 import {FileCodeReddit} from "./enum.reddit";
 import {ServiceReddit} from "./service.reddit";
 
-@staticImplements<ProcessorDatasource>()
+@staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorReddit {
     private static readonly logger = new Logger("Processor Reddit");
 

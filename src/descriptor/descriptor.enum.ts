@@ -19,8 +19,9 @@ import {
     RedditDataAggregator, TwitterDataAggregator, BinanceDataAggregator
 } from "../source";
 
-export enum DataSourceCode {
-    //from GDPR
+export type DataSourceCode = GDPRDataSourceCode | APIDataSourceCode;
+
+export enum GDPRDataSourceCode {
     AMAZON = 'AMAZON',
     FACEBOOK = 'FACEBOOK',
     GOOGLE = 'GOOGLE',
@@ -31,12 +32,12 @@ export enum DataSourceCode {
     REDDIT = 'REDDIT',
     TIKTOK = 'TIKTOK',
     TWITTER = 'TWITTER',
-    //from API
+}
+
+export enum APIDataSourceCode {
     BINANCE = 'BINANCE',
 }
-export enum GDPRCode {
 
-}
 
 export enum RetrievingProcedureType {
     DESKTOP = 'DESKTOP',

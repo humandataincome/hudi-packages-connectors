@@ -1,4 +1,4 @@
-import {DataAggregator, DataSourceCode, LanguageCode} from "../descriptor";
+import {APIDataSourceCode, DataAggregator, GDPRDataSourceCode, LanguageCode} from "../descriptor";
 import {
     FileCodeAmazon,
     FileCodeFacebook,
@@ -10,7 +10,7 @@ import {
     FileCodeShopify,
     FileCodeTikTok,
     FileCodeTwitter,
-    ProcessorAmazon,
+    ProcessorAmazon, ProcessorBinance,
     ProcessorFacebook,
     ProcessorGoogle,
     ProcessorInstagram,
@@ -41,31 +41,31 @@ import {
 } from "../source";
 import {ValidatorDatasource} from "./validator";
 import {Unzipped} from "fflate";
-import {ProcessorDatasource, ProcessorOptions} from "./processor";
+import {ProcessorAPIDatasource, ProcessorGDPRDatasource, ProcessorOptions} from "./processor";
 
 export class Selector {
 
-    static getFileCodeEnum(code: DataSourceCode) {
+    static getFileCodeEnum(code: GDPRDataSourceCode) {
         switch (code) {
-            case DataSourceCode.AMAZON:
+            case GDPRDataSourceCode.AMAZON:
                 return FileCodeAmazon;
-            case DataSourceCode.FACEBOOK:
+            case GDPRDataSourceCode.FACEBOOK:
                 return FileCodeFacebook;
-            case DataSourceCode.GOOGLE:
+            case GDPRDataSourceCode.GOOGLE:
                 return FileCodeGoogle;
-            case DataSourceCode.INSTAGRAM:
+            case GDPRDataSourceCode.INSTAGRAM:
                 return FileCodeInstagram;
-            case DataSourceCode.LINKEDIN:
+            case GDPRDataSourceCode.LINKEDIN:
                 return FileCodeLinkedIn;
-            case DataSourceCode.NETFLIX:
+            case GDPRDataSourceCode.NETFLIX:
                 return FileCodeNetflix;
-            case DataSourceCode.REDDIT:
+            case GDPRDataSourceCode.REDDIT:
                 return FileCodeReddit;
-            case DataSourceCode.SHOPIFY:
+            case GDPRDataSourceCode.SHOPIFY:
                 return FileCodeShopify;
-            case DataSourceCode.TIKTOK:
+            case GDPRDataSourceCode.TIKTOK:
                 return FileCodeTikTok;
-            case DataSourceCode.TWITTER:
+            case GDPRDataSourceCode.TWITTER:
                 return FileCodeTwitter;
             default:
                 return undefined;
@@ -73,30 +73,30 @@ export class Selector {
     }
 
     /**
-     * @param code - a DataSourceCode
-     * @return the corresponded instance of the DataSourceCode's Validation Class. E.g. DataSourceCode.INSTAGRAM -> ValidatorInstagram.getInstance(). Return undefined if none Validation class matches.
+     * @param code - a GDPRDataSourceCode
+     * @return the corresponded instance of the GDPRDataSourceCode's Validation Class. E.g. GDPRDataSourceCode.INSTAGRAM -> ValidatorInstagram.getInstance(). Return undefined if none Validation class matches.
      */
-    static getValidator(code: DataSourceCode): ValidatorDatasource | undefined {
+    static getValidator(code: GDPRDataSourceCode): ValidatorDatasource | undefined {
         switch (code) {
-            case DataSourceCode.AMAZON:
+            case GDPRDataSourceCode.AMAZON:
                 return ValidatorAmazon.getInstance();
-            case DataSourceCode.FACEBOOK:
+            case GDPRDataSourceCode.FACEBOOK:
                 return ValidatorFacebook.getInstance();
-            case DataSourceCode.GOOGLE:
+            case GDPRDataSourceCode.GOOGLE:
                 return ValidatorGoogle.getInstance();
-            case DataSourceCode.INSTAGRAM:
+            case GDPRDataSourceCode.INSTAGRAM:
                 return ValidatorInstagram.getInstance();
-            case DataSourceCode.LINKEDIN:
+            case GDPRDataSourceCode.LINKEDIN:
                 return ValidatorLinkedIn.getInstance();
-            case DataSourceCode.NETFLIX:
+            case GDPRDataSourceCode.NETFLIX:
                 return ValidatorNetflix.getInstance();
-            case DataSourceCode.REDDIT:
+            case GDPRDataSourceCode.REDDIT:
                 return ValidatorReddit.getInstance();
-            case DataSourceCode.SHOPIFY:
+            case GDPRDataSourceCode.SHOPIFY:
                 return ValidatorShopify.getInstance();
-            case DataSourceCode.TIKTOK:
+            case GDPRDataSourceCode.TIKTOK:
                 return ValidatorTikTok.getInstance();
-            case DataSourceCode.TWITTER:
+            case GDPRDataSourceCode.TWITTER:
                 return ValidatorTwitter.getInstance();
             default:
                 return undefined;
@@ -104,57 +104,57 @@ export class Selector {
     }
 
 
-    static getAllEnumKeys(code: DataSourceCode): string[] | undefined {
+    static getAllEnumKeys(code: GDPRDataSourceCode): string[] | undefined {
         switch (code) {
-            case DataSourceCode.AMAZON:
+            case GDPRDataSourceCode.AMAZON:
                 return Object.values(FileCodeAmazon);
-            case DataSourceCode.FACEBOOK:
+            case GDPRDataSourceCode.FACEBOOK:
                 return Object.values(FileCodeFacebook);
-            case DataSourceCode.GOOGLE:
+            case GDPRDataSourceCode.GOOGLE:
                 return Object.values(FileCodeGoogle);
-            case DataSourceCode.INSTAGRAM:
+            case GDPRDataSourceCode.INSTAGRAM:
                 return Object.values(FileCodeInstagram);
-            case DataSourceCode.LINKEDIN:
+            case GDPRDataSourceCode.LINKEDIN:
                 return Object.values(FileCodeLinkedIn);
-            case DataSourceCode.NETFLIX:
+            case GDPRDataSourceCode.NETFLIX:
                 return Object.values(FileCodeNetflix);
-            case DataSourceCode.REDDIT:
+            case GDPRDataSourceCode.REDDIT:
                 return Object.values(FileCodeReddit);
-            case DataSourceCode.SHOPIFY:
+            case GDPRDataSourceCode.SHOPIFY:
                 return Object.values(FileCodeShopify);
-            case DataSourceCode.TIKTOK:
+            case GDPRDataSourceCode.TIKTOK:
                 return Object.values(FileCodeTikTok);
-            case DataSourceCode.TWITTER:
+            case GDPRDataSourceCode.TWITTER:
                 return Object.values(FileCodeTwitter);
             default:
                 return undefined;
         }
     }
 
-    static async getParsingResult(code: DataSourceCode, filename: string, fileCode: string, files: Unzipped, languageCode: LanguageCode = LanguageCode.ENGLISH) {
+    static async getParsingResult(code: GDPRDataSourceCode, filename: string, fileCode: string, files: Unzipped, languageCode: LanguageCode = LanguageCode.ENGLISH) {
         const file = files[filename];
         const data = Buffer.from(file, file.byteOffset, file.length);
         switch (code) {
-            case DataSourceCode.AMAZON:
+            case GDPRDataSourceCode.AMAZON:
                 return await ServiceAmazon.parseFile(<FileCodeAmazon>fileCode, data);
-            case DataSourceCode.FACEBOOK:
+            case GDPRDataSourceCode.FACEBOOK:
                 return await ServiceFacebook.parseFile(<FileCodeFacebook>fileCode, data);
-            case DataSourceCode.GOOGLE:
+            case GDPRDataSourceCode.GOOGLE:
                 return await ServiceGoogle.parseFile(<FileCodeGoogle>fileCode, data);
-            case DataSourceCode.INSTAGRAM:
+            case GDPRDataSourceCode.INSTAGRAM:
                 ServiceInstagram.languagePrefix = languageCode;
                 return await ServiceInstagram.parseFile(<FileCodeInstagram>fileCode, data);
-            case DataSourceCode.LINKEDIN:
+            case GDPRDataSourceCode.LINKEDIN:
                 return await ServiceLinkedin.parseFile(<FileCodeLinkedIn>fileCode, data);
-            case DataSourceCode.NETFLIX:
+            case GDPRDataSourceCode.NETFLIX:
                 return await ServiceNetflix.parseFile(<FileCodeNetflix>fileCode, data);
-            case DataSourceCode.REDDIT:
+            case GDPRDataSourceCode.REDDIT:
                 return await ServiceReddit.parseFile(<FileCodeReddit>fileCode, data);
-            case DataSourceCode.SHOPIFY:
+            case GDPRDataSourceCode.SHOPIFY:
                 return await ServiceShopify.parseFile(<FileCodeShopify>fileCode, data);
-            case DataSourceCode.TIKTOK:
+            case GDPRDataSourceCode.TIKTOK:
                 return await ServiceTiktok.parseFile(<FileCodeTikTok>fileCode, data);
-            case DataSourceCode.TWITTER:
+            case GDPRDataSourceCode.TWITTER:
                 return await ServiceTwitter.parseFile(<FileCodeTwitter>fileCode, data);
             default:
                 return undefined;
@@ -162,64 +162,76 @@ export class Selector {
     }
 
     /**
-     * Given a DataSourceCode return the corresponding Processor instance if exists, undefined otherwise.
+     * Given a GDPRDataSourceCode return the corresponding Processor instance if exists, undefined otherwise.
      */
-    static getProcessor(code: DataSourceCode): ProcessorDatasource | undefined {
+    static getGDPRProcessor(code: GDPRDataSourceCode): ProcessorGDPRDatasource | undefined {
         switch (code) {
-            case DataSourceCode.AMAZON:
+            case GDPRDataSourceCode.AMAZON:
                 return ProcessorAmazon;
-            case DataSourceCode.FACEBOOK:
+            case GDPRDataSourceCode.FACEBOOK:
                 return ProcessorFacebook;
-            case DataSourceCode.GOOGLE:
+            case GDPRDataSourceCode.GOOGLE:
                 return ProcessorGoogle;
-            case DataSourceCode.INSTAGRAM:
+            case GDPRDataSourceCode.INSTAGRAM:
                 return ProcessorInstagram;
-            case DataSourceCode.LINKEDIN:
+            case GDPRDataSourceCode.LINKEDIN:
                 return ProcessorLinkedin;
-            case DataSourceCode.NETFLIX:
+            case GDPRDataSourceCode.NETFLIX:
                 return ProcessorNetflix;
-            case DataSourceCode.REDDIT:
+            case GDPRDataSourceCode.REDDIT:
                 return ProcessorReddit;
-            case DataSourceCode.SHOPIFY:
+            case GDPRDataSourceCode.SHOPIFY:
                 return undefined;
-            case DataSourceCode.TWITTER:
+            case GDPRDataSourceCode.TWITTER:
                 return undefined;
-            case DataSourceCode.TIKTOK:
+            case GDPRDataSourceCode.TIKTOK:
                 return ProcessorTiktok;
             default:
                 return undefined;
         }
     }
 
-    static getInitAggregator(code: DataSourceCode): DataAggregator | undefined {
-        const Processor = this.getProcessor(code);
+    /**
+     * Given a getAPIProcessor return the corresponding Processor instance if exists, undefined otherwise.
+     */
+    static getAPIProcessor(code: APIDataSourceCode): ProcessorAPIDatasource | undefined {
+        switch (code) {
+            case APIDataSourceCode.BINANCE:
+                return ProcessorBinance;
+            default:
+                return undefined;
+        }
+    }
+
+    static getInitAggregator(code: GDPRDataSourceCode): DataAggregator | undefined {
+        const Processor = this.getGDPRProcessor(code);
         if (Processor) {
             return Processor.initAggregator();
         }
         return undefined;
     }
 
-    static async getZipAggregatorBuilder(code: DataSourceCode, data: Uint8Array, options?: ProcessorOptions): Promise<DataAggregator | undefined> {
-        const Processor = this.getProcessor(code);
+    static async getZipAggregatorBuilder(code: GDPRDataSourceCode, data: Uint8Array, options?: ProcessorOptions): Promise<DataAggregator | undefined> {
+        const Processor = this.getGDPRProcessor(code);
         if (Processor) {
             return await Processor.zipAggregatorBuilder(data, options);
         }
         return undefined;
     }
 
-    static async getAggregatorBuilder(code: DataSourceCode, data: Buffer, pathName: string, model: DataAggregator, options?: ProcessorOptions) {
-        const Processor = this.getProcessor(code);
+    static async getAggregatorBuilder(code: GDPRDataSourceCode, data: Buffer, pathName: string, model: DataAggregator, options?: ProcessorOptions) {
+        const Processor = this.getGDPRProcessor(code);
         if (Processor) {
             await Processor.aggregatorBuilder(data, pathName, model, options);
         }
     }
 
     /**
-     * Given a DataSourceCode return True if that datasource needs a language code for the parsing through its Service
+     * Given a GDPRDataSourceCode return True if that datasource needs a language code for the parsing through its Service
      */
-    static serviceNeedsLanguageCode(code: DataSourceCode): boolean {
+    static serviceNeedsLanguageCode(code: GDPRDataSourceCode): boolean {
         switch (code) {
-            case DataSourceCode.INSTAGRAM:
+            case GDPRDataSourceCode.INSTAGRAM:
                 return true;
             default:
                 return false;

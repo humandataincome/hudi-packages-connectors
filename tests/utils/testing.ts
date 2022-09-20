@@ -1,7 +1,8 @@
 import {MonitoringService} from "../../src/utils/monitoring/monitoring.source";
 import {
+    APIRequest,
     DataSourceCode,
-    FileExtension, ProcessingStatus, ProcessingZipStatus, ProcessorFiles,
+    FileExtension, HttpMethod, ProcessingStatus, ProcessingZipStatus, ProcessorFiles,
     ValidationStatus,
     ValidationZipStatus,
     ValidatorFiles
@@ -9,7 +10,7 @@ import {
 import {Observable} from "rxjs";
 import {Selector} from "../../src";
 import {ReadableStream} from 'node:stream/web';
-import {APIRequest, HttpMethod, ServiceBinance} from "../../src/source/binance/service.binance";
+import {ServiceBinance} from "../../src/source/binance/service.binance";
 
 binanceTest();
 //processingStream(['../../src/mock/datasource/zip files/private/netflix.zip',], DataSourceCode.NETFLIX);
@@ -19,8 +20,8 @@ binanceTest();
 //testNotMappedFiles('../../src/mock/datasource/zip files/private/google.zip');
 
 async function binanceTest() {
-    const apiKey = '';
-    const apiSecretKey = '';
+    const apiKey = 'HRcESOBMi4xhG28MXtdxw6FzfQBBmAhGiwSs1cpzLvm7OncpdG5N07VY7xBwMvT2';
+    const apiSecretKey = 'rWvdjRCSbxSdeO6BLTBskqyJdr64ZvhTtdivCTWWMaudKVOBXlyGeydM7amlH0Wz';
 
     const httpMethod: HttpMethod = (options: APIRequest) => {
         const https = require('https')
@@ -41,10 +42,10 @@ async function binanceTest() {
         });
     };
     const service = new ServiceBinance(apiKey, apiSecretKey, httpMethod);
-    console.log(await service.getAccountAPI());
-    //console.log(await ServiceBinance.getTradeListAPI(api_key, api_secret_key));
-    //console.log(await ServiceBinance.getDepositHistoryAPI(api_key, api_secret_key));
-    //console.log(await ServiceBinance.getWithdrawHistoryAPI(api_key, api_secret_key, 'timestamp=' + Date.now()+`&startTime=180&endTime=90`));
+    //console.log(await service.getAccountAPI());
+    console.log(await service.getTradeListAPI(`timestamp=${Date.now()}&recvWindow=60000&symbol=ETHUSDT&startTime=700&endTime=630`));
+    //console.log(await service.getDepositHistoryAPI(`timestamp=${Date.now()}&recvWindow=60000&startTime=700&endTime=630`));
+    //console.log(await service.getWithdrawHistoryAPI(`timestamp=${Date.now()}&recvWindow=60000&startTime=700&endTime=630`));
 }
 
 async function showAggregator(pathToZip: string, code: DataSourceCode) {

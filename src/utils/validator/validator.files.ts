@@ -9,7 +9,7 @@ import {
     Zippable,
     zipSync,
 } from "fflate";
-import {DataSourceCode, FileCode, FileExtension} from "../../descriptor";
+import {GDPRDataSourceCode, FileCode, FileExtension} from "../../descriptor";
 import {Parser} from "../parser";
 import Logger from "../logger";
 import {ValidationErrorEnum} from "../index";
@@ -30,7 +30,7 @@ import {Mutex} from "async-mutex";
 export interface ValidationZipOptions {
     permittedFileExtensions?: FileExtension[]; //include only files with these extensions, if omitted includes everything
     filterDataSource?: {
-        dataSourceCode: DataSourceCode;
+        dataSourceCode: GDPRDataSourceCode;
         fileCodesIncluded?: FileCode[];  //include only files with these Codes, if omitted includes everything
     }
     maxBytesPerFile?: number;
