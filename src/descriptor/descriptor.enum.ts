@@ -18,6 +18,7 @@ import {
     TiktokDataAggregator,
     RedditDataAggregator, TwitterDataAggregator, BinanceDataAggregator
 } from "../source";
+import {CoinbaseDataAggregator} from "../source/coinbase/model.coinbase";
 
 export type DataSourceCode = GDPRDataSourceCode | APIDataSourceCode;
 
@@ -36,8 +37,8 @@ export enum GDPRDataSourceCode {
 
 export enum APIDataSourceCode {
     BINANCE = 'BINANCE',
+    COINBASE = 'COINBASE'
 }
-
 
 export enum RetrievingProcedureType {
     DESKTOP = 'DESKTOP',
@@ -98,7 +99,8 @@ export type DataAggregator =
     RedditDataAggregator |
     TiktokDataAggregator |
     TwitterDataAggregator |
-    BinanceDataAggregator;
+    BinanceDataAggregator |
+    CoinbaseDataAggregator;
 
 
 

@@ -1,11 +1,11 @@
 export interface HTTPRequest {
     url: string,
     method: string;
-    body?: JSON;
-    headers: Record<string,string>;
+    body?: string;
+    headers?: Record<string,string>;
 }
 
 /**
- * Must return only the response object
+ * Must NOT return the something like '{data: { ...interesting data }}' but only '{ ...interesting data }'
  */
 export type HttpMethod = (request: HTTPRequest) => Promise<any>;
