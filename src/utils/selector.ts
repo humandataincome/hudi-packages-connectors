@@ -39,6 +39,7 @@ import {
 import {ValidatorDatasource} from "./validator";
 import {Unzipped} from "fflate";
 import {ProcessorAPIDatasource, ProcessorGDPRDatasource, ProcessorOptions} from "./processor";
+import {ProcessorTwitter} from "../source/twitter/processor.twitter";
 
 export class Selector {
 
@@ -180,7 +181,7 @@ export class Selector {
             case GDPRDataSourceCode.SHOPIFY:
                 return undefined;
             case GDPRDataSourceCode.TWITTER:
-                return undefined;
+                return ProcessorTwitter;
             case GDPRDataSourceCode.TIKTOK:
                 return ProcessorTiktok;
             default:

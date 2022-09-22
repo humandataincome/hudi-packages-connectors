@@ -33,7 +33,6 @@ export class ProcessorTwitter {
             (error && error.message) && (this.logger.log('error', error.message, 'zipAggregatorBuilder'));
             if (options && options.throwExceptions !== undefined && options.throwExceptions) {
                 throw error;
-
             }
         }
         return undefined;

@@ -15,19 +15,18 @@ export class Parser {
         }
     }
 
-    static extractJsonFromTwitterFile(file: Buffer): Buffer | undefined {
+    static extractJsonFromTwitterFile(file: Buffer): any | undefined {
         try {
             if (file) {
                 const text = file.toString();
-                //FORMAT: window.aaa.bbb.ccc = [JSON file] OR window.aaa.bbb.ccc = {JSON file}
                 //const regex: RegExp = /window(?:\..*)* = ((\[((\n)|(.*))*])|(\{((\n)|(.*))*}))/;
-                const regex: RegExp = /window(?:\..*)* = ((\[((\n)|(.*))*])|(\{((\n)|(.*))*}))/;
+                //const regex: RegExp = /^window[.\w+]+ = \[\n((?:\n|.)*)]$/;
+                const regex: RegExp = /^window[.\w+]+ = (^\[\n(\n|.|\u2028|\u2029)*]$)/
                 const match = text.match(regex);
-                //TODO: fix the regex: it loops with JS file into assets folder
-                console.log(regex);
+                //match && console.log(match[1]);
                 if (match && match[1]) {
-                    if (match[1] !== '[ ]') {
-                        return Buffer.from(match[1]);
+                    if (match[1] !== ' ') {
+                        return JSON.parse(match[1]);
                     }
                 }
             }

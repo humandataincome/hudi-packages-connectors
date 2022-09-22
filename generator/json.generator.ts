@@ -22,7 +22,7 @@ export class JsonGenerator {
     private static async generateJson(code: GDPRDataSourceCode) {
         const fs = require('fs');
         const path = require('path');
-        const data = fs.readFileSync(path.join(__dirname, `../src/mock/datasource/zip files/private/${code.toLowerCase()}.zip`));
+        const data = fs.readFileSync(path.join(__dirname, `../src/mock/datasource/zip files/private/${code.toLowerCase()}2.zip`));
         const validation = await ValidatorFiles.validateZip(data,
             {
                 minBytesPerFile: 0,
