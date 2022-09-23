@@ -1,12 +1,14 @@
 import Logger from "../../utils/logger";
 import {
+    CommentsTK, ConversationsTK,
+    FavoriteEffectsTK, FavoriteSoundsTK,
     FollowListTK, LoginHistoryTK,
     ProfileTK,
     SearchHistoryTK,
     SearchTK, ShareHistoryTK, StatusListTK,
     UserDataTK,
     VideoBrowsingHistoryTK,
-    VideoLikedListTK
+    VideoLikedListTK, YourVideoListTK
 } from "./model.tiktok";
 import {ValidatorObject, Months} from "../../utils";
 import {FileCodeTikTok} from "./enum.tiktok";
@@ -38,11 +40,16 @@ export class ServiceTiktok {
             if (document && document['Activity']) {
                 const activity = document['Activity'];
                 if (activity['Favorite Effects']) {
-                } //NO DATA
-                if (activity['Favorite Hashtags']) {
-                } //NO DATA
+                    if (activity['Favorite Effects'].FavoriteEffectsList) {
+                        model.favoriteEffects = this.buildEffectsModel(activity['Favorite Effects'].FavoriteEffectsList);
+                    }
+                }
+                if (activity['Favorite Hashtags']) {} //NO DATA
                 if (activity['Favorite Sounds']) {
-                } //NO DATA
+                    if (activity['Favorite Sounds'].FavoriteSoundList) {
+                        model.favoriteSounds = this.buildSoundsModel(activity['Favorite Sounds'].FavoriteSoundList);
+                    }
+                }
                 if (activity['Favorite Videos']) {
                     if (activity['Favorite Videos'].FavoriteVideoList) {
                         model.favoriteVideos = this.buildVideoFavouriteModel(activity['Favorite Videos'].FavoriteVideoList);
@@ -92,43 +99,94 @@ export class ServiceTiktok {
                         model.videoBrowsingHistory = this.buildVideoBrowsingHistoryModel(activity['Video Browsing History'].VideoList);
                     }
                 }
-                if (activity['Ads and data']) {
-
-                } //NO DATA
+                if (activity['Ads and data']) {} //NO DATA
             }
-            //subsection: App Settings
-            if (document['App Settings']) {
-
+            if (document['App Settings']) {} //NO DATA
+            if (document['Comment']?.Comments?.CommentsList) {
+                model.comments = this.buildCommentsModel(document['Comment'].Comments.CommentsList);
             }
-            //subsection: Comment
-            if (document['Comment']) {
-
-            }
-            //subsection: Direct Messages
             if (document['Direct Messages']) {
-
+                if (document['Direct Messages']["Chat History"] && document['Direct Messages']["Chat History"].ChatHistory) {
+                    model.directMessage = this.buildConversations(document['Direct Messages']["Chat History"].ChatHistory);
+                }
             }
-            //subsection: Profile
             if (document['Profile']) {
                 model.profile = this.buildProfileModel(document['Profile']);
             }
-            //subsection: Tiktok Live
-            if (document['Tiktok Live']) {
-
-            }
-            //subsection: Tiktok Shopping
-            if (document['Tiktok Shopping']) {
-
-            }
-            //subsection: Video
-            if (document['Video']) {
-
+            if (document['Tiktok Live']) {}//NO DATA
+            if (document['Tiktok Shopping']) {}//NO DATA
+            if (document['Video']?.Videos?.VideoList) {
+                model.yourVideo = this.buildYourVideoModel(document['Video'].Videos.VideoList);
             }
             return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseUserData');
             return undefined;
         }
+    }
+
+    private static buildConversations<K extends {Date: string, From: string, Content: string}, T extends Record<string, K[]>>(list: T): ConversationsTK | undefined {
+        const model: ConversationsTK = {
+            list: Object.keys(list).map((key: string) => {
+                const match = key.match(/^Chat History with (.+):$/)
+                return {
+                    withUser: (match && match[1]) ? match[1] : key,
+                    messages: (list[key].map((message: K) => {
+                        return {date: new Date(message.Date), content:message.Content, from:message.From}
+                    }))
+                }
+            })
+        };
+        return (model.list.length > 0) ? model : undefined;
+    }
+
+    private static buildYourVideoModel<T extends { Date: string, Link: string, Likes: string }>(list: T[]): YourVideoListTK | undefined {
+        const model: YourVideoListTK = {
+            list: list.map((video: T) => {
+                return {
+                    date: new Date(video.Date),
+                    link: video.Link,
+                    likes: parseInt(video.Likes)
+                };
+            })
+        };
+        return (model.list.length > 0) ? model : undefined;
+    }
+
+    private static buildCommentsModel<T extends { Date: string, Comment: string }>(list: T[]): CommentsTK | undefined {
+        const model: CommentsTK = {
+            list: list.map((comment: T) => {
+                return {
+                    date: new Date(comment.Date),
+                    comment: comment.Comment
+                };
+            })
+        };
+        return (model.list.length > 0) ? model : undefined;
+    }
+
+    private static buildSoundsModel<T extends { Date: string, Link: string }>(list: T[]): FavoriteSoundsTK | undefined {
+        const model: FavoriteSoundsTK = {
+            list: list.map((sound: T) => {
+                return {
+                    date: new Date(sound.Date),
+                    link: sound.Link
+                };
+            })
+        };
+        return (model.list.length > 0) ? model : undefined;
+    }
+
+    private static buildEffectsModel<T extends { Date: string, EffectLink: string }>(list: T[]): FavoriteEffectsTK | undefined {
+        const model: FavoriteEffectsTK = {
+            list: list.map((effect: T) => {
+                return {
+                    date: new Date(effect.Date),
+                    effectLink: effect.EffectLink
+                };
+            })
+        };
+        return (model.list.length > 0) ? model : undefined;
     }
 
     private static buildFollowModel<T extends { Date: string, UserName: string }>(list: T[]): FollowListTK | undefined {
