@@ -2,9 +2,9 @@ import Logger from "../../utils/logger";
 import {ProcessorGDPRDatasource, ProcessorOptions, ValidatorObject} from "../../utils";
 import {Unzipped, unzipSync} from "fflate";
 import {staticImplements} from "../../utils/decorator";
-import {RedditDataAggregator} from "./model.reddit";
 import {FileCodeReddit} from "./enum.reddit";
 import {ServiceReddit} from "./service.reddit";
+import {RedditDataAggregator} from "./model.reddit";
 
 @staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorReddit {

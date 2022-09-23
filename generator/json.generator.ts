@@ -1,28 +1,28 @@
 import {
-    GDPRDataSourceCode, Selector,
+    GDPRDataSourceCode,
+    Selector,
     ValidatorFiles
 } from "../src";
 
 export class JsonGenerator {
     static async generateAggregatorJson() {
         /*
-        await this.generateJson(DataSourceCode.AMAZON);
-        await this.generateJson(DataSourceCode.FACEBOOK);
-        await this.generateJson(DataSourceCode.GOOGLE);
-        await this.generateJson(DataSourceCode.INSTAGRAM);
-        await this.generateJson(DataSourceCode.LINKEDIN);
-        await this.generateJson(DataSourceCode.NETFLIX);
-        await this.generateJson(DataSourceCode.REDDIT);
-        await this.generateJson(DataSourceCode.TIKTOK);
-
-         */
+        await this.generateJson(GDPRDataSourceCode.AMAZON);
+        await this.generateJson(GDPRDataSourceCode.FACEBOOK);
+        await this.generateJson(GDPRDataSourceCode.GOOGLE);
+        await this.generateJson(GDPRDataSourceCode.INSTAGRAM);
+        await this.generateJson(GDPRDataSourceCode.LINKEDIN);
+        await this.generateJson(GDPRDataSourceCode.NETFLIX);
+        await this.generateJson(GDPRDataSourceCode.REDDIT);
         await this.generateJson(GDPRDataSourceCode.TWITTER);
+         */
+        await this.generateJson(GDPRDataSourceCode.TIKTOK);
     }
 
     private static async generateJson(code: GDPRDataSourceCode) {
         const fs = require('fs');
         const path = require('path');
-        const data = fs.readFileSync(path.join(__dirname, `../src/mock/datasource/zip files/private/${code.toLowerCase()}2.zip`));
+        const data = fs.readFileSync(path.join(__dirname, `../src/mock/datasource/zip files/private/${code.toLowerCase()}.zip`));
         const validation = await ValidatorFiles.validateZip(data,
             {
                 minBytesPerFile: 0,

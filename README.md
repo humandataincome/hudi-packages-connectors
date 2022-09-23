@@ -8,19 +8,20 @@ A set of connectors to parse, describe, validate and process the data sources pr
 - A set of **Validators** for the file received: a generic validation for raw zip files and a specific validator for each data source supported to filter wanted files from the others.
 - A set of **Processors** for each specific data source supported to aggregate the data contained into them.
 
-
-| Datasource Name | Parsing Support | Descriptor Support |  Validator Support   |  Processor Support   |
-|:----------------|:---------------:|:------------------:|:--------------------:|:--------------------:|
-| *Amazon*        |     &check;     |      &check;       |       &check;        |       &check;        |
-| *Facebook*      |     &check;     |      &check;       |       &check;        |       &check;        |
-| *Google*        |     &check;     |      &check;       |       &check;        |       &check;        |
-| *Instagram*     |     &check;     |      &check;       |       &check;        |       &check;        |
-| *LinkedIn*      |     &check;     |      &check;       |       &check;        |       &check;        |
-| *Netflix*       |     &check;     |      &check;       |       &check;        |       &check;        |
-| *Reddit*        |     &check;     |      &check;       |       &check;        |       &check;        |
-| *Shopify*       |     &check;     |      &check;       |       &check;        |       &cross;        |
-| *Twitter*       |     &cross;     |      &check;       |       &check;        |       &cross;        |
-| *TikTok*        |     &check;     |      &check;       |       &check;        |       &check;        |
+### Data sources supported by the library
+| Name         | Type | Data Aggregator |
+|:-------------|:----:|:---------------:|
+| *Amazon*     | GDPR |     &check;     |
+| *Binance*    | API  |     &check;     |
+| *Facebook*   | GDPR |     &check;     |
+| *Google*     | GDPR |     &check;     |
+| *Instagram*  | GDPR |     &check;     |
+| *LinkedIn*   | GDPR |     &check;     |
+| *Netflix*    | GDPR |     &check;     |
+| *Reddit*     | GDPR |     &check;     |
+| *Shopify*    | GDPR |     &cross;     |
+| *Twitter*    | GDPR |     &cross;     |
+| *TikTok*     | GDPR |     &check;     |
 
 ## How to use the library:
 ### How to install the library
@@ -30,11 +31,7 @@ npm i @humandataincome/connectors
 
 ***
 
-## Read the [Wiki](https://github.com/humandataincome/hudi-packages-connectors/wiki) for a better documentation
-
-***
-
-## How do I retrieve my personal data sources?
+## How do I retrieve my personal GDPR data sources?
 
 ### Instagram
 You can find the guide at this link: https://help.instagram.com/181231772500920 under the section **Downloading a copy of your data on Instagram**.
@@ -72,3 +69,7 @@ Go to https://www.tiktok.com/setting and follow the procedure after clicking Dow
 
 ### Reddit
 Go to https://www.reddit.com/settings/data-request, select GDPR and send the request.
+
+***
+
+## Here for the [documentation](https://github.com/humandataincome/hudi-packages-connectors/wiki).

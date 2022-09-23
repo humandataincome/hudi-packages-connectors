@@ -1,4 +1,64 @@
 {
+    "sourceAPIDescriptions": [
+        {
+            "sourceName": "Binance",
+            "sourceCode": "BINANCE",
+            "retrievingProcedures": [
+                {
+                    "languageCode": "EN",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "To retrieve your Binance's information your API KEY and SECRET KEY are needed. Those two keys are NEVER stored.",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Login into your account and go to this link: https://www.binance.com/en/my/settings/api-management",
+                                    "attributeDescription": "<p>Login into your account and go this <a href=\"https://www.binance.com/en/my/settings/api-management\" target=\"_blank\">link</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Click on Create API and label it as you wish",
+                                    "attributeDescription": "<p>Click on <b>Create API</b> and label it as you wish</p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Copy the API Key and the Secret Key somewhere",
+                                    "attributeDescription": "<p>Copy the <b>API Key</b> and the <b>Secret Key</b> somewhere</p>"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "languageCode": "IT",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "Per estrarre le tue informazioni di Binance sono necessarie la API KEY e la SECRET KEY. Le due chiavi non sono MAI memorizzate.",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Accedi al tuo account e vai a questo link: https://www.binance.com/it/my/settings/api-management",
+                                    "attributeDescription": "<p>Accedi al tuo account e vai a questo <a href=\"https://www.binance.com/it/my/settings/api-management\" target=\"_blank\">link</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Clicca su Chiavi API Creata e nominala come preferisci",
+                                    "attributeDescription": "<p>Clicca su <b>Chiavi API Creata</b>e nominala come preferisci</p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Copia la API Key e la Secret Key da qualche parte",
+                                    "attributeDescription": "<p>Copia la <b>API Key</b> e la <b>Secret Key</b> da qualche parte</p>"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
     "sourceGDPRDescriptions": [
         {
             "sourceName": "Instagram",
