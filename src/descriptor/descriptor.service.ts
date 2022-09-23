@@ -1,5 +1,11 @@
-import {Descriptor, FileDescription, Procedure} from "./descriptor.model";
-import {APIDataSourceCode, GDPRDataSourceCode, LanguageCode, RetrievingProcedureType} from "./descriptor.enum";
+import {Descriptor, FileDescription, Procedure, SourceDescription} from "./descriptor.model";
+import {
+    APIDataSourceCode,
+    DataSourceCode,
+    GDPRDataSourceCode,
+    LanguageCode,
+    RetrievingProcedureType
+} from "./descriptor.enum";
 import {DescriptorErrorEnum, Selector, ValidatorObject} from "../utils";
 
 const descriptor: Descriptor = require('./descriptor.json');
@@ -33,19 +39,18 @@ export class DescriptorService {
      * @param code - code of the datasource
      * @return  all available datasource' respective codes
      */
-    static getLogo(code: GDPRDataSourceCode) {
+    static getLogo(code: DataSourceCode) {
         return require(`../../assets/${ code.toLowerCase() }.svg`);
     }
 
     /**
      * @param code - code of the datasource
-     * @return the name of a given datasource
+     * @return the name of a given datasource, if it exists
      */
-    static getName(code: GDPRDataSourceCode): string | undefined {
+    static getName(code: DataSourceCode): string | undefined {
         try {
-            return descriptor?.sourceGDPRDescriptions?.find(
-                ({sourceCode}) => sourceCode === code
-            )?.sourceName;
+            const sourceDescription = this.getSourceDescription(code);
+            return sourceDescription?.sourceName;
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_NAME_ERROR}: ${error}`);
         }
@@ -53,13 +58,22 @@ export class DescriptorService {
 
     /**
      * @param code - code of the datasource
+     * @return the description of a given datasource, if it exists
+     */
+    static getSourceDescription(code: DataSourceCode): SourceDescription | undefined {
+        const list: SourceDescription[] = descriptor?.sourceGDPRDescriptions.concat(descriptor?.sourceAPIDescriptions);
+        return list.find(
+            ({sourceCode, retrievingProcedures}) => sourceCode === code && retrievingProcedures.length
+        );
+    }
+
+    /**
+     * @param code - code of the datasource
      * @return all the procedure languages available for a given datasource
      */
-    static getLanguagesList(code: GDPRDataSourceCode): LanguageCode[] | undefined {
+    static getLanguagesList(code: DataSourceCode): LanguageCode[] | undefined {
         try {
-            const sourceDescription = descriptor?.sourceGDPRDescriptions?.find(
-                ({sourceCode, retrievingProcedures}) => sourceCode === code && retrievingProcedures.length
-            );
+            const sourceDescription = this.getSourceDescription(code);
             return sourceDescription?.retrievingProcedures?.map(({languageCode}) => languageCode);
         } catch (error) {
             throw new Error(`${DescriptorErrorEnum.SOURCE_LANGUAGES_ERROR}: ${error}`);
@@ -71,11 +85,9 @@ export class DescriptorService {
      * @param language - language of the datasource
      * @return all the retrieving procedure for a given datasource and language code
      */
-    static getProcedureLists(code: GDPRDataSourceCode, language: LanguageCode): Procedure[] | undefined {
+    static getProcedureLists(code: DataSourceCode, language: LanguageCode): Procedure[] | undefined {
         try {
-            const sourceDescription = descriptor?.sourceGDPRDescriptions?.find(
-                ({sourceCode, retrievingProcedures}) => sourceCode === code && retrievingProcedures.length
-            );
+            const sourceDescription = this.getSourceDescription(code);
             return sourceDescription?.retrievingProcedures?.find(
                 ({languageCode, procedures}) => languageCode === language && procedures.length
             )?.procedures;
@@ -92,15 +104,13 @@ export class DescriptorService {
      * @return the corresponding retrieving procedure for that datasource
      */
     static getProcedure(
-        code: GDPRDataSourceCode,
+        code: DataSourceCode,
         language: LanguageCode = LanguageCode.ENGLISH,
         procedureType: RetrievingProcedureType = RetrievingProcedureType.DESKTOP,
         procedureName?: string
     ): Procedure | undefined {
         try {
-            const sourceDescription = descriptor?.sourceGDPRDescriptions?.find(
-                ({sourceCode}) => sourceCode === code
-            );
+            const sourceDescription = this.getSourceDescription(code);
 
             const retrievingProcedure = sourceDescription?.retrievingProcedures?.find(
                 ({languageCode, procedures}) => languageCode === language && procedures.length
