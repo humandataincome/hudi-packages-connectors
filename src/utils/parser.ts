@@ -21,7 +21,7 @@ export class Parser {
                 const text = file.toString();
                 //const regex: RegExp = /window(?:\..*)* = ((\[((\n)|(.*))*])|(\{((\n)|(.*))*}))/;
                 //const regex: RegExp = /^window[.\w+]+ = \[\n((?:\n|.)*)]$/;
-                const regex: RegExp = /^window[.\w+]+ = (^\[\n(\n|.|\u2028|\u2029)*]$)/
+                const regex: RegExp = /^window[.\w+]+ = (\[\n(\n|.)*])$/
                 const match = text.match(regex);
                 //match && console.log(match[1]);
                 if (match && match[1]) {

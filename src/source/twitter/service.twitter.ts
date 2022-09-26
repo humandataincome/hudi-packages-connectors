@@ -33,8 +33,8 @@ export class ServiceTwitter {
         try {
             const model: AccountTW = {};
             let document = Parser.extractJsonFromTwitterFile(data);
-            if (document && document.account) {
-                document = document.account;
+            if (document && document[0] && document[0].account) {
+                document = document[0].account;
                 (document.email) && (model.email = document.email);
                 (document.createdVia) && (model.createdVia = document.createdVia);
                 (document.username) && (model.username = document.username);

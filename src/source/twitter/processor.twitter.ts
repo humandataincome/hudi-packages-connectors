@@ -5,6 +5,7 @@ import {staticImplements} from "../../utils/decorator";
 import {FileCodeTwitter} from "./enum.twitter";
 import {ServiceTwitter} from "./service.twitter";
 import {TwitterDataAggregator} from "./model.twitter";
+import {Parser} from "../../utils/parser";
 
 @staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorTwitter {
@@ -45,6 +46,10 @@ export class ProcessorTwitter {
             if (result) {
                 model.account = result;
             }
+        } else if ((regex = new RegExp(FileCodeTwitter.AD_ENGAGEMENTS)) && (regex.test(pathName))) {
+            console.log(Parser.extractJsonFromTwitterFile(data))
+        } else if ((regex = new RegExp(FileCodeTwitter.AD_IMPRESSIONS)) && (regex.test(pathName))) {
+            console.log(Parser.extractJsonFromTwitterFile(data))
         }
     }
 }
