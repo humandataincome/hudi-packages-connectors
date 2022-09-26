@@ -19,7 +19,7 @@ export class ProcessorBinance {
             model.account = await service.getAccountAPI();
 
             //fill the 'trades' parameter
-            let limitDays = 4 * 90 //must be multiple of 90 (4*90 = 1 years)
+            let segment90Days = 4; //90*4 days, each one is a different API call
             const symbols = [
                 'ADABUSD',
                 'BNBBTC', 'BNBBUSD', 'BNBETH', 'BNBEUR', 'BNBUSDT',
@@ -28,12 +28,13 @@ export class ProcessorBinance {
                 'SOLBNB', 'SOLBUSD',
             ];
             for (let symbol in symbols) {
-                let trades: TradeListBI = {list: []};
-                for (let i = 1; i < limitDays/90; i++) {
+                const trades: TradeListBI = {list: []};
+                let tradesResults: Promise<TradeListBI | undefined>[] = [];
+                for (let i = 1; i < segment90Days+1; i++) {
                     const days = i * 90;
-                    const tradesInterval = await service.getTradeListAPI(`timestamp=${Date.now()}&recvWindow=60000&symbol=${symbol}&startTime=${days}&endTime=${days - 90}`);
-                    tradesInterval && trades.list.concat(tradesInterval.list);
+                    tradesResults.push(service.getTradeListAPI(i === 1 ? `timestamp=${Date.now()}&recvWindow=60000` : `timestamp=${Date.now()}&recvWindow=60000&symbol=${symbol}&startTime=${days}&endTime=${days - 90}`));
                 }
+                trades.list = trades.list.concat(...(<TradeListBI[]>((await Promise.all(tradesResults)).filter((x: TradeListBI | undefined) => !!x))).map((x) => x.list));
                 if (trades.list.length > 0) {
                     (!model.trades) && (model.trades = {});
                     model.trades.symbol = trades;
@@ -41,25 +42,25 @@ export class ProcessorBinance {
             }
 
             //fill the 'depositHistory' parameter
-            limitDays = 4 * 90 //must be multiple of 90
-            let deposits: DepositHistoryBI = {list: []};
-            for (let i = 1; i < limitDays/90; i++) {
+            const deposits: DepositHistoryBI = {list: []};
+            let depositsResults: Promise<DepositHistoryBI | undefined>[] = [];
+            for (let i = 1; i < segment90Days + 1; i++) {
                 const days = i * 90;
-                const depositHistory = await service.getDepositHistoryAPI(`timestamp=${Date.now()}&recvWindow=60000&startTime=${days}&endTime=${days - 90}`);
-                depositHistory && deposits.list.concat(depositHistory.list);
+                depositsResults.push(service.getDepositHistoryAPI(i === 1 ? `timestamp=${Date.now()}&recvWindow=60000` : `timestamp=${Date.now()}&recvWindow=60000&startTime=${days}&endTime=${days - 90}`));
             }
+            deposits.list = deposits.list.concat(...(<DepositHistoryBI[]>((await Promise.all(depositsResults)).filter((x: DepositHistoryBI | undefined) => !!x))).map((x) => x.list));
             if (deposits.list.length > 0) {
                 model.depositHistory = deposits;
             }
 
             //fill the 'withdrawHistory' parameter
-            limitDays = 4 * 90 //must be multiple of 90
-            let withdraw: WithdrawHistoryBI = {list: []};
-            for (let i = 1; i < limitDays/90; i++) {
+            const withdraw: WithdrawHistoryBI = {list: []};
+            let withdrawResults: Promise<WithdrawHistoryBI | undefined>[] = [];
+            for (let i = 1; i < segment90Days+1; i++) {
                 const days = i * 90;
-                const withdrawHistory = await service.getWithdrawHistoryAPI(`timestamp=${Date.now()}&recvWindow=60000&startTime=${days}&endTime=${days - 90}`);
-                withdrawHistory && deposits.list.concat(withdrawHistory.list);
+                withdrawResults.push(service.getWithdrawHistoryAPI(i === 1 ? `timestamp=${Date.now()}&recvWindow=60000` : `timestamp=${Date.now()}&recvWindow=60000&startTime=${days}&endTime=${days - 90}`));
             }
+            withdraw.list = withdraw.list.concat(...(<WithdrawHistoryBI[]>((await Promise.all(withdrawResults)).filter((x: WithdrawHistoryBI | undefined) => !!x))).map((x) => x.list));
             if (withdraw.list.length > 0) {
                 model.withdrawHistory = withdraw;
             }
