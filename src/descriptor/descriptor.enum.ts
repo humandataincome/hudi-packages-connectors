@@ -21,6 +21,7 @@ import {
 
 export type DataSourceCode = GDPRDataSourceCode | APIDataSourceCode;
 
+
 export enum GDPRDataSourceCode {
     AMAZON = 'AMAZON',
     FACEBOOK = 'FACEBOOK',
@@ -37,7 +38,7 @@ export enum GDPRDataSourceCode {
 export enum APIDataSourceCode {
     BINANCE = 'BINANCE',
 }
-
+//if 2 codes into APIDataSourceCode and GDPRDataSourceCode are the same, the descriptor service's logic must change
 
 export enum RetrievingProcedureType {
     DESKTOP = 'DESKTOP',

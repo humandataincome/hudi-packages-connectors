@@ -107,7 +107,7 @@ export class ServiceTiktok {
             }
             if (document['Direct Messages']) {
                 if (document['Direct Messages']["Chat History"] && document['Direct Messages']["Chat History"].ChatHistory) {
-                    model.directMessage = this.buildConversations(document['Direct Messages']["Chat History"].ChatHistory);
+                    model.directMessages = this.buildConversations(document['Direct Messages']["Chat History"].ChatHistory);
                 }
             }
             if (document['Profile']) {
