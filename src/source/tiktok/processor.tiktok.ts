@@ -46,7 +46,7 @@ export class ProcessorTiktok {
         if ((regex = new RegExp(FileCodeTikTok.USER_DATA)) && (regex.test(pathName))) {
             result = await ServiceTiktok.parseUserData(data);
             if (result) {
-                (result.directMessage) && (model.userData.directMessage = result.directMessage);
+                (result.directMessages) && (model.userData.directMessages = result.directMessages);
                 (result.favoriteVideos) && (model.userData.favoriteVideos = result.favoriteVideos);
                 (result.followersList) && (model.userData.followersList = result.followersList);
                 (result.followingList) && (model.userData.followingList = result.followingList);

@@ -72,5 +72,6 @@ export class ProcessorBinance {
         } catch(error: any) {
             this.logger.log('error', error.message, 'aggregatorBuilder')
         }
+        return undefined;
     }
 }

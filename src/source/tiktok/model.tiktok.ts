@@ -8,7 +8,7 @@ export interface TiktokDataAggregator {
 
 //subset of UserDataTK interface
 export interface UserDataAggregatorTK {
-    directMessage?: ConversationsTK;
+    directMessages?: ConversationsTK;
     favoriteVideos?: FavoriteVideosTK;
     followersList?: FollowListTK;
     followingList?: FollowListTK;
@@ -23,7 +23,7 @@ export interface UserDataAggregatorTK {
 //FileCodeTikTok.USER_DATA model
 export interface UserDataTK {
     comments?: CommentsTK;
-    directMessage?: ConversationsTK;
+    directMessages?: ConversationsTK;
     favoriteEffects?: FavoriteEffectsTK;
     favoriteSounds?: FavoriteSoundsTK;
     favoriteVideos?: FavoriteVideosTK;
