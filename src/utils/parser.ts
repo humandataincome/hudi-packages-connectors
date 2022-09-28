@@ -9,8 +9,8 @@ export class Parser {
             let data = source.toString();
             let result = parse(data, options);
             return result.data;
-        } catch (e: any) {
-            this.logger.log('error', `${e}`,'parseCSVfromBuffer');
+        } catch (error: any) {
+            this.logger.log('error', `${error}`,'parseCSVfromBuffer');
             return undefined;
         }
     }
@@ -18,20 +18,23 @@ export class Parser {
     static extractJsonFromTwitterFile(file: Buffer): any | undefined {
         try {
             if (file) {
-                const text = file.toString();
-                //const regex: RegExp = /window(?:\..*)* = ((\[((\n)|(.*))*])|(\{((\n)|(.*))*}))/;
-                //const regex: RegExp = /^window[.\w+]+ = \[\n((?:\n|.)*)]$/;
-                const regex: RegExp = /^window[.\w+]+ = (\[\n(\n|.)*])$/
-                const match = text.match(regex);
-                //match && console.log(match[1]);
-                if (match && match[1]) {
-                    if (match[1] !== ' ') {
-                        return JSON.parse(match[1]);
+                let text = file.toString();
+                let strings = text.split('[');
+                strings.shift();
+                let textJSON = '['+strings.join('[');
+                if (textJSON !== ' ' && textJSON !== '') {
+                    return JSON.parse(textJSON);
+                } else {
+                    let strings = text.split('{');
+                    strings.shift();
+                    let textJSON = '[' + strings.join('{');
+                    if (textJSON !== ' ' && textJSON !== '') {
+                        return JSON.parse(textJSON);
                     }
                 }
             }
-        } catch (e: any) {
-            this.logger.log('error', `${e}`,'extractJsonFromTwitterFile');
+        } catch (error: any) {
+            this.logger.log('error', `${error}`,'extractJsonFromTwitterFile');
         }
         return undefined;
     }

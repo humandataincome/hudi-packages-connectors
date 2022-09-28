@@ -341,7 +341,7 @@ export class ValidatorFiles {
                 return this.validateJSON(file, pathName);
             case FileExtension.JS:
                 const x = Parser.extractJsonFromTwitterFile(Buffer.from(file, file.byteOffset, file.length));
-                console.log(pathName, !!x);
+                console.log(!!x, pathName)
                 return !!x;
             case FileExtension.CSV:
                 return this.validateCSV(file, pathName);

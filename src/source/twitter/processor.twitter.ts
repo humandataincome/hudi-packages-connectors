@@ -49,7 +49,7 @@ export class ProcessorTwitter {
         } else if ((regex = new RegExp(FileCodeTwitter.AD_ENGAGEMENTS)) && (regex.test(pathName))) {
             console.log(Parser.extractJsonFromTwitterFile(data))
         } else if ((regex = new RegExp(FileCodeTwitter.AD_IMPRESSIONS)) && (regex.test(pathName))) {
-            console.log(Parser.extractJsonFromTwitterFile(data))
+            //console.log(Parser.extractJsonFromTwitterFile(data))
         }
     }
 }
