@@ -6,48 +6,51 @@ export interface TiktokDataAggregator {
     creationDate?: Date;
 }
 
+//subset of UserDataTK interface
 export interface UserDataAggregatorTK {
+    directMessages?: ConversationsTK;
     favoriteVideos?: FavoriteVideosTK;
     followersList?: FollowListTK;
     followingList?: FollowListTK;
-    videoLiked?: VideoLikedListTK;
+    profile?: ProfileTK;
     searchHistory?: SearchHistoryTK;
     shareHistory?: ShareHistoryTK;
+    videoLiked?: VideoLikedListTK;
     videoBrowsingHistory?: VideoBrowsingHistoryTK;
-    profile?: ProfileTK;
+    yourVideo?: YourVideoListTK;
 }
 
 //FileCodeTikTok.USER_DATA model
 export interface UserDataTK {
+    comments?: CommentsTK;
+    directMessages?: ConversationsTK;
     favoriteEffects?: FavoriteEffectsTK;
-    favoriteHashtags?: FavoriteHashtagsTK;
     favoriteSounds?: FavoriteSoundsTK;
     favoriteVideos?: FavoriteVideosTK;
     followersList?: FollowListTK;
     followingList?: FollowListTK;
-    hashtags?: HashtagsTK;
-    videoLiked?: VideoLikedListTK;
     logins?: LoginHistoryTK;
-    purchaseHistory?: PurchaseHistoryTK;
+    profile?: ProfileTK;
     searchHistory?: SearchHistoryTK;
     shareHistory?: ShareHistoryTK;
     statusList?: StatusListTK;
     videoBrowsingHistory?: VideoBrowsingHistoryTK;
-    adsAndData?: AdsAndDataTK;
-    appSettings?: AppSettingsTK;
-    comments?: CommentsTK;
-    directMessages?: DirectMessagesTK;
-    profile?: ProfileTK;
-    lives?: TiktokLiveTK;
-    tiktokShopping?: TiktokShoppingTK;
-    videos?: VideosTK;
+    videoLiked?: VideoLikedListTK;
+    yourVideo?: YourVideoListTK;
+    //TODO: find the structure of Ads section in some datasource and build the model
 }
 
-export interface FavoriteEffectsTK {}
+export interface ConversationsTK {
+    list: ConversationTK[];
+}
 
-export interface FavoriteHashtagsTK {}
+export interface FavoriteEffectsTK {
+    list: FavoriteEffectTK[];
+}
 
-export interface FavoriteSoundsTK {}
+export interface FavoriteSoundsTK {
+    list: FavoriteSoundTK[];
+}
 
 export interface FavoriteVideosTK {
     list: FavoriteVideoTK[];
@@ -57,8 +60,6 @@ export interface FollowListTK {
     list: FollowTK[];
 }
 
-export interface HashtagsTK {}
-
 export interface VideoLikedListTK {
     list: VideoTK[];
 }
@@ -66,8 +67,6 @@ export interface VideoLikedListTK {
 export interface LoginHistoryTK {
     list: LoginTK[];
 }
-
-export interface PurchaseHistoryTK {}
 
 export interface SearchHistoryTK {
     list: SearchTK[];
@@ -85,23 +84,8 @@ export interface VideoBrowsingHistoryTK {
     list: VideoTK[];
 }
 
-export interface AdsAndDataTK {
-    adInterests?: AdInterestsTK[];
-    adsBasedOnData?: AdsBasedOnDataTK[];
-    usageDataFrom3PartyApps?: UsageDataFrom3PartyAppsTK[];
-}
-
-export interface AppSettingsTK {
-    blocks?: BlocksTK;
-    settings?: SettingsTK;
-}
-
 export interface CommentsTK {
-    commentsList: CommentTK[];
-}
-
-export interface DirectMessagesTK {
-    chatHistory: DirectMessageTK[];
+    list: CommentTK[];
 }
 
 export interface ProfileTK {
@@ -118,34 +102,38 @@ export interface ProfileTK {
     userName?: string;
 }
 
-export interface TiktokLiveTK {
-    goLiveHistory?: GoLiveHistoryTK;
-    goLiveSettings?: GoLiveSettingsTK;
-    watchLiveHistory?: WatchLiveHistoryTK;
-    watchLiveSettings?: WatchLiveSettingsTK;
-    mostRecentModificationTimeInApp?: Date;
-    mostRecentModificationTimeInWeb?: Date;
-}
 
-export interface TiktokShoppingTK {
-    communicationHistory?: CommunicationHistoryTK;
-    currentPaymentInfo?: CurrentPaymentInformationTK;
-    customerSupportHistory?: CustomerSupportHistoryTK;
-    orderDisputeHistory?: OrderDisputeHistoryTK;
-    orderHistory?: OrderHistoryTK;
-    productBrowsingHistory?: ProductBrowsingHistoryTK;
-    productReviewHistory?: ProductReviewHistoryTK;
-    returnRefundHistory?: ReturnRefundHistoryTK;
-    savedAddressInformation?: SavedAddressInformationTK;
-    shoppingCartList?: ShoppingCartListTK;
-    vouchers?: VouchersTK;
-}
-
-export interface VideosTK {
-
+export interface YourVideoListTK {
+    list: YourVideoTK[];
 }
 
 //---------------------------------------------------
+export interface ConversationTK {
+    withUser: string;
+    messages: DirectMessageTK[];
+}
+
+export interface DirectMessageTK {
+    date?: Date;
+    from?: string;
+    content?: string;
+}
+
+export interface YourVideoTK {
+    date?: Date;
+    link?: string;
+    likes?: number;
+}
+
+export interface FavoriteEffectTK {
+    date?: Date;
+    effectLink?: string;
+}
+export interface FavoriteSoundTK {
+    date?: Date;
+    link?: string;
+}
+
 export interface FavoriteVideoTK {
     date?: Date;
     link?: string;
@@ -192,29 +180,8 @@ export interface StatusTK {
     webID?: string;
 }
 
-export interface AdInterestsTK {}
-export interface AdsBasedOnDataTK {}
-export interface UsageDataFrom3PartyAppsTK {}
+export interface CommentTK {
+    date?: Date;
+    comments?: string;
+}
 
-export interface BlocksTK {}
-export interface SettingsTK {}
-
-export interface CommentTK {}
-export interface DirectMessageTK{}
-
-export interface GoLiveHistoryTK {}
-export interface GoLiveSettingsTK {}
-export interface WatchLiveHistoryTK {}
-export interface WatchLiveSettingsTK {}
-
-export interface CommunicationHistoryTK {}
-export interface CurrentPaymentInformationTK {}
-export interface CustomerSupportHistoryTK {}
-export interface OrderDisputeHistoryTK {}
-export interface OrderHistoryTK {}
-export interface ProductBrowsingHistoryTK {}
-export interface ProductReviewHistoryTK {}
-export interface ReturnRefundHistoryTK {}
-export interface SavedAddressInformationTK {}
-export interface ShoppingCartListTK {}
-export interface VouchersTK {}

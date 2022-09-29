@@ -16,9 +16,8 @@ import {
     LinkedInDataAggregator,
     NetflixDataAggregator,
     TiktokDataAggregator,
-    RedditDataAggregator, TwitterDataAggregator, BinanceDataAggregator
+    RedditDataAggregator, TwitterDataAggregator, BinanceDataAggregator, CoinbaseDataAggregator
 } from "../source";
-import {CoinbaseDataAggregator} from "../source/coinbase/model.coinbase";
 
 export type DataSourceCode = GDPRDataSourceCode | APIDataSourceCode;
 
@@ -39,6 +38,7 @@ export enum APIDataSourceCode {
     BINANCE = 'BINANCE',
     COINBASE = 'COINBASE'
 }
+//if 2 codes into APIDataSourceCode and GDPRDataSourceCode are the same, the descriptor service's logic must change
 
 export enum RetrievingProcedureType {
     DESKTOP = 'DESKTOP',

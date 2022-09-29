@@ -46,14 +46,16 @@ export class ProcessorTiktok {
         if ((regex = new RegExp(FileCodeTikTok.USER_DATA)) && (regex.test(pathName))) {
             result = await ServiceTiktok.parseUserData(data);
             if (result) {
+                (result.directMessages) && (model.userData.directMessages = result.directMessages);
                 (result.favoriteVideos) && (model.userData.favoriteVideos = result.favoriteVideos);
                 (result.followersList) && (model.userData.followersList = result.followersList);
                 (result.followingList) && (model.userData.followingList = result.followingList);
-                (result.videoLiked) && (model.userData.videoLiked = result.videoLiked);
+                (result.profile) && (model.userData.profile = result.profile);
                 (result.searchHistory) && (model.userData.searchHistory = result.searchHistory);
                 (result.shareHistory) && (model.userData.shareHistory = result.shareHistory);
                 (result.videoBrowsingHistory) && (model.userData.videoBrowsingHistory = result.videoBrowsingHistory);
-                (result.profile) && (model.userData.profile = result.profile);
+                (result.videoLiked) && (model.userData.videoLiked = result.videoLiked);
+                (result.yourVideo) && (model.userData.yourVideo = result.yourVideo);
             }
         }
     }
