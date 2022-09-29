@@ -1,11 +1,16 @@
 export interface CoinbaseDataAggregator {
     user?: UserCB;
+    accounts?: AccountsCB;
+    movements: Record<string, MovementsAggregatorCB>; //string parameter is currency name
+    creationDate?: Date;
+}
+
+export interface MovementsAggregatorCB {
     transactions?: TransactionsCB;
     deposits?: MovementsCB;
     withdraws?: MovementsCB;
     buys?: MovementsCB;
     sells?: MovementsCB;
-    creationDate?: Date;
 }
 
 export interface UserCB {

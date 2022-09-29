@@ -8,6 +8,10 @@ export * from './binance/model.binance';
 export * from './binance/service.binance';
 export * from './binance/processor.binance';
 
+export * from './coinbase/model.coinbase';
+export * from './coinbase/service.coinbase';
+export * from './coinbase/processor.coinbase';
+
 export * from './facebook/enum.facebook';
 export * from './facebook/model.facebook';
 export * from './facebook/service.facebook';

@@ -266,7 +266,7 @@ export class ServiceCoinbase {
     private buildBalance(document: any) {
         const model: BalanceCB = {};
         (document.amount) && (model.amount = parseInt(document.amount));
-        (document.amount) && (model.amount = document.currency);
+        (document.currency) && (model.currency = document.currency);
         return model;
     }
 
