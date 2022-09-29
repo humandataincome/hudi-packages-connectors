@@ -16,6 +16,7 @@ export interface AccountBI {
     canTrade?: boolean;
     canWithdraw?: boolean;
     canDeposit?: boolean;
+    brokered?: boolean;
     updateTime?: Date;
     accountType?: string;
     balances?: Array<BalanceBI>;

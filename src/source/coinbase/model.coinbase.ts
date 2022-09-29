@@ -1,5 +1,10 @@
 export interface CoinbaseDataAggregator {
     user?: UserCB;
+    transactions?: TransactionsCB;
+    deposits?: MovementsCB;
+    withdraws?: MovementsCB;
+    buys?: MovementsCB;
+    sells?: MovementsCB;
     creationDate?: Date;
 }
 
@@ -20,48 +25,28 @@ export interface UserCB {
     bitcoinUnit?: string;
     state?: string;
     country?: {
-        code: string,
-        name: string,
-        isInEurope: boolean
+        code: string;
+        name: string;
+        isInEurope: boolean;
     };
     nationality?: {
-        code: string,
-        name: string
+        code: string;
+        name: string;
     };
     regionSupportsFiatTransfers?: boolean;
     regionSupportsCryptoToCryptoTransfers?: boolean;
     createdAt?: Date;
     supportsRewards?: boolean;
-    hasBlockingBuyRestrictions?: boolean,
-    hasMadePurchase?: boolean,
-    hasBuyDepositPaymentMethods?: boolean,
-    hasUnverifiedBuyDepositPaymentMethods?: boolean,
-    needsKycRemediation?: boolean,
-    showInstantAchUx?: boolean,
-    userType?: string
-    /*
-    tiers: {
-        completed_description: string,
-        upgrade_button_text: string,
-        header: any,
-        body: any
-    },
-    referralMoney: {
-        amount: string,
-        currency: string,
-        currency_symbol: string,
-        referral_threshold: string
-    },
-    secondFactor: {
-        method: string,
-        totp: any,
-        sms: any,
-        authy: any,
-        u2f: any
-    },
-     */
+    hasBlockingBuyRestrictions?: boolean;
+    hasMadePurchase?: boolean;
+    hasBuyDepositPaymentMethods?: boolean;
+    hasUnverifiedBuyDepositPaymentMethods?: boolean;
+    needsKycRemediation?: boolean;
+    showInstantAchUx?: boolean;
+    userType?: string;
 }
 
+//https://api.coinbase.com/v2/accounts model
 export interface AccountsCB {
     list: AccountCB[];
 }
@@ -82,11 +67,7 @@ export interface AccountCB {
     nativeBalance?: BalanceCB;
 }
 
-export interface BalanceCB {
-    amount?: number,
-    currency?: number
-}
-
+//https://api.coinbase.com/v2/accounts/:account_id/transactions model
 export interface TransactionsCB {
     list: TransactionCB[];
 }
@@ -107,8 +88,57 @@ export interface TransactionCB {
     hideNativeAmount?: boolean;
     network?: NetworkCB;
     to?: ToCB;
-    application?: ApplicationCB;
+    application?: ResourceCB;
     details?: DetailsCB;
+}
+
+//Model for this API calls:
+// https://api.coinbase.com/v2/accounts/:account_id/deposits
+// https://api.coinbase.com/v2/accounts/:account_id/withdrawals
+// https://api.coinbase.com/v2/accounts/:account_id/buys
+// https://api.coinbase.com/v2/accounts/:account_id/sells
+export interface MovementsCB {
+    list: CurrencyMovementCB[];
+}
+
+export interface CurrencyMovementCB {
+    id?: string;
+    status?: string;
+    transaction?: ResourceCB;
+    userReference?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+    resource?: string;
+    resourcePath?: string;
+    paymentMethod?: ResourceCB;
+    committed?: boolean;
+    payoutAt?: Date;
+    instant?: boolean;
+    fees?: FeeCB[];
+    amount?: BalanceCB;
+    subtotal?: BalanceCB;
+    holdUntil?: string; //not sure about the type
+    holdDays?: number;
+    idem?: string;
+    holdStep?: string; //not sure about the type
+    feeExplanationUrl?: string;
+}
+
+//----------------------
+export interface FeeCB {
+    type?: string;
+    amount?: BalanceCB
+}
+
+export interface ResourceCB {
+    id?: string;
+    resource?: string;
+    resourcePath?: string;
+}
+
+export interface BalanceCB {
+    amount?: number,
+    currency?: number
 }
 
 export interface NetworkCB {
@@ -131,12 +161,6 @@ export interface ToCB {
 
 export interface AddressCB {
     address?: string;
-}
-
-export interface ApplicationCB {
-    id?: string;
-    resource?: string;
-    resourcePath?: string;
 }
 
 export interface DetailsCB {

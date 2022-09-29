@@ -2,13 +2,17 @@ import Logger from "../../utils/logger";
 import {HttpMethod, ValidatorObject} from "../../utils";
 import {
     AccountCB,
-    AccountsCB, AddressCB, ApplicationCB,
-    BalanceCB, DetailsCB,
+    AccountsCB,
+    AddressCB,
+    BalanceCB,
+    CurrencyMovementCB,
+    DetailsCB, MovementsCB,
     NetworkCB,
+    ResourceCB,
     ToCB,
     TransactionCB,
     TransactionsCB,
-    UserCB
+    UserCB,
 } from "./model.coinbase";
 
 export class ServiceCoinbase {
@@ -51,6 +55,7 @@ export class ServiceCoinbase {
 
     /**
      * Model building from API call to https://api.coinbase.com/v2/user
+     * Scopes needed: none
      */
     async getUserAPI(): Promise<UserCB | undefined> {
         try {
@@ -101,6 +106,7 @@ export class ServiceCoinbase {
 
     /**
      * Model building from API call to https://api.coinbase.com/v2/accounts
+     * Scopes needed: wallet:accounts:read
      */
     async getAccountsAPI(): Promise<AccountsCB | undefined> {
         try {
@@ -130,7 +136,8 @@ export class ServiceCoinbase {
     }
 
     /**
-     * Model building from API call to https://api.coinbase.com/v2/accounts
+     * Model building from API call to https://api.coinbase.com/v2/accounts/:account_id/transactions
+     * Scopes needed: wallet:transactions:read
      */
     async getTransactionsAPI(accountId: string): Promise<TransactionsCB | undefined> {
         try {
@@ -142,7 +149,7 @@ export class ServiceCoinbase {
                 (account.type) && (subModel.type = account.type);
                 (account.status) && (subModel.status = account.status);
                 (account.amount) && (subModel.amount = this.buildBalance(account.amount));
-                (account.native_amount) && (subModel.amount = this.buildBalance(account.native_amount));
+                (account.native_amount) && (subModel.nativeAmount = this.buildBalance(account.native_amount));
                 (account.description) && (subModel.description = account.description);
                 (account.created_at) && (subModel.createdAt = new Date(account.created_at));
                 (account.updated_at) && (subModel.updatedAt = new Date(account.updated_at));
@@ -153,7 +160,7 @@ export class ServiceCoinbase {
                 (account.hideNativeAmount !== undefined) && (subModel.hideNativeAmount = account.hideNativeAmount);
                 (account.network) && (subModel.network = this.buildNetwork(account.network));
                 (account.to) && (subModel.to = this.buildTo(account.to));
-                (account.application) && (subModel.application = this.buildApplication(account.application));
+                (account.application) && (subModel.application = this.buildResource(account.application));
                 (account.details) && (subModel.details = this.buildDetails(account.details));
                 return !ValidatorObject.objectIsEmpty(subModel) ? subModel : undefined;
             }));
@@ -161,6 +168,99 @@ export class ServiceCoinbase {
         } catch(error: any) {
             this.logger.log('error', error.message, 'getTransactionsAPI');
         }
+    }
+
+    /**
+     * Model building from API call to https://api.coinbase.com/v2/accounts/:account_id/deposits
+     * Scopes needed: wallet:deposits:read
+     */
+    async getDepositHistoryAPI(accountId: string): Promise<MovementsCB | undefined> {
+        try {
+            let response = await this.httpMethod(this.getConfig('GET', `/v2/accounts/${accountId}/deposits`));
+            const model: MovementsCB = {list: []};
+            (response.data) && (model.list = response.data.map((deposit: any) => this.buildCurrencyMovement(deposit)));
+            return model.list.length > 0 ? model : undefined;
+        } catch(error: any) {
+            this.logger.log('error', error.message, 'getDepositHistoryAPI');
+        }
+    }
+
+    /**
+     * Model building from API call to https://api.coinbase.com/v2/accounts/:account_id/withdrawals
+     * Scopes needed: wallet:withdrawals:read
+     */
+    async getWithdrawHistoryAPI(accountId: string): Promise<MovementsCB | undefined> {
+        try {
+            let response = await this.httpMethod(this.getConfig('GET', `/v2/accounts/${accountId}/withdrawals`));
+            const model: MovementsCB = {list: []};
+            (response.data) && (model.list = response.data.map((withdraw: any) => this.buildCurrencyMovement(withdraw)));
+            return model.list.length > 0 ? model : undefined;
+        } catch(error: any) {
+            this.logger.log('error', error.message, 'getWithdrawHistoryAPI');
+        }
+    }
+
+    /**
+     * Model building from API call to https://api.coinbase.com/v2/accounts/:account_id/buys
+     * Scopes needed: wallet:buys:read
+     */
+    async getBuysAPI(accountId: string): Promise<MovementsCB | undefined> {
+        try {
+            let response = await this.httpMethod(this.getConfig('GET', `/v2/accounts/${accountId}/buys`));
+            const model: MovementsCB = {list: []};
+            (response.data) && (model.list = response.data.map((buys: any) => this.buildCurrencyMovement(buys)));
+            return model.list.length > 0 ? model : undefined;
+        } catch(error: any) {
+            this.logger.log('error', error.message, 'getBuysAPI');
+        }
+    }
+
+    /**
+     * Model building from API call to https://api.coinbase.com/v2/accounts/:account_id/sells
+     * Scopes needed: wallet:sells:read
+     */
+    async getSellsAPI(accountId: string): Promise<MovementsCB | undefined> {
+        try {
+            let response = await this.httpMethod(this.getConfig('GET', `/v2/accounts/${accountId}/sells`));
+            const model: MovementsCB = {list: []};
+            (response.data) && (model.list = response.data.map((sells: any) => this.buildCurrencyMovement(sells)));
+            return model.list.length > 0 ? model : undefined;
+        } catch(error: any) {
+            this.logger.log('error', error.message, 'getBuysAPI');
+        }
+    }
+
+    private buildCurrencyMovement(document: any) {
+        const subModel: CurrencyMovementCB = {};
+        (document.id) && (subModel.id = document.id);
+        (document.status) && (subModel.status = document.status);
+        (document.transaction) && (subModel.transaction = this.buildResource(document.transaction));
+        (document.user_reference) && (subModel.userReference = document.user_reference);
+        (document.created_at) && (subModel.createdAt = new Date(document.created_at));
+        (document.updated_at) && (subModel.updatedAt = new Date(document.updated_at));
+        (document.resource) && (subModel.resource = document.resource);
+        (document.resource_path) && (subModel.resourcePath = document.resource_path);
+        (document.payment_method) && (subModel.paymentMethod = this.buildResource(document.payment_method));
+        (document.committed !== undefined) && (subModel.committed = document.committed);
+        (document.payout_at) && (subModel.payoutAt = new Date(document.payout_at));
+        (document.instant !== undefined) && (subModel.instant = document.instant);
+        (document.fees) && (subModel.fees = document.fees);
+        (document.amount) && (subModel.amount = this.buildBalance(document.amount));
+        (document.subtotal) && (subModel.subtotal = this.buildBalance(document.subtotal));
+        (document.holdUntil) && (subModel.holdUntil = document.holdUntil);
+        (document.holdDays) && (subModel.holdDays = document.holdDays);
+        (document.idem) && (subModel.idem = document.idem);
+        (document.holdStep) && (subModel.holdStep = document.holdStep);
+        (document.fee_explanation_url) && (subModel.feeExplanationUrl = document.fee_explanation_url);
+        return subModel;
+    }
+
+    private buildResource(document: any) {
+        const transaction: ResourceCB = {};
+        (document.id) && (transaction.id = document.id);
+        (document.resource) && (transaction.resource = document.resource);
+        (document.resource_path) && (transaction.resourcePath = document.resource_path);
+        return transaction;
     }
 
     private buildBalance(document: any) {
@@ -195,14 +295,6 @@ export class ServiceCoinbase {
     private buildAddress(document: any) {
         const model: AddressCB = {};
         (document.address) && (model.address = document.address);
-        return model;
-    }
-
-    private buildApplication(document: any) {
-        const model: ApplicationCB = {};
-        (document.id) && (model.id = document.id);
-        (document.resource) && (model.resource = document.resource);
-        (document.resource_path) && (model.resourcePath = document.resource_path);
         return model;
     }
 
