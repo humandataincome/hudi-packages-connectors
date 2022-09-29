@@ -5,41 +5,48 @@ import {
     FileExtension, HttpMethod, ProcessingStatus, ProcessingZipStatus, ProcessorFiles,
     ValidationStatus,
     ValidationZipStatus,
-    ValidatorFiles, ProcessorBinance
+    ValidatorFiles, ProcessorBinance, ProcessorCoinbase
 } from "../../src";
 import {Observable} from "rxjs";
 import {Selector} from "../../src";
 import {ReadableStream} from 'node:stream/web';
 
-binanceTest();
+const httpMethod: HttpMethod = (options: HTTPRequest) => {
+    const https = require('https')
+    return new Promise((resolve, reject) => {
+        const req = https.request(options.url, options, (res: any) => {
+            let data = '';
+            res.on('data', (chunk: any) => {
+                data+=chunk;
+            });
+            res.on('end', () => {
+                resolve(JSON.parse(data.toString()));
+            });
+        });
+        req.on('error', (error: Error) => {
+            reject(error);
+        });
+        req.end();
+    });
+};
+
+coinbaseTest();
+//binanceTest();
 //processingStream(['../../src/mock/datasource/zip files/private/netflix.zip',], DataSourceCode.NETFLIX);
 //validateStream('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //showAggregator('../../src/mock/datasource/zip files/private/google.zip', DataSourceCode.GOOGLE);
 //showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
 //testNotMappedFiles('../../src/mock/datasource/zip files/private/google.zip');
 
+async function coinbaseTest() {
+    const apiKey = '';
+    const apiSecretKey = '';
+    console.log(await ProcessorCoinbase.aggregatorBuilder(apiKey, apiSecretKey, httpMethod));
+}
+
 async function binanceTest() {
     const apiKey = '';
     const apiSecretKey = '';
-
-    const httpMethod: HttpMethod = (options: HTTPRequest) => {
-        const https = require('https')
-        return new Promise((resolve, reject) => {
-            const req = https.request(options.url, options, (res: any) => {
-                let data = '';
-                res.on('data', (chunk: any) => {
-                    data+=chunk;
-                });
-                res.on('end', () => {
-                    resolve(JSON.parse(data.toString()));
-                });
-            });
-            req.on('error', (error: Error) => {
-                reject(error);
-            });
-            req.end();
-        });
-    };
     console.log(await ProcessorBinance.aggregatorBuilder(apiKey, apiSecretKey, httpMethod));
 }
 
