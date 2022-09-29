@@ -9,19 +9,20 @@ A set of connectors to parse, describe, validate and process the data sources pr
 - A set of **Processors** for each specific data source supported to aggregate the data contained into them.
 
 ### Data sources supported by the library
-| Name         | Type | Data Aggregator |
-|:-------------|:----:|:---------------:|
-| *Amazon*     | GDPR |     &check;     |
-| *Binance*    | API  |     &check;     |
-| *Facebook*   | GDPR |     &check;     |
-| *Google*     | GDPR |     &check;     |
-| *Instagram*  | GDPR |     &check;     |
-| *LinkedIn*   | GDPR |     &check;     |
-| *Netflix*    | GDPR |     &check;     |
-| *Reddit*     | GDPR |     &check;     |
-| *Shopify*    | GDPR |     &cross;     |
-| *Twitter*    | GDPR |     &cross;     |
-| *TikTok*     | GDPR |     &check;     |
+| Name        | Type | Data Aggregator |
+|:------------|:----:|:---------------:|
+| *Amazon*    | GDPR |     &check;     |
+| *Binance*   | API  |     &check;     |
+| *Coinbase*  | API  |     &check;     |
+| *Facebook*  | GDPR |     &check;     |
+| *Google*    | GDPR |     &check;     |
+| *Instagram* | GDPR |     &check;     |
+| *LinkedIn*  | GDPR |     &check;     |
+| *Netflix*   | GDPR |     &check;     |
+| *Reddit*    | GDPR |     &check;     |
+| *Shopify*   | GDPR |     &cross;     |
+| *Twitter*   | GDPR |     &cross;     |
+| *TikTok*    | GDPR |     &check;     |
 
 ## How to use the library:
 ### How to install the library

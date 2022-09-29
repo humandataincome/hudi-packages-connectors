@@ -10,7 +10,7 @@ import {
     FileCodeShopify,
     FileCodeTikTok,
     FileCodeTwitter,
-    ProcessorAmazon, ProcessorBinance,
+    ProcessorAmazon, ProcessorBinance, ProcessorCoinbase,
     ProcessorFacebook,
     ProcessorGoogle,
     ProcessorInstagram, ProcessorLinkedin,
@@ -195,6 +195,8 @@ export class Selector {
         switch (code) {
             case APIDataSourceCode.BINANCE:
                 return ProcessorBinance;
+            case APIDataSourceCode.COINBASE:
+                return ProcessorCoinbase;
             default:
                 return undefined;
         }
