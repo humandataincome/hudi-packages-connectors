@@ -86,8 +86,8 @@
                                 },
                                 {
                                     "index": 4,
-                                    "description": "Select wallet:accounts:read, wallet:transactions:read, wallet:deposits:read, wallet:withdrawals:read, wallet:buys:read, wallet:sells:read under Authorizations section",
-                                    "attributeDescription": "<p>Select <b>wallet:accounts:read</b>, <b>wallet:deposits:read</b>, <b>wallet:buys:read</b>, <b>wallet:sells:read</b>, <b>wallet:transactions:read</b>, <b>wallet:withdrawals:read</b> under <b>Authorizations</b> section</p>"
+                                    "description": "Under Authorizations section, select wallet:accounts:read, wallet:transactions:read, wallet:deposits:read, wallet:trades:read, wallet:user:read, wallet:withdrawals:read, wallet:buys:read, wallet:orders:read, wallet:sells:read",
+                                    "attributeDescription": "<p>Under <b>Authorizations</b> section, select <b>wallet:accounts:read</b>, <b>wallet:deposits:read</b>, <b>wallet:trades:read</b>, <b>wallet:user:read</b>, <b>wallet:buys:read</b>, <b>wallet:orders:read</b>, <b>wallet:sells:read</b>, <b>wallet:transactions:read</b>, <b>wallet:withdrawals:read</b></p>"
                                 },
                                 {
                                     "index": 5,
@@ -122,8 +122,8 @@
                                 },
                                 {
                                     "index": 4,
-                                    "description": "Seleziona wallet:accounts:read, wallet:transactions:read, wallet:deposits:read, wallet:withdrawals:read, wallet:buys:read, wallet:sells:read nella sezione Autorizzazioni",
-                                    "attributeDescription": "<p>Seleziona <b>wallet:accounts:read</b>, <b>wallet:deposits:read</b>, <b>wallet:buys:read</b>, <b>wallet:sells:read</b>, <b>wallet:transactions:read</b>, <b>wallet:withdrawals:read</b> nella sezione <b>Autorizzazioni</b></p>"
+                                    "description": "Seleziona almeno: wallet:accounts:read, wallet:transactions:read, wallet:deposits:read, wallet:trades:read, wallet:user:read, wallet:withdrawals:read, wallet:buys:read, wallet:orders:read, wallet:sells:read nella sezione Autorizzazioni",
+                                    "attributeDescription": "<p>Nella sezione <b>Autorizzazioni</b> seleziona almeno: <b>wallet:accounts:read</b>, <b>wallet:deposits:read</b>, <b>wallet:trades:read</b>, <b>wallet:user:read</b>, <b>wallet:buys:read</b>, <b>wallet:orders:read</b>, <b>wallet:sells:read</b>, <b>wallet:transactions:read</b>, <b>wallet:withdrawals:read</b></p>"
                                 },
                                 {
                                     "index": 5,
