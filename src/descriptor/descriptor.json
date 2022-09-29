@@ -57,6 +57,84 @@
                     ]
                 }
             ]
+        },
+        {
+            "sourceName": "Coinbase",
+            "sourceCode": "COINBASE",
+            "retrievingProcedures": [
+                {
+                    "languageCode": "EN",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "To retrieve your Coinbase's information your API KEY and SECRET KEY are needed. Those two keys are NEVER stored.",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Login into your account and go to this link: https://www.coinbase.com/settings/api",
+                                    "attributeDescription": "<p>Login into your account and go this <a href=\"https://www.coinbase.com/settings/api\" target=\"_blank\">link</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Click on Create API and label it as you wish",
+                                    "attributeDescription": "<p>Click on <b>Create API</b> and label it as you wish</p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Select everything under Accounts section",
+                                    "attributeDescription": "<p>Select <b>everything</b> under <b>Accounts</b> section</p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Select wallet:accounts:read, wallet:transactions:read, wallet:deposits:read, wallet:withdrawals:read, wallet:buys:read, wallet:sells:read under Authorizations section",
+                                    "attributeDescription": "<p>Select <b>wallet:accounts:read</b>, <b>wallet:transactions:read</b>, <b>wallet:deposits:read</b>, <b>wallet:withdrawals:read</b>, <b>wallet:buys:read</b>, <b>wallet:sells:read</b> under <b>Authorizations</b> section</p>"
+                                },
+                                {
+                                    "index": 5,
+                                    "description": "Store your API Key and the Secret Key",
+                                    "attributeDescription": "<p>Store your <b>API Key</b> and the <b>Secret Key</b></p>"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "languageCode": "IT",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "Per estrarre le tue informazioni di Coinbase sono necessarie la API KEY e la SECRET KEY. Le due chiavi non sono MAI memorizzate.",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Accedi al tuo account e vai a questo link: https://www.coinbase.com/settings/api",
+                                    "attributeDescription": "<p>Accedi al tuo account e vai a questo <a href=\"https://www.coinbase.com/settings/api\" target=\"_blank\">link</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Clicca su Nuova chiave API e nominala come preferisci",
+                                    "attributeDescription": "<p>Clicca su <b>Nuova chiave API</b>e nominala come preferisci</p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Seleziona tutto sotto nella sezione Conti",
+                                    "attributeDescription": "<p>Seleziona <b>tutto</b> sotto nella sezione <b>Conti</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Seleziona wallet:accounts:read, wallet:transactions:read, wallet:deposits:read, wallet:withdrawals:read, wallet:buys:read, wallet:sells:read nella sezione Autorizzazioni",
+                                    "attributeDescription": "<p>Seleziona <b>wallet:accounts:read</b>, <b>wallet:transactions:read</b>, <b>wallet:deposits:read</b>, <b>wallet:withdrawals:read</b>, <b>wallet:buys:read</b>, <b>wallet:sells:read</b> nella sezione <b>Autorizzazioni</b></p>"
+                                },
+                                {
+                                    "index": 5,
+                                    "description": "Conserva la API Key e la Secret Key",
+                                    "attributeDescription": "<p>Conserva la <b>API Key</b> e la <b>Secret Key</b></p>"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "sourceGDPRDescriptions": [
