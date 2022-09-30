@@ -6,7 +6,7 @@ import {FileCodeTwitter} from "./enum.twitter";
 
 /**
  * Class used to parse most important files into the directory returned by Twitter in JS format.
- * All the files are given in input as Buffer, parsed back to JS and then mapped into a specific interface model.
+ * All the files are given in input as Buffer, parsed to JSON and then mapped into a specific interface model.
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class ServiceTwitter {

@@ -1,6 +1,7 @@
 export interface SpotifyDataAggregator {
     follow?: FollowSP;
     identifiers?: IdentifiersSP;
+    inferences?: InferencesSP;
     payments?: PaymentsSP;
     playlists?: PlaylistsSP;
     streamingHistory?: StreamingHistorySP;
@@ -17,6 +18,10 @@ export interface FollowSP {
 export interface IdentifiersSP {
     identifierType?: string;
     identifierValue?: string;
+}
+
+export interface InferencesSP {
+    list: string[];
 }
 
 export interface PaymentsSP {
