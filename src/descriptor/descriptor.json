@@ -653,7 +653,7 @@
                                 {
                                     "index": 1,
                                     "description": "Go to this page: https://www.reddit.com/settings/data-request",
-                                    "attributeDescription": "<p>Go to this <a href=\"https://https://www.reddit.com/settings/data-request\" target=\"_blank\">page</a></p>"
+                                    "attributeDescription": "<p>Go to this <a href=\"https://www.reddit.com/settings/data-request\" target=\"_blank\">page</a></p>"
                                 },
                                 {
                                     "index": 2,
@@ -684,8 +684,8 @@
                             "retrievingSteps": [
                                 {
                                     "index": 1,
-                                    "description": "Vai a questa pagina: https://https://www.reddit.com/settings/data-request",
-                                    "attributeDescription": "<p>Vai a questa <a href=\"https://https://www.reddit.com/settings/data-request\" target=\"_blank\">pagina</a></p>"
+                                    "description": "Vai a questa pagina: https://www.reddit.com/settings/data-request",
+                                    "attributeDescription": "<p>Vai a questa <a href=\"https://www.reddit.com/settings/data-request\" target=\"_blank\">pagina</a></p>"
                                 },
                                 {
                                     "index": 2,
@@ -804,6 +804,66 @@
                                     "index": 3,
                                     "description": "Click on Export discounts codes",
                                     "attributeDescription": "<p>Click on <b>Export discounts codes</b></p>"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sourceName": "Spotify",
+            "sourceCode": "SPOTIFY",
+            "retrievingProcedures": [
+                {
+                    "languageCode": "EN",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "The Datasource contains all your personal information relating to your use of Spotify. Do not change the composition of the folders and files within them.",
+                            "fileExtension": "zip",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Login into your Spotify account",
+                                    "attributeDescription": "<p>Login into your <b>Spotify</b> account</p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Go at this link: https://www.spotify.com/us/account/privacy/",
+                                    "attributeDescription": "<p>Go at this <a href=\"https://www.spotify.com/us/account/privacy/\" target=\"_blank\">link</a></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Click on Request button",
+                                    "attributeDescription": "<p>Click on <b>Request</b> button</p>"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "languageCode": "IT",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Spotify. Non modificare la composizione delle cartelle e dei file al loro interno.",
+                            "fileExtension": "zip",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Effettua il Login su Spotify",
+                                    "attributeDescription": "<p>Effettua il <b>Login</b> su Spotify</p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Vai a questa pagina: https://www.spotify.com/it/account/privacy/",
+                                    "attributeDescription": "<p>Vai a questa <a href=\"https://www.spotify.com/it/account/privacy/\" target=\"_blank\">pagina</a></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Clicca su Richiesta",
+                                    "attributeDescription": "<p>Clicca su <b>Richiesta</b></p>"
                                 }
                             ]
                         }

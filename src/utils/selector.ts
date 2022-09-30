@@ -10,11 +10,16 @@ import {
     FileCodeShopify,
     FileCodeTikTok,
     FileCodeTwitter,
-    ProcessorAmazon, ProcessorBinance, ProcessorCoinbase,
+    ProcessorAmazon,
+    ProcessorBinance,
+    ProcessorCoinbase,
     ProcessorFacebook,
     ProcessorGoogle,
-    ProcessorInstagram, ProcessorLinkedin,
-    ProcessorNetflix, ProcessorReddit, ProcessorTiktok,
+    ProcessorInstagram,
+    ProcessorLinkedin,
+    ProcessorNetflix,
+    ProcessorReddit,
+    ProcessorTiktok,
     ServiceAmazon,
     ServiceFacebook,
     ServiceGoogle,
@@ -34,7 +39,11 @@ import {
     ValidatorReddit,
     ValidatorShopify,
     ValidatorTikTok,
-    ValidatorTwitter
+    ValidatorTwitter,
+    ValidatorSpotify,
+    FileCodeSpotify,
+    ServiceSpotify,
+    ProcessorSpotify
 } from "../source";
 import {ValidatorDatasource} from "./validator";
 import {Unzipped} from "fflate";
@@ -60,6 +69,8 @@ export class Selector {
                 return FileCodeReddit;
             case GDPRDataSourceCode.SHOPIFY:
                 return FileCodeShopify;
+            case GDPRDataSourceCode.SPOTIFY:
+                return FileCodeSpotify;
             case GDPRDataSourceCode.TIKTOK:
                 return FileCodeTikTok;
             case GDPRDataSourceCode.TWITTER:
@@ -91,6 +102,8 @@ export class Selector {
                 return ValidatorReddit.getInstance();
             case GDPRDataSourceCode.SHOPIFY:
                 return ValidatorShopify.getInstance();
+            case GDPRDataSourceCode.SPOTIFY:
+                return ValidatorSpotify.getInstance();
             case GDPRDataSourceCode.TIKTOK:
                 return ValidatorTikTok.getInstance();
             case GDPRDataSourceCode.TWITTER:
@@ -119,6 +132,8 @@ export class Selector {
                 return Object.values(FileCodeReddit);
             case GDPRDataSourceCode.SHOPIFY:
                 return Object.values(FileCodeShopify);
+            case GDPRDataSourceCode.SPOTIFY:
+                return Object.values(FileCodeSpotify);
             case GDPRDataSourceCode.TIKTOK:
                 return Object.values(FileCodeTikTok);
             case GDPRDataSourceCode.TWITTER:
@@ -149,6 +164,8 @@ export class Selector {
                 return await ServiceReddit.parseFile(<FileCodeReddit>fileCode, data);
             case GDPRDataSourceCode.SHOPIFY:
                 return await ServiceShopify.parseFile(<FileCodeShopify>fileCode, data);
+            case GDPRDataSourceCode.SPOTIFY:
+                return await ServiceSpotify.parseFile(<FileCodeSpotify>fileCode, data);
             case GDPRDataSourceCode.TIKTOK:
                 return await ServiceTiktok.parseFile(<FileCodeTikTok>fileCode, data);
             case GDPRDataSourceCode.TWITTER:
@@ -179,6 +196,8 @@ export class Selector {
                 return ProcessorReddit;
             case GDPRDataSourceCode.SHOPIFY:
                 return undefined;
+            case GDPRDataSourceCode.SPOTIFY:
+                return ProcessorSpotify;
             case GDPRDataSourceCode.TWITTER:
                 return undefined;
             case GDPRDataSourceCode.TIKTOK:

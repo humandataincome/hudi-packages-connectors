@@ -14,9 +14,10 @@ export class JsonGenerator {
         await this.generateJson(GDPRDataSourceCode.LINKEDIN);
         await this.generateJson(GDPRDataSourceCode.NETFLIX);
         await this.generateJson(GDPRDataSourceCode.REDDIT);
+        await this.generateJson(GDPRDataSourceCode.TIKTOK);
         await this.generateJson(GDPRDataSourceCode.TWITTER);
          */
-        await this.generateJson(GDPRDataSourceCode.TIKTOK);
+        await this.generateJson(GDPRDataSourceCode.SPOTIFY);
     }
 
     private static async generateJson(code: GDPRDataSourceCode) {

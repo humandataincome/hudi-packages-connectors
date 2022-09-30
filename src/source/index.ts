@@ -53,6 +53,12 @@ export * from './shopify/model.shopify';
 export * from './shopify/service.shopify';
 export * from './shopify/validator.shopify';
 
+export * from './spotify/enum.spotify';
+export * from './spotify/model.spotify';
+export * from './spotify/service.spotify';
+export * from './spotify/processor.spotify';
+export * from './spotify/validator.spotify';
+
 export * from './tiktok/enum.tiktok';
 export * from './tiktok/model.tiktok';
 export * from './tiktok/service.tiktok';

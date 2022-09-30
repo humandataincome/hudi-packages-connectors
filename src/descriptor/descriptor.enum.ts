@@ -16,7 +16,12 @@ import {
     LinkedInDataAggregator,
     NetflixDataAggregator,
     TiktokDataAggregator,
-    RedditDataAggregator, TwitterDataAggregator, BinanceDataAggregator, CoinbaseDataAggregator
+    RedditDataAggregator,
+    TwitterDataAggregator,
+    BinanceDataAggregator,
+    CoinbaseDataAggregator,
+    FileCodeSpotify,
+    SpotifyDataAggregator
 } from "../source";
 
 export type DataSourceCode = GDPRDataSourceCode | APIDataSourceCode;
@@ -87,21 +92,23 @@ export type FileCode =
     FileCodeNetflix |
     FileCodeReddit |
     FileCodeShopify |
+    FileCodeSpotify |
     FileCodeTikTok |
     FileCodeTwitter;
 
 export type DataAggregator =
     AmazonDataAggregator |
+    BinanceDataAggregator |
+    CoinbaseDataAggregator |
     FacebookDataAggregator |
     GoogleDataAggregator |
     InstagramDataAggregator |
     LinkedInDataAggregator |
     NetflixDataAggregator |
     RedditDataAggregator |
+    SpotifyDataAggregator |
     TiktokDataAggregator |
-    TwitterDataAggregator |
-    BinanceDataAggregator |
-    CoinbaseDataAggregator;
+    TwitterDataAggregator;
 
 
 

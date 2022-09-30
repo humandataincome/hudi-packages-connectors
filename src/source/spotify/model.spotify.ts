@@ -1,37 +1,45 @@
+/**
+ * Aggregation of information from Spotify's models
+ */
 export interface SpotifyDataAggregator {
     follow?: FollowSP;
     identifiers?: IdentifiersSP;
     inferences?: InferencesSP;
-    payments?: PaymentsSP;
+    //payments?: PaymentsSP; //not parsed yet
     playlists?: PlaylistsSP;
     streamingHistory?: StreamingHistorySP;
     userData?: UserdataSP;
+    yourLibrary?: YourLibrarySP;
     creationDate?: Date;
 }
 
+//FileCodeSpotify.FOLLOW model
 export interface FollowSP {
     followerCount?: number;
     followingUsersCount?: number;
     dismissingUsersCount?: number;
 }
 
+//FileCodeSpotify.IDENTIFIERS model
 export interface IdentifiersSP {
     identifierType?: string;
     identifierValue?: string;
 }
 
+//FileCodeSpotify.INFERENCES model
 export interface InferencesSP {
     list: string[];
 }
 
+//FileCodeSpotify.PAYMENTS model
 export interface PaymentsSP {
     list: PaymentSP[];
 }
 
 export interface PaymentSP {
-
 }
 
+//FileCodeSpotify.PLAYLISTS model
 export interface PlaylistsSP {
     list: PlaylistSP[];
 }
@@ -58,6 +66,7 @@ export interface TrackSP {
     trackUri?: string;
 }
 
+//FileCodeSpotify.STREAMING_HISTORY model
 export interface StreamingHistorySP {
     list: StreamingSP[];
 }
@@ -69,6 +78,7 @@ export interface StreamingSP {
     msPlayed?: number;
 }
 
+//FileCodeSpotify.USERDATA model
 export interface UserdataSP {
     username?: string;
     email?: string;
@@ -82,4 +92,9 @@ export interface UserdataSP {
     mobileOperator?: string;
     mobileBrand?: string;
     creationTime?: Date;
+}
+
+//FileCodeSpotify.YOUR_LIBRARY model
+export interface YourLibrarySP {
+    list: TrackSP[];
 }

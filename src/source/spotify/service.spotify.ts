@@ -8,8 +8,11 @@ import {
     ItemSP,
     PlaylistSP,
     PlaylistsSP,
-    StreamingHistorySP, StreamingSP,
-    TrackSP, UserdataSP
+    StreamingHistorySP,
+    StreamingSP,
+    TrackSP,
+    UserdataSP,
+    YourLibrarySP
 } from "./model.spotify";
 
 /**
@@ -26,6 +29,7 @@ export class ServiceSpotify {
      * @param data - file to parse as Buffer
      */
     static async parseFile(fileCode: FileCodeSpotify, data: Buffer) {
+        //TODO: add parsing fucntion for FileCodeSpotify.PAYMENTS
         switch (fileCode) {
             case FileCodeSpotify.FOLLOW:
                 return this.parseFollow(data);
@@ -39,6 +43,8 @@ export class ServiceSpotify {
                 return this.parseStreamingHistory(data);
             case FileCodeSpotify.USERDATA:
                 return this.parseUserdata(data);
+            case FileCodeSpotify.YOUR_LIBRARY:
+                return this.parseYourLibrary(data);
             default:
                 return undefined;
         }
@@ -52,9 +58,9 @@ export class ServiceSpotify {
             const document = JSON.parse(data.toString());
             if (document) {
                 const model: FollowSP = {};
-                (document.followerCount) && (model.followerCount = document.followerCount);
-                (document.followingUsersCount) && (model.followingUsersCount = document.followingUsersCount);
-                (document.dismissingUsersCount) && (model.dismissingUsersCount = document.dismissingUsersCount);
+                (document.followerCount !== undefined) && (model.followerCount = document.followerCount);
+                (document.followingUsersCount !== undefined) && (model.followingUsersCount = document.followingUsersCount);
+                (document.dismissingUsersCount !== undefined) && (model.dismissingUsersCount = document.dismissingUsersCount);
                 return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
             }
         } catch (error) {
@@ -112,7 +118,7 @@ export class ServiceSpotify {
                             match && (subModel.lastModifiedDate = new Date(match[1], match[2], match[3]));
                         }
                         (playlist.description) && (subModel.description = playlist.description);
-                        (playlist.numberOfFollowers) && (subModel.numberOfFollowers = playlist.numberOfFollowers);
+                        (playlist.numberOfFollowers !== undefined) && (subModel.numberOfFollowers = playlist.numberOfFollowers);
                         if (playlist.items) {
                             subModel.items = playlist.items.map((item: any) => {
                                 const itemModel: ItemSP = {};
@@ -133,6 +139,7 @@ export class ServiceSpotify {
                                 return itemModel;
                             });
                         }
+                        return subModel;
                     })};
                 return model.list.length > 0 ? model : undefined;
             }
@@ -157,7 +164,8 @@ export class ServiceSpotify {
                         }
                         (streaming.artistName) && (subModel.artistName = streaming.artistName);
                         (streaming.trackName) && (subModel.trackName = streaming.trackName);
-                        (streaming.msPlayed) && (subModel.msPlayed = streaming.msPlayed);
+                        (streaming.msPlayed !== undefined) && (subModel.msPlayed = streaming.msPlayed);
+                        return subModel;
                     })};
                 return model.list.length > 0 ? model : undefined;
             }
@@ -195,6 +203,29 @@ export class ServiceSpotify {
             }
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseUserdata');
+        }
+        return undefined;
+    }
+
+    /**
+     * @param data - FileCodeSpotify.YOUR_LIBRARY file in input as Buffer
+     */
+    static async parseYourLibrary(data: Buffer) {
+        try {
+            const document = JSON.parse(data.toString());
+            if (document && document.tracks) {
+                const model: YourLibrarySP = {list: document.tracks.map((track: any) => {
+                        const subModel: TrackSP = {};
+                        (track.artist) && (subModel.artistName = track.artist);
+                        (track.album) && (subModel.albumName = track.album);
+                        (track.track) && (subModel.trackName = track.track);
+                        (track.uri) && (subModel.trackUri = track.uri);
+                        return subModel;
+                    })};
+                return model.list.length > 0 ? model : undefined;
+            }
+        } catch (error) {
+            this.logger.log('error', `${error}`, 'parseYourLibrary');
         }
         return undefined;
     }
