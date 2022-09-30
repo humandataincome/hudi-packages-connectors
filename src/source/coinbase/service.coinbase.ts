@@ -110,25 +110,37 @@ export class ServiceCoinbase {
      */
     async getAccountsAPI(): Promise<AccountsCB | undefined> {
         try {
-            let response = await this.httpMethod(this.getConfig('GET', '/v2/accounts'));
+            let nextURI: string | undefined = '/v2/accounts';
             const model: AccountsCB = {list: []};
-            (response.data) && (model.list = response.data.map((account: any) => {
-                const subModel: AccountCB = {};
-                (account.id) && (subModel.id = account.id);
-                (account.name) && (subModel.name = account.name);
-                (account.primary !== undefined) && (subModel.primary = account.primary);
-                (account.type) && (subModel.type = account.type);
-                (account.currency) && (subModel.currency = account.currency);
-                (account.resource) && (subModel.resource = account.resource);
-                (account.resource_path) && (subModel.resourcePath = account.resource_path);
-                (account.allow_deposits !== undefined) && (subModel.allowDeposits = account.allow_deposits);
-                (account.allow_withdrawals !== undefined) && (subModel.allowWithdrawals = account.allow_withdrawals);
-                (account.created_at) && (subModel.createdAt = new Date(account.created_at));
-                (account.updated_at) && (subModel.updatedAt = new Date(account.updated_at));
-                (account.balance) && (subModel.balance = this.buildBalance(account.balance));
-                (account.native_balance) && (subModel.nativeBalance = this.buildBalance(account.native_balance));
-                return !ValidatorObject.objectIsEmpty(subModel) ? subModel : undefined;
-            }));
+            while(nextURI) {
+                let response: any = await this.httpMethod(this.getConfig('GET', nextURI));
+                if (response) {
+                    (response.data) && (model.list = model.list.concat(response.data.map((account: any) => {
+                        const subModel: AccountCB = {};
+                        (account.id) && (subModel.id = account.id);
+                        (account.name) && (subModel.name = account.name);
+                        (account.primary !== undefined) && (subModel.primary = account.primary);
+                        (account.type) && (subModel.type = account.type);
+                        (account.currency) && (subModel.currency = account.currency);
+                        (account.resource) && (subModel.resource = account.resource);
+                        (account.resource_path) && (subModel.resourcePath = account.resource_path);
+                        (account.allow_deposits !== undefined) && (subModel.allowDeposits = account.allow_deposits);
+                        (account.allow_withdrawals !== undefined) && (subModel.allowWithdrawals = account.allow_withdrawals);
+                        (account.created_at) && (subModel.createdAt = new Date(account.created_at));
+                        (account.updated_at) && (subModel.updatedAt = new Date(account.updated_at));
+                        (account.balance) && (subModel.balance = this.buildBalance(account.balance));
+                        (account.native_balance) && (subModel.nativeBalance = this.buildBalance(account.native_balance));
+                        return !ValidatorObject.objectIsEmpty(subModel) ? subModel : undefined;
+                    })));
+                    if (response.pagination && response.pagination.next_uri) {
+                        nextURI = response.pagination.next_uri;
+                    } else {
+                        nextURI = undefined;
+                    }
+                } else {
+                    nextURI = undefined;
+                }
+            }
             return model.list.length > 0 ? model : undefined;
         } catch(error: any) {
             this.logger.log('error', error.message, 'getAccountsAPI');
@@ -141,29 +153,37 @@ export class ServiceCoinbase {
      */
     async getTransactionsAPI(accountId: string): Promise<TransactionsCB | undefined> {
         try {
-            let response = await this.httpMethod(this.getConfig('GET', `/v2/accounts/${accountId}/transactions`));
+            let nextURI: string | undefined = `/v2/accounts/${accountId}/transactions`;
             const model: TransactionsCB = {list: []};
-            (response.data) && (model.list = response.data.map((account: any) => {
-                const subModel: TransactionCB = {};
-                (account.id) && (subModel.id = account.id);
-                (account.type) && (subModel.type = account.type);
-                (account.status) && (subModel.status = account.status);
-                (account.amount) && (subModel.amount = this.buildBalance(account.amount));
-                (account.native_amount) && (subModel.nativeAmount = this.buildBalance(account.native_amount));
-                (account.description) && (subModel.description = account.description);
-                (account.created_at) && (subModel.createdAt = new Date(account.created_at));
-                (account.updated_at) && (subModel.updatedAt = new Date(account.updated_at));
-                (account.resource) && (subModel.resource = account.resource);
-                (account.resourcePath) && (subModel.resourcePath = account.resourcePath);
-                (account.instantExchange !== undefined) && (subModel.instantExchange = account.instantExchange);
-                (account.idem) && (subModel.idem = account.idem);
-                (account.hideNativeAmount !== undefined) && (subModel.hideNativeAmount = account.hideNativeAmount);
-                (account.network) && (subModel.network = this.buildNetwork(account.network));
-                (account.to) && (subModel.to = this.buildTo(account.to));
-                (account.application) && (subModel.application = this.buildResource(account.application));
-                (account.details) && (subModel.details = this.buildDetails(account.details));
-                return !ValidatorObject.objectIsEmpty(subModel) ? subModel : undefined;
-            }));
+            while(nextURI) {
+                let response: any = await this.httpMethod(this.getConfig('GET', nextURI));
+                if (response) {
+                    (response.data) && (model.list = model.list.concat(response.data.map((account: any) => {
+                        const subModel: TransactionCB = {};
+                        (account.id) && (subModel.id = account.id);
+                        (account.type) && (subModel.type = account.type);
+                        (account.status) && (subModel.status = account.status);
+                        (account.amount) && (subModel.amount = this.buildBalance(account.amount));
+                        (account.native_amount) && (subModel.nativeAmount = this.buildBalance(account.native_amount));
+                        (account.description) && (subModel.description = account.description);
+                        (account.created_at) && (subModel.createdAt = new Date(account.created_at));
+                        (account.updated_at) && (subModel.updatedAt = new Date(account.updated_at));
+                        (account.resource) && (subModel.resource = account.resource);
+                        (account.resourcePath) && (subModel.resourcePath = account.resourcePath);
+                        (account.instantExchange !== undefined) && (subModel.instantExchange = account.instantExchange);
+                        (account.idem) && (subModel.idem = account.idem);
+                        (account.hideNativeAmount !== undefined) && (subModel.hideNativeAmount = account.hideNativeAmount);
+                        (account.network) && (subModel.network = this.buildNetwork(account.network));
+                        (account.to) && (subModel.to = this.buildTo(account.to));
+                        (account.application) && (subModel.application = this.buildResource(account.application));
+                        (account.details) && (subModel.details = this.buildDetails(account.details));
+                        return !ValidatorObject.objectIsEmpty(subModel) ? subModel : undefined;
+                    })));
+                    (response.pagination && response.pagination.next_uri) ? (nextURI = response.pagination.next_uri) : (nextURI = undefined);
+                } else {
+                    nextURI = undefined;
+                }
+            }
             return model.list.length > 0 ? model : undefined;
         } catch(error: any) {
             this.logger.log('error', error.message, 'getTransactionsAPI');
@@ -176,9 +196,17 @@ export class ServiceCoinbase {
      */
     async getDepositHistoryAPI(accountId: string): Promise<MovementsCB | undefined> {
         try {
-            let response = await this.httpMethod(this.getConfig('GET', `/v2/accounts/${accountId}/deposits`));
+            let nextURI: string | undefined = `/v2/accounts/${accountId}/deposits`;
             const model: MovementsCB = {list: []};
-            (response.data) && (model.list = response.data.map((deposit: any) => this.buildCurrencyMovement(deposit)));
+            while(nextURI) {
+                let response: any = await this.httpMethod(this.getConfig('GET', nextURI));
+                if (response) {
+                    (response.data) && (model.list = response.data.map((deposit: any) => this.buildCurrencyMovement(deposit)));
+                    (response.pagination && response.pagination.next_uri) ? (nextURI = response.pagination.next_uri) : (nextURI = undefined);
+                } else {
+                    nextURI = undefined;
+                }
+            }
             return model.list.length > 0 ? model : undefined;
         } catch(error: any) {
             this.logger.log('error', error.message, 'getDepositHistoryAPI');
@@ -191,9 +219,17 @@ export class ServiceCoinbase {
      */
     async getWithdrawHistoryAPI(accountId: string): Promise<MovementsCB | undefined> {
         try {
-            let response = await this.httpMethod(this.getConfig('GET', `/v2/accounts/${accountId}/withdrawals`));
+            let nextURI: string | undefined = `/v2/accounts/${accountId}/withdrawals`;
             const model: MovementsCB = {list: []};
-            (response.data) && (model.list = response.data.map((withdraw: any) => this.buildCurrencyMovement(withdraw)));
+            while(nextURI) {
+                let response: any = await this.httpMethod(this.getConfig('GET', nextURI));
+                if (response) {
+                    (response.data) && (model.list = response.data.map((withdraw: any) => this.buildCurrencyMovement(withdraw)));
+                    (response.pagination && response.pagination.next_uri) ? (nextURI = response.pagination.next_uri) : (nextURI = undefined);
+                } else {
+                    nextURI = undefined;
+                }
+            }
             return model.list.length > 0 ? model : undefined;
         } catch(error: any) {
             this.logger.log('error', error.message, 'getWithdrawHistoryAPI');
@@ -206,9 +242,17 @@ export class ServiceCoinbase {
      */
     async getBuysAPI(accountId: string): Promise<MovementsCB | undefined> {
         try {
-            let response = await this.httpMethod(this.getConfig('GET', `/v2/accounts/${accountId}/buys`));
+            let nextURI: string | undefined = `/v2/accounts/${accountId}/buys`;
             const model: MovementsCB = {list: []};
-            (response.data) && (model.list = response.data.map((buys: any) => this.buildCurrencyMovement(buys)));
+            while(nextURI) {
+                let response: any = await this.httpMethod(this.getConfig('GET', nextURI));
+                if (response) {
+                    (response.data) && (model.list = response.data.map((buys: any) => this.buildCurrencyMovement(buys)));
+                    (response.pagination && response.pagination.next_uri) ? (nextURI = response.pagination.next_uri) : (nextURI = undefined);
+                } else {
+                    nextURI = undefined;
+                }
+            }
             return model.list.length > 0 ? model : undefined;
         } catch(error: any) {
             this.logger.log('error', error.message, 'getBuysAPI');
@@ -221,12 +265,20 @@ export class ServiceCoinbase {
      */
     async getSellsAPI(accountId: string): Promise<MovementsCB | undefined> {
         try {
-            let response = await this.httpMethod(this.getConfig('GET', `/v2/accounts/${accountId}/sells`));
+            let nextURI: string | undefined = `/v2/accounts/${accountId}/sells`;
             const model: MovementsCB = {list: []};
-            (response.data) && (model.list = response.data.map((sells: any) => this.buildCurrencyMovement(sells)));
+            while(nextURI) {
+                let response: any = await this.httpMethod(this.getConfig('GET', nextURI));
+                if (response) {
+                    (response.data) && (model.list = response.data.map((sells: any) => this.buildCurrencyMovement(sells)));
+                    (response.pagination && response.pagination.next_uri) ? (nextURI = response.pagination.next_uri) : (nextURI = undefined);
+                } else {
+                    nextURI = undefined;
+                }
+            }
             return model.list.length > 0 ? model : undefined;
         } catch(error: any) {
-            this.logger.log('error', error.message, 'getBuysAPI');
+            this.logger.log('error', error.message, 'getSellsAPI');
         }
     }
 
