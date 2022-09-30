@@ -32,10 +32,10 @@ const httpMethod: HttpMethod = (options: HTTPRequest) => {
 
 coinbaseTest();
 //binanceTest();
-//processingStream(['../../src/mock/datasource/zip files/private/netflix.zip',], DataSourceCode.NETFLIX);
-//validateStream('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
-//showAggregator('../../src/mock/datasource/zip files/private/google.zip', DataSourceCode.GOOGLE);
-//showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', DataSourceCode.AMAZON);
+//processingStream(['../../src/mock/datasource/zip files/private/spotify.zip',], GDPRDataSourceCode.SPOTIFY);
+//validateStream('../../src/mock/datasource/zip files/private/amazon.zip', GDPRDataSourceCode.AMAZON);
+//showAggregator('../../src/mock/datasource/zip files/private/google.zip', GDPRDataSourceCode.GOOGLE);
+//showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', GDPRDataSourceCode.AMAZON);
 //testNotMappedFiles('../../src/mock/datasource/zip files/private/google.zip');
 
 async function coinbaseTest() {
