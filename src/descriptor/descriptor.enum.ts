@@ -29,6 +29,7 @@ export enum GDPRDataSourceCode {
     LINKEDIN = 'LINKEDIN',
     NETFLIX = 'NETFLIX',
     SHOPIFY = 'SHOPIFY',
+    SPOTIFY = 'SPOTIFY',
     REDDIT = 'REDDIT',
     TIKTOK = 'TIKTOK',
     TWITTER = 'TWITTER',

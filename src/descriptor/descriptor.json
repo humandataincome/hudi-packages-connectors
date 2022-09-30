@@ -639,6 +639,76 @@
             ]
         },
         {
+            "sourceName": "Reddit",
+            "sourceCode": "REDDIT",
+            "retrievingProcedures": [
+                {
+                    "languageCode": "EN",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "The Datasource contains all your personal information relating to your use of Reddit. Do not change the composition of the folders and files within them.",
+                            "fileExtension": "zip",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Go to this page: https://www.reddit.com/settings/data-request",
+                                    "attributeDescription": "<p>Go to this <a href=\"https://https://www.reddit.com/settings/data-request\" target=\"_blank\">page</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Select 'General Data Protection Regulation (GDPR)'",
+                                    "attributeDescription": "<p>Select <b>General Data Protection Regulation (GDPR)</b></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Select 'I want data from my full time at Reddit'",
+                                    "attributeDescription": "<p>Select <b>I want data from my full time at Reddit</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Click on Submit",
+                                    "attributeDescription": "<p>Click on <b>Submit</b></p>"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "languageCode": "IT",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Reddit. Non modificare la composizione delle cartelle e dei file al loro interno",
+                            "fileExtension": "zip",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Vai a questa pagina: https://https://www.reddit.com/settings/data-request",
+                                    "attributeDescription": "<p>Vai a questa <a href=\"https://https://www.reddit.com/settings/data-request\" target=\"_blank\">pagina</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Seleziona 'Regolamento generale sulla protezione dei dati (RGPD)'",
+                                    "attributeDescription": "<p>Seleziona <b>Regolamento generale sulla protezione dei dati (RGPD)</b></p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Seleziona 'Voglio i dati di tutto il mio tempo su Reddit'",
+                                    "attributeDescription": "<p>Seleziona <b>Voglio i dati di tutto il mio tempo su Reddit</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Clicca su Invia",
+                                    "attributeDescription": "<p>Clicca su <b>Invia</b></p>"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "sourceName": "Shopify",
             "sourceCode": "SHOPIFY",
             "retrievingProcedures": [
@@ -864,76 +934,6 @@
                                     "index": 5,
                                     "description": "Segui le istruzioni fornite>",
                                     "attributeDescription": "<p>Segui le istruzioni fornite</p>"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "sourceName": "Reddit",
-            "sourceCode": "REDDIT",
-            "retrievingProcedures": [
-                {
-                    "languageCode": "EN",
-                    "procedures": [
-                        {
-                            "type": "DESKTOP",
-                            "description": "The Datasource contains all your personal information relating to your use of Reddit. Do not change the composition of the folders and files within them.",
-                            "fileExtension": "zip",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Go to this page: https://www.reddit.com/settings/data-request",
-                                    "attributeDescription": "<p>Go to this <a href=\"https://https://www.reddit.com/settings/data-request\" target=\"_blank\">page</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Select 'General Data Protection Regulation (GDPR)'",
-                                    "attributeDescription": "<p>Select <b>General Data Protection Regulation (GDPR)</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Select 'I want data from my full time at Reddit'",
-                                    "attributeDescription": "<p>Select <b>I want data from my full time at Reddit</b></p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Click on Submit",
-                                    "attributeDescription": "<p>Click on <b>Submit</b></p>"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "languageCode": "IT",
-                    "procedures": [
-                        {
-                            "type": "DESKTOP",
-                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Reddit. Non modificare la composizione delle cartelle e dei file al loro interno",
-                            "fileExtension": "zip",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Vai a questa pagina: https://https://www.reddit.com/settings/data-request",
-                                    "attributeDescription": "<p>Vai a questa <a href=\"https://https://www.reddit.com/settings/data-request\" target=\"_blank\">pagina</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Seleziona 'Regolamento generale sulla protezione dei dati (RGPD)'",
-                                    "attributeDescription": "<p>Seleziona <b>Regolamento generale sulla protezione dei dati (RGPD)</b></p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Seleziona 'Voglio i dati di tutto il mio tempo su Reddit'",
-                                    "attributeDescription": "<p>Seleziona <b>Voglio i dati di tutto il mio tempo su Reddit</b></p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Clicca su Invia",
-                                    "attributeDescription": "<p>Clicca su <b>Invia</b></p>"
                                 }
                             ]
                         }
