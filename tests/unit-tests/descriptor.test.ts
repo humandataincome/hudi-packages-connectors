@@ -1,10 +1,19 @@
-import {DescriptorService, GDPRDataSourceCode, LanguageCode, RetrievingProcedureType} from "../../src";
+import {
+    APIDataSourceCode,
+    DescriptorService,
+    GDPRDataSourceCode,
+    LanguageCode,
+    RetrievingProcedureType
+} from "../../src";
 
 describe('Descriptor Test', () => {
     test('getAllCodes', () => {
-        const result = DescriptorService.getAllGDPRCodes();
-        const expected = GDPRDataSourceCode.TWITTER;
-        expect(JSON.stringify(result[9])).toBe(JSON.stringify(expected));
+        const result1 = DescriptorService.getAllGDPRCodes();
+        const result2 = DescriptorService.getAllAPICodes();
+        const expected1 = GDPRDataSourceCode.TIKTOK;
+        const expected2 = APIDataSourceCode.COINBASE;
+        expect(JSON.stringify(result1[9])).toBe(JSON.stringify(expected1));
+        expect(JSON.stringify(result2[1])).toBe(JSON.stringify(expected2));
     });
     test('getName', () => {
         const result = DescriptorService.getName(GDPRDataSourceCode.INSTAGRAM);
