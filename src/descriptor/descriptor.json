@@ -139,6 +139,86 @@
     ],
     "sourceGDPRDescriptions": [
         {
+            "sourceName": "Amazon",
+            "sourceCode": "AMAZON",
+            "retrievingProcedures": [
+                {
+                    "languageCode": "EN",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "The Datasource contains all your personal information relating to your use of Amazon. Do not change the composition of the folders and files within them.",
+                            "fileExtension": "zip",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Click on this link https://www.amazon.com/hz/privacy-central/data-requests/preview.html",
+                                    "attributeDescription": "<p>Click on this <a href=\"https://www.amazon.com/hz/privacy-central/data-requests/preview.html\" target=\"_blank\">link</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Select \"Request All Your Data\" from the drop-down menu",
+                                    "attributeDescription": "<p>Select <b>Request All Your Data</b> from the drop-down menu</p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Click on \"Submit Request\"",
+                                    "attributeDescription": "<p>Click on <b>Submit Request</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Check your email address, find the last amazon's email and click on \"Confirm Data Request\"",
+                                    "attributeDescription": "<p>Check your <b>Email Address</b>, find the last Amazon's <b>Email</b> and click on <b>Confirm Data Request</b></p>"
+                                },
+                                {
+                                    "index": 5,
+                                    "description": "Once you receive the files list, download and zip all of them into one single zip file",
+                                    "attributeDescription": "<p>Once you receive the files, download and zip all of them into one single zip file or upload each file one by one></p>"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "languageCode": "IT",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Amazon. Non modificare la composizione delle cartelle e dei file al loro interno",
+                            "fileExtension": "zip",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Clicca su questo link https://www.amazon.com/hz/privacy-central/data-requests/preview.html",
+                                    "attributeDescription": "<p>Clicca su questo <a href=\"https://www.amazon.com/hz/privacy-central/data-requests/preview.html\" target=\"_blank\">link</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Seleziona \"Request All Your Data\" dal menu a tendina",
+                                    "attributeDescription": "<p>Seleziona <b>Request All Your Data</b> dal menu a tendina</p>"
+                                },
+                                {
+                                    "index": 3,
+                                    "description": "Clicca su \"Submit Request\"",
+                                    "attributeDescription": "<p>Clicca su <b>Submit Request</b></p>"
+                                },
+                                {
+                                    "index": 4,
+                                    "description": "Controlla il tuo indirizzo email, trova l'ultima email di Amazon e clicca su \"Confirm Data Request\"",
+                                    "attributeDescription": "<p>Controlla il tuo <b>Indirizzo Email</b>, trova l'ultima <b>Email</b> di Amazon e clicca su <b>Confirm Data Request</b></p>"
+                                },
+                                {
+                                    "index": 5,
+                                    "description": "Una volta ricevuta la lista dei file, scaricali tutti e zippali in un unico file zip",
+                                    "attributeDescription": "<p>Una volta ricevuta la lista dei file, scaricali tutti e zippali in un unico file oppure carica tutti i file uno alla volta</p>"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "sourceName": "Instagram",
             "sourceCode": "INSTAGRAM",
             "retrievingProcedures": [
@@ -331,86 +411,6 @@
                                     "index": 4,
                                     "description": "Scrolla fino a fondo pagina e clicca sul pulsante 'Richiedi download'",
                                     "attributeDescription": "<p>Scrolla fino a fondo pagina e clicca sul pulsante <b>Richiedi download</b></p>"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "sourceName": "Amazon",
-            "sourceCode": "AMAZON",
-            "retrievingProcedures": [
-                {
-                    "languageCode": "EN",
-                    "procedures": [
-                        {
-                            "type": "DESKTOP",
-                            "description": "The Datasource contains all your personal information relating to your use of Amazon. Do not change the composition of the folders and files within them.",
-                            "fileExtension": "zip",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Click on this link https://www.amazon.com/hz/privacy-central/data-requests/preview.html",
-                                    "attributeDescription": "<p>Click on this <a href=\"https://www.amazon.com/hz/privacy-central/data-requests/preview.html\" target=\"_blank\">link</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Select \"Request All Your Data\" from the drop-down menu",
-                                    "attributeDescription": "<p>Select <b>Request All Your Data</b> from the drop-down menu</p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Click on \"Submit Request\"",
-                                    "attributeDescription": "<p>Click on <b>Submit Request</b></p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Check your email address, find the last amazon's email and click on \"Confirm Data Request\"",
-                                    "attributeDescription": "<p>Check your <b>Email Address</b>, find the last Amazon's <b>Email</b> and click on <b>Confirm Data Request</b></p>"
-                                },
-                                {
-                                    "index": 5,
-                                    "description": "Once you receive the files list, download and zip all of them into one single zip file",
-                                    "attributeDescription": "<p>Once you receive the files, download and zip all of them into one single zip file or upload each file one by one></p>"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "languageCode": "IT",
-                    "procedures": [
-                        {
-                            "type": "DESKTOP",
-                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Amazon. Non modificare la composizione delle cartelle e dei file al loro interno",
-                            "fileExtension": "zip",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Clicca su questo link https://www.amazon.com/hz/privacy-central/data-requests/preview.html",
-                                    "attributeDescription": "<p>Clicca su questo <a href=\"https://www.amazon.com/hz/privacy-central/data-requests/preview.html\" target=\"_blank\">link</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Seleziona \"Request All Your Data\" dal menu a tendina",
-                                    "attributeDescription": "<p>Seleziona <b>Request All Your Data</b> dal menu a tendina</p>"
-                                },
-                                {
-                                    "index": 3,
-                                    "description": "Clicca su \"Submit Request\"",
-                                    "attributeDescription": "<p>Clicca su <b>Submit Request</b></p>"
-                                },
-                                {
-                                    "index": 4,
-                                    "description": "Controlla il tuo indirizzo email, trova l'ultima email di Amazon e clicca su \"Confirm Data Request\"",
-                                    "attributeDescription": "<p>Controlla il tuo <b>Indirizzo Email</b>, trova l'ultima <b>Email</b> di Amazon e clicca su <b>Confirm Data Request</b></p>"
-                                },
-                                {
-                                    "index": 5,
-                                    "description": "Una volta ricevuta la lista dei file, scaricali tutti e zippali in un unico file zip",
-                                    "attributeDescription": "<p>Una volta ricevuta la lista dei file, scaricali tutti e zippali in un unico file oppure carica tutti i file uno alla volta</p>"
                                 }
                             ]
                         }
@@ -872,56 +872,6 @@
             ]
         },
         {
-            "sourceName": "Twitter",
-            "sourceCode": "TWITTER",
-            "retrievingProcedures": [
-                {
-                    "languageCode": "EN",
-                    "procedures": [
-                        {
-                            "type": "DESKTOP",
-                            "description": "The Datasource contains all your personal information related to your use of Twitter. Do not change the composition of the folders and files within them.",
-                            "fileExtension": "zip",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Go to this page",
-                                    "attributeDescription": "<p>Go to this <a href=\"https://twitter.com/settings/download_your_data\" target=\"_blank\">page</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Click on the Request archive button under the Twitter data section",
-                                    "attributeDescription": "<p>Click on the <b>Request archive</b> button under the <b>Twitter data</b> section</p>"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "languageCode": "IT",
-                    "procedures": [
-                        {
-                            "type": "DESKTOP",
-                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Twitter. Non modificare la composizione delle cartelle e dei file al loro interno",
-                            "fileExtension": "zip",
-                            "retrievingSteps": [
-                                {
-                                    "index": 1,
-                                    "description": "Vai a questa pagina",
-                                    "attributeDescription": "<p>Vai a questa <a href=\"https://twitter.com/settings/download_your_data\" target=\"_blank\">pagina</a></p>"
-                                },
-                                {
-                                    "index": 2,
-                                    "description": "Clicca sul bottone Request archive sotto la sezione Twitter data",
-                                    "attributeDescription": "<p>Clicca sul bottone <b>Request archive</b> sotto la sezione <b>Twitter data</b></p>"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "sourceName": "TikTok",
             "sourceCode": "TIKTOK",
             "retrievingProcedures": [
@@ -994,6 +944,56 @@
                                     "index": 5,
                                     "description": "Segui le istruzioni fornite>",
                                     "attributeDescription": "<p>Segui le istruzioni fornite</p>"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sourceName": "Twitter",
+            "sourceCode": "TWITTER",
+            "retrievingProcedures": [
+                {
+                    "languageCode": "EN",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "The Datasource contains all your personal information related to your use of Twitter. Do not change the composition of the folders and files within them.",
+                            "fileExtension": "zip",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Go to this page",
+                                    "attributeDescription": "<p>Go to this <a href=\"https://twitter.com/settings/download_your_data\" target=\"_blank\">page</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Click on the Request archive button under the Twitter data section",
+                                    "attributeDescription": "<p>Click on the <b>Request archive</b> button under the <b>Twitter data</b> section</p>"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "languageCode": "IT",
+                    "procedures": [
+                        {
+                            "type": "DESKTOP",
+                            "description": "La Datasource contiene tutte le tue informazioni personali inerenti al tuo utilizzo di Twitter. Non modificare la composizione delle cartelle e dei file al loro interno",
+                            "fileExtension": "zip",
+                            "retrievingSteps": [
+                                {
+                                    "index": 1,
+                                    "description": "Vai a questa pagina",
+                                    "attributeDescription": "<p>Vai a questa <a href=\"https://twitter.com/settings/download_your_data\" target=\"_blank\">pagina</a></p>"
+                                },
+                                {
+                                    "index": 2,
+                                    "description": "Clicca sul bottone Request archive sotto la sezione Twitter data",
+                                    "attributeDescription": "<p>Clicca sul bottone <b>Request archive</b> sotto la sezione <b>Twitter data</b></p>"
                                 }
                             ]
                         }
