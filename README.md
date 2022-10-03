@@ -21,6 +21,7 @@ A set of connectors to parse, describe, validate and process the data sources pr
 | *Netflix*   | GDPR |     &check;     |
 | *Reddit*    | GDPR |     &check;     |
 | *Shopify*   | GDPR |     &cross;     |
+| *Spotify*   | GDPR |     &check;     |
 | *Twitter*   | GDPR |     &cross;     |
 | *TikTok*    | GDPR |     &check;     |
 
