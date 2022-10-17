@@ -107,6 +107,7 @@ export class ProcessorFiles {
             }
         });
     }
+
     private static async unzipFileFromStream(support: ProcessingObjectSupport) {
         const unzipStream: Unzip = this.getUnzipStream(support);
         let bytesTotal = 0;
@@ -115,6 +116,19 @@ export class ProcessorFiles {
             const reader = support.readableStreams[i].getReader();
             for (let finished = false; !finished;) {
                 const {done, value} = await reader.read();
+
+                // START dirty fix
+                // See https://gist.github.com/freecnjet/2935879 for zip reference
+                const magicIndex = value.indexOf([0x50, 0x4b, 0x03, 0x04]);
+                // The only problem exists when the sequence is detected at the end of the chunk
+                const headerVersion = value[magicIndex+4] << 8 | value[magicIndex+5] << 0;
+                console.log(headerVersion);
+
+                if (headerVersion !== 0) { // Obvious malicious sequence detection
+                    value[magicIndex] = 0x00; //replace with NOP, eventually corrupting the file
+                }
+                // END dirty fix
+
                 if (value) {
                     bytesTotal =  bytesTotal + (<Uint8Array>value).byteLength;
                     support.subscriber.next(

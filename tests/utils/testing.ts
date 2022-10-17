@@ -30,9 +30,9 @@ const httpMethod: HttpMethod = (options: HTTPRequest) => {
     });
 };
 
-coinbaseTest();
+//coinbaseTest();
 //binanceTest();
-//processingStream(['../../src/mock/datasource/zip files/private/spotify.zip',], GDPRDataSourceCode.SPOTIFY);
+processingStream(['../../src/mock/datasource/zip files/private/google_big_3.zip',], GDPRDataSourceCode.GOOGLE);
 //validateStream('../../src/mock/datasource/zip files/private/amazon.zip', GDPRDataSourceCode.AMAZON);
 //showAggregator('../../src/mock/datasource/zip files/private/google.zip', GDPRDataSourceCode.GOOGLE);
 //showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', GDPRDataSourceCode.AMAZON);
