@@ -1,0 +1,311 @@
+{
+  "accountInfo": {
+    "emailAddress": "macchia_beatrice@libero.it",
+    "countryRegistration": "IT",
+    "countrySignup": "IT",
+    "primaryLang": "it-IT",
+    "cookieDisclosure": true,
+    "membershipStatus": "CURRENT_MEMBER",
+    "creationTime": "2021-11-27T17:20:06.000Z",
+    "hasRejoined": false,
+    "netflixUpdates": true,
+    "nowOnNetflix": true,
+    "netflixOffers": false,
+    "netflixSurveys": true,
+    "netflixKidsFamily": true,
+    "smsAccountRelated": true,
+    "smsContentUpdates": false,
+    "testParticipation": true,
+    "whatsApp": false,
+    "marketingCommunications": false
+  },
+  "profiles": {
+    "list": [
+      {
+        "profileName": "Ospiti",
+        "profileCreationTime": "2021-11-29T21:03:21.000Z",
+        "maturityLevel": "1000000",
+        "primaryLanguage": "it-IT",
+        "hasAutoPlayback": true,
+        "maxStreamQuality": "UNSPECIFIED",
+        "profileLockEnabled": false
+      },
+      {
+        "profileName": "Bea",
+        "profileCreationTime": "2021-11-29T21:03:21.000Z",
+        "maturityLevel": "1000000",
+        "primaryLanguage": "it-IT",
+        "hasAutoPlayback": true,
+        "maxStreamQuality": "UNSPECIFIED",
+        "profileLockEnabled": false
+      },
+      {
+        "profileName": "Ricky",
+        "profileCreationTime": "2021-11-29T21:03:21.000Z",
+        "maturityLevel": "1000000",
+        "primaryLanguage": "it-IT",
+        "hasAutoPlayback": true,
+        "maxStreamQuality": "UNSPECIFIED",
+        "profileLockEnabled": false
+      },
+      {
+        "profileName": "Ringhio",
+        "profileCreationTime": "2021-11-29T21:03:21.000Z",
+        "maturityLevel": "1000000",
+        "primaryLanguage": "it-IT",
+        "hasAutoPlayback": true,
+        "maxStreamQuality": "UNSPECIFIED",
+        "profileLockEnabled": false
+      },
+      {
+        "profileName": "macchia_beatrice",
+        "emailAddress": "macchia_beatrice@libero.it",
+        "profileCreationTime": "2021-11-27T17:20:06.000Z",
+        "maturityLevel": "1000000",
+        "primaryLanguage": "it-IT",
+        "hasAutoPlayback": true,
+        "maxStreamQuality": "UNSPECIFIED",
+        "profileLockEnabled": false
+      }
+    ]
+  },
+  "titles": {
+    "list": [
+      {
+        "profileName": "Ricky",
+        "titleName": "Baggio: The Divine Ponytail",
+        "country": "Italy",
+        "titleAddDate": "2021-12-06T00:00:00.000Z"
+      },
+      {
+        "profileName": "Ricky",
+        "titleName": "Rick and Morty",
+        "country": "Italy",
+        "titleAddDate": "2021-12-06T00:00:00.000Z"
+      },
+      {
+        "profileName": "Ricky",
+        "titleName": "Peaky Blinders",
+        "country": "Italy",
+        "titleAddDate": "2021-12-06T00:00:00.000Z"
+      },
+      {
+        "profileName": "macchia_beatrice",
+        "titleName": "Stranger Things",
+        "country": "Italy",
+        "titleAddDate": "2021-11-29T00:00:00.000Z"
+      },
+      {
+        "profileName": "macchia_beatrice",
+        "titleName": "How I Met Your Mother",
+        "country": "Italy",
+        "titleAddDate": "2021-11-29T00:00:00.000Z"
+      },
+      {
+        "profileName": "macchia_beatrice",
+        "titleName": "Modern Family",
+        "country": "Italy",
+        "titleAddDate": "2021-11-29T00:00:00.000Z"
+      },
+      {
+        "profileName": "macchia_beatrice",
+        "titleName": "Sex Education",
+        "country": "Italy",
+        "titleAddDate": "2021-11-29T00:00:00.000Z"
+      }
+    ]
+  },
+  "viewingActivity": {
+    "list": [
+      {
+        "profileName": "Bea",
+        "startTime": "2021-12-01T00:17:58.000Z",
+        "duration": "00:00:59",
+        "attributes": "Autoplayed: user action: None; ",
+        "title": "Stagione 1 (Trailer): Squid Game",
+        "videoType": "TRAILER",
+        "deviceType": "Chrome PC (Cadmium)",
+        "bookmark": "00:00:59",
+        "latestBookmark": "00:00:59",
+        "country": "IT (Italy)"
+      },
+      {
+        "profileName": "Bea",
+        "startTime": "2021-11-30T23:58:07.000Z",
+        "duration": "00:18:48",
+        "title": "Strappare lungo i bordi: Stagione 1: Episodio 6 (Episodio 6)",
+        "deviceType": "Chrome PC (Cadmium)",
+        "bookmark": "00:19:46",
+        "latestBookmark": "00:19:46",
+        "country": "IT (Italy)"
+      },
+      {
+        "profileName": "Bea",
+        "startTime": "2021-11-30T23:32:37.000Z",
+        "duration": "00:19:28",
+        "title": "Strappare lungo i bordi: Stagione 1: Episodio 5 (Episodio 5)",
+        "deviceType": "Chrome PC (Cadmium)",
+        "bookmark": "00:20:23",
+        "latestBookmark": "00:20:23",
+        "country": "IT (Italy)"
+      },
+      {
+        "profileName": "Bea",
+        "startTime": "2021-11-30T23:32:23.000Z",
+        "duration": "00:00:10",
+        "title": "Strappare lungo i bordi: Stagione 1: Episodio 1 (Episodio 1)",
+        "deviceType": "Chrome PC (Cadmium)",
+        "bookmark": "00:00:10",
+        "latestBookmark": "00:00:10",
+        "country": "IT (Italy)"
+      },
+      {
+        "profileName": "Ricky",
+        "startTime": "2021-12-06T18:14:46.000Z",
+        "duration": "00:03:19",
+        "title": "Strappare lungo i bordi: Stagione 1: Episodio 3 (Episodio 3)",
+        "deviceType": "Safari MAC (Cadmium)",
+        "bookmark": "00:04:15",
+        "latestBookmark": "00:04:15",
+        "country": "IT (Italy)"
+      },
+      {
+        "profileName": "Ricky",
+        "startTime": "2021-12-06T16:37:00.000Z",
+        "duration": "00:15:43",
+        "title": "Strappare lungo i bordi: Stagione 1: Episodio 2 (Episodio 2)",
+        "deviceType": "Safari MAC (Cadmium)",
+        "bookmark": "00:15:43",
+        "latestBookmark": "00:15:43",
+        "country": "IT (Italy)"
+      },
+      {
+        "profileName": "Ricky",
+        "startTime": "2021-12-06T16:36:20.000Z",
+        "duration": "00:00:36",
+        "title": "Strappare lungo i bordi: Stagione 1: Episodio 1 (Episodio 1)",
+        "deviceType": "Safari MAC (Cadmium)",
+        "bookmark": "00:12:24",
+        "latestBookmark": "00:12:24",
+        "country": "IT (Italy)"
+      },
+      {
+        "profileName": "macchia_beatrice",
+        "startTime": "2021-12-05T20:26:31.000Z",
+        "duration": "02:09:34",
+        "title": "BlacKkKlansman",
+        "deviceType": "Sony CE Sony CE 2014 Core DTV Smart TV",
+        "bookmark": "02:09:34",
+        "latestBookmark": "02:09:34",
+        "country": "IT (Italy)"
+      },
+      {
+        "profileName": "macchia_beatrice",
+        "startTime": "2021-11-29T22:39:38.000Z",
+        "duration": "00:17:43",
+        "title": "Strappare lungo i bordi: Stagione 1: Episodio 4 (Episodio 4)",
+        "deviceType": "Chrome PC (Cadmium)",
+        "bookmark": "00:18:31",
+        "latestBookmark": "00:18:31",
+        "country": "IT (Italy)"
+      },
+      {
+        "profileName": "macchia_beatrice",
+        "startTime": "2021-11-29T21:38:27.000Z",
+        "duration": "00:16:31",
+        "title": "Strappare lungo i bordi: Stagione 1: Episodio 3 (Episodio 3)",
+        "deviceType": "Chrome PC (Cadmium)",
+        "bookmark": "00:17:31",
+        "latestBookmark": "00:17:31",
+        "country": "IT (Italy)"
+      },
+      {
+        "profileName": "macchia_beatrice",
+        "startTime": "2021-11-29T21:20:15.000Z",
+        "duration": "00:14:50",
+        "title": "Strappare lungo i bordi: Stagione 1: Episodio 2 (Episodio 2)",
+        "deviceType": "Chrome PC (Cadmium)",
+        "bookmark": "00:15:44",
+        "latestBookmark": "00:15:44",
+        "country": "IT (Italy)"
+      },
+      {
+        "profileName": "macchia_beatrice",
+        "startTime": "2021-11-29T21:04:57.000Z",
+        "duration": "00:14:07",
+        "title": "Strappare lungo i bordi: Stagione 1: Episodio 1 (Episodio 1)",
+        "deviceType": "Chrome PC (Cadmium)",
+        "bookmark": "00:14:07",
+        "latestBookmark": "00:14:07",
+        "country": "IT (Italy)"
+      },
+      {
+        "profileName": "macchia_beatrice",
+        "startTime": "2021-11-29T21:04:49.000Z",
+        "duration": "00:00:08",
+        "attributes": "Autoplayed: user action: None; ",
+        "title": "Season 1 Plot Clip: Tear Along the Dotted Line",
+        "videoType": "HOOK",
+        "deviceType": "Chrome PC (Cadmium)",
+        "bookmark": "00:00:08",
+        "latestBookmark": "00:00:08",
+        "country": "IT (Italy)"
+      }
+    ]
+  },
+  "searches": {
+    "list": [
+      {
+        "profileName": "macchia_beatrice",
+        "countryIsoCode": "IT",
+        "device": "Smart TV",
+        "isKids": false,
+        "queryTyped": "mano",
+        "displayedName": "È stata la mano di Dio",
+        "action": "view_video_info",
+        "section": "title_results",
+        "time": "2021-12-05T11:20:22.000Z"
+      }
+    ]
+  },
+  "preferences": {
+    "list": [
+      {
+        "profileName": "macchia_beatrice",
+        "show": "Sex Education",
+        "eventDate": "2021-11-29T00:00:00.000Z"
+      },
+      {
+        "profileName": "macchia_beatrice",
+        "show": "How I Met Your Mother",
+        "eventDate": "2021-11-29T00:00:00.000Z"
+      },
+      {
+        "profileName": "macchia_beatrice",
+        "show": "Stranger Things",
+        "eventDate": "2021-11-29T00:00:00.000Z"
+      },
+      {
+        "profileName": "macchia_beatrice",
+        "show": "Modern Family",
+        "eventDate": "2021-11-29T00:00:00.000Z"
+      },
+      {
+        "profileName": "Ricky",
+        "show": "Baggio: The Divine Ponytail",
+        "eventDate": "2021-12-06T00:00:00.000Z"
+      },
+      {
+        "profileName": "Ricky",
+        "show": "Peaky Blinders",
+        "eventDate": "2021-12-06T00:00:00.000Z"
+      },
+      {
+        "profileName": "Ricky",
+        "show": "Rick and Morty",
+        "eventDate": "2021-12-06T00:00:00.000Z"
+      }
+    ]
+  },
+  "creationDate": "2022-09-15T08:31:21.275Z"
+}
