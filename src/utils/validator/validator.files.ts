@@ -347,6 +347,8 @@ export class ValidatorFiles {
                 return false;
             case FileExtension.CSV:
                 return this.validateCSV(file, pathName);
+            case FileExtension.PDF:
+                return this.validatePDF(file, pathName);
             default:
                 return true;
         }
@@ -380,6 +382,22 @@ export class ValidatorFiles {
             (pathName)
                 ? this.logger.log('info', `File \"${pathName}\" is not a valid CSV`, 'validateCSV')
                 : this.logger.log('info', `File is not a valid CSV`, 'validateCSV');
+            return false;
+        }
+    }
+
+    /**
+     * @param file - file as buffer
+     * @param pathName - evaluated file name
+     * @return TRUE if the file is a valid PDF, FALSE otherwise
+     */
+    static validatePDF(file: Uint8Array, pathName?: string): boolean {
+        try {
+            return !!Parser.parsePdf(Buffer.from(file, file.byteOffset, file.length));
+        } catch (error) {
+            (pathName)
+                ? this.logger.log('info', `File \"${pathName}\" is not a valid PDF`, 'validatePDF')
+                : this.logger.log('info', `File is not a valid PDF`, 'validatePDF');
             return false;
         }
     }
