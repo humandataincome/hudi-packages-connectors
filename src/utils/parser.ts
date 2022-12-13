@@ -1,5 +1,6 @@
 import {parse, ParseConfig} from "papaparse";
 import Logger from "./logger";
+import * as pdf from "pdf-parse";
 
 export class Parser {
     private static logger = new Logger("Parser");
@@ -32,6 +33,15 @@ export class Parser {
             this.logger.log('error', `${e}`,'extractJsonFromTwitterFile');
         }
         return undefined;
+    }
+
+    static async parsePdf(file: Buffer): Promise<pdf.Result | undefined> {
+        try {
+            return await pdf(file);
+        } catch (e: any) {
+            this.logger.log('error', `${e}`, 'parsePdf');
+            return undefined;
+        }
     }
 }
 

@@ -10,6 +10,7 @@ import {
 import {Observable} from "rxjs";
 import {Selector} from "../../src";
 import {ReadableStream} from 'node:stream/web';
+import * as pdf from "pdf-parse";
 
 const httpMethod: HttpMethod = (options: HTTPRequest) => {
     const https = require('https')
@@ -29,8 +30,21 @@ const httpMethod: HttpMethod = (options: HTTPRequest) => {
         req.end();
     });
 };
+const parsePdf = async (file: Buffer) => {
+    try {
+        const result = await pdf(file)
+        console.log(result);
+    } catch (e: any) {
+        return undefined;
+    }
+}
+{
+    const fs =  require('fs');
+    const path =  require('path');
+    parsePdf(fs.readFileSync(path.join(__dirname, '../../src/mock/pdf/file3.pdf'))).then(result => console.log(result));
+}
 
-coinbaseTest();
+//coinbaseTest();
 //binanceTest();
 //processingStream(['../../src/mock/datasource/zip files/private/spotify.zip',], GDPRDataSourceCode.SPOTIFY);
 //validateStream('../../src/mock/datasource/zip files/private/amazon.zip', GDPRDataSourceCode.AMAZON);
