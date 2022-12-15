@@ -1,6 +1,10 @@
 import {parse, ParseConfig} from "papaparse";
 import Logger from "./logger";
-import * as pdf from "pdf-parse";
+//USE the pdfjs-dist/legacy/build/pdf version instead of pdfjs-dist to make it compatible with older browser version supported by ts of FE
+import * as pdf from 'pdfjs-dist/legacy/build/pdf';
+//@ts-ignore
+import * as pdfWorker from 'pdfjs-dist/legacy/build/pdf.worker.entry';
+import {TextContent, TextItem} from "pdfjs-dist/types/src/display/api";
 
 export class Parser {
     private static logger = new Logger("Parser");
@@ -35,9 +39,34 @@ export class Parser {
         return undefined;
     }
 
-    static async parsePdf(file: Buffer): Promise<pdf.Result | undefined> {
+    /**
+     * Given a PDF file as Buffer, return the whole text as string
+     * @param file - PDF as Buffer
+     */
+    static async parsePdf(file: Buffer) {
         try {
-            return await pdf(file);
+            pdf.GlobalWorkerOptions.workerSrc = pdfWorker;
+            const document = await pdf.getDocument(file).promise;
+            let finalString = "";
+            for (let i = 1; i <= document.numPages; i++) {
+                const page = await document.getPage(i);
+                const textContent = await page.getTextContent();
+                let textItems = textContent.items;
+                let line = 0;
+                // Concatenate the string of the item to the final string
+                for (let i = 0; i < textItems.length; i++) {
+                    if (line != (<TextItem>textItems[i]).transform[5]) {
+                        if (line != 0) {
+                            finalString += '\r\n';
+                        }
+                        line = (<TextItem>textItems[i]).transform[5]
+                    }
+                    let item = textItems[i];
+                    finalString += (<TextItem>item).str;
+                }
+            }
+            console.log(finalString);
+            return finalString;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parsePdf');
             return undefined;
