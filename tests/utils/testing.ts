@@ -10,7 +10,7 @@ import {
 import {Observable} from "rxjs";
 import {Selector} from "../../src";
 import {ReadableStream} from 'node:stream/web';
-import * as pdf from "pdf-parse";
+import {ServiceBloodAnalysis} from "../../src/source/others/health/service.blood-analysis";
 
 const httpMethod: HttpMethod = (options: HTTPRequest) => {
     const https = require('https')
@@ -30,20 +30,8 @@ const httpMethod: HttpMethod = (options: HTTPRequest) => {
         req.end();
     });
 };
-const parsePdf = async (file: Buffer) => {
-    try {
-        const result = await pdf(file)
-        console.log(result);
-    } catch (e: any) {
-        return undefined;
-    }
-}
-{
-    const fs =  require('fs');
-    const path =  require('path');
-    parsePdf(fs.readFileSync(path.join(__dirname, '../../src/mock/pdf/file3.pdf'))).then(result => console.log(result));
-}
 
+parsePdfTest();
 //coinbaseTest();
 //binanceTest();
 //processingStream(['../../src/mock/datasource/zip files/private/spotify.zip',], GDPRDataSourceCode.SPOTIFY);
@@ -51,6 +39,15 @@ const parsePdf = async (file: Buffer) => {
 //showAggregator('../../src/mock/datasource/zip files/private/google.zip', GDPRDataSourceCode.GOOGLE);
 //showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', GDPRDataSourceCode.AMAZON);
 //testNotMappedFiles('../../src/mock/datasource/zip files/private/google.zip');
+
+async function parsePdfTest() {
+    const fs =  require('fs');
+    const path =  require('path');
+
+    const result = await ServiceBloodAnalysis.parsePdfToJson(fs.readFileSync(path.join(__dirname, '../../src/mock/pdf/private/file1.pdf')));
+    // Stampa i risultati in formato JSON
+    console.log(JSON.stringify(result, null, 2));
+}
 
 async function coinbaseTest() {
     const apiKey = '';

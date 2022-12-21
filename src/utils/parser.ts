@@ -1,10 +1,10 @@
 import {parse, ParseConfig} from "papaparse";
 import Logger from "./logger";
 //USE the pdfjs-dist/legacy/build/pdf version instead of pdfjs-dist to make it compatible with older browser version supported by ts of FE
-import * as pdf from 'pdfjs-dist/legacy/build/pdf';
+import * as pdfjs from 'pdfjs-dist/legacy/build/pdf';
 //@ts-ignore
-import * as pdfWorker from 'pdfjs-dist/legacy/build/pdf.worker.entry';
-import {TextContent, TextItem} from "pdfjs-dist/types/src/display/api";
+import PDFJSWorker from 'pdfjs-dist/legacy/build/pdf.worker.entry'
+import {TextItem} from "pdfjs-dist/types/src/display/api";
 
 export class Parser {
     private static logger = new Logger("Parser");
@@ -45,8 +45,7 @@ export class Parser {
      */
     static async parsePdf(file: Buffer) {
         try {
-            pdf.GlobalWorkerOptions.workerSrc = pdfWorker;
-            const document = await pdf.getDocument(file).promise;
+            const document = await pdfjs.getDocument({ data: file, worker: PDFJSWorker, disableFontFace: true}).promise;
             let finalString = "";
             for (let i = 1; i <= document.numPages; i++) {
                 const page = await document.getPage(i);
@@ -65,7 +64,6 @@ export class Parser {
                     finalString += (<TextItem>item).str;
                 }
             }
-            console.log(finalString);
             return finalString;
         } catch (e: any) {
             this.logger.log('error', `${e}`, 'parsePdf');
