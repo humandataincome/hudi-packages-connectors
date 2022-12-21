@@ -54,6 +54,7 @@
         "crypto-js": "^4.1.1",
         "fflate": "^0.7.3",
         "papaparse": "^5.3.2",
+        "pdfjs-dist": "^3.1.81",
         "rxjs": "^7.5.6"
     },
     "browser": {
