@@ -10,12 +10,10 @@ export class ServiceBloodAnalysis {
         const text = await Parser.parsePdf(file);
 
         const model: BloodAnalysisModel = {list: []};
-        //const regex = /(?<test>\w+|(?:\w+-\w+)|(?:\w+\s\w+)|(?:ALT\s\(G\.P\.T\.\)))\s?\r\n(?:\((?:\w|\.|\s|-|\/)+\)\r\n)?(?:\s?\*\s)?(?<result>\d+[.,]?\d*)\s?\r\n(?<unit>(?:\d+\^\d+\/\w+)|(?:\w+\/\w+)|%|\w+)\s?\r\n(?<range>(?:\d+(?:[.,]\d+)?\s?-\s?\d+(?:[.,]\d+)?)|(?:\s?[<>](?:[.,]\d+)?\s?\d+))\s?\r\n/g;
-        const regex = /(?<test>\w+|(?:\w+\s#)|(?:\w+-\w+)|(?:\w+\s)+|(?:\w+\s?\/\s?\w+)|(?:ALT\s\(G\.P\.T\.\))|(?:GAMMA\sGT))\s?\r\n(?:\((?:\w|\.|\s|-|\/)+\)\r\n)?(?:\s?\*\s)?(?<result>\d+[.,]?\d*)\s?\r\n(?<unit>(?:\d+\^\d+\/\w+)|(?:\w+\/\w+)|%|\w+)(?:\s?\r?\n?)(?<range>(?:\d+(?:[.,]\d+)?\s?-\s?\d+(?:[.,]\d+)?)|(?:\s?[<>]=?(?:[.,]\d+)?\s?\d+))\s?\r\n/g;
+        const regex = /(?<test>\w+|(?:\w+\s#)|(?:\w+\s%)|(?:\w+-\w+)|(?:\w+\s)+|(?:\w+\s?\/\s?\w+)|(?:ALT\s\(G\.P\.T\.\))|(?:GAMMA\sGT))\s?\r\n(?:\((?:\w|\.|\s|-|\/)+\)\r\n)?(?:\s?\*\s)?(?<result>\d+[.,]?\d*)\s?\r\n(?<unit>(?:\d+\^\d+\/\w+)|(?:\w+\/\w+)|\w+\/μL|%|\w+)(?:\s?\r?\n?)(?<range>(?:\d+(?:[.,]\d+)?\s?-\s?\d+(?:[.,]\d+)?)|(?:\s?[<>]=?(?:[.,]\d+)?\s?\d+))\s?\r\n/g;
 
         let match: RegExpExecArray | null;
         while ((match = regex.exec(text!)) !== null) {
-            //console.log(match);
             if (match[1] && match[2] && match[3] && match[4]) {
                 const test: TestModel = {
                     test: match[1],

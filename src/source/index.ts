@@ -69,3 +69,7 @@ export * from './twitter/enum.twitter';
 export * from './twitter/model.twitter';
 export * from './twitter/service.twitter';
 export * from './twitter/validator.twitter';
+
+//OTHERS directory
+export * from './others/health/model.blood-analysis';
+export * from './others/health/service.blood-analysis';

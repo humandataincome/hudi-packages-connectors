@@ -8,9 +8,8 @@ import {
     ValidatorFiles, ProcessorBinance, ProcessorCoinbase
 } from "../../src";
 import {Observable} from "rxjs";
-import {Selector} from "../../src";
+import {ServiceBloodAnalysis, Selector} from "../../src";
 import {ReadableStream} from 'node:stream/web';
-import {ServiceBloodAnalysis} from "../../src/source/others/health/service.blood-analysis";
 
 const httpMethod: HttpMethod = (options: HTTPRequest) => {
     const https = require('https')
