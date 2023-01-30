@@ -4,6 +4,10 @@ tests/
 generator/
 src/
 mock/
+.editorconfig
+jest.config.js
+tsconfig.json
+
 
 .idea/
 TEST*.xml
