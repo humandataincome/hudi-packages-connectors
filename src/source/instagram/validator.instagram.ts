@@ -1,11 +1,11 @@
 import {LanguageCode} from "../../descriptor";
 import {ValidatorDatasource, ValidatorDatasourceOption} from "../../utils/validator/validator.datasource";
-import Logger from "../../utils/logger";
-import {ValidationErrorEnum} from "../../utils";
+import LoggerUtils from "../../utils/logger.utils";
 import {FileCodeInstagram} from "./enum.instagram";
+import {ValidationErrorEnum} from "../../enums";
 
 export class ValidatorInstagram extends ValidatorDatasource {
-    protected readonly logger = new Logger("Instagram Validator");
+    protected readonly logger = new LoggerUtils("Instagram Validator");
 
     protected DEFAULT_FILE_CODES: FileCodeInstagram[] = [
         FileCodeInstagram.ACCOUNT_NOT_INTERESTED,

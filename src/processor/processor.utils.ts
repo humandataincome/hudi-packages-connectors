@@ -1,4 +1,4 @@
-import {MonthsFull} from "../utils.enum";
+import {MonthsFull} from "../enums/date.enum";
 
 export class ProcessorUtils {
 

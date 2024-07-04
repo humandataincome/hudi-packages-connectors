@@ -1,13 +1,13 @@
 import {parse, ParseConfig} from "papaparse";
-import Logger from "./logger";
+import LoggerUtils from "./logger.utils";
 //USE the pdfjs-dist/legacy/build/pdf version instead of pdfjs-dist to make it compatible with older browser version supported by ts of FE
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf';
 //@ts-ignore
 import PDFJSWorker from 'pdfjs-dist/legacy/build/pdf.worker.entry'
 import {TextItem} from "pdfjs-dist/types/src/display/api";
 
-export class Parser {
-    private static logger = new Logger("Parser");
+export class ParserUtils {
+    private static logger = new LoggerUtils("Parser");
 
     static parseCSVfromBuffer(source: Buffer, options: ParseConfig = {escapeChar: '"', header: true, skipEmptyLines: true}) {
         try {

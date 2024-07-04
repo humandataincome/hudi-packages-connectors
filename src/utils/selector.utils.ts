@@ -47,9 +47,9 @@ import {
 } from "../source";
 import {ValidatorDatasource} from "./validator";
 import {Unzipped} from "fflate";
-import {ProcessorAPIDatasource, ProcessorGDPRDatasource, ProcessorOptions} from "./processor";
+import {ProcessorAPIDatasource, ProcessorGDPRDatasource, ProcessorOptions} from "../processor";
 
-export class Selector {
+export class SelectorUtils {
 
     static getFileCodeEnum(code: GDPRDataSourceCode) {
         switch (code) {

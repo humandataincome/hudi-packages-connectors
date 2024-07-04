@@ -50,8 +50,8 @@ import {
     ShoppingViewedItemsIG,
     ShoppingViewedItemIG, AutofillInformationIG,
 } from "./model.instagram";
-import Logger from "../../utils/logger";
-import {Decoding} from "../../utils/decoding";
+import LoggerUtils from "../../utils/logger.utils";
+import {DecodingUtils} from "../../utils/decoding.utils";
 import {LanguageCode} from "../../descriptor";
 import {ValidatorObject} from "../../utils/validator/validator.object";
 import {FileCodeInstagram} from "./enum.instagram";
@@ -62,7 +62,7 @@ import {FileCodeInstagram} from "./enum.instagram";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class ServiceInstagram {
-    private static readonly logger = new Logger("Instagram Service");
+    private static readonly logger = new LoggerUtils("Instagram Service");
     public static languagePrefix: LanguageCode = LanguageCode.ENGLISH;
 
     /**
@@ -152,29 +152,29 @@ export class ServiceInstagram {
             let document = JSON.parse(data.toString());
 
             parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-1-username`];
-            (ServiceInstagram.pathExists(parameterName, document)) && (personalInfoModel.username = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
+            (ServiceInstagram.pathExists(parameterName, document)) && (personalInfoModel.username = DecodingUtils.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
             parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-2-name`];
-            (ServiceInstagram.pathExists(parameterName, document)) && (personalInfoModel.name = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
+            (ServiceInstagram.pathExists(parameterName, document)) && (personalInfoModel.name = DecodingUtils.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
             parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-3-email`];
-            (ServiceInstagram.pathExists(parameterName, document)) && (personalInfoModel.email = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
+            (ServiceInstagram.pathExists(parameterName, document)) && (personalInfoModel.email = DecodingUtils.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
             parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-4-privateAccount`];
             (ServiceInstagram.pathExists(parameterName, document)) && (personalInfoModel.private = document.profile_user[0].string_map_data[parameterName].value.toLowerCase() === 'true');
 
             parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-5-birthdate`];
-            (ServiceInstagram.pathExists(parameterName, document)) && (match = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value).split('-'));
+            (ServiceInstagram.pathExists(parameterName, document)) && (match = DecodingUtils.decodeObject(document.profile_user[0].string_map_data[parameterName].value).split('-'));
             match && (personalInfoModel.birthdate = new Date(Date.UTC(match[0], match[1]-1, match[2], 0, 0, 0)));
 
             parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-6-phoneNumber`];
-            (ServiceInstagram.pathExists(parameterName, document)) && (personalInfoModel.phoneNumber = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
+            (ServiceInstagram.pathExists(parameterName, document)) && (personalInfoModel.phoneNumber = DecodingUtils.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
             parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-7-biography`];
-            (ServiceInstagram.pathExists(parameterName, document)) && (personalInfoModel.biography = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
+            (ServiceInstagram.pathExists(parameterName, document)) && (personalInfoModel.biography = DecodingUtils.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
             parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-8-gender`];
-            (ServiceInstagram.pathExists(parameterName, document)) && (personalInfoModel.gender = Decoding.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
+            (ServiceInstagram.pathExists(parameterName, document)) && (personalInfoModel.gender = DecodingUtils.decodeObject(document.profile_user[0].string_map_data[parameterName].value));
 
             return !ValidatorObject.objectIsEmpty(personalInfoModel) ? personalInfoModel : undefined;
         } catch (error) {
@@ -199,7 +199,7 @@ export class ServiceInstagram {
                 document.inferred_data_primary_location[0].string_map_data &&
                 document.inferred_data_primary_location[0].string_map_data[parameterName] &&
                 document.inferred_data_primary_location[0].string_map_data[parameterName].value) &&
-            (model.basedIn = Decoding.decodeObject(document.inferred_data_primary_location[0].string_map_data[parameterName].value));
+            (model.basedIn = DecodingUtils.decodeObject(document.inferred_data_primary_location[0].string_map_data[parameterName].value));
             return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`,'parseLocation');
@@ -216,7 +216,7 @@ export class ServiceInstagram {
             let model: AdsClickedIG = {list: []};
             model.list = document.impressions_history_ads_clicked.map((value: any) => {
                 let newItem: AdvIG = {};
-                (value.title) && (newItem.title = Decoding.decodeObject(value.title));
+                (value.title) && (newItem.title = DecodingUtils.decodeObject(value.title));
                 (value.string_list_data && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
                 return newItem;
             });
@@ -238,7 +238,7 @@ export class ServiceInstagram {
             let model: AdsViewedIG = {list: []};
             model.list = document.impressions_history_ads_seen.map((value: any) => {
                 let newItem: AdvIG = {};
-                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.title = Decoding.decodeObject(value.string_map_data[parameterName1].value));
+                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.title = DecodingUtils.decodeObject(value.string_map_data[parameterName1].value));
                 (value.string_map_data && value.string_map_data[parameterName2].timestamp) && (newItem.date = new Date(1000 * value.string_map_data[parameterName2].timestamp));
                 return newItem;
             });
@@ -259,7 +259,7 @@ export class ServiceInstagram {
             let model: AdsInterestsIG = {list: []};
             model.list = document.inferred_data_ig_interest.map((value: any) => {
                 let newItem: AdvIG = {};
-                (value.string_map_data && value.string_map_data[parameterName].value) && (newItem.title = Decoding.decodeObject(value.string_map_data[parameterName].value));
+                (value.string_map_data && value.string_map_data[parameterName].value) && (newItem.title = DecodingUtils.decodeObject(value.string_map_data[parameterName].value));
                 return newItem;
             });
             return model.list.length > 0 ? model : undefined;
@@ -281,8 +281,8 @@ export class ServiceInstagram {
             let model: MusicHeardInStoriesIG = {list: []};
             model.list = document.impressions_history_music_heard_in_stories.map((value: any) => {
                 let newItem: MediaIG = {};
-                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.title = Decoding.decodeObject(value.string_map_data[parameterName1].value));
-                (value.string_map_data && value.string_map_data[parameterName2].value) && (newItem.artist = Decoding.decodeObject(value.string_map_data[parameterName2].value));
+                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.title = DecodingUtils.decodeObject(value.string_map_data[parameterName1].value));
+                (value.string_map_data && value.string_map_data[parameterName2].value) && (newItem.artist = DecodingUtils.decodeObject(value.string_map_data[parameterName2].value));
                 (value.string_map_data && value.string_map_data[parameterName3].timestamp) && (newItem.date = new Date(1000 * value.string_map_data[parameterName3].timestamp));
                 return newItem;
             });
@@ -305,8 +305,8 @@ export class ServiceInstagram {
             let model: MusicHeardInStoriesIG = {list: []};
             model.list = document.impressions_history_music_recently_used_in_stories.map((value: any) => {
                 let newItem: MediaIG = {};
-                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.title = Decoding.decodeObject(value.string_map_data[parameterName1].value));
-                (value.string_map_data && value.string_map_data[parameterName2].value) && (newItem.artist = Decoding.decodeObject(value.string_map_data[parameterName2].value));
+                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.title = DecodingUtils.decodeObject(value.string_map_data[parameterName1].value));
+                (value.string_map_data && value.string_map_data[parameterName2].value) && (newItem.artist = DecodingUtils.decodeObject(value.string_map_data[parameterName2].value));
                 (value.string_map_data && value.string_map_data[parameterName3].timestamp) && (newItem.date = new Date(1000 * value.string_map_data[parameterName3].timestamp));
                 return newItem;
             });
@@ -328,7 +328,7 @@ export class ServiceInstagram {
             let model: PostViewedIG = {list: []};
             model.list = document.impressions_history_posts_seen.map((value: any) => {
                 let newItem: PostIG = {};
-                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.title = Decoding.decodeObject(value.string_map_data[parameterName1].value));
+                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.title = DecodingUtils.decodeObject(value.string_map_data[parameterName1].value));
                 (value.string_map_data && value.string_map_data[parameterName2].timestamp) && (newItem.date = new Date(1000 * value.string_map_data[parameterName2].timestamp));
                 return newItem;
             });
@@ -350,7 +350,7 @@ export class ServiceInstagram {
             let model: VideoWatchedIG = {list: []};
             model.list = document.impressions_history_videos_watched.map((value: any) => {
                 let newItem: MediaIG = {};
-                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.title = Decoding.decodeObject(value.string_map_data[parameterName1].value));
+                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.title = DecodingUtils.decodeObject(value.string_map_data[parameterName1].value));
                 (value.string_map_data && value.string_map_data[parameterName2].timestamp) && (newItem.date = new Date(1000 * value.string_map_data[parameterName2].timestamp));
                 return newItem;
             });
@@ -372,7 +372,7 @@ export class ServiceInstagram {
             let model: SuggestedAccountsViewedIG = {list: []};
             model.list = document.impressions_history_chaining_seen.map((value: any) => {
                 let newItem: AccountIG = {};
-                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.name = Decoding.decodeObject(value.string_map_data[parameterName1].value));
+                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.name = DecodingUtils.decodeObject(value.string_map_data[parameterName1].value));
                 (value.string_map_data && value.string_map_data[parameterName2].timestamp) && (newItem.date = new Date(1000 * value.string_map_data[parameterName2].timestamp));
                 return newItem;
             });
@@ -394,7 +394,7 @@ export class ServiceInstagram {
             let model: AccountsYouAreNotInterestedIG = {list: []};
             model.list = document.impressions_history_recs_hidden_authors.map((value: any) => {
                 let newItem: AccountIG = {};
-                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.name = Decoding.decodeObject(value.string_map_data[parameterName1].value));
+                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.name = DecodingUtils.decodeObject(value.string_map_data[parameterName1].value));
                 (value.string_map_data && value.string_map_data[parameterName2].timestamp) && (newItem.date = new Date(1000 * value.string_map_data[parameterName2].timestamp));
                 return newItem;
             });
@@ -414,8 +414,8 @@ export class ServiceInstagram {
             let model: CommentsPostedIG = {list: []};
             model.list = document.comments_media_comments.map((value: any) => {
                 let newItem: CommentPostedIG = {};
-                (value.title) && (newItem.toUser = Decoding.decodeObject(value.title));
-                (value.string_list_data && value.string_list_data[0].value) && (newItem.text = Decoding.decodeObject(value.string_list_data[0].value));
+                (value.title) && (newItem.toUser = DecodingUtils.decodeObject(value.title));
+                (value.string_list_data && value.string_list_data[0].value) && (newItem.text = DecodingUtils.decodeObject(value.string_list_data[0].value));
                 (value.string_list_data && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
                 return newItem;
             });
@@ -438,9 +438,9 @@ export class ServiceInstagram {
             let model: SyncedContractsIG = {list: []};
             model.list = document.contacts_contact_info.map((value: any) => {
                 let newItem: ContactSyncedIG = {};
-                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.firstName = Decoding.decodeObject(value.string_map_data[parameterName1].value));
-                (value.string_map_data && value.string_map_data[parameterName2].value) && (newItem.secondName = Decoding.decodeObject(value.string_map_data[parameterName2].value));
-                (value.string_map_data && value.string_map_data[parameterName3].value) && (newItem.contactInfo = Decoding.decodeObject(value.string_map_data[parameterName3].value));
+                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.firstName = DecodingUtils.decodeObject(value.string_map_data[parameterName1].value));
+                (value.string_map_data && value.string_map_data[parameterName2].value) && (newItem.secondName = DecodingUtils.decodeObject(value.string_map_data[parameterName2].value));
+                (value.string_map_data && value.string_map_data[parameterName3].value) && (newItem.contactInfo = DecodingUtils.decodeObject(value.string_map_data[parameterName3].value));
                 return newItem;
             });
             return model.list.length > 0 ? model : undefined;
@@ -459,7 +459,7 @@ export class ServiceInstagram {
             let model: ArchivedPostsIG = {list: []};
             model.list = document.ig_archived_post_media.map((value: any) => {
                 let newItem: PostIG = {};
-                (value.media && value.media[0].uri) && (newItem.uri = Decoding.decodeObject(value.media[0].uri));
+                (value.media && value.media[0].uri) && (newItem.uri = DecodingUtils.decodeObject(value.media[0].uri));
                 (value.media && value.media[0].creation_timestamp) && (newItem.date = new Date(1000 * value.media[0].creation_timestamp));
                 return newItem;
             });
@@ -479,8 +479,8 @@ export class ServiceInstagram {
             let model: PersonalPostsIG = {list: []};
             model.list = document.map((value: any) => {
                 let newItem: PostIG = {};
-                (value.media && value.media[0].uri) && (newItem.uri = Decoding.decodeObject(value.media[0].uri));
-                (value.media && value.media[0].title) && (newItem.title = Decoding.decodeObject(value.media[0].title));
+                (value.media && value.media[0].uri) && (newItem.uri = DecodingUtils.decodeObject(value.media[0].uri));
+                (value.media && value.media[0].title) && (newItem.title = DecodingUtils.decodeObject(value.media[0].title));
                 (value.media && value.media[0].creation_timestamp) && (newItem.date = new Date(1000 * value.media[0].creation_timestamp));
                 return newItem;
             });
@@ -500,8 +500,8 @@ export class ServiceInstagram {
             let model: PersonalStoriesIG = {list: []};
             model.list = document.ig_stories.map((value: any) => {
                 let newItem: StoryIG = {};
-                (value.uri) && (newItem.uri = Decoding.decodeObject(value.uri));
-                (value.title) && (newItem.title = Decoding.decodeObject(value.title));
+                (value.uri) && (newItem.uri = DecodingUtils.decodeObject(value.uri));
+                (value.title) && (newItem.title = DecodingUtils.decodeObject(value.title));
                 (value.creation_timestamp) && (newItem.date = new Date(1000 * value.creation_timestamp));
                 return newItem;
             });
@@ -521,8 +521,8 @@ export class ServiceInstagram {
             let model: FollowersIG = {list: []};
             model.list = document.relationships_followers.map((value: any) => {
                 let newItem: AccountIG = {};
-                (value.string_list_data && value.string_list_data[0].href) && (newItem.href = Decoding.decodeObject(value.string_list_data[0].href));
-                (value.string_list_data && value.string_list_data[0].value) && (newItem.name = Decoding.decodeObject(value.string_list_data[0].value));
+                (value.string_list_data && value.string_list_data[0].href) && (newItem.href = DecodingUtils.decodeObject(value.string_list_data[0].href));
+                (value.string_list_data && value.string_list_data[0].value) && (newItem.name = DecodingUtils.decodeObject(value.string_list_data[0].value));
                 (value.string_list_data && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
                 return newItem;
             });
@@ -542,8 +542,8 @@ export class ServiceInstagram {
             let model: FollowingAccountsIG = {list: []};
             model.list = document.relationships_following.map((value: any) => {
                 let newItem: AccountIG = {};
-                (value.string_list_data && value.string_list_data[0].href) && (newItem.href = Decoding.decodeObject(value.string_list_data[0].href));
-                (value.string_list_data && value.string_list_data[0].value) && (newItem.name = Decoding.decodeObject(value.string_list_data[0].value));
+                (value.string_list_data && value.string_list_data[0].href) && (newItem.href = DecodingUtils.decodeObject(value.string_list_data[0].href));
+                (value.string_list_data && value.string_list_data[0].value) && (newItem.name = DecodingUtils.decodeObject(value.string_list_data[0].value));
                 (value.string_list_data && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
                 return newItem;
             });
@@ -563,8 +563,8 @@ export class ServiceInstagram {
             let model: FollowingAccountsIG = {list: []};
             model.list = document.relationships_following_hashtags.map((value: any) => {
                 let newItem: AccountIG = {};
-                (value.string_list_data && value.string_list_data[0].href) && (newItem.href = Decoding.decodeObject(value.string_list_data[0].href));
-                (value.string_list_data && value.string_list_data[0].value) && (newItem.name = Decoding.decodeObject(value.string_list_data[0].value));
+                (value.string_list_data && value.string_list_data[0].href) && (newItem.href = DecodingUtils.decodeObject(value.string_list_data[0].href));
+                (value.string_list_data && value.string_list_data[0].value) && (newItem.name = DecodingUtils.decodeObject(value.string_list_data[0].value));
                 (value.string_list_data && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
                 return newItem;
             });
@@ -584,9 +584,9 @@ export class ServiceInstagram {
             let model: LikedPostsIG = {list: []};
             model.list = document.likes_media_likes.map((value: any) => {
                 let newItem: LikeIG = {};
-                (value.title) && (newItem.title = Decoding.decodeObject(value.title));
-                (value.string_list_data && value.string_list_data[0].href) && (newItem.href = Decoding.decodeObject(value.string_list_data[0].href));
-                (value.string_list_data && value.string_list_data[0].value) && (newItem.emoticon = Decoding.decodeObject(value.string_list_data[0].value));
+                (value.title) && (newItem.title = DecodingUtils.decodeObject(value.title));
+                (value.string_list_data && value.string_list_data[0].href) && (newItem.href = DecodingUtils.decodeObject(value.string_list_data[0].href));
+                (value.string_list_data && value.string_list_data[0].value) && (newItem.emoticon = DecodingUtils.decodeObject(value.string_list_data[0].value));
                 (value.string_list_data && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
                 return newItem;
             });
@@ -606,9 +606,9 @@ export class ServiceInstagram {
             let model: LikedCommentsIG = {list: []};
             model.list = document.likes_comment_likes.map((value: any) => {
                 let newItem: LikeIG = {};
-                (value.title) && (newItem.title = Decoding.decodeObject(value.title));
-                (value.string_list_data && value.string_list_data[0].href) && (newItem.href = Decoding.decodeObject(value.string_list_data[0].href));
-                (value.string_list_data && value.string_list_data[0].value) && (newItem.emoticon = Decoding.decodeObject(value.string_list_data[0].value));
+                (value.title) && (newItem.title = DecodingUtils.decodeObject(value.title));
+                (value.string_list_data && value.string_list_data[0].href) && (newItem.href = DecodingUtils.decodeObject(value.string_list_data[0].href));
+                (value.string_list_data && value.string_list_data[0].value) && (newItem.emoticon = DecodingUtils.decodeObject(value.string_list_data[0].value));
                 (value.string_list_data && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
                 return newItem;
             });
@@ -630,7 +630,7 @@ export class ServiceInstagram {
             let model: SearchesIG = {list: []};
             model.list = document.searches_user.map((value: any) => {
                 let newItem: SearchIG = {};
-                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.text = Decoding.decodeObject(value.string_map_data[parameterName1].value));
+                (value.string_map_data && value.string_map_data[parameterName1].value) && (newItem.text = DecodingUtils.decodeObject(value.string_map_data[parameterName1].value));
                 (value.string_map_data && value.string_map_data[parameterName2].timestamp) && (newItem.date = new Date(1000 * value.string_map_data[parameterName2].timestamp));
                 return newItem;
             });
@@ -651,7 +651,7 @@ export class ServiceInstagram {
             let model: ReelSentimentsIG = {list: []};
             model.list = document.topics_your_reels_emotions.map((value: any) => {
                 let newItem: SentimentIG = {};
-                (value.string_map_data && value.string_map_data[parameterName].value) && (newItem.value = Decoding.decodeObject(value.string_map_data[parameterName].value));
+                (value.string_map_data && value.string_map_data[parameterName].value) && (newItem.value = DecodingUtils.decodeObject(value.string_map_data[parameterName].value));
                 return newItem;
             });
             return model.list.length > 0 ? model : undefined;
@@ -671,7 +671,7 @@ export class ServiceInstagram {
             let model: ReelTopicsIG = {list: []};
             model.list = document.topics_your_reels_topics.map((value: any) => {
                 let newItem: TopicIG = {};
-                (value.string_map_data && value.string_map_data[parameterName].value) && (newItem.value = Decoding.decodeObject(value.string_map_data[parameterName].value));
+                (value.string_map_data && value.string_map_data[parameterName].value) && (newItem.value = DecodingUtils.decodeObject(value.string_map_data[parameterName].value));
                 return newItem;
             });
             return model.list.length > 0 ? model : undefined;
@@ -691,7 +691,7 @@ export class ServiceInstagram {
             let model: YourTopicsIG = {list: []};
             model.list = document.topics_your_topics.map((value: any) => {
                 let newItem: TopicIG = {};
-                (value.string_map_data && value.string_map_data[parameterName].value) && (newItem.value = Decoding.decodeObject(value.string_map_data[parameterName].value));
+                (value.string_map_data && value.string_map_data[parameterName].value) && (newItem.value = DecodingUtils.decodeObject(value.string_map_data[parameterName].value));
                 return newItem;
             });
             return model.list.length > 0 ? model : undefined;
@@ -710,7 +710,7 @@ export class ServiceInstagram {
             let model: EmojiSlidersIG = {list: []};
             model.list = document.story_activities_emoji_sliders.map((value: any) => {
                 let newItem: EmojiSliderIG = {};
-                (value.title) && (newItem.title = Decoding.decodeObject(value.title));
+                (value.title) && (newItem.title = DecodingUtils.decodeObject(value.title));
                 (value.string_list_data && value.string_list_data[0] && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
                 return newItem;
             });
@@ -730,7 +730,7 @@ export class ServiceInstagram {
             let model: PollsIG = {list: []};
             model.list = document.story_activities_polls.map((value: any) => {
                 let newItem: PollIG = {};
-                (value.title) && (newItem.title = Decoding.decodeObject(value.title));
+                (value.title) && (newItem.title = DecodingUtils.decodeObject(value.title));
                 (value.string_list_data && value.string_list_data[0] && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
                 return newItem;
             });
@@ -750,7 +750,7 @@ export class ServiceInstagram {
             let model: QuizzesIG = {list: []};
             model.list = document.story_activities_quizzes.map((value: any) => {
                 let newItem: QuizIG = {};
-                (value.title) && (newItem.title = Decoding.decodeObject(value.title));
+                (value.title) && (newItem.title = DecodingUtils.decodeObject(value.title));
                 (value.string_list_data && value.string_list_data[0] && value.string_list_data[0].timestamp) && (newItem.date = new Date(1000 * value.string_list_data[0].timestamp));
                 return newItem;
             });
@@ -772,15 +772,15 @@ export class ServiceInstagram {
             if (document.monetization_eligibility && document.monetization_eligibility[0] && document.monetization_eligibility[0].string_map_data) {
                 parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-35-productName`];
                 if (document.monetization_eligibility[0].string_map_data[parameterName] && document.monetization_eligibility[0].string_map_data[parameterName].value) {
-                    eligibility.value = Decoding.decodeObject(document.monetization_eligibility[0].string_map_data[parameterName].value);
+                    eligibility.value = DecodingUtils.decodeObject(document.monetization_eligibility[0].string_map_data[parameterName].value);
                 }
                 parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-36-decision`];
                 if (document.monetization_eligibility[0].string_map_data[parameterName] && document.monetization_eligibility[0].string_map_data[parameterName].value) {
-                    eligibility.decision = Decoding.decodeObject(document.monetization_eligibility[0].string_map_data[parameterName].value);
+                    eligibility.decision = DecodingUtils.decodeObject(document.monetization_eligibility[0].string_map_data[parameterName].value);
                 }
                 parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-37-reason`];
                 if (document.monetization_eligibility[0].string_map_data[parameterName] && document.monetization_eligibility[0].string_map_data[parameterName].value) {
-                    eligibility.reason = Decoding.decodeObject(document.monetization_eligibility[0].string_map_data[parameterName].value);
+                    eligibility.reason = DecodingUtils.decodeObject(document.monetization_eligibility[0].string_map_data[parameterName].value);
                 }
                 return !ValidatorObject.objectIsEmpty(eligibility) ? eligibility : undefined;
             }
@@ -800,19 +800,19 @@ export class ServiceInstagram {
             let messages: MessageIG[] = [];
             (document.messages) && (messages = document.messages.map((value: any) => {
                 let model: MessageIG = {};
-                (value.sender_name) && (model.senderName = Decoding.decodeObject(value.sender_name));
-                (value.content) && (model.content = Decoding.decodeObject(value.content));
-                (value.type) && (model.type = Decoding.decodeObject(value.type));
+                (value.sender_name) && (model.senderName = DecodingUtils.decodeObject(value.sender_name));
+                (value.content) && (model.content = DecodingUtils.decodeObject(value.content));
+                (value.type) && (model.type = DecodingUtils.decodeObject(value.type));
                 (value.is_unsent) && (model.isUnsent = value.is_unsent);
-                (value.share && value.share.link) && (model.link = Decoding.decodeObject(value.share.link));
+                (value.share && value.share.link) && (model.link = DecodingUtils.decodeObject(value.share.link));
                 (value.timestamp_ms) && (model.date = new Date (value.timestamp_ms));
                 return model;
             }));
             let participants: string[] = [];
-            (document.participants) && (participants = document.participants.map((value: any) => Decoding.decodeObject(value.name)));
+            (document.participants) && (participants = document.participants.map((value: any) => DecodingUtils.decodeObject(value.name)));
 
             let conversationModel: ConversationIG = {};
-            (document.title) && (conversationModel.title = Decoding.decodeObject(document.title));
+            (document.title) && (conversationModel.title = DecodingUtils.decodeObject(document.title));
             (messages) && (conversationModel.listMessages = messages);
             (participants) && (conversationModel.participants = participants);
             (document.is_still_participant) && (conversationModel.isStillParticipant = document.is_still_participant);
@@ -833,7 +833,7 @@ export class ServiceInstagram {
             let model: AdsUsingYourInformationIG = {list: []};
             model.list = document.ig_custom_audiences_all_types.map((value: any) => {
                 let newItem: AdvUsingYourInformationIG = {};
-                (value.advertiser_name) && (newItem.advertiserName = Decoding.decodeObject(value.advertiser_name));
+                (value.advertiser_name) && (newItem.advertiserName = DecodingUtils.decodeObject(value.advertiser_name));
                 (value.has_data_file_custom_audience !== undefined) && (newItem.hasDataFileCustomAudience = value.has_data_file_custom_audience);
                 (value.has_remarketing_custom_audience !== undefined) && (newItem.hasRemarketingCustomAudience = value.has_remarketing_custom_audience);
                 (value.has_in_person_store_visit !== undefined) && (newItem.hasInPersonStoreVisit = value.has_in_person_store_visit);
@@ -858,19 +858,19 @@ export class ServiceInstagram {
                 let newItem: ShoppingViewedItemIG = {};
                 parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-38-productID`];
                 if (value.string_map_data[parameterName] && value.string_map_data[parameterName].value) {
-                    newItem.productID = Decoding.decodeObject(value.string_map_data[parameterName].value);
+                    newItem.productID = DecodingUtils.decodeObject(value.string_map_data[parameterName].value);
                 }
                 parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-39-productName`];
                 if (value.string_map_data[parameterName] && value.string_map_data[parameterName].value) {
-                    newItem.productName = Decoding.decodeObject(value.string_map_data[parameterName].value);
+                    newItem.productName = DecodingUtils.decodeObject(value.string_map_data[parameterName].value);
                 }
                 parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-40-handlerID`];
                 if (value.string_map_data[parameterName] && value.string_map_data[parameterName].value) {
-                    newItem.handlerID = Decoding.decodeObject(value.string_map_data[parameterName].value);
+                    newItem.handlerID = DecodingUtils.decodeObject(value.string_map_data[parameterName].value);
                 }
                 parameterName = ConfigInstagram.keyTranslation[`${this.languagePrefix}-41-handlerName`];
                 if (value.string_map_data[parameterName] && value.string_map_data[parameterName].value) {
-                    newItem.handlerName= Decoding.decodeObject(value.string_map_data[parameterName].value);
+                    newItem.handlerName= DecodingUtils.decodeObject(value.string_map_data[parameterName].value);
                 }
                 return newItem;
             });

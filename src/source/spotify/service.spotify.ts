@@ -1,4 +1,4 @@
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {FileCodeSpotify} from "./enum.spotify";
 import {ValidatorObject} from "../../utils";
 import {
@@ -21,7 +21,7 @@ import {
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class ServiceSpotify {
-    private static readonly logger = new Logger("Spotify Service");
+    private static readonly logger = new LoggerUtils("Spotify Service");
 
     /**
      * Abstraction to parse a Spotify file regardless its respective parsing function

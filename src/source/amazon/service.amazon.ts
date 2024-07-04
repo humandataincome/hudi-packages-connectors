@@ -1,6 +1,5 @@
-import Logger from "../../utils/logger";
-import {Parser} from "../../utils/parser";
-import {Months} from "../../utils";
+import LoggerUtils from "../../utils/logger.utils";
+import {ParserUtils} from "../../utils/parser.utils";
 import {
     AdvertisersAudienceAM, AdvertisersClickedAM, AmazonAudienceAM,
     AmazonWishlistsAM,
@@ -43,6 +42,7 @@ import {
 } from './model.amazon';
 import { ValidatorObject } from '../../utils/validator/validator.object';
 import {FileCodeAmazon} from "./enum.amazon";
+import {Months} from "../../enums";
 
 /**
  * Class used to parse most important files into the directory returned by Amazon in CSV and JSON format.
@@ -50,7 +50,7 @@ import {FileCodeAmazon} from "./enum.amazon";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class ServiceAmazon {
-    private static readonly logger = new Logger("Amazon Service");
+    private static readonly logger = new LoggerUtils("Amazon Service");
     private static readonly INIT_CHAR = '﻿';
 
     /**
@@ -120,7 +120,7 @@ export class ServiceAmazon {
      */
     static async parsePrimeVideoWatchlist(data: Buffer): Promise<PrimeVideoWatchlistAM | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: PrimeVideoWatchlistAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -146,7 +146,7 @@ export class ServiceAmazon {
      */
     static async parsePrimeVideoWatchlistHistory(data: Buffer): Promise<PrimeVideoWatchlistHistoryAM | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: PrimeVideoWatchlistHistoryAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -173,7 +173,7 @@ export class ServiceAmazon {
      */
     static async parsePrimeVideoViewingHistory(data: Buffer): Promise<PrimeVideoViewingHistoryAM | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: PrimeVideoViewingHistoryAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -210,7 +210,7 @@ export class ServiceAmazon {
      */
     static async parseSearchDataCustomerEngagement(data: Buffer): Promise<SearchDataCustomerEngagementAM | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: SearchDataCustomerEngagementAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -360,7 +360,7 @@ export class ServiceAmazon {
      */
     static async parseAudibleLibrary(data: Buffer): Promise<AudibleLibraryAM | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: AudibleLibraryAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -407,7 +407,7 @@ export class ServiceAmazon {
      */
     static async parseAdvertiserAudiences(data: Buffer): Promise<AdvertisersAudienceAM | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: AdvertisersAudienceAM = {list: []}
                 result.forEach((listItem: any) => {
@@ -428,7 +428,7 @@ export class ServiceAmazon {
      */
     static async parseAdvertiserClicked(data: Buffer): Promise<AdvertisersClickedAM | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: AdvertisersClickedAM = {list: []}
                 result.forEach((listItem: any) => {
@@ -449,7 +449,7 @@ export class ServiceAmazon {
      */
     static async parseThirdPartyAudiences(data: Buffer): Promise<ThirdPartiesAudienceAM | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: ThirdPartiesAudienceAM = {list: []}
                 result.forEach((listItem: any) => {
@@ -470,7 +470,7 @@ export class ServiceAmazon {
      */
     static async parseAmazonAudiences(data: Buffer): Promise<AmazonAudienceAM | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: AmazonAudienceAM = {list: []}
                 result.forEach((listItem: any) => {
@@ -491,7 +491,7 @@ export class ServiceAmazon {
      */
     static async parseTwitchPrimeSubscription(data: Buffer): Promise<TwitchPrimeSubscriptionsAM | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: TwitchPrimeSubscriptionsAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -524,7 +524,7 @@ export class ServiceAmazon {
      */
     static async parseTwitchPrimeLinkedAccounts(data: Buffer): Promise<TwitchPrimeLinkedAccounts | undefined> {
         try {
-            const result = Parser.parseCSVfromBuffer(data);
+            const result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 const model: TwitchPrimeLinkedAccounts = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -549,7 +549,7 @@ export class ServiceAmazon {
      */
     static async parseTwitchPrimeAccountHistory(data: Buffer): Promise<TwitchPrimeAccountHistory | undefined> {
         try {
-            const result = Parser.parseCSVfromBuffer(data);
+            const result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 const model: TwitchPrimeAccountHistory = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -576,7 +576,7 @@ export class ServiceAmazon {
      */
     static async parseRetailOrderHistory(data: Buffer): Promise<RetailOrderHistoryAM | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: RetailOrderHistoryAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -626,7 +626,7 @@ export class ServiceAmazon {
      */
     static async parseAudibleListening(data: Buffer): Promise<AudibleListeningListAM | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: AudibleListeningListAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -673,7 +673,7 @@ export class ServiceAmazon {
     */
     static async parseAudibleMembershipBillings(data: Buffer): Promise<AudibleMembershipBillingsAM | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: AudibleMembershipBillingsAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -730,7 +730,7 @@ export class ServiceAmazon {
      */
     static async parseDigitalPrimeVideoViewCounts(data: Buffer): Promise<DigitalPrimeVideoViewCountsAM | undefined> {
         try {
-            let result: any = Parser.parseCSVfromBuffer(data)?.pop();
+            let result: any = ParserUtils.parseCSVfromBuffer(data)?.pop();
             if (result) {
                 let model: DigitalPrimeVideoViewCountsAM = {};
                 ValidatorObject.isCSVFieldValid(result[`${this.INIT_CHAR}# TV shows watched`]) && (model.showTVWatched = parseInt(result[`${this.INIT_CHAR}# TV shows watched`]));
@@ -761,7 +761,7 @@ export class ServiceAmazon {
      */
     static async parseDigitalSubscriptions(data: Buffer): Promise<DigitalSubscriptionsAM | undefined> {
         try {
-            let result: any = Parser.parseCSVfromBuffer(data);
+            let result: any = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: DigitalSubscriptionsAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -830,7 +830,7 @@ export class ServiceAmazon {
      */
     static async parseLightWeightInteractions(data: Buffer): Promise<LightWeightInteractionsAM | undefined> {
         try {
-            let result: any = Parser.parseCSVfromBuffer(data);
+            let result: any = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: LightWeightInteractionsAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -870,7 +870,7 @@ export class ServiceAmazon {
      */
     static async parseRetailSellerFeedback(data: Buffer): Promise<RetailSellerFeedbacksAM | undefined> {
         try {
-            let result: any = Parser.parseCSVfromBuffer(data);
+            let result: any = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: RetailSellerFeedbacksAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -907,7 +907,7 @@ export class ServiceAmazon {
      */
     static async parseRetailRegionAuthorities(data: Buffer): Promise<RetailRegionAuthoritiesAM | undefined> {
         try {
-            let result: any = Parser.parseCSVfromBuffer(data);
+            let result: any = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: RetailRegionAuthoritiesAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -935,7 +935,7 @@ export class ServiceAmazon {
      */
     static async parseRetailCartItems(data: Buffer): Promise<RetailCartItemsAM | undefined> {
         try {
-            let result: any = Parser.parseCSVfromBuffer(data);
+            let result: any = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: RetailCartItemsAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -968,7 +968,7 @@ export class ServiceAmazon {
      */
     static async parseDigitalItems(data: Buffer): Promise<DigitalItemsAM | undefined> {
         try {
-            let result: any = Parser.parseCSVfromBuffer(data);
+            let result: any = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: DigitalItemsAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -1042,7 +1042,7 @@ export class ServiceAmazon {
      */
     static async parseDigitalOrders(data: Buffer): Promise<DigitalOrdersAM | undefined> {
         try {
-            let result: any = Parser.parseCSVfromBuffer(data);
+            let result: any = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: DigitalOrdersAM = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -1095,7 +1095,7 @@ export class ServiceAmazon {
      */
     static async parseDigitalOrdersMonetary(data: Buffer): Promise<DigitalOrdersMonetaryAM | undefined> {
         try {
-            let result: any = Parser.parseCSVfromBuffer(data);
+            let result: any = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: DigitalOrdersMonetaryAM = {list: []}
                 model.list = result.map((listItem: any) => {

@@ -1,12 +1,12 @@
-import {staticImplements} from "../../utils/decorator";
+import {staticImplements} from "../../utils/decorator.utils";
 import {HttpMethod, ProcessorAPIDatasource, ValidatorObject} from "../../utils";
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {AccountCB, CoinbaseDataAggregator, MovementsAggregatorCB} from "./model.coinbase";
 import {ServiceCoinbase} from "./service.coinbase";
 
 @staticImplements<ProcessorAPIDatasource>()
 export class ProcessorCoinbase {
-    private static readonly logger = new Logger("Processor Coinbase");
+    private static readonly logger = new LoggerUtils("Processor Coinbase");
 
     static initAggregator(): CoinbaseDataAggregator {
         return {

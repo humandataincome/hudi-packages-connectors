@@ -1,12 +1,12 @@
 import {
     GDPRDataSourceCode,
     FileExtension
-} from "../../descriptor";
-import {ValidatorFiles} from "../validator/validator.files";
-import Logger from "../logger";
+} from "../descriptor";
+import {ValidatorFiles} from "../utils/validator/validator.files";
+import LoggerUtils from "../utils/logger.utils";
 import {Unzipped, unzipSync} from "fflate";
-import {ValidatorObject} from "../validator/validator.object";
-import {Selector} from "../selector";
+import {ValidatorObject} from "../utils/validator/validator.object";
+import {SelectorUtils} from "../utils/selector.utils";
 
 export interface MonitoringFilesOptions {
     permittedFilesExtensions?: FileExtension[];
@@ -14,7 +14,7 @@ export interface MonitoringFilesOptions {
 }
 
 export class MonitoringService {
-    private static readonly logger = new Logger("Monitoring Service");
+    private static readonly logger = new LoggerUtils("Monitoring Service");
 
     //TODO: given a datasource, find all those files that are outdated (can't be returned in the zip file anymore)
     public static findOutdatedMappedFiles(zipFile: Uint8Array, code: GDPRDataSourceCode) {}
@@ -29,13 +29,13 @@ export class MonitoringService {
         try {
             if (zipFile) {
                 const files: Unzipped = unzipSync(zipFile);
-                const validator = Selector.getValidator(code);
+                const validator = SelectorUtils.getValidator(code);
                 const filesNotParsed: string[] = [];
                 for (let filename in files) {
                     if (!ValidatorObject.isDirectory(filename) && validator) {
                         const fileCode = validator.getFileCode(filename);
                         if (fileCode) {
-                            let parsingResult = await Selector.getParsingResult(code, filename, fileCode, files);
+                            let parsingResult = await SelectorUtils.getParsingResult(code, filename, fileCode, files);
                             if (!parsingResult) {
                                 this.logger.log('info', `File \'${filename}\' can't be parsed`, 'findChangesIntoFiles');
                                 filesNotParsed.push(filename);
@@ -92,9 +92,9 @@ export class MonitoringService {
     }
 
     private static isFilenameIntoEnum(fileName: string, code: GDPRDataSourceCode): boolean {
-        const validator = Selector.getValidator(code);
+        const validator = SelectorUtils.getValidator(code);
         if (validator) {
-            const isValid = validator.getValidPath(fileName, {fileCodes: Selector.getAllEnumKeys(code)});
+            const isValid = validator.getValidPath(fileName, {fileCodes: SelectorUtils.getAllEnumKeys(code)});
             return !!isValid;
         }
         return false;

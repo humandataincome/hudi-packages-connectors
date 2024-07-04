@@ -10,13 +10,13 @@ import {
     zipSync,
 } from "fflate";
 import {GDPRDataSourceCode, FileCode, FileExtension} from "../../descriptor";
-import {Parser} from "../parser";
-import Logger from "../logger";
-import {ValidationErrorEnum} from "../index";
+import {ParserUtils} from "../parser.utils";
+import LoggerUtils from "../logger.utils";
 import {ValidatorObject} from "./validator.object";
 import {from, Observable, Subscriber} from 'rxjs';
-import {Selector} from "../selector";
+import {SelectorUtils} from "../selector.utils";
 import {Mutex} from "async-mutex";
+import {ValidationErrorEnum} from "../../enums";
 
 /**
  * @permittedFileExtensions list of extensions of file that we want to include exclusively.
@@ -76,7 +76,7 @@ interface FilesBuilder {
 }
 
 export class ValidatorFiles {
-    private static readonly logger = new Logger("Validator Files");
+    private static readonly logger = new LoggerUtils("Validator Files");
 
     public static MAX_BYTE_FILE_SIZE = 50e6; //50 MB
     public static MIN_BYTE_FILE_SIZE = 30; //30 B
@@ -286,7 +286,7 @@ export class ValidatorFiles {
 
     private static getValidPathName(pathName: string, optionsValidation: ValidationZipOptions): string | undefined {
         if (optionsValidation && optionsValidation.filterDataSource && optionsValidation.filterDataSource.dataSourceCode) {
-            const datasource = Selector.getValidator(optionsValidation.filterDataSource?.dataSourceCode);
+            const datasource = SelectorUtils.getValidator(optionsValidation.filterDataSource?.dataSourceCode);
             if (datasource) {
                 return datasource.getValidPath(pathName, optionsValidation);
             }
@@ -340,7 +340,7 @@ export class ValidatorFiles {
             case FileExtension.JSON:
                 return this.validateJSON(file, pathName);
             case FileExtension.JS:
-                const fileJson = Parser.extractJsonFromTwitterFile(Buffer.from(file, file.byteOffset, file.length));
+                const fileJson = ParserUtils.extractJsonFromTwitterFile(Buffer.from(file, file.byteOffset, file.length));
                 if (fileJson) {
                     return this.validateJSON(fileJson, pathName);
                 }
@@ -377,7 +377,7 @@ export class ValidatorFiles {
      */
     static validateCSV(file: Uint8Array, pathName?: string): boolean {
         try {
-            return !!Parser.parseCSVfromBuffer(Buffer.from(file, file.byteOffset, file.length));
+            return !!ParserUtils.parseCSVfromBuffer(Buffer.from(file, file.byteOffset, file.length));
         } catch (error) {
             (pathName)
                 ? this.logger.log('info', `File \"${pathName}\" is not a valid CSV`, 'validateCSV')
@@ -393,7 +393,7 @@ export class ValidatorFiles {
      */
     static validatePDF(file: Uint8Array, pathName?: string): boolean {
         try {
-            return !!Parser.parsePdf(Buffer.from(file, file.byteOffset, file.length));
+            return !!ParserUtils.parsePdf(Buffer.from(file, file.byteOffset, file.length));
         } catch (error) {
             (pathName)
                 ? this.logger.log('info', `File \"${pathName}\" is not a valid PDF`, 'validatePDF')

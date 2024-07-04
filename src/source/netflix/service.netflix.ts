@@ -10,8 +10,8 @@ import {
     TitleNF,
     ViewingActivityNF
 } from "./model.netflix";
-import Logger from "../../utils/logger";
-import {Parser} from "../../utils/parser";
+import LoggerUtils from "../../utils/logger.utils";
+import {ParserUtils} from "../../utils/parser.utils";
 import {FileCodeNetflix} from "./enum.netflix";
 
 /**
@@ -20,7 +20,7 @@ import {FileCodeNetflix} from "./enum.netflix";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class ServiceNetflix {
-    private static readonly logger = new Logger("Netflix Service");
+    private static readonly logger = new LoggerUtils("Netflix Service");
 
     /**
      * Abstraction to parse a Netflix file regardless its respective parsing function
@@ -53,7 +53,7 @@ export class ServiceNetflix {
      */
     static async parsePersonalInformation(data: Buffer): Promise<PersonalInformationNF | undefined> {
         try {
-            let result: any = Parser.parseCSVfromBuffer(data);
+            let result: any = ParserUtils.parseCSVfromBuffer(data);
             if (result && result[0]) {
                 let modelInfo: PersonalInformationNF = {};
                 (result[0]['First Name'] != '') && (modelInfo.firstName = result[0]['First Name']);
@@ -90,7 +90,7 @@ export class ServiceNetflix {
      */
     static async parsePreferences(data: Buffer): Promise<PreferencesAccountNF | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: PreferencesAccountNF = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -117,7 +117,7 @@ export class ServiceNetflix {
      */
     static async parseMyList(data: Buffer): Promise<MyListAccountNF | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: MyListAccountNF = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -143,7 +143,7 @@ export class ServiceNetflix {
      */
     static async parseSearchHistory(data: Buffer): Promise<SearchHistoryNF | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: SearchHistoryNF = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -174,7 +174,7 @@ export class ServiceNetflix {
      */
     static async parseViewingActivity(data: Buffer): Promise<ViewingActivityNF | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: ViewingActivityNF = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -206,7 +206,7 @@ export class ServiceNetflix {
      */
     static async parsePlaybackEvents(data: Buffer): Promise<PlaybackEventsNF | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: PlaybackEventsNF = {list: []};
                 model.list = result.map((listItem: any) => {
@@ -238,7 +238,7 @@ export class ServiceNetflix {
      */
     static async parseProfiles(data: Buffer): Promise<ProfilesNF | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: ProfilesNF = {list: []}
                 model.list = result.map((listItem: any) => {

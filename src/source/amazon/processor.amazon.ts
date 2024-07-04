@@ -2,15 +2,15 @@ import {
     AmazonDataAggregator
 } from "./model.amazon";
 import {ProcessorGDPRDatasource, ProcessorOptions, ProcessorUtils, ValidatorObject} from "../../utils";
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {Unzipped, unzipSync} from "fflate";
 import {ServiceAmazon} from "./service.amazon";
 import {FileCodeAmazon} from "./enum.amazon";
-import {staticImplements} from "../../utils/decorator";
+import {staticImplements} from "../../utils/decorator.utils";
 
 @staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorAmazon {
-    private static readonly logger = new Logger("Processor Amazon");
+    private static readonly logger = new LoggerUtils("Processor Amazon");
 
     static initAggregator(): AmazonDataAggregator {
         return {

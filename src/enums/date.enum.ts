@@ -1,5 +1,3 @@
-export type LogLevel = 'error' | 'debug' | 'info';
-
 export enum Months {
     JAN = 1,
     FEB,

@@ -1,9 +1,9 @@
 import {ValidatorDatasource} from "../../utils/validator/validator.datasource";
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {FileCodeFacebook} from "./enum.facebook";
 
 export class ValidatorFacebook extends ValidatorDatasource {
-    protected readonly logger = new Logger("Facebook Validator");
+    protected readonly logger = new LoggerUtils("Facebook Validator");
 
     protected DEFAULT_FILE_CODES: FileCodeFacebook[] = [
         FileCodeFacebook.ADS_INTERACTED_WITH,

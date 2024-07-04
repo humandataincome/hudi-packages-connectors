@@ -1,12 +1,12 @@
-import Logger from "../../utils/logger";
-import {staticImplements} from "../../utils/decorator";
+import LoggerUtils from "../../utils/logger.utils";
+import {staticImplements} from "../../utils/decorator.utils";
 import {HttpMethod, ProcessorAPIDatasource, ValidatorObject} from "../../utils";
 import {DepositHistoryBI, TradeListBI, BinanceDataAggregator, WithdrawHistoryBI} from "./model.binance";
 import {ServiceBinance} from "./service.binance";
 
 @staticImplements<ProcessorAPIDatasource>()
 export class ProcessorBinance {
-    private static readonly logger = new Logger("Processor Binance");
+    private static readonly logger = new LoggerUtils("Processor Binance");
 
     static initAggregator(): BinanceDataAggregator {
         return {}

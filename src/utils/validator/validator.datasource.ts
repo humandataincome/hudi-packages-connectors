@@ -1,9 +1,9 @@
 import {FileCode, LanguageCode} from "../../descriptor";
-import Logger from "../logger";
+import LoggerUtils from "../logger.utils";
 import {Unzipped, unzipSync, zipSync} from "fflate";
-import {ValidationErrorEnum} from "../index";
 import {ValidatorObject} from "./validator.object";
 import {FileCodeAmazon} from "../../source";
+import {ValidationErrorEnum} from "../../enums";
 
 export type  ValidatorDatasourceOption = {
     fileCodes?: FileCode[] | string[];
@@ -13,7 +13,7 @@ export type  ValidatorDatasourceOption = {
 
 export class ValidatorDatasource {
     private static _instance: ValidatorDatasource;
-    protected readonly logger = new Logger("Datasource Validator");
+    protected readonly logger = new LoggerUtils("Datasource Validator");
     protected DEFAULT_FILE_CODES: FileCode[] = [];
 
     public static getInstance(): ValidatorDatasource {

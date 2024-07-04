@@ -1,6 +1,6 @@
-import {staticImplements} from "../../utils/decorator";
+import {staticImplements} from "../../utils/decorator.utils";
 import {ProcessorGDPRDatasource, ProcessorOptions, ValidatorObject} from "../../utils";
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {SpotifyDataAggregator} from "./model.spotify";
 import {Unzipped, unzipSync} from "fflate";
 import {FileCodeSpotify} from "./enum.spotify";
@@ -8,7 +8,7 @@ import {ServiceSpotify} from "./service.spotify";
 
 @staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorSpotify {
-    private static readonly logger = new Logger("Processor Spotify");
+    private static readonly logger = new LoggerUtils("Processor Spotify");
 
     static initAggregator(): SpotifyDataAggregator {
         return {};

@@ -1,6 +1,6 @@
 import {
     GDPRDataSourceCode,
-    Selector,
+    SelectorUtils,
     ValidatorFiles
 } from "../index";
 
@@ -33,7 +33,7 @@ export class JsonGenerator {
                     dataSourceCode: code,
                 },
             });
-        const result = await Selector.getZipAggregatorBuilder(code, validation!.zipFile, {
+        const result = await SelectorUtils.getZipAggregatorBuilder(code, validation!.zipFile, {
             timeIntervalDays: 180,
             maxEntitiesPerArray: 10000
         });

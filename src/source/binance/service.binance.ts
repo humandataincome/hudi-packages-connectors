@@ -1,9 +1,9 @@
 import {AccountBI, DepositHistoryBI, TradeListBI, WithdrawHistoryBI} from "./model.binance";
 import {HttpMethod, ValidatorObject} from "../../utils";
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 
 export class ServiceBinance {
-    private readonly logger = new Logger("Service Binance");
+    private readonly logger = new LoggerUtils("Service Binance");
     private readonly apiKey: string;
     private readonly apiSecret: string;
     private readonly httpMethod: HttpMethod;

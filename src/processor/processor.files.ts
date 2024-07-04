@@ -1,10 +1,10 @@
 import {from, Observable, Subscriber} from "rxjs";
-import {ValidatorFiles, ValidatorObject} from "../validator";
-import {DataAggregator, FileExtension, GDPRDataSourceCode, LanguageCode} from "../../descriptor";
+import {ValidatorFiles, ValidatorObject} from "../utils/validator";
+import {DataAggregator, FileExtension, GDPRDataSourceCode, LanguageCode} from "../descriptor";
 import {FlateError, Unzip, UnzipFile, UnzipInflate, unzipSync} from "fflate";
-import {Selector} from "../selector";
-import Logger from "../logger";
-import {ProcessorErrorEnums} from "../utils.error";
+import {SelectorUtils} from "../utils/selector.utils";
+import LoggerUtils from "../utils/logger.utils";
+import {ProcessorErrorEnums} from "../enums/errors.enum";
 import {Mutex} from "async-mutex";
 
 export interface ProcessingZipOptions {
@@ -44,7 +44,7 @@ interface FilesBuilder {
 
 export class ProcessorFiles {
     public static MAX_BYTE_FILE_SIZE = 500e6; //500 MB
-    private static readonly logger = new Logger("Processor Files");
+    private static readonly logger = new LoggerUtils("Processor Files");
 
     /**
      * @param readableStreams - array of file as ReadableStream (can be used with data sources composed by multiple files)
@@ -53,7 +53,7 @@ export class ProcessorFiles {
      */
     static processingZipStream(readableStreams: ReadableStream[], code: GDPRDataSourceCode, options: ProcessingZipOptions = {}): Observable<ProcessingZipStatus> {
         return new Observable<ProcessingZipStatus>((subscriber: Subscriber<ProcessingZipStatus>) => {
-            const model = Selector.getInitAggregator(code);
+            const model = SelectorUtils.getInitAggregator(code);
             if (model) {
                 const processingReturn: ProcessingReturn = {
                     aggregatorModel: model
@@ -75,7 +75,7 @@ export class ProcessorFiles {
                         try {
                             for (let pathName in support.filesToParse) {
                                 const fileContent = support.filesToParse[pathName].fileChunk;
-                                await Selector.getAggregatorBuilder(support.code, Buffer.from(fileContent, fileContent.byteOffset, fileContent.length), pathName, support.returnObject.aggregatorModel, {language: support.languageCode});
+                                await SelectorUtils.getAggregatorBuilder(support.code, Buffer.from(fileContent, fileContent.byteOffset, fileContent.length), pathName, support.returnObject.aggregatorModel, {language: support.languageCode});
                             }
                             if (!ValidatorObject.objectIsEmpty(model)) {
                                 model.creationDate = new Date();
@@ -204,18 +204,18 @@ export class ProcessorFiles {
                         }
                     } else {
                         if (ValidatorFiles.isValidContent(extension, fileContent, pathName)) {
-                            const validPathName = Selector.getValidator(support.code)!.getValidPath(pathName);
+                            const validPathName = SelectorUtils.getValidator(support.code)!.getValidPath(pathName);
                             if (validPathName) {
-                                if (Selector.serviceNeedsLanguageCode(support.code)) {
+                                if (SelectorUtils.serviceNeedsLanguageCode(support.code)) {
                                     if (!support.languageCode) {
-                                        support.languageCode = await (Selector.getValidator(support.code))?.getLanguage(pathName, fileContent);
+                                        support.languageCode = await (SelectorUtils.getValidator(support.code))?.getLanguage(pathName, fileContent);
                                     }
                                     if (support.languageCode) {
-                                        await Selector.getAggregatorBuilder(support.code, Buffer.from(fileContent, fileContent.byteOffset, fileContent.length), pathName, support.returnObject.aggregatorModel, {language: support.languageCode});
+                                        await SelectorUtils.getAggregatorBuilder(support.code, Buffer.from(fileContent, fileContent.byteOffset, fileContent.length), pathName, support.returnObject.aggregatorModel, {language: support.languageCode});
                                         delete support.filesToParse[pathName];
                                     }
                                 } else {
-                                    await Selector.getAggregatorBuilder(support.code, Buffer.from(fileContent, fileContent.byteOffset, fileContent.length), pathName, support.returnObject.aggregatorModel);
+                                    await SelectorUtils.getAggregatorBuilder(support.code, Buffer.from(fileContent, fileContent.byteOffset, fileContent.length), pathName, support.returnObject.aggregatorModel);
                                 }
                             }
                         }

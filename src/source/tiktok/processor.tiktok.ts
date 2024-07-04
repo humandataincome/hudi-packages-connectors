@@ -1,6 +1,6 @@
-import {staticImplements} from "../../utils/decorator";
+import {staticImplements} from "../../utils/decorator.utils";
 import {ProcessorGDPRDatasource, ProcessorOptions, ValidatorObject} from "../../utils";
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {TiktokDataAggregator} from "./model.tiktok";
 import {FileCodeTikTok} from "./enum.tiktok";
 import {ServiceTiktok} from "./service.tiktok";
@@ -8,7 +8,7 @@ import {Unzipped, unzipSync} from "fflate";
 
 @staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorTiktok {
-    private static readonly logger = new Logger("Processor TikTok");
+    private static readonly logger = new LoggerUtils("Processor TikTok");
 
     static initAggregator(): TiktokDataAggregator {
         return {

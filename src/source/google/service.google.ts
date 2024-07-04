@@ -1,4 +1,4 @@
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {
     AccountGO, ActivitiesGO,
     ActivityGO,
@@ -37,11 +37,11 @@ import {
     YoutubePlaylistsGO,
     YoutubeVideoGO
 } from "./model.google";
-import {Parser} from "../../utils/parser";
-import {Months} from "../../utils";
-import {Decoding} from "../../utils/decoding";
+import {ParserUtils} from "../../utils/parser.utils";
+import {DecodingUtils} from "../../utils/decoding.utils";
 import {ValidatorObject} from "../../utils/validator/validator.object";
 import {FileCodeGoogle} from "./enum.google";
+import {Months} from "../../enums";
 
 /**
  * Class used to parse most important files into the directory returned by Google in CSV, HTML and JSON formats.
@@ -49,7 +49,7 @@ import {FileCodeGoogle} from "./enum.google";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class ServiceGoogle {
-    private static readonly logger = new Logger("Google Service");
+    private static readonly logger = new LoggerUtils("Google Service");
 
     /**
      * Abstraction to parse a Google file regardless its respective parsing function
@@ -175,7 +175,7 @@ export class ServiceGoogle {
                 (value.favicon_url) && (newValue.faviconUrl = value.favicon_url);
                 (value.safe_for_autoreplace != undefined) && (newValue.safeForAutoreplace = value.safe_for_autoreplace);
                 (value.is_active) && (newValue.isActive = value.is_active);
-                (value.date_created) && (newValue.dateCreated = Decoding.convertWebkitTimestamp(parseInt(value.date_created)));
+                (value.date_created) && (newValue.dateCreated = DecodingUtils.convertWebkitTimestamp(parseInt(value.date_created)));
                 (value.url) && (newValue.url = value.url);
                 (value.new_tab_url) && (newValue.newTabUrl = value.new_tab_url);
                 (value.originating_url) && (newValue.originatingUrl = value.originating_url);
@@ -184,7 +184,7 @@ export class ServiceGoogle {
                 (value.keyword) && (newValue.keyword = value.keyword);
                 (value.input_encodings) && (newValue.inputEncodings = value.input_encodings);
                 (value.prepopulate_id != undefined) && (newValue.prepopulateId = value.prepopulate_id);
-                (value.last_modified) && (newValue.lastModified = Decoding.convertWebkitTimestamp(parseInt(value.last_modified)));
+                (value.last_modified) && (newValue.lastModified = DecodingUtils.convertWebkitTimestamp(parseInt(value.last_modified)));
                 return newValue;
             });
             return model.list.length > 0 ? model : undefined;
@@ -369,7 +369,7 @@ export class ServiceGoogle {
      */
     static async parseTransactions(data: Buffer): Promise<TransactionsGO | undefined> {
         try {
-            let document = Parser.parseCSVfromBuffer(data);
+            let document = ParserUtils.parseCSVfromBuffer(data);
             if (document) {
                 const model: TransactionsGO = {list: []};
                 document.forEach((value: any) => {
@@ -639,7 +639,7 @@ export class ServiceGoogle {
     static async parseYoutubePlaylists(data: Buffer): Promise<YoutubePlaylistsGO | undefined> {
         try {
             let match;
-            let document = Parser.parseCSVfromBuffer(data);
+            let document = ParserUtils.parseCSVfromBuffer(data);
             if (document) {
                 const model: YoutubePlaylistsGO = {playlists: []};
                 let modelPlaylist: YoutubePlaylistGO = {list: []};
@@ -685,7 +685,7 @@ export class ServiceGoogle {
     static async parseDailyActivityMetrics(data: Buffer): Promise<DailyActivityMetricsGO | undefined> {
         try {
             let match;
-            let document = Parser.parseCSVfromBuffer(data);
+            let document = ParserUtils.parseCSVfromBuffer(data);
             if (document) {
                 const model: DailyActivityMetricsGO = {list: []};
                 (document.length > 0) && (document.forEach((item: any) => {

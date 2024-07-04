@@ -1,9 +1,9 @@
 import {ValidatorDatasource} from "../../utils/validator/validator.datasource";
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {FileCodeNetflix} from "./enum.netflix";
 
 export class ValidatorNetflix extends ValidatorDatasource  {
-    protected readonly logger = new Logger("Netflix Validator");
+    protected readonly logger = new LoggerUtils("Netflix Validator");
 
     protected DEFAULT_FILE_CODES: FileCodeNetflix[] = [
         FileCodeNetflix.ACCOUNT_DETAILS,

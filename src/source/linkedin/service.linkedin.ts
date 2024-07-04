@@ -1,4 +1,4 @@
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {
     AccountStatusHistoryLI,
     AccountStatusLI,
@@ -48,10 +48,10 @@ import {
     WorkingPositionLI,
     WorkingPositionsLI
 } from "./model.linkedin";
-import {Parser} from "../../utils/parser";
-import {Months} from "../../utils";
+import {ParserUtils} from "../../utils/parser.utils";
 import {ValidatorObject} from "../../utils";
 import {FileCodeLinkedIn} from "./enum.linkedin";
+import {Months} from "../../enums";
 
 /**
  * Class used to parse most important files into the directory returned by LinkedIn in CSV format.
@@ -59,7 +59,7 @@ import {FileCodeLinkedIn} from "./enum.linkedin";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class ServiceLinkedin {
-    private static readonly logger = new Logger("Linkedin Service");
+    private static readonly logger = new LoggerUtils("Linkedin Service");
 
     /**
      * Abstraction to parse a LinkedIn file regardless its respective parsing function
@@ -136,7 +136,7 @@ export class ServiceLinkedin {
      */
     static async parseAccountStatusHistory(data: Buffer): Promise<AccountStatusHistoryLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data, {delimitersToGuess: [',', '\t'], escapeChar: '"', header: true, skipEmptyLines: false });
+            let result = ParserUtils.parseCSVfromBuffer(data, {delimitersToGuess: [',', '\t'], escapeChar: '"', header: true, skipEmptyLines: false });
             if (result) {
                 let model: AccountStatusHistoryLI = {list: []};
                 result.forEach((listItem: any) => {
@@ -163,7 +163,7 @@ export class ServiceLinkedin {
      */
     static async parseAdsClicked(data: Buffer): Promise<AdsClickedLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: AdsClickedLI = {list: []};
                 result.forEach((listItem: any) => {
@@ -190,7 +190,7 @@ export class ServiceLinkedin {
      */
     static async parseCompaniesFollowed(data: Buffer): Promise<CompaniesFollowedLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: CompaniesFollowedLI = {list: []};
                 result.forEach((listItem: any) => {
@@ -216,7 +216,7 @@ export class ServiceLinkedin {
      */
     static async parseConnections(data: Buffer): Promise<ConnectionsLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data, {escapeChar: '"', header: false, skipEmptyLines: true} );
+            let result = ParserUtils.parseCSVfromBuffer(data, {escapeChar: '"', header: false, skipEmptyLines: true} );
             if (result) {
                 let model: ConnectionsLI = {list: []};
                 result = result.splice(3);
@@ -247,7 +247,7 @@ export class ServiceLinkedin {
      */
     static async parseContacts(data: Buffer): Promise<ContactsLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: ContactsLI = {list: []};
                 result.forEach((listItem: any) => {
@@ -289,7 +289,7 @@ export class ServiceLinkedin {
      */
     static async parseEducationHistory(data: Buffer): Promise<EducationHistoryLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: EducationHistoryLI = {list: []};
                 result.forEach((listItem: any) => {
@@ -322,7 +322,7 @@ export class ServiceLinkedin {
      */
     static async parseEmails(data: Buffer): Promise<EmailsLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: EmailsLI = {list: []};
                 result.forEach((listItem: any) => {
@@ -350,7 +350,7 @@ export class ServiceLinkedin {
      */
     static async parseEndorsementsReceived(data: Buffer): Promise<EndorsementsReceivedLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: EndorsementsReceivedLI = {list: []};
                 result.forEach((listItem: any) => {
@@ -380,7 +380,7 @@ export class ServiceLinkedin {
      */
     static async parseInferencesAboutYou(data: Buffer): Promise<InferencesAboutYouLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: InferencesAboutYouLI = {list: []};
                 result.forEach((listItem: any) => {
@@ -406,7 +406,7 @@ export class ServiceLinkedin {
      */
     static async parseInvitations(data: Buffer): Promise<InvitationsLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: InvitationsLI = {list: []};
                 result.forEach((listItem: any) => {
@@ -435,7 +435,7 @@ export class ServiceLinkedin {
      */
     static async parseJobApplicantSavedInfo(data: Buffer): Promise<JobApplicantSavedInfoLI | undefined> {
         try {
-            let result = <Array<QuestionAnswerLI>>Parser.parseCSVfromBuffer(data);
+            let result = <Array<QuestionAnswerLI>>ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: JobApplicantSavedInfoLI = {list: []};
                 result.map((item: any) => {
@@ -457,7 +457,7 @@ export class ServiceLinkedin {
      */
     static async parseJobApplicantSavedScreeningQuestionInfo(data: Buffer): Promise<JobApplicantSavedScreeningQuestionInfoLI | undefined> {
         try {
-            let result = <Array<QuestionAnswerLI>>Parser.parseCSVfromBuffer(data);
+            let result = <Array<QuestionAnswerLI>>ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: JobApplicantSavedScreeningQuestionInfoLI = {list: []};
                 result.forEach((item: any) => {
@@ -479,7 +479,7 @@ export class ServiceLinkedin {
      */
     static async parseLearnings(data: Buffer): Promise<LearningsLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: LearningsLI = {list: []};
                 result.forEach((item: any) => {
@@ -513,7 +513,7 @@ export class ServiceLinkedin {
      */
     static async parseLogins(data: Buffer): Promise<LoginsLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: LoginsLI = {list: []};
                 result.forEach((item: any) => {
@@ -541,7 +541,7 @@ export class ServiceLinkedin {
      */
     static async parseMembersFollowed(data: Buffer): Promise<MembersFollowedLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: MembersFollowedLI = {list: []};
                 result.forEach((item: any) => {
@@ -568,7 +568,7 @@ export class ServiceLinkedin {
      */
     static async parseMessages(data: Buffer): Promise<MessagesLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: MessagesLI = {list: []};
                 result.forEach((item: any) => {
@@ -601,7 +601,7 @@ export class ServiceLinkedin {
      */
     static async parsePhoneNumbers(data: Buffer): Promise<PhoneNumbersLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: PhoneNumbersLI = {list: []};
                 result.forEach((item: any) => {
@@ -625,7 +625,7 @@ export class ServiceLinkedin {
      */
     static async parseWorkingPositions(data: Buffer): Promise<WorkingPositionsLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: WorkingPositionsLI = {list: []};
                 result.forEach((item: any) => {
@@ -658,7 +658,7 @@ export class ServiceLinkedin {
      */
     static async parseProfile(data: Buffer): Promise<ProfileLI | undefined> {
         try {
-            let result = <Array<any>>Parser.parseCSVfromBuffer(data);
+            let result = <Array<any>>ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 if (result[0]) {
                     let model: ProfileLI = {};
@@ -693,7 +693,7 @@ export class ServiceLinkedin {
      */
     static async parseReactions(data: Buffer): Promise<ReactionsLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: ReactionsLI = {list: []};
                 result.forEach((item: any) => {
@@ -720,7 +720,7 @@ export class ServiceLinkedin {
      */
     static async parseRegistration(data: Buffer): Promise<RegistrationLI | undefined> {
         try {
-            let result = <Array<any>>Parser.parseCSVfromBuffer(data);
+            let result = <Array<any>>ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 if (result[0]) {
                     let model: RegistrationLI = {};
@@ -745,7 +745,7 @@ export class ServiceLinkedin {
      */
     static async parseRichMediaList(data: Buffer): Promise<RichMediaListLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: RichMediaListLI = {list: []};
                 result.forEach((item: any) => {
@@ -768,7 +768,7 @@ export class ServiceLinkedin {
      */
     static async parseSavedJobAlerts(data: Buffer): Promise<SavedJobAlertsLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: SavedJobAlertsLI = {list: []};
                 result.forEach((item: any) => {
@@ -794,7 +794,7 @@ export class ServiceLinkedin {
      */
     static async parseSearchQueries(data: Buffer): Promise<SearchQueriesLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: SearchQueriesLI = {list: []};
                 result.forEach((item: any) => {
@@ -820,7 +820,7 @@ export class ServiceLinkedin {
      */
     static async parseSecurityChallenges(data: Buffer): Promise<SecurityChallengesLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: SecurityChallengesLI = {list: []};
                 result.forEach((item: any) => {
@@ -849,7 +849,7 @@ export class ServiceLinkedin {
      */
     static async parseSkills(data: Buffer): Promise<SkillsLI | undefined> {
         try {
-            let result = <Array<Array<string>>>Parser.parseCSVfromBuffer(data, {escapeChar: '"', header: false, skipEmptyLines: true});
+            let result = <Array<Array<string>>>ParserUtils.parseCSVfromBuffer(data, {escapeChar: '"', header: false, skipEmptyLines: true});
             if (result) {
                 result = result.splice(1);
                 let model: SkillsLI = {list: []};
@@ -868,7 +868,7 @@ export class ServiceLinkedin {
      */
     static async parseVotes(data: Buffer): Promise<VotesLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: VotesLI = {list: []};
                 result.forEach((item: any) => {
@@ -895,7 +895,7 @@ export class ServiceLinkedin {
      */
     static async parseAdsTargeting(data: Buffer): Promise<AdsTargetingLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data, {escapeChar: '"', header: false, skipEmptyLines: true});
+            let result = ParserUtils.parseCSVfromBuffer(data, {escapeChar: '"', header: false, skipEmptyLines: true});
             if (result) {
                 result = result.splice(1);
                 let model: AdsTargetingLI = {list: []};
@@ -934,7 +934,7 @@ export class ServiceLinkedin {
      */
     static async parseJobApplications(data: Buffer): Promise<JobApplicationsLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: JobApplicationsLI = {list: []};
                 result.forEach((item: any) => {
@@ -966,7 +966,7 @@ export class ServiceLinkedin {
      */
     static async parseSavedJobs(data: Buffer): Promise<SavedJobsLI | undefined> {
         try {
-            let result = Parser.parseCSVfromBuffer(data);
+            let result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 let model: SavedJobsLI = {list: []};
                 result.forEach((item: any) => {
@@ -995,7 +995,7 @@ export class ServiceLinkedin {
      */
     static async parseJobSeekerPreferences(data: Buffer): Promise<JobSeekerPreferencesLI | undefined> {
         try {
-            let result = <Array<Array<any>>>Parser.parseCSVfromBuffer(data, {escapeChar: '"', header: false, skipEmptyLines: true});
+            let result = <Array<Array<any>>>ParserUtils.parseCSVfromBuffer(data, {escapeChar: '"', header: false, skipEmptyLines: true});
             if (result) {
                 let model: JobSeekerPreferencesLI = {};
                 result = result.splice(1);

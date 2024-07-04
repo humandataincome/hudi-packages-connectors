@@ -1,4 +1,4 @@
-import {Months} from "../../utils";
+import {Months} from "../../enums";
 
 /**
  * Aggregation of information from LinkedIn's models

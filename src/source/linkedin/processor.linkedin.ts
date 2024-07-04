@@ -1,6 +1,6 @@
-import {staticImplements} from "../../utils/decorator";
+import {staticImplements} from "../../utils/decorator.utils";
 import {ProcessorGDPRDatasource, ProcessorOptions, ValidatorObject} from "../../utils";
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {Unzipped, unzipSync} from "fflate";
 import {LinkedInDataAggregator} from "./model.linkedin";
 import {ServiceLinkedin} from "./service.linkedin";
@@ -8,7 +8,7 @@ import {FileCodeLinkedIn} from "./enum.linkedin";
 
 @staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorLinkedin {
-    private static readonly logger = new Logger("Processor LinkedIn");
+    private static readonly logger = new LoggerUtils("Processor LinkedIn");
 
     static initAggregator(): LinkedInDataAggregator {
         return {profile: {}, jobs: {}, ads:{}};

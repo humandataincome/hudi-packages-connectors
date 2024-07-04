@@ -1,6 +1,6 @@
-import { LogLevel } from './utils.enum';
+export type LogLevel = 'error' | 'debug' | 'info';
 
-export default class Logger {
+export default class LoggerUtils {
     private readonly name: string;
 
     constructor(name: string) {

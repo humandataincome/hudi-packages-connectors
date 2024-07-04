@@ -6,7 +6,8 @@ import {
     LanguageCode,
     RetrievingProcedureType
 } from "./descriptor.enum";
-import {DescriptorErrorEnum, Selector, ValidatorObject} from "../utils";
+import {SelectorUtils, ValidatorObject} from "../utils";
+import {DescriptorErrorEnum} from "../enums";
 
 const descriptor: Descriptor = require('./descriptor.json');
 
@@ -145,13 +146,13 @@ export class DescriptorService {
                 const filesDescription = datasourceDescriptors.filesDescriptions?.find(
                     ({languageCode, list}) => languageCode === language && list.length);
                 if (filesDescription) {
-                    const enumInstance = Selector.getFileCodeEnum(code);
+                    const enumInstance = SelectorUtils.getFileCodeEnum(code);
                     if (enumInstance) {
                         const found = filesDescription.list.find((description: FileDescription) => {
                             const indexOfPath = Object.keys(enumInstance).indexOf(description.fileCode);
                             if (indexOfPath !== -1) {
                                 const regex = Object.values(enumInstance)[indexOfPath];
-                                if (Selector.getValidator(code)?.getFileCode(filePath) === regex) {
+                                if (SelectorUtils.getValidator(code)?.getFileCode(filePath) === regex) {
                                     return true;
                                 }
                             }

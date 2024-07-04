@@ -1,4 +1,4 @@
-import {MonitoringService} from "../../src/utils/monitoring/monitoring.source";
+import {MonitoringService} from "../../src/monitoring/monitoring.source";
 import {
     HTTPRequest,
     GDPRDataSourceCode,
@@ -8,7 +8,7 @@ import {
     ValidatorFiles, ProcessorBinance, ProcessorCoinbase
 } from "../../src";
 import {Observable} from "rxjs";
-import {ServiceBloodAnalysis, Selector} from "../../src";
+import {ServiceBloodAnalysis, SelectorUtils} from "../../src";
 
 const httpMethod: HttpMethod = (options: HTTPRequest) => {
     const https = require('https')
@@ -73,7 +73,7 @@ async function showAggregator(pathToZip: string, code: GDPRDataSourceCode) {
             throwExceptions: true,
         });
     //console.log(await ValidatorFiles.getPathsIntoZip(validation!.zipFile));
-    const aggregate = await Selector.getZipAggregatorBuilder(code, validation!.zipFile, {
+    const aggregate = await SelectorUtils.getZipAggregatorBuilder(code, validation!.zipFile, {
         timeIntervalDays: 180,
         throwExceptions: false,
     });

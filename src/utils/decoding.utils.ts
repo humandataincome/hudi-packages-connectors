@@ -1,5 +1,5 @@
 
-export class Decoding {
+export class DecodingUtils {
     /**
      * Decode input recursively in all their parameters.
      * @param obj - string, array or object.

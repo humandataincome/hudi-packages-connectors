@@ -1,4 +1,4 @@
-import {Parser} from "../../../utils/parser";
+import {ParserUtils} from "../../../utils/parser.utils";
 import {BloodAnalysisModel, TestModel} from "./model.blood-analysis";
 
 export class ServiceBloodAnalysis {
@@ -7,7 +7,7 @@ export class ServiceBloodAnalysis {
      * @param file - file as Buffer
      */
     static async parsePdfToJson(file: Buffer): Promise<BloodAnalysisModel> {
-        const text = await Parser.parsePdf(file);
+        const text = await ParserUtils.parsePdf(file);
 
         const model: BloodAnalysisModel = {list: []};
         const regex = /(?<test>\w+|(?:\w+\s#)|(?:\w+\s%)|(?:\w+-\w+)|(?:\w+\s)+|(?:\w+\s?\/\s?\w+)|(?:ALT\s\(G\.P\.T\.\))|(?:GAMMA\sGT))\s?\r\n(?:\((?:\w|\.|\s|-|\/)+\)\r\n)?(?:\s?\*\s)?(?<result>\d+[.,]?\d*)\s?\r\n(?<unit>(?:\d+\^\d+\/\w+)|(?:\w+\/\w+)|\w+\/μL|%|\w+)(?:\s?\r?\n?)(?<range>(?:\d+(?:[.,]\d+)?\s?-\s?\d+(?:[.,]\d+)?)|(?:\s?[<>]=?(?:[.,]\d+)?\s?\d+))\s?\r\n/g;

@@ -1,5 +1,5 @@
-import Logger from "../../utils/logger";
-import {Parser} from "../../utils/parser";
+import LoggerUtils from "../../utils/logger.utils";
+import {ParserUtils} from "../../utils/parser.utils";
 import {AccountTW} from "./model.twitter";
 import {ValidatorObject} from "../../utils/validator/validator.object";
 import {FileCodeTwitter} from "./enum.twitter";
@@ -10,7 +10,7 @@ import {FileCodeTwitter} from "./enum.twitter";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class ServiceTwitter {
-    private static readonly logger = new Logger("Twitter Service");
+    private static readonly logger = new LoggerUtils("Twitter Service");
 
     /**
      * Abstraction to parse a Twitter file regardless its respective parsing function
@@ -32,7 +32,7 @@ export class ServiceTwitter {
     static async parseAccount(data: Buffer): Promise<AccountTW | undefined> {
         let model: AccountTW = {};
         try {
-            const jsonFormat = Parser.extractJsonFromTwitterFile(data);
+            const jsonFormat = ParserUtils.extractJsonFromTwitterFile(data);
             if (jsonFormat) {
                 let document = JSON.parse(jsonFormat.toString());
                 if (document && document[0] && document[0].account) {

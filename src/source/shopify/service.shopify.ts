@@ -1,15 +1,15 @@
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {
     CustomerExportSH,
     CustomersExportsSH, DiscountExportSH,
     DiscountsExportsSH, OrderExportSH,
     OrdersExportsSH, ProductExportSH, ProductsExportsSH
 } from "./model.shopify";
-import {Parser} from "../../utils/parser";
+import {ParserUtils} from "../../utils/parser.utils";
 import {FileCodeShopify} from "./enum.shopify";
 
 export class ServiceShopify {
-    private static readonly logger = new Logger("Shopify Service");
+    private static readonly logger = new LoggerUtils("Shopify Service");
 
     /**
      * Abstraction to parse a Shopify file regardless its respective parsing function
@@ -35,7 +35,7 @@ export class ServiceShopify {
      * @param data - file 'shopify/customers_export_1.csv' in input as Buffer
      */
     static async parseCustomersExport(data: Buffer): Promise<CustomersExportsSH | undefined> {
-        try {let result = Parser.parseCSVfromBuffer(data);
+        try {let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: CustomersExportsSH = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -75,7 +75,7 @@ export class ServiceShopify {
      * @param data - file 'shopify/discounts_export_1csv' in input as Buffer
      */
     static async parseDiscountsExport(data: Buffer): Promise<DiscountsExportsSH | undefined> {
-        try {let result = Parser.parseCSVfromBuffer(data);
+        try {let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: DiscountsExportsSH = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -103,7 +103,7 @@ export class ServiceShopify {
      * @param data - file 'shopify/orders_export_1csv' in input as Buffer
      */
     static async parseOrdersExport(data: Buffer): Promise<OrdersExportsSH | undefined> {
-        try {let result = Parser.parseCSVfromBuffer(data);
+        try {let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: OrdersExportsSH = {list: []}
                 model.list = result.map((listItem: any) => {
@@ -197,7 +197,7 @@ export class ServiceShopify {
      * @param data - file 'shopify/products_export_1csv' in input as Buffer
      */
     static async parseProductsExport(data: Buffer): Promise<ProductsExportsSH | undefined> {
-        try {let result = Parser.parseCSVfromBuffer(data);
+        try {let result = ParserUtils.parseCSVfromBuffer(data);
             if(result) {
                 let model: ProductsExportsSH = {list: []}
                 model.list = result.map((listItem: any) => {

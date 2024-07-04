@@ -1,9 +1,9 @@
 import {ValidatorDatasource} from "../../utils/validator/validator.datasource";
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {FileCodeGoogle} from "./enum.google";
 
 export class ValidatorGoogle extends ValidatorDatasource  {
-    protected readonly logger = new Logger("Google Validator");
+    protected readonly logger = new LoggerUtils("Google Validator");
 
     protected DEFAULT_FILE_CODES: FileCodeGoogle[] = [
         FileCodeGoogle.ACTIVITY_BOOKS,

@@ -1,4 +1,4 @@
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {HttpMethod, ValidatorObject} from "../../utils";
 import {
     AccountCB,
@@ -16,7 +16,7 @@ import {
 } from "./model.coinbase";
 
 export class ServiceCoinbase {
-    private readonly logger = new Logger("Service Coinbase");
+    private readonly logger = new LoggerUtils("Service Coinbase");
     private readonly apiKey: string;
     private readonly apiSecret: string;
     private readonly httpMethod: HttpMethod;

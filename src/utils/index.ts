@@ -1,7 +1,4 @@
-export * from './utils.error';
-export * from './utils.enum';
-export * from './selector';
+export * from './selector.utils';
 export * from './api.utils';
-
 export * from './validator';
-export * from './processor';
+export * from '../processor';

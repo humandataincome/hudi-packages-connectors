@@ -1,5 +1,5 @@
-import {DataAggregator, LanguageCode} from "../../descriptor";
-import {HttpMethod} from "../api.utils";
+import {DataAggregator, LanguageCode} from "../descriptor";
+import {HttpMethod} from "../utils/api.utils";
 
 /**
  * @timeIntervalDays set the number of days for the data relevance's time interval. Default is 3654 days.

@@ -1,4 +1,4 @@
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {
     CommentsTK, ConversationsTK,
     FavoriteEffectsTK, FavoriteSoundsTK,
@@ -10,11 +10,12 @@ import {
     VideoBrowsingHistoryTK,
     VideoLikedListTK, YourVideoListTK
 } from "./model.tiktok";
-import {ValidatorObject, Months} from "../../utils";
+import {ValidatorObject} from "../../utils";
 import {FileCodeTikTok} from "./enum.tiktok";
+import {Months} from "../../enums";
 
 export class ServiceTiktok {
-    private static readonly logger = new Logger("TikTok Service");
+    private static readonly logger = new LoggerUtils("TikTok Service");
 
     /**
      * Abstraction to parse a TikTok file regardless its respective parsing function

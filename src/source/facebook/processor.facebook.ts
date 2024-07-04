@@ -14,15 +14,15 @@ import {
     ValidatorObject,
     ProcessorGDPRDatasource
 } from "../../utils";
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {Unzipped, unzipSync} from "fflate";
 import {ServiceFacebook} from "./service.facebook";
 import {FileCodeFacebook} from "./enum.facebook";
-import {staticImplements} from "../../utils/decorator";
+import {staticImplements} from "../../utils/decorator.utils";
 
 @staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorFacebook {
-    private static readonly logger = new Logger("Processor Facebook");
+    private static readonly logger = new LoggerUtils("Processor Facebook");
 
     static initAggregator(): FacebookDataAggregator {
         return {

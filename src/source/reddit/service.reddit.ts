@@ -1,5 +1,5 @@
-import Logger from "../../utils/logger";
-import {Parser} from "../../utils/parser";
+import LoggerUtils from "../../utils/logger.utils";
+import {ParserUtils} from "../../utils/parser.utils";
 import {
     CommentRE,
     CommentsRE,
@@ -19,7 +19,7 @@ import {ValidatorObject} from "../../utils";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class ServiceReddit {
-    private static readonly logger = new Logger("Reddit Service");
+    private static readonly logger = new LoggerUtils("Reddit Service");
 
     /**
      * Abstraction to parse a Reddit file regardless its respective parsing function
@@ -52,7 +52,7 @@ export class ServiceReddit {
      */
     static async parseStatistics(data: Buffer): Promise<StatisticsRE | undefined> {
         try {
-            const result = Parser.parseCSVfromBuffer(data);
+            const result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 const model: StatisticsRE = {};
                 result.forEach(({statistic, value})=> {
@@ -85,7 +85,7 @@ export class ServiceReddit {
      */
     static async parseGoldInfo(data: Buffer): Promise<GoldInfoRE | undefined> {
         try {
-            const result = Parser.parseCSVfromBuffer(data);
+            const result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 const model: GoldInfoRE = {list: []};
                 model.list = result.map((entry: any) => {
@@ -112,7 +112,7 @@ export class ServiceReddit {
      */
     static async parsePosts(data: Buffer): Promise<PostsRE | undefined> {
         try {
-            const result = Parser.parseCSVfromBuffer(data);
+            const result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 const model: PostsRE = {list: []};
                 model.list = result.map((entry: any) => {
@@ -144,7 +144,7 @@ export class ServiceReddit {
      */
     static async parseMessages(data: Buffer): Promise<MessagesRE | undefined> {
         try {
-            const result = Parser.parseCSVfromBuffer(data);
+            const result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 const model: MessagesRE = {list: []};
                 model.list = result.map((entry: any) => {
@@ -176,7 +176,7 @@ export class ServiceReddit {
      */
     static async parseFriends(data: Buffer): Promise<FriendsRE | undefined> {
         try {
-            const result = Parser.parseCSVfromBuffer(data);
+            const result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 const model: FriendsRE = {list: []};
                 model.list = result.map((entry: any) => {
@@ -198,7 +198,7 @@ export class ServiceReddit {
      */
     static async parseComments(data: Buffer): Promise<CommentsRE | undefined> {
         try {
-            const result = Parser.parseCSVfromBuffer(data);
+            const result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 const model: CommentsRE = {list: []};
                 model.list = result.map((entry: any) => {
@@ -230,7 +230,7 @@ export class ServiceReddit {
      */
     static async parseSubscribedSubreddit(data: Buffer): Promise<SubscribedSubredditRE | undefined> {
         try {
-            const result = Parser.parseCSVfromBuffer(data);
+            const result = ParserUtils.parseCSVfromBuffer(data);
             if (result && result[0]) {
                 const model: SubscribedSubredditRE = {list: []};
                 model.list = result.map((entry: any) => {

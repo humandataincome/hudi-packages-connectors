@@ -1,9 +1,9 @@
 import {ValidatorDatasource} from "../../utils/validator/validator.datasource";
-import Logger from "../../utils/logger";
+import LoggerUtils from "../../utils/logger.utils";
 import {FileCodeTikTok} from "./enum.tiktok";
 
 export class ValidatorTikTok extends ValidatorDatasource {
-    protected readonly logger = new Logger("TikTok Validator");
+    protected readonly logger = new LoggerUtils("TikTok Validator");
 
     protected DEFAULT_FILE_CODES: FileCodeTikTok[] = [
         FileCodeTikTok.USER_DATA
