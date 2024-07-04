@@ -9,7 +9,6 @@ import {
 } from "../../src";
 import {Observable} from "rxjs";
 import {ServiceBloodAnalysis, Selector} from "../../src";
-import {ReadableStream} from 'node:stream/web';
 
 const httpMethod: HttpMethod = (options: HTTPRequest) => {
     const https = require('https')
@@ -30,11 +29,11 @@ const httpMethod: HttpMethod = (options: HTTPRequest) => {
     });
 };
 
-parsePdfTest();
+// parsePdfTest();
 //coinbaseTest();
 //binanceTest();
 //processingStream(['../../src/mock/datasource/zip files/private/spotify.zip',], GDPRDataSourceCode.SPOTIFY);
-//validateStream('../../src/mock/datasource/zip files/private/amazon.zip', GDPRDataSourceCode.AMAZON);
+validateStream('../../src/mock/datasource/zip files/private/instagram.zip', GDPRDataSourceCode.INSTAGRAM);
 //showAggregator('../../src/mock/datasource/zip files/private/google.zip', GDPRDataSourceCode.GOOGLE);
 //showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', GDPRDataSourceCode.AMAZON);
 //testNotMappedFiles('../../src/mock/datasource/zip files/private/google.zip');
@@ -64,7 +63,7 @@ async function showAggregator(pathToZip: string, code: GDPRDataSourceCode) {
     const fs =  require('fs');
     const path =  require('path');
     const data = fs.readFileSync(path.join(__dirname, pathToZip));
-    const validation = await ValidatorFiles.validateZip(data,
+    const validation = ValidatorFiles.validateZip(data,
         {
             maxBytesPerFile: 15e6,
             minBytesPerFile: 0,

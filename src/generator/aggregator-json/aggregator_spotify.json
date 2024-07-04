@@ -1,0 +1,2326 @@
+{
+  "follow": {
+    "followerCount": 0,
+    "followingUsersCount": 0,
+    "dismissingUsersCount": 0
+  },
+  "identifiers": {
+    "identifierType": "email",
+    "identifierValue": "davix33_d@libero.it"
+  },
+  "inferences": {
+    "list": [
+      "1P_Custom_CarrierAudience_iliad_Users",
+      "1P_Custom_Device_Laggards_Android_Mobile",
+      "1P_Custom_Samsung_nonSamsungTablet_12M_Users",
+      "1P_Custom_Samsung_nonSamsungTablet_4Y_Users",
+      "1P_Custom_T-Mobile_Switchers",
+      "3P_AmazonBlackFriday_FR",
+      "3P_Android Users_AU",
+      "3P_Android Users_CA",
+      "3P_Android Users_US",
+      "3P_Android_Users_ES",
+      "3P_Art and Design Enthusiasts_IT",
+      "3P_Arts & Culture_FR",
+      "3P_Arts & Culture_UK",
+      "3P_Arts and Culture Enthusiasts_DE",
+      "3P_Baby Formula Buyers_DE",
+      "3P_Baby Formula Buyers_ES",
+      "3P_Baby Formula Buyers_FR",
+      "3P_Baby Formula Buyers_IT",
+      "3P_Baby Formula Buyers_UK",
+      "3P_Basketball Enthusiasts_AU",
+      "3P_Basketball Enthusiasts_DE",
+      "3P_Basketball Enthusiasts_ES",
+      "3P_Basketball Enthusiasts_FR",
+      "3P_Basketball Enthusiasts_IT",
+      "3P_Basketball Enthusiasts_UK",
+      "3P_Beer Consumers_UK",
+      "3P_Bottled / Mineral Water Buyers_DE",
+      "3P_Bottled / Mineral Water Buyers_ES",
+      "3P_Bottled / Mineral Water Buyers_FR",
+      "3P_Bottled / Mineral Water Buyers_IT",
+      "3P_Bottled / Mineral Water Buyers_UK",
+      "3P_Budget Holidayers_DE",
+      "3P_Budget Holidayers_IT",
+      "3P_Budget Holidayers_UK",
+      "3P_Candy Buyers_US",
+      "3P_Car Buyers_DE",
+      "3P_Car Buyers_UK",
+      "3P_Car Enthusiasts_DE",
+      "3P_Carbonated Drinks Category Buyers_DE",
+      "3P_Carbonated Drinks Category Buyers_ES",
+      "3P_Carbonated Drinks Category Buyers_FR",
+      "3P_Carbonated Drinks Category Buyers_IT",
+      "3P_Carbonated Drinks Category Buyers_UK",
+      "3P_Cat Owners_DE",
+      "3P_Chocolate Enthusiasts_IT",
+      "3P_Chocolate Lovers_US",
+      "3P_Chocolate and Sweets Category Buyers_FR",
+      "3P_Cinema Goers_DE",
+      "3P_Cinema Goers_FR",
+      "3P_Climbing Enthusiasts_UK",
+      "3P_Coffee Buyers_UK",
+      "3P_College Students_AU",
+      "3P_College Students_CA",
+      "3P_Cooking Enthusiasts_CA",
+      "3P_Cooking Enthusiasts_DE",
+      "3P_Cooking Enthusiasts_ES",
+      "3P_Cooking Enthusiasts_FR",
+      "3P_Cooking Enthusiasts_IT",
+      "3P_Cooking Enthusiasts_UK",
+      "3P_Cooking Enthusiasts_US",
+      "3P_Cosmetics Buyers / Beauty Enthusiasts_BR",
+      "3P_Cosmetics Buyers / Beauty Enthusiasts_DE",
+      "3P_Cosmetics Buyers / Beauty Enthusiasts_ES",
+      "3P_Cosmetics Buyers / Beauty Enthusiasts_IT",
+      "3P_Cosmetics Buyers / Beauty Enthusiasts_MX",
+      "3P_Cosmetics Buyers / Beauty Enthusiasts_UK",
+      "3P_Cosmetics Buyers / Beauty Enthusiasts_US",
+      "3P_Couple without Kids_DE",
+      "3P_Credit Applicants_UK",
+      "3P_Credit Card Owner_ES",
+      "3P_Custom_ _ DE > AAIDs > Consuming & Lifestyle > Interests & Hobbies > 05: Likes to cook and bake_19-Feb-2021_DE",
+      "3P_Custom_ _ DE > AAIDs > Consuming & Lifestyle > Interests & Hobbies > 10: Likes to visit pubs_19-Feb-2021_DE",
+      "3P_Custom_ _ DE > AAIDs > Consuming & Lifestyle > Shopping > 14: Cooking and baking_19-Feb-2021_DE",
+      "3P_Custom_Animation / Cartoon Enthusiasts_FR",
+      "3P_Custom_Arts and Culture Enthusiasts_US",
+      "3P_Custom_AtHome_Activities_10Aug2020_US",
+      "3P_Custom_BMW Group 5_UK",
+      "3P_Custom_BMW_Thrillseeking Car Enthusiasts_UK",
+      "3P_Custom_BT_Indulgent Imitators_UK",
+      "3P_Custom_Back To School Shoppers_FR",
+      "3P_Custom_Baking Enthusiasts_21Dec2020_US",
+      "3P_Custom_Bottled Water Buyers_28June2022_US",
+      "3P_Custom_Capital One_HHI $50 - $200k_10Sep2020_US [Advertiser-specific]",
+      "3P_Custom_Capital One_HHI $75 - $200k_10Sep2020_US [Advertiser-specific]",
+      "3P_Custom_CapitalOne_HHI $100k+_19Nov2020_US",
+      "3P_Custom_Car Insurance Holders / Intenders_DE",
+      "3P_Custom_Credit Card Intenders_25January2022_US",
+      "3P_Custom_Culture Next 2020 - Gen Z Starts From Scratch",
+      "3P_Custom_Dessert Lovers_07Nov2019_US",
+      "3P_Custom_Doritos Brands Buyers_23Jun2021_US",
+      "3P_Custom_Drain Cleaner & Plumbing Supplies_14Dec2020_US",
+      "3P_Custom_EE_Digital Dynamos_UK",
+      "3P_Custom_Experian_Financially Savvy Credit Users_UK",
+      "3P_Custom_Extreme Sports Enthusiasts_06Feb2020_US",
+      "3P_Custom_FIFA World Cup Watchers/Enthusiasts_30Nov2021_WW",
+      "3P_Custom_Family Movie Enthusiasts_FR",
+      "3P_Custom_Father's Day Gift Givers_07April2022_US",
+      "3P_Custom_Finance Personas - Need-It-All_US",
+      "3P_Custom_Finance Personas - No Time_US",
+      "3P_Custom_Green Living Enthusiasts_WW",
+      "3P_Custom_Gum Buyers_18December2020_US",
+      "3P_Custom_HHI $75K-$150K_17September2020_US",
+      "3P_Custom_Haircare Buyers_1Jan2021_US",
+      "3P_Custom_Heineken_Desperados Audience_DE",
+      "3P_Custom_Heineken_Desperados Audience_UK",
+      "3P_Custom_Heinz_Any Mayonnaise Buyers [TEST]_UK",
+      "3P_Custom_Heinz_Heinz Ketchup Not Mayonnaise [TEST]_UK",
+      "3P_Custom_Heinz_Heinz Ketchup Only [TEST]_UK",
+      "3P_Custom_Heinz_Mayonnaise Not Heinz Buyers [TEST]_UK",
+      "3P_Custom_LotteryandGambling_US [Do Not Use]",
+      "3P_Custom_McDonald's Breakfast Buyers Competitive Set_US",
+      "3P_Custom_Mercedes Owners_DE",
+      "3P_Custom_MovieEnthusiasts_US",
+      "3P_Custom_Music Enthusiasts_08Dec2021_US",
+      "3P_Custom_New Car Buyers_UK",
+      "3P_Custom_New/Expecting Parents_29Mar2021_CA",
+      "3P_Custom_Olympic Summer Games Enthusiasts_UK",
+      "3P_Custom_Online Dating Users_DE",
+      "3P_Custom_Online Dating Users_FR",
+      "3P_Custom_Online Dating Users_UK",
+      "3P_Custom_Online_Courses_Attendees_ES",
+      "3P_Custom_OscarsViewers_7Mar2022_CA",
+      "3P_Custom_P&G_AZ Pro Expert_IT",
+      "3P_Custom_P&G_DASH_IT",
+      "3P_Custom_P&G_Fairy_IT",
+      "3P_Custom_P&G_H&S Alinghi ISP_IT",
+      "3P_Custom_P&G_H&S Supreme BT_IT",
+      "3P_Custom_P&G_OralB Power_IT",
+      "3P_Custom_P&G_Pantene Product Transformation_IT",
+      "3P_Custom_P&G_SWIFFER_IT",
+      "3P_Custom_Parents of Toddlers_30Nov2020_US",
+      "3P_Custom_Parents_12Nov2020_CA",
+      "3P_Custom_Pasta Buyers_FR",
+      "3P_Custom_Post Secondary/Graduates_18Sep2020_CA",
+      "3P_Custom_QSR Burger Consumers_US",
+      "3P_Custom_QSR_Burger King and Wendy's_US",
+      "3P_Custom_Samsung_IM Persona_Browsers",
+      "3P_Custom_Samsung_IM Persona_Social Savvies",
+      "3P_Custom_Sausage Buyers_12Jan2022_US",
+      "3P_Custom_Skiing Enthusiasts_ES",
+      "3P_Custom_Skin Care Buyers_2Jan2021_US",
+      "3P_Custom_Skincare Category Buyers_FR",
+      "3P_Custom_Soccer Enthusiasts_26May2022_CA",
+      "3P_Custom_Social Media Enthusiasts_UK",
+      "3P_Custom_Sonos_Culture Seekers persona",
+      "3P_Custom_Sonos_Design Audience",
+      "3P_Custom_Sonos_Design Audience (for insights)",
+      "3P_Custom_Sonos_Sound Audience",
+      "3P_Custom_Sonos_UX Audience",
+      "3P_Custom_Streaming TV Users_AU",
+      "3P_Custom_Sugar Snackers_US",
+      "3P_Custom_Team Leaders_DE",
+      "3P_Custom_Toothpaste Buyers_28July2020_US",
+      "3P_Custom_Toyota Owners_DE",
+      "3P_Custom_Toys & Board / Card Games Enthusiasts_FR",
+      "3P_Custom_Trading Cards Affinity_15July2021_US",
+      "3P_Custom_Variety Snackers_US",
+      "3P_Custom_Vegetarian/Vegan Lifestyle_DE",
+      "3P_Custom_Vegetarian/Vegan Lifestyle_FR",
+      "3P_Custom_Yogurt_Snack_Buyers_US",
+      "3P_Custom__ Entertainment - Interest - Video Games_19-Feb-2021_WW",
+      "3P_Custom__ Entertainment - Mobile & App - Interest - Video Games_19-Feb-2021_WW",
+      "3P_Custom__ Entertainment - Mobile & App - Sport - Running_19-Feb-2021_WW",
+      "3P_Custom__ Lifestyle - Tech Enthusiast_19-Feb-2021_WW",
+      "3P_Custom__ Retail and Consumer Goods - Clothes - Interest - Online Purchase_28-Feb-2021_WW",
+      "3P_Custom__ Retail and Consumer Goods - Electronics - Interest - Online Purchasing_28-Feb-2021_WW",
+      "3P_Custom__ UK - FMCG Sub Category - Beverages - Coffee - Soluble Instant, Single Portion_26-Feb-2021_UK",
+      "3P_Custom__Cooking & Recipes_19-Feb-2021_DE",
+      "3P_Custom__Cooking & Recipes_19-Feb-2021_IT",
+      "3P_Custom__Cooking & Recipes_19-Feb-2021_UK",
+      "3P_Custom__Cosmetics_28-Feb-2021_DE",
+      "3P_Custom__Cosmetics_28-Feb-2021_UK",
+      "3P_Custom__Online Shopping_28-Feb-2021_DE",
+      "3P_Custom__Online Shopping_28-Feb-2021_IT",
+      "3P_Custom__Online Shopping_28-Feb-2021_MX",
+      "3P_Custom__Online Shopping_28-Feb-2021_UK",
+      "3P_Custom__Outdoor Enthusiasts_19-Feb-2021_DE",
+      "3P_Custom__Outdoor Enthusiasts_19-Feb-2021_UK",
+      "3P_Custom__Party Planners_19-Feb-2021_IT",
+      "3P_Custom__Trendsetters_19-Feb-2021_UK",
+      "3P_Custom_eXelate_eXelate Demographic - Household - Composition - Presence of Children by Age - 0-3 Years_19-Feb-2021_US",
+      "3P_Custom_eXelate_eXelate Intent - CPG - Baby - Baby Food_19-Feb-2021_WW",
+      "3P_Custom_eXelate_eXelate Intent - CPG - Baby - Baby Formula_19-Feb-2021_WW",
+      "3P_Custom_eXelate_eXelate Intent - CPG - Baby - Disposable Diapers and Training Pants_19-Feb-2021_WW",
+      "3P_Custom_eXelate_eXelate Intent - CPG - Baking and Cooking_19-Feb-2021_WW",
+      "3P_Custom_eXelate_eXelate Intent - Shopping - Personal Tech - Video Games_19-Feb-2021_WW",
+      "3P_Custom_eXelate_eXelate Interest - Entertainment - Video Games_19-Feb-2021_WW",
+      "3P_Custom_eXelate_eXelate Interest - Hobbies - Baking and Cooking_19-Feb-2021_WW",
+      "3P_Custom_eXelate_eXelate Interest - Purchase Behaviors - Shopping - Personal Tech - Video Games_19-Feb-2021_WW",
+      "3P_DIY Enthusiasts_UK",
+      "3P_DVD Buyers_DE",
+      "3P_DVD Buyers_UK",
+      "3P_Dairy Buyers_US",
+      "3P_Dairy Category Buyers_DE",
+      "3P_Dairy Category Buyers_ES",
+      "3P_Dairy Category Buyers_FR",
+      "3P_Dairy Category Buyers_IT",
+      "3P_Dairy Category Buyers_UK",
+      "3P_Declared Parents_25May2022_US",
+      "3P_Degree Educated / Graduates_AU",
+      "3P_Degree Educated / Graduates_DE",
+      "3P_Degree Educated / Graduates_ES",
+      "3P_Degree Educated / Graduates_FR",
+      "3P_Degree Educated / Graduates_IT",
+      "3P_Degree Educated / Graduates_UK",
+      "3P_Deodorant Category Buyers_DE",
+      "3P_Deodorant Category Buyers_ES",
+      "3P_Deodorant Category Buyers_FR",
+      "3P_Deodorant Category Buyers_IT",
+      "3P_Deodorant Category Buyers_UK",
+      "3P_Diaper Buyers_DE",
+      "3P_Diaper Buyers_ES",
+      "3P_Diaper Buyers_FR",
+      "3P_Diaper Buyers_IT",
+      "3P_Diaper Buyers_UK",
+      "3P_Discount Shoppers / Value Seekers_DE",
+      "3P_Discount Shoppers / Value Seekers_IT",
+      "3P_Discount Shoppers / Value Seekers_UK",
+      "3P_Disney Enthusiasts_ES",
+      "3P_Drama Movie Enthusiasts_ES",
+      "3P_Drama Movie Enthusiasts_UK",
+      "3P_Electronics Shoppers_US",
+      "3P_Energy Drinks Consumers_UK",
+      "3P_Entertainment Enthusiasts_BR",
+      "3P_Entertainment Enthusiasts_CA",
+      "3P_Entertainment Enthusiasts_DE",
+      "3P_Entertainment Enthusiasts_ES",
+      "3P_Entertainment Enthusiasts_FR",
+      "3P_Entertainment Enthusiasts_IT",
+      "3P_Entertainment Enthusiasts_MX",
+      "3P_Entertainment Enthusiasts_UK",
+      "3P_Family Entertainment Enthusiasts_DE",
+      "3P_Family Entertainment Enthusiasts_FR",
+      "3P_Family Entertainment Enthusiasts_IT",
+      "3P_Family Entertainment Enthusiasts_UK",
+      "3P_Family Movie Enthusiasts_UK",
+      "3P_Family/Children's Shoppers_CA",
+      "3P_Family/Children's Shoppers_DE",
+      "3P_Family/Children's Shoppers_IT",
+      "3P_Family/Children's Shoppers_UK",
+      "3P_Family/Children's Shoppers_US",
+      "3P_Fast Food_AU",
+      "3P_Fast Food_BR",
+      "3P_Fast Food_CA",
+      "3P_Fast Food_DE",
+      "3P_Fast Food_MX",
+      "3P_Fitness Enthusiasts_UK",
+      "3P_Foodies_DE",
+      "3P_Foodies_IT",
+      "3P_Foodies_UK",
+      "3P_Foodies_US",
+      "3P_Frequent Shoppers_BR",
+      "3P_Frequent Shoppers_MX",
+      "3P_Frequent Shoppers_US",
+      "3P_Frequent Travelers_BR",
+      "3P_Frequent Travelers_MX",
+      "3P_Gamers_CA",
+      "3P_Gamers_DE",
+      "3P_Gamers_ES",
+      "3P_Gamers_FR",
+      "3P_Gamers_IT",
+      "3P_Gamers_UK",
+      "3P_Gamers_US",
+      "3P_Gastro/Restaurant_DE",
+      "3P_Green Living Enthusiasts_DE",
+      "3P_Grocery Buyers / Head of Household_AU",
+      "3P_Grocery Buyers / Head of Household_BR",
+      "3P_Grocery Buyers / Head of Household_MX",
+      "3P_Grocery Buyers_FR",
+      "3P_Hair Colouring Category Buyers_UK",
+      "3P_Haircare Category Buyers_DE",
+      "3P_Haircare Category Buyers_ES",
+      "3P_Haircare Category Buyers_FR",
+      "3P_Haircare Category Buyers_IT",
+      "3P_Haircare Category Buyers_UK",
+      "3P_Health and Wellness / Healthy Living_DE",
+      "3P_Health and Wellness / Healthy Living_UK",
+      "3P_Home Improvement / DIY_BR",
+      "3P_Home Improvement / DIY_MX",
+      "3P_Home Renters_AU",
+      "3P_Home Renters_BR",
+      "3P_Home Renters_CA",
+      "3P_Home Renters_DE",
+      "3P_Home Renters_ES",
+      "3P_Home Renters_IT",
+      "3P_Home Renters_MX",
+      "3P_Home Renters_UK",
+      "3P_Household Product Buyers_US",
+      "3P_IT Professionals_DE",
+      "3P_IT Professionals_UK",
+      "3P_Income above 100K_FR",
+      "3P_Income above 50K_FR",
+      "3P_Income above 75K_FR",
+      "3P_Job_Seekers_ES",
+      "3P_Jobseekers_DE",
+      "3P_Jobseekers_IT",
+      "3P_Jobseekers_UK",
+      "3P_Juice Drink Category Buyers_DE",
+      "3P_Juice Drink Category Buyers_ES",
+      "3P_Juice Drink Category Buyers_FR",
+      "3P_Juice Drink Category Buyers_IT",
+      "3P_Juice Drink Category Buyers_UK",
+      "3P_Laptop Owners / Buyers_UK",
+      "3P_Laptop Purchase Intenders_FR",
+      "3P_Laptop Purchase Intenders_US",
+      "3P_Laptop_PC_Purchase Intenders_DE",
+      "3P_Laundry Category Buyers_DE",
+      "3P_Laundry Category Buyers_ES",
+      "3P_Laundry Category Buyers_FR",
+      "3P_Laundry Category Buyers_IT",
+      "3P_Laundry Category Buyers_UK",
+      "3P_Luxury Car Buyers_DE",
+      "3P_Luxury Car Buyers_ES",
+      "3P_Luxury Car Buyers_UK",
+      "3P_Luxury Retail Shoppers_DE",
+      "3P_Luxury Retail Shoppers_ES",
+      "3P_Luxury Retail Shoppers_FR",
+      "3P_Luxury Retail Shoppers_IT",
+      "3P_Luxury Retail Shoppers_UK",
+      "3P_Luxury Retail_AU",
+      "3P_Luxury Retail_CA",
+      "3P_Manufacturing Employees_UK",
+      "3P_Motorcycle Enthusiasts_DE",
+      "3P_Motorcycle Enthusiasts_IT",
+      "3P_Motorsport Enthusiasts_DE",
+      "3P_Motorsport Enthusiasts_UK",
+      "3P_Movie Goers_DE",
+      "3P_Movie Goers_ES",
+      "3P_Movie Goers_FR",
+      "3P_Movie Goers_IT",
+      "3P_Movie Goers_UK",
+      "3P_New Parents / Baby Product Shoppers_US",
+      "3P_News / Current Affairs Enthusiasts_FR",
+      "3P_News / Current Affairs Enthusiasts_UK",
+      "3P_Online Shoppers_BR",
+      "3P_Online Shoppers_DE",
+      "3P_Online Shoppers_ES",
+      "3P_Online Shoppers_FR",
+      "3P_Online Shoppers_IT",
+      "3P_Online Shoppers_MX",
+      "3P_Online Shoppers_UK",
+      "3P_Outdoor Enthusiasts_DE",
+      "3P_Outdoor Enthusiasts_IT",
+      "3P_Outdoor Enthusiasts_UK",
+      "3P_Parents_US",
+      "3P_Personal Care Buyers_US",
+      "3P_Personal Investors_DE",
+      "3P_Personal Investors_IT",
+      "3P_Personal Investors_UK",
+      "3P_Pet Owners_DE",
+      "3P_Pet Owners_IT",
+      "3P_Pet Owners_UK",
+      "3P_Professional Sports Fans_BR",
+      "3P_Professional Sports Fans_DE",
+      "3P_Professional Sports Fans_ES",
+      "3P_Professional Sports Fans_IT",
+      "3P_Professional Sports Fans_MX",
+      "3P_Professional Sports Fans_UK",
+      "3P_Professionals_DE",
+      "3P_Rugby_Enthusiasts_AU",
+      "3P_Runners_AU",
+      "3P_Runners_CA",
+      "3P_Runners_DE",
+      "3P_Runners_ES",
+      "3P_Runners_FR",
+      "3P_Runners_IT",
+      "3P_Runners_UK",
+      "3P_SUV Buyers_ES",
+      "3P_Salty Snack Category Buyers_DE",
+      "3P_Salty Snack Category Buyers_ES",
+      "3P_Salty Snack Category Buyers_FR",
+      "3P_Salty Snack Category Buyers_IT",
+      "3P_Salty Snack Category Buyers_UK",
+      "3P_Savers_ES",
+      "3P_Shaving Category Buyers_DE",
+      "3P_Shaving Category Buyers_ES",
+      "3P_Shaving Category Buyers_FR",
+      "3P_Shaving Category Buyers_IT",
+      "3P_Shaving Category Buyers_UK",
+      "3P_Shaving Razor Buyers_US",
+      "3P_Skincare Category Buyers_UK",
+      "3P_Skincare Enthusiasts_ES",
+      "3P_Small Business Owner / Entrepreneur_IT",
+      "3P_Small Business Owner / Entrepreneur_UK",
+      "3P_Snack Food Buyers_US",
+      "3P_Soccer Fans_DE",
+      "3P_Soccer Fans_IT",
+      "3P_Social Media Enthusiasts_US",
+      "3P_Socialites/Partiers_DE",
+      "3P_Socialites/Partiers_FR",
+      "3P_Socialites/Partiers_IT",
+      "3P_Socialites/Partiers_UK",
+      "3P_Streaming TV Users_FR",
+      "3P_Streaming TV Users_UK",
+      "3P_Students_DE",
+      "3P_Students_ES",
+      "3P_Students_FR",
+      "3P_Students_IT",
+      "3P_Students_UK",
+      "3P_Style Watchers / Fashionistas_BR",
+      "3P_Style Watchers / Fashionistas_DE",
+      "3P_Style Watchers / Fashionistas_ES",
+      "3P_Style Watchers / Fashionistas_FR",
+      "3P_Style Watchers / Fashionistas_IT",
+      "3P_Style Watchers / Fashionistas_MX",
+      "3P_Style Watchers / Fashionistas_UK",
+      "3P_Sweet / Confectionery Enthusiasts_DE",
+      "3P_Sweet / Confectionery Enthusiasts_IT",
+      "3P_Sweet / Confectionery Enthusiasts_UK",
+      "3P_Tech Early Adopter_ES",
+      "3P_Tech Early Adopter_IT",
+      "3P_Tech Early Adopters_AU",
+      "3P_Tech Early Adopters_CA",
+      "3P_Tech Enthusiasts_UK",
+      "3P_Travelers_DE",
+      "3P_Travelers_FR",
+      "3P_Travelers_IT",
+      "3P_Travelers_UK",
+      "3P_Unsecured Personal Loan Holders / Intenders_ES",
+      "3P_Used Car Buyers_DE",
+      "3P_Valentines Day Shoppers_ES",
+      "3P_Vegetarian/Vegan Lifestyle_10Nov2021_US",
+      "3P_Winter Sports Enthusiasts_DE",
+      "3P_Womens Apparel_ES",
+      "3P_Womens Apparel_IT",
+      "3P_Workers in Full-Time Employment_AU",
+      "3P_Workers in Full-Time Employment_DE",
+      "3P_Workers in Full-Time Employment_FR",
+      "3P_Workers in Full-Time Employment_UK",
+      "3P_Workers in Full-Time Employment_US",
+      "3P_Yogurt Category Buyers_DE",
+      "3P_Yogurt Category Buyers_ES",
+      "3P_Yogurt Category Buyers_FR",
+      "3P_Yogurt Category Buyers_IT",
+      "3P_Yogurt Category Buyers_UK",
+      "3P__Personal Finance_18-May-2021_US",
+      "3P_draft",
+      "3p_Anime_Manga_Enthusiast_Es",
+      "Adam Test Segment",
+      "History",
+      "Premiumbusiness_Free_Trial-Eligible",
+      "[Test] - 3P_Custom_HHI $80K+_06Jan2020_CA"
+    ]
+  },
+  "playlists": {
+    "list": [
+      {
+        "name": "Fiki Fiki",
+        "lastModifiedDate": "2019-12-07T23:00:00.000Z",
+        "numberOfFollowers": 0,
+        "items": [
+          {
+            "addedDate": "2016-10-11T22:00:00.000Z",
+            "track": {
+              "trackName": "What Goes Around...Comes Around - Radio Edit",
+              "artistName": "Justin Timberlake",
+              "albumName": "What Goes Around... Comes Around",
+              "trackUri": "spotify:track:1umy8LK9rPrGCQTtPLYE3t"
+            }
+          },
+          {
+            "addedDate": "2018-07-01T22:00:00.000Z",
+            "track": {
+              "trackName": "Where Is My Mind?",
+              "artistName": "Pixies",
+              "albumName": "Death To The Pixies",
+              "trackUri": "spotify:track:5BP0oaQ1VhuaznT77CBXQp"
+            }
+          },
+          {
+            "addedDate": "2018-07-01T22:00:00.000Z",
+            "track": {
+              "trackName": "Digital Love",
+              "artistName": "Daft Punk",
+              "albumName": "Discovery",
+              "trackUri": "spotify:track:2VEZx7NWsZ1D0eJ4uv5Fym"
+            }
+          },
+          {
+            "addedDate": "2019-12-07T23:00:00.000Z",
+            "track": {
+              "trackName": "More Than a Feeling",
+              "artistName": "Boston",
+              "albumName": "Boston",
+              "trackUri": "spotify:track:1QEEqeFIZktqIpPI4jSVSF"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Scelti dalla radio",
+        "lastModifiedDate": "2018-12-26T23:00:00.000Z",
+        "numberOfFollowers": 0,
+        "items": [
+          {
+            "addedDate": "2018-12-26T23:00:00.000Z",
+            "track": {
+              "trackName": "Keanu Reeves (feat. Achille Lauro)",
+              "artistName": "Gemitaiz",
+              "albumName": "Davide",
+              "trackUri": "spotify:track:1MGXWglFoINJdrcp2W0U0w"
+            }
+          },
+          {
+            "addedDate": "2018-12-01T23:00:00.000Z",
+            "track": {
+              "trackName": "Learn to Fly",
+              "artistName": "Foo Fighters",
+              "albumName": "There Is Nothing Left To Lose",
+              "trackUri": "spotify:track:5OQsiBsky2k2kDKy2bX2eT"
+            }
+          },
+          {
+            "addedDate": "2018-11-26T23:00:00.000Z",
+            "track": {
+              "trackName": "Domani",
+              "artistName": "Ernia",
+              "albumName": "68",
+              "trackUri": "spotify:track:5AbFqAtjSFbpWi7e3EmLta"
+            }
+          },
+          {
+            "addedDate": "2018-11-26T23:00:00.000Z",
+            "track": {
+              "trackName": "Porto Cervo",
+              "artistName": "Lazza",
+              "albumName": "Porto Cervo",
+              "trackUri": "spotify:track:0TAt3c8KXb1D3sWT8ENar8"
+            }
+          },
+          {
+            "addedDate": "2018-07-25T22:00:00.000Z",
+            "track": {
+              "trackName": "Song 2 - 2012 Remaster",
+              "artistName": "Blur",
+              "albumName": "Blur",
+              "trackUri": "spotify:track:1FTSo4v6BOZH9QxKc3MbVM"
+            }
+          },
+          {
+            "addedDate": "2018-07-09T22:00:00.000Z",
+            "track": {
+              "trackName": "Lucky Star",
+              "artistName": "Superfunk",
+              "albumName": "Old School House",
+              "trackUri": "spotify:track:111tBBFXU1jMJTi4InLakh"
+            }
+          },
+          {
+            "addedDate": "2018-07-09T22:00:00.000Z",
+            "track": {
+              "trackName": "Stimulation",
+              "artistName": "Disclosure",
+              "albumName": "Settle",
+              "trackUri": "spotify:track:7ybRqQNDDe5qZNs5sg2V2Z"
+            }
+          },
+          {
+            "addedDate": "2018-02-11T23:00:00.000Z",
+            "track": {
+              "trackName": "I Cani",
+              "artistName": "Willie Peyote",
+              "albumName": "Sindrome di Tôret",
+              "trackUri": "spotify:track:4WUL0MwyHNDd8p0vHTMRCI"
+            }
+          },
+          {
+            "addedDate": "2018-02-08T23:00:00.000Z",
+            "track": {
+              "trackName": "Rotolando Verso Sud",
+              "artistName": "Negrita",
+              "albumName": "L'Uomo Sogna Di Volare",
+              "trackUri": "spotify:track:4mOjSj8NWJE7gUaST87hFk"
+            }
+          },
+          {
+            "addedDate": "2017-11-15T23:00:00.000Z",
+            "track": {
+              "trackName": "Il testamento di Tito",
+              "artistName": "Fabrizio De André",
+              "albumName": "Fabrizio De André Opere Complete",
+              "trackUri": "spotify:track:3HulMbcorYC5RCle6xSSF3"
+            }
+          },
+          {
+            "addedDate": "2016-06-18T22:00:00.000Z",
+            "track": {
+              "trackName": "The Ludlows",
+              "artistName": "James Horner",
+              "albumName": "Legends Of The Fall Original Motion Picture Soundtrack",
+              "trackUri": "spotify:track:6vtY2LUeXJ7KISwgiTu0Ph"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Pokémon Reorchestrated",
+        "lastModifiedDate": "2018-10-16T22:00:00.000Z",
+        "numberOfFollowers": 0,
+        "items": [
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Opening / Main Titles",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+              "trackUri": "spotify:track:4Ut2v0kw56b5jdXyBXzwVm"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Welcome To The Hoenn Region!",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+              "trackUri": "spotify:track:0Bpbd13WYhXGKJEA4MPC64"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Battle! Wild Pokémon",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+              "trackUri": "spotify:track:3fyeE7psZ22E6EYyISE6Uc"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Slateport City",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+              "trackUri": "spotify:track:7JEUcFpwGB3eWOk6M64aup"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Abandoned Ship",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+              "trackUri": "spotify:track:5SBoVXOcLgrpMi94p8EZzL"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Battle! Gym Leader",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+              "trackUri": "spotify:track:3kCCFoTxyYo25FoYrqTsKM"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Cycling Road (Route 110)",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+              "trackUri": "spotify:track:530RDPQzA6xdc2qetO5aFL"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Verdanturf Town",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+              "trackUri": "spotify:track:1jd7mzUMbY6N3A9YKGDgAG"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Desert Sandstorm (Route 111)",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+              "trackUri": "spotify:track:4eznYrEsfoPEY6V1NI9yk8"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Battle! Elite Four",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+              "trackUri": "spotify:track:14Y9Aoi8lofRfdCBHiq5bw"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "The Road to Fallarbor Town (Route 113)",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+              "trackUri": "spotify:track:3uls4ORQoybV1po8iWSLnZ"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Shelf of Memories (Prelude)",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:23Pm7V7zQUyCPptmqDAreU"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Red and Blue (Opening Theme)",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:2EBC784ncac4EZ4I4A4sMl"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Dreams and Adventures (Oak's Opening Speech)",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:4wUFz5KeriO3jyDrZorvJy"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Pallet Town",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:2hnKgoeBNy72R9jR5DDnCw"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Oak Research Lab",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:2ACX2izBvVaGIdWwpZbK68"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "The Road To Viridian City",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:7hhDhrhwiC0nFe9OCNwI72"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Battle! VS Wild Pokémon",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:2aByanxrMxMThbOKa5JJu2"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Viridian City (& Pewter City, Saffron City)",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:4brGopSNLGOKGO4NmdidBn"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Pokémon Center",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:4zA6EqOaCpsFvYfT1oDEu7"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Viridian Forest",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:1s29ojNnWqC7NYiBpYIr7t"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Show Me Around, Old Man!",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:5eU8y6d0VDxdKg6vqmHU6Z"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Battle! VS Trainer",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:5T8zcVqbmRhpzgHAjlzryn"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Mt. Moon",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:2Jvu3Ky2VeaI6AU4KG2yBS"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Red's Journey (The Road To Cerulean City)",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:0jEjCxK4sa63QdPKDrHZ5S"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Cerulean City (& Fuschia City)",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:5FpeUVmbBG2WKjKGFPXIRH"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Pokémon Gym",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:3DwJdDoj2z26wLwqinGWbm"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Battle! VS Gym Leader (& Elite Four)",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:2WMLtvU17HqMnJaqPckMVd"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Vermilion City",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:6KaQkKzUpGFPY7Xb0VXwOL"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "SS Anne",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:1veEPbXiJSTifT2HRjnC6q"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Beyond Rock Tunnel (The Road To Lavender Town)",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:1pe9cJfQNi5Luoofq4ZnMH"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Bicycle",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:5qp9v2n0k8ojqZCXJCwU4x"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Lavender Town",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:6Dyxoz14jd0lOkDjr7PNDV"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "The Ghost of Pokémon Tower",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:1LwLpOx1yntzXTcchkT9LE"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Celadon City",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:4UuHEtY8Zvk6IjD7EY9K40"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Celadon Game Corner",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:7otpmST3P5qTKBoBSD4au3"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Team Rocket Hideout",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:739kFtTro4gpdYavE4PNk4"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Silph Co. Under Siege",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:3QrH0LPpzoUkc17ybppHgy"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Ocean Waltz (Surfing)",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:1dHEysVfCQoc4mjPN7HwJn"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Cinnabar Island",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:6HjioOnY11qyD4gqJ7HOVX"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Pokémon Mansion",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:5RtOMLYC2ZXeU5qCIiqDOx"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Evolution",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:26vnABwFotD5EYhnw6CZq6"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Present Your Badges (Indigo Plateau)",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:1MpRHx5vuyt2hOXQlPkPiD"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "The Final Showdown! VS Champion Rival",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:1YqfM4ltJsSUjaK6tvzzSq"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Into The Hall of Fame",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:3uHujATuUjaWiCov5eDXBk"
+            }
+          },
+          {
+            "addedDate": "2016-04-12T22:00:00.000Z",
+            "track": {
+              "trackName": "Ending",
+              "artistName": "Braxton Burks",
+              "albumName": "Pokémon Reorchestrated: Kanto Symphony",
+              "trackUri": "spotify:track:6zkqnxwFDLHqhpZHlJ2mQw"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "streamingHistory": {
+    "list": [
+      {
+        "endTime": "2021-12-12T16:36:00.000Z",
+        "artistName": "Bandabardò",
+        "trackName": "Se mi rilasso collasso",
+        "msPlayed": 202358
+      },
+      {
+        "endTime": "2021-12-12T16:39:00.000Z",
+        "artistName": "Ernia",
+        "trackName": "Non Me Ne Frega Un Cazzo (feat. Fabri Fibra)",
+        "msPlayed": 209361
+      },
+      {
+        "endTime": "2021-12-12T16:43:00.000Z",
+        "artistName": "Caparezza",
+        "trackName": "Canthology",
+        "msPlayed": 229116
+      },
+      {
+        "endTime": "2021-12-12T16:47:00.000Z",
+        "artistName": "Brusco",
+        "trackName": "Sotto i raggi del sole",
+        "msPlayed": 186013
+      },
+      {
+        "endTime": "2021-12-12T16:52:00.000Z",
+        "artistName": "Caparezza",
+        "trackName": "Fuori Dal Tunnel",
+        "msPlayed": 310266
+      },
+      {
+        "endTime": "2021-12-12T16:57:00.000Z",
+        "artistName": "Mannarino",
+        "trackName": "Me So' Mbriacato",
+        "msPlayed": 207933
+      },
+      {
+        "endTime": "2021-12-12T17:05:00.000Z",
+        "artistName": "Caparezza",
+        "trackName": "Campione Dei Novanta",
+        "msPlayed": 271018
+      },
+      {
+        "endTime": "2021-12-12T17:09:00.000Z",
+        "artistName": "Bandabardò",
+        "trackName": "Ubriaco canta amore",
+        "msPlayed": 212133
+      },
+      {
+        "endTime": "2021-12-12T17:41:00.000Z",
+        "artistName": "Caparezza",
+        "trackName": "Come Pripyat",
+        "msPlayed": 15408
+      },
+      {
+        "endTime": "2022-03-05T13:18:00.000Z",
+        "artistName": "Johann Sebastian Bach",
+        "trackName": "Goldberg Variations, BWV 988: Variation 10 a 1 Clav. Fughetta",
+        "msPlayed": 18633
+      },
+      {
+        "endTime": "2022-03-05T13:18:00.000Z",
+        "artistName": "Klaus Badelt",
+        "trackName": "He's a Pirate",
+        "msPlayed": 1352
+      },
+      {
+        "endTime": "2022-03-05T13:18:00.000Z",
+        "artistName": "Cristina D'Avena",
+        "trackName": "Always Pokemon",
+        "msPlayed": 33125
+      },
+      {
+        "endTime": "2022-03-05T13:18:00.000Z",
+        "artistName": "Johann Sebastian Bach",
+        "trackName": "Goldberg Variations, BWV 988: Variation 23 a 2 Clav.",
+        "msPlayed": 4326
+      },
+      {
+        "endTime": "2022-03-05T13:18:00.000Z",
+        "artistName": "Johann Sebastian Bach",
+        "trackName": "Goldberg Variations, BWV 988: Variation 19 a 1 Clav.",
+        "msPlayed": 1286
+      },
+      {
+        "endTime": "2022-03-05T13:18:00.000Z",
+        "artistName": "Vangelis",
+        "trackName": "Memories of Green",
+        "msPlayed": 1790
+      },
+      {
+        "endTime": "2022-03-05T13:18:00.000Z",
+        "artistName": "Martin O'Donnell",
+        "trackName": "Halo Theme Mjolnir Mix",
+        "msPlayed": 1521
+      },
+      {
+        "endTime": "2022-07-07T08:22:00.000Z",
+        "artistName": "Il podcast di Alessandro Barbero: Lezioni e Conferenze di Storia",
+        "trackName": "#37 L’occidente visto dagli “altri” – Le Crociate – Barbero Riserva (Festival della Mente, 2008)",
+        "msPlayed": 1180760
+      },
+      {
+        "endTime": "2022-07-09T20:19:00.000Z",
+        "artistName": "thasup",
+        "trackName": "ch1 5ei te",
+        "msPlayed": 1264
+      },
+      {
+        "endTime": "2022-07-09T20:19:00.000Z",
+        "artistName": "IL MASSEO",
+        "trackName": "GHSBR",
+        "msPlayed": 152435
+      }
+    ]
+  },
+  "userData": {
+    "username": "davix33_d-it",
+    "email": "davix33_d@libero.it",
+    "createdFromFacebook": false,
+    "birthdate": "1984-03-17T23:00:00.000Z",
+    "gender": "male",
+    "creationTime": "2014-08-26T22:00:00.000Z"
+  },
+  "yourLibrary": {
+    "list": [
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Kanto Symphony: The Lost Diaries",
+        "trackName": "The Monster of Cerulean Cave (Theme for Mewtwo)",
+        "trackUri": "spotify:track:2D5Z2d8hAsmDF0mDK7k3w5"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 24 Canone all' Ottava a 1 Clav.",
+        "trackUri": "spotify:track:3ibPePT3mJfjgcjwg2lSuG"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Fate Calls",
+        "trackUri": "spotify:track:7wxMbXcPlFXyc6ualteU5k"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "Dreaming of the Crash",
+        "trackUri": "spotify:track:1QheEzPkqoUQkIPGbG6gkI"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 1 a 1 Clav.",
+        "trackUri": "spotify:track:14V6VqJXHZ08pM6Fu3vUsO"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Go For It",
+        "trackUri": "spotify:track:7IAhk7DJi2FGX2pHEPY2dZ"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Double Team!",
+        "trackName": "Rise to Victory",
+        "trackUri": "spotify:track:4g4aqiVSW1FtBRQVPXkYh2"
+      },
+      {
+        "artistName": "Nature Sounds",
+        "albumName": "Jungle Sounds",
+        "trackName": "Active Afternoon Rainforest Sounds",
+        "trackUri": "spotify:track:6pQzVv17ICee3z8myriOzy"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "A Story You Won't Believe",
+        "trackUri": "spotify:track:3lRqa0TULbEHBPDNvOgrmA"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 13 a 2 Clav.",
+        "trackUri": "spotify:track:2CI5exhYgmUhVMR8Mrunk4"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 4 a 1 Clav.",
+        "trackUri": "spotify:track:14lyZKpPu1ECQpfXhgrip6"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 22 a 1 Clav. alla breve",
+        "trackUri": "spotify:track:0COIj47ajICK5W2See8XSr"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "When No Man Has Gone Before",
+        "trackUri": "spotify:track:4by2V8ms3KJNDJtgQIJ50C"
+      },
+      {
+        "artistName": "Hoobastank",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "Connected",
+        "trackUri": "spotify:track:58jiFCyqZfOUtRPEiwyYVG"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 17 a 2 Clav.",
+        "trackUri": "spotify:track:3c7s2PsmdNUqGaOd3zHDxb"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "In The Giant's Shadow",
+        "trackUri": "spotify:track:3s9oHew99QWNK4I8cm14lj"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 11 a 2 Clav.",
+        "trackUri": "spotify:track:73NwMH0ND2cUkLe0kn9Ljz"
+      },
+      {
+        "artistName": "Incubus",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "2nd Movement of the Odyssey",
+        "trackUri": "spotify:track:13w4JqZt7TDQdQD7Je9isN"
+      },
+      {
+        "artistName": "Martin O'Donnell",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "Orbit of Glass",
+        "trackUri": "spotify:track:2UNIqkeERbcYRpiT85ggam"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "A Place Among the Stars",
+        "trackUri": "spotify:track:0ihuV5yZpOS8P025gKU17V"
+      },
+      {
+        "artistName": "Eric Buchholz",
+        "albumName": "Pokémon Reorchestrated: Double Team!",
+        "trackName": "Waltz of the Sea",
+        "trackUri": "spotify:track:68b3GHRtFehdLeMGh5H99T"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "I Name Thee Dea And Embrace Thee As My Daughter",
+        "trackUri": "spotify:track:3iboKqpkpI4olXjyhp6Bni"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Aria da capo",
+        "trackUri": "spotify:track:172J2JqVRzR74ILc2eBvta"
+      },
+      {
+        "artistName": "Martin O'Donnell",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "The Last Spartan",
+        "trackUri": "spotify:track:6lUJ9wTlZT3PqlHwzCSK3U"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "At War!",
+        "trackUri": "spotify:track:0QEMA67GIanMItxiHsILxO"
+      },
+      {
+        "artistName": "Yugo Kanno",
+        "albumName": "JOJO'S BIZARRE ADVENTURE -Golden Wind O.S.T vol.3 Finare",
+        "trackName": "Uragirimonono Requiem - Giorno Ver.",
+        "trackUri": "spotify:track:3q7hI6kxCAbj0yDTR4asML"
+      },
+      {
+        "artistName": "Martin O'Donnell",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "Heavy Price Paid",
+        "trackUri": "spotify:track:24njhsqMduyYJKiSsJGJRE"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Eyes Of The Wolf",
+        "trackUri": "spotify:track:5Dlyn2SzsKWkfculVur8uP"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "After The Storm",
+        "trackUri": "spotify:track:3TYw4LSw9ykSahfYCBSSVw"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+        "trackName": "Abandoned Ship",
+        "trackUri": "spotify:track:5SBoVXOcLgrpMi94p8EZzL"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "The Hunt Is Coming",
+        "trackUri": "spotify:track:5t4yJVfRaTZe29pDLMTzvY"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 15 a 1 Clav. Canone alla Quinta. Andante",
+        "trackUri": "spotify:track:7cKXSyVa3TXEksYArDQRpW"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "The Hunter's Path",
+        "trackUri": "spotify:track:1CqPzv5lIe523YxH11YPpg"
+      },
+      {
+        "artistName": "Pat Metheny Group",
+        "albumName": "Still Life (Talking)",
+        "trackName": "Last Train Home",
+        "trackUri": "spotify:track:2O7heTmxheKOe1T0jNBPd1"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 8 a 2 Clav.",
+        "trackUri": "spotify:track:3HoLpLgT5M6U5TaWqFKgqi"
+      },
+      {
+        "artistName": "Nature Sounds",
+        "albumName": "Jungle Sounds",
+        "trackName": "Daytime in the Rainforest with Birdsong and Insects",
+        "trackUri": "spotify:track:4XvNaz3nSNtBDmQyQkUVb4"
+      },
+      {
+        "artistName": "Nature Sounds",
+        "albumName": "Jungle Sounds",
+        "trackName": "Rainforest Wetlands at Night",
+        "trackUri": "spotify:track:0myx3uOy6x7gbO1csbNbDd"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Kanto Symphony: The Lost Diaries",
+        "trackName": "Trainer Encounter Medley",
+        "trackUri": "spotify:track:6Gz3oLZlrUYUfaMSgS8jPh"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 9 a 1 Clav. Canone alla Terza",
+        "trackUri": "spotify:track:3DRZuYDArzcoTniRTkaax4"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 6 a 1 Clav. Canone alla Seconda",
+        "trackUri": "spotify:track:0L5cUf2OgB2GeVzxwGJv3q"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Kaer Morhen",
+        "trackUri": "spotify:track:6MPL7WpETrp3N8RmRMMZGK"
+      },
+      {
+        "artistName": "Percival Schuttenbach",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "The Nightingale",
+        "trackUri": "spotify:track:16E0MUDEEEJHY4qO85gVPZ"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 7 a 1 ovvero 2 Clav.",
+        "trackUri": "spotify:track:4w3aG0qWqCQKhvsQYzX3nY"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+        "trackName": "Slateport City",
+        "trackUri": "spotify:track:7JEUcFpwGB3eWOk6M64aup"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "The Vagabond",
+        "trackUri": "spotify:track:0ydyMGGCAXLRDEzfbEWjbQ"
+      },
+      {
+        "artistName": "Nile Rodgers",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "Never Surrender",
+        "trackUri": "spotify:track:0QejQWVqKZFdIc5tjJI0Y8"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "City Of Intrigues",
+        "trackUri": "spotify:track:648RyrssyNy7OhNigHIgXF"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Witch Hunters",
+        "trackUri": "spotify:track:2mlsFAL6mMRZsSs2uMn2lY"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "Mountains",
+        "trackUri": "spotify:track:6WVRhBxRMW9fn6sRkt2gWn"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "The Possesion Of Jarl Udalryk",
+        "trackUri": "spotify:track:5iUaMAEQbcMQhf2y7VWUmU"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Kanto Symphony: The Lost Diaries",
+        "trackName": "The Pink Mirage (Theme for Mew)",
+        "trackUri": "spotify:track:0OqcL3VTZM0ZipnIGMK7fg"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+        "trackName": "Battle! Gym Leader",
+        "trackUri": "spotify:track:3kCCFoTxyYo25FoYrqTsKM"
+      },
+      {
+        "artistName": "Percival Schuttenbach",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Silver For Monsters...",
+        "trackUri": "spotify:track:1nuKx5lJ1pK0ZEytsr3d2Q"
+      },
+      {
+        "artistName": "Percival Schuttenbach",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "The Song Of The Sword-Dancer",
+        "trackUri": "spotify:track:74X9zulRGqKiywVdgmulzh"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Wake Up, Ciri",
+        "trackUri": "spotify:track:6Agc6F2std10P7rwKOwhrg"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 30 a 1 Clav. Quodlibet",
+        "trackUri": "spotify:track:1Ef6KfsIBJpZe2OwvHHrpe"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+        "trackName": "Welcome To The Hoenn Region!",
+        "trackUri": "spotify:track:0Bpbd13WYhXGKJEA4MPC64"
+      },
+      {
+        "artistName": "Eric Buchholz",
+        "albumName": "Pokémon Reorchestrated: Double Team!",
+        "trackName": "Trainer Battle",
+        "trackUri": "spotify:track:38blSewNcsMy1klWp23gsc"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Kanto Symphony: The Lost Diaries",
+        "trackName": "Song of Jigglypuff",
+        "trackUri": "spotify:track:3EAENj8QgLWnFrCedkZUIm"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 26 a 2 Clav.",
+        "trackUri": "spotify:track:7w1t3fHbDG3XCehlTST8mC"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 5 a 1 ovvero 2 Clav.",
+        "trackUri": "spotify:track:325xUomC1NKDerrKIn0zfD"
+      },
+      {
+        "artistName": "Vangelis",
+        "albumName": "Blade Runner (Music From The Original Soundtrack)",
+        "trackName": "Damask Rose",
+        "trackUri": "spotify:track:4OqxR8Sahk7X5NdVMaNlZq"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "The Big Four",
+        "trackUri": "spotify:track:1vw1DVX8BXMOAl0DOXvtop"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Spikeroog",
+        "trackUri": "spotify:track:149g1z4mDkQsNG8ZB0xbev"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "Dust",
+        "trackUri": "spotify:track:1uyB4BHbIicheenh3BgeQ3"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Aen Seidhe",
+        "trackUri": "spotify:track:6QBKQfbCmCJlcCVCFCsVdt"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 29 a 1 ovvero 2 Clav.",
+        "trackUri": "spotify:track:2cUR4W0mDmx1vOxPjO6ijc"
+      },
+      {
+        "artistName": "Green Day",
+        "albumName": "American Idiot",
+        "trackName": "Holiday / Boulevard of Broken Dreams",
+        "trackUri": "spotify:track:0HJRAM7Gt9jXskuXjZeFX3"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "Day One",
+        "trackUri": "spotify:track:2H4zwjbv0D0ggDhf0E8j8j"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 18 a 1 Clav. Canone alla Sesta",
+        "trackUri": "spotify:track:2kjMTSO59RHUp76E4QnGMW"
+      },
+      {
+        "artistName": "Eric Buchholz",
+        "albumName": "Pokémon Reorchestrated: Double Team!",
+        "trackName": "Twinleaf Town",
+        "trackUri": "spotify:track:02SsJkdg7xwugvXXxmyJQz"
+      },
+      {
+        "artistName": "Green Day",
+        "albumName": "American Idiot",
+        "trackName": "Homecoming",
+        "trackUri": "spotify:track:4wH29TM74O3788Kn1KzWuY"
+      },
+      {
+        "artistName": "Percival Schuttenbach",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "...Steel For Humans",
+        "trackUri": "spotify:track:6NuT12xM2tDj64vJkmcsCw"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Trial Of The Grasses",
+        "trackUri": "spotify:track:15Q73Qtmr13RuMzOFeKpbX"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Hjalmar's Axe",
+        "trackUri": "spotify:track:52UOti8ZviMvcRb2EjyhFA"
+      },
+      {
+        "artistName": "Nature Sounds",
+        "albumName": "Jungle Sounds",
+        "trackName": "Early Morning Jungle Ambience with Birds",
+        "trackUri": "spotify:track:2nLqbNFwyhgMJQpJkkDAma"
+      },
+      {
+        "artistName": "Martin O'Donnell",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "Heretic, Hero",
+        "trackUri": "spotify:track:4EhQt1HymQbtaKNBzOl14H"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Eredin, King Of The Hunt",
+        "trackUri": "spotify:track:5sk65hgLJyKnwTTGDzhhsE"
+      },
+      {
+        "artistName": "Klaus Badelt",
+        "albumName": "Pirates Of The Caribbean Original Soundtrack",
+        "trackName": "He's a Pirate",
+        "trackUri": "spotify:track:4AD2dterIUjNt1LFNI9Bvi"
+      },
+      {
+        "artistName": "Nature Sounds",
+        "albumName": "Jungle Sounds",
+        "trackName": "Jungle Ambience at Night",
+        "trackUri": "spotify:track:24im6Wk57cZdcwVJMl5iRq"
+      },
+      {
+        "artistName": "Martin O'Donnell",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "Earth City",
+        "trackUri": "spotify:track:6OAUZkPpcPjN0fnImPVD2R"
+      },
+      {
+        "artistName": "Martin O'Donnell",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "In Amber Clad",
+        "trackUri": "spotify:track:6avJNmUB4ZlphOS9jkH5HV"
+      },
+      {
+        "artistName": "Incubus",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "4th Movement of the Odyssey",
+        "trackUri": "spotify:track:46mElUMr0lSJ8w4h1lZads"
+      },
+      {
+        "artistName": "Martin O'Donnell",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "Peril",
+        "trackUri": "spotify:track:1yUBa9xtYezcXve5TnN5XA"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+        "trackName": "Desert Sandstorm (Route 111)",
+        "trackUri": "spotify:track:4eznYrEsfoPEY6V1NI9yk8"
+      },
+      {
+        "artistName": "Percival Schuttenbach",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Drink Up, There's More!",
+        "trackUri": "spotify:track:1FdX2jpsp9Gt1rHxUROE6n"
+      },
+      {
+        "artistName": "Martin O'Donnell",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "Ghosts of Reach",
+        "trackUri": "spotify:track:6nwhgz5EDEMAz3NbuN086N"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "On Thin Ice",
+        "trackUri": "spotify:track:5tDjTeq7qYl1zWjAQRxZRW"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 3 a 1 Clav. Canone all'Unisono",
+        "trackUri": "spotify:track:5SJFZnECoKeTLy7PPVLLbF"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "Cornfield Chase",
+        "trackUri": "spotify:track:18z7tK7u9DcDw85LYRR5Fe"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 12 Canone alla Quarta",
+        "trackUri": "spotify:track:7gAYYUV8mC5Vfsp825sqiS"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Double Team!",
+        "trackName": "Mélancolie Path",
+        "trackUri": "spotify:track:6VLP8COLc7Hw3ZtnvIlzsf"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 20 a 2 Clav.",
+        "trackUri": "spotify:track:54VrtN6vHC3gXyqhDulUcW"
+      },
+      {
+        "artistName": "Nature Sounds",
+        "albumName": "Jungle Sounds",
+        "trackName": "Jungle Sounds from Central America",
+        "trackUri": "spotify:track:6PTLuydqavq1EPQwGKRsKU"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+        "trackName": "Battle! Elite Four",
+        "trackUri": "spotify:track:14Y9Aoi8lofRfdCBHiq5bw"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+        "trackName": "Cycling Road (Route 110)",
+        "trackUri": "spotify:track:530RDPQzA6xdc2qetO5aFL"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "Detach",
+        "trackUri": "spotify:track:1TjPCg0Ty4ZmoFoWseUfcY"
+      },
+      {
+        "artistName": "Breaking Benjamin",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "Blow Me Away",
+        "trackUri": "spotify:track:4c9h64bhthsMLTvbTYfUwn"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "The Tree When We Sat Once",
+        "trackUri": "spotify:track:0iP9XqyYrRbEAG9iNUMMdM"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Emhyr Var Emreis",
+        "trackUri": "spotify:track:4Id2g80LHkdlv3H93KfTFf"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Forged In Fire",
+        "trackUri": "spotify:track:3atsASWszZ4UY04AMnfDyj"
+      },
+      {
+        "artistName": "Nature Sounds",
+        "albumName": "Jungle Sounds",
+        "trackName": "Evening Approaches in the Rainforest",
+        "trackUri": "spotify:track:2XpcOBuBcb5EvRpYqsOOJ8"
+      },
+      {
+        "artistName": "Nature Sounds",
+        "albumName": "Jungle Sounds",
+        "trackName": "Bird Nature Sound at Dusk in the Jungle",
+        "trackUri": "spotify:track:4wRW2VwobOj48LQsngRigC"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Igni",
+        "trackUri": "spotify:track:5cpPvi8VuvnSy7xlo7rX5n"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 23 a 2 Clav.",
+        "trackUri": "spotify:track:3uKsFbdcE8I44qGuE0Hwas"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Blood On The Cobblestones",
+        "trackUri": "spotify:track:4T2un0dcBcFH0oNSPVGnMC"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Words On Wind",
+        "trackUri": "spotify:track:6gWxtJpaoqOCtnBLy3yeVH"
+      },
+      {
+        "artistName": "Vangelis",
+        "albumName": "Blade Runner (Music From The Original Soundtrack)",
+        "trackName": "Memories of Green",
+        "trackUri": "spotify:track:0rHCW5eZ35QmQNVYyozAnZ"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Like A Wounded Animal",
+        "trackUri": "spotify:track:1FX7LRMecqMUzA3BESUMQa"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Farewell, Old Friend",
+        "trackUri": "spotify:track:6bnrTVyOx5oRo3gO0LWyIg"
+      },
+      {
+        "artistName": "Vangelis",
+        "albumName": "Blade Runner (Music From The Original Soundtrack)",
+        "trackName": "Blush Response",
+        "trackUri": "spotify:track:0cSnUM2fNEx4pAkNfWpdkU"
+      },
+      {
+        "artistName": "Martin O'Donnell",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "Remembrance",
+        "trackUri": "spotify:track:25Omvc51Sc4awY4zaM6oCP"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "The Shrieker Contract",
+        "trackUri": "spotify:track:1LZBsveDaUGi1jz2D2rFBM"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Yes, I Do...",
+        "trackUri": "spotify:track:4xYGQYZN2RV4TZXLRrQ8aH"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Double Team!",
+        "trackName": "N Suite",
+        "trackUri": "spotify:track:3mvLpq3ig32FTeHIM4OYTk"
+      },
+      {
+        "artistName": "Martin O'Donnell",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "Flawed Legacy",
+        "trackUri": "spotify:track:5hapmj2DlDYvQm8e4zRCVZ"
+      },
+      {
+        "artistName": "Cristina D'Avena",
+        "albumName": "30 e Poi...",
+        "trackName": "Always Pokemon",
+        "trackUri": "spotify:track:3Cp2LvH6SSxqmDprKy1382"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Kanto Symphony: The Lost Diaries",
+        "trackName": "Fanfare! Item Obtain #1",
+        "trackUri": "spotify:track:1UMI7KJnWPCSqvVq66X2Sv"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 16 a 1 Clav. Overture",
+        "trackUri": "spotify:track:3Kx6ONEfaAGQ4FnzIlTd0O"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Nemesis",
+        "trackUri": "spotify:track:1scWvcbtPpiemWwZxEw58s"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Kanto Symphony: The Lost Diaries",
+        "trackName": "Fanfare! Item Obtain #2",
+        "trackUri": "spotify:track:5zhXIlj1RFh9dxYmwL9pom"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Kanto Symphony: The Lost Diaries",
+        "trackName": "Waking Snorlax ~ Pokémon Flute",
+        "trackUri": "spotify:track:1oEGsCjTQ1qFV5BUKm2sUS"
+      },
+      {
+        "artistName": "Vangelis",
+        "albumName": "Blade Runner (Music From The Original Soundtrack)",
+        "trackName": "Tears in Rain",
+        "trackUri": "spotify:track:2LxEIWrZkzfc55c3rk05DH"
+      },
+      {
+        "artistName": "Eric Buchholz",
+        "albumName": "Pokémon Reorchestrated: Double Team!",
+        "trackName": "Pallet Town",
+        "trackUri": "spotify:track:7rvMIm1rFcqzBNQy8xwK93"
+      },
+      {
+        "artistName": "Vangelis",
+        "albumName": "Blade Runner (Music From The Original Soundtrack)",
+        "trackName": "One More Kiss, Dear",
+        "trackUri": "spotify:track:7CKz0xDkXuPdW3xEQ4NUS9"
+      },
+      {
+        "artistName": "Vangelis",
+        "albumName": "Blade Runner (Music From The Original Soundtrack)",
+        "trackName": "Blade Runner - End Titles",
+        "trackUri": "spotify:track:1u1ATklwZesAvq1whHsI8Z"
+      },
+      {
+        "artistName": "Nature Sounds",
+        "albumName": "Jungle Sounds",
+        "trackName": "Evening Jungle Birds and Insects",
+        "trackUri": "spotify:track:0dHmilx9korFZBdfmTmoTB"
+      },
+      {
+        "artistName": "Martin O'Donnell",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "Halo Theme Mjolnir Mix",
+        "trackUri": "spotify:track:2kPg0muJ8d8ys1Z18YOHG6"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "The Wolf And The Swallow",
+        "trackUri": "spotify:track:3N3PUgBtBCHiwvI5sbbjJ3"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Whispers Of Oxenfurt",
+        "trackUri": "spotify:track:1KU1pWuZXhBnKkJawssJGI"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "King Bran's Final Voyage",
+        "trackUri": "spotify:track:5GelOhjjpb4X1GsExeWLZN"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "I'm Going Home",
+        "trackUri": "spotify:track:4lPGM6jGbrjcWYal4StjF1"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "Where We're Going",
+        "trackUri": "spotify:track:1TBJRUEWgRCKvcaVtojDad"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Aria",
+        "trackUri": "spotify:track:5bu9A6uphPWg39RC3ZKeku"
+      },
+      {
+        "artistName": "Vangelis",
+        "albumName": "Blade Runner (Music From The Original Soundtrack)",
+        "trackName": "Main Titles",
+        "trackUri": "spotify:track:6baN5nSUIVTsUyugSuAj7U"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 28 a 2 Clav.",
+        "trackUri": "spotify:track:0rtuph9t0tzEHZh8n5UlZ8"
+      },
+      {
+        "artistName": "Vangelis",
+        "albumName": "Blade Runner (Music From The Original Soundtrack)",
+        "trackName": "Love Theme",
+        "trackUri": "spotify:track:2oDR7QWoLBk9VYMwsFbRGq"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "The Trail",
+        "trackUri": "spotify:track:4FEsafrAjZPDo9N0RiiH1I"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "Message from Home",
+        "trackUri": "spotify:track:5pmXIuP7KNq7AuCKmPUIhO"
+      },
+      {
+        "artistName": "Ernia",
+        "albumName": "No Hooks",
+        "trackName": "Santa Maria",
+        "trackUri": "spotify:track:2gUK9DMzw5PFfKbez0aS8N"
+      },
+      {
+        "artistName": "Nature Sounds",
+        "albumName": "Jungle Sounds",
+        "trackName": "Rainforest Background Nature Sound",
+        "trackUri": "spotify:track:0a7qndOuXXK58KvhBT951L"
+      },
+      {
+        "artistName": "Martin O'Donnell",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "Ancient Machine",
+        "trackUri": "spotify:track:5YfR5t99eilP1PLhY3nqsi"
+      },
+      {
+        "artistName": "Martin O'Donnell",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "Impend",
+        "trackUri": "spotify:track:22ziMMTeIElunJjZ5UFQtF"
+      },
+      {
+        "artistName": "Vangelis",
+        "albumName": "Blade Runner (Music From The Original Soundtrack)",
+        "trackName": "Rachel's Song",
+        "trackUri": "spotify:track:5JtTSaH8W6UVqViPgpcqTq"
+      },
+      {
+        "artistName": "Justin Timberlake",
+        "albumName": "FutureSex/LoveSounds",
+        "trackName": "What Goes Around.../...Comes Around (Interlude)",
+        "trackUri": "spotify:track:3pD0f7hSJg2XdQ6udw5Tey"
+      },
+      {
+        "artistName": "Creedence Clearwater Revival",
+        "albumName": "Willy And The Poor Boys",
+        "trackName": "Fortunate Son",
+        "trackUri": "spotify:track:4BP3uh0hFLFRb5cjsgLqDh"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Double Team!",
+        "trackName": "Abandoned Ship",
+        "trackUri": "spotify:track:1tpSPGooyli0l9t4k1Eu9o"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "S.T.A.Y.",
+        "trackUri": "spotify:track:1olO0IZxJUM6COX6i57RGe"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 19 a 1 Clav.",
+        "trackUri": "spotify:track:6b1w0rV1rQ7o22QytG4MD4"
+      },
+      {
+        "artistName": "Vangelis",
+        "albumName": "Blade Runner (Music From The Original Soundtrack)",
+        "trackName": "Blade Runner Blues",
+        "trackUri": "spotify:track:575blCgesVtCu0HEYaIcas"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "No Surrender",
+        "trackUri": "spotify:track:7i7TqT4GcO7Jnj0AH0NVTi"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "Running Out",
+        "trackUri": "spotify:track:2CvYIKcGlkZTsjhAViX0Db"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Widow-Maker",
+        "trackUri": "spotify:track:2sbzrOjYU5YHstqte7ongu"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+        "trackName": "Verdanturf Town",
+        "trackUri": "spotify:track:1jd7mzUMbY6N3A9YKGDgAG"
+      },
+      {
+        "artistName": "Nature Sounds",
+        "albumName": "Jungle Sounds",
+        "trackName": "Insects and Nightlife in the Jungle",
+        "trackUri": "spotify:track:47pki7c7MW6lc7za2kPi8p"
+      },
+      {
+        "artistName": "Eric Buchholz",
+        "albumName": "Pokémon Reorchestrated: Double Team!",
+        "trackName": "Reflections",
+        "trackUri": "spotify:track:1e9THt2gFC0hWerULIbEFS"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Conjunction Of The Spheres",
+        "trackUri": "spotify:track:5Unq7kNbOXh5bMuHEGg9lM"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "The Wormhole",
+        "trackUri": "spotify:track:4Ty9v3xcNh5pVuf0iq8Dfv"
+      },
+      {
+        "artistName": "Vangelis",
+        "albumName": "Blade Runner (Music From The Original Soundtrack)",
+        "trackName": "Wait for Me",
+        "trackUri": "spotify:track:2lwbjZkzcDkMSf0a4o0Ax1"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 14 a 2 Clav.",
+        "trackUri": "spotify:track:4PqCIpr1uWNxakSW79FDaZ"
+      },
+      {
+        "artistName": "Incubus",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "Follow (1st Movement of the Odyssey)",
+        "trackUri": "spotify:track:50C0zA6JNmSBLEwu7EZqBg"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "Afraid of Time",
+        "trackUri": "spotify:track:3Vef8GlFWEzrP23UwHjWWl"
+      },
+      {
+        "artistName": "The Clash",
+        "albumName": "London Calling (Remastered)",
+        "trackName": "London Calling - Remastered",
+        "trackUri": "spotify:track:5jzma6gCzYtKB1DbEwFZKH"
+      },
+      {
+        "artistName": "Martin O'Donnell",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "High Charity",
+        "trackUri": "spotify:track:4VA1ZMeadOheLXsQ0TNS0o"
+      },
+      {
+        "artistName": "Percival Schuttenbach",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Cloak And Dagger",
+        "trackUri": "spotify:track:4pOiW4UcKHpjmBD98D97eZ"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Another Round For Everyone",
+        "trackUri": "spotify:track:3slCTwgyRIRjp7a53zqIt0"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+        "trackName": "Opening / Main Titles",
+        "trackUri": "spotify:track:4Ut2v0kw56b5jdXyBXzwVm"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Double Team!",
+        "trackName": "Ecruteak City",
+        "trackUri": "spotify:track:2wPII8q6SlvuyfB1eCfk0a"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Back On The Path",
+        "trackUri": "spotify:track:6utAVGpiL1AZJu0TkVkx6U"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 10 a 1 Clav. Fughetta",
+        "trackUri": "spotify:track:7Aw2j9reBy7YeXiqBHvjhE"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "Stay",
+        "trackUri": "spotify:track:1PyEOnj3tdaHAcDcsqTYbv"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 21 Canone alla Settima",
+        "trackUri": "spotify:track:6AAsNisZwKxgJUmMHOAYAO"
+      },
+      {
+        "artistName": "Gigi D'Agostino",
+        "albumName": "Ieri e oggi mix Vol. 1",
+        "trackName": "ieri e oggi mix vol 1 parte 2",
+        "trackUri": "spotify:track:7HCKKUugVb28DLc4TF9HMb"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Kanto Symphony: The Lost Diaries",
+        "trackName": "Father and Son",
+        "trackUri": "spotify:track:1BXEG6bwASdk8iDUoFuL0O"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 25 a 2 Clav.",
+        "trackUri": "spotify:track:3WtLQJEmFO5QojdOsuEOGs"
+      },
+      {
+        "artistName": "Eric Buchholz",
+        "albumName": "Pokémon Reorchestrated: Double Team!",
+        "trackName": "Aqua and Magma",
+        "trackUri": "spotify:track:0Oz4IbJJR0m9fgx85WSmaC"
+      },
+      {
+        "artistName": "Hans Zimmer",
+        "albumName": "Interstellar (Original Motion Picture Soundtrack)",
+        "trackName": "Coward",
+        "trackUri": "spotify:track:3wa4t4bc0UjG2eSGgXHcaR"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Welcome, Imlerith",
+        "trackUri": "spotify:track:6RGovSXbbyKug1LGBAeJZy"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+        "trackName": "Battle! Wild Pokémon",
+        "trackUri": "spotify:track:3fyeE7psZ22E6EYyISE6Uc"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Commanding The Fury",
+        "trackUri": "spotify:track:3PoufwSX7RAUSG3uzIKI9V"
+      },
+      {
+        "artistName": "Eric Buchholz",
+        "albumName": "Pokémon Reorchestrated: Double Team!",
+        "trackName": "Golden Horizons",
+        "trackUri": "spotify:track:6HPiugg4dwmAcAuTMf0y6X"
+      },
+      {
+        "artistName": "Incubus",
+        "albumName": "Halo 2, Vol. 1 (Original Game Soundtrack)",
+        "trackName": "3rd Movement of the Odyssey",
+        "trackUri": "spotify:track:63KmNexaAOuSRRGt37vQbz"
+      },
+      {
+        "artistName": "Nature Sounds",
+        "albumName": "Jungle Sounds",
+        "trackName": "Primate and Bird Calls in the Jungle",
+        "trackUri": "spotify:track:3UdIb6nZZzGkc3kxW5q9wZ"
+      },
+      {
+        "artistName": "Mikolai Stroinski",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Bonnie At Morn - Instrumental",
+        "trackUri": "spotify:track:1rviSMTqJSd3120zrPaqY5"
+      },
+      {
+        "artistName": "Nature Sounds",
+        "albumName": "Jungle Sounds",
+        "trackName": "Hornbill and Baboon Calls in the Jungle",
+        "trackUri": "spotify:track:4B9gjsmyOLhOveSpcj1Dnq"
+      },
+      {
+        "artistName": "Nature Sounds",
+        "albumName": "Jungle Sounds",
+        "trackName": "Night Falls in the Rainforest",
+        "trackUri": "spotify:track:3I928aWwhYenQpAH4melMQ"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Geralt Of Rivia",
+        "trackUri": "spotify:track:0Pfdg72l2kQsh4sQHMRSbv"
+      },
+      {
+        "artistName": "Nature Sounds",
+        "albumName": "Jungle Sounds",
+        "trackName": "Group of Hornbills in the Jungle",
+        "trackUri": "spotify:track:5BCI87r2waDKMO69nSnZm5"
+      },
+      {
+        "artistName": "Vangelis",
+        "albumName": "Blade Runner (Music From The Original Soundtrack)",
+        "trackName": "Tales of the Future",
+        "trackUri": "spotify:track:21aDHnHXtZqnxqLaD0chkG"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Family Matters",
+        "trackUri": "spotify:track:4klXbKnFHq9QacsfNyN2xY"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 2 a 1 Clav.",
+        "trackUri": "spotify:track:2mXVCqoNE6otHBcmRz4IHv"
+      },
+      {
+        "artistName": "Marcin Przybyłowicz",
+        "albumName": "The Witcher 3: Wild Hunt",
+        "trackName": "Child Of The Elder Blood",
+        "trackUri": "spotify:track:6zIBLKDDBo7NWvyiU5PYHk"
+      },
+      {
+        "artistName": "Braxton Burks",
+        "albumName": "Pokémon Reorchestrated: Hoenn Summer",
+        "trackName": "The Road to Fallarbor Town (Route 113)",
+        "trackUri": "spotify:track:3uls4ORQoybV1po8iWSLnZ"
+      },
+      {
+        "artistName": "Johann Sebastian Bach",
+        "albumName": "Bach: The Goldberg Variations, BWV 988",
+        "trackName": "Goldberg Variations, BWV 988: Variation 27 a 2 Clav. Canone alla Nona",
+        "trackUri": "spotify:track:55Vz4uotMyR5nIzgeqSroD"
+      }
+    ]
+  },
+  "creationDate": "2022-10-04T15:06:30.008Z"
+}

@@ -1,0 +1,557 @@
+{
+  "description": "Aggregation of information from Instagram's models",
+  "type": "object",
+  "properties": {
+    "username": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "birthdate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "phoneNumber": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "string"
+    },
+    "accountsNotInterestedIn": {
+      "$ref": "#/definitions/AccountsYouAreNotInterestedIG"
+    },
+    "adsClicked": {
+      "$ref": "#/definitions/AdsClickedIG"
+    },
+    "adsUsingYourInfo": {
+      "$ref": "#/definitions/AdsUsingYourInformationIG"
+    },
+    "adsViewed": {
+      "$ref": "#/definitions/AdsViewedIG"
+    },
+    "postsViewed": {
+      "$ref": "#/definitions/PostViewedIG"
+    },
+    "suggestedAccountsViewed": {
+      "$ref": "#/definitions/SuggestedAccountsViewedIG"
+    },
+    "autofillInfo": {
+      "$ref": "#/definitions/AutofillInformationIG"
+    },
+    "commentsPosted": {
+      "$ref": "#/definitions/CommentsPostedIG"
+    },
+    "followingHashtags": {
+      "$ref": "#/definitions/FollowingHashtagsIG"
+    },
+    "adsInterests": {
+      "$ref": "#/definitions/AdsInterestsIG"
+    },
+    "locations": {
+      "$ref": "#/definitions/LocationInformationIG"
+    },
+    "eligibility": {
+      "$ref": "#/definitions/EligibilityIG"
+    },
+    "searches": {
+      "$ref": "#/definitions/SearchesIG"
+    },
+    "reelTopics": {
+      "$ref": "#/definitions/ReelTopicsIG"
+    },
+    "yourTopics": {
+      "$ref": "#/definitions/YourTopicsIG"
+    },
+    "shoppingItemsViewed": {
+      "$ref": "#/definitions/ShoppingViewedItemsIG"
+    },
+    "engagement": {
+      "$ref": "#/definitions/EngagementAggregatorIG"
+    },
+    "creationDate": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "definitions": {
+    "AccountsYouAreNotInterestedIG": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AccountIG"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "AccountIG": {
+      "type": "object",
+      "properties": {
+        "href": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "AdsClickedIG": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AdvIG"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "AdvIG": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "AdsUsingYourInformationIG": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AdvUsingYourInformationIG"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "AdvUsingYourInformationIG": {
+      "type": "object",
+      "properties": {
+        "advertiserName": {
+          "type": "string"
+        },
+        "hasDataFileCustomAudience": {
+          "type": "boolean"
+        },
+        "hasRemarketingCustomAudience": {
+          "type": "boolean"
+        },
+        "hasInPersonStoreVisit": {
+          "type": "boolean"
+        }
+      }
+    },
+    "AdsViewedIG": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AdvIG"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "PostViewedIG": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostIG"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "PostIG": {
+      "type": "object",
+      "properties": {
+        "uri": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "SuggestedAccountsViewedIG": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AccountIG"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "AutofillInformationIG": {
+      "type": "object",
+      "properties": {
+        "tel": {
+          "type": "string"
+        },
+        "telCountryCode": {
+          "type": "string"
+        },
+        "telNational": {
+          "type": "string"
+        },
+        "telAreaCode": {
+          "type": "string"
+        },
+        "telLocal": {
+          "type": "string"
+        },
+        "telLocalPrefix": {
+          "type": "string"
+        },
+        "telLocalSuffix": {
+          "type": "string"
+        },
+        "streetAddress": {
+          "type": "string"
+        },
+        "streetLine1": {
+          "type": "string"
+        },
+        "streetLine2": {
+          "type": "string"
+        },
+        "streetLine3": {
+          "type": "string"
+        },
+        "streetLevel1": {
+          "type": "string"
+        },
+        "streetLevel2": {
+          "type": "string"
+        },
+        "streetLevel3": {
+          "type": "string"
+        },
+        "streetLevel4": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "countryName": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "familyName": {
+          "type": "string"
+        },
+        "givenName": {
+          "type": "string"
+        }
+      }
+    },
+    "CommentsPostedIG": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommentPostedIG"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "CommentPostedIG": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "toUser": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "FollowingHashtagsIG": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AccountIG"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "AdsInterestsIG": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AdvIG"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "LocationInformationIG": {
+      "type": "object",
+      "properties": {
+        "basedIn": {
+          "type": "string"
+        }
+      }
+    },
+    "EligibilityIG": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "decision": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "SearchesIG": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SearchIG"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "SearchIG": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "ReelTopicsIG": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TopicIG"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "TopicIG": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "YourTopicsIG": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TopicIG"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "ShoppingViewedItemsIG": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShoppingViewedItemIG"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "ShoppingViewedItemIG": {
+      "type": "object",
+      "properties": {
+        "productID": {
+          "type": "string"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "handlerID": {
+          "type": "string"
+        },
+        "handlerName": {
+          "type": "string"
+        }
+      }
+    },
+    "EngagementAggregatorIG": {
+      "type": "object",
+      "properties": {
+        "timeInterval": {
+          "description": "Interval of Time in days",
+          "default": 365,
+          "type": "number"
+        },
+        "adsClicked": {
+          "type": "number"
+        },
+        "adsClickedTI": {
+          "type": "number"
+        },
+        "adsViewed": {
+          "type": "number"
+        },
+        "adsViewedTI": {
+          "type": "number"
+        },
+        "commentsPosted": {
+          "type": "number"
+        },
+        "commentsPostedTI": {
+          "type": "number"
+        },
+        "followingHashtagsCounter": {
+          "type": "number"
+        },
+        "followingCounter": {
+          "type": "number"
+        },
+        "followersCounter": {
+          "type": "number"
+        },
+        "emojiSliders": {
+          "type": "number"
+        },
+        "emojiSlidersTI": {
+          "type": "number"
+        },
+        "likesComments": {
+          "type": "number"
+        },
+        "likesCommentsTI": {
+          "type": "number"
+        },
+        "likesPosts": {
+          "type": "number"
+        },
+        "likesPostsTI": {
+          "type": "number"
+        },
+        "polls": {
+          "type": "number"
+        },
+        "pollsTI": {
+          "type": "number"
+        },
+        "postsCreated": {
+          "type": "number"
+        },
+        "postsCreatedTI": {
+          "type": "number"
+        },
+        "postsViewed": {
+          "type": "number"
+        },
+        "postsViewedTI": {
+          "type": "number"
+        },
+        "quizzes": {
+          "type": "number"
+        },
+        "quizzesTI": {
+          "type": "number"
+        },
+        "storiesCreated": {
+          "type": "number"
+        },
+        "storiesCreatedTI": {
+          "type": "number"
+        },
+        "videosViewed": {
+          "type": "number"
+        },
+        "videosViewedTI": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

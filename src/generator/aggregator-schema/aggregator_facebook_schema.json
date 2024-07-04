@@ -1,0 +1,806 @@
+{
+  "description": "Aggregation of information from Facebook's models",
+  "type": "object",
+  "properties": {
+    "personalInfo": {
+      "$ref": "#/definitions/PersonalInformationFB"
+    },
+    "languagesKnown": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "adsInteractedWith": {
+      "$ref": "#/definitions/AdsInteractedWithFB"
+    },
+    "adsUsingYourInfo": {
+      "$ref": "#/definitions/AdsUsingYourInfoFB"
+    },
+    "adsInterests": {
+      "$ref": "#/definitions/AdsInterestsFB"
+    },
+    "infoSubmittedToAds": {
+      "$ref": "#/definitions/InformationSubmittedAdsFB"
+    },
+    "searchHistory": {
+      "$ref": "#/definitions/SearchHistoryFB"
+    },
+    "commentsPosted": {
+      "$ref": "#/definitions/CommentsPostedFB"
+    },
+    "pagesLiked": {
+      "$ref": "#/definitions/PagesLikedFB"
+    },
+    "pagesFollowed": {
+      "$ref": "#/definitions/PagesFollowFB"
+    },
+    "pagesRecommended": {
+      "$ref": "#/definitions/PagesRecommendedFB"
+    },
+    "pagesUnfollowed": {
+      "$ref": "#/definitions/PagesUnfollowedFB"
+    },
+    "postsCreated": {
+      "$ref": "#/definitions/YourPostsFB"
+    },
+    "yourTopics": {
+      "$ref": "#/definitions/YourTopicsFB"
+    },
+    "recentlyViewed": {
+      "$ref": "#/definitions/RecentlyViewedFB"
+    },
+    "recentlyVisited": {
+      "$ref": "#/definitions/RecentlyVisitedFB"
+    },
+    "engagement": {
+      "$ref": "#/definitions/EngagementAggregatorFB"
+    },
+    "creationDate": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "engagement"
+  ],
+  "definitions": {
+    "PersonalInformationFB": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "middleName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "emails": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "birthdate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "currentCity": {
+          "type": "string"
+        },
+        "homeTown": {
+          "type": "string"
+        },
+        "relationship": {
+          "$ref": "#/definitions/RelationshipFB"
+        },
+        "educationExperiences": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EducationExperienceFB"
+          }
+        },
+        "workExperience": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorkExperienceFB"
+          }
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "gendersInterests": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "politicalView": {
+          "$ref": "#/definitions/ViewFB"
+        },
+        "religiousView": {
+          "$ref": "#/definitions/ViewFB"
+        },
+        "bloodInfo": {
+          "type": "string"
+        },
+        "websites": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "address": {
+          "$ref": "#/definitions/AddressLocationFB"
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "placesLived": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PlaceLivedFB"
+          }
+        },
+        "pagesInterests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PagesFB"
+          }
+        },
+        "registrationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "profileUri": {
+          "type": "string"
+        }
+      }
+    },
+    "RelationshipFB": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "anniversary": {
+          "$ref": "#/definitions/DateAlternativeFB"
+        },
+        "dateAdded": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "DateAlternativeFB": {
+      "type": "object",
+      "properties": {
+        "year": {
+          "type": "number"
+        },
+        "month": {
+          "type": "number"
+        },
+        "day": {
+          "type": "number"
+        }
+      }
+    },
+    "EducationExperienceFB": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "graduated": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "educationTopics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "degree": {
+          "type": "string"
+        },
+        "schoolType": {
+          "type": "string"
+        }
+      }
+    },
+    "WorkExperienceFB": {
+      "type": "object",
+      "properties": {
+        "employer": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "ViewFB": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "AddressLocationFB": {
+      "type": "object",
+      "properties": {
+        "street": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "zipcode": {
+          "type": "number"
+        },
+        "neighborhood": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "countryCode": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "PlaceLivedFB": {
+      "type": "object",
+      "properties": {
+        "place": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "PagesFB": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "pages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "AdsInteractedWithFB": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AdvInteractionFB"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "AdvInteractionFB": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "AdsUsingYourInfoFB": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AdvUsingYourInfoFB"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "AdvUsingYourInfoFB": {
+      "type": "object",
+      "properties": {
+        "advertiserName": {
+          "type": "string"
+        },
+        "hasDataFileCustomAudience": {
+          "type": "boolean"
+        },
+        "hasRemarketingCustomAudience": {
+          "type": "boolean"
+        },
+        "hasInPersonStoreVisit": {
+          "type": "boolean"
+        }
+      }
+    },
+    "AdsInterestsFB": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "InformationSubmittedAdsFB": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/InformationAdsFB"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "InformationAdsFB": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "SearchHistoryFB": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SearchFB"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "SearchFB": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "CommentsPostedFB": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommentPostedFB"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "CommentPostedFB": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "PagesLikedFB": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PageFB"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "PageFB": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "PagesFollowFB": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PageFB"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "PagesRecommendedFB": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PageFB"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "PagesUnfollowedFB": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PageFB"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "YourPostsFB": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/YourPostFB"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "YourPostFB": {
+      "type": "object",
+      "properties": {
+        "post": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "YourTopicsFB": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "RecentlyViewedFB": {
+      "type": "object",
+      "properties": {
+        "timeSpentOnPageVideos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VisualizationFB"
+          }
+        },
+        "videoWatched": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VisualizationFB"
+          }
+        },
+        "timeSpentOnSingleVideo": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VisualizationFB"
+          }
+        },
+        "postsShownInNewsLast90Days": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VisualizationFB"
+          }
+        },
+        "peopleVisualizedWhenSuggested": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VisualizationFB"
+          }
+        },
+        "marketplaceArticlesVisualized": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VisualizationFB"
+          }
+        },
+        "insertionsVisualized": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VisualizationFB"
+          }
+        }
+      }
+    },
+    "VisualizationFB": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string"
+        },
+        "watchTimeInSeconds": {
+          "type": "number"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "RecentlyVisitedFB": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VisitedListFB"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "VisitedListFB": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VisitedFB"
+          }
+        }
+      },
+      "required": [
+        "list"
+      ]
+    },
+    "VisitedFB": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "EngagementAggregatorFB": {
+      "type": "object",
+      "properties": {
+        "timeInterval": {
+          "description": "Interval of Time in days",
+          "default": 365,
+          "type": "number"
+        },
+        "adsInteractions": {
+          "type": "number"
+        },
+        "adsInteractionsTI": {
+          "type": "number"
+        },
+        "commentsPosts": {
+          "type": "number"
+        },
+        "commentsPostsTI": {
+          "type": "number"
+        },
+        "postsCreated": {
+          "type": "number"
+        },
+        "postsCreatedTI": {
+          "type": "number"
+        },
+        "friendsCounter": {
+          "type": "number"
+        },
+        "followingCounter": {
+          "type": "number"
+        },
+        "angryReactions": {
+          "type": "number"
+        },
+        "hugReactions": {
+          "type": "number"
+        },
+        "laughReactions": {
+          "type": "number"
+        },
+        "likeReactions": {
+          "type": "number"
+        },
+        "loveReactions": {
+          "type": "number"
+        },
+        "sadReactions": {
+          "type": "number"
+        },
+        "wowReactions": {
+          "type": "number"
+        },
+        "angryReactionsTI": {
+          "type": "number"
+        },
+        "hugReactionsTI": {
+          "type": "number"
+        },
+        "laughReactionsTI": {
+          "type": "number"
+        },
+        "likeReactionsTI": {
+          "type": "number"
+        },
+        "loveReactionsTI": {
+          "type": "number"
+        },
+        "sadReactionsTI": {
+          "type": "number"
+        },
+        "wowReactionsTI": {
+          "type": "number"
+        },
+        "pagesFollowed": {
+          "type": "number"
+        },
+        "pagesFollowedTI": {
+          "type": "number"
+        },
+        "pagesLiked": {
+          "type": "number"
+        },
+        "pagesLikedTI": {
+          "type": "number"
+        },
+        "pagesRecommended": {
+          "type": "number"
+        },
+        "pagesRecommendedTI": {
+          "type": "number"
+        },
+        "videoWatched": {
+          "type": "number"
+        },
+        "videoWatchedTI": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
