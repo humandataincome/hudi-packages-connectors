@@ -1,8 +1,10 @@
 import LoggerUtils from "../../utils/logger.utils";
 import {staticImplements} from "../../utils/decorator.utils";
-import {HttpMethod, ProcessorAPIDatasource, ValidatorObject} from "../../utils";
+import {HttpMethod } from "../../utils";
 import {DepositHistoryBI, TradeListBI, BinanceDataAggregator, WithdrawHistoryBI} from "./model.binance";
 import {ServiceBinance} from "./service.binance";
+import {ProcessorAPIDatasource} from "../../processor";
+import {ValidatorObject} from "../../validator";
 
 @staticImplements<ProcessorAPIDatasource>()
 export class ProcessorBinance {

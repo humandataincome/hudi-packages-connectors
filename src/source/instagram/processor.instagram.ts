@@ -10,13 +10,14 @@ import {
     QuizIG,
     StoryIG,
 } from "./model.instagram";
-import {ProcessorGDPRDatasource, ProcessorOptions, ProcessorUtils, ValidatorObject} from "../../utils";
 import LoggerUtils from "../../utils/logger.utils";
 import {Unzipped, unzipSync} from "fflate";
 import {ValidatorInstagram} from "./validator.instagram";
 import {ServiceInstagram} from "./service.instagram";
 import {FileCodeInstagram} from "./enum.instagram";
 import {staticImplements} from "../../utils/decorator.utils";
+import {ProcessorGDPRDatasource, ProcessorOptions, ProcessorUtils} from "../../processor";
+import {ValidatorObject} from "../../validator";
 
 @staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorInstagram {

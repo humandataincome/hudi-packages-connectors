@@ -1,6 +1,5 @@
 import LoggerUtils from "../../utils/logger.utils";
 import {FileCodeSpotify} from "./enum.spotify";
-import {ValidatorObject} from "../../utils";
 import {
     FollowSP,
     IdentifiersSP,
@@ -14,6 +13,7 @@ import {
     UserdataSP,
     YourLibrarySP
 } from "./model.spotify";
+import {ValidatorObject} from "../../validator";
 
 /**
  * Class used to parse most important files into the directory returned by Spotify in JSON format.

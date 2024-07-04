@@ -49,9 +49,9 @@ import {
     WorkingPositionsLI
 } from "./model.linkedin";
 import {ParserUtils} from "../../utils/parser.utils";
-import {ValidatorObject} from "../../utils";
 import {FileCodeLinkedIn} from "./enum.linkedin";
 import {Months} from "../../enums";
+import {ValidatorObject} from "../../validator";
 
 /**
  * Class used to parse most important files into the directory returned by LinkedIn in CSV format.

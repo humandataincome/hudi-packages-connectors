@@ -6,8 +6,9 @@ import {
     LanguageCode,
     RetrievingProcedureType
 } from "./descriptor.enum";
-import {SelectorUtils, ValidatorObject} from "../utils";
+import {SelectorUtils} from "../utils";
 import {DescriptorErrorEnum} from "../enums";
+import {ValidatorObject} from "../validator";
 
 const descriptor: Descriptor = require('./descriptor.json');
 

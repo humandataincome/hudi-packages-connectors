@@ -39,7 +39,7 @@ import {
 } from "./model.google";
 import {ParserUtils} from "../../utils/parser.utils";
 import {DecodingUtils} from "../../utils/decoding.utils";
-import {ValidatorObject} from "../../utils/validator/validator.object";
+import {ValidatorObject} from "../../validator/validator.object";
 import {FileCodeGoogle} from "./enum.google";
 import {Months} from "../../enums";
 

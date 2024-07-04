@@ -1,5 +1,5 @@
 import {LanguageCode} from "../../descriptor";
-import {ValidatorDatasource, ValidatorDatasourceOption} from "../../utils/validator/validator.datasource";
+import {ValidatorDatasource, ValidatorDatasourceOption} from "../../validator/validator.datasource";
 import LoggerUtils from "../../utils/logger.utils";
 import {FileCodeInstagram} from "./enum.instagram";
 import {ValidationErrorEnum} from "../../enums";

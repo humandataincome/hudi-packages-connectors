@@ -47,7 +47,7 @@ import {
     VisitedFB, VisitedListFB
 } from "./model.facebook";
 import {DecodingUtils} from "../../utils/decoding.utils";
-import {ValidatorObject} from "../../utils/validator/validator.object";
+import {ValidatorObject} from "../../validator/validator.object";
 import {FileCodeFacebook} from "./enum.facebook";
 
 /**

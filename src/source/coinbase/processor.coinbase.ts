@@ -1,8 +1,10 @@
 import {staticImplements} from "../../utils/decorator.utils";
-import {HttpMethod, ProcessorAPIDatasource, ValidatorObject} from "../../utils";
+import {HttpMethod } from "../../utils";
 import LoggerUtils from "../../utils/logger.utils";
 import {AccountCB, CoinbaseDataAggregator, MovementsAggregatorCB} from "./model.coinbase";
 import {ServiceCoinbase} from "./service.coinbase";
+import {ProcessorAPIDatasource} from "../../processor";
+import {ValidatorObject} from "../../validator";
 
 @staticImplements<ProcessorAPIDatasource>()
 export class ProcessorCoinbase {

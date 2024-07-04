@@ -45,7 +45,7 @@ import {
     ServiceSpotify,
     ProcessorSpotify
 } from "../source";
-import {ValidatorDatasource} from "./validator";
+import {ValidatorDatasource} from "../validator";
 import {Unzipped} from "fflate";
 import {ProcessorAPIDatasource, ProcessorGDPRDatasource, ProcessorOptions} from "../processor";
 

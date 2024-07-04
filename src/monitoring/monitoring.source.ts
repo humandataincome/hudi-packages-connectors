@@ -2,10 +2,10 @@ import {
     GDPRDataSourceCode,
     FileExtension
 } from "../descriptor";
-import {ValidatorFiles} from "../utils/validator/validator.files";
+import {ValidatorFiles} from "../validator/validator.files";
 import LoggerUtils from "../utils/logger.utils";
 import {Unzipped, unzipSync} from "fflate";
-import {ValidatorObject} from "../utils/validator/validator.object";
+import {ValidatorObject} from "../validator/validator.object";
 import {SelectorUtils} from "../utils/selector.utils";
 
 export interface MonitoringFilesOptions {

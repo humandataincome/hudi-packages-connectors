@@ -1,5 +1,5 @@
 import LoggerUtils from "../../utils/logger.utils";
-import {HttpMethod, ValidatorObject} from "../../utils";
+import {HttpMethod} from "../../utils";
 import {
     AccountCB,
     AccountsCB,
@@ -14,6 +14,7 @@ import {
     TransactionsCB,
     UserCB,
 } from "./model.coinbase";
+import {ValidatorObject} from "../../validator";
 
 export class ServiceCoinbase {
     private readonly logger = new LoggerUtils("Service Coinbase");

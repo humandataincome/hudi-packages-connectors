@@ -1,10 +1,11 @@
 import {staticImplements} from "../../utils/decorator.utils";
-import {ProcessorGDPRDatasource, ProcessorOptions, ValidatorObject} from "../../utils";
 import LoggerUtils from "../../utils/logger.utils";
 import {SpotifyDataAggregator} from "./model.spotify";
 import {Unzipped, unzipSync} from "fflate";
 import {FileCodeSpotify} from "./enum.spotify";
 import {ServiceSpotify} from "./service.spotify";
+import {ProcessorGDPRDatasource, ProcessorOptions} from "../../processor";
+import {ValidatorObject} from "../../validator";
 
 @staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorSpotify {

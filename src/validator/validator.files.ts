@@ -9,14 +9,14 @@ import {
     Zippable,
     zipSync,
 } from "fflate";
-import {GDPRDataSourceCode, FileCode, FileExtension} from "../../descriptor";
-import {ParserUtils} from "../parser.utils";
-import LoggerUtils from "../logger.utils";
+import {GDPRDataSourceCode, FileCode, FileExtension} from "../descriptor";
+import {ParserUtils} from "../utils/parser.utils";
+import LoggerUtils from "../utils/logger.utils";
 import {ValidatorObject} from "./validator.object";
 import {from, Observable, Subscriber} from 'rxjs';
-import {SelectorUtils} from "../selector.utils";
+import {SelectorUtils} from "../utils/selector.utils";
 import {Mutex} from "async-mutex";
-import {ValidationErrorEnum} from "../../enums";
+import {ValidationErrorEnum} from "../enums";
 
 /**
  * @permittedFileExtensions list of extensions of file that we want to include exclusively.

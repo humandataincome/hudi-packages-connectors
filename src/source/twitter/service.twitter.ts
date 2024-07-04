@@ -1,7 +1,7 @@
 import LoggerUtils from "../../utils/logger.utils";
 import {ParserUtils} from "../../utils/parser.utils";
 import {AccountTW} from "./model.twitter";
-import {ValidatorObject} from "../../utils/validator/validator.object";
+import {ValidatorObject} from "../../validator/validator.object";
 import {FileCodeTwitter} from "./enum.twitter";
 
 /**

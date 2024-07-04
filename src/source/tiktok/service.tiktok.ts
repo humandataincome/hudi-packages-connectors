@@ -10,9 +10,9 @@ import {
     VideoBrowsingHistoryTK,
     VideoLikedListTK, YourVideoListTK
 } from "./model.tiktok";
-import {ValidatorObject} from "../../utils";
 import {FileCodeTikTok} from "./enum.tiktok";
 import {Months} from "../../enums";
+import {ValidatorObject} from "../../validator";
 
 export class ServiceTiktok {
     private static readonly logger = new LoggerUtils("TikTok Service");

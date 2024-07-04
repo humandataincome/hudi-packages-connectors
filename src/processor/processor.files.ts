@@ -1,5 +1,5 @@
 import {from, Observable, Subscriber} from "rxjs";
-import {ValidatorFiles, ValidatorObject} from "../utils/validator";
+import {ValidatorFiles, ValidatorObject} from "../validator";
 import {DataAggregator, FileExtension, GDPRDataSourceCode, LanguageCode} from "../descriptor";
 import {FlateError, Unzip, UnzipFile, UnzipInflate, unzipSync} from "fflate";
 import {SelectorUtils} from "../utils/selector.utils";

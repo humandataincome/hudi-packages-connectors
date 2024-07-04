@@ -11,7 +11,7 @@ import {
     SubscribedSubredditRE
 } from "./model.reddit";
 import {FileCodeReddit} from "./enum.reddit";
-import {ValidatorObject} from "../../utils";
+import {ValidatorObject} from "../../validator";
 
 /**
  * Class used to parse most important files into the directory returned by Reddit in CSV format.

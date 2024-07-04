@@ -1,9 +1,9 @@
-import {FileCode, LanguageCode} from "../../descriptor";
-import LoggerUtils from "../logger.utils";
+import {FileCode, LanguageCode} from "../descriptor";
+import LoggerUtils from "../utils/logger.utils";
 import {Unzipped, unzipSync, zipSync} from "fflate";
 import {ValidatorObject} from "./validator.object";
-import {FileCodeAmazon} from "../../source";
-import {ValidationErrorEnum} from "../../enums";
+import {FileCodeAmazon} from "../source";
+import {ValidationErrorEnum} from "../enums";
 
 export type  ValidatorDatasourceOption = {
     fileCodes?: FileCode[] | string[];

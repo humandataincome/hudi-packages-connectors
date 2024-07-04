@@ -7,11 +7,12 @@ import {
     ProbableLocationGO
 } from "./model.google";
 import {ServiceGoogle} from "./service.google";
-import {ProcessorOptions, ProcessorUtils, ValidatorObject, ProcessorGDPRDatasource} from "../../utils";
 import LoggerUtils from "../../utils/logger.utils";
 import {Unzipped, unzipSync} from "fflate";
 import {FileCodeGoogle} from "./enum.google";
 import {staticImplements} from "../../utils/decorator.utils";
+import {ProcessorGDPRDatasource, ProcessorOptions, ProcessorUtils} from "../../processor";
+import {ValidatorObject} from "../../validator";
 
 @staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorGoogle {

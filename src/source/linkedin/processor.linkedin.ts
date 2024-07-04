@@ -1,10 +1,11 @@
 import {staticImplements} from "../../utils/decorator.utils";
-import {ProcessorGDPRDatasource, ProcessorOptions, ValidatorObject} from "../../utils";
 import LoggerUtils from "../../utils/logger.utils";
 import {Unzipped, unzipSync} from "fflate";
 import {LinkedInDataAggregator} from "./model.linkedin";
 import {ServiceLinkedin} from "./service.linkedin";
 import {FileCodeLinkedIn} from "./enum.linkedin";
+import {ProcessorGDPRDatasource, ProcessorOptions} from "../../processor";
+import {ValidatorObject} from "../../validator";
 
 @staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorLinkedin {

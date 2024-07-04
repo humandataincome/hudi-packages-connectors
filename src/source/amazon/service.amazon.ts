@@ -40,7 +40,7 @@ import {
     ViewingActivityAM,
     WishlistAM
 } from './model.amazon';
-import { ValidatorObject } from '../../utils/validator/validator.object';
+import { ValidatorObject } from '../../validator/validator.object';
 import {FileCodeAmazon} from "./enum.amazon";
 import {Months} from "../../enums";
 

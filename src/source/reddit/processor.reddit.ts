@@ -1,10 +1,11 @@
 import LoggerUtils from "../../utils/logger.utils";
-import {ProcessorGDPRDatasource, ProcessorOptions, ValidatorObject} from "../../utils";
 import {Unzipped, unzipSync} from "fflate";
 import {staticImplements} from "../../utils/decorator.utils";
 import {FileCodeReddit} from "./enum.reddit";
 import {ServiceReddit} from "./service.reddit";
 import {RedditDataAggregator} from "./model.reddit";
+import {ProcessorGDPRDatasource, ProcessorOptions} from "../../processor";
+import {ValidatorObject} from "../../validator";
 
 @staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorReddit {

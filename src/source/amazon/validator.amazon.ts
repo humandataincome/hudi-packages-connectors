@@ -1,4 +1,4 @@
-import {ValidatorDatasource} from "../../utils/validator/validator.datasource";
+import {ValidatorDatasource} from "../../validator/validator.datasource";
 import LoggerUtils from "../../utils/logger.utils";
 import {FileCodeAmazon} from "./enum.amazon";
 

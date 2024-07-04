@@ -53,7 +53,7 @@ import {
 import LoggerUtils from "../../utils/logger.utils";
 import {DecodingUtils} from "../../utils/decoding.utils";
 import {LanguageCode} from "../../descriptor";
-import {ValidatorObject} from "../../utils/validator/validator.object";
+import {ValidatorObject} from "../../validator/validator.object";
 import {FileCodeInstagram} from "./enum.instagram";
 
 /**

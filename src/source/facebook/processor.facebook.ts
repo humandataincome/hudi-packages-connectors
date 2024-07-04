@@ -8,17 +8,13 @@ import {
     VisualizationFB,
     YourPostFB
 } from "./model.facebook";
-import {
-    ProcessorOptions,
-    ProcessorUtils,
-    ValidatorObject,
-    ProcessorGDPRDatasource
-} from "../../utils";
 import LoggerUtils from "../../utils/logger.utils";
 import {Unzipped, unzipSync} from "fflate";
 import {ServiceFacebook} from "./service.facebook";
 import {FileCodeFacebook} from "./enum.facebook";
 import {staticImplements} from "../../utils/decorator.utils";
+import {ProcessorGDPRDatasource, ProcessorOptions, ProcessorUtils} from "../../processor";
+import {ValidatorObject} from "../../validator";
 
 @staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorFacebook {
