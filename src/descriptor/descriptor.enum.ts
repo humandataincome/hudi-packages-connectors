@@ -21,8 +21,8 @@ import {
     BinanceDataAggregator,
     CoinbaseDataAggregator,
     FileCodeSpotify,
-    SpotifyDataAggregator
-} from "../source";
+    SpotifyDataAggregator,
+} from '../source';
 
 export type DataSourceCode = GDPRDataSourceCode | APIDataSourceCode;
 
@@ -42,13 +42,13 @@ export enum GDPRDataSourceCode {
 
 export enum APIDataSourceCode {
     BINANCE = 'BINANCE',
-    COINBASE = 'COINBASE'
+    COINBASE = 'COINBASE',
 }
 //if 2 codes into APIDataSourceCode and GDPRDataSourceCode are the same, the descriptor service's logic must change
 
 export enum RetrievingProcedureType {
     DESKTOP = 'DESKTOP',
-    MOBILE = 'MOBILE'
+    MOBILE = 'MOBILE',
 }
 
 export enum FileExtension {
@@ -84,39 +84,28 @@ export enum LanguageCode {
 }
 
 export type FileCode =
-    FileCodeAmazon |
-    FileCodeFacebook |
-    FileCodeGoogle |
-    FileCodeInstagram |
-    FileCodeLinkedIn |
-    FileCodeNetflix |
-    FileCodeReddit |
-    FileCodeShopify |
-    FileCodeSpotify |
-    FileCodeTikTok |
-    FileCodeTwitter;
+    | FileCodeAmazon
+    | FileCodeFacebook
+    | FileCodeGoogle
+    | FileCodeInstagram
+    | FileCodeLinkedIn
+    | FileCodeNetflix
+    | FileCodeReddit
+    | FileCodeShopify
+    | FileCodeSpotify
+    | FileCodeTikTok
+    | FileCodeTwitter;
 
 export type DataAggregator =
-    AmazonDataAggregator |
-    BinanceDataAggregator |
-    CoinbaseDataAggregator |
-    FacebookDataAggregator |
-    GoogleDataAggregator |
-    InstagramDataAggregator |
-    LinkedInDataAggregator |
-    NetflixDataAggregator |
-    RedditDataAggregator |
-    SpotifyDataAggregator |
-    TiktokDataAggregator |
-    TwitterDataAggregator;
-
-
-
-
-
-
-
-
-
-
-
+    | AmazonDataAggregator
+    | BinanceDataAggregator
+    | CoinbaseDataAggregator
+    | FacebookDataAggregator
+    | GoogleDataAggregator
+    | InstagramDataAggregator
+    | LinkedInDataAggregator
+    | NetflixDataAggregator
+    | RedditDataAggregator
+    | SpotifyDataAggregator
+    | TiktokDataAggregator
+    | TwitterDataAggregator;

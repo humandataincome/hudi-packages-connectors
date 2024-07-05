@@ -1,4 +1,4 @@
-import {Months} from "../../enums";
+import { Months } from '../../enums';
 
 /**
  * Aggregation of information from LinkedIn's models
@@ -37,10 +37,9 @@ export interface AdsAggregatorLI {
     targeting?: AdsTargetingLI;
 }
 
-
 //FileCodeLinkedIn.ADS_CLICKED model
 export interface AdsClickedLI {
-    list: Array<AdvClickedLI>;
+    list: AdvClickedLI[];
 }
 
 export interface AdvClickedLI {
@@ -50,7 +49,7 @@ export interface AdvClickedLI {
 
 //FileCodeLinkedIn.CONNECTIONS model
 export interface ConnectionsLI {
-    list: Array<ConnectionLI>;
+    list: ConnectionLI[];
 }
 
 export interface ConnectionLI {
@@ -64,7 +63,7 @@ export interface ConnectionLI {
 
 //FileCodeLinkedIn.ACCOUNT_STATUS_HISTORY model
 export interface AccountStatusHistoryLI {
-    list: Array<AccountStatusLI>;
+    list: AccountStatusLI[];
 }
 
 export interface AccountStatusLI {
@@ -74,7 +73,7 @@ export interface AccountStatusLI {
 
 //FileCodeLinkedIn.COMPANY_FOLLOWS model
 export interface CompaniesFollowedLI {
-    list: Array<CompanyFollowedLI>;
+    list: CompanyFollowedLI[];
 }
 
 export interface CompanyFollowedLI {
@@ -84,7 +83,7 @@ export interface CompanyFollowedLI {
 
 //FileCodeLinkedIn.CONTACTS model
 export interface ContactsLI {
-    list: Array<ContactLI>;
+    list: ContactLI[];
 }
 
 export interface ContactLI {
@@ -108,7 +107,7 @@ export interface ContactLI {
 
 //FileCodeLinkedIn.EDUCATION model
 export interface EducationHistoryLI {
-    list: Array<EducationLI>;
+    list: EducationLI[];
 }
 
 export interface EducationLI {
@@ -122,7 +121,7 @@ export interface EducationLI {
 
 //FileCodeLinkedIn.EMAIL_ADDRESSES model
 export interface EmailsLI {
-    list: Array<EmailLI>;
+    list: EmailLI[];
 }
 
 export interface EmailLI {
@@ -134,7 +133,7 @@ export interface EmailLI {
 
 //FileCodeLinkedIn.ENDORSEMENT_RECEIVED_INFO_2 model
 export interface EndorsementsReceivedLI {
-    list: Array<EndorsementLI>;
+    list: EndorsementLI[];
 }
 
 export interface EndorsementLI {
@@ -147,7 +146,7 @@ export interface EndorsementLI {
 
 //FileCodeLinkedIn.INFERENCES_ABOUT_YOU model
 export interface InferencesAboutYouLI {
-    list: Array<InferenceLI>;
+    list: InferenceLI[];
 }
 
 export interface InferenceLI {
@@ -159,7 +158,7 @@ export interface InferenceLI {
 
 //FileCodeLinkedIn.INVITATIONS model
 export interface InvitationsLI {
-    list: Array<InvitationLI>;
+    list: InvitationLI[];
 }
 
 export interface InvitationLI {
@@ -172,12 +171,12 @@ export interface InvitationLI {
 
 //FileCodeLinkedIn.JOB_APPLICANT_SAVED_ANSWERS model
 export interface JobApplicantSavedInfoLI {
-    list: Array<QuestionAnswerLI>;
+    list: QuestionAnswerLI[];
 }
 
 //FileCodeLinkedIn.JOB_APPLICANT_SAVED_QUESTION_RESPONSES model
 export interface JobApplicantSavedScreeningQuestionInfoLI {
-    list: Array<QuestionAnswerLI>;
+    list: QuestionAnswerLI[];
 }
 
 export interface QuestionAnswerLI {
@@ -187,7 +186,7 @@ export interface QuestionAnswerLI {
 
 //FileCodeLinkedIn.LEARNING model
 export interface LearningsLI {
-    list: Array<LearningLI>;
+    list: LearningLI[];
 }
 
 export interface LearningLI {
@@ -202,7 +201,7 @@ export interface LearningLI {
 
 //FileCodeLinkedIn.LOGINS model
 export interface LoginsLI {
-    list: Array<LoginLI>;
+    list: LoginLI[];
 }
 
 export interface LoginLI {
@@ -214,7 +213,7 @@ export interface LoginLI {
 
 //FileCodeLinkedIn.MEMBER_FOLLOWS model
 export interface MembersFollowedLI {
-    list: Array<MemberFollowsLI>;
+    list: MemberFollowsLI[];
 }
 
 export interface MemberFollowsLI {
@@ -225,7 +224,7 @@ export interface MemberFollowsLI {
 
 //FileCodeLinkedIn.MESSAGE model
 export interface MessagesLI {
-    list: Array<MessageLI>;
+    list: MessageLI[];
 }
 
 export interface MessageLI {
@@ -242,7 +241,7 @@ export interface MessageLI {
 
 //FileCodeLinkedIn.PHONE_NUMBERS model
 export interface PhoneNumbersLI {
-    list: Array<PhoneNumberLI>;
+    list: PhoneNumberLI[];
 }
 
 export interface PhoneNumberLI {
@@ -253,7 +252,7 @@ export interface PhoneNumberLI {
 
 //FileCodeLinkedIn.POSITIONS model
 export interface WorkingPositionsLI {
-    list: Array<WorkingPositionLI>;
+    list: WorkingPositionLI[];
 }
 
 export interface WorkingPositionLI {
@@ -264,7 +263,6 @@ export interface WorkingPositionLI {
     startedDate?: Date;
     finishedDate?: Date;
 }
-
 
 //FileCodeLinkedIn.PROFILE model
 export interface ProfileLI {
@@ -290,7 +288,7 @@ export interface BirthDateLI {
 
 //FileCodeLinkedIn.REACTIONS model
 export interface ReactionsLI {
-    list: Array<ReactionLI>;
+    list: ReactionLI[];
 }
 
 export interface ReactionLI {
@@ -308,7 +306,7 @@ export interface RegistrationLI {
 
 //FileCodeLinkedIn.RICH_MEDIA model
 export interface RichMediaListLI {
-    list: Array<RichMediaLI>;
+    list: RichMediaLI[];
 }
 
 export interface RichMediaLI {
@@ -318,7 +316,7 @@ export interface RichMediaLI {
 
 //FileCodeLinkedIn.SAVED_JOBS_ALERTS model
 export interface SavedJobAlertsLI {
-    list: Array<SavedJobAlertLI>;
+    list: SavedJobAlertLI[];
 }
 
 export interface SavedJobAlertLI {
@@ -328,7 +326,7 @@ export interface SavedJobAlertLI {
 
 //FileCodeLinkedIn.SEARCH_QUERIES model
 export interface SearchQueriesLI {
-    list: Array<SearchQueryLI>;
+    list: SearchQueryLI[];
 }
 
 export interface SearchQueryLI {
@@ -338,7 +336,7 @@ export interface SearchQueryLI {
 
 //FileCodeLinkedIn.SECURITY_CHALLENGES model
 export interface SecurityChallengesLI {
-    list: Array<SecurityChallengeLI>;
+    list: SecurityChallengeLI[];
 }
 
 export interface SecurityChallengeLI {
@@ -351,12 +349,12 @@ export interface SecurityChallengeLI {
 
 //FileCodeLinkedIn.SKILLS model
 export interface SkillsLI {
-    list: Array<string>;
+    list: string[];
 }
 
 //FileCodeLinkedIn.VOTES model
 export interface VotesLI {
-    list: Array<VoteLI>;
+    list: VoteLI[];
 }
 
 export interface VoteLI {
@@ -367,29 +365,29 @@ export interface VoteLI {
 
 //FileCodeLinkedIn.ADS_TARGETING model
 export interface AdsTargetingLI {
-    list: Array<ADVTargetingLI>;
+    list: ADVTargetingLI[];
 }
 
 export interface ADVTargetingLI {
     memberAge?: string;
-    companyNames?: Array<string>;
-    degrees?: Array<string>;
-    universities?: Array<string>;
-    degreeFields?: Array<string>;
+    companyNames?: string[];
+    degrees?: string[];
+    universities?: string[];
+    degreeFields?: string[];
     gender?: string;
-    degreeYears?: Array<string>;
-    expressedInterests?: Array<string>;
-    companyCategories?: Array<string>;
+    degreeYears?: string[];
+    expressedInterests?: string[];
+    companyCategories?: string[];
     language?: string;
     languageCode?: string;
-    jobPreferences?: Array<string>;
-    profileLocations?: Array<string>;
-    bibliographyTags?: Array<string>;
+    jobPreferences?: string[];
+    profileLocations?: string[];
+    bibliographyTags?: string[];
 }
 
 //FileCodeLinkedIn.JOBS_APPLICATIONS model
 export interface JobApplicationsLI {
-    list: Array<JobApplicationLI>;
+    list: JobApplicationLI[];
 }
 
 export interface JobApplicationLI {
@@ -405,7 +403,7 @@ export interface JobApplicationLI {
 
 //FileCodeLinkedIn.JOBS_SAVED_JOBS model
 export interface SavedJobsLI {
-    list: Array<SavedJobLI>;
+    list: SavedJobLI[];
 }
 
 export interface SavedJobLI {
@@ -417,10 +415,10 @@ export interface SavedJobLI {
 
 //FileCodeLinkedIn.JOBS_SEEKER_PREFERENCES model
 export interface JobSeekerPreferencesLI {
-    locations?: Array<string>;
-    industries?: Array<string>;
+    locations?: string[];
+    industries?: string[];
     companyEmployeeCount?: number;
-    preferredJobTypes?: Array<string>;
+    preferredJobTypes?: string[];
     jobTitles?: string;
     openToRecruiters?: boolean;
     dreamCompanies?: string;

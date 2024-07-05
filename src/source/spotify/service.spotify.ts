@@ -1,5 +1,5 @@
-import LoggerUtils from "../../utils/logger.utils";
-import {FileCodeSpotify} from "./enum.spotify";
+import LoggerUtils from '../../utils/logger.utils';
+import { FileCodeSpotify } from './enum.spotify';
 import {
     FollowSP,
     IdentifiersSP,
@@ -11,9 +11,9 @@ import {
     StreamingSP,
     TrackSP,
     UserdataSP,
-    YourLibrarySP
-} from "./model.spotify";
-import {ValidatorObject} from "../../validator";
+    YourLibrarySP,
+} from './model.spotify';
+import { ValidatorObject } from '../../validator';
 
 /**
  * Class used to parse most important files into the directory returned by Spotify in JSON format.
@@ -21,7 +21,7 @@ import {ValidatorObject} from "../../validator";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class ServiceSpotify {
-    private static readonly logger = new LoggerUtils("Spotify Service");
+    private static readonly logger = new LoggerUtils('Spotify Service');
 
     /**
      * Abstraction to parse a Spotify file regardless its respective parsing function
@@ -58,10 +58,16 @@ export class ServiceSpotify {
             const document = JSON.parse(data.toString());
             if (document) {
                 const model: FollowSP = {};
-                (document.followerCount !== undefined) && (model.followerCount = document.followerCount);
-                (document.followingUsersCount !== undefined) && (model.followingUsersCount = document.followingUsersCount);
-                (document.dismissingUsersCount !== undefined) && (model.dismissingUsersCount = document.dismissingUsersCount);
-                return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
+                document.followerCount !== undefined &&
+                    (model.followerCount = document.followerCount);
+                document.followingUsersCount !== undefined &&
+                    (model.followingUsersCount = document.followingUsersCount);
+                document.dismissingUsersCount !== undefined &&
+                    (model.dismissingUsersCount =
+                        document.dismissingUsersCount);
+                return !ValidatorObject.objectIsEmpty(model)
+                    ? model
+                    : undefined;
             }
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseFollow');
@@ -77,9 +83,13 @@ export class ServiceSpotify {
             const document = JSON.parse(data.toString());
             if (document) {
                 const model: IdentifiersSP = {};
-                (document.identifierType) && (model.identifierType = document.identifierType);
-                (document.identifierValue) && (model.identifierValue = document.identifierValue);
-                return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
+                document.identifierType &&
+                    (model.identifierType = document.identifierType);
+                document.identifierValue &&
+                    (model.identifierValue = document.identifierValue);
+                return !ValidatorObject.objectIsEmpty(model)
+                    ? model
+                    : undefined;
             }
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseIdentifiers');
@@ -94,7 +104,7 @@ export class ServiceSpotify {
         try {
             const document = JSON.parse(data.toString());
             if (document && document.inferences) {
-                const model: InferencesSP = {list: document.inferences};
+                const model: InferencesSP = { list: document.inferences };
                 return model.list.length > 0 ? model : undefined;
             }
         } catch (error) {
@@ -110,37 +120,70 @@ export class ServiceSpotify {
         try {
             const document = JSON.parse(data.toString());
             if (document && document.playlists) {
-                const model: PlaylistsSP = {list: document.playlists.map((playlist: any) => {
+                const model: PlaylistsSP = {
+                    list: document.playlists.map((playlist: any) => {
                         const subModel: PlaylistSP = {};
-                        (playlist.name) && (subModel.name = playlist.name);
+                        playlist.name && (subModel.name = playlist.name);
                         if (playlist.lastModifiedDate) {
-                            const match = playlist.lastModifiedDate.match(/(\d+)-(\d+)-(\d+)/);
-                            match && (subModel.lastModifiedDate = new Date(match[1], match[2], match[3]));
+                            const match =
+                                playlist.lastModifiedDate.match(
+                                    /(\d+)-(\d+)-(\d+)/,
+                                );
+                            match &&
+                                (subModel.lastModifiedDate = new Date(
+                                    match[1],
+                                    match[2],
+                                    match[3],
+                                ));
                         }
-                        (playlist.description) && (subModel.description = playlist.description);
-                        (playlist.numberOfFollowers !== undefined) && (subModel.numberOfFollowers = playlist.numberOfFollowers);
+                        playlist.description &&
+                            (subModel.description = playlist.description);
+                        playlist.numberOfFollowers !== undefined &&
+                            (subModel.numberOfFollowers =
+                                playlist.numberOfFollowers);
                         if (playlist.items) {
                             subModel.items = playlist.items.map((item: any) => {
                                 const itemModel: ItemSP = {};
-                                (item.episode) && (itemModel.episode = item.episode);
-                                (item.localTrack) && (itemModel.localTrack = item.localTrack);
+                                item.episode &&
+                                    (itemModel.episode = item.episode);
+                                item.localTrack &&
+                                    (itemModel.localTrack = item.localTrack);
                                 if (item.addedDate) {
-                                    const match = item.addedDate.match(/(\d+)-(\d+)-(\d+)/);
-                                    match && (itemModel.addedDate = new Date(match[1], match[2], match[3]));
+                                    const match =
+                                        item.addedDate.match(
+                                            /(\d+)-(\d+)-(\d+)/,
+                                        );
+                                    match &&
+                                        (itemModel.addedDate = new Date(
+                                            match[1],
+                                            match[2],
+                                            match[3],
+                                        ));
                                 }
                                 if (item.track) {
                                     const trackModel: TrackSP = {};
-                                    (item.track.trackName) && (trackModel.trackName = item.track.trackName);
-                                    (item.track.artistName) && (trackModel.artistName = item.track.artistName);
-                                    (item.track.albumName) && (trackModel.albumName = item.track.albumName);
-                                    (item.track.trackUri) && (trackModel.trackUri = item.track.trackUri);
-                                    !ValidatorObject.objectIsEmpty(trackModel) && (itemModel.track = trackModel);
+                                    item.track.trackName &&
+                                        (trackModel.trackName =
+                                            item.track.trackName);
+                                    item.track.artistName &&
+                                        (trackModel.artistName =
+                                            item.track.artistName);
+                                    item.track.albumName &&
+                                        (trackModel.albumName =
+                                            item.track.albumName);
+                                    item.track.trackUri &&
+                                        (trackModel.trackUri =
+                                            item.track.trackUri);
+                                    !ValidatorObject.objectIsEmpty(
+                                        trackModel,
+                                    ) && (itemModel.track = trackModel);
                                 }
                                 return itemModel;
                             });
                         }
                         return subModel;
-                    })};
+                    }),
+                };
                 return model.list.length > 0 ? model : undefined;
             }
         } catch (error) {
@@ -156,17 +199,31 @@ export class ServiceSpotify {
         try {
             const document = JSON.parse(data.toString());
             if (document) {
-                const model: StreamingHistorySP = {list: document.map((streaming: any) => {
+                const model: StreamingHistorySP = {
+                    list: document.map((streaming: any) => {
                         const subModel: StreamingSP = {};
                         if (streaming.endTime) {
-                            const match = streaming.endTime.match(/(\d+)-(\d+)-(\d+) (\d+):(\d+)/);
-                            match && (subModel.endTime = new Date(match[1], match[2], match[3], match[4], match[5]));
+                            const match = streaming.endTime.match(
+                                /(\d+)-(\d+)-(\d+) (\d+):(\d+)/,
+                            );
+                            match &&
+                                (subModel.endTime = new Date(
+                                    match[1],
+                                    match[2],
+                                    match[3],
+                                    match[4],
+                                    match[5],
+                                ));
                         }
-                        (streaming.artistName) && (subModel.artistName = streaming.artistName);
-                        (streaming.trackName) && (subModel.trackName = streaming.trackName);
-                        (streaming.msPlayed !== undefined) && (subModel.msPlayed = streaming.msPlayed);
+                        streaming.artistName &&
+                            (subModel.artistName = streaming.artistName);
+                        streaming.trackName &&
+                            (subModel.trackName = streaming.trackName);
+                        streaming.msPlayed !== undefined &&
+                            (subModel.msPlayed = streaming.msPlayed);
                         return subModel;
-                    })};
+                    }),
+                };
                 return model.list.length > 0 ? model : undefined;
             }
         } catch (error) {
@@ -183,23 +240,41 @@ export class ServiceSpotify {
             const document = JSON.parse(data.toString());
             if (document) {
                 const model: UserdataSP = {};
-                (document.username) && (model.username = document.username);
-                (document.email) && (model.email = document.email);
-                (document.createdFromFacebook !== undefined) && (model.createdFromFacebook = document.createdFromFacebook);
-                (document.facebookUid) && (model.facebookUid = document.facebookUid);
+                document.username && (model.username = document.username);
+                document.email && (model.email = document.email);
+                document.createdFromFacebook !== undefined &&
+                    (model.createdFromFacebook = document.createdFromFacebook);
+                document.facebookUid &&
+                    (model.facebookUid = document.facebookUid);
                 if (document.birthdate) {
                     const match = document.birthdate.match(/(\d+)-(\d+)-(\d+)/);
-                    match && (model.birthdate = new Date(match[1], match[2], match[3]));
+                    match &&
+                        (model.birthdate = new Date(
+                            match[1],
+                            match[2],
+                            match[3],
+                        ));
                 }
-                (document.gender) && (model.gender = document.gender);
-                (document.mobileNumber) && (model.mobileNumber = document.mobileNumber);
-                (document.mobileOperator) && (model.mobileOperator = document.mobileOperator);
-                (document.mobileBrand) && (model.mobileBrand = document.mobileBrand);
+                document.gender && (model.gender = document.gender);
+                document.mobileNumber &&
+                    (model.mobileNumber = document.mobileNumber);
+                document.mobileOperator &&
+                    (model.mobileOperator = document.mobileOperator);
+                document.mobileBrand &&
+                    (model.mobileBrand = document.mobileBrand);
                 if (document.creationTime) {
-                    const match = document.creationTime.match(/(\d+)-(\d+)-(\d+)/);
-                    match && (model.creationTime = new Date(match[1], match[2], match[3]));
+                    const match =
+                        document.creationTime.match(/(\d+)-(\d+)-(\d+)/);
+                    match &&
+                        (model.creationTime = new Date(
+                            match[1],
+                            match[2],
+                            match[3],
+                        ));
                 }
-                return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
+                return !ValidatorObject.objectIsEmpty(model)
+                    ? model
+                    : undefined;
             }
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseUserdata');
@@ -214,14 +289,16 @@ export class ServiceSpotify {
         try {
             const document = JSON.parse(data.toString());
             if (document && document.tracks) {
-                const model: YourLibrarySP = {list: document.tracks.map((track: any) => {
+                const model: YourLibrarySP = {
+                    list: document.tracks.map((track: any) => {
                         const subModel: TrackSP = {};
-                        (track.artist) && (subModel.artistName = track.artist);
-                        (track.album) && (subModel.albumName = track.album);
-                        (track.track) && (subModel.trackName = track.track);
-                        (track.uri) && (subModel.trackUri = track.uri);
+                        track.artist && (subModel.artistName = track.artist);
+                        track.album && (subModel.albumName = track.album);
+                        track.track && (subModel.trackName = track.track);
+                        track.uri && (subModel.trackUri = track.uri);
                         return subModel;
-                    })};
+                    }),
+                };
                 return model.list.length > 0 ? model : undefined;
             }
         } catch (error) {

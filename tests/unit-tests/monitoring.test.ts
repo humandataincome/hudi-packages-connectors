@@ -1,4 +1,4 @@
-import {MonitoringService} from "../../src/monitoring/monitoring.source";
+import {MonitoringService} from "../../src/utils/monitoring.utils";
 import {GDPRDataSourceCode, FileExtension} from "../../src";
 
 describe('Monitoring Test', () => {

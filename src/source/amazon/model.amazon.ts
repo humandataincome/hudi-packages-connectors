@@ -87,71 +87,71 @@ export interface SearchDataCustomerEngagementAM {
 export interface SearchAM {
     firstSearchTime?: Date;
     countryID?: string;
-    APSorCategory?:string;
-    siteVariant?:string;
-    appOrBrowser?:string;
-    deviceModel?:string;
-    searchType?:string;
-    sessionID?:string;
-    queryID?:string;
-    primeCustomer?:boolean;
-    isFromExternalLink?:boolean;
-    searchFromExternalSite?:boolean;
-    firstSearchQuery?:string;
-    applicationName?:string;
-    appVersion?:string;
-    operatingSystemName?:string;
-    operatingSystemVersion?:string;
-    deviceTypeID?:string;
-    deviceCategory?:string;
-    customerIP?:string;
-    searchMethod?:string;
-    keywords?:string;
-    isBusinessCustomer?:boolean;
-    language?:string;
-    server?:string;
-    isFreshCustomer?:boolean;
-    isMusicSubscriber?:boolean;
-    firstBrowseNode?:string;
-    lastSearchTime?:Date;
-    lastDepartment?:string;
-    lastBrowseNode?:string;
-    lastKnownCustomerID?:string;
-    firstAddedItem?:string;
-    firstPurchasedItem?:string;
-    firstConsumedItem?:string;
-    numberClickedItem?:string;
-    numberItemsAddedCart?:string;
-    numberItemsOrdered?:string;
-    numberPaidItemsOrdered?:string;
-    numberFreeItemsOrdered?:string;
-    unitsOrdered?:string;
-    paidUnitsOrdered?:string;
-    freeUnitsOrdered?:string;
-    maximumPurchasePrice?:string;
-    clickedAnyItem?:boolean;
-    addedAnyItem?:boolean;
-    purchasedAnyItem?:boolean;
-    departmentCount?:string;
-    shoppingRefinement?:string;
-    numberShoppingRefinements?:string;
-    highestNumberShoppingRefinements?:string;
-    itemConsumed?:string;
-    shoppingRefinementPickers?:string;
-    paidPurchase?:boolean;
-    isItemBorrowed?:boolean;
-    itemsBorrowed?:string;
-    nextQueryGroupViaClick?:string;
-    queryAbandoned?:boolean;
-    queryReformulated?:boolean;
-    amazonFresh?:boolean;
-    storeVisited?:string;
-    department?:string;
-    browserNode?:string;
-    firstSearchDomain?:string;
-    isFirstSearchFromExternalAd?:boolean;
-    userAgentInfoFamily?:string;
-    LKCI?:string;
+    APSorCategory?: string;
+    siteVariant?: string;
+    appOrBrowser?: string;
+    deviceModel?: string;
+    searchType?: string;
+    sessionID?: string;
+    queryID?: string;
+    primeCustomer?: boolean;
+    isFromExternalLink?: boolean;
+    searchFromExternalSite?: boolean;
+    firstSearchQuery?: string;
+    applicationName?: string;
+    appVersion?: string;
+    operatingSystemName?: string;
+    operatingSystemVersion?: string;
+    deviceTypeID?: string;
+    deviceCategory?: string;
+    customerIP?: string;
+    searchMethod?: string;
+    keywords?: string;
+    isBusinessCustomer?: boolean;
+    language?: string;
+    server?: string;
+    isFreshCustomer?: boolean;
+    isMusicSubscriber?: boolean;
+    firstBrowseNode?: string;
+    lastSearchTime?: Date;
+    lastDepartment?: string;
+    lastBrowseNode?: string;
+    lastKnownCustomerID?: string;
+    firstAddedItem?: string;
+    firstPurchasedItem?: string;
+    firstConsumedItem?: string;
+    numberClickedItem?: string;
+    numberItemsAddedCart?: string;
+    numberItemsOrdered?: string;
+    numberPaidItemsOrdered?: string;
+    numberFreeItemsOrdered?: string;
+    unitsOrdered?: string;
+    paidUnitsOrdered?: string;
+    freeUnitsOrdered?: string;
+    maximumPurchasePrice?: string;
+    clickedAnyItem?: boolean;
+    addedAnyItem?: boolean;
+    purchasedAnyItem?: boolean;
+    departmentCount?: string;
+    shoppingRefinement?: string;
+    numberShoppingRefinements?: string;
+    highestNumberShoppingRefinements?: string;
+    itemConsumed?: string;
+    shoppingRefinementPickers?: string;
+    paidPurchase?: boolean;
+    isItemBorrowed?: boolean;
+    itemsBorrowed?: string;
+    nextQueryGroupViaClick?: string;
+    queryAbandoned?: boolean;
+    queryReformulated?: boolean;
+    amazonFresh?: boolean;
+    storeVisited?: string;
+    department?: string;
+    browserNode?: string;
+    firstSearchDomain?: string;
+    isFirstSearchFromExternalAd?: boolean;
+    userAgentInfoFamily?: string;
+    LKCI?: string;
 }
 
 //FileCodeAmazon.ADV_AUDIENCES model
@@ -211,20 +211,20 @@ export interface AudibleLibraryAM {
 }
 
 export interface AudioBookAM {
-    dateAdded?:Date;
-    title?:string;
-    asin?:string;
-    isDownloaded?:boolean;
-    isDeleted?:boolean;
-    deleteBy?:string;
-    dateDeleted?:Date;
-    isPublic?:boolean;
-    isStreamed?:boolean;
-    isPreorder?:boolean
-    downloads?:number;
-    dateFirstDownloaded?:Date;
-    orderNumber?:number;
-    originType?:string;
+    dateAdded?: Date;
+    title?: string;
+    asin?: string;
+    isDownloaded?: boolean;
+    isDeleted?: boolean;
+    deleteBy?: string;
+    dateDeleted?: Date;
+    isPublic?: boolean;
+    isStreamed?: boolean;
+    isPreorder?: boolean;
+    downloads?: number;
+    dateFirstDownloaded?: Date;
+    orderNumber?: number;
+    originType?: string;
 }
 
 //FileCodeAmazon.PRIMEVIDEO_WATCHLIST models
@@ -291,7 +291,6 @@ export interface TwitchPrimeLinkedAccount {
     eventType?: string;
     date?: Date;
 }
-
 
 export interface TwitchPrimeSubscriptionAM {
     date?: Date;

@@ -36,8 +36,7 @@ export interface PaymentsSP {
     list: PaymentSP[];
 }
 
-export interface PaymentSP {
-}
+export interface PaymentSP {}
 
 //FileCodeSpotify.PLAYLISTS model
 export interface PlaylistsSP {

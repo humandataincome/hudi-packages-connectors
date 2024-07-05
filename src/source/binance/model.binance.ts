@@ -1,7 +1,6 @@
-
 export interface BinanceDataAggregator {
     account?: AccountBI;
-    trades?: Record<string,TradeListBI>; //all the trades in the last year for most common cryptos
+    trades?: Record<string, TradeListBI>; //all the trades in the last year for most common cryptos
     depositHistory?: DepositHistoryBI;
     withdrawHistory?: WithdrawHistoryBI;
     creationDate?: Date;
@@ -19,8 +18,8 @@ export interface AccountBI {
     brokered?: boolean;
     updateTime?: Date;
     accountType?: string;
-    balances?: Array<BalanceBI>;
-    permissions?: Array<string>;
+    balances?: BalanceBI[];
+    permissions?: string[];
 }
 
 export interface BalanceBI {
@@ -49,7 +48,6 @@ export interface TradeBI {
     isMaker?: boolean;
     isBestMatch?: boolean;
 }
-
 
 // https://api.binance.com/sapi/v1/capital/deposit/hisrec model
 export interface DepositHistoryBI {

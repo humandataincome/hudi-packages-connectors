@@ -5,7 +5,7 @@ export interface FacebookDataAggregator {
     //from FileCodeFacebook.PROFILE_INFO model
     personalInfo?: PersonalInformationFB;
     //from FileCodeFacebook.LANGUAGE model
-    languagesKnown?: Array<string>;
+    languagesKnown?: string[];
     //from FileCodeFacebook.ADS_INTERACTED_WITH model
     adsInteractedWith?: AdsInteractedWithFB;
     //from FileCodeFacebook.ADS_USING_YOUR_ACTIVITY model
@@ -166,9 +166,9 @@ export interface PagesUnfollowedFB {
 }
 
 //FileCodeFacebook.APP_WEBSITES model
- export interface AppsConnectedFB {
+export interface AppsConnectedFB {
     list: AppConnectedFB[];
- }
+}
 
 export interface ConversationsFB {
     listInbox?: ConversationFB[];
@@ -231,7 +231,6 @@ export interface VisualizationFB {
     uri?: string;
     watchTimeInSeconds?: number;
     date?: Date;
-
 }
 
 export interface AppConnectedFB {
@@ -276,9 +275,9 @@ export interface AdvUsingYourInfoFB {
 }
 
 export interface RelationshipFB {
-    status?: string,
-    anniversary?: DateAlternativeFB,
-    dateAdded?: Date
+    status?: string;
+    anniversary?: DateAlternativeFB;
+    dateAdded?: Date;
 }
 export interface AddressLocationFB {
     street?: string;
@@ -343,9 +342,9 @@ export interface MessageFB {
 }
 
 export interface DateAlternativeFB {
-    year?:number,
-    month?:number,
-    day?:number
+    year?: number;
+    month?: number;
+    day?: number;
 }
 
 export interface SearchFB {

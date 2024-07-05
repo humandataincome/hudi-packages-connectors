@@ -24,7 +24,7 @@ export class JsonGenerator {
         const fs = require('fs');
         const path = require('path');
         const data = fs.readFileSync(path.join(__dirname, `../src/mock/datasource/zip files/private/${code.toLowerCase()}.zip`));
-        const validation = await ValidatorFiles.validateZip(data,
+        const validation = ValidatorFiles.validateZip(data,
             {
                 minBytesPerFile: 0,
                 maxBytesPerFile: 15e6,

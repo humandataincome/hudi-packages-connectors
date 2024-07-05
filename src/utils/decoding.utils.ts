@@ -1,37 +1,35 @@
-
 export class DecodingUtils {
     /**
      * Decode input recursively in all their parameters.
      * @param obj - string, array or object.
      * @return the same object in input, but decoded
      */
-    static decodeObject(obj: any): any{
+    static decodeObject(obj: any): any {
         try {
-            if (typeof (obj) === 'string') {
+            if (typeof obj === 'string') {
                 return decodeURIComponent(escape(obj));
             } else {
                 return this.decodeObjectParameters(obj);
             }
-        } catch(error){
-            if(error === 'URIError: URI malformed'){
+        } catch (error) {
+            if (error === 'URIError: URI malformed') {
                 return obj;
             }
             throw error;
         }
     }
 
-    private static decodeObjectParameters(obj: any): any{
-        let keys = Object.keys(obj);
-        for (let i = 0; i < keys.length; i++) {
-            if (typeof (obj[keys[i]]) === 'string') {
-                obj[keys[i]] = decodeURIComponent(obj[keys[i]]);
-            } else if (typeof (obj[keys[i]]) === 'object') {
-                obj[keys[i]] = this.decodeObjectParameters(obj[keys[i]]);
+    private static decodeObjectParameters(obj: any): any {
+        const keys = Object.keys(obj);
+        for (const key of keys) {
+            if (typeof obj[key] === 'string') {
+                obj[key] = decodeURIComponent(obj[key]);
+            } else if (typeof obj[key] === 'object') {
+                obj[key] = this.decodeObjectParameters(obj[key]);
             }
         }
         return obj;
     }
-
 
     /**
      * @param time - is the 17 digit timestamp of Google Chrome (Webkit Timestamp)
@@ -42,4 +40,3 @@ export class DecodingUtils {
         return new Date(dateInSeconds * 1000);
     }
 }
-

@@ -1,4 +1,7 @@
-export type ConnectorErrorEnum = ValidationErrorEnum | ProcessorErrorEnums | DescriptorErrorEnum;
+export type ConnectorErrorEnum =
+    | ValidationErrorEnum
+    | ProcessorErrorEnums
+    | DescriptorErrorEnum;
 
 export enum ValidationErrorEnum {
     LANGUAGE_ERROR = 'CON-001',

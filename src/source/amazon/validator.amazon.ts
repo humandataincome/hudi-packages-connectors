@@ -1,9 +1,9 @@
-import {ValidatorDatasource} from "../../validator/validator.datasource";
-import LoggerUtils from "../../utils/logger.utils";
-import {FileCodeAmazon} from "./enum.amazon";
+import { ValidatorDatasource } from '../../validator/validator.datasource';
+import LoggerUtils from '../../utils/logger.utils';
+import { FileCodeAmazon } from './enum.amazon';
 
-export class ValidatorAmazon extends ValidatorDatasource  {
-    protected readonly logger = new LoggerUtils("Amazon Validator");
+export class ValidatorAmazon extends ValidatorDatasource {
+    protected readonly logger = new LoggerUtils('Amazon Validator');
 
     protected DEFAULT_FILE_CODES: FileCodeAmazon[] = [
         FileCodeAmazon.ADV_AUDIENCES,

@@ -1,17 +1,21 @@
-import LoggerUtils from "../../utils/logger.utils";
-import {ParserUtils} from "../../utils/parser.utils";
+import LoggerUtils from '../../utils/logger.utils';
+import { ParserUtils } from '../../utils/parser.utils';
 import {
     CommentRE,
     CommentsRE,
     FriendRE,
-    FriendsRE, GoldInfoEntryRE, GoldInfoRE,
+    FriendsRE,
+    GoldInfoEntryRE,
+    GoldInfoRE,
     MessageRE,
-    MessagesRE, PostRE,
-    PostsRE, StatisticsRE,
-    SubscribedSubredditRE
-} from "./model.reddit";
-import {FileCodeReddit} from "./enum.reddit";
-import {ValidatorObject} from "../../validator";
+    MessagesRE,
+    PostRE,
+    PostsRE,
+    StatisticsRE,
+    SubscribedSubredditRE,
+} from './model.reddit';
+import { FileCodeReddit } from './enum.reddit';
+import { ValidatorObject } from '../../validator';
 
 /**
  * Class used to parse most important files into the directory returned by Reddit in CSV format.
@@ -19,7 +23,7 @@ import {ValidatorObject} from "../../validator";
  * All functions return the relevant information (if there are any) as a promised model if the parsing is successful, undefined otherwise.
  */
 export class ServiceReddit {
-    private static readonly logger = new LoggerUtils("Reddit Service");
+    private static readonly logger = new LoggerUtils('Reddit Service');
 
     /**
      * Abstraction to parse a Reddit file regardless its respective parsing function
@@ -50,29 +54,55 @@ export class ServiceReddit {
     /**
      * @param data - FileCodeReddit.STATISTICS file in input as Buffer
      */
-    static async parseStatistics(data: Buffer): Promise<StatisticsRE | undefined> {
+    static async parseStatistics(
+        data: Buffer,
+    ): Promise<StatisticsRE | undefined> {
         try {
             const result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
                 const model: StatisticsRE = {};
-                result.forEach(({statistic, value})=> {
-                    if (statistic === "account name") {
-                        (model.accountName = value);
-                    } else if (statistic === "export time") {
-                        const match = value.match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+) UTC/);
-                        (model.exportDate = new Date(Date.UTC(parseInt(match[1]), match[2], match[3], match[4], match[5], match[6])));
-                    } else if (statistic === "is_deleted") {
-                        (model.isDeleted = value.toLowerCase() === 'true');
-                    } else if (statistic === "registration date") {
-                        const match = value.match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+) UTC/);
-                        (model.registrationDate = new Date(Date.UTC(parseInt(match[1]), match[2], match[3], match[4], match[5], match[6])));
-                    } else if (statistic === "email verified") {
-                        (model.emailVerified = value.toLowerCase() === 'true');
-                    } else if (statistic === "email address") {
-                        (model.emailAddress = value);
+                result.forEach(({ statistic, value }) => {
+                    if (statistic === 'account name') {
+                        model.accountName = value;
+                    } else if (statistic === 'export time') {
+                        const match = value.match(
+                            /(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+) UTC/,
+                        );
+                        model.exportDate = new Date(
+                            Date.UTC(
+                                parseInt(match[1]),
+                                match[2],
+                                match[3],
+                                match[4],
+                                match[5],
+                                match[6],
+                            ),
+                        );
+                    } else if (statistic === 'is_deleted') {
+                        model.isDeleted = value.toLowerCase() === 'true';
+                    } else if (statistic === 'registration date') {
+                        const match = value.match(
+                            /(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+) UTC/,
+                        );
+                        model.registrationDate = new Date(
+                            Date.UTC(
+                                parseInt(match[1]),
+                                match[2],
+                                match[3],
+                                match[4],
+                                match[5],
+                                match[6],
+                            ),
+                        );
+                    } else if (statistic === 'email verified') {
+                        model.emailVerified = value.toLowerCase() === 'true';
+                    } else if (statistic === 'email address') {
+                        model.emailAddress = value;
                     }
                 });
-                return !ValidatorObject.objectIsEmpty(model) ? model : undefined;
+                return !ValidatorObject.objectIsEmpty(model)
+                    ? model
+                    : undefined;
             }
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseStatistics');
@@ -87,17 +117,32 @@ export class ServiceReddit {
         try {
             const result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
-                const model: GoldInfoRE = {list: []};
+                const model: GoldInfoRE = { list: [] };
                 model.list = result.map((entry: any) => {
                     const subModel: GoldInfoEntryRE = {};
-                    (ValidatorObject.isCSVFieldValid(entry.processor)) && (subModel.processor = entry.processor);
-                    (ValidatorObject.isCSVFieldValid(entry.transaction_id)) && (subModel.transactionID = entry.transaction_id);
+                    ValidatorObject.isCSVFieldValid(entry.processor) &&
+                        (subModel.processor = entry.processor);
+                    ValidatorObject.isCSVFieldValid(entry.transaction_id) &&
+                        (subModel.transactionID = entry.transaction_id);
                     if (ValidatorObject.isCSVFieldValid(entry.date)) {
-                        const match = entry.date.match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+) UTC/);
-                        (subModel.date = new Date(Date.UTC(parseInt(match[1]), match[2], match[3], match[4], match[5], match[6])));
+                        const match = entry.date.match(
+                            /(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+) UTC/,
+                        );
+                        subModel.date = new Date(
+                            Date.UTC(
+                                parseInt(match[1]),
+                                match[2],
+                                match[3],
+                                match[4],
+                                match[5],
+                                match[6],
+                            ),
+                        );
                     }
-                    (ValidatorObject.isCSVFieldValid(entry.cost)) && (subModel.cost = entry.cost);
-                    (ValidatorObject.isCSVFieldValid(entry.payer_email)) && (subModel.payerEmail = entry.payer_email);
+                    ValidatorObject.isCSVFieldValid(entry.cost) &&
+                        (subModel.cost = entry.cost);
+                    ValidatorObject.isCSVFieldValid(entry.payer_email) &&
+                        (subModel.payerEmail = entry.payer_email);
                     return subModel;
                 });
                 return model.list.length > 0 ? model : undefined;
@@ -114,21 +159,40 @@ export class ServiceReddit {
         try {
             const result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
-                const model: PostsRE = {list: []};
+                const model: PostsRE = { list: [] };
                 model.list = result.map((entry: any) => {
                     const subModel: PostRE = {};
-                    (ValidatorObject.isCSVFieldValid(entry.id)) && (subModel.id = entry.id);
-                    (ValidatorObject.isCSVFieldValid(entry.permalink)) && (subModel.permalink = entry.permalink);
+                    ValidatorObject.isCSVFieldValid(entry.id) &&
+                        (subModel.id = entry.id);
+                    ValidatorObject.isCSVFieldValid(entry.permalink) &&
+                        (subModel.permalink = entry.permalink);
                     if (ValidatorObject.isCSVFieldValid(entry.date)) {
-                        const match = entry.date.match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+) UTC/);
-                        (subModel.date = new Date(Date.UTC(parseInt(match[1]), match[2], match[3], match[4], match[5], match[6])));
+                        const match = entry.date.match(
+                            /(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+) UTC/,
+                        );
+                        subModel.date = new Date(
+                            Date.UTC(
+                                parseInt(match[1]),
+                                match[2],
+                                match[3],
+                                match[4],
+                                match[5],
+                                match[6],
+                            ),
+                        );
                     }
-                    (ValidatorObject.isCSVFieldValid(entry.ip)) && (subModel.ip = entry.ip);
-                    (ValidatorObject.isCSVFieldValid(entry.subreddit)) && (subModel.subreddit = entry.subreddit);
-                    (ValidatorObject.isCSVFieldValid(entry.gildings)) && (subModel.gildings = entry.gildings);
-                    (ValidatorObject.isCSVFieldValid(entry.title)) && (subModel.title = entry.title);
-                    (ValidatorObject.isCSVFieldValid(entry.url)) && (subModel.url = entry.url);
-                    (ValidatorObject.isCSVFieldValid(entry.body)) && (subModel.body = entry.body);
+                    ValidatorObject.isCSVFieldValid(entry.ip) &&
+                        (subModel.ip = entry.ip);
+                    ValidatorObject.isCSVFieldValid(entry.subreddit) &&
+                        (subModel.subreddit = entry.subreddit);
+                    ValidatorObject.isCSVFieldValid(entry.gildings) &&
+                        (subModel.gildings = entry.gildings);
+                    ValidatorObject.isCSVFieldValid(entry.title) &&
+                        (subModel.title = entry.title);
+                    ValidatorObject.isCSVFieldValid(entry.url) &&
+                        (subModel.url = entry.url);
+                    ValidatorObject.isCSVFieldValid(entry.body) &&
+                        (subModel.body = entry.body);
                     return subModel;
                 });
                 return model.list.length > 0 ? model : undefined;
@@ -146,21 +210,40 @@ export class ServiceReddit {
         try {
             const result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
-                const model: MessagesRE = {list: []};
+                const model: MessagesRE = { list: [] };
                 model.list = result.map((entry: any) => {
                     const subModel: MessageRE = {};
-                    (ValidatorObject.isCSVFieldValid(entry.id)) && (subModel.id = entry.id);
-                    (ValidatorObject.isCSVFieldValid(entry.permalink)) && (subModel.permalink = entry.permalink);
-                    (ValidatorObject.isCSVFieldValid(entry.thread_id)) && (subModel.threadId = entry.thread_id);
+                    ValidatorObject.isCSVFieldValid(entry.id) &&
+                        (subModel.id = entry.id);
+                    ValidatorObject.isCSVFieldValid(entry.permalink) &&
+                        (subModel.permalink = entry.permalink);
+                    ValidatorObject.isCSVFieldValid(entry.thread_id) &&
+                        (subModel.threadId = entry.thread_id);
                     if (ValidatorObject.isCSVFieldValid(entry.date)) {
-                        const match = entry.date.match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+) UTC/);
-                        (subModel.date = new Date(Date.UTC(parseInt(match[1]), match[2], match[3], match[4], match[5], match[6])));
+                        const match = entry.date.match(
+                            /(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+) UTC/,
+                        );
+                        subModel.date = new Date(
+                            Date.UTC(
+                                parseInt(match[1]),
+                                match[2],
+                                match[3],
+                                match[4],
+                                match[5],
+                                match[6],
+                            ),
+                        );
                     }
-                    (ValidatorObject.isCSVFieldValid(entry.ip)) && (subModel.ip = entry.ip);
-                    (ValidatorObject.isCSVFieldValid(entry.from)) && (subModel.from = entry.from);
-                    (ValidatorObject.isCSVFieldValid(entry.to)) && (subModel.to = entry.to);
-                    (ValidatorObject.isCSVFieldValid(entry.subject)) && (subModel.subject = entry.subject);
-                    (ValidatorObject.isCSVFieldValid(entry.body)) && (subModel.body = entry.body);
+                    ValidatorObject.isCSVFieldValid(entry.ip) &&
+                        (subModel.ip = entry.ip);
+                    ValidatorObject.isCSVFieldValid(entry.from) &&
+                        (subModel.from = entry.from);
+                    ValidatorObject.isCSVFieldValid(entry.to) &&
+                        (subModel.to = entry.to);
+                    ValidatorObject.isCSVFieldValid(entry.subject) &&
+                        (subModel.subject = entry.subject);
+                    ValidatorObject.isCSVFieldValid(entry.body) &&
+                        (subModel.body = entry.body);
                     return subModel;
                 });
                 return model.list.length > 0 ? model : undefined;
@@ -178,11 +261,13 @@ export class ServiceReddit {
         try {
             const result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
-                const model: FriendsRE = {list: []};
+                const model: FriendsRE = { list: [] };
                 model.list = result.map((entry: any) => {
                     const subModel: FriendRE = {};
-                    (ValidatorObject.isCSVFieldValid(entry.username)) && (subModel.username = entry.username);
-                    (ValidatorObject.isCSVFieldValid(entry.note)) && (subModel.note = entry.note);
+                    ValidatorObject.isCSVFieldValid(entry.username) &&
+                        (subModel.username = entry.username);
+                    ValidatorObject.isCSVFieldValid(entry.note) &&
+                        (subModel.note = entry.note);
                     return subModel;
                 });
                 return model.list.length > 0 ? model : undefined;
@@ -200,21 +285,40 @@ export class ServiceReddit {
         try {
             const result = ParserUtils.parseCSVfromBuffer(data);
             if (result) {
-                const model: CommentsRE = {list: []};
+                const model: CommentsRE = { list: [] };
                 model.list = result.map((entry: any) => {
                     const subModel: CommentRE = {};
-                    (ValidatorObject.isCSVFieldValid(entry.id)) && (subModel.id = entry.id);
-                    (ValidatorObject.isCSVFieldValid(entry.permalink)) && (subModel.permalink = entry.permalink);
+                    ValidatorObject.isCSVFieldValid(entry.id) &&
+                        (subModel.id = entry.id);
+                    ValidatorObject.isCSVFieldValid(entry.permalink) &&
+                        (subModel.permalink = entry.permalink);
                     if (ValidatorObject.isCSVFieldValid(entry.date)) {
-                        const match = entry.date.match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+) UTC/);
-                        (subModel.date = new Date(Date.UTC(parseInt(match[1]), match[2], match[3], match[4], match[5], match[6])));
+                        const match = entry.date.match(
+                            /(\d+)-(\d+)-(\d+) (\d+):(\d+):(\d+) UTC/,
+                        );
+                        subModel.date = new Date(
+                            Date.UTC(
+                                parseInt(match[1]),
+                                match[2],
+                                match[3],
+                                match[4],
+                                match[5],
+                                match[6],
+                            ),
+                        );
                     }
-                    (ValidatorObject.isCSVFieldValid(entry.ip)) && (subModel.ip = entry.ip);
-                    (ValidatorObject.isCSVFieldValid(entry.subreddit)) && (subModel.subreddit = entry.subreddit);
-                    (ValidatorObject.isCSVFieldValid(entry.gildings)) && (subModel.gildings = entry.gildings);
-                    (ValidatorObject.isCSVFieldValid(entry.link)) && (subModel.link = entry.link);
-                    (ValidatorObject.isCSVFieldValid(entry.parent)) && (subModel.parent = entry.parent);
-                    (ValidatorObject.isCSVFieldValid(entry.body)) && (subModel.body = entry.body);
+                    ValidatorObject.isCSVFieldValid(entry.ip) &&
+                        (subModel.ip = entry.ip);
+                    ValidatorObject.isCSVFieldValid(entry.subreddit) &&
+                        (subModel.subreddit = entry.subreddit);
+                    ValidatorObject.isCSVFieldValid(entry.gildings) &&
+                        (subModel.gildings = entry.gildings);
+                    ValidatorObject.isCSVFieldValid(entry.link) &&
+                        (subModel.link = entry.link);
+                    ValidatorObject.isCSVFieldValid(entry.parent) &&
+                        (subModel.parent = entry.parent);
+                    ValidatorObject.isCSVFieldValid(entry.body) &&
+                        (subModel.body = entry.body);
                     return subModel;
                 });
                 return model.list.length > 0 ? model : undefined;
@@ -228,14 +332,16 @@ export class ServiceReddit {
     /**
      * @param data - FileCodeReddit.SUBSCRIBED_SUBREDDITS file in input as Buffer
      */
-    static async parseSubscribedSubreddit(data: Buffer): Promise<SubscribedSubredditRE | undefined> {
+    static async parseSubscribedSubreddit(
+        data: Buffer,
+    ): Promise<SubscribedSubredditRE | undefined> {
         try {
             const result = ParserUtils.parseCSVfromBuffer(data);
             if (result && result[0]) {
-                const model: SubscribedSubredditRE = {list: []};
+                const model: SubscribedSubredditRE = { list: [] };
                 model.list = result.map((entry: any) => {
                     if (ValidatorObject.isCSVFieldValid(entry.subreddit)) {
-                        return model.list = entry.subreddit;
+                        return (model.list = entry.subreddit);
                     }
                 });
                 return model.list.length > 0 ? model : undefined;

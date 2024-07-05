@@ -1,9 +1,9 @@
-import {ValidatorDatasource} from "../../validator/validator.datasource";
-import LoggerUtils from "../../utils/logger.utils";
-import {FileCodeGoogle} from "./enum.google";
+import { ValidatorDatasource } from '../../validator/validator.datasource';
+import LoggerUtils from '../../utils/logger.utils';
+import { FileCodeGoogle } from './enum.google';
 
-export class ValidatorGoogle extends ValidatorDatasource  {
-    protected readonly logger = new LoggerUtils("Google Validator");
+export class ValidatorGoogle extends ValidatorDatasource {
+    protected readonly logger = new LoggerUtils('Google Validator');
 
     protected DEFAULT_FILE_CODES: FileCodeGoogle[] = [
         FileCodeGoogle.ACTIVITY_BOOKS,
@@ -27,7 +27,7 @@ export class ValidatorGoogle extends ValidatorDatasource  {
         FileCodeGoogle.YOUTUBE_PLAYLIST_UPLOADS,
     ];
     protected extractCompatiblePath(path: string): string {
-        let x: string[] = path.split('/');
+        const x: string[] = path.split('/');
         const index = x.indexOf('Takeout');
         if (index > -1) {
             return x.splice(index).join('/');

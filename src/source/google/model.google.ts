@@ -38,7 +38,7 @@ export interface ChromeAggregatorGO {
     browserHistory?: BrowserHistoryGO;
 }
 
-export interface FitAggregatorGO{
+export interface FitAggregatorGO {
     //from FileCodeGoogle.FIT_DAILY_ACTIVITIES_METRICS model
     dailyActivityMetrics?: DailyActivityMetricsGO;
 }
@@ -61,7 +61,7 @@ export interface ActivityAggregatorGO {
 }
 
 //FileCodeGoogle.PROFILE model
-export interface  ProfileGO {
+export interface ProfileGO {
     givenName?: string;
     familyName?: string;
     formattedName?: string;
@@ -221,7 +221,6 @@ export interface BillingInstrumentGO {
     displayName?: string;
 }
 
-
 //FileCodeGoogle.LOCATION_HISTORY_SEMANTIC model
 export interface SemanticLocationsGO {
     listVisitedPlaces: PlaceVisitedGO[];
@@ -267,7 +266,7 @@ export interface ActivitySegmentGO {
 export interface TransitPathGO {
     transitStops?: ProbableLocationGO[];
     name?: string;
-    hexRgbColor?: string
+    hexRgbColor?: string;
 }
 
 export interface ProbableActivityGO {
@@ -291,7 +290,7 @@ export enum ActivityTypeGO {
     SAILING = 'SAILING',
     SKIING = 'SKIING',
     IN_TRAM = 'IN_TRAM',
-    IN_VEHICLE = 'IN_VEHICLE'
+    IN_VEHICLE = 'IN_VEHICLE',
 }
 
 export interface PointGO {
@@ -346,7 +345,7 @@ export interface PlayStoreReviewGO {
     structuredReviewResponse?: {
         question?: string;
         responseOptionType?: string;
-    }[]
+    }[];
 }
 
 //FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS model
@@ -412,9 +411,9 @@ export interface ActivityGO {
     date?: Date;
     products?: string[];
     activityControls?: string[];
-    subtitles?: SubtitleActivityGO[]
-    details?: DetailActivityGO[]
-    locationInfos?: LocationActivityGO[]
+    subtitles?: SubtitleActivityGO[];
+    details?: DetailActivityGO[];
+    locationInfos?: LocationActivityGO[];
 }
 
 export interface SubtitleActivityGO {
@@ -432,5 +431,3 @@ export interface LocationActivityGO {
     source?: string;
     sourceUrl?: string;
 }
-
-

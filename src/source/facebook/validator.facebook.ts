@@ -1,9 +1,9 @@
-import {ValidatorDatasource} from "../../validator/validator.datasource";
-import LoggerUtils from "../../utils/logger.utils";
-import {FileCodeFacebook} from "./enum.facebook";
+import { ValidatorDatasource } from '../../validator/validator.datasource';
+import LoggerUtils from '../../utils/logger.utils';
+import { FileCodeFacebook } from './enum.facebook';
 
 export class ValidatorFacebook extends ValidatorDatasource {
-    protected readonly logger = new LoggerUtils("Facebook Validator");
+    protected readonly logger = new LoggerUtils('Facebook Validator');
 
     protected DEFAULT_FILE_CODES: FileCodeFacebook[] = [
         FileCodeFacebook.ADS_INTERACTED_WITH,
@@ -32,10 +32,18 @@ export class ValidatorFacebook extends ValidatorDatasource {
         //messages/message_requests OR message/inbox cases
         if (x.length > 3) {
             if (x[x.length - 4] === 'messages') {
-                return x[x.length - 4] + '/' + x[x.length - 3] + '/' + x[x.length - 2] + '/' + x[x.length - 1];
+                return (
+                    x[x.length - 4] +
+                    '/' +
+                    x[x.length - 3] +
+                    '/' +
+                    x[x.length - 2] +
+                    '/' +
+                    x[x.length - 1]
+                );
             }
         }
-        if(x.length > 1) {
+        if (x.length > 1) {
             return x[x.length - 2] + '/' + x[x.length - 1];
         }
         return path;

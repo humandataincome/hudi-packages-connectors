@@ -1,15 +1,21 @@
-import {Descriptor, FileDescription, Procedure, SourceDescription} from "./descriptor.model";
+import {
+    Descriptor,
+    FileDescription,
+    Procedure,
+    SourceDescription,
+} from './descriptor.model';
 import {
     APIDataSourceCode,
     DataSourceCode,
     GDPRDataSourceCode,
     LanguageCode,
-    RetrievingProcedureType
-} from "./descriptor.enum";
-import {SelectorUtils} from "../utils";
-import {DescriptorErrorEnum} from "../enums";
-import {ValidatorObject} from "../validator";
+    RetrievingProcedureType,
+} from './descriptor.enum';
+import { SelectorUtils } from '../utils';
+import { DescriptorErrorEnum } from '../enums';
+import { ValidatorObject } from '../validator';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const descriptor: Descriptor = require('./descriptor.json');
 
 export class DescriptorService {
@@ -19,9 +25,9 @@ export class DescriptorService {
      * @return  all available GDPR data sources' codes (someone may not be described into descriptor.json)
      */
     static getAllGDPRCodes(): GDPRDataSourceCode[] {
-        let list: GDPRDataSourceCode[] = []
-         for (let enumMember in GDPRDataSourceCode) {
-             list.push(GDPRDataSourceCode[<GDPRDataSourceCode>enumMember]);
+        const list: GDPRDataSourceCode[] = [];
+        for (const enumMember in GDPRDataSourceCode) {
+            list.push(GDPRDataSourceCode[enumMember as GDPRDataSourceCode]);
         }
         return list;
     }
@@ -30,9 +36,9 @@ export class DescriptorService {
      * @return  all available API data sources' codes (someone may not be described into descriptor.json)
      */
     static getAllAPICodes(): APIDataSourceCode[] {
-        let list: APIDataSourceCode[] = []
-        for (let enumMember in APIDataSourceCode) {
-            list.push(APIDataSourceCode[<APIDataSourceCode>enumMember]);
+        const list: APIDataSourceCode[] = [];
+        for (const enumMember in APIDataSourceCode) {
+            list.push(APIDataSourceCode[enumMember as APIDataSourceCode]);
         }
         return list;
     }
@@ -42,7 +48,7 @@ export class DescriptorService {
      * @return  all available datasource' respective codes
      */
     static getLogo(code: DataSourceCode) {
-        return require(`../../assets/${ code.toLowerCase() }.svg`);
+        return require(`../../assets/${code.toLowerCase()}.svg`);
     }
 
     /**
@@ -54,7 +60,9 @@ export class DescriptorService {
             const sourceDescription = this.getSourceDescription(code);
             return sourceDescription?.sourceName;
         } catch (error) {
-            throw new Error(`${DescriptorErrorEnum.SOURCE_NAME_ERROR}: ${error}`);
+            throw new Error(
+                `${DescriptorErrorEnum.SOURCE_NAME_ERROR}: ${error}`,
+            );
         }
     }
 
@@ -62,10 +70,16 @@ export class DescriptorService {
      * @param code - code of the datasource
      * @return the description of a given datasource, if it exists
      */
-    static getSourceDescription(code: DataSourceCode): SourceDescription | undefined {
-        const list: SourceDescription[] = descriptor?.sourceGDPRDescriptions.concat(descriptor?.sourceAPIDescriptions);
+    static getSourceDescription(
+        code: DataSourceCode,
+    ): SourceDescription | undefined {
+        const list: SourceDescription[] =
+            descriptor?.sourceGDPRDescriptions.concat(
+                descriptor?.sourceAPIDescriptions,
+            );
         return list.find(
-            ({sourceCode, retrievingProcedures}) => sourceCode === code && retrievingProcedures.length
+            ({ sourceCode, retrievingProcedures }) =>
+                sourceCode === code && retrievingProcedures.length,
         );
     }
 
@@ -76,9 +90,13 @@ export class DescriptorService {
     static getLanguagesList(code: DataSourceCode): LanguageCode[] | undefined {
         try {
             const sourceDescription = this.getSourceDescription(code);
-            return sourceDescription?.retrievingProcedures?.map(({languageCode}) => languageCode);
+            return sourceDescription?.retrievingProcedures?.map(
+                ({ languageCode }) => languageCode,
+            );
         } catch (error) {
-            throw new Error(`${DescriptorErrorEnum.SOURCE_LANGUAGES_ERROR}: ${error}`);
+            throw new Error(
+                `${DescriptorErrorEnum.SOURCE_LANGUAGES_ERROR}: ${error}`,
+            );
         }
     }
 
@@ -87,14 +105,20 @@ export class DescriptorService {
      * @param language - language of the datasource
      * @return all the retrieving procedure for a given datasource and language code
      */
-    static getProcedureLists(code: DataSourceCode, language: LanguageCode): Procedure[] | undefined {
+    static getProcedureLists(
+        code: DataSourceCode,
+        language: LanguageCode,
+    ): Procedure[] | undefined {
         try {
             const sourceDescription = this.getSourceDescription(code);
             return sourceDescription?.retrievingProcedures?.find(
-                ({languageCode, procedures}) => languageCode === language && procedures.length
+                ({ languageCode, procedures }) =>
+                    languageCode === language && procedures.length,
             )?.procedures;
         } catch (error) {
-            throw new Error(`${DescriptorErrorEnum.SOURCE_PROCEDURES_ERROR}: ${error}`);
+            throw new Error(
+                `${DescriptorErrorEnum.SOURCE_PROCEDURES_ERROR}: ${error}`,
+            );
         }
     }
 
@@ -109,27 +133,33 @@ export class DescriptorService {
         code: DataSourceCode,
         language: LanguageCode = LanguageCode.ENGLISH,
         procedureType: RetrievingProcedureType = RetrievingProcedureType.DESKTOP,
-        procedureName?: string
+        procedureName?: string,
     ): Procedure | undefined {
         try {
             const sourceDescription = this.getSourceDescription(code);
 
-            const retrievingProcedure = sourceDescription?.retrievingProcedures?.find(
-                ({languageCode, procedures}) => languageCode === language && procedures.length
-            );
+            const retrievingProcedure =
+                sourceDescription?.retrievingProcedures?.find(
+                    ({ languageCode, procedures }) =>
+                        languageCode === language && procedures.length,
+                );
 
             const procedure = retrievingProcedure?.procedures?.filter(
-                ({type}) => procedureType === type
+                ({ type }) => procedureType === type,
             );
 
             if (procedure!.length > 0 && procedureName) {
                 return retrievingProcedure?.procedures?.find(
-                    ({name}) => procedureName === name
+                    ({ name }) => procedureName === name,
                 );
             }
-            return !ValidatorObject.objectIsEmpty(procedure![0]) ? procedure![0] : undefined;
+            return !ValidatorObject.objectIsEmpty(procedure![0])
+                ? procedure![0]
+                : undefined;
         } catch (error) {
-            throw new Error(`${DescriptorErrorEnum.SOURCE_PROCEDURE_ERROR}: ${error}`);
+            throw new Error(
+                `${DescriptorErrorEnum.SOURCE_PROCEDURE_ERROR}: ${error}`,
+            );
         }
     }
 
@@ -139,26 +169,46 @@ export class DescriptorService {
      * @param language - language of the data source
      * @return the description of a file given a file pathname validated, a Datasource code and the language code
      */
-    static getFileDescription(filePath: string, code: GDPRDataSourceCode, language: LanguageCode = LanguageCode.ENGLISH): string | undefined {
+    static getFileDescription(
+        filePath: string,
+        code: GDPRDataSourceCode,
+        language: LanguageCode = LanguageCode.ENGLISH,
+    ): string | undefined {
         try {
-            const datasourceDescriptors = descriptor?.datasourceFilesDescriptions?.find(
-                ({sourceCode}) => sourceCode === code);
+            const datasourceDescriptors =
+                descriptor?.datasourceFilesDescriptions?.find(
+                    ({ sourceCode }) => sourceCode === code,
+                );
             if (datasourceDescriptors) {
-                const filesDescription = datasourceDescriptors.filesDescriptions?.find(
-                    ({languageCode, list}) => languageCode === language && list.length);
+                const filesDescription =
+                    datasourceDescriptors.filesDescriptions?.find(
+                        ({ languageCode, list }) =>
+                            languageCode === language && list.length,
+                    );
                 if (filesDescription) {
                     const enumInstance = SelectorUtils.getFileCodeEnum(code);
                     if (enumInstance) {
-                        const found = filesDescription.list.find((description: FileDescription) => {
-                            const indexOfPath = Object.keys(enumInstance).indexOf(description.fileCode);
-                            if (indexOfPath !== -1) {
-                                const regex = Object.values(enumInstance)[indexOfPath];
-                                if (SelectorUtils.getValidator(code)?.getFileCode(filePath) === regex) {
-                                    return true;
+                        const found = filesDescription.list.find(
+                            (description: FileDescription) => {
+                                const indexOfPath = Object.keys(
+                                    enumInstance,
+                                ).indexOf(description.fileCode);
+                                if (indexOfPath !== -1) {
+                                    const regex =
+                                        Object.values(enumInstance)[
+                                            indexOfPath
+                                        ];
+                                    if (
+                                        SelectorUtils.getValidator(
+                                            code,
+                                        )?.getFileCode(filePath) === regex
+                                    ) {
+                                        return true;
+                                    }
                                 }
-                            }
-                            return false;
-                        });
+                                return false;
+                            },
+                        );
                         if (found) {
                             return found.fileContent;
                         }
@@ -167,7 +217,9 @@ export class DescriptorService {
             }
             return undefined;
         } catch (error) {
-            throw new Error(`${DescriptorErrorEnum.SOURCE_FILES_DESCRIPTION}: ${error}`);
+            throw new Error(
+                `${DescriptorErrorEnum.SOURCE_FILES_DESCRIPTION}: ${error}`,
+            );
         }
     }
 }

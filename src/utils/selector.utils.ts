@@ -1,4 +1,9 @@
-import {APIDataSourceCode, DataAggregator, GDPRDataSourceCode, LanguageCode} from "../descriptor";
+import {
+    APIDataSourceCode,
+    DataAggregator,
+    GDPRDataSourceCode,
+    LanguageCode,
+} from '../descriptor';
 import {
     FileCodeAmazon,
     FileCodeFacebook,
@@ -43,14 +48,17 @@ import {
     ValidatorSpotify,
     FileCodeSpotify,
     ServiceSpotify,
-    ProcessorSpotify
-} from "../source";
-import {ValidatorDatasource} from "../validator";
-import {Unzipped} from "fflate";
-import {ProcessorAPIDatasource, ProcessorGDPRDatasource, ProcessorOptions} from "../processor";
+    ProcessorSpotify,
+} from '../source';
+import { ValidatorDatasource } from '../validator';
+import { Unzipped } from 'fflate';
+import {
+    ProcessorAPIDatasource,
+    ProcessorGDPRDatasource,
+    ProcessorOptions,
+} from '../processor';
 
 export class SelectorUtils {
-
     static getFileCodeEnum(code: GDPRDataSourceCode) {
         switch (code) {
             case GDPRDataSourceCode.AMAZON:
@@ -84,7 +92,9 @@ export class SelectorUtils {
      * @param code - a GDPRDataSourceCode
      * @return the corresponded instance of the GDPRDataSourceCode's Validation Class. E.g. GDPRDataSourceCode.INSTAGRAM -> ValidatorInstagram.getInstance(). Return undefined if none Validation class matches.
      */
-    static getValidator(code: GDPRDataSourceCode): ValidatorDatasource | undefined {
+    static getValidator(
+        code: GDPRDataSourceCode,
+    ): ValidatorDatasource | undefined {
         switch (code) {
             case GDPRDataSourceCode.AMAZON:
                 return ValidatorAmazon.getInstance();
@@ -112,7 +122,6 @@ export class SelectorUtils {
                 return undefined;
         }
     }
-
 
     static getAllEnumKeys(code: GDPRDataSourceCode): string[] | undefined {
         switch (code) {
@@ -143,33 +152,72 @@ export class SelectorUtils {
         }
     }
 
-    static async getParsingResult(code: GDPRDataSourceCode, filename: string, fileCode: string, files: Unzipped, languageCode: LanguageCode = LanguageCode.ENGLISH) {
+    static async getParsingResult(
+        code: GDPRDataSourceCode,
+        filename: string,
+        fileCode: string,
+        files: Unzipped,
+        languageCode: LanguageCode = LanguageCode.ENGLISH,
+    ) {
         const file = files[filename];
         const data = Buffer.from(file, file.byteOffset, file.length);
         switch (code) {
             case GDPRDataSourceCode.AMAZON:
-                return await ServiceAmazon.parseFile(<FileCodeAmazon>fileCode, data);
+                return await ServiceAmazon.parseFile(
+                    fileCode as FileCodeAmazon,
+                    data,
+                );
             case GDPRDataSourceCode.FACEBOOK:
-                return await ServiceFacebook.parseFile(<FileCodeFacebook>fileCode, data);
+                return await ServiceFacebook.parseFile(
+                    fileCode as FileCodeFacebook,
+                    data,
+                );
             case GDPRDataSourceCode.GOOGLE:
-                return await ServiceGoogle.parseFile(<FileCodeGoogle>fileCode, data);
+                return await ServiceGoogle.parseFile(
+                    fileCode as FileCodeGoogle,
+                    data,
+                );
             case GDPRDataSourceCode.INSTAGRAM:
                 ServiceInstagram.languagePrefix = languageCode;
-                return await ServiceInstagram.parseFile(<FileCodeInstagram>fileCode, data);
+                return await ServiceInstagram.parseFile(
+                    fileCode as FileCodeInstagram,
+                    data,
+                );
             case GDPRDataSourceCode.LINKEDIN:
-                return await ServiceLinkedin.parseFile(<FileCodeLinkedIn>fileCode, data);
+                return await ServiceLinkedin.parseFile(
+                    fileCode as FileCodeLinkedIn,
+                    data,
+                );
             case GDPRDataSourceCode.NETFLIX:
-                return await ServiceNetflix.parseFile(<FileCodeNetflix>fileCode, data);
+                return await ServiceNetflix.parseFile(
+                    fileCode as FileCodeNetflix,
+                    data,
+                );
             case GDPRDataSourceCode.REDDIT:
-                return await ServiceReddit.parseFile(<FileCodeReddit>fileCode, data);
+                return await ServiceReddit.parseFile(
+                    fileCode as FileCodeReddit,
+                    data,
+                );
             case GDPRDataSourceCode.SHOPIFY:
-                return await ServiceShopify.parseFile(<FileCodeShopify>fileCode, data);
+                return await ServiceShopify.parseFile(
+                    fileCode as FileCodeShopify,
+                    data,
+                );
             case GDPRDataSourceCode.SPOTIFY:
-                return await ServiceSpotify.parseFile(<FileCodeSpotify>fileCode, data);
+                return await ServiceSpotify.parseFile(
+                    fileCode as FileCodeSpotify,
+                    data,
+                );
             case GDPRDataSourceCode.TIKTOK:
-                return await ServiceTiktok.parseFile(<FileCodeTikTok>fileCode, data);
+                return await ServiceTiktok.parseFile(
+                    fileCode as FileCodeTikTok,
+                    data,
+                );
             case GDPRDataSourceCode.TWITTER:
-                return await ServiceTwitter.parseFile(<FileCodeTwitter>fileCode, data);
+                return await ServiceTwitter.parseFile(
+                    fileCode as FileCodeTwitter,
+                    data,
+                );
             default:
                 return undefined;
         }
@@ -178,7 +226,9 @@ export class SelectorUtils {
     /**
      * Given a GDPRDataSourceCode return the corresponding Processor instance if exists, undefined otherwise.
      */
-    static getGDPRProcessor(code: GDPRDataSourceCode): ProcessorGDPRDatasource | undefined {
+    static getGDPRProcessor(
+        code: GDPRDataSourceCode,
+    ): ProcessorGDPRDatasource | undefined {
         switch (code) {
             case GDPRDataSourceCode.AMAZON:
                 return ProcessorAmazon;
@@ -210,7 +260,9 @@ export class SelectorUtils {
     /**
      * Given a getAPIProcessor return the corresponding Processor instance if exists, undefined otherwise.
      */
-    static getAPIProcessor(code: APIDataSourceCode): ProcessorAPIDatasource | undefined {
+    static getAPIProcessor(
+        code: APIDataSourceCode,
+    ): ProcessorAPIDatasource | undefined {
         switch (code) {
             case APIDataSourceCode.BINANCE:
                 return ProcessorBinance;
@@ -221,7 +273,9 @@ export class SelectorUtils {
         }
     }
 
-    static getInitAggregator(code: GDPRDataSourceCode): DataAggregator | undefined {
+    static getInitAggregator(
+        code: GDPRDataSourceCode,
+    ): DataAggregator | undefined {
         const Processor = this.getGDPRProcessor(code);
         if (Processor) {
             return Processor.initAggregator();
@@ -229,7 +283,11 @@ export class SelectorUtils {
         return undefined;
     }
 
-    static async getZipAggregatorBuilder(code: GDPRDataSourceCode, data: Uint8Array, options?: ProcessorOptions): Promise<DataAggregator | undefined> {
+    static async getZipAggregatorBuilder(
+        code: GDPRDataSourceCode,
+        data: Uint8Array,
+        options?: ProcessorOptions,
+    ): Promise<DataAggregator | undefined> {
         const Processor = this.getGDPRProcessor(code);
         if (Processor) {
             return await Processor.zipAggregatorBuilder(data, options);
@@ -237,7 +295,13 @@ export class SelectorUtils {
         return undefined;
     }
 
-    static async getAggregatorBuilder(code: GDPRDataSourceCode, data: Buffer, pathName: string, model: DataAggregator, options?: ProcessorOptions) {
+    static async getAggregatorBuilder(
+        code: GDPRDataSourceCode,
+        data: Buffer,
+        pathName: string,
+        model: DataAggregator,
+        options?: ProcessorOptions,
+    ) {
         const Processor = this.getGDPRProcessor(code);
         if (Processor) {
             await Processor.aggregatorBuilder(data, pathName, model, options);

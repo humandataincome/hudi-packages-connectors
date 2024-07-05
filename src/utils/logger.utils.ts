@@ -8,10 +8,14 @@ export default class LoggerUtils {
     }
 
     public log(level: LogLevel, message: string, functionName?: string): void {
-        if(functionName) {
-            console.log(`[${this.name}] [${(new Date()).toISOString()}] [${level}] [${functionName}] ${message}`);
+        if (functionName) {
+            console.log(
+                `[${this.name}] [${new Date().toISOString()}] [${level}] [${functionName}] ${message}`,
+            );
         } else {
-            console.log(`[${this.name}] [${(new Date()).toISOString()}] [${level}] ${message}`);
+            console.log(
+                `[${this.name}] [${new Date().toISOString()}] [${level}] ${message}`,
+            );
         }
     }
 }

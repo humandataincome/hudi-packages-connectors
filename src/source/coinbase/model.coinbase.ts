@@ -132,7 +132,7 @@ export interface CurrencyMovementCB {
 //----------------------
 export interface FeeCB {
     type?: string;
-    amount?: BalanceCB
+    amount?: BalanceCB;
 }
 
 export interface ResourceCB {
@@ -142,8 +142,8 @@ export interface ResourceCB {
 }
 
 export interface BalanceCB {
-    amount?: number,
-    currency?: number
+    amount?: number;
+    currency?: number;
 }
 
 export interface NetworkCB {

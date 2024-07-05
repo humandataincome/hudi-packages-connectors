@@ -44,32 +44,32 @@ export interface PersonalInformationNF {
 
 //FileCodeNetflix.CONTENT_INTERACTION_PREFERENCES model
 export interface PreferencesAccountNF {
-    list: Array<PreferenceNF>;
+    list: PreferenceNF[];
 }
 
 //FileCodeNetflix.CONTENT_INTERACTION_MY_LIST model
 export interface MyListAccountNF {
-    list: Array<TitleNF>;
+    list: TitleNF[];
 }
 
 //FileCodeNetflix.CONTENT_INTERACTION_SEARCH_HISTORY model
 export interface SearchHistoryNF {
-    list: Array<SearchNF>;
+    list: SearchNF[];
 }
 
 //FileCodeNetflix.CONTENT_INTERACTION_VIEWING_ACTIVITY model
 export interface ViewingActivityNF {
-    list: Array<ActivityNF>;
+    list: ActivityNF[];
 }
 
 //FileCodeNetflix.CONTENT_INTERACTION_PLAYBACK_EVENTS model
 export interface PlaybackEventsNF {
-    list: Array<EventNF>;
+    list: EventNF[];
 }
 
 //FileCodeNetflix.PROFILES model
 export interface ProfilesNF {
-    list: Array<ProfileNF>;
+    list: ProfileNF[];
 }
 
 export interface PreferenceNF {
@@ -122,7 +122,7 @@ export interface EventNF {
 }
 
 export interface PlaytracesNF {
-    list: Array<PlaytraceNF>;
+    list: PlaytraceNF[];
 }
 
 export interface PlaytraceNF {

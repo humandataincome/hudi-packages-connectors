@@ -1,4 +1,3 @@
-
 export interface CustomersExportsSH {
     list: CustomerExportSH[];
 }

@@ -1,9 +1,9 @@
-import {ValidatorDatasource} from "../../validator/validator.datasource";
-import LoggerUtils from "../../utils/logger.utils";
-import {FileCodeLinkedIn} from "./enum.linkedin";
+import { ValidatorDatasource } from '../../validator/validator.datasource';
+import LoggerUtils from '../../utils/logger.utils';
+import { FileCodeLinkedIn } from './enum.linkedin';
 
-export class ValidatorLinkedIn extends ValidatorDatasource  {
-    protected readonly logger = new LoggerUtils("Netflix Validator");
+export class ValidatorLinkedIn extends ValidatorDatasource {
+    protected readonly logger = new LoggerUtils('Netflix Validator');
 
     protected DEFAULT_FILE_CODES: FileCodeLinkedIn[] = [
         FileCodeLinkedIn.JOBS_APPLICATIONS,
@@ -24,7 +24,7 @@ export class ValidatorLinkedIn extends ValidatorDatasource  {
     ];
 
     protected extractCompatiblePath(path: string): string {
-        let x: string[] = path.split('/');
+        const x: string[] = path.split('/');
         if (x[x.length - 2] === 'Jobs') {
             return x[x.length - 2] + '/' + x[x.length - 1];
         }

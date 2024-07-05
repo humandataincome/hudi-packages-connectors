@@ -1,4 +1,3 @@
-import {MonitoringService} from "../../src/monitoring/monitoring.source";
 import {
     HTTPRequest,
     GDPRDataSourceCode,
@@ -9,6 +8,7 @@ import {
 } from "../../src";
 import {Observable} from "rxjs";
 import {ServiceBloodAnalysis, SelectorUtils} from "../../src";
+import {findNotMappedFiles} from "../../src/utils/monitoring.utils";
 
 const httpMethod: HttpMethod = (options: HTTPRequest) => {
     const https = require('https')
@@ -36,7 +36,7 @@ const httpMethod: HttpMethod = (options: HTTPRequest) => {
 validateStream('../../src/mock/datasource/zip files/private/instagram.zip', GDPRDataSourceCode.INSTAGRAM);
 //showAggregator('../../src/mock/datasource/zip files/private/google.zip', GDPRDataSourceCode.GOOGLE);
 //showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', GDPRDataSourceCode.AMAZON);
-//testNotMappedFiles('../../src/mock/datasource/zip files/private/google.zip');
+// testNotMappedFiles('../../src/mock/datasource/zip files/private/instagram.zip', GDPRDataSourceCode.INSTAGRAM);
 
 async function parsePdfTest() {
     const fs =  require('fs');
@@ -80,12 +80,12 @@ async function showAggregator(pathToZip: string, code: GDPRDataSourceCode) {
     console.log(aggregate);
 }
 
-async function testNotMappedFiles(pathToZip: string) {
+async function testNotMappedFiles(pathToZip: string, code: GDPRDataSourceCode) {
     const fs = require('fs');
     const path = require('path');
 
     const data = fs.readFileSync(path.join(__dirname, pathToZip));
-    console.log(await MonitoringService.findNotMappedFiles(data, GDPRDataSourceCode.GOOGLE, {
+    console.log(await findNotMappedFiles(data, code, {
         permittedFilesExtensions: [FileExtension.JSON, FileExtension.JS, FileExtension.XML, FileExtension.CSV, FileExtension.HTML]
     }));
 }
@@ -115,7 +115,7 @@ async function validateStream(pathToZip: string, code: GDPRDataSourceCode) {
                 fileUnzippedBytes = x.bytesRead!;
             }
             if (x.status === ValidationStatus.DONE) {
-                console.log('Last iteration: ', x.validationResult);
+                console.log('Last iteration: ', x.validationResult?.excludedFiles.slice(100, 150));
             }
         },
         error(err) {

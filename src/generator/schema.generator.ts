@@ -1,5 +1,5 @@
 import {getProgramFromFiles, generateSchema, CompilerOptions, PartialArgs} from "typescript-json-schema";
-import {GDPRDataSourceCode} from "../src";
+import {GDPRDataSourceCode} from "../descriptor";
 
 export class SchemaGenerator {
     static generateAggregatorSchemas(): void {

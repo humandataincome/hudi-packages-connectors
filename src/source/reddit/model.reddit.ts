@@ -50,7 +50,6 @@ export interface PostRE {
     title?: string;
     url?: string;
     body?: string;
-
 }
 
 //model FileCodeReddit.MESSAGES

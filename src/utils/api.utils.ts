@@ -1,8 +1,8 @@
 export interface HTTPRequest {
-    url: string,
+    url: string;
     method: string;
     body?: string;
-    headers?: Record<string,string>;
+    headers?: Record<string, string>;
 }
 
 /**

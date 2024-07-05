@@ -102,7 +102,6 @@ export interface ProfileTK {
     userName?: string;
 }
 
-
 export interface YourVideoListTK {
     list: YourVideoTK[];
 }
@@ -184,4 +183,3 @@ export interface CommentTK {
     date?: Date;
     comments?: string;
 }
-

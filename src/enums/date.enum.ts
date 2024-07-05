@@ -10,7 +10,7 @@ export enum Months {
     SEP,
     OCT,
     NOV,
-    DEC
+    DEC,
 }
 
 export enum MonthsFull {
@@ -25,5 +25,5 @@ export enum MonthsFull {
     SEPTEMBER,
     OCTOBER,
     NOVEMBER,
-    DECEMBER
+    DECEMBER,
 }

@@ -103,7 +103,7 @@ export interface PersonalInformationIG {
     private?: boolean;
     birthdate?: Date;
     phoneNumber?: string;
-    biography? :string;
+    biography?: string;
     gender?: string;
 }
 
@@ -116,7 +116,7 @@ export interface EligibilityIG {
 
 //FileCodeInstagram.INFO_ACCOUNT_BASED_IN model
 export interface LocationInformationIG {
-    basedIn?:string;
+    basedIn?: string;
 }
 
 //FileCodeInstagram.ADS_CLICKED model

@@ -1,9 +1,9 @@
-import LoggerUtils from "../../utils/logger.utils";
-import {FileCodeSpotify} from "./enum.spotify";
-import {ValidatorDatasource} from "../../validator/validator.datasource";
+import LoggerUtils from '../../utils/logger.utils';
+import { FileCodeSpotify } from './enum.spotify';
+import { ValidatorDatasource } from '../../validator/validator.datasource';
 
 export class ValidatorSpotify extends ValidatorDatasource {
-    protected readonly logger = new LoggerUtils("Spotify Validator");
+    protected readonly logger = new LoggerUtils('Spotify Validator');
 
     protected DEFAULT_FILE_CODES: FileCodeSpotify[] = [
         FileCodeSpotify.FOLLOW,

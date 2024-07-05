@@ -1,6 +1,6 @@
 export enum FileCodeInstagram {
     PERSONAL_INFO = 'account_information/personal_information.json',
-    ACCOUNT_NOT_INTERESTED = 'ads_and_content/accounts_you\'re_not_interested_in.json',
+    ACCOUNT_NOT_INTERESTED = "ads_and_content/accounts_you're_not_interested_in.json",
     ADS_CLICKED = 'ads_and_content/ads_clicked.json',
     ADS_USING_YOUR_INFO = 'ads_and_businesses/advertisers_using_your_activity_or_information.json',
     ADS_VIEWED = 'ads_and_content/ads_viewed.json',
@@ -60,5 +60,5 @@ export enum FileCodeInstagram {
     SAVED_POSTS = 'saved/saved_posts.json',
     SAVED_COLLECTION = 'saved/saved_collections.json',
     //cannot be parsed
-    MEDIA = 'media/(\w+)/(.+).(jpg|map4|webp)',
+    MEDIA = 'media/(w+)/(.+).(jpg|map4|webp)',
 }
