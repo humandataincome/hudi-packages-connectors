@@ -1,0 +1,74 @@
+{
+    "impressions_history_posts_seen": [
+        {
+            "string_map_data": {
+                "Author": {
+                    "value": "geopop"
+                },
+                "Time": {
+                    "timestamp": 1719402713
+                }
+            }
+        },
+        {
+            "string_map_data": {
+                "Author": {
+                    "value": "hideo_kojima"
+                },
+                "Time": {
+                    "timestamp": 1719698544
+                }
+            }
+        },
+        {
+            "string_map_data": {
+                "Author": {
+                    "value": "bbcnews"
+                },
+                "Time": {
+                    "timestamp": 1719520778
+                }
+            }
+        },
+        {
+            "string_map_data": {
+                "Author": {
+                    "value": "il_post"
+                },
+                "Time": {
+                    "timestamp": 1719520778
+                }
+            }
+        },
+        {
+            "string_map_data": {
+                "Author": {
+                    "value": "men"
+                },
+                "Time": {
+                    "timestamp": 1719520791
+                }
+            }
+        },
+        {
+            "string_map_data": {
+                "Author": {
+                    "value": "torcha"
+                },
+                "Time": {
+                    "timestamp": 1720006749
+                }
+            }
+        },
+        {
+            "string_map_data": {
+                "Author": {
+                    "value": "datapizza"
+                },
+                "Time": {
+                    "timestamp": 1720006749
+                }
+            }
+        }
+    ]
+}

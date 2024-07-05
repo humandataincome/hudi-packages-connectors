@@ -77,17 +77,17 @@ export class ServiceInstagram {
                 return this.parsePersonalInformation(data);
             case FileCodeInstagram.ACCOUNT_NOT_INTERESTED:
                 return this.parseAccountYouAreNotInterested(data);
-            case FileCodeInstagram.ADS_CLICKED:
+            case FileCodeInstagram.v2_ADS_CLICKED:
                 return this.parseAdsClicked(data);
             case FileCodeInstagram.ADS_USING_YOUR_INFO:
                 return this.parseAdsUsingYourInformation(data);
-            case FileCodeInstagram.ADS_VIEWED:
+            case FileCodeInstagram.v2_ADS_VIEWED:
                 return this.parseAdsViewed(data);
-            case FileCodeInstagram.POSTS_VIEWED:
+            case FileCodeInstagram.v2_POSTS_VIEWED:
                 return this.parsePostViewed(data);
-            case FileCodeInstagram.ACCOUNT_VIEWED:
+            case FileCodeInstagram.v2_ACCOUNT_VIEWED:
                 return this.parseSuggestedAccountViewed(data);
-            case FileCodeInstagram.VIDEO_VIEWED:
+            case FileCodeInstagram.v2_VIDEO_VIEWED:
                 return this.parseVideoWatched(data);
             case FileCodeInstagram.AUTOFILL_INFO:
                 return this.parseAutofillInformation(data);

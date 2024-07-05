@@ -1,0 +1,56 @@
+{
+  "relationships_following": [
+    {
+      "title": "",
+      "media_list_data": [
+        
+      ],
+      "string_list_data": [
+        {
+          "href": "https://www.instagram.com/joha",
+          "value": "joha",
+          "timestamp": 1638859253
+        }
+      ]
+    },
+    {
+      "title": "",
+      "media_list_data": [
+        
+      ],
+      "string_list_data": [
+        {
+          "href": "https://www.instagram.com/monica",
+          "value": "monica",
+          "timestamp": 1638689466
+        }
+      ]
+    },
+    {
+      "title": "",
+      "media_list_data": [
+        
+      ],
+      "string_list_data": [
+        {
+          "href": "https://www.instagram.com/abbigliamento",
+          "value": "abbigliamento",
+          "timestamp": 1638358895
+        }
+      ]
+    },
+    {
+      "title": "",
+      "media_list_data": [
+        
+      ],
+      "string_list_data": [
+        {
+          "href": "https://www.instagram.com/tanbo",
+          "value": "tanbo",
+          "timestamp": 1638256669
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "type" : "FeatureCollection",
+  "features" : [ {
+    "geometry" : {
+      "coordinates" : [ 16.9760769, 40.6113722 ],
+      "type" : "Point"
+    },
+    "properties" : {
+      "Google Maps URL" : "https://www.google.com/maps/place//data=!4m2!3m1!1s0x0:0x137626f4cfbebf5a",
+      "Location" : {
+        "Address" : "Via Paisiello, 28, 74018 Palagianello TA, Italia",
+        "Business Name" : "L'Isola Verde",
+        "Country Code" : "IT",
+        "Geo Coordinates" : {
+          "Latitude" : "40.6113722",
+          "Longitude" : "16.9760769"
+        }
+      },
+      "Published" : "2022-03-07T20:36:40.990482Z",
+      "Star Rating" : 3
+    },
+    "type" : "Feature"
+  }, {
+    "geometry" : {
+      "coordinates" : [ 7.6581971, 45.2248109 ],
+      "type" : "Point"
+    },
+    "properties" : {
+      "Google Maps URL" : "https://www.google.com/maps/place//data=!4m2!3m1!1s0x0:0x5dff13da15405d22",
+      "Location" : {
+        "Address" : "Via S. Giovanni Bosco, 1, 10070 San Francesco al Campo TO, Italia",
+        "Business Name" : "Ristorante Pizzeria Londrina",
+        "Country Code" : "IT",
+        "Geo Coordinates" : {
+          "Latitude" : "45.2248109",
+          "Longitude" : "7.6581971"
+        }
+      },
+      "Published" : "2021-11-28T20:09:08.599562Z",
+      "Star Rating" : 5
+    },
+    "type" : "Feature"
+  }, {
+    "geometry" : {
+      "coordinates" : [ 9.8860834, 44.1662112 ],
+      "type" : "Point"
+    },
+    "properties" : {
+      "Google Maps URL" : "https://www.google.com/maps/place//data=!4m2!3m1!1s0x0:0x3df1df6ebad0bd05",
+      "Location" : {
+        "Address" : "Via Italia, 47, 19020 Ceparana SP, Italia",
+        "Business Name" : "Barberia Tradizionale",
+        "Country Code" : "IT",
+        "Geo Coordinates" : {
+          "Latitude" : "44.1662112",
+          "Longitude" : "9.8860834"
+        }
+      },
+      "Published" : "2020-05-01T11:17:34.851449Z",
+      "Star Rating" : 5
+    },
+    "type" : "Feature"
+  }, {
+    "geometry" : {
+      "coordinates" : [ 0, 0 ],
+      "type" : "Point"
+    },
+    "properties" : {
+      "Google Maps URL" : "https://www.google.com/maps/place//data=!4m2!3m1!1s0x0:0x366d0090b1ecb768",
+      "Published" : "2017-11-26T20:02:22.738Z",
+      "Review Comment" : "Connessione spesso altalenante, costo eccessivo per soli 4Mb in download, riduzione della velocità in download nel p2p(es torrent) a 50kb/s per tutto il giorno fino a sera.\nPer le aziende non mi esprimo, per quanto riguarda i privati prendetela in considerazione solo se non avete l'accesso all'ADSL o alla Fibra Ottica.",
+      "Star Rating" : 2,
+      "Comment" : "Nessuna informazione sul luogo disponibile per questa recensione"
+    },
+    "type" : "Feature"
+  } ]
+}

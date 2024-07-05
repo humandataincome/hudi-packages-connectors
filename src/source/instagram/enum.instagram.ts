@@ -1,14 +1,9 @@
 export enum FileCodeInstagram {
     PERSONAL_INFO = 'account_information/personal_information.json',
     ACCOUNT_NOT_INTERESTED = "ads_and_content/accounts_you're_not_interested_in.json",
-    ADS_CLICKED = 'ads_and_content/ads_clicked.json',
     ADS_USING_YOUR_INFO = 'ads_and_businesses/advertisers_using_your_activity_or_information.json',
-    ADS_VIEWED = 'ads_and_content/ads_viewed.json',
     MUSIC_HEARD_HISTORY = 'ads_and_content/music_heard_in_stories.json',
     MUSIC_USED_HISTORY = 'ads_and_content/music_recently_used_in_stories.json',
-    POSTS_VIEWED = 'ads_and_content/posts_viewed.json',
-    ACCOUNT_VIEWED = 'ads_and_content/suggested_accounts_viewed.json',
-    VIDEO_VIEWED = 'ads_and_content/videos_watched.json',
     AUTOFILL_INFO = 'autofill_information/autofill_information.json',
     POST_COMMENT = 'comments/post_comments.json',
     SYNCED_CONTACTS = 'contacts/synced_contacts.json',
@@ -33,7 +28,15 @@ export enum FileCodeInstagram {
     YOUR_REEL_SENTIMENTS = 'your_topics/your_reels_sentiments.json',
     YOUR_REEL_TOPICS = 'your_topics/your_reels_topics.json',
     YOUR_TOPICS = 'your_topics/your_topics.json',
-    //TODO: not parsed yet
+
+    //v2
+    v2_ADS_CLICKED = 'ads_and_topics/ads_clicked.json',
+    v2_ADS_VIEWED = 'ads_and_topics/ads_viewed.json',
+    v2_POSTS_VIEWED = 'ads_and_topics/posts_viewed.json',
+    v2_ACCOUNT_VIEWED = 'ads_and_topics/suggested_accounts_viewed.json',
+    v2_VIDEO_VIEWED = 'ads_and_topics/videos_watched.json',
+
+    // not parsed
     META_ACCOUNTS = 'account_information/linked_meta_accounts.json',
     ACCOUNT_INFO = 'account_information/account_information.json',
     PROFESSIONAL_INFO = 'account_information/professional_information.json',

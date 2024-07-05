@@ -1,0 +1,11 @@
+﻿Timestamp,BalanceTrackerOperation,SubscriptionCreditOperation,SubscriptionCreditsSpent,ProcessedSubscriptionCreditsSpent,SubscriptionCreditBalanceChange,RemainingSubscriptionCreditBalance,StreamerName,StreamerLinkedChannels,SpenderTwitchUserID,CustomerServiceNote
+11/15/2021 15:50,UPDATE,SPEND,-1,-1,-1,0,dadatvchannel,[64479508],88235507,
+11/12/2021 18:36,UPDATE,RENEW,1,1,1,1,,,,
+10/12/2021 18:35,UPDATE,SPEND,-1,-1,-1,0,dadatvchannel,[64479508],88235507,
+10/12/2021 17:25,UPDATE,RENEW,1,1,1,1,,,,
+09/12/2021 16:41,UPDATE,SPEND,-1,-1,-1,0,dariomocciatwitch,[dariomocciatwitch],88235507,
+09/12/2021 16:02,UPDATE,RENEW,1,1,1,1,,,,
+08/12/2021 15:04,UPDATE,SPEND,-1,-1,-1,0,dariomocciatwitch,[dariomocciatwitch],88235507,
+08/07/2021 14:58,UPDATE,RENEW,1,1,1,1,,,,
+07/07/2021 14:41,UPDATE,SPEND,-1,-1,-1,0,saidogna,[181713478],88235507,
+07/06/2021 22:03,UPDATE,RENEW,1,1,1,1,,,,

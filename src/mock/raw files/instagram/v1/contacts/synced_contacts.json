@@ -1,0 +1,116 @@
+{
+  "contacts_contact_info": [
+    {
+      "title": "",
+      "media_map_data": {
+        
+      },
+      "string_map_data": {
+        "Nome": {
+          "href": "",
+          "value": "Marco",
+          "timestamp": 0
+        },
+        "Cognome": {
+          "href": "",
+          "value": "Belli",
+          "timestamp": 0
+        },
+        "Informazioni di contatto": {
+          "href": "",
+          "value": "3451112223",
+          "timestamp": 0
+        },
+        "Importazione": {
+          "href": "",
+          "value": "",
+          "timestamp": 0
+        }
+      }
+    },
+    {
+      "title": "",
+      "media_map_data": {
+        
+      },
+      "string_map_data": {
+        "Nome": {
+          "href": "",
+          "value": "Pierluigi",
+          "timestamp": 0
+        },
+        "Cognome": {
+          "href": "",
+          "value": "pamparo",
+          "timestamp": 0
+        },
+        "Informazioni di contatto": {
+          "href": "",
+          "value": "3451112223",
+          "timestamp": 0
+        },
+        "Importazione": {
+          "href": "",
+          "value": "",
+          "timestamp": 0
+        }
+      }
+    },
+    {
+      "title": "",
+      "media_map_data": {
+        
+      },
+      "string_map_data": {
+        "Nome": {
+          "href": "",
+          "value": "Laura",
+          "timestamp": 0
+        },
+        "Cognome": {
+          "href": "",
+          "value": "",
+          "timestamp": 0
+        },
+        "Informazioni di contatto": {
+          "href": "",
+          "value": "3451112223",
+          "timestamp": 0
+        },
+        "Importazione": {
+          "href": "",
+          "value": "",
+          "timestamp": 0
+        }
+      }
+    },
+    {
+      "title": "",
+      "media_map_data": {
+        
+      },
+      "string_map_data": {
+        "Nome": {
+          "href": "",
+          "value": "Fabio",
+          "timestamp": 0
+        },
+        "Cognome": {
+          "href": "",
+          "value": "Bron",
+          "timestamp": 0
+        },
+        "Informazioni di contatto": {
+          "href": "",
+          "value": "3451112223",
+          "timestamp": 0
+        },
+        "Importazione": {
+          "href": "",
+          "value": "",
+          "timestamp": 0
+        }
+      }
+    }
+  ]
+}

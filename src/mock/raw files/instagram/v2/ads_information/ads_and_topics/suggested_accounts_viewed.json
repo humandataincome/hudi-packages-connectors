@@ -1,0 +1,24 @@
+{
+    "impressions_history_chaining_seen": [
+        {
+            "string_map_data": {
+                "Username": {
+                    "value": "sheilapaolajustiniano"
+                },
+                "Time": {
+                    "timestamp": 1544256224
+                }
+            }
+        },
+        {
+            "string_map_data": {
+                "Username": {
+                    "value": "matudicarlo"
+                },
+                "Time": {
+                    "timestamp": 1544256179
+                }
+            }
+        }
+    ]
+}

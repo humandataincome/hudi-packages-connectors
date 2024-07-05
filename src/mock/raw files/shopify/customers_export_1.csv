@@ -1,0 +1,3 @@
+First Name,Last Name,Email,Accepts Email Marketing,Company,Address1,Address2,City,Province,Province Code,Country,Country Code,Zip,Phone,Accepts SMS Marketing,Total Spent,Total Orders,Tags,Note,Tax Exempt
+nome-cliente,cognome-cliente,email@cliente.com,yes,azienda-cliente,Via Roma,1,Rimini,Rimini,RN,Italy,IT,47921,+393333333333,no,240.00,2,,,yes
+nome-cliente1,cognome-cliente1,email@cliente1.com,yes,azienda-cliente1,Via Roma,2,Rimini,Rimini,RN,Italy,IT,47921,+393332221111,yes,0.00,0,tag1,note1,no

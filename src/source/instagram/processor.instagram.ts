@@ -4,7 +4,6 @@ import {
     EmojiSliderIG,
     InstagramDataAggregator,
     LikeIG,
-    MediaIG,
     PollIG,
     PostIG,
     QuizIG,
@@ -159,14 +158,14 @@ export class ProcessorInstagram {
                     : (model.accountsNotInterestedIn = result);
             }
         } else if (
-            (regex = new RegExp(FileCodeInstagram.ADS_CLICKED)) &&
+            (regex = new RegExp(FileCodeInstagram.v2_ADS_CLICKED)) &&
             regex.test(pathName)
         ) {
             result = await ServiceInstagram.parseAdsClicked(data);
             if (result) {
                 model.engagement.adsClicked = result.list.length;
                 model.engagement.adsClickedTI = result.list.filter(
-                    (item: PostIG) =>
+                    (item) =>
                         item.date &&
                         ProcessorUtils.daysDifference(item.date) <
                             timeIntervalDays,
@@ -198,14 +197,14 @@ export class ProcessorInstagram {
                     : (model.adsUsingYourInfo = result);
             }
         } else if (
-            (regex = new RegExp(FileCodeInstagram.ADS_VIEWED)) &&
+            (regex = new RegExp(FileCodeInstagram.v2_ADS_VIEWED)) &&
             regex.test(pathName)
         ) {
             result = await ServiceInstagram.parseAdsViewed(data);
             if (result) {
                 model.engagement.adsViewed = result.list.length;
                 model.engagement.adsViewedTI = result.list.filter(
-                    (item: PostIG) =>
+                    (item) =>
                         item.date &&
                         ProcessorUtils.daysDifference(item.date) <
                             timeIntervalDays,
@@ -221,14 +220,14 @@ export class ProcessorInstagram {
                     : (model.adsViewed = result);
             }
         } else if (
-            (regex = new RegExp(FileCodeInstagram.POSTS_VIEWED)) &&
+            (regex = new RegExp(FileCodeInstagram.v2_POSTS_VIEWED)) &&
             regex.test(pathName)
         ) {
             result = await ServiceInstagram.parsePostViewed(data);
             if (result) {
                 model.engagement.postsViewed = result.list.length;
                 model.engagement.postsViewedTI = result.list.filter(
-                    (item: PostIG) =>
+                    (item) =>
                         item.date &&
                         ProcessorUtils.daysDifference(item.date) <
                             timeIntervalDays,
@@ -244,7 +243,7 @@ export class ProcessorInstagram {
                     : (model.postsViewed = result);
             }
         } else if (
-            (regex = new RegExp(FileCodeInstagram.ACCOUNT_VIEWED)) &&
+            (regex = new RegExp(FileCodeInstagram.v2_ACCOUNT_VIEWED)) &&
             regex.test(pathName)
         ) {
             result = await ServiceInstagram.parseSuggestedAccountViewed(data);
@@ -510,14 +509,14 @@ export class ProcessorInstagram {
                 ).length;
             }
         } else if (
-            (regex = new RegExp(FileCodeInstagram.VIDEO_VIEWED)) &&
+            (regex = new RegExp(FileCodeInstagram.v2_VIDEO_VIEWED)) &&
             regex.test(pathName)
         ) {
             result = await ServiceInstagram.parseVideoWatched(data);
             if (result) {
                 model.engagement.videosViewed = result.list.length;
                 model.engagement.videosViewedTI = result.list.filter(
-                    (item: MediaIG) =>
+                    (item) =>
                         item.date &&
                         ProcessorUtils.daysDifference(item.date) <
                             timeIntervalDays,

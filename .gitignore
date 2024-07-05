@@ -48,5 +48,5 @@ Thumbs.db
 *.wmv
 
 # Private mock file
-src/mock/datasource/zip files/private/
+src/mock/v1/datasource/zip files/private/
 src/mock/pdf/private/

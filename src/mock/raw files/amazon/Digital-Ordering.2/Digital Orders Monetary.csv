@@ -1,0 +1,3 @@
+﻿DigitalOrderItemId,DeliveryPacketId,AffectedItemQuantity,TransactionAmount,BaseCurrencyCode,ClaimCode,FXTransactionAmount,FXCurrencyCode,MonetaryComponentTypeCode,OfferTypeCode
+MRJJQM7M13KKFN5LBS2JNTI,PTJFKOR272RNFGVB8G,1,6.49,EUR,N/A,N/A,N/A,Tax,N/A
+MRJJQM7M13KKFN5LBS2JNTI,PTTD392TGVRNFGVB8G,1,29.51,EUR,N/A,N/A,N/A,Price Amount,N/A

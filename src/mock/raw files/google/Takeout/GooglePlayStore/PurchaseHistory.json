@@ -1,0 +1,39 @@
+[{
+  "purchaseHistory": {
+    "invoicePrice": "0,00 USD",
+    "paymentMethodTitle": "",
+    "userLanguageCode": "it_IT",
+    "userCountry": "IT",
+    "doc": {
+      "documentType": "Android Apps",
+      "title": "Google One"
+    },
+    "purchaseTime": "2021-07-28T06:54:33.062Z"
+  }
+},
+{
+  "purchaseHistory": {
+    "invoicePrice": "0,00 USD",
+    "paymentMethodTitle": "",
+    "userLanguageCode": "it_IT",
+    "userCountry": "IT",
+    "doc": {
+      "documentType": "Android Apps",
+      "title": "Google Podcasts"
+    },
+    "purchaseTime": "2021-07-28T06:54:27.197Z"
+  }
+},
+{
+  "purchaseHistory": {
+    "invoicePrice": "5,49 €",
+    "paymentMethodTitle": "PayPal: email@gmail.com",
+    "userLanguageCode": "it_IT",
+    "userCountry": "IT",
+    "doc": {
+      "documentType": "In App Item",
+      "title": "Special Offer 5 (Questland: Turn Based RPG)"
+    },
+    "purchaseTime": "2021-03-25T14:14:14.674Z"
+  }
+}]

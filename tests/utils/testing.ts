@@ -10,6 +10,15 @@ import {Observable} from "rxjs";
 import {ServiceBloodAnalysis, SelectorUtils} from "../../src";
 import {findNotMappedFiles} from "../../src/utils/monitoring.utils";
 
+// parsePdfTest();
+//coinbaseTest();
+//binanceTest();
+//processingStream(['../../src/mock/datasource/zip files/private/spotify.zip',], GDPRDataSourceCode.SPOTIFY);
+// validateStream('../../src/mock/datasource/zip files/private/instagram.zip', GDPRDataSourceCode.INSTAGRAM);
+//showAggregator('../../src/mock/datasource/zip files/private/google.zip', GDPRDataSourceCode.GOOGLE);
+//showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', GDPRDataSourceCode.AMAZON);
+testNotMappedFiles('../../src/mock/zip files/private/instagram.zip', GDPRDataSourceCode.INSTAGRAM).then(x => console.log(x));
+
 const httpMethod: HttpMethod = (options: HTTPRequest) => {
     const https = require('https')
     return new Promise((resolve, reject) => {
@@ -28,15 +37,6 @@ const httpMethod: HttpMethod = (options: HTTPRequest) => {
         req.end();
     });
 };
-
-// parsePdfTest();
-//coinbaseTest();
-//binanceTest();
-//processingStream(['../../src/mock/datasource/zip files/private/spotify.zip',], GDPRDataSourceCode.SPOTIFY);
-validateStream('../../src/mock/datasource/zip files/private/instagram.zip', GDPRDataSourceCode.INSTAGRAM);
-//showAggregator('../../src/mock/datasource/zip files/private/google.zip', GDPRDataSourceCode.GOOGLE);
-//showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', GDPRDataSourceCode.AMAZON);
-// testNotMappedFiles('../../src/mock/datasource/zip files/private/instagram.zip', GDPRDataSourceCode.INSTAGRAM);
 
 async function parsePdfTest() {
     const fs =  require('fs');
@@ -85,9 +85,9 @@ async function testNotMappedFiles(pathToZip: string, code: GDPRDataSourceCode) {
     const path = require('path');
 
     const data = fs.readFileSync(path.join(__dirname, pathToZip));
-    console.log(await findNotMappedFiles(data, code, {
+    return await findNotMappedFiles(data, code, {
         permittedFilesExtensions: [FileExtension.JSON, FileExtension.JS, FileExtension.XML, FileExtension.CSV, FileExtension.HTML]
-    }));
+    });
 }
 
 async function validateStream(pathToZip: string, code: GDPRDataSourceCode) {
