@@ -76,11 +76,7 @@ export class ValidatorDatasource {
         options?: ValidatorDatasourceOption,
     ): string | undefined {
         const compatiblePath = this.extractCompatiblePath(pathName);
-        return (
-            options
-                ? this.isPathMatching(compatiblePath, options)
-                : this.isPathMatching(compatiblePath)
-        )
+        return this.isPathMatching(compatiblePath, options)
             ? compatiblePath
             : undefined;
     }
