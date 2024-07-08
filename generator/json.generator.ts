@@ -1,8 +1,4 @@
-import {
-    GDPRDataSourceCode,
-    SelectorUtils,
-    ValidatorFiles
-} from "../index";
+import {GDPRDataSourceCode, SelectorUtils, ValidatorFiles} from "../src";
 
 export class JsonGenerator {
     static async generateAggregatorJson() {
@@ -10,20 +6,20 @@ export class JsonGenerator {
         await this.generateJson(GDPRDataSourceCode.AMAZON);
         await this.generateJson(GDPRDataSourceCode.FACEBOOK);
         await this.generateJson(GDPRDataSourceCode.GOOGLE);
-        await this.generateJson(GDPRDataSourceCode.INSTAGRAM);
         await this.generateJson(GDPRDataSourceCode.LINKEDIN);
         await this.generateJson(GDPRDataSourceCode.NETFLIX);
         await this.generateJson(GDPRDataSourceCode.REDDIT);
         await this.generateJson(GDPRDataSourceCode.TIKTOK);
         await this.generateJson(GDPRDataSourceCode.TWITTER);
-         */
         await this.generateJson(GDPRDataSourceCode.SPOTIFY);
+         */
+        await this.generateJson(GDPRDataSourceCode.INSTAGRAM);
     }
 
     private static async generateJson(code: GDPRDataSourceCode) {
         const fs = require('fs');
         const path = require('path');
-        const data = fs.readFileSync(path.join(__dirname, `../src/mock/datasource/zip files/private/${code.toLowerCase()}.zip`));
+        const data = fs.readFileSync(path.join(__dirname, `../tests/mock/datasource/zip files/private/${code.toLowerCase()}.zip`));
         const validation = ValidatorFiles.validateZip(data,
             {
                 minBytesPerFile: 0,
