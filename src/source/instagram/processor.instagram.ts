@@ -21,6 +21,7 @@ import {
     ProcessorUtils,
 } from '../../processor';
 import { ValidatorObject } from '../../validator';
+import { sliceIfTooLong } from '../../utils/array.utils';
 
 @staticImplements<ProcessorGDPRDatasource>()
 export class ProcessorInstagram {
@@ -147,15 +148,12 @@ export class ProcessorInstagram {
             result =
                 await ServiceInstagram.parseAccountYouAreNotInterested(data);
             if (result) {
-                options.maxEntitiesPerArray &&
-                result.list.length > options.maxEntitiesPerArray
-                    ? (model.accountsNotInterestedIn = {
-                          list: result.list.slice(
-                              0,
-                              options.maxEntitiesPerArray,
-                          ),
-                      })
-                    : (model.accountsNotInterestedIn = result);
+                model.accountsNotInterestedIn = {
+                    list: sliceIfTooLong(
+                        result.list,
+                        options.maxEntitiesPerArray,
+                    ),
+                };
             }
         } else if (
             (regex = new RegExp(FileCodeInstagram.v2_ADS_CLICKED)) &&
@@ -170,15 +168,12 @@ export class ProcessorInstagram {
                         ProcessorUtils.daysDifference(item.date) <
                             timeIntervalDays,
                 ).length;
-                options.maxEntitiesPerArray &&
-                result.list.length > options.maxEntitiesPerArray
-                    ? (model.adsClicked = {
-                          list: result.list.slice(
-                              0,
-                              options.maxEntitiesPerArray,
-                          ),
-                      })
-                    : (model.adsClicked = result);
+                model.adsClicked = {
+                    list: sliceIfTooLong(
+                        result.list,
+                        options.maxEntitiesPerArray,
+                    ),
+                };
             }
         } else if (
             (regex = new RegExp(FileCodeInstagram.ADS_USING_YOUR_INFO)) &&
@@ -186,15 +181,12 @@ export class ProcessorInstagram {
         ) {
             result = await ServiceInstagram.parseAdsUsingYourInformation(data);
             if (result) {
-                options.maxEntitiesPerArray &&
-                result.list.length > options.maxEntitiesPerArray
-                    ? (model.adsUsingYourInfo = {
-                          list: result.list.slice(
-                              0,
-                              options.maxEntitiesPerArray,
-                          ),
-                      })
-                    : (model.adsUsingYourInfo = result);
+                model.adsUsingYourInfo = {
+                    list: sliceIfTooLong(
+                        result.list,
+                        options.maxEntitiesPerArray,
+                    ),
+                };
             }
         } else if (
             (regex = new RegExp(FileCodeInstagram.v2_ADS_VIEWED)) &&
@@ -209,15 +201,12 @@ export class ProcessorInstagram {
                         ProcessorUtils.daysDifference(item.date) <
                             timeIntervalDays,
                 ).length;
-                options.maxEntitiesPerArray &&
-                result.list.length > options.maxEntitiesPerArray
-                    ? (model.adsViewed = {
-                          list: result.list.slice(
-                              0,
-                              options.maxEntitiesPerArray,
-                          ),
-                      })
-                    : (model.adsViewed = result);
+                model.adsViewed = {
+                    list: sliceIfTooLong(
+                        result.list,
+                        options.maxEntitiesPerArray,
+                    ),
+                };
             }
         } else if (
             (regex = new RegExp(FileCodeInstagram.v2_POSTS_VIEWED)) &&
@@ -232,15 +221,12 @@ export class ProcessorInstagram {
                         ProcessorUtils.daysDifference(item.date) <
                             timeIntervalDays,
                 ).length;
-                options.maxEntitiesPerArray &&
-                result.list.length > options.maxEntitiesPerArray
-                    ? (model.postsViewed = {
-                          list: result.list.slice(
-                              0,
-                              options.maxEntitiesPerArray,
-                          ),
-                      })
-                    : (model.postsViewed = result);
+                model.postsViewed = {
+                    list: sliceIfTooLong(
+                        result.list,
+                        options.maxEntitiesPerArray,
+                    ),
+                };
             }
         } else if (
             (regex = new RegExp(FileCodeInstagram.v2_ACCOUNT_VIEWED)) &&
@@ -248,15 +234,12 @@ export class ProcessorInstagram {
         ) {
             result = await ServiceInstagram.parseSuggestedAccountViewed(data);
             if (result) {
-                options.maxEntitiesPerArray &&
-                result.list.length > options.maxEntitiesPerArray
-                    ? (model.suggestedAccountsViewed = {
-                          list: result.list.slice(
-                              0,
-                              options.maxEntitiesPerArray,
-                          ),
-                      })
-                    : (model.suggestedAccountsViewed = result);
+                model.suggestedAccountsViewed = {
+                    list: sliceIfTooLong(
+                        result.list,
+                        options.maxEntitiesPerArray,
+                    ),
+                };
             }
         } else if (
             (regex = new RegExp(FileCodeInstagram.AUTOFILL_INFO)) &&
@@ -272,22 +255,24 @@ export class ProcessorInstagram {
         ) {
             result = await ServiceInstagram.parseCommentsPosted(data);
             if (result) {
-                model.engagement.commentsPosted = result.list.length;
-                model.engagement.commentsPostedTI = result.list.filter(
-                    (item: CommentPostedIG) =>
-                        item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
-                ).length;
-                options.maxEntitiesPerArray &&
-                result.list.length > options.maxEntitiesPerArray
-                    ? (model.commentsPosted = {
-                          list: result.list.slice(
-                              0,
-                              options.maxEntitiesPerArray,
-                          ),
-                      })
-                    : (model.commentsPosted = result);
+                model.engagement.commentsPosted =
+                    (model.engagement.commentsPosted ?? 0) + result.list.length;
+                model.engagement.commentsPostedTI =
+                    (model.engagement.commentsPostedTI ?? 0) +
+                    result.list.filter(
+                        (item: CommentPostedIG) =>
+                            item.date &&
+                            ProcessorUtils.daysDifference(item.date) <
+                                timeIntervalDays,
+                    ).length;
+                model.commentsPosted = {
+                    list: sliceIfTooLong(
+                        model.commentsPosted
+                            ? model.commentsPosted.list.concat(result.list)
+                            : result.list,
+                        options.maxEntitiesPerArray,
+                    ),
+                };
             }
         } else if (
             (regex = new RegExp(FileCodeInstagram.FOLLOWING_HASHTAGS)) &&
@@ -296,15 +281,12 @@ export class ProcessorInstagram {
             result = await ServiceInstagram.parseFollowingHashtags(data);
             if (result) {
                 model.engagement.followingHashtagsCounter = result.list.length;
-                options.maxEntitiesPerArray &&
-                result.list.length > options.maxEntitiesPerArray
-                    ? (model.followingHashtags = {
-                          list: result.list.slice(
-                              0,
-                              options.maxEntitiesPerArray,
-                          ),
-                      })
-                    : (model.followingHashtags = result);
+                model.followingHashtags = {
+                    list: sliceIfTooLong(
+                        result.list,
+                        options.maxEntitiesPerArray,
+                    ),
+                };
             }
         } else if (
             (regex = new RegExp(FileCodeInstagram.INFO_ADS_INTERESTS)) &&
@@ -312,15 +294,12 @@ export class ProcessorInstagram {
         ) {
             result = await ServiceInstagram.parseAdsInterests(data);
             if (result) {
-                options.maxEntitiesPerArray &&
-                result.list.length > options.maxEntitiesPerArray
-                    ? (model.adsInterests = {
-                          list: result.list.slice(
-                              0,
-                              options.maxEntitiesPerArray,
-                          ),
-                      })
-                    : (model.adsInterests = result);
+                model.adsInterests = {
+                    list: sliceIfTooLong(
+                        result.list,
+                        options.maxEntitiesPerArray,
+                    ),
+                };
             }
         } else if (
             (regex = new RegExp(FileCodeInstagram.INFO_ACCOUNT_BASED_IN)) &&
@@ -336,15 +315,12 @@ export class ProcessorInstagram {
         ) {
             result = await ServiceInstagram.parseSearches(data);
             if (result) {
-                options.maxEntitiesPerArray &&
-                result.list.length > options.maxEntitiesPerArray
-                    ? (model.searches = {
-                          list: result.list.slice(
-                              0,
-                              options.maxEntitiesPerArray,
-                          ),
-                      })
-                    : (model.searches = result);
+                model.searches = {
+                    list: sliceIfTooLong(
+                        result.list,
+                        options.maxEntitiesPerArray,
+                    ),
+                };
             }
         } else if (
             (regex = new RegExp(FileCodeInstagram.YOUR_REEL_TOPICS)) &&
@@ -352,15 +328,12 @@ export class ProcessorInstagram {
         ) {
             result = await ServiceInstagram.parseReelTopics(data);
             if (result) {
-                options.maxEntitiesPerArray &&
-                result.list.length > options.maxEntitiesPerArray
-                    ? (model.reelTopics = {
-                          list: result.list.slice(
-                              0,
-                              options.maxEntitiesPerArray,
-                          ),
-                      })
-                    : (model.reelTopics = result);
+                model.reelTopics = {
+                    list: sliceIfTooLong(
+                        result.list,
+                        options.maxEntitiesPerArray,
+                    ),
+                };
             }
         } else if (
             (regex = new RegExp(FileCodeInstagram.YOUR_TOPICS)) &&
@@ -368,15 +341,12 @@ export class ProcessorInstagram {
         ) {
             result = await ServiceInstagram.parseYourTopics(data);
             if (result) {
-                options.maxEntitiesPerArray &&
-                result.list.length > options.maxEntitiesPerArray
-                    ? (model.yourTopics = {
-                          list: result.list.slice(
-                              0,
-                              options.maxEntitiesPerArray,
-                          ),
-                      })
-                    : (model.yourTopics = result);
+                model.yourTopics = {
+                    list: sliceIfTooLong(
+                        result.list,
+                        options.maxEntitiesPerArray,
+                    ),
+                };
             }
         } else if (
             (regex = new RegExp(FileCodeInstagram.SHOPPING_VIEWED_ITEMS)) &&
@@ -384,15 +354,12 @@ export class ProcessorInstagram {
         ) {
             result = await ServiceInstagram.parseShoppingViewedItems(data);
             if (result) {
-                options.maxEntitiesPerArray &&
-                result.list.length > options.maxEntitiesPerArray
-                    ? (model.shoppingItemsViewed = {
-                          list: result.list.slice(
-                              0,
-                              options.maxEntitiesPerArray,
-                          ),
-                      })
-                    : (model.shoppingItemsViewed = result);
+                model.shoppingItemsViewed = {
+                    list: sliceIfTooLong(
+                        result.list,
+                        options.maxEntitiesPerArray,
+                    ),
+                };
             }
         } else if (
             (regex = new RegExp(FileCodeInstagram.FOLLOWING_ACCOUNTS)) &&
@@ -403,12 +370,14 @@ export class ProcessorInstagram {
                 model.engagement.followingCounter = result.list.length;
             }
         } else if (
-            (regex = new RegExp(FileCodeInstagram.FOLLOWERS)) &&
+            (regex = new RegExp(FileCodeInstagram.v2_FOLLOWERS)) &&
             regex.test(pathName)
         ) {
             result = await ServiceInstagram.parseFollowers(data);
             if (result) {
-                model.engagement.followersCounter = result.list.length;
+                model.engagement.followersCounter =
+                    (model.engagement.followersCounter ?? 0) +
+                    result.list.length;
             }
         } else if (
             (regex = new RegExp(FileCodeInstagram.EMOJI_SLIDERS)) &&

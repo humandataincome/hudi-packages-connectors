@@ -101,7 +101,7 @@ export class ServiceInstagram {
                 return this.parsePersonalPost(data);
             case FileCodeInstagram.STORIES_CREATED:
                 return this.parsePersonalStories(data);
-            case FileCodeInstagram.FOLLOWERS:
+            case FileCodeInstagram.v2_FOLLOWERS:
                 return this.parseFollowers(data);
             case FileCodeInstagram.FOLLOWING_ACCOUNTS:
                 return this.parseFollowingAccounts(data);

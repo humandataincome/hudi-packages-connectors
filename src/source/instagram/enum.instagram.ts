@@ -9,7 +9,6 @@ export enum FileCodeInstagram {
     POSTS_ARCHIVED = 'content/archived_posts.json',
     POSTS_CREATED = 'content/posts_(\\d+).json',
     STORIES_CREATED = 'content/stories.json',
-    FOLLOWERS = 'followers_and_following/followers_(\\d+).json',
     FOLLOWING_ACCOUNTS = 'followers_and_following/following.json',
     FOLLOWING_HASHTAGS = 'followers_and_following/following_hashtags.json',
     INFO_ADS_INTERESTS = 'information_about_you/ads_interests.json',
@@ -35,6 +34,7 @@ export enum FileCodeInstagram {
     v2_ACCOUNT_VIEWED = 'ads_and_topics/suggested_accounts_viewed.json',
     v2_VIDEO_VIEWED = 'ads_and_topics/videos_watched.json',
     v2_POST_COMMENT = 'comments/post_comments_(\\d+).json',
+    v2_FOLLOWERS = 'followers_and_following/followers_(\\d+).json',
 
     // not parsed
     META_ACCOUNTS = 'account_information/linked_meta_accounts.json',

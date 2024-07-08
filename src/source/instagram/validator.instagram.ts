@@ -20,7 +20,7 @@ export class ValidatorInstagram extends ValidatorDatasource {
         FileCodeInstagram.AUTOFILL_INFO,
         FileCodeInstagram.ELIGIBILITY,
         FileCodeInstagram.EMOJI_SLIDERS,
-        FileCodeInstagram.FOLLOWERS,
+        FileCodeInstagram.v2_FOLLOWERS,
         FileCodeInstagram.FOLLOWING_ACCOUNTS,
         FileCodeInstagram.FOLLOWING_HASHTAGS,
         FileCodeInstagram.INFO_ADS_INTERESTS,
