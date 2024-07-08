@@ -6,6 +6,7 @@
 # Node artifact files
 node_modules/
 generator/aggregator-json
+tests/mock/datasource/zip files/private
 
 # Compiled Java class files
 *.class
