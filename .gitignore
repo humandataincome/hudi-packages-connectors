@@ -5,6 +5,7 @@
 
 # Node artifact files
 node_modules/
+generator/aggregator-json
 
 # Compiled Java class files
 *.class
