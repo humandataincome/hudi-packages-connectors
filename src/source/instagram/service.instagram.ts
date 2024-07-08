@@ -91,7 +91,7 @@ export class ServiceInstagram {
                 return this.parseVideoWatched(data);
             case FileCodeInstagram.AUTOFILL_INFO:
                 return this.parseAutofillInformation(data);
-            case FileCodeInstagram.POST_COMMENT:
+            case FileCodeInstagram.v2_POST_COMMENT:
                 return this.parseCommentsPosted(data);
             case FileCodeInstagram.SYNCED_CONTACTS:
                 return this.parseSyncedContracts(data);
@@ -336,23 +336,24 @@ export class ServiceInstagram {
                     `${this.languagePrefix}-11-time`
                 ];
             const model: AdsViewedIG = { list: [] };
-            model.list = document.impressions_history_ads_seen.map(
-                (value: any) => {
-                    const newItem: AdvIG = {};
+            document.impressions_history_ads_seen.forEach((value: any) => {
+                if (
                     value.string_map_data &&
-                        value.string_map_data[parameterName1].value &&
-                        (newItem.title = DecodingUtils.decodeObject(
+                    value.string_map_data[parameterName1]?.value &&
+                    value.string_map_data[parameterName2]?.timestamp
+                ) {
+                    const newItem: AdvIG = {
+                        title: DecodingUtils.decodeObject(
                             value.string_map_data[parameterName1].value,
-                        ));
-                    value.string_map_data &&
-                        value.string_map_data[parameterName2].timestamp &&
-                        (newItem.date = new Date(
+                        ),
+                        date: new Date(
                             1000 *
                                 value.string_map_data[parameterName2].timestamp,
-                        ));
-                    return newItem;
-                },
-            );
+                        ),
+                    };
+                    model.list.push(newItem);
+                }
+            });
             return model.list.length > 0 ? model : undefined;
         } catch (error) {
             this.logger.log('error', `${error}`, 'parseAdsViewed');
@@ -557,21 +558,25 @@ export class ServiceInstagram {
                     `${this.languagePrefix}-22-time`
                 ];
             const model: VideoWatchedIG = { list: [] };
-            model.list = document.impressions_history_videos_watched.map(
+            document.impressions_history_videos_watched.forEach(
                 (value: any) => {
-                    const newItem: MediaIG = {};
-                    value.string_map_data &&
-                        value.string_map_data[parameterName1].value &&
-                        (newItem.title = DecodingUtils.decodeObject(
-                            value.string_map_data[parameterName1].value,
-                        ));
-                    value.string_map_data &&
-                        value.string_map_data[parameterName2].timestamp &&
-                        (newItem.date = new Date(
-                            1000 *
-                                value.string_map_data[parameterName2].timestamp,
-                        ));
-                    return newItem;
+                    if (
+                        value.string_map_data &&
+                        value.string_map_data[parameterName1]?.value &&
+                        value.string_map_data[parameterName2]?.timestamp
+                    ) {
+                        const newItem: MediaIG = {
+                            title: DecodingUtils.decodeObject(
+                                value.string_map_data[parameterName1].value,
+                            ),
+                            date: new Date(
+                                1000 *
+                                    value.string_map_data[parameterName2]
+                                        .timestamp,
+                            ),
+                        };
+                        model.list.push(newItem);
+                    }
                 },
             );
             return model.list.length > 0 ? model : undefined;
@@ -674,23 +679,40 @@ export class ServiceInstagram {
         data: Buffer,
     ): Promise<CommentsPostedIG | undefined> {
         try {
+            const parameterName1 =
+                ConfigInstagram.keyTranslation[
+                    `${this.languagePrefix}-42-comment`
+                ];
+            const parameterName2 =
+                ConfigInstagram.keyTranslation[
+                    `${this.languagePrefix}-43-mediaOwner`
+                ];
+            const parameterName3 =
+                ConfigInstagram.keyTranslation[
+                    `${this.languagePrefix}-44-time`
+                ];
+
             const document = JSON.parse(data.toString());
             const model: CommentsPostedIG = { list: [] };
-            model.list = document.comments_media_comments.map((value: any) => {
-                const newItem: CommentPostedIG = {};
-                value.title &&
-                    (newItem.toUser = DecodingUtils.decodeObject(value.title));
-                value.string_list_data &&
-                    value.string_list_data[0].value &&
-                    (newItem.text = DecodingUtils.decodeObject(
-                        value.string_list_data[0].value,
-                    ));
-                value.string_list_data &&
-                    value.string_list_data[0].timestamp &&
-                    (newItem.date = new Date(
-                        1000 * value.string_list_data[0].timestamp,
-                    ));
-                return newItem;
+            document.forEach((value: any) => {
+                if (
+                    value.string_map_data &&
+                    value.string_map_data?.[parameterName1]?.value &&
+                    value.string_map_data?.[parameterName2]?.value &&
+                    value.string_map_data?.[parameterName3]?.timestamp
+                ) {
+                    const newItem: CommentPostedIG = {
+                        text: value.string_map_data?.[parameterName1]?.value,
+                        media_owner:
+                            value.string_map_data?.[parameterName2]?.value,
+                        date: new Date(
+                            1000 *
+                                value.string_map_data?.[parameterName3]
+                                    ?.timestamp,
+                        ),
+                    };
+                    model.list.push(newItem);
+                }
             });
             return model.list.length > 0 ? model : undefined;
         } catch (error) {
@@ -846,24 +868,26 @@ export class ServiceInstagram {
         try {
             const document = JSON.parse(data.toString());
             const model: FollowersIG = { list: [] };
-            model.list = document.relationships_followers.map((value: any) => {
-                const newItem: AccountIG = {};
-                value.string_list_data &&
-                    value.string_list_data[0].href &&
-                    (newItem.href = DecodingUtils.decodeObject(
-                        value.string_list_data[0].href,
-                    ));
-                value.string_list_data &&
-                    value.string_list_data[0].value &&
-                    (newItem.name = DecodingUtils.decodeObject(
-                        value.string_list_data[0].value,
-                    ));
-                value.string_list_data &&
-                    value.string_list_data[0].timestamp &&
-                    (newItem.date = new Date(
-                        1000 * value.string_list_data[0].timestamp,
-                    ));
-                return newItem;
+            document.forEach((value: any) => {
+                if (
+                    value.string_list_data &&
+                    value.string_list_data?.[0].href &&
+                    value.string_list_data?.[0].value &&
+                    value.string_list_data?.[0].timestamp
+                ) {
+                    const newItem: AccountIG = {
+                        href: DecodingUtils.decodeObject(
+                            value.string_list_data[0].href,
+                        ),
+                        name: DecodingUtils.decodeObject(
+                            value.string_list_data[0].value,
+                        ),
+                        date: new Date(
+                            1000 * value.string_list_data[0].timestamp,
+                        ),
+                    };
+                    model.list.push(newItem);
+                }
             });
             return model.list.length > 0 ? model : undefined;
         } catch (error) {

@@ -32,7 +32,7 @@ export class ValidatorInstagram extends ValidatorDatasource {
         FileCodeInstagram.POSTS_ARCHIVED,
         FileCodeInstagram.POSTS_CREATED,
         FileCodeInstagram.v2_POSTS_VIEWED,
-        FileCodeInstagram.POST_COMMENT,
+        FileCodeInstagram.v2_POST_COMMENT,
         FileCodeInstagram.SHOPPING_VIEWED_ITEMS,
         FileCodeInstagram.STORIES_CREATED,
         FileCodeInstagram.QUIZZES,

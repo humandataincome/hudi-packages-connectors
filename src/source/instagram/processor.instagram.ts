@@ -267,7 +267,7 @@ export class ProcessorInstagram {
                 model.autofillInfo = result;
             }
         } else if (
-            (regex = new RegExp(FileCodeInstagram.POST_COMMENT)) &&
+            (regex = new RegExp(FileCodeInstagram.v2_POST_COMMENT)) &&
             regex.test(pathName)
         ) {
             result = await ServiceInstagram.parseCommentsPosted(data);

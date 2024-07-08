@@ -281,7 +281,7 @@ export interface ContactSyncedIG {
 
 export interface CommentPostedIG {
     text?: string;
-    toUser?: string;
+    media_owner?: string;
     date?: Date;
 }
 

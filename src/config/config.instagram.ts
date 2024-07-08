@@ -43,6 +43,9 @@ export class ConfigInstagram {
         'EN-39-productName': '',
         'EN-40-handlerID': '',
         'EN-41-handlerName': '',
+        'EN-42-comment': 'Comment',
+        'EN-43-mediaOwner': 'Media Owner',
+        'EN-44-time': 'Time',
 
         //ITALIAN
         'IT-1-username': 'Nome utente',
@@ -86,6 +89,9 @@ export class ConfigInstagram {
         'IT-39-productName': 'Nome del prodotto',
         'IT-40-handlerID': 'ID venditore',
         'IT-41-handlerName': 'Nome del venditore',
+        'IT-42-comment': '',
+        'IT-43-mediaOwner': '',
+        'IT-44-time': '',
         //HINDI
         'HI-1-username':
             '\u00e0\u00a4\u00af\u00e0\u00a5\u0082\u00e0\u00a4\u009c\u00e0\u00a4\u00bc\u00e0\u00a4\u00b0\u00e0\u00a4\u00a8\u00e0\u00a5\u0087\u00e0\u00a4\u00ae',
@@ -195,6 +201,9 @@ export class ConfigInstagram {
         'ES-39-productName': '',
         'ES-40-handlerID': '',
         'ES-41-handlerName': '',
+        'ES-42-comment': '',
+        'ES-43-mediaOwner': '',
+        'ES-44-time': '',
         //FRENCH
         'FR-1-username': 'Nom d\u00e2\u0080\u0099utilisateur',
         'FR-2-name': 'Nom',
@@ -239,6 +248,9 @@ export class ConfigInstagram {
         'FR-39-productName': '',
         'FR-40-handlerID': '',
         'FR-41-handlerName': '',
+        'FR-42-comment': '',
+        'FR-43-mediaOwner': '',
+        'FR-44-time': '',
         //GERMAN
         'DE-1-username': 'Benutzername',
         'DE-2-name': 'Name',
@@ -281,6 +293,9 @@ export class ConfigInstagram {
         'DE-39-productName': 'Name des Produkts',
         'DE-40-handlerID': 'H\u00c3\u00a4ndler-ID',
         'DE-41-handlerName': 'Name des H\u00c3\u00a4ndlers',
+        'DE-42-comment': '',
+        'DE-43-mediaOwner': '',
+        'DE-44-time': '',
         //CHINESE_SIMPLIFIED
         'ZH-CN-1-username': '\u00e5\u00b8\u0090\u00e5\u008f\u00b7',
         'ZH-CN-2-name': '\u00e5\u00a7\u0093\u00e5\u0090\u008d',
@@ -330,5 +345,8 @@ export class ConfigInstagram {
         'ZH-CN-39-productName': '',
         'ZH-CN-40-handlerID': '',
         'ZH-CN-41-handlerName': '',
+        'ZH-42-comment': '',
+        'ZH-43-mediaOwner': '',
+        'ZH-44-time': '',
     };
 }

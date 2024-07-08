@@ -17,7 +17,7 @@ import {findNotMappedFiles} from "../../src/utils/monitoring.utils";
 // validateStream('../../src/mock/datasource/zip files/private/instagram.zip', GDPRDataSourceCode.INSTAGRAM);
 //showAggregator('../../src/mock/datasource/zip files/private/google.zip', GDPRDataSourceCode.GOOGLE);
 //showAggregator('../../src/mock/datasource/zip files/private/amazon.zip', GDPRDataSourceCode.AMAZON);
-testNotMappedFiles('../../src/mock/zip files/private/instagram.zip', GDPRDataSourceCode.INSTAGRAM).then(x => console.log(x));
+showAggregator('../../src/mock/zip files/private/instagram.zip', GDPRDataSourceCode.INSTAGRAM).then(x => console.log(x));
 
 const httpMethod: HttpMethod = (options: HTTPRequest) => {
     const https = require('https')
@@ -72,7 +72,6 @@ async function showAggregator(pathToZip: string, code: GDPRDataSourceCode) {
             },
             throwExceptions: true,
         });
-    //console.log(await ValidatorFiles.getPathsIntoZip(validation!.zipFile));
     const aggregate = await SelectorUtils.getZipAggregatorBuilder(code, validation!.zipFile, {
         timeIntervalDays: 180,
         throwExceptions: false,
@@ -115,7 +114,7 @@ async function validateStream(pathToZip: string, code: GDPRDataSourceCode) {
                 fileUnzippedBytes = x.bytesRead!;
             }
             if (x.status === ValidationStatus.DONE) {
-                console.log('Last iteration: ', x.validationResult?.excludedFiles.slice(100, 150));
+                console.log('Last iteration: ', x.validationResult);
             }
         },
         error(err) {
