@@ -232,18 +232,18 @@
                             "retrievingSteps": [
                                 {
                                     "index": 1,
-                                    "description": "Go to your Profile",
-                                    "attributeDescription": "<p>Go to your <a href=\"https://instagram.com\" target=\"_blank\">Profile</a></p>"
+                                    "description": "Log into your Profile",
+                                    "attributeDescription": "<p>Log into your <a href=\"https://instagram.com\" target=\"_blank\">Profile</a></p>"
                                 },
                                 {
                                     "index": 2,
-                                    "description": "Click on the Settings Icon",
-                                    "attributeDescription": "<p>Click on the <b>Settings Icon</b></p>"
+                                    "description": "Access to your Account Center",
+                                    "attributeDescription": "<p>Access to your <a href=\"https://accountscenter.instagram.com/info_and_permissions/dyi/\" target=\"_blank\">Account Center</a></p>"
                                 },
                                 {
                                     "index": 3,
-                                    "description": "Click on Privacy and Security",
-                                    "attributeDescription": "<p>Click on <b>Privacy</b> and <b>Security</b></p>"
+                                    "description": "Click on Download or transfer information",
+                                    "attributeDescription": "<p>Click on <b>Download or transfer information</b></p>"
                                 },
                                 {
                                     "index": 4,
@@ -252,33 +252,18 @@
                                 },
                                 {
                                     "index": 5,
-                                    "description": "Insert your email",
-                                    "attributeDescription": "<p>Insert your <b>email</b></p>"
+                                    "description": "Click on All available information",
+                                    "attributeDescription": "<p>Click on <b>All available information</b></p>"
                                 },
                                 {
                                     "index": 6,
-                                    "description": "Select JSON format",
-                                    "attributeDescription": "<p>Select <b>JSON</b> format</p>"
+                                    "description": "Click on Download to device",
+                                    "attributeDescription": "<p>Click on <b>Download to device</b></p>"
                                 },
                                 {
                                     "index": 7,
-                                    "description": "Click on Next",
-                                    "attributeDescription": "<p>Click on <b>Next</b></p>"
-                                },
-                                {
-                                    "index": 8,
-                                    "description": "Type your Instagram password",
-                                    "attributeDescription": "<p>Type your <b>Instagram password</b></p>"
-                                },
-                                {
-                                    "index": 9,
-                                    "description": "Click on Request Download",
-                                    "attributeDescription": "<p>Click on <b>Request Download</b></p>"
-                                },
-                                {
-                                    "index": 10,
-                                    "description": "Done, wait an email confirmation with attached data",
-                                    "attributeDescription": "<p><b>Done</b>, wait an email confirmation with attached data</p>"
+                                    "description": "Select format JSON and quality High. Create files.",
+                                    "attributeDescription": "<p>Select format <b>JSON</b> and quality <b>High</b>. Then click on <b>Create files</b></p>"
                                 }
                             ]
                         }
@@ -294,53 +279,28 @@
                             "retrievingSteps": [
                                 {
                                     "index": 1,
-                                    "description": "Vai sul tuo profilo",
-                                    "attributeDescription": "<p>Vai sul tuo <a href=\"https://instagram.com\" target=\"_blank\">Profile</a></p>"
+                                    "description": "Login nel tuo profilo",
+                                    "attributeDescription": "<p>Login nel tuo <a href=\"https://instagram.com\" target=\"_blank\">Profilo</a></p>"
                                 },
                                 {
                                     "index": 2,
-                                    "description": "Clicca sull'icona delle Impostazioni",
-                                    "attributeDescription": "<p>Fai click sull'<b>icona delle Impostazioni</b></p>"
+                                    "description": "Accedi al tuo Account Center",
+                                    "attributeDescription": "<p>Accedi al tuo <a href=\"https://accountscenter.instagram.com/info_and_permissions/dyi/\" target=\"_blank\">Account Center</a></p>"
                                 },
                                 {
                                     "index": 3,
-                                    "description": "Clicca su Privacy e Sicurezza",
-                                    "attributeDescription": "<p>Fai click su <b>Privacy</b> e <b>Sicurezza</b></p>"
+                                    "description": "Click su Scarica e transferisci informazioni",
+                                    "attributeDescription": "<p>Click su <b>Scarica e transferisci informazioni</b></p>"
                                 },
                                 {
                                     "index": 4,
-                                    "description": "Clicca su Richiedi il download",
-                                    "attributeDescription": "<p>Fai click su <b>Richiedi il download</b></p>"
+                                    "description": "Click su Scarica sul dispositivo",
+                                    "attributeDescription": "<p>Click su <b>Scarica sul dispositivo</b></p>"
                                 },
                                 {
                                     "index": 5,
-                                    "description": "Inserisci la tua email",
-                                    "attributeDescription": "<p>Inserisci la tua <b>email</b></p>"
-                                },
-                                {
-                                    "index": 6,
-                                    "description": "Seleziona il formato JSON",
-                                    "attributeDescription": "<p>Seleziona il formato <b>JSON</b></p>"
-                                },
-                                {
-                                    "index": 7,
-                                    "description": "Clicca su Avanti",
-                                    "attributeDescription": "<p>Clicca su <b>Avanti</b></p>"
-                                },
-                                {
-                                    "index": 8,
-                                    "description": "Inserisci la tua password di Instagram",
-                                    "attributeDescription": "<p>Inserisci la tua password di Instagram</p>"
-                                },
-                                {
-                                    "index": 9,
-                                    "description": "Clicca su Richiedi download",
-                                    "attributeDescription": "<p>Fai click su Richiedi download</p>"
-                                },
-                                {
-                                    "index": 10,
-                                    "description": "Finito, attendi l'email di conferma con i tuoi dati",
-                                    "attributeDescription": "<p><b>Finito</b>, attendi l'email di conferma con i tuoi dati</p>"
+                                    "description": "Seleziona formato JSON and qualità Alta. Crea file.",
+                                    "attributeDescription": "<p>Seleziona formato <b>JSON</b> and qualità <b>Alta</b>. Poi click su <b>Crea file</b></p>"
                                 }
                             ]
                         }
