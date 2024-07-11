@@ -43,7 +43,6 @@ export enum ValidationStatus {
     VALIDATING = 'VALIDATING',
     ZIPPING = 'ZIPPING',
     DONE = 'DONE',
-    ERROR = 'ERROR',
 }
 export interface ValidationZipStatus {
     status: ValidationStatus;
@@ -112,58 +111,37 @@ export class ValidatorFiles {
                     subscriber,
                     options,
                 };
-
-                from(this.unzipFileFromStream(support)).subscribe({
+                const observable = from(this.unzipFileFromStream(support));
+                observable.subscribe({
                     error(error) {
                         subscriber.error(error);
                     },
                     complete() {
-                        try {
-                            subscriber.next({
-                                status: ValidationStatus.ZIPPING,
-                            });
-                            validationReturn.zipFile = ValidatorFiles.zipFiles(
-                                support.validFiles,
+                        subscriber.next({
+                            status: ValidationStatus.ZIPPING,
+                        });
+                        validationReturn.zipFile = ValidatorFiles.zipFiles(
+                            support.validFiles,
+                        );
+                        const maxBytesZip =
+                            options && options.maxBytesZipFile
+                                ? options.maxBytesZipFile
+                                : ValidatorFiles.MAX_BYTE_ZIP;
+                        if (validationReturn.zipFile.length > maxBytesZip) {
+                            subscriber.error(
+                                `${ValidationErrorEnum.VALIDATED_FILES_TOO_BIG}: expected zip file containing valid files is exceeding bytes limit (${maxBytesZip / 1e9} GB)`,
                             );
-                            const maxBytesZip =
-                                options && options.maxBytesZipFile
-                                    ? options.maxBytesZipFile
-                                    : ValidatorFiles.MAX_BYTE_ZIP;
-                            if (validationReturn.zipFile.length > maxBytesZip) {
-                                throw Error(
-                                    `${ValidationErrorEnum.VALIDATED_FILES_TOO_BIG}: expected zip file containing valid files is exceeding bytes limit (${maxBytesZip / 1e9} GB)`,
-                                );
-                            }
-                            if (validationReturn.includedFiles.length === 0) {
-                                throw Error(
-                                    `${ValidationErrorEnum.NOT_VALID_FILES_ERROR}: file zip has not any valid file`,
-                                );
-                            }
-                            subscriber.next({
-                                status: ValidationStatus.DONE,
-                                validationResult: validationReturn,
-                            });
-                            subscriber.complete();
-                        } catch (error: any) {
-                            subscriber.next({
-                                status: ValidationStatus.ERROR,
-                            });
-                            error &&
-                                error.message &&
-                                ValidatorFiles.logger.log(
-                                    'error',
-                                    error.message,
-                                    'validateZipStream',
-                                );
-                            if (
-                                options.throwExceptions !== undefined &&
-                                options.throwExceptions
-                            ) {
-                                throw Error(error);
-                            } else {
-                                subscriber.error(error);
-                            }
                         }
+                        if (validationReturn.includedFiles.length === 0) {
+                            subscriber.error(
+                                `${ValidationErrorEnum.NOT_VALID_FILES_ERROR}: file zip has not any valid file`,
+                            );
+                        }
+                        subscriber.next({
+                            status: ValidationStatus.DONE,
+                            validationResult: validationReturn,
+                        });
+                        subscriber.complete();
                     },
                 });
             },
@@ -171,19 +149,19 @@ export class ValidatorFiles {
     }
 
     private static async unzipFileFromStream(support: ValidationObjectSupport) {
-        const unzipStream: Unzip = this.getUnzipStream(support);
-        let bytesTotal = 0;
-        unzipStream.register(UnzipInflate); //can't be async otherwise the RAM usage would be too much
         if (support.readableStreams) {
-            for (const stream of support.readableStreams) {
-                const reader = stream.getReader();
+            const unzipStream: Unzip = this.getUnzipStream(support);
+            unzipStream.register(UnzipInflate);
+            let bytesRead = 0;
+            for (const fileAsStream of support.readableStreams) {
+                const fileReader = fileAsStream.getReader();
                 for (let finished = false; !finished; ) {
-                    const { done, value } = await reader.read();
+                    const { done, value } = await fileReader.read();
                     if (value) {
-                        bytesTotal =
-                            bytesTotal + (value as Uint8Array).byteLength;
+                        bytesRead =
+                            bytesRead + (value as Uint8Array).byteLength;
                         support.subscriber!.next({
-                            bytesRead: bytesTotal,
+                            bytesRead,
                             status: ValidationStatus.VALIDATING,
                         });
                         unzipStream.push(value);

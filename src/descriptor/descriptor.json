@@ -402,8 +402,8 @@
                                 },
                                 {
                                     "index": 3,
-                                    "description": "Unpin \"Drive\" and \"Google Photos\" from the list",
-                                    "attributeDescription": "<p>Unpin <b>Drive</b> and <b>Google Photos</b> from the list</p>"
+                                    "description": "Pin from the list",
+                                    "attributeDescription": "<p>Pin only <b>Chrome</b>, <b>Discover</b>, <b>Fit</b>, <b>Google Account</b>, <b>Google Play Store</b>, <b>Location History</b>, <b>Maps</b>, <b>My Activity</b>, <b>Profile</b>, <b>YouTube and YouTube Music</b> from the list</p>"
                                 },
                                 {
                                     "index": 4,
@@ -444,8 +444,8 @@
                                 },
                                 {
                                     "index": 3,
-                                    "description": "Deseleziona \"Drive\" and \"Google Foto\" dalla lista",
-                                    "attributeDescription": "<p>Deseleziona <b>Drive</b> e <b>Google Foto</b> dalla lista</p>"
+                                    "description": "Seleziona dalla lista",
+                                    "attributeDescription": "<p>Seleziona solo <b>Chrome</b>, <b>Discover</b>, <b>Fit</b>, <b>Google Account</b>, <b>Google Play Store</b>, <b>Location History</b>, <b>Maps</b>, <b>My Activity</b>, <b>Profile</b>, <b>YouTube and YouTube Music</b> dalla list</p>"
                                 },
                                 {
                                     "index": 4,
