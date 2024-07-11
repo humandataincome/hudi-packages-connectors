@@ -14,9 +14,9 @@ import { ServiceFacebook } from './service.facebook';
 import { FileCodeFacebook } from './enum.facebook';
 import { staticImplements } from '../../utils/decorator.utils';
 import {
+    daysDifference,
     ProcessorGDPRDatasource,
     ProcessorOptions,
-    ProcessorUtils,
 } from '../../processor';
 import { ValidatorObject } from '../../validator';
 
@@ -113,8 +113,7 @@ export class ProcessorFacebook {
                 model.engagement.adsInteractionsTI = result.list.filter(
                     (item: AdvInteractionFB) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
                 options.maxEntitiesPerArray &&
                 result.list.length > options.maxEntitiesPerArray
@@ -200,8 +199,7 @@ export class ProcessorFacebook {
                 model.engagement.commentsPostsTI = result.list.filter(
                     (item: CommentPostedFB) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
                 options.maxEntitiesPerArray &&
                 result.list.length > options.maxEntitiesPerArray
@@ -223,8 +221,7 @@ export class ProcessorFacebook {
                 model.engagement.pagesLikedTI = result.list.filter(
                     (item: PageFB) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
                 options.maxEntitiesPerArray &&
                 result.list.length > options.maxEntitiesPerArray
@@ -246,8 +243,7 @@ export class ProcessorFacebook {
                 model.engagement.pagesFollowedTI = result.list.filter(
                     (item: PageFB) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
                 options.maxEntitiesPerArray &&
                 result.list.length > options.maxEntitiesPerArray
@@ -269,8 +265,7 @@ export class ProcessorFacebook {
                 model.engagement.pagesRecommendedTI = result.list.filter(
                     (item: PageFB) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
                 options.maxEntitiesPerArray &&
                 result.list.length > options.maxEntitiesPerArray
@@ -308,8 +303,7 @@ export class ProcessorFacebook {
                 model.engagement.postsCreatedTI = result.list.filter(
                     (item: YourPostFB) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
                 options.maxEntitiesPerArray &&
                 result.list.length > options.maxEntitiesPerArray
@@ -349,8 +343,7 @@ export class ProcessorFacebook {
                         result.videoWatched.filter(
                             (item: VisualizationFB) =>
                                 item.date &&
-                                ProcessorUtils.daysDifference(item.date) <
-                                    timeIntervalDays,
+                                daysDifference(item.date) < timeIntervalDays,
                         ).length;
                 }
                 model.recentlyViewed = result;
@@ -397,44 +390,37 @@ export class ProcessorFacebook {
                     if (item.reaction === 'LIKE') {
                         model.engagement.likeReactions!++;
                         item.date &&
-                            ProcessorUtils.daysDifference(item.date) <
-                                timeIntervalDays &&
+                            daysDifference(item.date) < timeIntervalDays &&
                             model.engagement.likeReactionsTI!++;
                     } else if (item.reaction === 'ANGER') {
                         model.engagement.angryReactions!++;
                         item.date &&
-                            ProcessorUtils.daysDifference(item.date) <
-                                timeIntervalDays &&
+                            daysDifference(item.date) < timeIntervalDays &&
                             model.engagement.angryReactionsTI!++;
                     } else if (item.reaction === 'SUPPORT') {
                         model.engagement.hugReactions!++;
                         item.date &&
-                            ProcessorUtils.daysDifference(item.date) <
-                                timeIntervalDays &&
+                            daysDifference(item.date) < timeIntervalDays &&
                             model.engagement.hugReactionsTI!++;
                     } else if (item.reaction === 'HAHA') {
                         model.engagement.laughReactions!++;
                         item.date &&
-                            ProcessorUtils.daysDifference(item.date) <
-                                timeIntervalDays &&
+                            daysDifference(item.date) < timeIntervalDays &&
                             model.engagement.laughReactionsTI!++;
                     } else if (item.reaction === 'LOVE') {
                         model.engagement.loveReactions!++;
                         item.date &&
-                            ProcessorUtils.daysDifference(item.date) <
-                                timeIntervalDays &&
+                            daysDifference(item.date) < timeIntervalDays &&
                             model.engagement.loveReactionsTI!++;
                     } else if (item.reaction === 'SORRY') {
                         model.engagement.sadReactions!++;
                         item.date &&
-                            ProcessorUtils.daysDifference(item.date) <
-                                timeIntervalDays &&
+                            daysDifference(item.date) < timeIntervalDays &&
                             model.engagement.sadReactionsTI!++;
                     } else if (item.reaction === 'WOW') {
                         model.engagement.wowReactions!++;
                         item.date &&
-                            ProcessorUtils.daysDifference(item.date) <
-                                timeIntervalDays &&
+                            daysDifference(item.date) < timeIntervalDays &&
                             model.engagement.wowReactionsTI!++;
                     }
                 });

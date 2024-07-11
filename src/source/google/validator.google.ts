@@ -13,7 +13,7 @@ export class ValidatorGoogle extends ValidatorDatasource {
         FileCodeGoogle.ACTIVITY_PLAY_GAMES,
         FileCodeGoogle.ACTIVITY_PLAY_MOVIES,
         FileCodeGoogle.ACTIVITY_SHOPPING,
-        FileCodeGoogle.CHROME_BROWSER_HISTORY,
+        FileCodeGoogle.v2_CHROME_BROWSER_HISTORY,
         FileCodeGoogle.FIT_DAILY_ACTIVITIES_METRICS,
         FileCodeGoogle.LOCATION_HISTORY_SEMANTIC,
         FileCodeGoogle.MAPS_YOUR_PLACES_REVIEWS,

@@ -5,9 +5,9 @@ import { ServiceAmazon } from './service.amazon';
 import { FileCodeAmazon } from './enum.amazon';
 import { staticImplements } from '../../utils/decorator.utils';
 import {
+    mergeArrays,
     ProcessorGDPRDatasource,
     ProcessorOptions,
-    ProcessorUtils,
 } from '../../processor';
 import { ValidatorObject } from '../../validator';
 
@@ -91,7 +91,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseAdvertiserAudiences(data);
             if (result) {
                 model.advertisers.adsAudiences = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.advertisers.adsAudiences?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -105,7 +105,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseThirdPartyAudiences(data);
             if (result) {
                 model.advertisers.adsThirdParties = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.advertisers.adsThirdParties?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -119,7 +119,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseAdvertiserClicked(data);
             if (result) {
                 model.advertisers.adsClicked = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.advertisers.adsClicked?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -133,7 +133,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseAmazonAudiences(data);
             if (result) {
                 model.advertisers.amazonAudience = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.advertisers.amazonAudience?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -147,7 +147,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseAudibleLibrary(data);
             if (result) {
                 model.audible.library = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.audible.library?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -161,7 +161,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseAudibleListening(data);
             if (result) {
                 model.audible.listening = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.audible.listening?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -175,7 +175,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseAudibleMembershipBillings(data);
             if (result) {
                 model.audible.membershipBillings = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.audible.membershipBillings?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -189,7 +189,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parsePrimeVideoWatchlist(data);
             if (result) {
                 model.primeVideo.watchlist = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.primeVideo.watchlist?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -203,7 +203,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parsePrimeVideoWatchlistHistory(data);
             if (result) {
                 model.primeVideo.watchlistHistory = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.primeVideo.watchlistHistory?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -225,7 +225,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parsePrimeVideoViewingHistory(data);
             if (result) {
                 model.primeVideo.viewingHistory = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.primeVideo.viewingHistory?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -239,7 +239,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseDigitalItems(data);
             if (result) {
                 model.orders.digitalItems = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.orders.digitalItems?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -253,7 +253,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseDigitalOrders(data);
             if (result) {
                 model.orders.digitalOrders = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.orders.digitalOrders?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -267,7 +267,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseDigitalOrdersMonetary(data);
             if (result) {
                 model.orders.digitalMonetaryOrders = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.orders.digitalMonetaryOrders?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -281,7 +281,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseDigitalSubscriptions(data);
             if (result) {
                 model.orders.digitalSubscriptions = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.orders.digitalSubscriptions?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -297,7 +297,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseLightWeightInteractions(data);
             if (result) {
                 model.retail.lightWeightInteractions = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.retail.lightWeightInteractions?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -311,7 +311,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseRetailCartItems(data);
             if (result) {
                 model.retail.cartItems = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.retail.cartItems?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -325,7 +325,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseRetailOrderHistory(data);
             if (result) {
                 model.retail.orderHistory = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.retail.orderHistory?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -339,7 +339,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseRetailRegionAuthorities(data);
             if (result) {
                 model.retail.regionAuthorities = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.retail.regionAuthorities?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -353,7 +353,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseRetailSellerFeedback(data);
             if (result) {
                 model.retail.sellerFeedbacks = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.retail.sellerFeedbacks?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -370,7 +370,7 @@ export class ProcessorAmazon {
                 await ServiceAmazon.parseSearchDataCustomerEngagement(data);
             if (result) {
                 model.searchDataEngagement = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.searchDataEngagement?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -386,7 +386,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseTwitchPrimeSubscription(data);
             if (result) {
                 model.twitch.subscriptions = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.twitch.subscriptions?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -402,7 +402,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseTwitchPrimeLinkedAccounts(data);
             if (result) {
                 model.twitch.linkedAccounts = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.twitch.linkedAccounts?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -418,7 +418,7 @@ export class ProcessorAmazon {
             result = await ServiceAmazon.parseTwitchPrimeAccountHistory(data);
             if (result) {
                 model.twitch.accountHistory = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.twitch.accountHistory?.list,
                         result.list,
                         options.maxEntitiesPerArray,

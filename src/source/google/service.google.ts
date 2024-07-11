@@ -64,7 +64,7 @@ export class ServiceGoogle {
         switch (fileCode) {
             case FileCodeGoogle.ACCOUNT_INFO:
                 return this.parseGoogleAccount(data);
-            case FileCodeGoogle.CHROME_BROWSER_HISTORY:
+            case FileCodeGoogle.v2_CHROME_BROWSER_HISTORY:
                 return this.parseBrowseHistory(data);
             case FileCodeGoogle.CHROME_SEARCH_ENGINES:
                 return this.parseSearchEngines(data);
@@ -170,7 +170,7 @@ export class ServiceGoogle {
                 value.client_id && (newValue.clientId = value.client_id);
                 value.time_usec &&
                     (newValue.time = new Date(
-                        parseInt(value.time_usec) / 1000,
+                        parseInt(value.time_usec, 10) / 1000,
                     ));
                 value.favicon_url && (newValue.faviconUrl = value.favicon_url);
                 return newValue;
@@ -196,13 +196,13 @@ export class ServiceGoogle {
                 value.suggestions_url &&
                     (newValue.suggestionsUrl = value.suggestions_url);
                 value.favicon_url && (newValue.faviconUrl = value.favicon_url);
-                value.safe_for_autoreplace != undefined &&
+                value.safe_for_autoreplace !== undefined &&
                     (newValue.safeForAutoreplace = value.safe_for_autoreplace);
                 value.is_active && (newValue.isActive = value.is_active);
                 value.date_created &&
                     (newValue.dateCreated =
                         DecodingUtils.convertWebkitTimestamp(
-                            parseInt(value.date_created),
+                            parseInt(value.date_created, 10),
                         ));
                 value.url && (newValue.url = value.url);
                 value.new_tab_url && (newValue.newTabUrl = value.new_tab_url);
@@ -213,12 +213,12 @@ export class ServiceGoogle {
                 value.keyword && (newValue.keyword = value.keyword);
                 value.input_encodings &&
                     (newValue.inputEncodings = value.input_encodings);
-                value.prepopulate_id != undefined &&
+                value.prepopulate_id !== undefined &&
                     (newValue.prepopulateId = value.prepopulate_id);
                 value.last_modified &&
                     (newValue.lastModified =
                         DecodingUtils.convertWebkitTimestamp(
-                            parseInt(value.last_modified),
+                            parseInt(value.last_modified, 10),
                         ));
                 return newValue;
             });
@@ -277,6 +277,7 @@ export class ServiceGoogle {
                                 parseInt(
                                     value.activitySegment.duration
                                         .startTimestampMs,
+                                    10,
                                 ),
                             ));
                         value.activitySegment.duration.endTimestampMs &&
@@ -284,6 +285,7 @@ export class ServiceGoogle {
                                 parseInt(
                                     value.activitySegment.duration
                                         .endTimestampMs,
+                                    10,
                                 ),
                             ));
                     }
@@ -367,7 +369,7 @@ export class ServiceGoogle {
                                         (newPoint.longitudeE7 = point.lngE7);
                                     point.timestampMs &&
                                         (newPoint.date = new Date(
-                                            parseInt(point.timestampMs),
+                                            parseInt(point.timestampMs, 10),
                                         ));
                                     point.accuracyMeters &&
                                         (newPoint.accuracyMeters =
@@ -424,18 +426,18 @@ export class ServiceGoogle {
         if (value.duration) {
             value.duration.startTimestampMs &&
                 (newValue.startDate = new Date(
-                    parseInt(value.duration.startTimestampMs),
+                    parseInt(value.duration.startTimestampMs, 10),
                 ));
             value.duration.endTimestampMs &&
                 (newValue.endDate = new Date(
-                    parseInt(value.duration.endTimestampMs),
+                    parseInt(value.duration.endTimestampMs, 10),
                 ));
         }
         value.placeConfidence &&
             (newValue.placeConfidence = value.placeConfidence);
         value.centerLatE7 && (newValue.centerLatE7 = value.centerLatE7);
         value.centerLngE7 && (newValue.centerLngE7 = value.centerLngE7);
-        value.visitConfidence != undefined &&
+        value.visitConfidence !== undefined &&
             (newValue.visitConfidence = value.visitConfidence);
 
         if (value.otherCandidateLocations) {
@@ -447,7 +449,7 @@ export class ServiceGoogle {
                 location.longitudeE7 &&
                     (otherLocation.longitudeE7 = location.longitudeE7);
                 location.placeId && (otherLocation.placeId = location.placeId);
-                location.locationConfidence != undefined &&
+                location.locationConfidence !== undefined &&
                     (otherLocation.locationConfidence =
                         location.locationConfidence);
                 location.name && (otherLocation.name = location.name);
@@ -490,15 +492,15 @@ export class ServiceGoogle {
 
             const parseGeoData = (value: any) => {
                 const newGeo: GeoDataGO = {};
-                value.latitude != undefined &&
+                value.latitude !== undefined &&
                     (newGeo.latitude = value.latitude);
-                value.longitude != undefined &&
+                value.longitude !== undefined &&
                     (newGeo.longitude = value.longitude);
-                value.altitude != undefined &&
+                value.altitude !== undefined &&
                     (newGeo.altitude = value.altitude);
-                value.latitudeSpan != undefined &&
+                value.latitudeSpan !== undefined &&
                     (newGeo.latitudeSpan = value.latitudeSpan);
-                value.longitudeSpan != undefined &&
+                value.longitudeSpan !== undefined &&
                     (newGeo.longitudeSpan = value.longitudeSpan);
                 return newGeo;
             };
@@ -551,14 +553,15 @@ export class ServiceGoogle {
                         if (match) {
                             const monthIndex: number = parseInt(
                                 Months[match[2].toUpperCase()],
+                                10,
                             );
                             newTs.date = new Date(
                                 Date.UTC(
-                                    parseInt(match[3]),
+                                    parseInt(match[3], 10),
                                     monthIndex - 1,
-                                    parseInt(match[1]),
-                                    parseInt(match[4]),
-                                    parseInt(match[5]),
+                                    parseInt(match[1], 10),
+                                    parseInt(match[4], 10),
+                                    parseInt(match[5], 10),
                                     0,
                                 ),
                             );
@@ -737,7 +740,7 @@ export class ServiceGoogle {
                     value.orderHistory.refundAmount &&
                         (newOrder.refundAmount =
                             value.orderHistory.refundAmount);
-                    value.orderHistory.preorder != undefined &&
+                    value.orderHistory.preorder !== undefined &&
                         (newOrder.preorder = value.orderHistory.preorder);
 
                     if (value.orderHistory.lineItem) {
@@ -856,11 +859,11 @@ export class ServiceGoogle {
                     if (value.review.structuredReviewResponse) {
                         review.structuredReviewResponse =
                             value.review.structuredReviewResponse.map(
-                                (value: any) => {
+                                (item: any) => {
                                     return {
-                                        question: value.question,
+                                        question: item.question,
                                         responseOptionType:
-                                            value.responseOptionType,
+                                            item.responseOptionType,
                                     };
                                 },
                             );
@@ -975,12 +978,12 @@ export class ServiceGoogle {
                                 );
                                 newModelPlaylist.creationDate = new Date(
                                     Date.UTC(
-                                        parseInt(match[1]),
-                                        parseInt(match[2]) - 1,
-                                        parseInt(match[3]),
-                                        parseInt(match[4]),
-                                        parseInt(match[5]),
-                                        parseInt(match[6]),
+                                        parseInt(match[1], 10),
+                                        parseInt(match[2], 10) - 1,
+                                        parseInt(match[3], 10),
+                                        parseInt(match[4], 10),
+                                        parseInt(match[5], 10),
+                                        parseInt(match[6], 10),
                                     ),
                                 );
                             }
@@ -1004,12 +1007,12 @@ export class ServiceGoogle {
                                 );
                                 modelVideo.date = new Date(
                                     Date.UTC(
-                                        parseInt(match[1]),
-                                        parseInt(match[2]) - 1,
-                                        parseInt(match[3]),
-                                        parseInt(match[4]),
-                                        parseInt(match[5]),
-                                        parseInt(match[6]),
+                                        parseInt(match[1], 10),
+                                        parseInt(match[2], 10) - 1,
+                                        parseInt(match[3], 10),
+                                        parseInt(match[4], 10),
+                                        parseInt(match[5], 10),
+                                        parseInt(match[6], 10),
                                     ),
                                 );
                             }
@@ -1047,15 +1050,16 @@ export class ServiceGoogle {
                             match = item['Date'].match(/(\d+)-(\d+)-(\d+)/);
                             modelActivity.date = new Date(
                                 Date.UTC(
-                                    parseInt(match[1]),
-                                    parseInt(match[2]) - 1,
-                                    parseInt(match[3]),
+                                    parseInt(match[1], 10),
+                                    parseInt(match[2], 10) - 1,
+                                    parseInt(match[3], 10),
                                 ),
                             );
                         }
                         item['Move Minutes count'] &&
                             (modelActivity.moveMinutesCount = parseInt(
                                 item['Move Minutes count'],
+                                10,
                             ));
                         item['Calories (kcal)'] &&
                             (modelActivity.calories = parseFloat(
@@ -1072,6 +1076,7 @@ export class ServiceGoogle {
                         item['Heart Minutes'] &&
                             (modelActivity.heartMinutes = parseInt(
                                 item['Heart Minutes'],
+                                10,
                             ));
                         item['Low latitude (deg)'] &&
                             (modelActivity.lowLatitude = parseFloat(
@@ -1104,6 +1109,7 @@ export class ServiceGoogle {
                         item['Step count'] &&
                             (modelActivity.stepCount = parseInt(
                                 item['Step count'],
+                                10,
                             ));
                         item['Average weight (kg)'] &&
                             (modelActivity.averageWeight = parseFloat(
@@ -1120,18 +1126,22 @@ export class ServiceGoogle {
                         item['Inactive duration (ms)'] &&
                             (modelActivity.inactiveDuration = parseInt(
                                 item['Inactive duration (ms)'],
+                                10,
                             ));
                         item['Walking duration (ms)'] &&
                             (modelActivity.walkingDuration = parseInt(
                                 item['Walking duration (ms)'],
+                                10,
                             ));
                         item['Running duration (ms)'] &&
                             (modelActivity.runningDuration = parseInt(
                                 item['Running duration (ms)'],
+                                10,
                             ));
                         item['Calisthenics duration (ms)'] &&
                             (modelActivity.calisthenicsDuration = parseInt(
                                 item['Calisthenics duration (ms)'],
+                                10,
                             ));
                         !ValidatorObject.objectIsEmpty(modelActivity) &&
                             model.list.push(modelActivity);
@@ -1156,26 +1166,24 @@ export class ServiceGoogle {
                 const model: ActivitiesGO = { list: [] };
                 document.length > 0 &&
                     document.forEach((item: any) => {
-                        const modelActivity: ActivityGO = {};
-                        item.header && (modelActivity.header = item.header);
-                        item.title && (modelActivity.title = item.title);
-                        item.time && (modelActivity.date = new Date(item.time));
-                        item.products &&
-                            (modelActivity.products = item.products);
-                        item.activityControls &&
-                            (modelActivity.activityControls =
-                                item.activityControls);
+                        const modelActivity: ActivityGO = {
+                            header: item.header,
+                            title: item.title,
+                            date: item.time ? new Date(item.time) : undefined,
+                            activityControls: item.activityControls,
+                            products: item.products,
+                        };
                         if (item.subtitles) {
                             const subModelList: SubtitleActivityGO[] = [];
                             item.subtitles.forEach(
                                 (subItem: SubtitleActivityGO) => {
-                                    const subModelItem: SubtitleActivityGO = {};
-                                    subItem.url &&
-                                        (subModelItem.url = subItem.url);
-                                    subItem.name &&
-                                        (subModelItem.name = subItem.name);
-                                    !ValidatorObject.objectIsEmpty(subItem) &&
-                                        subModelList.push(subItem);
+                                    const subModelItem: SubtitleActivityGO = {
+                                        url: subItem.url,
+                                        name: subItem.name,
+                                    };
+                                    !ValidatorObject.objectIsEmpty(
+                                        subModelItem,
+                                    ) && subModelList.push(subModelItem);
                                 },
                             );
                             subModelList.length > 0 &&
@@ -1183,13 +1191,14 @@ export class ServiceGoogle {
                         }
                         if (item.details) {
                             const subModelList: DetailActivityGO[] = [];
-                            item.subtitles.forEach(
+                            item.details.forEach(
                                 (subItem: DetailActivityGO) => {
-                                    const subModelItem: DetailActivityGO = {};
-                                    subItem.name &&
-                                        (subModelItem.name = subItem.name);
-                                    !ValidatorObject.objectIsEmpty(subItem) &&
-                                        subModelList.push(subItem);
+                                    const subModelItem: DetailActivityGO = {
+                                        name: subItem.name,
+                                    };
+                                    !ValidatorObject.objectIsEmpty(
+                                        subModelItem,
+                                    ) && subModelList.push(subModelItem);
                                 },
                             );
                             subModelList.length > 0 &&
@@ -1197,20 +1206,17 @@ export class ServiceGoogle {
                         }
                         if (item.locationInfos) {
                             const subModelList: LocationActivityGO[] = [];
-                            item.subtitles.forEach(
+                            item.locationInfos.forEach(
                                 (subItem: LocationActivityGO) => {
-                                    const subModelItem: LocationActivityGO = {};
-                                    subItem.name &&
-                                        (subModelItem.name = subItem.name);
-                                    subItem.url &&
-                                        (subModelItem.url = subItem.url);
-                                    subItem.source &&
-                                        (subModelItem.source = subItem.source);
-                                    subItem.sourceUrl &&
-                                        (subModelItem.sourceUrl =
-                                            subItem.sourceUrl);
-                                    !ValidatorObject.objectIsEmpty(subItem) &&
-                                        subModelList.push(subItem);
+                                    const subModelItem: LocationActivityGO = {
+                                        name: subItem.name,
+                                        url: subItem.url,
+                                        source: subItem.source,
+                                        sourceUrl: subItem.sourceUrl,
+                                    };
+                                    !ValidatorObject.objectIsEmpty(
+                                        subModelItem,
+                                    ) && subModelList.push(subModelItem);
                                 },
                             );
                             subModelList.length > 0 &&

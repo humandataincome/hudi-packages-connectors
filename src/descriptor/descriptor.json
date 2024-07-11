@@ -403,20 +403,25 @@
                                 {
                                     "index": 3,
                                     "description": "Pin from the list",
-                                    "attributeDescription": "<p>Pin only <b>Chrome</b>, <b>Discover</b>, <b>Fit</b>, <b>Google Account</b>, <b>Google Play Store</b>, <b>Location History</b>, <b>Maps</b>, <b>My Activity</b>, <b>Profile</b>, <b>YouTube and YouTube Music</b> from the list</p>"
+                                    "attributeDescription": "<p>Pin only <b>Chrome</b>, <b>Discover</b>, <b>Fit</b>, <b>Google Account</b>, <b>Google Pay</b>, <b>Google Play Store</b>, <b>Location History</b>, <b>Maps</b>, <b>Maps (your places)</b>, <b>My Activity</b>, <b>News</b>, <b>Profile</b>, <b>YouTube and YouTube Music</b> from the list</p>"
                                 },
                                 {
                                     "index": 4,
+                                    "description": "Select JSON format",
+                                    "attributeDescription": "Select everywhere, where is possible to change it, the <b>JSON</b> format"
+                                },
+                                {
+                                    "index": 5,
                                     "description": "Click on \"Next step\" button",
                                     "attributeDescription": "<p>Click on <b>Next step</b> button</p>"
                                 },
                                 {
-                                    "index": 5,
+                                    "index": 6,
                                     "description": "Select \"Export once\" from Frequency menu, \".zip\" and \"2 GB\" from File type & size menu",
                                     "attributeDescription": "<p>Select <b>Export once</b> from Frequency menu, <b>.zip</b> and <b>2 GB</b> from File type & size menu</p>"
                                 },
                                 {
-                                    "index": 6,
+                                    "index": 7,
                                     "description": "Click on \"Create export\" button",
                                     "attributeDescription": "<p>Click on <b>Create export</b> button</p>"
                                 }
@@ -445,20 +450,25 @@
                                 {
                                     "index": 3,
                                     "description": "Seleziona dalla lista",
-                                    "attributeDescription": "<p>Seleziona solo <b>Chrome</b>, <b>Discover</b>, <b>Fit</b>, <b>Google Account</b>, <b>Google Play Store</b>, <b>Location History</b>, <b>Maps</b>, <b>My Activity</b>, <b>Profile</b>, <b>YouTube and YouTube Music</b> dalla list</p>"
+                                    "attributeDescription": "<p>Seleziona solo <b>Chrome</b>, <b>Discover</b>, <b>Fit</b>, <b>Google Account</b>, <b>Google Pay</b>, <b>Google Play Store</b>, <b>Location History</b>, <b>Maps</b>, <b>Maps (your places)</b>, <b>My Activity</b>, <b>News</b>, <b>Profile</b>, <b>YouTube and YouTube Music</b> dalla lista</p>"
                                 },
                                 {
                                     "index": 4,
+                                    "description": "Seleziona il formato JSON",
+                                    "attributeDescription": "Seleziona dappertutto, dove possibile, il formato <b>JSON</b>"
+                                },
+                                {
+                                    "index": 5,
                                     "description": "Clicca sul pulsante \"Passaggio successivo\"",
                                     "attributeDescription": "<p>Clicca sul pulsante <b>Passaggio successivo</b></p>"
                                 },
                                 {
-                                    "index": 5,
+                                    "index": 6,
                                     "description": "Seleziona \"Esporta un archivio\" dal menu Frequenza, \".zip\" and \"2 GB\" dal menu Tipo di file e dimensioni",
                                     "attributeDescription": "<p>Seleziona <b>Esporta un archivio</b> dal menu Frequenza, <b>.zip</b> and <b>2 GB</b> dal menu Tipo di file e dimensioni</p>"
                                 },
                                 {
-                                    "index": 6,
+                                    "index": 7,
                                     "description": "Clicca sul pulsante \"Crea esportazione\"",
                                     "attributeDescription": "<p>Clicca sul pulsante <b>Crea esportazione</b></p>"
                                 }

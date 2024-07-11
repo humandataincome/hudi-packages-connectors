@@ -12,9 +12,9 @@ import { Unzipped, unzipSync } from 'fflate';
 import { FileCodeGoogle } from './enum.google';
 import { staticImplements } from '../../utils/decorator.utils';
 import {
+    mergeArrays,
     ProcessorGDPRDatasource,
     ProcessorOptions,
-    ProcessorUtils,
 } from '../../processor';
 import { ValidatorObject } from '../../validator';
 
@@ -114,12 +114,12 @@ export class ProcessorGoogle {
                     }
                 };
                 model.locationsHistory = {
-                    listActivities: ProcessorUtils.mergeArrays(
+                    listActivities: mergeArrays(
                         model.locationsHistory?.listActivities,
                         result.listActivities,
                         options.maxEntitiesPerArray,
                     ),
-                    listVisitedPlaces: ProcessorUtils.mergeArrays(
+                    listVisitedPlaces: mergeArrays(
                         model.locationsHistory?.listVisitedPlaces,
                         result.listVisitedPlaces,
                         options.maxEntitiesPerArray,
@@ -134,7 +134,7 @@ export class ProcessorGoogle {
             result = await ServiceGoogle.parseTransactions(data);
             if (result) {
                 model.transactions = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.transactions?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -148,7 +148,7 @@ export class ProcessorGoogle {
             result = await ServiceGoogle.parseMapsReviews(data);
             if (result) {
                 model.mapReviews = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.mapReviews?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -162,7 +162,7 @@ export class ProcessorGoogle {
             result = await ServiceGoogle.parseDocLibrary(data);
             if (result) {
                 model.playStore.docLibrary = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.playStore.docLibrary?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -176,7 +176,7 @@ export class ProcessorGoogle {
             result = await ServiceGoogle.parsePurchaseHistory(data);
             if (result) {
                 model.playStore.purchaseHistory = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.playStore.purchaseHistory?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -190,7 +190,7 @@ export class ProcessorGoogle {
             result = await ServiceGoogle.parseOrderHistory(data);
             if (result) {
                 model.playStore.orderHistory = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.playStore.orderHistory?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -204,7 +204,7 @@ export class ProcessorGoogle {
             result = await ServiceGoogle.parsePlayStoreReviews(data);
             if (result) {
                 model.playStore.reviews = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.playStore.reviews?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -212,7 +212,7 @@ export class ProcessorGoogle {
                 };
             }
         } else if (
-            (regex = new RegExp(FileCodeGoogle.CHROME_BROWSER_HISTORY)) &&
+            (regex = new RegExp(FileCodeGoogle.v2_CHROME_BROWSER_HISTORY)) &&
             regex.test(pathName)
         ) {
             result = await ServiceGoogle.parseBrowseHistory(data);
@@ -226,7 +226,7 @@ export class ProcessorGoogle {
                 //average 387 bytes for each search
                 //average 145 bytes for each mapped search (with 100k searches is 14.5 MB)
                 model.chrome.browserHistory = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.chrome.browserHistory?.list,
                         result.list,
                         100000,
@@ -242,7 +242,7 @@ export class ProcessorGoogle {
             result = await ServiceGoogle.parseYoutubePlaylists(data);
             if (result) {
                 model.youtube.videoUploaded = {
-                    playlists: ProcessorUtils.mergeArrays(
+                    playlists: mergeArrays(
                         model.youtube.videoUploaded?.playlists,
                         result.playlists,
                         options.maxEntitiesPerArray,
@@ -256,7 +256,7 @@ export class ProcessorGoogle {
             result = await ServiceGoogle.parseYoutubePlaylists(data);
             if (result) {
                 model.youtube.videoLiked = {
-                    playlists: ProcessorUtils.mergeArrays(
+                    playlists: mergeArrays(
                         model.youtube.videoLiked?.playlists,
                         result.playlists,
                         options.maxEntitiesPerArray,
@@ -270,7 +270,7 @@ export class ProcessorGoogle {
             result = await ServiceGoogle.parseDailyActivityMetrics(data);
             if (result) {
                 model.fit.dailyActivityMetrics = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.fit.dailyActivityMetrics?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -288,7 +288,7 @@ export class ProcessorGoogle {
             result = await ServiceGoogle.parseActivity(data);
             if (result) {
                 model.activities.news = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.activities.news?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -305,7 +305,7 @@ export class ProcessorGoogle {
             result = await ServiceGoogle.parseActivity(data);
             if (result) {
                 model.activities.books = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.activities.books?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -322,7 +322,7 @@ export class ProcessorGoogle {
             result = await ServiceGoogle.parseActivity(data);
             if (result) {
                 model.activities.imageSearch = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.activities.imageSearch?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -339,7 +339,7 @@ export class ProcessorGoogle {
             result = await ServiceGoogle.parseActivity(data);
             if (result) {
                 model.activities.shopping = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.activities.shopping?.list,
                         result.list,
                         options.maxEntitiesPerArray,
@@ -356,7 +356,7 @@ export class ProcessorGoogle {
             result = await ServiceGoogle.parseActivity(data);
             if (result) {
                 model.activities.discovery = {
-                    list: ProcessorUtils.mergeArrays(
+                    list: mergeArrays(
                         model.activities.discovery?.list,
                         result.list,
                         options.maxEntitiesPerArray,

@@ -16,9 +16,10 @@ import { ServiceInstagram } from './service.instagram';
 import { FileCodeInstagram } from './enum.instagram';
 import { staticImplements } from '../../utils/decorator.utils';
 import {
+    daysDifference,
+    mergeArrays,
     ProcessorGDPRDatasource,
     ProcessorOptions,
-    ProcessorUtils,
 } from '../../processor';
 import { ValidatorObject } from '../../validator';
 import { sliceIfTooLong } from '../../utils/array.utils';
@@ -165,8 +166,7 @@ export class ProcessorInstagram {
                 model.engagement.adsClickedTI = result.list.filter(
                     (item) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
                 model.adsClicked = {
                     list: sliceIfTooLong(
@@ -198,8 +198,7 @@ export class ProcessorInstagram {
                 model.engagement.adsViewedTI = result.list.filter(
                     (item) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
                 model.adsViewed = {
                     list: sliceIfTooLong(
@@ -218,8 +217,7 @@ export class ProcessorInstagram {
                 model.engagement.postsViewedTI = result.list.filter(
                     (item) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
                 model.postsViewed = {
                     list: sliceIfTooLong(
@@ -262,14 +260,12 @@ export class ProcessorInstagram {
                     result.list.filter(
                         (item: CommentPostedIG) =>
                             item.date &&
-                            ProcessorUtils.daysDifference(item.date) <
-                                timeIntervalDays,
+                            daysDifference(item.date) < timeIntervalDays,
                     ).length;
                 model.commentsPosted = {
-                    list: sliceIfTooLong(
-                        model.commentsPosted
-                            ? model.commentsPosted.list.concat(result.list)
-                            : result.list,
+                    list: mergeArrays(
+                        model.commentsPosted?.list,
+                        result.list,
                         options.maxEntitiesPerArray,
                     ),
                 };
@@ -389,8 +385,7 @@ export class ProcessorInstagram {
                 model.engagement.emojiSlidersTI = result.list.filter(
                     (item: EmojiSliderIG) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
             }
         } else if (
@@ -403,8 +398,7 @@ export class ProcessorInstagram {
                 model.engagement.likesCommentsTI = result.list.filter(
                     (item: LikeIG) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
             }
         } else if (
@@ -417,8 +411,7 @@ export class ProcessorInstagram {
                 model.engagement.likesPostsTI = result.list.filter(
                     (item: LikeIG) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
             }
         } else if (
@@ -431,8 +424,7 @@ export class ProcessorInstagram {
                 model.engagement.pollsTI = result.list.filter(
                     (item: PollIG) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
             }
         } else if (
@@ -445,8 +437,7 @@ export class ProcessorInstagram {
                 model.engagement.postsCreatedTI = result.list.filter(
                     (item: PostIG) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
             }
         } else if (
@@ -459,8 +450,7 @@ export class ProcessorInstagram {
                 model.engagement.quizzesTI = result.list.filter(
                     (item: QuizIG) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
             }
         } else if (
@@ -473,8 +463,7 @@ export class ProcessorInstagram {
                 model.engagement.storiesCreatedTI = result.list.filter(
                     (item: StoryIG) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
             }
         } else if (
@@ -487,8 +476,7 @@ export class ProcessorInstagram {
                 model.engagement.videosViewedTI = result.list.filter(
                     (item) =>
                         item.date &&
-                        ProcessorUtils.daysDifference(item.date) <
-                            timeIntervalDays,
+                        daysDifference(item.date) < timeIntervalDays,
                 ).length;
             }
         }

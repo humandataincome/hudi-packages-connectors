@@ -11,14 +11,8 @@ import {findNotMappedFiles} from "../../src/utils/monitoring.utils";
 import { createReadStream, readFileSync, statSync } from "fs";
 import { join } from "path";
 
-getAggregatorResult([
-    '../mock/datasource/zip files/private/google-001.zip',
-    '../mock/datasource/zip files/private/google-002.zip',
-    '../mock/datasource/zip files/private/google-003.zip',
-    '../mock/datasource/zip files/private/google-004.zip',
-    '../mock/datasource/zip files/private/google-005.zip',
-    ], GDPRDataSourceCode.GOOGLE
-).then(x => console.log(x));
+// getNotMappedFiles(['../mock/datasource/zip files/private/google-001.zip',], GDPRDataSourceCode.GOOGLE).then(x => console.log(x));
+getAggregatorResult(['../mock/datasource/zip files/private/google-001.zip',], GDPRDataSourceCode.GOOGLE).then(x => console.log(x));
 
 function getFilesStreams(pathsToFiles: string[]) {
     return pathsToFiles.map((path) => {
@@ -49,11 +43,16 @@ async function getAggregatorResult(pathsToFiles: string[], code: GDPRDataSourceC
     }
 }
 
-async function getNotMappedFiles(pathToZip: string, code: GDPRDataSourceCode) {
-    const data = readFileSync(join(__dirname, pathToZip));
-    return await findNotMappedFiles(data, code, {
-        permittedFilesExtensions: [FileExtension.JSON, FileExtension.JS, FileExtension.XML, FileExtension.CSV, FileExtension.HTML]
-    });
+async function getNotMappedFiles(pathToZips: string[], code: GDPRDataSourceCode) {
+    let notMapped: string[] = [];
+    for (const filePath of pathToZips) {
+        const data = readFileSync(join(__dirname, filePath));
+        const fileNames = await findNotMappedFiles(data, code, {
+            permittedFilesExtensions: [FileExtension.JSON, FileExtension.JS, FileExtension.XML, FileExtension.CSV, FileExtension.HTML]
+        });
+        notMapped = notMapped.concat(fileNames ?? []);
+    }
+    return notMapped;
 }
 
 async function getValidationResult(pathToZips: string[], code: GDPRDataSourceCode): Promise<ValidationReturn | undefined> {

@@ -23,7 +23,6 @@ export enum FileCodeGoogle {
     ACTIVITY_SHOPPING = 'Takeout/My Activity/Shopping/My Activity.json',
     ACTIVITY_VIDEO_SEARCH = 'Takeout/My Activity/Video Search/My Activity.json',
     ACTIVITY_YOUTUBE = 'Takeout/My Activity/YouTube/My Activity.json',
-    CHROME_BROWSER_HISTORY = 'Takeout/Chrome/BrowserHistory.json',
     CHROME_SEARCH_ENGINES = 'Takeout/Chrome/SearchEngines.json',
     LOCATION_HISTORY_SEMANTIC = 'Takeout/Location History/Semantic Location History/(\\d{4})/(\\d{4})_((JANUARY)|(FEBRUARY)|(MARCH)|(APRIL)|(MAY)|(JUNE)|(JULY)|(AUGUST)|(SEPTEMBER)|(OCTOBER)|(NOVEMBER)|(DECEMBER)).json',
     MAPS_YOUR_PLACES_REVIEWS = 'Takeout/Maps \\(your places\\)/Reviews.json',
@@ -36,6 +35,7 @@ export enum FileCodeGoogle {
     PROFILE = 'Takeout/Profile/Profile.json',
     YOUTUBE_LIKED_VIDEOS = 'Takeout/YouTube and YouTube Music/playlists/Liked videos.csv',
     YOUTUBE_PLAYLIST_UPLOADS = 'Takeout/YouTube and YouTube Music/playlists/Uploads from (.*).csv',
+    v2_CHROME_BROWSER_HISTORY = 'Takeout/Chrome/History.json',
     //TODO: not parsed yet
     ANDROID_DEVICE_CONFIG = 'Takeout/Android Device Configuration Service/Device-(\\d+).html',
     APP_HOME = 'Takeout/Home App/HomeApp.json',
